@@ -1,0 +1,188 @@
+"use client";
+
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { toast } from "sonner";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  listAvailabilityBlocks,
+  createAvailabilityBlock,
+  deleteAvailabilityBlock,
+  syncIcal,
+} from "@/lib/api/availability";
+import { ApiError } from "@/lib/api/client";
+import type { Property } from "@/lib/api/properties";
+import { getAccessToken } from "@/lib/auth/session";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:5000";
+
+export function AvailabilityTab({ property }: { property: Property }) {
+  const queryClient = useQueryClient();
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [note, setNote] = useState("");
+  const [icalUrl, setIcalUrl] = useState(property.icalImportUrl ?? "");
+
+  const { data: blocks, isLoading } = useQuery({
+    queryKey: ["availability", property.id],
+    queryFn: () => {
+      const token = getAccessToken();
+      if (!token) throw new ApiError("No autenticado", 401);
+      return listAvailabilityBlocks(token, property.id);
+    },
+  });
+
+  function invalidate() {
+    queryClient.invalidateQueries({ queryKey: ["availability", property.id] });
+  }
+
+  const createMutation = useMutation({
+    mutationFn: () => {
+      const token = getAccessToken();
+      if (!token) throw new ApiError("No autenticado", 401);
+      return createAvailabilityBlock(token, property.id, { startDate, endDate, note: note || undefined });
+    },
+    onSuccess: () => {
+      setStartDate("");
+      setEndDate("");
+      setNote("");
+      invalidate();
+    },
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo bloquear la fecha"),
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (blockId: string) => {
+      const token = getAccessToken();
+      if (!token) throw new ApiError("No autenticado", 401);
+      return deleteAvailabilityBlock(token, property.id, blockId);
+    },
+    onSuccess: invalidate,
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo quitar el bloqueo"),
+  });
+
+  const syncMutation = useMutation({
+    mutationFn: () => {
+      const token = getAccessToken();
+      if (!token) throw new ApiError("No autenticado", 401);
+      return syncIcal(token, property.id, icalUrl);
+    },
+    onSuccess: (result) => {
+      toast.success(`Se sincronizaron ${result.importedCount} eventos`);
+      invalidate();
+    },
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo sincronizar"),
+  });
+
+  const exportUrl =
+    property.agencySlug && property.status === "PUBLISHED"
+      ? `${API_URL}/api/public/${property.agencySlug}/properties/${property.slug}/availability.ics`
+      : null;
+
+  return (
+    <div className="space-y-6">
+      <div className="space-y-2">
+        <h3 className="text-sm font-medium">Bloquear fechas manualmente</h3>
+        <div className="flex flex-wrap items-end gap-2">
+          <Input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+          <Input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+          <Input
+            placeholder="Nota (opcional)"
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+            className="w-48"
+          />
+          <Button
+            type="button"
+            disabled={!startDate || !endDate || createMutation.isPending}
+            onClick={() => createMutation.mutate()}
+          >
+            Bloquear
+          </Button>
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <h3 className="text-sm font-medium">Fechas bloqueadas</h3>
+        {isLoading && <p className="text-sm text-zinc-500">Cargando...</p>}
+        {blocks && blocks.length === 0 && (
+          <p className="text-sm text-zinc-500">No hay fechas bloqueadas.</p>
+        )}
+        {blocks && blocks.length > 0 && (
+          <ul className="space-y-2">
+            {blocks.map((block) => (
+              <li
+                key={block.id}
+                className="flex items-center justify-between rounded-md border p-2 text-sm"
+              >
+                <div className="flex items-center gap-2">
+                  <Badge variant="secondary">{block.source}</Badge>
+                  <span>
+                    {block.startDate} → {block.endDate}
+                  </span>
+                  {block.note && <span className="text-zinc-500">({block.note})</span>}
+                </div>
+                {block.source === "MANUAL" && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => deleteMutation.mutate(block.id)}
+                  >
+                    Quitar
+                  </Button>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      <div className="space-y-2">
+        <h3 className="text-sm font-medium">Sincronizar con Airbnb/Booking (iCal)</h3>
+        <div className="flex gap-2">
+          <Input
+            placeholder="https://www.airbnb.com/calendar/ical/..."
+            value={icalUrl}
+            onChange={(e) => setIcalUrl(e.target.value)}
+          />
+          <Button
+            type="button"
+            variant="outline"
+            disabled={!icalUrl || syncMutation.isPending}
+            onClick={() => syncMutation.mutate()}
+          >
+            {syncMutation.isPending ? "Sincronizando..." : "Sincronizar ahora"}
+          </Button>
+        </div>
+      </div>
+
+      {exportUrl && (
+        <div className="space-y-2">
+          <h3 className="text-sm font-medium">Exportar tu disponibilidad</h3>
+          <p className="text-xs text-zinc-500">
+            Pegá este link en Airbnb/Booking como calendario externo para que vean tus fechas
+            bloqueadas.
+          </p>
+          <div className="flex gap-2">
+            <Input readOnly value={exportUrl} />
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                navigator.clipboard.writeText(exportUrl);
+                toast.success("Link copiado");
+              }}
+            >
+              Copiar
+            </Button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
