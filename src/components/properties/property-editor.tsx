@@ -18,7 +18,7 @@ import {
   Waves,
 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -420,11 +420,10 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
   const category = useWatch({ control: form.control, name: "category" });
   const isDirty = form.formState.isDirty;
 
-  const [syncedAt, setSyncedAt] = useState<string | null>(null);
-  if (property && property.updatedAt !== syncedAt) {
-    setSyncedAt(property.updatedAt);
-    form.reset(toFormValues(property));
-  }
+  useEffect(() => {
+    if (property) form.reset(toFormValues(property));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [property?.updatedAt]);
 
   const saveMutation = useMutation({
     mutationFn: (values: FormValues) => {

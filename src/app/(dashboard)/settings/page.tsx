@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -46,17 +46,18 @@ export default function SettingsPage() {
   const form = useForm<FormValues>({ resolver: zodResolver(schema) });
   const slugValue = useWatch({ control: form.control, name: "slug" });
 
-  const [syncedAt, setSyncedAt] = useState<string | null>(null);
-  if (agency && agency.id !== syncedAt) {
-    setSyncedAt(agency.id);
-    form.reset({
-      name: agency.name,
-      slug: agency.slug,
-      contactEmail: agency.contactEmail ?? "",
-      locale: agency.locale,
-      currency: agency.currency,
-    });
-  }
+  useEffect(() => {
+    if (agency) {
+      form.reset({
+        name: agency.name,
+        slug: agency.slug,
+        contactEmail: agency.contactEmail ?? "",
+        locale: agency.locale,
+        currency: agency.currency,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [agency?.id]);
 
   const saveMutation = useMutation({
     mutationFn: (values: FormValues) => {

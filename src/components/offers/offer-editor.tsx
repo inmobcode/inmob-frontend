@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Controller, useFieldArray, useForm, type Control } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -310,13 +310,11 @@ export function OfferEditor({ offerId }: { offerId: string }) {
   } = useFieldArray({ control: form.control, name: "sections" });
 
   // Re-sync the form from the server whenever the offer actually changes
-  // (initial load, or after a save/send mutation). Done during render, not
-  // in an effect, to avoid an extra render pass.
-  const [syncedAt, setSyncedAt] = useState<string | null>(null);
-  if (offer && offer.updatedAt !== syncedAt) {
-    setSyncedAt(offer.updatedAt);
-    form.reset(toFormValues(offer));
-  }
+  // (initial load, or after a save/send mutation).
+  useEffect(() => {
+    if (offer) form.reset(toFormValues(offer));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [offer?.updatedAt]);
 
   const saveMutation = useMutation({
     mutationFn: (values: FormValues) => {
