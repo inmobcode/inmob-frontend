@@ -27,7 +27,7 @@ const initialState = {
   onSave: null,
   onPublish: null,
   onCancel: null,
-  saveLabel: "Guardar borrador",
+  saveLabel: "Guardar",
   publishLabel: "Publicar",
 };
 

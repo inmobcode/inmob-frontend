@@ -1,249 +1,633 @@
 "use client";
 
+import {
+  closestCenter,
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  rectSortingStrategy,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  ArrowRightLeft,
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  ImagePlus,
+  Play,
+  Star,
+  Trash2,
+  X,
+} from "lucide-react";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 
+import { FormSection as Section } from "@/components/properties/form-section";
+import { Segmented } from "@/components/properties/segmented";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import { compressManySmart } from "@/lib/image-compression";
 import { ApiError } from "@/lib/api/client";
 import {
   removePropertyPhoto,
+  reorderPropertyPhotos,
   updateProperty,
+  updatePropertyPhoto,
   uploadPropertyPhoto,
   type PhotoSection,
   type Property,
+  type PropertyPhoto,
 } from "@/lib/api/properties";
 import { getAccessToken } from "@/lib/auth/session";
+import { gsap, useGSAP } from "@/lib/gsap";
+import { compressManySmart } from "@/lib/image-compression";
+import { distance, duration, ease, media, stagger } from "@/lib/motion";
 import { PHOTO_SECTIONS } from "@/lib/property-catalogs";
+import { cn } from "@/lib/utils";
+
+const SECTION_LABELS = Object.fromEntries(PHOTO_SECTIONS.map((section) => [section.value, section.label]));
+
+function requireToken() {
+  const token = getAccessToken();
+  if (!token) throw new ApiError("No autenticado", 401);
+  return token;
+}
+
+function youtubeThumbnail(url: string) {
+  const match = url.match(/(?:youtu\.be\/|v=|embed\/)([\w-]{11})/);
+  return match ? `https://img.youtube.com/vi/${match[1]}/mqdefault.jpg` : null;
+}
+
+function PhotoTile({
+  photo,
+  onOpen,
+  onCover,
+  onMove,
+  onRemove,
+}: {
+  photo: PropertyPhoto;
+  onOpen: () => void;
+  onCover: () => void;
+  onMove: (section: PhotoSection) => void;
+  onRemove: () => void;
+}) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: photo.id });
+  const [confirming, setConfirming] = useState(false);
+
+  // Buttons must not start a drag.
+  const stop = (event: React.PointerEvent) => event.stopPropagation();
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={{ transform: CSS.Transform.toString(transform), transition }}
+      data-photo-tile
+      className={cn(
+        "group relative aspect-[4/3] cursor-grab touch-none overflow-hidden rounded-2xl bg-secondary ring-1 ring-foreground/5 outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+        isDragging && "z-20 cursor-grabbing shadow-[0_24px_48px_-16px_oklch(0.3_0.05_160/0.5)]",
+      )}
+      {...attributes}
+      {...listeners}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={photo.url}
+        alt=""
+        draggable={false}
+        onClick={onOpen}
+        className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+      />
+
+      {photo.isCover && (
+        <span className="absolute top-2.5 left-2.5 inline-flex items-center gap-1 rounded-full bg-card/90 px-2.5 py-1 text-xs font-medium backdrop-blur">
+          <Star className="size-3 fill-amber-400 text-amber-400" />
+          Portada
+        </span>
+      )}
+
+      <div
+        className="absolute inset-x-0 bottom-0 flex items-center justify-end gap-1.5 bg-gradient-to-t from-black/55 to-transparent p-2.5 opacity-0 transition-opacity duration-200 group-focus-within:opacity-100 group-hover:opacity-100"
+        onPointerDown={stop}
+      >
+        {!photo.isCover && (
+          <button
+            type="button"
+            aria-label="Hacer portada"
+            title="Hacer portada"
+            onClick={onCover}
+            className="flex size-8 items-center justify-center rounded-full bg-card/90 text-foreground backdrop-blur transition-colors outline-none hover:bg-card focus-visible:ring-3 focus-visible:ring-ring/50"
+          >
+            <Star className="size-4" />
+          </button>
+        )}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button
+              type="button"
+              aria-label="Mover a otra sección"
+              title="Mover a otra sección"
+              className="flex size-8 items-center justify-center rounded-full bg-card/90 text-foreground backdrop-blur transition-colors outline-none hover:bg-card focus-visible:ring-3 focus-visible:ring-ring/50"
+            >
+              <ArrowRightLeft className="size-4" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-52 rounded-2xl p-1.5">
+            {PHOTO_SECTIONS.map((section) => (
+              <DropdownMenuItem
+                key={section.value}
+                disabled={section.value === photo.section}
+                onSelect={() => onMove(section.value as PhotoSection)}
+                className="rounded-xl py-2"
+              >
+                {section.label}
+                {section.value === photo.section && <Check className="ml-auto" />}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <button
+          type="button"
+          aria-label={confirming ? "Confirmar: quitar foto" : "Quitar foto"}
+          title={confirming ? "Hacé clic de nuevo para quitarla" : "Quitar foto"}
+          onClick={() => {
+            if (!confirming) {
+              setConfirming(true);
+              window.setTimeout(() => setConfirming(false), 3000);
+              return;
+            }
+            onRemove();
+          }}
+          className={cn(
+            "flex h-8 items-center justify-center gap-1.5 rounded-full px-2.5 text-xs font-medium backdrop-blur transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+            confirming ? "bg-destructive text-white" : "w-8 bg-card/90 text-foreground hover:bg-card",
+          )}
+        >
+          <Trash2 className="size-4" />
+          {confirming && "¿Quitar?"}
+        </button>
+      </div>
+    </div>
+  );
+}
 
 export function PhotosTab({ property }: { property: Property }) {
-  const [section, setSection] = useState<PhotoSection>("GENERAL");
-  const [isCompressing, setIsCompressing] = useState(false);
-  const [progress, setProgress] = useState<{ done: number; total: number } | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [newVideoUrl, setNewVideoUrl] = useState("");
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
+  const queryKey = ["property", property.id];
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const galleryRef = useRef<HTMLDivElement>(null);
+  const [uploadSection, setUploadSection] = useState<PhotoSection>("GENERAL");
+  const [dragOver, setDragOver] = useState(false);
+  const [stage, setStage] = useState<"idle" | "compressing" | "uploading">("idle");
+  const [progress, setProgress] = useState({ done: 0, total: 0 });
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [lightbox, setLightbox] = useState<number | null>(null);
+  const [newVideoUrl, setNewVideoUrl] = useState("");
+  const [videoError, setVideoError] = useState<string | null>(null);
 
   const isRealEstate = property.listingType === "SALE";
+  const ordered = [...property.photos].sort((a, b) => a.position - b.position);
+  const groups = PHOTO_SECTIONS.map((section) => ({
+    section,
+    photos: ordered.filter((photo) => photo.section === section.value),
+  })).filter((group) => group.photos.length > 0);
+  // Photos in a section we do not know yet still need to be reachable.
+  const known = new Set(PHOTO_SECTIONS.map((section) => section.value));
+  const strays = ordered.filter((photo) => !known.has(photo.section));
+  if (strays.length > 0) groups.push({ section: { value: "OTHER", label: "Otras" }, photos: strays });
+  const flat = groups.flatMap((group) => group.photos);
 
-  function invalidate() {
-    queryClient.invalidateQueries({ queryKey: ["property", property.id] });
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+  );
+
+  const refresh = () => queryClient.invalidateQueries({ queryKey });
+
+  /** Applies a change to the cached property right away; the server response replaces it later. */
+  function patchCache(change: (photos: PropertyPhoto[]) => PropertyPhoto[]) {
+    queryClient.setQueryData<Property>(queryKey, (old) => (old ? { ...old, photos: change(old.photos) } : old));
   }
 
   const uploadMutation = useMutation({
     mutationFn: async (files: File[]) => {
-      const token = getAccessToken();
-      if (!token) throw new ApiError("No autenticado", 401);
-
-      setIsCompressing(true);
+      const token = requireToken();
+      setStage("compressing");
       const compressed = await compressManySmart(
         files,
         isRealEstate ? { targetWidth: 2000, targetHeight: 1500 } : { maxSide: 2048 },
       );
-      setIsCompressing(false);
-
+      setStage("uploading");
       setProgress({ done: 0, total: compressed.length });
+      let hasCover = property.photos.length > 0;
       for (const file of compressed) {
-        await uploadPropertyPhoto(token, property.id, file, {
-          section,
-          isCover: property.photos.length === 0,
-        });
-        setProgress((prev) => (prev ? { done: prev.done + 1, total: prev.total } : prev));
+        await uploadPropertyPhoto(token, property.id, file, { section: uploadSection, isCover: !hasCover });
+        hasCover = true;
+        setProgress((prev) => ({ ...prev, done: prev.done + 1 }));
       }
     },
-    onSuccess: () => {
-      setProgress(null);
-      setError(null);
-      invalidate();
-    },
-    onError: (err) => {
-      setProgress(null);
-      setIsCompressing(false);
-      setError(err instanceof ApiError ? err.message : "No se pudieron subir las fotos");
+    onSuccess: () => setUploadError(null),
+    onError: (err) => setUploadError(err instanceof ApiError ? err.message : "No se pudieron subir las fotos"),
+    onSettled: () => {
+      setStage("idle");
+      refresh();
     },
   });
 
   const removeMutation = useMutation({
-    mutationFn: (photoId: string) => {
-      const token = getAccessToken();
-      if (!token) throw new ApiError("No autenticado", 401);
-      return removePropertyPhoto(token, property.id, photoId);
-    },
-    onSuccess: invalidate,
+    mutationFn: (photoId: string) => removePropertyPhoto(requireToken(), property.id, photoId),
+    onMutate: (photoId) => patchCache((photos) => photos.filter((photo) => photo.id !== photoId)),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo quitar la foto"),
+    onSettled: refresh,
+  });
+
+  const coverMutation = useMutation({
+    mutationFn: (photoId: string) => updatePropertyPhoto(requireToken(), property.id, photoId, { isCover: true }),
+    onMutate: (photoId) => patchCache((photos) => photos.map((photo) => ({ ...photo, isCover: photo.id === photoId }))),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo cambiar la portada"),
+    onSettled: refresh,
+  });
+
+  const moveMutation = useMutation({
+    mutationFn: ({ photoId, section }: { photoId: string; section: PhotoSection }) =>
+      updatePropertyPhoto(requireToken(), property.id, photoId, { section }),
+    onMutate: ({ photoId, section }) =>
+      patchCache((photos) => photos.map((photo) => (photo.id === photoId ? { ...photo, section } : photo))),
+    onSuccess: (_, { section }) => toast.success(`Movida a ${SECTION_LABELS[section]}`),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo mover la foto"),
+    onSettled: refresh,
+  });
+
+  const reorderMutation = useMutation({
+    mutationFn: (ids: string[]) => reorderPropertyPhotos(requireToken(), property.id, ids),
+    onMutate: (ids) =>
+      patchCache((photos) =>
+        photos.map((photo) => ({ ...photo, position: ids.indexOf(photo.id) })),
+      ),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo guardar el orden"),
+    onSettled: refresh,
   });
 
   const watermarkMutation = useMutation({
-    mutationFn: (watermarkPhotos: boolean) => {
-      const token = getAccessToken();
-      if (!token) throw new ApiError("No autenticado", 401);
-      return updateProperty(token, property.id, { watermarkPhotos });
-    },
-    onSuccess: invalidate,
+    mutationFn: (watermarkPhotos: boolean) => updateProperty(requireToken(), property.id, { watermarkPhotos }),
+    onSuccess: refresh,
     onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo guardar"),
   });
 
   const videosMutation = useMutation({
-    mutationFn: (videoUrls: { url: string }[]) => {
-      const token = getAccessToken();
-      if (!token) throw new ApiError("No autenticado", 401);
-      return updateProperty(token, property.id, { videoUrls });
-    },
-    onSuccess: invalidate,
+    mutationFn: (videoUrls: { url: string }[]) => updateProperty(requireToken(), property.id, { videoUrls }),
+    onSuccess: refresh,
     onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo guardar"),
   });
 
-  function handleFilesSelected(fileList: FileList | null) {
-    if (!fileList || fileList.length === 0) return;
-    uploadMutation.mutate(Array.from(fileList));
+  function startUpload(list: FileList | File[] | null) {
+    if (!list || list.length === 0) return;
+    const images = Array.from(list).filter((file) => file.type.startsWith("image/") || /\.hei[cf]$/i.test(file.name));
+    if (images.length === 0) {
+      setUploadError("Solo se pueden subir imágenes (JPG, PNG, WebP o HEIC).");
+      return;
+    }
+    setUploadError(null);
+    uploadMutation.mutate(images);
     if (fileInputRef.current) fileInputRef.current.value = "";
   }
 
+  function handleDragEnd(groupPhotos: PropertyPhoto[], event: DragEndEvent) {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    const from = groupPhotos.findIndex((photo) => photo.id === active.id);
+    const to = groupPhotos.findIndex((photo) => photo.id === over.id);
+    if (from < 0 || to < 0) return;
+    const reorderedGroup = arrayMove(groupPhotos, from, to);
+    // Rebuild the full order: every group in display order, with this one replaced.
+    const ids = groups.flatMap((group) =>
+      group.photos[0]?.section === groupPhotos[0].section
+        ? reorderedGroup.map((photo) => photo.id)
+        : group.photos.map((photo) => photo.id),
+    );
+    reorderMutation.mutate(ids);
+  }
+
   function addVideo() {
-    if (!newVideoUrl.trim()) return;
-    videosMutation.mutate([...property.videoUrls, { url: newVideoUrl.trim() }]);
+    const value = newVideoUrl.trim();
+    if (!value) return;
+    try {
+      const parsed = new URL(value);
+      if (!/^https?:$/.test(parsed.protocol)) throw new Error("protocol");
+    } catch {
+      setVideoError("Pegá un link válido, por ejemplo de YouTube o Vimeo.");
+      return;
+    }
+    if (property.videoUrls.some((video) => video.url === value)) {
+      setVideoError("Ese video ya está en la lista.");
+      return;
+    }
+    setVideoError(null);
+    videosMutation.mutate([...property.videoUrls, { url: value }]);
     setNewVideoUrl("");
   }
 
-  function removeVideo(url: string) {
-    videosMutation.mutate(property.videoUrls.filter((v) => v.url !== url));
-  }
+  // The tiles settle in one after another the first time the gallery shows up.
+  const galleryKey = flat.length > 0 ? "has-photos" : "empty";
+  useGSAP(
+    () => {
+      if (flat.length === 0) return;
+      const mm = gsap.matchMedia();
+      mm.add(media.allowMotion, () => {
+        gsap.from("[data-photo-tile]", {
+          opacity: 0,
+          y: distance.md,
+          duration: duration.macro,
+          ease: ease.out,
+          stagger: stagger.tight,
+        });
+      });
+      return () => mm.revert();
+    },
+    { scope: galleryRef, dependencies: [galleryKey] },
+  );
+
+  const busy = stage !== "idle";
+  const percent = stage === "uploading" && progress.total > 0 ? (progress.done / progress.total) * 100 : 0;
+  const current = lightbox != null ? flat[lightbox] : null;
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-4">
-        <div className="flex flex-wrap items-center gap-2">
-          <Select value={section} onValueChange={(value) => setSection(value as PhotoSection)}>
-            <SelectTrigger className="w-56">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {PHOTO_SECTIONS.map((item) => (
-                <SelectItem key={item.value} value={item.value}>
-                  {item.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+    <div className="flex max-w-5xl min-w-0 flex-col gap-12">
+      <Section
+        title="Galería"
+        description="Arrastrá las fotos para ordenarlas dentro de su sección. Los cambios de esta pestaña se guardan al momento."
+        shown
+      >
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-3">
+            <p className="text-sm font-medium">Subir a la sección</p>
+            <Segmented
+              label="Sección de destino"
+              value={uploadSection}
+              options={PHOTO_SECTIONS.map((section) => ({ value: section.value as PhotoSection, label: section.label }))}
+              onChange={setUploadSection}
+            />
+          </div>
+
           <input
             ref={fileInputRef}
             type="file"
             multiple
             accept="image/jpeg,image/png,image/jpg,image/webp,image/heic"
-            onChange={(e) => handleFilesSelected(e.target.files)}
+            onChange={(event) => startUpload(event.target.files)}
             className="hidden"
             id="photo-upload-input"
           />
-          <Button
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-            disabled={uploadMutation.isPending}
+          <div
+            role="button"
+            tabIndex={0}
+            aria-label="Subir fotos"
+            onClick={() => !busy && fileInputRef.current?.click()}
+            onKeyDown={(event) => {
+              if ((event.key === "Enter" || event.key === " ") && !busy) {
+                event.preventDefault();
+                fileInputRef.current?.click();
+              }
+            }}
+            onDragOver={(event) => {
+              event.preventDefault();
+              setDragOver(true);
+            }}
+            onDragLeave={() => setDragOver(false)}
+            onDrop={(event) => {
+              event.preventDefault();
+              setDragOver(false);
+              if (!busy) startUpload(event.dataTransfer.files);
+            }}
+            className={cn(
+              "flex cursor-pointer flex-col items-center gap-3 rounded-3xl px-6 py-10 text-center transition-all duration-300 outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+              dragOver ? "scale-[1.01] bg-primary/10 ring-2 ring-primary/40" : "bg-foreground/[0.04] hover:bg-foreground/[0.07]",
+              busy && "pointer-events-none",
+            )}
           >
-            Subir fotos
-          </Button>
-          {isCompressing && <span className="text-sm text-zinc-500">Comprimiendo a WebP...</span>}
-          {progress && (
-            <span className="text-sm text-zinc-500">
-              Subiendo {progress.done}/{progress.total}...
+            <span
+              className={cn(
+                "flex size-12 items-center justify-center rounded-full transition-colors",
+                dragOver ? "bg-primary text-primary-foreground" : "bg-secondary text-primary",
+              )}
+            >
+              <ImagePlus className="size-5" />
             </span>
+            {busy ? (
+              <div className="flex w-full max-w-xs flex-col items-center gap-2">
+                <p className="text-sm font-medium">
+                  {stage === "compressing"
+                    ? "Optimizando fotos…"
+                    : `Subiendo ${Math.min(progress.done + 1, progress.total)} de ${progress.total}…`}
+                </p>
+                <div className="h-1.5 w-full overflow-hidden rounded-full bg-foreground/10">
+                  <div
+                    className="h-full rounded-full bg-primary transition-[width] duration-300 ease-out"
+                    style={{ width: `${stage === "compressing" ? 8 : percent}%` }}
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-1">
+                <p className="text-sm font-medium">
+                  {dragOver ? "Soltalas para subirlas" : "Arrastrá tus fotos acá o hacé clic para elegirlas"}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  JPG, PNG, WebP o HEIC. Se optimizan solas antes de subir.
+                </p>
+              </div>
+            )}
+          </div>
+          {uploadError && <p className="text-sm text-destructive">{uploadError}</p>}
+
+          <div ref={galleryRef} className="flex flex-col gap-10">
+            {groups.length === 0 ? (
+              <p className="text-sm text-muted-foreground">Todavía no agregaste fotos. La primera será la portada.</p>
+            ) : (
+              groups.map((group) => (
+                <div key={group.section.value} className="flex flex-col gap-4">
+                  <h4 className="flex items-baseline gap-2 text-sm font-semibold">
+                    {group.section.label}
+                    <span className="font-normal text-muted-foreground tabular-nums">{group.photos.length}</span>
+                  </h4>
+                  <DndContext
+                    sensors={sensors}
+                    collisionDetection={closestCenter}
+                    onDragEnd={(event) => handleDragEnd(group.photos, event)}
+                  >
+                    <SortableContext items={group.photos.map((photo) => photo.id)} strategy={rectSortingStrategy}>
+                      <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,200px),1fr))] gap-4">
+                        {group.photos.map((photo) => (
+                          <PhotoTile
+                            key={photo.id}
+                            photo={photo}
+                            onOpen={() => setLightbox(flat.findIndex((item) => item.id === photo.id))}
+                            onCover={() => coverMutation.mutate(photo.id)}
+                            onMove={(section) => moveMutation.mutate({ photoId: photo.id, section })}
+                            onRemove={() => removeMutation.mutate(photo.id)}
+                          />
+                        ))}
+                      </div>
+                    </SortableContext>
+                  </DndContext>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      </Section>
+
+      <Section title="Marca de agua" description="Agrega el logo de tu agencia sobre las fotos publicadas." shown={null}>
+        <div className="flex items-center justify-between gap-4 rounded-2xl bg-foreground/[0.04] p-4">
+          <label htmlFor="watermark" className="text-sm font-medium">
+            Poner marca de agua en las fotos
+          </label>
+          <Switch
+            id="watermark"
+            checked={property.watermarkPhotos}
+            onCheckedChange={(checked) => watermarkMutation.mutate(checked)}
+          />
+        </div>
+      </Section>
+
+      <Section title="Videos" description="Links de YouTube, Vimeo u otras plataformas." shown={null}>
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
+            <div className="flex max-w-xl gap-2">
+              <Input
+                placeholder="https://youtube.com/watch?v=…"
+                aria-label="Link del video"
+                aria-invalid={Boolean(videoError)}
+                value={newVideoUrl}
+                onChange={(event) => {
+                  setNewVideoUrl(event.target.value);
+                  setVideoError(null);
+                }}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    event.preventDefault();
+                    addVideo();
+                  }
+                }}
+              />
+              <Button type="button" variant="outline" className="h-10 px-5" onClick={addVideo} disabled={!newVideoUrl.trim()}>
+                Agregar
+              </Button>
+            </div>
+            {videoError && <p className="text-sm text-destructive">{videoError}</p>}
+          </div>
+
+          {property.videoUrls.length > 0 && (
+            <ul className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,260px),1fr))] gap-4">
+              {property.videoUrls.map((video) => {
+                const thumbnail = video.thumbnail ?? youtubeThumbnail(video.url);
+                let host = video.url;
+                try {
+                  host = new URL(video.url).hostname.replace(/^www\./, "");
+                } catch {}
+                return (
+                  <li key={video.url} className="group flex flex-col overflow-hidden rounded-2xl bg-card ring-1 ring-foreground/5">
+                    <a
+                      href={video.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="relative flex aspect-video items-center justify-center bg-secondary outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+                    >
+                      {thumbnail && (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={thumbnail} alt="" className="absolute inset-0 size-full object-cover" />
+                      )}
+                      <span className="relative flex size-11 items-center justify-center rounded-full bg-card/90 text-primary shadow-md transition-transform duration-300 group-hover:scale-110">
+                        <Play className="size-5 fill-current" />
+                      </span>
+                    </a>
+                    <div className="flex items-center justify-between gap-2 p-3">
+                      <span className="truncate text-sm text-muted-foreground">{host}</span>
+                      <button
+                        type="button"
+                        aria-label="Quitar video"
+                        onClick={() => videosMutation.mutate(property.videoUrls.filter((item) => item.url !== video.url))}
+                        className="flex size-8 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors outline-none hover:bg-foreground/5 hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
+                      >
+                        <X className="size-4" />
+                      </button>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
           )}
         </div>
-        {error && <p className="text-sm text-destructive">{error}</p>}
+      </Section>
 
-        {property.photos.length === 0 ? (
-          <p className="text-sm text-zinc-500">Todavía no agregaste fotos.</p>
-        ) : (
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-            {property.photos.map((photo) => (
-              <div key={photo.id} className="group relative overflow-hidden rounded-md border">
+      <Dialog open={current != null} onOpenChange={(open) => !open && setLightbox(null)}>
+        <DialogContent
+          showCloseButton
+          className="gap-0 rounded-3xl p-3 sm:max-w-4xl"
+          onKeyDown={(event) => {
+            if (lightbox == null) return;
+            if (event.key === "ArrowRight") setLightbox((lightbox + 1) % flat.length);
+            if (event.key === "ArrowLeft") setLightbox((lightbox - 1 + flat.length) % flat.length);
+          }}
+        >
+          <DialogTitle className="sr-only">Foto de la propiedad</DialogTitle>
+          {current && (
+            <div className="relative flex flex-col gap-3">
+              <div className="flex max-h-[75vh] min-h-64 items-center justify-center overflow-hidden rounded-2xl bg-secondary">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={photo.url} alt="" className="h-32 w-full object-cover" />
-                <span className="absolute left-1 top-1 rounded bg-black/70 px-1.5 py-0.5 text-xs text-white">
-                  {photo.section}
+                <img src={current.url} alt="" className="max-h-[75vh] w-auto max-w-full object-contain" />
+              </div>
+              <div className="flex items-center justify-between gap-3 px-1 text-sm">
+                <span className="text-muted-foreground">
+                  {SECTION_LABELS[current.section] ?? "Otras"} · {(lightbox ?? 0) + 1} de {flat.length}
                 </span>
-                {photo.isCover && (
-                  <span className="absolute left-1 bottom-1 rounded bg-black/70 px-1.5 py-0.5 text-xs text-white">
+                {current.isCover && (
+                  <span className="inline-flex items-center gap-1 font-medium">
+                    <Star className="size-3.5 fill-amber-400 text-amber-400" />
                     Portada
                   </span>
                 )}
-                <Button
-                  type="button"
-                  variant="destructive"
-                  size="sm"
-                  className="absolute bottom-1 right-1 opacity-0 group-hover:opacity-100"
-                  onClick={() => removeMutation.mutate(photo.id)}
-                >
-                  Quitar
-                </Button>
               </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <Separator />
-
-      <div className="flex items-center justify-between gap-4">
-        <div>
-          <p className="text-sm font-medium">Marca de agua</p>
-          <p className="text-sm text-zinc-500">
-            Agrega el logo de tu agencia sobre las fotos publicadas.
-          </p>
-        </div>
-        <Switch
-          checked={property.watermarkPhotos}
-          onCheckedChange={(checked) => watermarkMutation.mutate(checked)}
-        />
-      </div>
-
-      <Separator />
-
-      <div className="space-y-3">
-        <p className="text-sm font-medium">Videos</p>
-        <div className="flex gap-2">
-          <Input
-            placeholder="https://youtube.com/watch?v=..."
-            value={newVideoUrl}
-            onChange={(e) => setNewVideoUrl(e.target.value)}
-          />
-          <Button type="button" variant="outline" onClick={addVideo} disabled={!newVideoUrl.trim()}>
-            Agregar
-          </Button>
-        </div>
-        {property.videoUrls.length > 0 && (
-          <ul className="space-y-1">
-            {property.videoUrls.map((video) => (
-              <li
-                key={video.url}
-                className="flex items-center justify-between rounded-md border px-3 py-2 text-sm"
-              >
-                <a
-                  href={video.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="truncate text-blue-600 hover:underline"
-                >
-                  {video.url}
-                </a>
-                <Button type="button" variant="ghost" size="sm" onClick={() => removeVideo(video.url)}>
-                  Quitar
-                </Button>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+              {flat.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    aria-label="Foto anterior"
+                    onClick={() => setLightbox(((lightbox ?? 0) - 1 + flat.length) % flat.length)}
+                    className="absolute top-1/2 left-3 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-card/90 shadow-md backdrop-blur transition-colors outline-none hover:bg-card focus-visible:ring-3 focus-visible:ring-ring/50"
+                  >
+                    <ChevronLeft className="size-5" />
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Foto siguiente"
+                    onClick={() => setLightbox(((lightbox ?? 0) + 1) % flat.length)}
+                    className="absolute top-1/2 right-3 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-card/90 shadow-md backdrop-blur transition-colors outline-none hover:bg-card focus-visible:ring-3 focus-visible:ring-ring/50"
+                  >
+                    <ChevronRight className="size-5" />
+                  </button>
+                </>
+              )}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

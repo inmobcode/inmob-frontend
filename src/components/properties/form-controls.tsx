@@ -1,6 +1,6 @@
 "use client";
 
-import { Minus, Plus, X } from "lucide-react";
+import { Minus, Plus, Search, X } from "lucide-react";
 import { useState } from "react";
 
 import { Input } from "@/components/ui/input";
@@ -162,6 +162,126 @@ export function TagsInput({
         onBlur={() => commit(draft)}
         className="h-6 min-w-24 flex-1 bg-transparent px-1.5 text-sm outline-none placeholder:text-muted-foreground"
       />
+    </div>
+  );
+}
+
+/** Multi-select as toggleable chips. `labels` translates option values for display only. */
+export function ChipToggleGroup({
+  options,
+  value,
+  onChange,
+  labels = {},
+  label,
+}: {
+  options: string[];
+  value: string[];
+  onChange: (value: string[]) => void;
+  labels?: Record<string, string>;
+  label: string;
+}) {
+  function toggle(option: string) {
+    onChange(value.includes(option) ? value.filter((item) => item !== option) : [...value, option]);
+  }
+
+  return (
+    <div role="group" aria-label={label} className="flex flex-wrap gap-2">
+      {options.map((option) => {
+        const active = value.includes(option);
+        return (
+          <button
+            key={option}
+            type="button"
+            aria-pressed={active}
+            onClick={() => toggle(option)}
+            className={cn(
+              "inline-flex h-9 items-center gap-1.5 rounded-full px-4 text-sm font-medium transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+              active
+                ? "bg-primary text-primary-foreground"
+                : "bg-foreground/[0.06] text-muted-foreground hover:bg-foreground/10 hover:text-foreground",
+            )}
+          >
+            {labels[option] ?? option}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+/**
+ * A long multi-select: search box, a counter of what is chosen, and only the
+ * first options shown until you ask for more. Chosen options are always visible.
+ */
+export function ChipPicker({
+  options,
+  value,
+  onChange,
+  labels = {},
+  label,
+  limit = 14,
+}: {
+  options: string[];
+  value: string[];
+  onChange: (value: string[]) => void;
+  labels?: Record<string, string>;
+  label: string;
+  limit?: number;
+}) {
+  const [query, setQuery] = useState("");
+  const [expanded, setExpanded] = useState(false);
+
+  const term = query.trim().toLowerCase();
+  const matches = options.filter(
+    (option) =>
+      !term || (labels[option] ?? option).toLowerCase().includes(term) || option.toLowerCase().includes(term),
+  );
+  const collapsed = !term && !expanded;
+  const visible = collapsed ? matches.filter((option, index) => value.includes(option) || index < limit) : matches;
+  const hidden = matches.length - visible.length;
+
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-wrap items-center gap-3">
+        <div className="relative w-full sm:w-72">
+          <Search className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Buscar"
+            aria-label={`Buscar en ${label.toLowerCase()}`}
+            className="rounded-full pl-10"
+          />
+        </div>
+        <p className="text-sm text-muted-foreground tabular-nums">
+          {value.length === 0 ? "Ninguna seleccionada" : `${value.length} seleccionada${value.length === 1 ? "" : "s"}`}
+        </p>
+        {value.length > 0 && (
+          <button
+            type="button"
+            onClick={() => onChange([])}
+            className="text-sm font-medium text-primary underline-offset-4 outline-none hover:underline focus-visible:underline"
+          >
+            Limpiar
+          </button>
+        )}
+      </div>
+
+      {visible.length > 0 ? (
+        <ChipToggleGroup label={label} options={visible} value={value} onChange={onChange} labels={labels} />
+      ) : (
+        <p className="text-sm text-muted-foreground">Nada coincide con «{query}».</p>
+      )}
+
+      {!term && matches.length > limit && (
+        <button
+          type="button"
+          onClick={() => setExpanded((open) => !open)}
+          className="w-fit text-sm font-medium text-primary underline-offset-4 outline-none hover:underline focus-visible:underline"
+        >
+          {expanded ? "Ver menos" : `Ver ${hidden} más`}
+        </button>
+      )}
     </div>
   );
 }

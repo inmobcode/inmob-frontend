@@ -261,6 +261,39 @@ export function removePropertyPhoto(token: string, id: string, photoId: string) 
   });
 }
 
+/**
+ * Changes one photo: make it the cover, or move it to another section.
+ * Backend contract (not built yet): PATCH /api/properties/:id/photos/:photoId
+ * with { isCover?, section?, sectionDetail? }. Making a photo the cover must
+ * clear `isCover` on the others. Returns the updated Property.
+ */
+export function updatePropertyPhoto(
+  token: string,
+  id: string,
+  photoId: string,
+  payload: { isCover?: boolean; section?: PhotoSection; sectionDetail?: string | null },
+) {
+  return apiFetch<Property>(`/api/properties/${id}/photos/${photoId}`, {
+    method: "PATCH",
+    token,
+    body: JSON.stringify(payload),
+  });
+}
+
+/**
+ * Saves the photo order. Backend contract (not built yet):
+ * PUT /api/properties/:id/photos/order with { photoIds: string[] } listing
+ * every photo of the property in its new order; the backend rewrites
+ * `position` from the array index. Returns the updated Property.
+ */
+export function reorderPropertyPhotos(token: string, id: string, photoIds: string[]) {
+  return apiFetch<Property>(`/api/properties/${id}/photos/order`, {
+    method: "PUT",
+    token,
+    body: JSON.stringify({ photoIds }),
+  });
+}
+
 export function listOwners(token: string) {
   return apiFetch<PropertyOwner[]>("/api/properties/owners", { token });
 }

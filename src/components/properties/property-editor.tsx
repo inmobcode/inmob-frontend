@@ -23,28 +23,19 @@ import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import { Switch } from "@/components/ui/switch";
+import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
 import { SectionNavbar } from "@/components/properties/editor-shell";
+import { AmenitiesTab } from "@/components/properties/amenities-tab";
 import { BasicTab } from "@/components/properties/basic-tab";
+import { ContentTab } from "@/components/properties/content-tab";
+import { LocationTab } from "@/components/properties/location-tab";
+import { PricesTab } from "@/components/properties/prices-tab";
 import { AvailabilityTab } from "@/components/properties/availability-tab";
-import { CheckboxGroup } from "@/components/properties/checkbox-group";
 import { EssentialsTab } from "@/components/properties/essentials-tab";
 import { ExperiencesTab } from "@/components/properties/experiences-tab";
 import { OwnerTab } from "@/components/properties/owner-tab";
 import { PhotosTab } from "@/components/properties/photos-tab";
-import { PoolsTab } from "@/components/properties/pools-tab";
 import { RatesTab } from "@/components/properties/rates-tab";
 import { RecommendationsTab } from "@/components/properties/recommendations-tab";
 import { RoomsTab } from "@/components/properties/rooms-tab";
@@ -61,15 +52,6 @@ import { getAccessToken } from "@/lib/auth/session";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { distance, duration, ease, media } from "@/lib/motion";
 import { useActionBarStore } from "@/lib/store/action-bar-store";
-import {
-  INCLUDED_SERVICES,
-  INDOOR_AMENITIES,
-  LOCATION_FEATURES,
-  OUTDOOR_AMENITIES,
-  PROPERTY_STATUS_RENT,
-  PROPERTY_STATUS_SALE,
-  VIEW_OPTIONS,
-} from "@/lib/property-catalogs";
 
 const schema = z.object({
   title: z.string().min(2, "Ingresá un título"),
@@ -96,6 +78,16 @@ const schema = z.object({
   renovationYear: z.string(),
   energyCertificate: z.string(),
   locationCategory: z.string(),
+
+  managementName: z.string(),
+  managementEmail: z.string(),
+  managementPhone: z.string(),
+  managementCompany: z.string(),
+  vendorPropertyName: z.string(),
+  website: z.string(),
+  commission: z.string(),
+  license: z.string(),
+  thirdPartyPermission: z.boolean(),
 
   country: z.string(),
   region: z.string(),
@@ -240,6 +232,16 @@ function toFormValues(property: Property): FormValues {
     energyCertificate: property.energyCertificate ?? "",
     locationCategory: c?.locationCategory ?? "",
 
+    managementName: c?.managementName ?? "",
+    managementEmail: c?.managementEmail ?? "",
+    managementPhone: c?.managementPhone ?? "",
+    managementCompany: c?.managementCompany ?? "",
+    vendorPropertyName: c?.vendorPropertyName ?? "",
+    website: c?.website ?? "",
+    commission: c?.commission ?? "",
+    license: c?.license ?? "",
+    thirdPartyPermission: c?.thirdPartyPermission ?? false,
+
     country: property.country ?? "",
     region: property.region ?? "",
     area: property.area ?? "",
@@ -307,7 +309,7 @@ function toStringList(value: string): string[] {
     .filter(Boolean);
 }
 
-function toPayload(values: FormValues): UpdatePropertyPayload {
+function toPayload(values: FormValues, originalOwnerId?: string | null): UpdatePropertyPayload {
   return {
     title: values.title,
     listingType: values.listingType,
@@ -318,7 +320,8 @@ function toPayload(values: FormValues): UpdatePropertyPayload {
     bathrooms: toNumber(values.bathrooms),
     areaSqm: toNumber(values.areaSqm),
     amenities: toStringList(values.amenitiesText),
-    ...(values.ownerId ? { ownerId: values.ownerId } : {}),
+    // Clearing the owner sends null (needs backend support); a property that never had one sends nothing.
+    ...(values.ownerId ? { ownerId: values.ownerId } : originalOwnerId ? { ownerId: null } : {}),
 
     agentFriendlyName: values.agentFriendlyName || undefined,
     visibleLocation: values.visibleLocation || undefined,
@@ -354,6 +357,16 @@ function toPayload(values: FormValues): UpdatePropertyPayload {
       parkingSpaces: toNumber(values.parkingSpaces),
       storageSpaces: toNumber(values.storageSpaces),
       locationCategory: values.locationCategory || undefined,
+      // Sent as-is (even empty) so clearing one of these actually clears it.
+      managementName: values.managementName,
+      managementEmail: values.managementEmail,
+      managementPhone: values.managementPhone,
+      managementCompany: values.managementCompany,
+      vendorPropertyName: values.vendorPropertyName,
+      website: values.website,
+      commission: values.commission,
+      license: values.license,
+      thirdPartyPermission: values.thirdPartyPermission,
       masterBedroomQty: toNumber(values.masterBedroomQty),
       doubleBedroomQty: toNumber(values.doubleBedroomQty),
       twinBedroomQty: toNumber(values.twinBedroomQty),
@@ -429,7 +442,7 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
     mutationFn: (values: FormValues) => {
       const token = getAccessToken();
       if (!token) throw new ApiError("No autenticado", 401);
-      return updateProperty(token, propertyId, toPayload(values));
+      return updateProperty(token, propertyId, toPayload(values, property?.ownerId));
     },
     onSuccess: (updated) => {
       queryClient.setQueryData(["property", propertyId], updated);
@@ -442,7 +455,7 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
     mutationFn: async (values: FormValues) => {
       const token = getAccessToken();
       if (!token) throw new ApiError("No autenticado", 401);
-      await updateProperty(token, propertyId, toPayload(values));
+      await updateProperty(token, propertyId, toPayload(values, property?.ownerId));
       return publishProperty(token, propertyId);
     },
     onSuccess: (updated) => {
@@ -513,344 +526,31 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
     router.replace(`/properties/${propertyId}?${params.toString()}`);
   }
 
-  const propertyStatusOptions = listingType === "RENT" ? PROPERTY_STATUS_RENT : PROPERTY_STATUS_SALE;
   const isRent = listingType === "RENT";
-  const groups = buildGroups(listingType, category);
-  const activeMeta = findTabMeta(groups, activeTab);
 
   return (
     <div className="flex flex-col gap-8">
       <Tabs value={activeTab} onValueChange={setTab} className="flex flex-col gap-6">
         <Card ref={contentRef} className="min-w-0 flex-1">
-          <CardHeader>
-            <CardTitle className="font-display text-2xl leading-tight">
-              {activeMeta?.label ?? "Propiedad"}
-            </CardTitle>
-            <CardDescription>{TAB_DESCRIPTIONS[activeTab]}</CardDescription>
-          </CardHeader>
         <CardContent>
           <TabsContent value="basico" className="mt-0">
             <BasicTab form={form} property={property} />
           </TabsContent>
 
-          <TabsContent value="ubicacion" className="mt-0 max-w-xl space-y-6">
-            <FieldGroup>
-              <Field>
-                <FieldLabel htmlFor="visibleLocation">Ubicación visible</FieldLabel>
-                <Input id="visibleLocation" {...form.register("visibleLocation")} />
-                <FieldDescription>
-                  Cómo se muestra la ubicación a tus clientes, por ejemplo «La Barra, Punta del Este».
-                </FieldDescription>
-              </Field>
-              <div className="grid grid-cols-2 gap-3">
-                <Field>
-                  <FieldLabel htmlFor="country">País</FieldLabel>
-                  <Input id="country" {...form.register("country")} />
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="region">Región</FieldLabel>
-                  <Input id="region" {...form.register("region")} />
-                </Field>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <Field>
-                  <FieldLabel htmlFor="area">Zona</FieldLabel>
-                  <Input id="area" {...form.register("area")} />
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="address">Dirección</FieldLabel>
-                  <Input id="address" {...form.register("address")} />
-                </Field>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <Field>
-                  <FieldLabel htmlFor="lat">Latitud</FieldLabel>
-                  <Input id="lat" {...form.register("lat")} />
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="lng">Longitud</FieldLabel>
-                  <Input id="lng" {...form.register("lng")} />
-                </Field>
-              </div>
-              <Field>
-                <FieldLabel htmlFor="googleMapUrl">Link de Google Maps</FieldLabel>
-                <Input id="googleMapUrl" {...form.register("googleMapUrl")} />
-              </Field>
-              <div className="grid grid-cols-2 gap-3">
-                <Field>
-                  <FieldLabel htmlFor="brochureUrl">Link de folleto (PDF)</FieldLabel>
-                  <Input id="brochureUrl" {...form.register("brochureUrl")} />
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="websiteUrl">Link de sitio web</FieldLabel>
-                  <Input id="websiteUrl" {...form.register("websiteUrl")} />
-                </Field>
-              </div>
-              <Field>
-                <FieldLabel>Location Features</FieldLabel>
-                <Controller
-                  control={form.control}
-                  name="locationFeatures"
-                  render={({ field }) => (
-                    <CheckboxGroup options={LOCATION_FEATURES} value={field.value} onChange={field.onChange} />
-                  )}
-                />
-              </Field>
-              <Field>
-                <FieldLabel>View</FieldLabel>
-                <Controller
-                  control={form.control}
-                  name="view"
-                  render={({ field }) => (
-                    <CheckboxGroup options={VIEW_OPTIONS} value={field.value} onChange={field.onChange} />
-                  )}
-                />
-              </Field>
-            </FieldGroup>
-
-            {!isRent && (
-              <div>
-                <Separator className="mb-4" />
-                <h3 className="mb-3 text-sm font-medium">Pools & Jacuzzis</h3>
-                <PoolsTab propertyId={property.id} />
-              </div>
-            )}
+          <TabsContent value="ubicacion" className="mt-0">
+            <LocationTab form={form} />
           </TabsContent>
 
-          <TabsContent value="amenities" className="mt-0 max-w-xl space-y-6">
-            <FieldGroup>
-              <Field>
-                <FieldLabel>Outdoor Amenities</FieldLabel>
-                <Controller
-                  control={form.control}
-                  name="outdoorAmenities"
-                  render={({ field }) => (
-                    <CheckboxGroup options={OUTDOOR_AMENITIES} value={field.value} onChange={field.onChange} />
-                  )}
-                />
-              </Field>
-              <Field>
-                <FieldLabel>Indoor Amenities (Luxury Facilities)</FieldLabel>
-                <Controller
-                  control={form.control}
-                  name="indoorAmenities"
-                  render={({ field }) => (
-                    <CheckboxGroup options={INDOOR_AMENITIES} value={field.value} onChange={field.onChange} />
-                  )}
-                />
-              </Field>
-              {isRent && (
-                <Field>
-                  <FieldLabel htmlFor="customFacilitiesText">
-                    Custom Facilities (separadas por coma)
-                  </FieldLabel>
-                  <Input id="customFacilitiesText" {...form.register("customFacilitiesText")} />
-                </Field>
-              )}
-              <Field>
-                <FieldLabel>Property Status {isRent ? "" : "(Condition)"}</FieldLabel>
-                <Controller
-                  control={form.control}
-                  name="propertyStatus"
-                  render={({ field }) => (
-                    <CheckboxGroup
-                      options={propertyStatusOptions}
-                      value={field.value}
-                      onChange={field.onChange}
-                    />
-                  )}
-                />
-              </Field>
-            </FieldGroup>
-
-            {isRent && (
-              <div>
-                <Separator className="mb-4" />
-                <h4 className="mb-2 text-sm font-medium">Accommodation</h4>
-                <div className="grid grid-cols-3 gap-3">
-                  <Field>
-                    <FieldLabel htmlFor="masterBedroomQty">Master</FieldLabel>
-                    <Input id="masterBedroomQty" inputMode="numeric" {...form.register("masterBedroomQty")} />
-                  </Field>
-                  <Field>
-                    <FieldLabel htmlFor="doubleBedroomQty">Doble</FieldLabel>
-                    <Input id="doubleBedroomQty" inputMode="numeric" {...form.register("doubleBedroomQty")} />
-                  </Field>
-                  <Field>
-                    <FieldLabel htmlFor="twinBedroomQty">Twin</FieldLabel>
-                    <Input id="twinBedroomQty" inputMode="numeric" {...form.register("twinBedroomQty")} />
-                  </Field>
-                  <Field>
-                    <FieldLabel htmlFor="singleBedroomQty">Single</FieldLabel>
-                    <Input id="singleBedroomQty" inputMode="numeric" {...form.register("singleBedroomQty")} />
-                  </Field>
-                  <Field>
-                    <FieldLabel htmlFor="bedroomWithBunkBedsQty">Cuchetas</FieldLabel>
-                    <Input
-                      id="bedroomWithBunkBedsQty"
-                      inputMode="numeric"
-                      {...form.register("bedroomWithBunkBedsQty")}
-                    />
-                  </Field>
-                  <Field>
-                    <FieldLabel htmlFor="guestBedroomQty">Guest</FieldLabel>
-                    <Input id="guestBedroomQty" inputMode="numeric" {...form.register("guestBedroomQty")} />
-                  </Field>
-                </div>
-              </div>
-            )}
-
-            {!isRent && (
-              <div>
-                <Separator className="mb-4" />
-                <h4 className="mb-2 text-sm font-medium">Layout & Living Spaces</h4>
-                <div className="space-y-3">
-                  {(
-                    [
-                      ["layoutKitchensCount", "layoutKitchensDescription", "Cocinas"],
-                      ["layoutLivingRoomsCount", "layoutLivingRoomsDescription", "Livings"],
-                      ["layoutGuestWCCount", "layoutGuestWCDescription", "Toilette de huéspedes"],
-                      ["layoutStaffQuartersCount", "layoutStaffQuartersDescription", "Cuartos de servicio"],
-                    ] as const
-                  ).map(([countField, descField, label]) => (
-                    <div key={countField} className="grid grid-cols-[80px_1fr] gap-2">
-                      <Field>
-                        <FieldLabel htmlFor={countField}>{label}</FieldLabel>
-                        <Input id={countField} inputMode="numeric" {...form.register(countField)} />
-                      </Field>
-                      <Field>
-                        <FieldLabel htmlFor={descField}>Descripción</FieldLabel>
-                        <Input id={descField} {...form.register(descField)} />
-                      </Field>
-                    </div>
-                  ))}
-                  <div className="grid grid-cols-[80px_1fr] items-end gap-2">
-                    <Field orientation="horizontal">
-                      <FieldLabel htmlFor="layoutGardenAvailable">Jardín</FieldLabel>
-                      <Controller
-                        control={form.control}
-                        name="layoutGardenAvailable"
-                        render={({ field }) => (
-                          <Switch
-                            id="layoutGardenAvailable"
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                          />
-                        )}
-                      />
-                    </Field>
-                    <Field>
-                      <FieldLabel htmlFor="layoutGardenDescription">Descripción</FieldLabel>
-                      <Input id="layoutGardenDescription" {...form.register("layoutGardenDescription")} />
-                    </Field>
-                  </div>
-                  <div className="grid grid-cols-[80px_1fr] items-end gap-2">
-                    <Field orientation="horizontal">
-                      <FieldLabel htmlFor="layoutStorageAvailable">Storage</FieldLabel>
-                      <Controller
-                        control={form.control}
-                        name="layoutStorageAvailable"
-                        render={({ field }) => (
-                          <Switch
-                            id="layoutStorageAvailable"
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                          />
-                        )}
-                      />
-                    </Field>
-                    <Field>
-                      <FieldLabel htmlFor="layoutStorageDescription">Descripción</FieldLabel>
-                      <Input id="layoutStorageDescription" {...form.register("layoutStorageDescription")} />
-                    </Field>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            <div>
-              <Separator className="mb-4" />
-              <FieldGroup>
-                <Field>
-                  <FieldLabel htmlFor="amenitiesText">Amenities generales (separados por coma)</FieldLabel>
-                  <Input id="amenitiesText" {...form.register("amenitiesText")} />
-                  <p className="text-xs text-zinc-500">
-                    Es lo único de esta pestaña que hoy se muestra en el portal público.
-                  </p>
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="enjoy">Enjoy</FieldLabel>
-                  <Textarea id="enjoy" rows={4} {...form.register("enjoy")} />
-                </Field>
-                {!isRent && (
-                  <Field>
-                    <FieldLabel htmlFor="outdoorShower">Duchas exteriores</FieldLabel>
-                    <Input id="outdoorShower" inputMode="numeric" {...form.register("outdoorShower")} />
-                  </Field>
-                )}
-              </FieldGroup>
-            </div>
+          <TabsContent value="amenities" className="mt-0">
+            <AmenitiesTab form={form} property={property} isRent={isRent} />
           </TabsContent>
 
-          <TabsContent value="content" className="mt-0 max-w-xl space-y-4">
-            <FieldGroup>
-              <Field>
-                <FieldLabel htmlFor="summary">Resumen (bajada corta)</FieldLabel>
-                <Textarea id="summary" rows={3} {...form.register("summary")} />
-              </Field>
-              <Field>
-                <FieldLabel htmlFor="description">Descripción detallada</FieldLabel>
-                <Textarea id="description" rows={6} {...form.register("description")} />
-              </Field>
-              <Field>
-                <FieldLabel htmlFor="ourNote">Nota del agente</FieldLabel>
-                <Textarea id="ourNote" rows={3} {...form.register("ourNote")} />
-              </Field>
-              {isRent && (
-                <>
-                  <Separator />
-                  <Field>
-                    <FieldLabel htmlFor="extraInfo">Políticas & Términos</FieldLabel>
-                    <Textarea id="extraInfo" rows={4} {...form.register("extraInfo")} />
-                  </Field>
-                  <Field>
-                    <FieldLabel>Servicios incluidos</FieldLabel>
-                    <Controller
-                      control={form.control}
-                      name="includedServices"
-                      render={({ field }) => (
-                        <CheckboxGroup
-                          options={INCLUDED_SERVICES}
-                          value={field.value}
-                          onChange={field.onChange}
-                        />
-                      )}
-                    />
-                  </Field>
-                  <Field>
-                    <FieldLabel htmlFor="additionalNotes">Notas adicionales</FieldLabel>
-                    <Textarea id="additionalNotes" rows={3} {...form.register("additionalNotes")} />
-                  </Field>
-                </>
-              )}
-            </FieldGroup>
+          <TabsContent value="content" className="mt-0">
+            <ContentTab form={form} isRent={isRent} />
           </TabsContent>
 
-          <TabsContent value="precios" className="mt-0 max-w-xl">
-            <FieldGroup>
-              <div className="grid grid-cols-2 gap-3">
-                <Field>
-                  <FieldLabel htmlFor="price">
-                    {isRent ? "Precio base/noche (para Ofertas)" : "Precio de venta"}
-                  </FieldLabel>
-                  <Input id="price" inputMode="decimal" {...form.register("price")} />
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="currency">Moneda</FieldLabel>
-                  <Input id="currency" maxLength={3} {...form.register("currency")} />
-                </Field>
-              </div>
-            </FieldGroup>
+          <TabsContent value="precios" className="mt-0">
+            <PricesTab form={form} isRent={isRent} />
           </TabsContent>
 
           <TabsContent value="fotos" className="mt-0">
@@ -882,7 +582,7 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
           )}
 
           <TabsContent value="essentials" className="mt-0">
-            <EssentialsTab property={property} />
+            <EssentialsTab form={form} />
           </TabsContent>
 
           <TabsContent value="recomendaciones" className="mt-0 max-w-2xl">
@@ -895,11 +595,13 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
             </TabsContent>
           )}
 
-          <TabsContent value="propietario" className="mt-0 max-w-xl">
+          <TabsContent value="propietario" className="mt-0">
             <Controller
               control={form.control}
               name="ownerId"
-              render={({ field }) => <OwnerTab ownerId={field.value} onChange={field.onChange} />}
+              render={({ field }) => (
+                <OwnerTab ownerId={field.value} onChange={field.onChange} currentOwner={property.owner} />
+              )}
             />
           </TabsContent>
         </CardContent>
@@ -908,20 +610,3 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
     </div>
   );
 }
-
-const TAB_DESCRIPTIONS: Record<string, string> = {
-  basico: "Datos generales y métricas básicas de la propiedad.",
-  ubicacion: "Dirección, mapa y características del entorno.",
-  amenities: "Comodidades, estado, distribución de ambientes y lista general para el portal público.",
-  content: "Textos que se muestran a clientes y colegas.",
-  precios: "Precio y moneda — lo que usan Ofertas y Reservas.",
-  fotos: "Galería, marca de agua y videos.",
-  disponibilidad: "Bloqueos manuales y sincronización con iCal.",
-  "villa-page": "Contenido destacado de la página de la villa.",
-  experiences: "Experiencias destacadas cerca de la propiedad.",
-  rates: "Tarifas por temporada.",
-  essentials: "Contacto de management y datos de licencia.",
-  recomendaciones: "Mejoras sugeridas para la propiedad.",
-  rooms: "Habitaciones de este hotel.",
-  propietario: "Propietario asociado a esta propiedad.",
-};

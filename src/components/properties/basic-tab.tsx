@@ -328,9 +328,7 @@ export function BasicTab({
 
       <aside className="hidden lg:block">
         <div className="sticky top-28 flex flex-col gap-3">
-          <p className="text-[0.7rem] font-semibold tracking-[0.12em] text-muted-foreground uppercase">
-            Así se ve en tu cartera
-          </p>
+          <p className="text-sm font-medium text-muted-foreground">Así se ve en tu cartera</p>
           <PropertyCard property={preview} preview />
         </div>
       </aside>
