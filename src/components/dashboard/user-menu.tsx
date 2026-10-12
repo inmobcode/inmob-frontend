@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Building2,
   Copy,
@@ -84,6 +84,7 @@ function ThemeSwitch() {
 
 export function UserMenu({ collapsed }: { collapsed: boolean }) {
   const router = useRouter();
+  const queryClient = useQueryClient();
   // Deliberately not a lazy useState initializer: document.cookie is
   // unavailable during SSR but present on the client, so reading it
   // synchronously on first render would make the hydrated output diverge
@@ -114,6 +115,8 @@ export function UserMenu({ collapsed }: { collapsed: boolean }) {
 
   function handleLogout() {
     clearSession();
+    // The cache is shared by the whole tab: drop it so the next person to sign in never sees this agency's data.
+    queryClient.clear();
     router.push("/login");
   }
 

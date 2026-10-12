@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Building2,
   CalendarDays,
@@ -116,6 +116,7 @@ function requireToken() {
 
 function CommandPalette({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { setTheme } = useTheme();
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
@@ -154,7 +155,7 @@ function CommandPalette({ open, onOpenChange }: { open: boolean; onOpenChange: (
       { id: "theme-dark", group: "Acciones", label: "Modo oscuro", icon: Moon, run: () => { setTheme("dark"); close(); } },
       { id: "theme-system", group: "Acciones", label: "Modo automático", icon: Monitor, run: () => { setTheme("system"); close(); } },
       { id: "sidebar", group: "Acciones", label: "Contraer o expandir el menú", hint: "⌘ B", icon: PanelLeftClose, run: () => { close(); window.dispatchEvent(new Event(TOGGLE_SIDEBAR_EVENT)); } },
-      { id: "logout", group: "Acciones", label: "Cerrar sesión", icon: LogOut, run: () => { clearSession(); close(); router.push("/login"); } },
+      { id: "logout", group: "Acciones", label: "Cerrar sesión", icon: LogOut, run: () => { clearSession(); queryClient.clear(); close(); router.push("/login"); } },
     ];
 
     const term = normalize(query.trim());
@@ -211,7 +212,7 @@ function CommandPalette({ open, onOpenChange }: { open: boolean; onOpenChange: (
       }));
 
     return [...records, ...matches];
-  }, [query, properties.data, offers.data, clients.data, router, close, setTheme]);
+  }, [query, properties.data, offers.data, clients.data, router, close, setTheme, queryClient]);
 
   // Whatever is highlighted should stay on screen while arrowing through the list.
   useEffect(() => {
