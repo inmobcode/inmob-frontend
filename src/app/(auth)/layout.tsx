@@ -1,3 +1,4 @@
+import { LogoIcon } from "@/components/logo-icon";
 import { Building2, CalendarCheck, FileText } from "lucide-react";
 import Link from "next/link";
 
@@ -11,8 +12,9 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
   return (
     <div className="grid min-h-svh flex-1 bg-background lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
       <div className="flex flex-col px-6 py-8 sm:px-12 lg:px-16">
-        <Link href="/" className="w-fit font-display text-2xl leading-none tracking-tight outline-none focus-visible:underline">
-          Inmobiliario
+        <Link href="/" className="flex w-fit items-center gap-2 font-logo text-2xl font-semibold leading-none tracking-tight outline-none focus-visible:underline">
+          <LogoIcon className="text-primary" />
+          Tivvo
         </Link>
         <div className="flex flex-1 items-center justify-center py-10">
           <div className="w-full max-w-sm">{children}</div>

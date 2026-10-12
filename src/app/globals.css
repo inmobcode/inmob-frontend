@@ -9,6 +9,15 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-dm-sans);
   --font-display: var(--font-dm-serif-display);
+  --font-logo: var(--font-sora);
+  --color-paper: var(--l-paper);
+  --color-ink: var(--l-ink);
+  --color-quiet: var(--l-quiet);
+  --color-line: var(--l-line);
+  --color-mist: var(--l-mist);
+  --color-forest: var(--l-forest);
+  --color-forest-deep: var(--l-forest-deep);
+  --color-lime: var(--l-lime);
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -135,4 +144,31 @@
   html {
     @apply font-sans;
   }
+}
+/*
+ * Landing. Paleta propia, siempre clara: papel blanco, tinta verde, verde bosque
+ * en bloques planos y lima solo para la acción principal y el isotipo.
+ * Las utilidades (bg-paper, text-ink, border-line…) solo resuelven dentro de `.landing`.
+ */
+.landing {
+  --l-paper: #fbfbf8;
+  --l-ink: #14281f;
+  --l-quiet: #5d6b63;
+  --l-line: #e2e5df;
+  --l-mist: #eef1ea;
+  --l-forest: #164832;
+  --l-forest-deep: #0f3524;
+  --l-lime: #77e500;
+  --font-dm-serif-display: var(--font-sora);
+
+  /* Los componentes de shadcn dentro de la landing usan siempre la versión clara. */
+  --background: var(--l-paper);
+  --foreground: var(--l-ink);
+  --muted-foreground: var(--l-quiet);
+  --border: var(--l-line);
+  --input: #cfd5cc;
+  --ring: oklch(0.55 0.08 162);
+  color-scheme: light;
+  background: var(--l-paper);
+  color: var(--l-ink);
 }

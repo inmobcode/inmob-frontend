@@ -2,7 +2,7 @@ import type { AuthResponse } from "@/lib/api/auth";
 
 const ACCESS_COOKIE = "access_token";
 const REFRESH_COOKIE = "refresh_token";
-const USER_COOKIE = "inmobiliario_user";
+const USER_COOKIE = "tivvo_user";
 
 export type SessionUser = AuthResponse["user"];
 

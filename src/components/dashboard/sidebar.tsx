@@ -1,5 +1,6 @@
 "use client";
 
+import { LogoIcon } from "@/components/logo-icon";
 import {
   Building2,
   CalendarDays,
@@ -58,9 +59,10 @@ function Brand() {
   return (
     <Link
       href="/properties"
-      className="font-display text-2xl leading-none tracking-tight text-foreground"
+      className="flex items-center gap-2 font-logo text-2xl font-semibold leading-none tracking-tight text-foreground"
     >
-      Inmobiliario
+      <LogoIcon className="text-primary" />
+      Tivvo
     </Link>
   );
 }

@@ -3,61 +3,94 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-import { Button } from "@/components/ui/button";
+import { LogoIcon } from "@/components/logo-icon";
 import { cn } from "@/lib/utils";
 
 const LINKS = [
   { href: "#flujo", label: "Cómo funciona" },
-  { href: "#portal", label: "Tu portal" },
+  { href: "#portales", label: "Portales" },
   { href: "#migracion", label: "Migración" },
   { href: "#planes", label: "Planes" },
 ];
 
 export function LandingNav() {
-  const [scrolled, setScrolled] = useState(false);
+  // Over the green blocks (hero, demo, footer) the bar is see-through green with
+  // light text; over paper sections it turns into a paper bar with a hairline.
+  const [onDark, setOnDark] = useState(true);
 
   useEffect(() => {
     function onScroll() {
-      setScrolled(window.scrollY > 24);
+      const barHeight = 64;
+      const dark = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-nav-dark]"),
+      ).some((block) => {
+        const rect = block.getBoundingClientRect();
+        return rect.top <= barHeight / 2 && rect.bottom >= barHeight / 2;
+      });
+      setOnDark(dark);
     }
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-4 z-50 px-4 lg:px-14">
+    <header
+      className={cn(
+        "fixed inset-x-0 top-0 z-50 border-b backdrop-blur-md transition-colors duration-300",
+        onDark
+          ? "border-paper/10 bg-forest/80 text-paper"
+          : "border-line bg-paper/90 text-ink",
+      )}
+    >
       <nav
         aria-label="Principal"
-        className={cn(
-          "mx-auto flex h-14 max-w-[1800px] items-center gap-6 rounded-full pr-2 pl-6 transition-[background-color,box-shadow,backdrop-filter] duration-500",
-          scrolled
-            ? "bg-card/70 shadow-[0_12px_40px_-16px_oklch(0.3_0.05_160/0.3)] ring-1 ring-foreground/5 backdrop-blur-xl backdrop-saturate-150"
-            : "bg-transparent",
-        )}
+        className="mx-auto flex h-16 max-w-[1440px] items-center gap-8 px-5 sm:px-8"
       >
-        <Link href="/" className="font-display text-2xl leading-none tracking-tight">
-          Inmobiliario
+        <Link
+          href="/"
+          className="flex items-center gap-2 rounded-sm font-logo text-xl leading-none font-semibold tracking-tight outline-none focus-visible:ring-2 focus-visible:ring-lime"
+        >
+          <LogoIcon className="h-[0.95em] text-lime" />
+          Tivvo
         </Link>
-        <ul className="ml-auto hidden items-center gap-1 md:flex">
+        <ul className="hidden items-center gap-6 md:flex">
           {LINKS.map((link) => (
             <li key={link.href}>
               <a
                 href={link.href}
-                className="rounded-full px-3.5 py-2 text-sm text-muted-foreground transition-colors outline-none hover:bg-foreground/[0.06] hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
+                className={cn(
+                  "rounded-sm text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-lime",
+                  onDark
+                    ? "text-paper/70 hover:text-paper"
+                    : "text-quiet hover:text-ink",
+                )}
               >
                 {link.label}
               </a>
             </li>
           ))}
         </ul>
-        <div className="ml-auto flex items-center gap-1 md:ml-0">
-          <Button asChild variant="ghost" className="hidden h-10 rounded-full px-4 sm:inline-flex">
-            <Link href="/login">Ingresar</Link>
-          </Button>
-          <Button asChild variant="highlight" className="h-10 rounded-full px-5">
-            <a href="#demo">Pedir una demo</a>
-          </Button>
+        <div className="ml-auto flex items-center gap-2">
+          <Link
+            href="/login"
+            className={cn(
+              "hidden h-10 items-center rounded-lg px-4 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-lime sm:inline-flex",
+              onDark ? "hover:bg-paper/10" : "hover:bg-mist",
+            )}
+          >
+            Ingresar
+          </Link>
+          <a
+            href="#demo"
+            className="inline-flex h-10 items-center rounded-lg bg-lime px-4 text-sm font-semibold text-forest-deep outline-none transition-[filter] hover:brightness-95 focus-visible:ring-2 focus-visible:ring-paper focus-visible:ring-offset-2 focus-visible:ring-offset-forest"
+          >
+            Pedir una demo
+          </a>
         </div>
       </nav>
     </header>

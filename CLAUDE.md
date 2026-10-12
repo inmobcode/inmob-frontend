@@ -25,7 +25,7 @@ Frontend de una plataforma inmobiliaria (propiedades, ofertas, clientes, reserva
 - `(public)` — páginas públicas: `/[agencySlug]`, `/[agencySlug]/[propertySlug]` y `/offer/[token]`.
 
 **Autenticación**
-- `lib/auth/session.ts` guarda el par JWT y el usuario en cookies **no httpOnly** (`access_token`, `refresh_token`, `inmobiliario_user`), para que `src/proxy.ts` pueda leer `access_token` en el servidor. Si falta, redirige a `/login?next=...`.
+- `lib/auth/session.ts` guarda el par JWT y el usuario en cookies **no httpOnly** (`access_token`, `refresh_token`, `tivvo_user`), para que `src/proxy.ts` pueda leer `access_token` en el servidor. Si falta, redirige a `/login?next=...`.
 - Al añadir una nueva sección del dashboard hay que actualizar **dos veces** `DASHBOARD_PREFIXES` y `config.matcher` en `src/proxy.ts`.
 - El proxy solo comprueba que exista la cookie; no valida el token.
 
