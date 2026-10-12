@@ -7,8 +7,30 @@ import { gsap, useGSAP } from "@/lib/gsap";
 import { distance, duration, ease, media } from "@/lib/motion";
 import { useActionBarStore } from "@/lib/store/action-bar-store";
 
+function UnsavedChip() {
+  const ref = useRef<HTMLSpanElement>(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add(media.allowMotion, () => {
+        gsap.from(ref.current, { opacity: 0, x: distance.sm, duration: duration.base, ease: ease.out });
+      });
+      return () => mm.revert();
+    },
+    { scope: ref },
+  );
+
+  return (
+    <span ref={ref} className="mr-2 hidden items-center gap-2 text-sm text-muted-foreground sm:inline-flex">
+      <span className="size-2 rounded-full bg-amber-500" />
+      Cambios sin guardar
+    </span>
+  );
+}
+
 export function ActionBar() {
-  const { title, navigation, isSubmitting, canSubmit, onSave, onPublish, onCancel, saveLabel, publishLabel } =
+  const { title, navigation, isSubmitting, isDirty, canSubmit, onSave, onPublish, onCancel, saveLabel, publishLabel } =
     useActionBarStore();
   const barRef = useRef<HTMLDivElement>(null);
   const visible = Boolean(title || navigation || onSave || onPublish);
@@ -41,7 +63,8 @@ export function ActionBar() {
       {navigation ?? (
         <h2 className="font-display text-2xl leading-none tracking-tight">{title}</h2>
       )}
-      <div className="flex gap-2">
+      <div className="flex items-center gap-2">
+        {isDirty && <UnsavedChip />}
         {onCancel && (
           <Button variant="ghost" onClick={onCancel} disabled={isSubmitting}>
             Cancelar
@@ -53,7 +76,7 @@ export function ActionBar() {
           </Button>
         )}
         {onPublish && (
-          <Button variant="highlight" onClick={onPublish} disabled={!canSubmit || isSubmitting}>
+          <Button onClick={onPublish} disabled={!canSubmit || isSubmitting}>
             {publishLabel}
           </Button>
         )}

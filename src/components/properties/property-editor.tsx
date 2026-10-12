@@ -30,20 +30,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-import { PropertyHeader, SectionNavbar } from "@/components/properties/editor-shell";
+import { SectionNavbar } from "@/components/properties/editor-shell";
+import { BasicTab } from "@/components/properties/basic-tab";
 import { AvailabilityTab } from "@/components/properties/availability-tab";
 import { CheckboxGroup } from "@/components/properties/checkbox-group";
 import { EssentialsTab } from "@/components/properties/essentials-tab";
@@ -67,18 +61,13 @@ import { getAccessToken } from "@/lib/auth/session";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { distance, duration, ease, media } from "@/lib/motion";
 import { useActionBarStore } from "@/lib/store/action-bar-store";
-import { LISTING_TYPE_LABELS } from "@/lib/properties-labels";
 import {
-  ACCOMMODATION_TYPES,
-  ENERGY_CERTIFICATE_OPTIONS,
   INCLUDED_SERVICES,
   INDOOR_AMENITIES,
-  LOCATION_CATEGORY_OPTIONS,
   LOCATION_FEATURES,
   OUTDOOR_AMENITIES,
   PROPERTY_STATUS_RENT,
   PROPERTY_STATUS_SALE,
-  REAL_ESTATE_TYPES,
   VIEW_OPTIONS,
 } from "@/lib/property-catalogs";
 
@@ -154,7 +143,7 @@ const schema = z.object({
   ourNote: z.string(),
 });
 
-type FormValues = z.infer<typeof schema>;
+export type FormValues = z.infer<typeof schema>;
 
 interface TabDef {
   value: string;
@@ -429,6 +418,7 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
   const form = useForm<FormValues>({ resolver: zodResolver(schema) });
   const listingType = useWatch({ control: form.control, name: "listingType" });
   const category = useWatch({ control: form.control, name: "category" });
+  const isDirty = form.formState.isDirty;
 
   const [syncedAt, setSyncedAt] = useState<string | null>(null);
   if (property && property.updatedAt !== syncedAt) {
@@ -471,6 +461,7 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
         <SectionNavbar groups={navGroups} active={activeTab} onChange={setTab} />
       ) : null,
       isSubmitting: saveMutation.isPending || publishMutation.isPending,
+      isDirty,
       canSubmit: true,
       onSave: form.handleSubmit((values) => saveMutation.mutate(values)),
       onPublish: form.handleSubmit((values) => publishMutation.mutate(values)),
@@ -478,7 +469,7 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
     });
     return resetActions;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [property, activeTab, saveMutation.isPending, publishMutation.isPending]);
+  }, [property, activeTab, isDirty, saveMutation.isPending, publishMutation.isPending]);
 
   const contentRef = useRef<HTMLDivElement>(null);
   const shownTab = useRef(activeTab);
@@ -523,7 +514,6 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
     router.replace(`/properties/${propertyId}?${params.toString()}`);
   }
 
-  const categoryOptions = listingType === "RENT" ? ACCOMMODATION_TYPES : REAL_ESTATE_TYPES;
   const propertyStatusOptions = listingType === "RENT" ? PROPERTY_STATUS_RENT : PROPERTY_STATUS_SALE;
   const isRent = listingType === "RENT";
   const groups = buildGroups(listingType, category);
@@ -531,8 +521,6 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
 
   return (
     <div className="flex flex-col gap-8">
-      <PropertyHeader property={property} />
-
       <Tabs value={activeTab} onValueChange={setTab} className="flex flex-col gap-6">
         <Card ref={contentRef} className="min-w-0 flex-1">
           <CardHeader>
@@ -542,190 +530,19 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
             <CardDescription>{TAB_DESCRIPTIONS[activeTab]}</CardDescription>
           </CardHeader>
         <CardContent>
-          <TabsContent value="basico" className="mt-0 max-w-xl space-y-5">
-            <FieldGroup>
-              <Field>
-                <FieldLabel htmlFor="title">Título</FieldLabel>
-                <Input id="title" {...form.register("title")} />
-                <FieldError errors={[form.formState.errors.title]} />
-              </Field>
-              <Field>
-                <FieldLabel htmlFor="agentFriendlyName">Nombre privado</FieldLabel>
-                <Input id="agentFriendlyName" {...form.register("agentFriendlyName")} />
-              </Field>
-              <div className="grid grid-cols-2 gap-3">
-                <Field>
-                  <FieldLabel htmlFor="listingType">Tipo</FieldLabel>
-                  <Controller
-                    control={form.control}
-                    name="listingType"
-                    render={({ field }) => (
-                      <Select value={field.value} onValueChange={field.onChange}>
-                        <SelectTrigger id="listingType" className="w-full">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {Object.entries(LISTING_TYPE_LABELS).map(([value, label]) => (
-                            <SelectItem key={value} value={value}>
-                              {label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    )}
-                  />
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="category">Categoría</FieldLabel>
-                  <Controller
-                    control={form.control}
-                    name="category"
-                    render={({ field }) => (
-                      <Select value={field.value} onValueChange={field.onChange}>
-                        <SelectTrigger id="category" className="w-full">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {categoryOptions.map((value) => (
-                            <SelectItem key={value} value={value}>
-                              {value}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    )}
-                  />
-                </Field>
-              </div>
-              <Field>
-                <FieldLabel htmlFor="visibleLocation">Ubicación visible</FieldLabel>
-                <Input id="visibleLocation" {...form.register("visibleLocation")} />
-              </Field>
-              <div className="grid grid-cols-2 gap-3">
-                {isRent ? (
-                  <>
-                    <Field>
-                      <FieldLabel htmlFor="guests">Huéspedes</FieldLabel>
-                      <Input id="guests" {...form.register("guests")} />
-                    </Field>
-                    <Field>
-                      <FieldLabel htmlFor="stars">Estrellas</FieldLabel>
-                      <Input id="stars" inputMode="numeric" {...form.register("stars")} />
-                    </Field>
-                  </>
-                ) : (
-                  <>
-                    <Field>
-                      <FieldLabel htmlFor="constructionYear">Año de construcción</FieldLabel>
-                      <Input
-                        id="constructionYear"
-                        inputMode="numeric"
-                        {...form.register("constructionYear")}
-                      />
-                    </Field>
-                    <Field>
-                      <FieldLabel htmlFor="renovationYear">Año de renovación</FieldLabel>
-                      <Input
-                        id="renovationYear"
-                        inputMode="numeric"
-                        {...form.register("renovationYear")}
-                      />
-                    </Field>
-                  </>
-                )}
-              </div>
-              {!isRent && (
-                <div className="grid grid-cols-2 gap-3">
-                  <Field>
-                    <FieldLabel htmlFor="energyCertificate">Certificado energético</FieldLabel>
-                    <Controller
-                      control={form.control}
-                      name="energyCertificate"
-                      render={({ field }) => (
-                        <Select value={field.value} onValueChange={field.onChange}>
-                          <SelectTrigger id="energyCertificate" className="w-full">
-                            <SelectValue placeholder="Sin especificar" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {ENERGY_CERTIFICATE_OPTIONS.map((value) => (
-                              <SelectItem key={value} value={value}>
-                                {value}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      )}
-                    />
-                  </Field>
-                  <Field>
-                    <FieldLabel htmlFor="locationCategory">Categoría de ubicación</FieldLabel>
-                    <Controller
-                      control={form.control}
-                      name="locationCategory"
-                      render={({ field }) => (
-                        <Select value={field.value} onValueChange={field.onChange}>
-                          <SelectTrigger id="locationCategory" className="w-full">
-                            <SelectValue placeholder="Sin especificar" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {LOCATION_CATEGORY_OPTIONS.map((value) => (
-                              <SelectItem key={value} value={value}>
-                                {value}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      )}
-                    />
-                  </Field>
-                </div>
-              )}
-              <Separator />
-              <div className="grid grid-cols-2 gap-3">
-                <Field>
-                  <FieldLabel htmlFor="staffRoom">Staff room</FieldLabel>
-                  <Input id="staffRoom" inputMode="numeric" {...form.register("staffRoom")} />
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="floorNumbersText">Pisos (separados por coma)</FieldLabel>
-                  <Input id="floorNumbersText" {...form.register("floorNumbersText")} />
-                </Field>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <Field>
-                  <FieldLabel htmlFor="parkingSpaces">Cocheras</FieldLabel>
-                  <Input id="parkingSpaces" inputMode="numeric" {...form.register("parkingSpaces")} />
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="storageSpaces">Depósitos</FieldLabel>
-                  <Input id="storageSpaces" inputMode="numeric" {...form.register("storageSpaces")} />
-                </Field>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <Field>
-                  <FieldLabel htmlFor="bedrooms">Dormitorios</FieldLabel>
-                  <Input id="bedrooms" inputMode="numeric" {...form.register("bedrooms")} />
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="bathrooms">Baños</FieldLabel>
-                  <Input id="bathrooms" inputMode="numeric" {...form.register("bathrooms")} />
-                </Field>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <Field>
-                  <FieldLabel htmlFor="areaSqm">Superficie cubierta (m²)</FieldLabel>
-                  <Input id="areaSqm" inputMode="decimal" {...form.register("areaSqm")} />
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="plotArea">Superficie del terreno (m²)</FieldLabel>
-                  <Input id="plotArea" inputMode="decimal" {...form.register("plotArea")} />
-                </Field>
-              </div>
-            </FieldGroup>
+          <TabsContent value="basico" className="mt-0">
+            <BasicTab form={form} property={property} />
           </TabsContent>
 
           <TabsContent value="ubicacion" className="mt-0 max-w-xl space-y-6">
             <FieldGroup>
+              <Field>
+                <FieldLabel htmlFor="visibleLocation">Ubicación visible</FieldLabel>
+                <Input id="visibleLocation" {...form.register("visibleLocation")} />
+                <FieldDescription>
+                  Cómo se muestra la ubicación a tus clientes, por ejemplo «La Barra, Punta del Este».
+                </FieldDescription>
+              </Field>
               <div className="grid grid-cols-2 gap-3">
                 <Field>
                   <FieldLabel htmlFor="country">País</FieldLabel>

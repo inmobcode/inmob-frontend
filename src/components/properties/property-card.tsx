@@ -32,18 +32,18 @@ function Spec({ icon: Icon, children }: { icon: typeof Bath; children: React.Rea
   );
 }
 
-export function PropertyCard({ property }: { property: Property }) {
+const CARD_CLASS =
+  "property-card group flex flex-col overflow-hidden rounded-2xl bg-card shadow-[0_1px_2px_oklch(0.3_0.05_160/0.04),0_12px_32px_-12px_oklch(0.3_0.05_160/0.14)] ring-1 ring-foreground/5 outline-none transition-shadow";
+
+/** `preview` renders the card as a static block (no link), for live previews in forms. */
+export function PropertyCard({ property, preview = false }: { property: Property; preview?: boolean }) {
   const cover = coverOf(property);
   const price = formatPrice(property);
   const location = [property.area, property.region, property.country].filter(Boolean).join(", ");
   const updated = formatDistanceToNow(new Date(property.updatedAt), { addSuffix: true, locale: es });
 
-  return (
-    <Link
-      href={`/properties/${property.id}`}
-      data-flip-id={property.id}
-      className="property-card group flex flex-col overflow-hidden rounded-2xl bg-card shadow-[0_1px_2px_oklch(0.3_0.05_160/0.04),0_12px_32px_-12px_oklch(0.3_0.05_160/0.14)] ring-1 ring-foreground/5 outline-none transition-shadow hover:shadow-[0_1px_2px_oklch(0.3_0.05_160/0.06),0_20px_40px_-12px_oklch(0.3_0.05_160/0.24)] focus-visible:ring-3 focus-visible:ring-ring/50"
-    >
+  const inner = (
+    <>
       <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
         {cover ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -105,6 +105,21 @@ export function PropertyCard({ property }: { property: Property }) {
           <span className="shrink-0">Actualizada {updated}</span>
         </div>
       </div>
+    </>
+  );
+
+  if (preview) return <div className={CARD_CLASS}>{inner}</div>;
+
+  return (
+    <Link
+      href={`/properties/${property.id}`}
+      data-flip-id={property.id}
+      className={cn(
+        CARD_CLASS,
+        "hover:shadow-[0_1px_2px_oklch(0.3_0.05_160/0.06),0_20px_40px_-12px_oklch(0.3_0.05_160/0.24)] focus-visible:ring-3 focus-visible:ring-ring/50",
+      )}
+    >
+      {inner}
     </Link>
   );
 }

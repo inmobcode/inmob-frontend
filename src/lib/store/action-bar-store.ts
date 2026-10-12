@@ -6,6 +6,8 @@ interface ActionBarState {
   /** Optional navigation rendered in place of the title (e.g. section menus). */
   navigation: ReactNode | null;
   isSubmitting: boolean;
+  /** True when the form has edits that are not saved yet. */
+  isDirty: boolean;
   canSubmit: boolean;
   onSave: (() => void) | null;
   onPublish: (() => void) | null;
@@ -20,6 +22,7 @@ const initialState = {
   title: null,
   navigation: null,
   isSubmitting: false,
+  isDirty: false,
   canSubmit: true,
   onSave: null,
   onPublish: null,

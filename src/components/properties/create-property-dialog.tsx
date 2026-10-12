@@ -2,12 +2,14 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { KeyRound, LoaderCircle, Plus, Tag } from "lucide-react";
+import { LoaderCircle, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 
+import { CategoryChips } from "@/components/properties/category-chips";
+import { ListingTypeCards } from "@/components/properties/listing-type-cards";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -19,13 +21,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ApiError } from "@/lib/api/client";
-import { createProperty, type ListingType } from "@/lib/api/properties";
+import { createProperty } from "@/lib/api/properties";
 import { getAccessToken } from "@/lib/auth/session";
-import { gsap, useGSAP } from "@/lib/gsap";
-import { distance, duration, ease, media, stagger } from "@/lib/motion";
-import { categoryLabel } from "@/lib/properties-labels";
+import { gsap } from "@/lib/gsap";
+import { duration, ease, media } from "@/lib/motion";
 import { ACCOMMODATION_TYPES, REAL_ESTATE_TYPES } from "@/lib/property-catalogs";
-import { cn } from "@/lib/utils";
 
 const schema = z.object({
   title: z.string().min(2, "Ingresá un título"),
@@ -34,11 +34,6 @@ const schema = z.object({
 });
 
 type FormValues = z.infer<typeof schema>;
-
-const LISTING_OPTIONS: { value: ListingType; label: string; hint: string; icon: typeof Tag }[] = [
-  { value: "SALE", label: "Venta", hint: "Vendé una propiedad", icon: Tag },
-  { value: "RENT", label: "Alquiler", hint: "Alquilá o dá en temporada", icon: KeyRound },
-];
 
 // Receives the trigger's props (ref, onClick, aria-*) from DialogTrigger's
 // `asChild`, so they must be forwarded to the underlying Button.
@@ -77,62 +72,6 @@ function NewPropertyButton({ onPointerEnter, onPointerLeave, onFocus, onBlur, ..
       </span>
       Nueva propiedad
     </Button>
-  );
-}
-
-/** Remounted (via `key`) whenever the listing type changes, so the options re-enter each time. */
-function CategoryChips({
-  options,
-  value,
-  onChange,
-}: {
-  options: string[];
-  value: string;
-  onChange: (value: string) => void;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add(media.allowMotion, () => {
-        gsap.from("[data-chip]", {
-          opacity: 0,
-          y: distance.sm,
-          duration: duration.base,
-          ease: ease.out,
-          stagger: stagger.tight,
-        });
-      });
-      return () => mm.revert();
-    },
-    { scope: ref },
-  );
-
-  return (
-    <div ref={ref} role="radiogroup" aria-label="Categoría" className="flex flex-wrap gap-2">
-      {options.map((option) => {
-        const active = option === value;
-        return (
-          <button
-            key={option}
-            type="button"
-            role="radio"
-            aria-checked={active}
-            data-chip
-            onClick={() => onChange(option)}
-            className={cn(
-              "h-9 rounded-full px-4 text-sm font-medium transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
-              active
-                ? "bg-primary text-primary-foreground"
-                : "bg-foreground/[0.06] text-muted-foreground hover:bg-foreground/10 hover:text-foreground",
-            )}
-          >
-            {categoryLabel(option)}
-          </button>
-        );
-      })}
-    </div>
   );
 }
 
@@ -200,45 +139,16 @@ export function CreatePropertyDialog() {
                 control={form.control}
                 name="listingType"
                 render={({ field }) => (
-                  <div role="radiogroup" aria-label="Tipo de operación" className="grid grid-cols-2 gap-3">
-                    {LISTING_OPTIONS.map((option) => {
-                      const active = field.value === option.value;
-                      return (
-                        <button
-                          key={option.value}
-                          type="button"
-                          role="radio"
-                          aria-checked={active}
-                          onClick={() => {
-                            field.onChange(option.value);
-                            const next = option.value === "RENT" ? ACCOMMODATION_TYPES : REAL_ESTATE_TYPES;
-                            if (!next.includes(form.getValues("category"))) {
-                              form.setValue("category", next[0]);
-                            }
-                          }}
-                          className={cn(
-                            "flex flex-col items-start gap-3 rounded-2xl p-4 text-left ring-1 transition-all outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
-                            active
-                              ? "bg-primary text-primary-foreground ring-primary"
-                              : "bg-foreground/[0.04] ring-foreground/5 hover:bg-foreground/[0.07]",
-                          )}
-                        >
-                          <option.icon className="size-5" />
-                          <span className="flex flex-col gap-0.5">
-                            <span className="text-lg leading-none font-semibold">{option.label}</span>
-                            <span
-                              className={cn(
-                                "text-xs",
-                                active ? "text-primary-foreground/70" : "text-muted-foreground",
-                              )}
-                            >
-                              {option.hint}
-                            </span>
-                          </span>
-                        </button>
-                      );
-                    })}
-                  </div>
+                  <ListingTypeCards
+                    value={field.value}
+                    onChange={(value) => {
+                      field.onChange(value);
+                      const next = value === "RENT" ? ACCOMMODATION_TYPES : REAL_ESTATE_TYPES;
+                      if (!next.includes(form.getValues("category"))) {
+                        form.setValue("category", next[0]);
+                      }
+                    }}
+                  />
                 )}
               />
             </div>
@@ -250,7 +160,7 @@ export function CreatePropertyDialog() {
                 autoComplete="off"
                 placeholder="Ej: Casa frente al mar en La Barra"
                 aria-invalid={Boolean(titleError)}
-                className="h-11 rounded-xl border-transparent bg-foreground/[0.07] px-4 transition-[background-color,box-shadow,border-color] duration-500 ease-out focus-visible:border-primary/20 focus-visible:bg-card focus-visible:shadow-[0_8px_24px_-12px_oklch(0.3_0.05_160/0.3)] focus-visible:ring-0 dark:bg-foreground/10 dark:focus-visible:bg-card"
+                className="h-11 px-4"
                 {...form.register("title")}
               />
               {titleError && <p className="text-sm text-destructive">{titleError}</p>}

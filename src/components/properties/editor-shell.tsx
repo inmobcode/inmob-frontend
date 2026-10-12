@@ -1,15 +1,11 @@
 "use client";
 
-import { Building2, Camera, Check, ChevronDown, ExternalLink, MapPin } from "lucide-react";
+import { Check, ChevronDown } from "lucide-react";
 import { NavigationMenu } from "radix-ui";
-import Link from "next/link";
 import { useRef, useState } from "react";
 
-import { Button } from "@/components/ui/button";
-import type { Property, PropertyStatus } from "@/lib/api/properties";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { distance, duration, ease, media, stagger } from "@/lib/motion";
-import { categoryLabel, LISTING_TYPE_LABELS, STATUS_LABELS } from "@/lib/properties-labels";
 import { cn } from "@/lib/utils";
 
 export interface SectionTab {
@@ -21,83 +17,6 @@ export interface SectionTab {
 export interface SectionGroup {
   label: string;
   tabs: SectionTab[];
-}
-
-const STATUS_DOT: Record<PropertyStatus, string> = {
-  PUBLISHED: "bg-primary",
-  DRAFT: "bg-amber-500",
-  ARCHIVED: "bg-muted-foreground",
-};
-
-export function PropertyHeader({ property }: { property: Property }) {
-  const ref = useRef<HTMLElement>(null);
-  const photos = [...property.photos].sort((a, b) => a.position - b.position);
-  const cover = photos.find((photo) => photo.isCover) ?? photos[0];
-  const location = [property.area, property.region, property.country].filter(Boolean).join(", ");
-  const price = property.price ? `${property.currency} ${property.price.toLocaleString("es-AR")}` : null;
-  const publicHref =
-    property.status === "PUBLISHED" && property.agencySlug
-      ? `/${property.agencySlug}/${property.slug}`
-      : null;
-
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add(media.allowMotion, () => {
-        gsap.from(ref.current, { opacity: 0, y: distance.md, duration: duration.macro, ease: ease.out });
-      });
-      return () => mm.revert();
-    },
-    { scope: ref },
-  );
-
-  return (
-    <header ref={ref} className="flex flex-wrap items-center gap-x-5 gap-y-4">
-      <div className="relative size-20 shrink-0 overflow-hidden rounded-2xl bg-secondary sm:size-24">
-        {cover ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={cover.url} alt="" className="size-full object-cover" />
-        ) : (
-          <div className="flex size-full items-center justify-center text-primary/30">
-            <Building2 className="size-8" strokeWidth={1.25} />
-          </div>
-        )}
-      </div>
-
-      <div className="flex min-w-0 flex-1 basis-64 flex-col gap-2">
-        <p className="text-[0.7rem] font-semibold tracking-[0.12em] text-primary uppercase">
-          {LISTING_TYPE_LABELS[property.listingType]} · {categoryLabel(property.category)}
-        </p>
-        <h1 className="font-display text-3xl leading-tight text-balance sm:text-4xl">{property.title}</h1>
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm text-muted-foreground">
-          <span className="inline-flex items-center gap-1.5 font-medium text-foreground">
-            <span className={cn("size-2 rounded-full", STATUS_DOT[property.status])} />
-            {STATUS_LABELS[property.status]}
-          </span>
-          {price && <span className="tabular-nums">{price}</span>}
-          {location && (
-            <span className="inline-flex items-center gap-1.5">
-              <MapPin className="size-3.5" />
-              {location}
-            </span>
-          )}
-          <span className="inline-flex items-center gap-1.5 tabular-nums">
-            <Camera className="size-3.5" />
-            {property.photos.length} {property.photos.length === 1 ? "foto" : "fotos"}
-          </span>
-        </div>
-      </div>
-
-      {publicHref && (
-        <Button asChild variant="outline" className="h-10 gap-2 px-5">
-          <Link href={publicHref} target="_blank" rel="noreferrer">
-            Ver ficha pública
-            <ExternalLink />
-          </Link>
-        </Button>
-      )}
-    </header>
-  );
 }
 
 const SHORT_DESCRIPTIONS: Record<string, string> = {
@@ -290,7 +209,7 @@ export function SectionNavbar({
                 className={cn(
                   "group/trigger inline-flex h-9 items-center gap-1.5 rounded-full px-3.5 text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
                   groupActive
-                    ? "bg-primary text-primary-foreground"
+                    ? "bg-primary/10 text-primary hover:bg-primary/15 data-[state=open]:bg-primary/15"
                     : "text-muted-foreground hover:bg-foreground/5 hover:text-foreground data-[state=open]:bg-foreground/5 data-[state=open]:text-foreground",
                 )}
               >

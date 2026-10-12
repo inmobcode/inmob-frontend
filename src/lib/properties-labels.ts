@@ -73,3 +73,10 @@ export function categoryLabel(code: string) {
   const readable = code.replace(/_/g, " ").toLowerCase();
   return readable.charAt(0).toUpperCase() + readable.slice(1);
 }
+
+export const LOCATION_CATEGORY_LABELS: Record<string, string> = {
+  PRIVATE: "Privada",
+  PART_OF_COMPLEX: "Parte de un complejo",
+  PART_OF_HOTEL: "Parte de un hotel",
+  PART_OF_RESORT: "Parte de un resort",
+};
