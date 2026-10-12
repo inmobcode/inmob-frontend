@@ -1,6 +1,6 @@
 "use client";
 
-import { Archive, Check, Globe, Minus, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import { Archive, Check, EyeOff, Globe, Minus, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import {
@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 /** What the list can do with one or many properties. */
 export interface PropertyActions {
   publish: (ids: string[]) => void;
+  unpublish: (ids: string[]) => void;
   archive: (ids: string[]) => void;
   /** Asks for confirmation first; the page owns the dialog. */
   requestDelete: (ids: string[]) => void;
@@ -107,6 +108,12 @@ export function PropertyMenu({
           <DropdownMenuItem className="rounded-xl py-2" onSelect={() => actions.publish([property.id])}>
             <Globe />
             {property.status === "ARCHIVED" ? "Volver a publicar" : "Publicar"}
+          </DropdownMenuItem>
+        )}
+        {property.status === "PUBLISHED" && (
+          <DropdownMenuItem className="rounded-xl py-2" onSelect={() => actions.unpublish([property.id])}>
+            <EyeOff />
+            Despublicar
           </DropdownMenuItem>
         )}
         {property.status !== "ARCHIVED" && (

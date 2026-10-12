@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 
+import { SessionWatcher } from "@/components/auth/session-watcher";
 import { DashboardSidebar, MobileTopbar } from "@/components/dashboard/sidebar";
 import { SIDEBAR_COOKIE } from "@/lib/sidebar";
 import { ActionBar } from "@/components/dashboard/action-bar";
@@ -14,6 +15,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   // corners pinned to the viewport edges instead of scrolling away.
   return (
     <div className="flex h-svh bg-sidebar">
+      <SessionWatcher />
       <DashboardSidebar initialCollapsed={initialCollapsed} />
       <div className="flex min-w-0 flex-1 flex-col overflow-y-auto bg-background md:rounded-l-[25px]">
         <MobileTopbar />

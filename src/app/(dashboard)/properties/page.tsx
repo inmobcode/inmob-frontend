@@ -27,7 +27,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ApiError } from "@/lib/api/client";
-import { archiveProperty, deleteProperty, listProperties, publishProperty } from "@/lib/api/properties";
+import {
+  archiveProperty,
+  deleteProperty,
+  listProperties,
+  publishProperty,
+  unpublishProperty,
+} from "@/lib/api/properties";
 import { getAccessToken } from "@/lib/auth/session";
 import { Flip, gsap, useGSAP } from "@/lib/gsap";
 import { distance, duration, ease, media, stagger } from "@/lib/motion";
@@ -55,7 +61,7 @@ export default function PropertiesPage() {
   const flipState = useRef<Flip.FlipState | null>(null);
   const entered = useRef(false);
   const queryClient = useQueryClient();
-  const [view, setView] = useState<ViewMode>("grid");
+  const [view, setView] = useState<ViewMode>("table");
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [deleting, setDeleting] = useState<string[] | null>(null);
 
@@ -63,7 +69,7 @@ export default function PropertiesPage() {
   useEffect(() => {
     try {
       const saved = window.localStorage.getItem("properties-view");
-      if (saved === "list" || saved === "table") {
+      if (saved === "list" || saved === "grid") {
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setView(saved);
       }
@@ -129,10 +135,21 @@ export default function PropertiesPage() {
   }
 
   const bulkMutation = useMutation({
-    mutationFn: async ({ action, ids }: { action: "publish" | "archive" | "delete"; ids: string[] }) => {
+    mutationFn: async ({
+      action,
+      ids,
+    }: {
+      action: "publish" | "unpublish" | "archive" | "delete";
+      ids: string[];
+    }) => {
       const token = getAccessToken();
       if (!token) throw new ApiError("No autenticado", 401);
-      const run = action === "publish" ? publishProperty : action === "archive" ? archiveProperty : deleteProperty;
+      const run = {
+        publish: publishProperty,
+        unpublish: unpublishProperty,
+        archive: archiveProperty,
+        delete: deleteProperty,
+      }[action];
       const results = await Promise.allSettled(ids.map((id) => run(token, id)));
       return {
         ok: results.filter((result) => result.status === "fulfilled").length,
@@ -141,7 +158,12 @@ export default function PropertiesPage() {
     },
     onSuccess: ({ ok, failed }, { action, ids }) => {
       const noun = ok === 1 ? "propiedad" : "propiedades";
-      const done = { publish: "publicada", archive: "archivada", delete: "eliminada" }[action];
+      const done = {
+        publish: "publicada",
+        unpublish: "despublicada",
+        archive: "archivada",
+        delete: "eliminada",
+      }[action];
       if (ok > 0) toast.success(`${ok} ${noun} ${done}${ok === 1 ? "" : "s"}`);
       if (failed > 0) toast.error(`No se pudieron procesar ${failed}. Intentá de nuevo.`);
       setSelected((current) => {
@@ -156,6 +178,7 @@ export default function PropertiesPage() {
 
   const actions: PropertyActions = {
     publish: (ids) => bulkMutation.mutate({ action: "publish", ids }),
+    unpublish: (ids) => bulkMutation.mutate({ action: "unpublish", ids }),
     archive: (ids) => bulkMutation.mutate({ action: "archive", ids }),
     requestDelete: (ids) => setDeleting(ids),
   };

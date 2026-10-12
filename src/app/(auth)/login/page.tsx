@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -11,7 +11,7 @@ import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field
 import { Input } from "@/components/ui/input";
 import { login } from "@/lib/api/auth";
 import { ApiError } from "@/lib/api/client";
-import { setSession } from "@/lib/auth/session";
+import { getAccessToken, setSession } from "@/lib/auth/session";
 
 const schema = z.object({
   email: z.string().email("Email inválido"),
@@ -24,6 +24,10 @@ export default function LoginPage() {
   const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
   const form = useForm<FormValues>({ resolver: zodResolver(schema) });
+
+  useEffect(() => {
+    if (getAccessToken()) router.replace("/properties");
+  }, [router]);
 
   async function onSubmit(values: FormValues) {
     setServerError(null);

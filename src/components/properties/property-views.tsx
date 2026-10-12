@@ -156,7 +156,7 @@ export function PropertyRow({
   );
 }
 
-const HEAD = "px-4 py-3 text-left text-xs font-medium text-muted-foreground";
+const HEAD = "px-4 py-3 text-center text-xs font-medium text-muted-foreground";
 
 /** Dense, sortable-looking table: one property per line. */
 export function PropertiesTable({
@@ -192,10 +192,10 @@ export function PropertiesTable({
             </th>
             <th className={cn(HEAD, "pl-3")}>Propiedad</th>
             <th className={HEAD}>Estado</th>
-            <th className={cn(HEAD, "text-right")}>Precio</th>
-            <th className={cn(HEAD, "text-right")}>Dorm.</th>
-            <th className={cn(HEAD, "text-right")}>Baños</th>
-            <th className={cn(HEAD, "text-right")}>Superficie</th>
+            <th className={HEAD}>Precio</th>
+            <th className={HEAD}>Dorm.</th>
+            <th className={HEAD}>Baños</th>
+            <th className={HEAD}>Superficie</th>
             <th className={HEAD}>Propietario</th>
             <th className={HEAD}>Actualizada</th>
             <th className={cn(HEAD, "w-14")}>
@@ -243,22 +243,22 @@ export function PropertiesTable({
                     </div>
                   </div>
                 </td>
-                <td className="px-4 py-3">
+                <td className="px-4 py-3 text-center">
                   <StatusPill status={property.status} />
                 </td>
-                <td className="px-4 py-3 text-right">
+                <td className="px-4 py-3 text-center">
                   <Price property={property} />
                 </td>
-                <td className="px-4 py-3 text-right tabular-nums">
+                <td className="px-4 py-3 text-center tabular-nums">
                   {property.bedrooms != null ? number(property.bedrooms) : "—"}
                 </td>
-                <td className="px-4 py-3 text-right tabular-nums">
+                <td className="px-4 py-3 text-center tabular-nums">
                   {property.bathrooms != null ? number(property.bathrooms) : "—"}
                 </td>
-                <td className="px-4 py-3 text-right whitespace-nowrap tabular-nums">
+                <td className="px-4 py-3 text-center whitespace-nowrap tabular-nums">
                   {property.areaSqm != null ? `${number(property.areaSqm)} m²` : "—"}
                 </td>
-                <td className="px-4 py-3">
+                <td className="px-4 py-3 text-center">
                   {property.owner ? (
                     <span className="inline-flex items-center gap-2">
                       <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-secondary text-[0.6rem] font-semibold text-secondary-foreground">
@@ -270,10 +270,10 @@ export function PropertiesTable({
                     <span className="text-muted-foreground">—</span>
                   )}
                 </td>
-                <td className="px-4 py-3 whitespace-nowrap text-muted-foreground">
+                <td className="px-4 py-3 text-center whitespace-nowrap text-muted-foreground">
                   {formatDistanceToNow(new Date(property.updatedAt), { addSuffix: true, locale: es })}
                 </td>
-                <td className="w-14 py-3 pr-4" onClick={(event) => event.stopPropagation()}>
+                <td className="w-14 py-3 pr-4 text-center" onClick={(event) => event.stopPropagation()}>
                   <PropertyMenu property={property} actions={actions} className="bg-foreground/[0.06] hover:bg-foreground/10" />
                 </td>
               </tr>

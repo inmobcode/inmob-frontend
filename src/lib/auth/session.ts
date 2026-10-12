@@ -30,10 +30,14 @@ function deleteCookie(name: string) {
  * directly); revisit with httpOnly cookies + a BFF refresh route if this
  * ships to real users.
  */
+// Matches the backend's JWT_ACCESS_TOKEN_EXPIRES / JWT_REFRESH_TOKEN_EXPIRES
+// (180 days) — no point in the cookie expiring before the token it holds does.
+const SESSION_DAYS = 180;
+
 export function setSession(auth: AuthResponse) {
-  setCookie(ACCESS_COOKIE, auth.accessToken, 1);
-  setCookie(REFRESH_COOKIE, auth.refreshToken, 30);
-  setCookie(USER_COOKIE, JSON.stringify(auth.user), 30);
+  setCookie(ACCESS_COOKIE, auth.accessToken, SESSION_DAYS);
+  setCookie(REFRESH_COOKIE, auth.refreshToken, SESSION_DAYS);
+  setCookie(USER_COOKIE, JSON.stringify(auth.user), SESSION_DAYS);
 }
 
 export function clearSession() {

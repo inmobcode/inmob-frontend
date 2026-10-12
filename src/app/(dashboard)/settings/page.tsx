@@ -46,6 +46,7 @@ export default function SettingsPage() {
   const form = useForm<FormValues>({ resolver: zodResolver(schema) });
   const slugValue = useWatch({ control: form.control, name: "slug" });
 
+  const [formReady, setFormReady] = useState(false);
   useEffect(() => {
     if (agency) {
       form.reset({
@@ -55,6 +56,8 @@ export default function SettingsPage() {
         locale: agency.locale,
         currency: agency.currency,
       });
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- gates the form's first render until reset() has populated real values
+      setFormReady(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [agency?.id]);
@@ -97,7 +100,7 @@ export default function SettingsPage() {
     },
   });
 
-  if (isLoading || !agency) {
+  if (isLoading || !agency || !formReady) {
     return <p className="text-sm text-zinc-500">Cargando...</p>;
   }
 

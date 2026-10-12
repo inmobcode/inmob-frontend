@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useFieldArray, useForm, type Control } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -311,8 +311,13 @@ export function OfferEditor({ offerId }: { offerId: string }) {
 
   // Re-sync the form from the server whenever the offer actually changes
   // (initial load, or after a save/send mutation).
+  const [formReady, setFormReady] = useState(false);
   useEffect(() => {
-    if (offer) form.reset(toFormValues(offer));
+    if (offer) {
+      form.reset(toFormValues(offer));
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- gates the form's first render until reset() has populated real values
+      setFormReady(true);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [offer?.updatedAt]);
 
@@ -361,7 +366,7 @@ export function OfferEditor({ offerId }: { offerId: string }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [offer, saveMutation.isPending, sendMutation.isPending]);
 
-  if (isLoading || !offer) {
+  if (isLoading || !offer || !formReady) {
     return <p className="text-sm text-zinc-500">Cargando...</p>;
   }
 

@@ -78,6 +78,7 @@ export function AmenitiesTab({
       <Section
         title="Comodidades exteriores"
         description="Lo que hay fuera de la casa: piscina, parrilla, canchas y más."
+        shown
       >
         <Controller
           control={form.control}
@@ -97,6 +98,7 @@ export function AmenitiesTab({
       <Section
         title="Comodidades interiores"
         description="Instalaciones y equipamiento dentro de la propiedad."
+        shown
       >
         <FieldGroup>
           <Controller
@@ -140,6 +142,7 @@ export function AmenitiesTab({
             ? "Personal, mascotas, eventos y otras condiciones del alquiler."
             : "Estado comercial y características generales de la propiedad."
         }
+        shown
       >
         <Controller
           control={form.control}
@@ -158,7 +161,7 @@ export function AmenitiesTab({
       </Section>
 
       {isRent ? (
-        <Section title="Dormitorios por tipo" description="Cuántas habitaciones hay de cada clase.">
+        <Section title="Dormitorios por tipo" description="Cuántas habitaciones hay de cada clase." shown>
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {BEDROOM_TYPES.map(([name, label]) => (
               <Field key={name}>
@@ -175,7 +178,7 @@ export function AmenitiesTab({
           </div>
         </Section>
       ) : (
-        <Section title="Distribución" description="Ambientes de la propiedad, con un detalle opcional de cada uno.">
+        <Section title="Distribución" description="Ambientes de la propiedad, con un detalle opcional de cada uno." shown>
           <div className="flex flex-col gap-4">
             {LAYOUT_ROWS.map(([countField, descField, label]) => (
               <div key={countField} className="grid grid-cols-1 gap-3 sm:grid-cols-[minmax(0,15rem)_1fr] sm:items-end">
@@ -232,7 +235,7 @@ export function AmenitiesTab({
         </Section>
       )}
 
-      <Section title="Más detalles" description="Texto libre para tu equipo.">
+      <Section title="Más detalles" description="Descripción de la experiencia y duchas exteriores." shown>
         <FieldGroup>
           <Field>
             <FieldLabel htmlFor="enjoy">Qué se disfruta</FieldLabel>

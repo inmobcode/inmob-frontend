@@ -215,6 +215,10 @@ export function archiveProperty(token: string, id: string) {
   return apiFetch<Property>(`/api/properties/${id}/archive`, { method: "POST", token });
 }
 
+export function unpublishProperty(token: string, id: string) {
+  return apiFetch<Property>(`/api/properties/${id}/unpublish`, { method: "POST", token });
+}
+
 export function createRoom(token: string, hotelPropertyId: string) {
   return apiFetch<Property>(`/api/properties/${hotelPropertyId}/rooms`, {
     method: "POST",

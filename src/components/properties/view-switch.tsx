@@ -8,9 +8,9 @@ import { cn } from "@/lib/utils";
 export type ViewMode = "grid" | "list" | "table";
 
 const VIEWS: { value: ViewMode; label: string; icon: LucideIcon }[] = [
-  { value: "grid", label: "Cuadrícula", icon: LayoutGrid },
-  { value: "list", label: "Lista", icon: Rows3 },
   { value: "table", label: "Tabla", icon: Table2 },
+  { value: "list", label: "Lista", icon: Rows3 },
+  { value: "grid", label: "Cuadrícula", icon: LayoutGrid },
 ];
 
 /** Icon-only switch between the ways of laying out the properties. */

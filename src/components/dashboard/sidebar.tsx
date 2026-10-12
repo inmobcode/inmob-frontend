@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -38,9 +38,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { clearSession, getSessionUser } from "@/lib/auth/session";
-import { gsap, useGSAP } from "@/lib/gsap";
 import { SIDEBAR_COOKIE } from "@/lib/sidebar";
-import { distance, duration, ease, media, stagger } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 interface NavItem {
@@ -83,6 +81,54 @@ function Brand() {
   );
 }
 
+/**
+ * Tooltips only make sense while collapsed (the label itself is hidden then).
+ * The `open` prop stays a real boolean for the component's whole lifetime —
+ * toggling it between `false` and `undefined` on collapse/expand is what
+ * triggers Radix's "changing from controlled to uncontrolled" warning and
+ * the visible flicker that comes with it.
+ */
+function NavLink({
+  item,
+  active,
+  collapsed,
+  onNavigate,
+}: {
+  item: NavItem;
+  active: boolean;
+  collapsed: boolean;
+  onNavigate?: () => void;
+}) {
+  const [hovering, setHovering] = useState(false);
+
+  return (
+    <Tooltip open={collapsed && hovering} onOpenChange={setHovering}>
+      <TooltipTrigger asChild>
+        <Link
+          href={item.href}
+          aria-current={active ? "page" : undefined}
+          aria-label={item.label}
+          onClick={onNavigate}
+          className={cn(
+            "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium whitespace-nowrap transition-colors",
+            active
+              ? "bg-primary text-primary-foreground"
+              : "text-muted-foreground hover:bg-foreground/5 hover:text-foreground",
+          )}
+        >
+          <item.icon className="size-4 shrink-0" />
+          <span className={cn("transition-opacity duration-200", collapsed && "opacity-0")}>
+            {item.label}
+          </span>
+        </Link>
+      </TooltipTrigger>
+      <TooltipContent side="right" sideOffset={12}>
+        {item.label}
+      </TooltipContent>
+    </Tooltip>
+  );
+}
+
 function SidebarNav({
   collapsed,
   onNavigate,
@@ -91,97 +137,19 @@ function SidebarNav({
   onNavigate?: () => void;
 }) {
   const pathname = usePathname();
-  const navRef = useRef<HTMLElement>(null);
-  const indicatorRef = useRef<HTMLSpanElement>(null);
-  const placed = useRef(false);
-
   const activeHref = NAV_ITEMS.find((item) => pathname.startsWith(item.href))?.href;
 
-  // Entrance: links settle in one after another, once per mount.
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add(media.allowMotion, () => {
-        gsap.from("[data-nav-link]", {
-          opacity: 0,
-          x: -distance.sm,
-          duration: duration.base,
-          ease: ease.out,
-          stagger: stagger.base,
-        });
-      });
-      return () => mm.revert();
-    },
-    { scope: navRef },
-  );
-
-  // The active pill glides to the current link instead of jumping.
-  useGSAP(
-    () => {
-      const indicator = indicatorRef.current;
-      const nav = navRef.current;
-      if (!indicator || !nav) return;
-      const target = activeHref
-        ? nav.querySelector<HTMLElement>(`[data-nav-link][href="${activeHref}"]`)
-        : null;
-      if (!target) {
-        gsap.set(indicator, { opacity: 0 });
-        return;
-      }
-      const state = { y: target.offsetTop, height: target.offsetHeight, opacity: 1 };
-      const animate = placed.current && !window.matchMedia(media.reduceMotion).matches;
-      if (animate) {
-        gsap.to(indicator, { ...state, duration: duration.base, ease: ease.inOut });
-      } else {
-        gsap.set(indicator, state);
-      }
-      placed.current = true;
-    },
-    { scope: navRef, dependencies: [activeHref] },
-  );
-
   return (
-    <nav ref={navRef} className="relative flex flex-col gap-3">
-      <span
-        ref={indicatorRef}
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 rounded-lg bg-primary opacity-0"
-      />
-      {NAV_ITEMS.map((item) => {
-        const active = item.href === activeHref;
-        return (
-          <Tooltip key={item.href} open={collapsed ? undefined : false}>
-            <TooltipTrigger asChild>
-              <Link
-                href={item.href}
-                data-nav-link
-                aria-current={active ? "page" : undefined}
-                aria-label={item.label}
-                onClick={onNavigate}
-                className={cn(
-                  "relative z-10 flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium whitespace-nowrap transition-colors",
-                  active
-                    ? "text-primary-foreground"
-                    : "text-muted-foreground hover:bg-foreground/5 hover:text-foreground",
-                )}
-              >
-                <item.icon className="size-4 shrink-0" />
-                <span
-                  className={cn(
-                    "transition-opacity duration-200",
-                    collapsed && "opacity-0",
-                  )}
-                >
-                  {item.label}
-                </span>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent side="right" sideOffset={12}>
-              {item.label}
-            </TooltipContent>
-          </Tooltip>
-        );
-      })}
+    <nav className="flex flex-col gap-1">
+      {NAV_ITEMS.map((item) => (
+        <NavLink
+          key={item.href}
+          item={item}
+          active={item.href === activeHref}
+          collapsed={collapsed}
+          onNavigate={onNavigate}
+        />
+      ))}
     </nav>
   );
 }
@@ -293,8 +261,6 @@ function SidebarBody({
 
 export function DashboardSidebar({ initialCollapsed }: { initialCollapsed: boolean }) {
   const [collapsed, setCollapsed] = useState(initialCollapsed);
-  const asideRef = useRef<HTMLElement>(null);
-  const mounted = useRef(false);
 
   const toggle = useCallback(() => {
     setCollapsed((value) => {
@@ -316,26 +282,10 @@ export function DashboardSidebar({ initialCollapsed }: { initialCollapsed: boole
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [toggle]);
 
-  // The first render already has the right width (it comes from a cookie),
-  // so only later changes animate.
-  useGSAP(
-    () => {
-      const width = collapsed ? COLLAPSED_WIDTH : EXPANDED_WIDTH;
-      if (!mounted.current || window.matchMedia(media.reduceMotion).matches) {
-        gsap.set(asideRef.current, { width });
-      } else {
-        gsap.to(asideRef.current, { width, duration: duration.base, ease: ease.inOut });
-      }
-      mounted.current = true;
-    },
-    { dependencies: [collapsed] },
-  );
-
   return (
     <aside
-      ref={asideRef}
-      style={{ width: initialCollapsed ? COLLAPSED_WIDTH : EXPANDED_WIDTH }}
-      className="sticky top-0 hidden h-svh shrink-0 bg-sidebar md:block"
+      style={{ width: collapsed ? COLLAPSED_WIDTH : EXPANDED_WIDTH }}
+      className="sticky top-0 hidden h-svh shrink-0 bg-sidebar transition-[width] duration-150 ease-linear md:block"
     >
       <SidebarBody collapsed={collapsed} onToggle={toggle} />
     </aside>

@@ -18,7 +18,7 @@ import {
   Waves,
 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -44,6 +44,7 @@ import { ApiError } from "@/lib/api/client";
 import {
   getProperty,
   publishProperty,
+  unpublishProperty,
   updateProperty,
   type Property,
   type UpdatePropertyPayload,
@@ -433,8 +434,13 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
   const category = useWatch({ control: form.control, name: "category" });
   const isDirty = form.formState.isDirty;
 
+  const [formReady, setFormReady] = useState(false);
   useEffect(() => {
-    if (property) form.reset(toFormValues(property));
+    if (property) {
+      form.reset(toFormValues(property));
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- gates the form's first render until reset() has populated real values
+      setFormReady(true);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [property?.updatedAt]);
 
@@ -465,6 +471,21 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
     onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo publicar"),
   });
 
+  const unpublishMutation = useMutation({
+    mutationFn: () => {
+      const token = getAccessToken();
+      if (!token) throw new ApiError("No autenticado", 401);
+      return unpublishProperty(token, propertyId);
+    },
+    onSuccess: (updated) => {
+      queryClient.setQueryData(["property", propertyId], updated);
+      toast.success("Propiedad despublicada");
+    },
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo despublicar"),
+  });
+
+  const isPublished = property?.status === "PUBLISHED";
+
   useEffect(() => {
     const navGroups = property ? buildGroups(property.listingType, property.category) : [];
     setActions({
@@ -472,16 +493,27 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
       navigation: property ? (
         <SectionNavbar groups={navGroups} active={activeTab} onChange={setTab} />
       ) : null,
-      isSubmitting: saveMutation.isPending || publishMutation.isPending,
+      isSubmitting: saveMutation.isPending || publishMutation.isPending || unpublishMutation.isPending,
       isDirty,
       canSubmit: true,
       onSave: form.handleSubmit((values) => saveMutation.mutate(values)),
-      onPublish: form.handleSubmit((values) => publishMutation.mutate(values)),
+      publishLabel: isPublished ? "Despublicar" : "Publicar",
+      onPublish: isPublished
+        ? () => unpublishMutation.mutate()
+        : form.handleSubmit((values) => publishMutation.mutate(values)),
       onCancel: () => router.push("/properties"),
     });
     return resetActions;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [property, activeTab, isDirty, saveMutation.isPending, publishMutation.isPending]);
+  }, [
+    property,
+    activeTab,
+    isDirty,
+    isPublished,
+    saveMutation.isPending,
+    publishMutation.isPending,
+    unpublishMutation.isPending,
+  ]);
 
   const contentRef = useRef<HTMLDivElement>(null);
   const shownTab = useRef(activeTab);
@@ -501,7 +533,7 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
     { dependencies: [activeTab] },
   );
 
-  if (isLoading || !property) {
+  if (isLoading || !property || !formReady) {
     return (
       <div className="flex animate-pulse flex-col gap-8">
         <div className="flex items-center gap-5">

@@ -32,7 +32,9 @@ export function BulkBar({
       });
       return () => mm.revert();
     },
-    { scope: ref },
+    // No deps means this reruns on every render — it replayed the slide-up
+    // entrance on every checkbox toggle instead of just when the bar appears.
+    { scope: ref, dependencies: [] },
   );
 
   const allSelected = ids.length === total;

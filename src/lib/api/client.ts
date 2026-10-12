@@ -2,6 +2,13 @@
 // loopback first, which AirPlay Receiver already owns on port 5000.
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:5000";
 
+let onSessionExpired: (() => void) | null = null;
+
+/** Registered once from the app shell; see `SessionWatcher`. */
+export function setSessionExpiredHandler(handler: (() => void) | null) {
+  onSessionExpired = handler;
+}
+
 export class ApiError extends Error {
   status: number;
 
@@ -34,6 +41,9 @@ export async function apiFetch<T>(
 
   if (!res.ok) {
     const body = await res.json().catch(() => null);
+    // Only an authenticated call expiring counts as a session timeout — a
+    // bad-credentials 401 on /login itself never carries a token.
+    if (res.status === 401 && token) onSessionExpired?.();
     throw new ApiError(body?.message ?? res.statusText, res.status);
   }
 
