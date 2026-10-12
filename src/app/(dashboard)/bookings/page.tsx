@@ -1,100 +1,288 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import Link from "next/link";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { CalendarX2, RotateCcw, Search, SearchX } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { toast } from "sonner";
 
-import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { BOOKING_STATUSES, type BookingActions } from "@/components/bookings/booking-parts";
+import { BookingCard, BookingCardSkeleton, BookingRow, BookingsTable } from "@/components/bookings/booking-views";
 import { CreateBookingDialog } from "@/components/bookings/create-booking-dialog";
-import { listBookings } from "@/lib/api/bookings";
+import { FilterMenu } from "@/components/filter-menu";
+import { ViewSwitch, type ViewMode } from "@/components/properties/view-switch";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  cancelBooking,
+  completeBooking,
+  confirmBooking,
+  listBookings,
+  type BookingStatus,
+} from "@/lib/api/bookings";
 import { ApiError } from "@/lib/api/client";
 import { getAccessToken } from "@/lib/auth/session";
-import { BOOKING_STATUS_LABELS } from "@/lib/properties-labels";
+import { gsap, useGSAP } from "@/lib/gsap";
+import { distance, duration, ease, media, stagger } from "@/lib/motion";
+
+const STATUS_LABELS: Record<BookingStatus, string> = {
+  PENDING: "Pendientes",
+  CONFIRMED: "Confirmadas",
+  COMPLETED: "Completadas",
+  CANCELLED: "Canceladas",
+};
+
+const STATUS_OPTIONS = BOOKING_STATUSES.map((value) => ({ value, label: STATUS_LABELS[value] }));
+
+function requireToken() {
+  const token = getAccessToken();
+  if (!token) throw new ApiError("No autenticado", 401);
+  return token;
+}
 
 export default function BookingsPage() {
-  const { data, isLoading, error } = useQuery({
+  const queryClient = useQueryClient();
+  const gridRef = useRef<HTMLDivElement>(null);
+  const [status, setStatus] = useState<BookingStatus[]>([]);
+  const [search, setSearch] = useState("");
+  const [view, setView] = useState<ViewMode>("grid");
+  const [cancelling, setCancelling] = useState<string | null>(null);
+
+  // Remembered per browser; read after mount so the server and client first render match.
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem("bookings-view");
+      if (saved === "list" || saved === "table") {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setView(saved);
+      }
+    } catch {}
+  }, []);
+
+  function changeView(next: ViewMode) {
+    setView(next);
+    try {
+      window.localStorage.setItem("bookings-view", next);
+    } catch {}
+  }
+
+  const { data, isLoading, error, refetch, isFetching } = useQuery({
     queryKey: ["bookings"],
-    queryFn: () => {
-      const token = getAccessToken();
-      if (!token) throw new ApiError("No autenticado", 401);
-      return listBookings(token);
-    },
+    queryFn: () => listBookings(requireToken()),
   });
 
+  const sorted = useMemo(
+    () => [...(data ?? [])].sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()),
+    [data],
+  );
+
+  const counts = useMemo(() => {
+    const result: Record<string, number> = { ALL: sorted.length };
+    for (const booking of sorted) result[booking.status] = (result[booking.status] ?? 0) + 1;
+    return result;
+  }, [sorted]);
+
+  const filtered = useMemo(() => {
+    const term = search.trim().toLowerCase();
+    return sorted.filter((booking) => {
+      if (status.length > 0 && !status.includes(booking.status)) return false;
+      if (!term) return true;
+      return [booking.propertyTitle, booking.clientName].filter(Boolean).join(" ").toLowerCase().includes(term);
+    });
+  }, [sorted, status, search]);
+
+  function action(done: string, fn: (token: string, id: string) => Promise<unknown>) {
+    return {
+      mutationFn: (id: string) => fn(requireToken(), id),
+      onSuccess: () => toast.success(done),
+      onError: (err: unknown) => toast.error(err instanceof ApiError ? err.message : "No se pudo completar la acción"),
+      onSettled: () => queryClient.invalidateQueries({ queryKey: ["bookings"] }),
+    };
+  }
+  const confirmMutation = useMutation(action("Reserva confirmada", confirmBooking));
+  const completeMutation = useMutation(action("Reserva completada", completeBooking));
+  const cancelMutation = useMutation(action("Reserva cancelada", cancelBooking));
+
+  const actions: BookingActions = {
+    confirm: (id) => confirmMutation.mutate(id),
+    complete: (id) => completeMutation.mutate(id),
+    cancel: (id) => setCancelling(id),
+  };
+
+  const total = sorted.length;
+  const visibleKey = filtered.map((booking) => booking.id).join(",");
+  const hasFilters = status.length > 0 || search.trim() !== "";
+
+  // Cards settle in one after another whenever the visible set changes.
+  useGSAP(
+    () => {
+      if (!gridRef.current || filtered.length === 0) return;
+      const mm = gsap.matchMedia();
+      mm.add(media.allowMotion, () => {
+        gsap.from(".booking-card", {
+          opacity: 0,
+          y: distance.md,
+          duration: duration.macro,
+          ease: ease.out,
+          stagger: stagger.tight,
+        });
+      });
+      return () => mm.revert();
+    },
+    { scope: gridRef, dependencies: [visibleKey, view] },
+  );
+
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
-        <div>
-          <CardTitle>Reservas</CardTitle>
-          <CardDescription>Administración de reservas, confirmaciones y cancelaciones.</CardDescription>
+    <div className="flex flex-col gap-8">
+      <h1 className="sr-only">Reservas</h1>
+
+      {!(data && total === 0) && (
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-3">
+          {total > 0 && (
+            <div className="relative w-full sm:max-w-xl sm:min-w-72 sm:flex-1">
+              <Search className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                placeholder="Buscar por propiedad o cliente"
+                aria-label="Buscar reservas"
+                className="h-10 rounded-full border-transparent bg-foreground/[0.07] pl-10 transition-[background-color,box-shadow,border-color] duration-500 ease-out focus-visible:border-primary/20 focus-visible:bg-card focus-visible:shadow-[0_8px_24px_-12px_oklch(0.3_0.05_160/0.3)] focus-visible:ring-0 dark:bg-foreground/10 dark:focus-visible:bg-card"
+              />
+            </div>
+          )}
+          <div className="flex flex-wrap items-center gap-3 sm:ml-auto">
+            {total > 0 && (
+              <>
+                <FilterMenu
+                  name="Estado"
+                  plural="estados"
+                  options={STATUS_OPTIONS}
+                  value={status}
+                  onChange={setStatus}
+                  counts={counts}
+                />
+                <ViewSwitch value={view} onChange={changeView} />
+              </>
+            )}
+            <CreateBookingDialog />
+          </div>
         </div>
-        <CreateBookingDialog />
-      </CardHeader>
-      <CardContent>
-        {isLoading && <p className="text-sm text-zinc-500">Cargando...</p>}
-        {error && (
-          <p className="text-sm text-destructive">
-            {error instanceof ApiError ? error.message : "No se pudieron cargar las reservas"}
-          </p>
-        )}
-        {data && data.length === 0 && (
-          <p className="text-sm text-zinc-500">Todavía no hay reservas.</p>
-        )}
-        {data && data.length > 0 && (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Propiedad</TableHead>
-                <TableHead>Cliente</TableHead>
-                <TableHead>Fechas</TableHead>
-                <TableHead>Total</TableHead>
-                <TableHead>Estado</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {data.map((booking) => (
-                <TableRow key={booking.id}>
-                  <TableCell>
-                    <Link href={`/bookings/${booking.id}`} className="hover:underline">
-                      {booking.propertyTitle ?? booking.propertyId}
-                    </Link>
-                  </TableCell>
-                  <TableCell>{booking.clientName ?? "—"}</TableCell>
-                  <TableCell>
-                    {booking.startDate && booking.endDate
-                      ? `${booking.startDate} → ${booking.endDate}`
-                      : "—"}
-                  </TableCell>
-                  <TableCell>
-                    {booking.totalPrice
-                      ? `${booking.currency} ${booking.totalPrice.toLocaleString()}`
-                      : "—"}
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant={booking.status === "CANCELLED" ? "outline" : "default"}>
-                      {BOOKING_STATUS_LABELS[booking.status]}
-                    </Badge>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        )}
-      </CardContent>
-    </Card>
+      )}
+
+      {error && (
+        <div className="flex flex-col items-start gap-4 rounded-2xl bg-card p-6 ring-1 ring-foreground/5">
+          <div>
+            <p className="font-display text-xl">No pudimos cargar las reservas</p>
+            <p className="text-sm text-muted-foreground">
+              {error instanceof ApiError ? error.message : "Revisá tu conexión e intentá de nuevo."}
+            </p>
+          </div>
+          <Button variant="outline" onClick={() => refetch()} disabled={isFetching}>
+            <RotateCcw />
+            Reintentar
+          </Button>
+        </div>
+      )}
+
+      {isLoading && (
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,320px),1fr))] gap-6">
+          {Array.from({ length: 6 }, (_, index) => (
+            <BookingCardSkeleton key={index} />
+          ))}
+        </div>
+      )}
+
+      {data && total === 0 && (
+        <div className="flex flex-col items-center gap-4 rounded-3xl bg-card px-6 py-16 text-center ring-1 ring-foreground/5">
+          <span className="flex size-14 items-center justify-center rounded-full bg-secondary text-primary">
+            <CalendarX2 className="size-6" />
+          </span>
+          <div className="flex max-w-sm flex-col gap-1">
+            <p className="font-display text-2xl">Todavía no hay reservas</p>
+            <p className="text-sm text-muted-foreground">
+              Cargá la primera para seguir fechas, pagos y comisión en un solo lugar.
+            </p>
+          </div>
+          <CreateBookingDialog />
+        </div>
+      )}
+
+      {data && total > 0 && filtered.length === 0 && (
+        <div className="flex flex-col items-center gap-4 rounded-3xl bg-card px-6 py-16 text-center ring-1 ring-foreground/5">
+          <span className="flex size-14 items-center justify-center rounded-full bg-secondary text-primary">
+            <SearchX className="size-6" />
+          </span>
+          <div className="flex max-w-sm flex-col gap-1">
+            <p className="font-display text-2xl">Nada coincide con eso</p>
+            <p className="text-sm text-muted-foreground">Probá con otro nombre o quitá el filtro de estado.</p>
+          </div>
+          {hasFilters && (
+            <Button
+              variant="outline"
+              onClick={() => {
+                setStatus([]);
+                setSearch("");
+              }}
+            >
+              Quitar filtros
+            </Button>
+          )}
+        </div>
+      )}
+
+      {filtered.length > 0 && view === "grid" && (
+        <div ref={gridRef} className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,320px),1fr))] gap-6">
+          {filtered.map((booking) => (
+            <BookingCard key={booking.id} booking={booking} actions={actions} />
+          ))}
+        </div>
+      )}
+
+      {filtered.length > 0 && view === "list" && (
+        <div ref={gridRef} className="flex flex-col gap-4">
+          {filtered.map((booking) => (
+            <BookingRow key={booking.id} booking={booking} actions={actions} />
+          ))}
+        </div>
+      )}
+
+      {filtered.length > 0 && view === "table" && (
+        <div ref={gridRef}>
+          <BookingsTable bookings={filtered} actions={actions} />
+        </div>
+      )}
+
+      <AlertDialog open={cancelling != null} onOpenChange={(open) => !open && setCancelling(null)}>
+        <AlertDialogContent className="rounded-3xl">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="font-display text-2xl">¿Cancelar esta reserva?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Las fechas se liberan y la reserva queda como cancelada. Los pagos ya registrados no se borran.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Volver</AlertDialogCancel>
+            <AlertDialogAction
+              variant="destructive"
+              onClick={() => {
+                if (cancelling) cancelMutation.mutate(cancelling);
+                setCancelling(null);
+              }}
+            >
+              Cancelar reserva
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </div>
   );
 }
