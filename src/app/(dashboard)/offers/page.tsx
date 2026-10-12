@@ -26,7 +26,7 @@ import { ApiError } from "@/lib/api/client";
 import { deleteOffer, listOffers, sendOffer, type OfferStatus } from "@/lib/api/offers";
 import { getAccessToken } from "@/lib/auth/session";
 import { gsap, useGSAP } from "@/lib/gsap";
-import { distance, duration, ease, media, stagger } from "@/lib/motion";
+import { distance, duration, ease, media, rowStagger } from "@/lib/motion";
 import { OFFER_STATUS_LABELS } from "@/lib/properties-labels";
 
 const STATUS_OPTIONS: { value: OfferStatus; label: string }[] = [
@@ -127,7 +127,7 @@ export default function OffersPage() {
           y: distance.md,
           duration: duration.macro,
           ease: ease.out,
-          stagger: stagger.tight,
+          stagger: rowStagger,
         });
       });
       return () => mm.revert();

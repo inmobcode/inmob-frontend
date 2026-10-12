@@ -16,7 +16,7 @@ import { ApiError } from "@/lib/api/client";
 import { listClients, updateClient, type Client, type ClientStage } from "@/lib/api/clients";
 import { getAccessToken } from "@/lib/auth/session";
 import { gsap, useGSAP } from "@/lib/gsap";
-import { distance, duration, ease, media, stagger } from "@/lib/motion";
+import { distance, duration, ease, media, rowStagger } from "@/lib/motion";
 import { CLIENT_STAGE_LABELS } from "@/lib/properties-labels";
 
 const STAGE_PLURALS: Record<ClientStage, string> = {
@@ -116,7 +116,7 @@ export default function ClientsPage() {
           y: distance.md,
           duration: duration.macro,
           ease: ease.out,
-          stagger: stagger.tight,
+          stagger: rowStagger,
         });
       });
       return () => mm.revert();

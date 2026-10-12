@@ -32,7 +32,7 @@ import {
 import { ApiError } from "@/lib/api/client";
 import { getAccessToken } from "@/lib/auth/session";
 import { gsap, useGSAP } from "@/lib/gsap";
-import { distance, duration, ease, media, stagger } from "@/lib/motion";
+import { distance, duration, ease, media, rowStagger } from "@/lib/motion";
 
 const STATUS_LABELS: Record<BookingStatus, string> = {
   PENDING: "Pendientes",
@@ -133,7 +133,7 @@ export default function BookingsPage() {
           y: distance.md,
           duration: duration.macro,
           ease: ease.out,
-          stagger: stagger.tight,
+          stagger: rowStagger,
         });
       });
       return () => mm.revert();

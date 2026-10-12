@@ -27,6 +27,7 @@ export function NewItemButton({
   return (
     <Button
       size="lg"
+      data-new-item
       className="h-10 gap-2.5 pr-5 pl-1.5"
       {...props}
       onPointerEnter={(event) => {

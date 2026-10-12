@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import { SIDEBAR_ANIMATING_ATTR, SIDEBAR_SETTLED_EVENT } from "@/lib/sidebar";
 import { cn } from "@/lib/utils";
 
 // Each layer blurs a little more than the one above it and is masked to its own
@@ -71,18 +72,22 @@ export function ScrollPanel({ className, children }: { className?: string; child
 
     function update() {
       if (!element) return;
+      // The sidebar is resizing: measuring now would flip the blur on and off as text reflows.
+      if (document.documentElement.hasAttribute(SIDEBAR_ANIMATING_ATTR)) return;
       setMoreBelow(element.scrollHeight - element.scrollTop - element.clientHeight > 8);
       setScrolled(element.scrollTop > 8);
     }
 
     update();
     element.addEventListener("scroll", update, { passive: true });
+    window.addEventListener(SIDEBAR_SETTLED_EVENT, update);
     // Content grows and shrinks (loading, filtering), so re-check when it does.
     const observer = new ResizeObserver(update);
     observer.observe(element);
     for (const child of Array.from(element.children)) observer.observe(child);
     return () => {
       element.removeEventListener("scroll", update);
+      window.removeEventListener(SIDEBAR_SETTLED_EVENT, update);
       observer.disconnect();
     };
   }, []);

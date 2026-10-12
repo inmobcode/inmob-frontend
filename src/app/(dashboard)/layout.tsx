@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 
 import { DashboardSidebar, MobileTopbar } from "@/components/dashboard/sidebar";
 import { SIDEBAR_COOKIE } from "@/lib/sidebar";
+import { Shortcuts } from "@/components/dashboard/shortcuts";
 import { ActionBar } from "@/components/dashboard/action-bar";
 import { PanelCorners, ScrollPanel } from "@/components/dashboard/scroll-panel";
 
@@ -23,6 +24,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
         </ScrollPanel>
         <PanelCorners />
       </div>
+      <Shortcuts />
     </div>
   );
 }

@@ -31,7 +31,7 @@ import { ApiError } from "@/lib/api/client";
 import { archiveProperty, deleteProperty, listProperties, publishProperty } from "@/lib/api/properties";
 import { getAccessToken } from "@/lib/auth/session";
 import { Flip, gsap, useGSAP } from "@/lib/gsap";
-import { distance, duration, ease, media, stagger } from "@/lib/motion";
+import { distance, duration, ease, media, rowStagger } from "@/lib/motion";
 import { applyFilters, countActiveFilters, DEFAULT_FILTERS, type PropertyFilters } from "@/lib/property-filters";
 
 const TYPE_TABS: { value: PropertyFilters["type"]; label: string }[] = [
@@ -203,7 +203,7 @@ export default function PropertiesPage() {
             y: distance.md,
             duration: duration.macro,
             ease: ease.out,
-            stagger: stagger.tight,
+            stagger: rowStagger,
           });
         } else if (flipState.current) {
           Flip.from(flipState.current, {

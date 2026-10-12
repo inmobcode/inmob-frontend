@@ -8,6 +8,7 @@ const DASHBOARD_PREFIXES = [
   "/bookings",
   "/team",
   "/settings",
+  "/profile",
 ];
 
 export function proxy(request: NextRequest) {
@@ -35,5 +36,6 @@ export const config = {
     "/bookings/:path*",
     "/team/:path*",
     "/settings/:path*",
+    "/profile/:path*",
   ],
 };
