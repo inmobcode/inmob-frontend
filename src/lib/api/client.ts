@@ -1,6 +1,6 @@
 // 127.0.0.1, not "localhost": on macOS, "localhost" can resolve to the IPv6
 // loopback first, which AirPlay Receiver already owns on port 5000.
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:5000";
+export const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:5000";
 
 let onSessionExpired: (() => void) | null = null;
 

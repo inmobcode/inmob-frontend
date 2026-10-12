@@ -1,14 +1,18 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { LoaderCircle } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { PasswordInput } from "@/components/auth/password-input";
+import { SocialButtons } from "@/components/auth/social-buttons";
 import { Button } from "@/components/ui/button";
-import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { registerAgency } from "@/lib/api/auth";
 import { ApiError } from "@/lib/api/client";
 import { setSession } from "@/lib/auth/session";
@@ -25,7 +29,11 @@ type FormValues = z.infer<typeof schema>;
 export default function RegisterPage() {
   const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
-  const form = useForm<FormValues>({ resolver: zodResolver(schema) });
+  const form = useForm<FormValues>({
+    resolver: zodResolver(schema),
+    defaultValues: { agencyName: "", name: "", email: "", password: "" },
+  });
+  const errors = form.formState.errors;
 
   async function onSubmit(values: FormValues) {
     setServerError(null);
@@ -38,42 +46,69 @@ export default function RegisterPage() {
     }
   }
 
+  const text = (id: keyof FormValues, label: string, autoComplete: string, type = "text") => (
+    <div className="flex flex-col gap-2.5">
+      <Label htmlFor={id}>{label}</Label>
+      <Input
+        id={id}
+        type={type}
+        autoComplete={autoComplete}
+        aria-invalid={Boolean(errors[id])}
+        className="h-12 rounded-xl px-4"
+        {...form.register(id)}
+      />
+      {errors[id] && <p className="text-sm text-destructive">{errors[id]?.message}</p>}
+    </div>
+  );
+
   return (
-    <div className="space-y-6">
-      <div className="space-y-1 text-center">
-        <h1 className="text-2xl font-semibold tracking-tight">Crear tu agencia</h1>
-        <p className="text-sm text-zinc-500">
-          Registrá tu agencia y empezá a cargar propiedades
-        </p>
+    <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-2">
+        <h1 className="font-display text-4xl leading-none tracking-tight">Creá tu agencia</h1>
+        <p className="text-muted-foreground">Registrala y empezá a cargar propiedades.</p>
       </div>
-      <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
-        <FieldGroup>
-          <Field>
-            <FieldLabel htmlFor="agencyName">Nombre de la agencia</FieldLabel>
-            <Input id="agencyName" {...form.register("agencyName")} />
-            <FieldError errors={[form.formState.errors.agencyName]} />
-          </Field>
-          <Field>
-            <FieldLabel htmlFor="name">Tu nombre</FieldLabel>
-            <Input id="name" {...form.register("name")} />
-            <FieldError errors={[form.formState.errors.name]} />
-          </Field>
-          <Field>
-            <FieldLabel htmlFor="email">Email</FieldLabel>
-            <Input id="email" type="email" {...form.register("email")} />
-            <FieldError errors={[form.formState.errors.email]} />
-          </Field>
-          <Field>
-            <FieldLabel htmlFor="password">Contraseña</FieldLabel>
-            <Input id="password" type="password" {...form.register("password")} />
-            <FieldError errors={[form.formState.errors.password]} />
-          </Field>
-        </FieldGroup>
-        {serverError && <p className="text-sm text-destructive">{serverError}</p>}
-        <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-          {form.formState.isSubmitting ? "Creando cuenta..." : "Crear cuenta"}
+
+      <SocialButtons verb="Registrarte" />
+
+      <p className="text-center text-sm text-muted-foreground">o registrate con tu email</p>
+
+      <form className="flex flex-col gap-5" onSubmit={form.handleSubmit(onSubmit)} noValidate>
+        {text("agencyName", "Nombre de la agencia", "organization")}
+        {text("name", "Tu nombre", "name")}
+        {text("email", "Email", "email", "email")}
+        <div className="flex flex-col gap-2.5">
+          <Label htmlFor="password">Contraseña</Label>
+          <PasswordInput
+            id="password"
+            autoComplete="new-password"
+            aria-invalid={Boolean(errors.password)}
+            {...form.register("password")}
+          />
+          {errors.password && <p className="text-sm text-destructive">{errors.password.message}</p>}
+        </div>
+        {serverError && (
+          <p role="alert" className="rounded-2xl bg-destructive/10 px-4 py-3 text-sm text-destructive">
+            {serverError}
+          </p>
+        )}
+        <Button type="submit" size="lg" className="h-12 gap-2 rounded-full text-base" disabled={form.formState.isSubmitting}>
+          {form.formState.isSubmitting ? (
+            <>
+              <LoaderCircle className="animate-spin" />
+              Creando cuenta…
+            </>
+          ) : (
+            "Crear cuenta"
+          )}
         </Button>
       </form>
+
+      <p className="text-center text-sm text-muted-foreground">
+        ¿Ya tenés cuenta?{" "}
+        <Link href="/login" className="font-medium text-foreground underline-offset-4 outline-none hover:underline focus-visible:underline">
+          Ingresá
+        </Link>
+      </p>
     </div>
   );
 }
