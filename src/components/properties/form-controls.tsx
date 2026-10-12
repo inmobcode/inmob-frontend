@@ -87,6 +87,53 @@ export function UnitInput({
 }
 
 /**
+ * Digits-only money input: shows thousands separators while typing (e.g.
+ * "1234567" renders as "1.234.567"), but the stored value stays a plain
+ * digit string like the rest of the form, so it doesn't need a different
+ * parser on submit.
+ */
+export function PriceInput({
+  id,
+  value,
+  onChange,
+  unit,
+  placeholder,
+  className,
+}: {
+  id?: string;
+  value: string;
+  onChange: (value: string) => void;
+  unit?: string;
+  placeholder?: string;
+  className?: string;
+}) {
+  const digits = (value ?? "").replace(/\D/g, "");
+  const display = digits ? Number(digits).toLocaleString("es-AR") : "";
+
+  const input = (
+    <Input
+      id={id}
+      inputMode="numeric"
+      placeholder={placeholder}
+      value={display}
+      onChange={(event) => onChange(event.target.value.replace(/\D/g, ""))}
+      className={cn("tabular-nums", unit && "pr-12", className)}
+    />
+  );
+
+  if (!unit) return input;
+
+  return (
+    <div className="relative">
+      {input}
+      <span className="pointer-events-none absolute top-1/2 right-3.5 -translate-y-1/2 text-xs text-muted-foreground">
+        {unit}
+      </span>
+    </div>
+  );
+}
+
+/**
  * Chips input over a comma-separated string, so it plugs into fields that are
  * stored as "1, 2, 3". Enter, comma or leaving the field adds the typed value.
  */

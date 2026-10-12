@@ -3,7 +3,7 @@
 import { Controller, useWatch, type UseFormReturn } from "react-hook-form";
 
 import { FormSection as Section } from "@/components/properties/form-section";
-import { UnitInput } from "@/components/properties/form-controls";
+import { PriceInput } from "@/components/properties/form-controls";
 import type { FormValues } from "@/components/properties/property-editor";
 import { Segmented } from "@/components/properties/segmented";
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
@@ -50,12 +50,19 @@ export function PricesTab({ form, isRent }: { form: UseFormReturn<FormValues>; i
           </Field>
           <Field className="max-w-sm">
             <FieldLabel htmlFor="price">{isRent ? "Precio por noche" : "Precio"}</FieldLabel>
-            <UnitInput
-              id="price"
-              unit={currency}
-              placeholder="0"
-              className="h-12 text-lg tabular-nums"
-              {...form.register("price")}
+            <Controller
+              control={form.control}
+              name="price"
+              render={({ field }) => (
+                <PriceInput
+                  id="price"
+                  unit={currency}
+                  placeholder="0"
+                  className="h-12 text-lg"
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              )}
             />
             <FieldDescription>Dejalo vacío si preferís mostrar «Precio a consultar».</FieldDescription>
           </Field>

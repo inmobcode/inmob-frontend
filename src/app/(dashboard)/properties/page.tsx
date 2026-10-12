@@ -12,6 +12,7 @@ import { PropertyCard, PropertyCardSkeleton } from "@/components/properties/prop
 import { BulkBar } from "@/components/properties/bulk-bar";
 import type { PropertyActions } from "@/components/properties/property-controls";
 import { PropertiesTable, PropertyRow } from "@/components/properties/property-views";
+import { PropertiesPagination } from "@/components/properties/properties-pagination";
 import { ViewSwitch, type ViewMode } from "@/components/properties/view-switch";
 import { Segmented } from "@/components/properties/segmented";
 import { StatusSelect } from "@/components/properties/status-select";
@@ -39,6 +40,8 @@ import { getAccessToken } from "@/lib/auth/session";
 import { Flip, gsap, useGSAP } from "@/lib/gsap";
 import { distance, duration, ease, media, rowStagger } from "@/lib/motion";
 import { applyFilters, countActiveFilters, DEFAULT_FILTERS, type PropertyFilters } from "@/lib/property-filters";
+
+const PAGE_SIZE = 25;
 
 const TYPE_TABS: { value: PropertyFilters["type"]; label: string }[] = [
   { value: "ALL", label: "Todo" },
@@ -121,6 +124,19 @@ export default function PropertiesPage() {
 
   const filtered = useMemo(() => applyFilters(sorted, filters), [sorted, filters]);
 
+  const [page, setPage] = useState(1);
+  const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const safePage = Math.min(page, pageCount);
+  const paged = useMemo(
+    () => filtered.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE),
+    [filtered, safePage],
+  );
+
+  function goToPage(next: number) {
+    captureLayout();
+    setPage(next);
+  }
+
   // Snapshot the cards before a filter change so Flip can glide them to
   // their new positions once React has re-rendered.
   function captureLayout() {
@@ -129,7 +145,7 @@ export default function PropertiesPage() {
     }
   }
 
-  const visibleKey = filtered.map((property) => property.id).join(",");
+  const visibleKey = paged.map((property) => property.id).join(",");
 
   // Only what is on screen counts as selected, so a filter never hides a selection that still acts.
   const selectedIds = filtered.filter((property) => selected.has(property.id)).map((property) => property.id);
@@ -288,11 +304,13 @@ export default function PropertiesPage() {
   function clearFilters() {
     captureLayout();
     setFilters(DEFAULT_FILTERS);
+    setPage(1);
   }
 
   function updateFilters(patch: Partial<PropertyFilters>) {
     captureLayout();
     setFilters((current) => ({ ...current, ...patch }));
+    setPage(1);
   }
 
   return (
@@ -316,6 +334,7 @@ export default function PropertiesPage() {
               onApply={(next) => {
                 captureLayout();
                 setFilters(next);
+                setPage(1);
               }}
             />
           </div>
@@ -354,6 +373,7 @@ export default function PropertiesPage() {
                   onApply={(next) => {
                     captureLayout();
                     setFilters(next);
+                    setPage(1);
                   }}
                 />
                 <ViewSwitch value={view} onChange={changeView} />
@@ -372,6 +392,7 @@ export default function PropertiesPage() {
           onClear={() => {
             captureLayout();
             setFilters((current) => ({ ...DEFAULT_FILTERS, search: current.search }));
+            setPage(1);
           }}
         />
       )}
@@ -433,12 +454,12 @@ export default function PropertiesPage() {
         </div>
       )}
 
-      {filtered.length > 0 && view === "grid" && (
+      {paged.length > 0 && view === "grid" && (
         <div
           ref={gridRef}
           className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,300px),1fr))] gap-6"
         >
-          {filtered.map((property) => (
+          {paged.map((property) => (
             <PropertyCard
               key={property.id}
               property={property}
@@ -451,9 +472,9 @@ export default function PropertiesPage() {
         </div>
       )}
 
-      {filtered.length > 0 && view === "list" && (
+      {paged.length > 0 && view === "list" && (
         <div ref={gridRef} className="flex flex-col gap-4">
-          {filtered.map((property) => (
+          {paged.map((property) => (
             <PropertyRow
               key={property.id}
               property={property}
@@ -466,10 +487,10 @@ export default function PropertiesPage() {
         </div>
       )}
 
-      {filtered.length > 0 && view === "table" && (
+      {paged.length > 0 && view === "table" && (
         <div ref={gridRef}>
           <PropertiesTable
-            properties={filtered}
+            properties={paged}
             actions={actions}
             selectedIds={selectedSet}
             onToggle={toggleOne}
@@ -477,6 +498,8 @@ export default function PropertiesPage() {
           />
         </div>
       )}
+
+      {paged.length > 0 && <PropertiesPagination page={safePage} pageCount={pageCount} onChange={goToPage} />}
 
       {selectedIds.length > 0 && (
         <BulkBar
