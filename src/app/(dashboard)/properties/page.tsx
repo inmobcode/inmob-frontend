@@ -1,109 +1,31 @@
 "use client";
 
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import Link from "next/link";
-import { MoreHorizontal } from "lucide-react";
-import { toast } from "sonner";
+import { useQuery } from "@tanstack/react-query";
+import { Building2, RotateCcw, Search, SearchX } from "lucide-react";
+import { useMemo, useRef, useState } from "react";
 
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { CreatePropertyDialog } from "@/components/properties/create-property-dialog";
+import { FiltersSheet } from "@/components/properties/filters-sheet";
+import { PropertyCard, PropertyCardSkeleton } from "@/components/properties/property-card";
+import { Segmented } from "@/components/properties/segmented";
+import { StatusSelect } from "@/components/properties/status-select";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { ApiError } from "@/lib/api/client";
-import { deleteProperty, listProperties, type Property } from "@/lib/api/properties";
+import { listProperties } from "@/lib/api/properties";
 import { getAccessToken } from "@/lib/auth/session";
-import { LISTING_TYPE_LABELS, STATUS_LABELS } from "@/lib/properties-labels";
+import { Flip, gsap, useGSAP } from "@/lib/gsap";
+import { distance, duration, ease, media, stagger } from "@/lib/motion";
+import { applyFilters, countActiveFilters, DEFAULT_FILTERS, type PropertyFilters } from "@/lib/property-filters";
 
-function PropertyRowActions({ property }: { property: Property }) {
-  const queryClient = useQueryClient();
-
-  const deleteMutation = useMutation({
-    mutationFn: () => {
-      const token = getAccessToken();
-      if (!token) throw new ApiError("No autenticado", 401);
-      return deleteProperty(token, property.id);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["properties"] });
-      toast.success("Propiedad eliminada");
-    },
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo eliminar"),
-  });
-
-  return (
-    <AlertDialog>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon" className="h-8 w-8">
-            <MoreHorizontal className="h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem asChild>
-            <Link href={`/properties/${property.id}`}>Editar</Link>
-          </DropdownMenuItem>
-          <AlertDialogTrigger asChild>
-            <DropdownMenuItem
-              variant="destructive"
-              onSelect={(e) => e.preventDefault()}
-            >
-              Eliminar
-            </DropdownMenuItem>
-          </AlertDialogTrigger>
-        </DropdownMenuContent>
-      </DropdownMenu>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>¿Eliminar &quot;{property.title}&quot;?</AlertDialogTitle>
-          <AlertDialogDescription>
-            Esta acción no se puede deshacer. Se va a borrar la propiedad junto con sus fotos,
-            disponibilidad y cualquier oferta que la incluya.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancelar</AlertDialogCancel>
-          <AlertDialogAction onClick={() => deleteMutation.mutate()} disabled={deleteMutation.isPending}>
-            Eliminar
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
-  );
-}
+const TYPE_TABS: { value: PropertyFilters["type"]; label: string }[] = [
+  { value: "ALL", label: "Todo" },
+  { value: "SALE", label: "Venta" },
+  { value: "RENT", label: "Alquiler" },
+];
 
 export default function PropertiesPage() {
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, refetch, isFetching } = useQuery({
     queryKey: ["properties"],
     queryFn: () => {
       const token = getAccessToken();
@@ -112,71 +34,204 @@ export default function PropertiesPage() {
     },
   });
 
+  const [filters, setFilters] = useState<PropertyFilters>(DEFAULT_FILTERS);
+
+  const gridRef = useRef<HTMLDivElement>(null);
+  const flipState = useRef<Flip.FlipState | null>(null);
+  const entered = useRef(false);
+
+  const sorted = useMemo(
+    () =>
+      [...(data ?? [])].sort(
+        (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
+      ),
+    [data],
+  );
+
+  const statusCounts = useMemo(() => {
+    const counts: Record<string, number> = { ALL: sorted.length };
+    for (const property of sorted) counts[property.status] = (counts[property.status] ?? 0) + 1;
+    return counts;
+  }, [sorted]);
+
+  const filtered = useMemo(() => applyFilters(sorted, filters), [sorted, filters]);
+
+  // Snapshot the cards before a filter change so Flip can glide them to
+  // their new positions once React has re-rendered.
+  function captureLayout() {
+    if (gridRef.current) {
+      flipState.current = Flip.getState(gridRef.current.querySelectorAll(".property-card"));
+    }
+  }
+
+  const visibleKey = filtered.map((property) => property.id).join(",");
+
+  useGSAP(
+    () => {
+      const grid = gridRef.current;
+      if (!grid || filtered.length === 0) return;
+      const mm = gsap.matchMedia();
+      mm.add(media.allowMotion, () => {
+        const cards = grid.querySelectorAll(".property-card");
+        if (!entered.current) {
+          entered.current = true;
+          gsap.from(cards, {
+            opacity: 0,
+            y: distance.md,
+            duration: duration.macro,
+            ease: ease.out,
+            stagger: stagger.tight,
+          });
+        } else if (flipState.current) {
+          Flip.from(flipState.current, {
+            targets: cards,
+            duration: duration.macro,
+            ease: ease.inOut,
+            onEnter: (entering) =>
+              gsap.fromTo(
+                entering,
+                { opacity: 0, scale: 0.94 },
+                { opacity: 1, scale: 1, duration: duration.base, ease: ease.out },
+              ),
+          });
+        }
+        flipState.current = null;
+      });
+      return () => mm.revert();
+    },
+    { scope: gridRef, dependencies: [visibleKey, isLoading] },
+  );
+
+  const hasFilters = countActiveFilters(filters) > 0 || filters.search.trim() !== "";
+  const total = sorted.length;
+
+  function clearFilters() {
+    captureLayout();
+    setFilters(DEFAULT_FILTERS);
+  }
+
+  function updateFilters(patch: Partial<PropertyFilters>) {
+    captureLayout();
+    setFilters((current) => ({ ...current, ...patch }));
+  }
+
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
-        <div>
-          <CardTitle>Propiedades</CardTitle>
-          <CardDescription>
-            Alta y administración de propiedades: fotos, precios, características y
-            propietarios.
-          </CardDescription>
+    <div className="flex flex-col gap-8">
+      <h1 className="sr-only">Propiedades</h1>
+
+      {!(data && total === 0) && (
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-3">
+          {total > 0 && (
+            <div className="flex w-full items-center gap-2 sm:max-w-md sm:min-w-64 sm:flex-1">
+              <div className="relative flex-1">
+                <Search className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  value={filters.search}
+                  onChange={(event) => updateFilters({ search: event.target.value })}
+                  placeholder="Buscar por título, zona o propietario"
+                  aria-label="Buscar propiedades"
+                  className="h-10 rounded-full border-transparent bg-foreground/[0.07] pl-10 transition-[background-color,box-shadow,border-color] duration-500 ease-out focus-visible:border-primary/20 focus-visible:bg-card focus-visible:shadow-[0_8px_24px_-12px_oklch(0.3_0.05_160/0.3)] focus-visible:ring-0 dark:bg-foreground/10 dark:focus-visible:bg-card"
+                />
+              </div>
+              <FiltersSheet
+                properties={sorted}
+                value={filters}
+                onApply={(next) => {
+                  captureLayout();
+                  setFilters(next);
+                }}
+              />
+            </div>
+          )}
+          <div className="flex flex-wrap items-center gap-3 sm:ml-auto">
+            {total > 0 && (
+              <>
+                <Segmented
+                  contained
+                  label="Filtrar por tipo"
+                  value={filters.type}
+                  options={TYPE_TABS}
+                  onChange={(type) => updateFilters({ type })}
+                />
+                <StatusSelect
+                  value={filters.status}
+                  counts={statusCounts}
+                  onChange={(status) => updateFilters({ status })}
+                />
+              </>
+            )}
+            <CreatePropertyDialog />
+          </div>
         </div>
-        <CreatePropertyDialog />
-      </CardHeader>
-      <CardContent>
-        {isLoading && <p className="text-sm text-zinc-500">Cargando...</p>}
-        {error && (
-          <p className="text-sm text-destructive">
-            {error instanceof ApiError ? error.message : "No se pudieron cargar las propiedades"}
-          </p>
-        )}
-        {data && data.length === 0 && (
-          <p className="text-sm text-zinc-500">
-            Todavía no cargaste ninguna propiedad. Usá &quot;Nueva propiedad&quot; para empezar.
-          </p>
-        )}
-        {data && data.length > 0 && (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Título</TableHead>
-                <TableHead>Tipo</TableHead>
-                <TableHead>Categoría</TableHead>
-                <TableHead>Precio</TableHead>
-                <TableHead>Estado</TableHead>
-                <TableHead className="w-10" />
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {data.map((property) => (
-                <TableRow key={property.id}>
-                  <TableCell>
-                    <Link href={`/properties/${property.id}`} className="hover:underline">
-                      {property.title}
-                    </Link>
-                  </TableCell>
-                  <TableCell>{LISTING_TYPE_LABELS[property.listingType]}</TableCell>
-                  <TableCell>{property.category}</TableCell>
-                  <TableCell>
-                    {property.price
-                      ? `${property.currency} ${property.price.toLocaleString()}`
-                      : "—"}
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant={property.status === "PUBLISHED" ? "default" : "secondary"}>
-                      {STATUS_LABELS[property.status]}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <PropertyRowActions property={property} />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        )}
-      </CardContent>
-    </Card>
+      )}
+
+      {error && (
+        <div className="flex flex-col items-start gap-4 rounded-2xl bg-card p-6 ring-1 ring-foreground/5">
+          <div>
+            <p className="font-display text-xl">No pudimos cargar las propiedades</p>
+            <p className="text-sm text-muted-foreground">
+              {error instanceof ApiError ? error.message : "Revisá tu conexión e intentá de nuevo."}
+            </p>
+          </div>
+          <Button variant="outline" onClick={() => refetch()} disabled={isFetching}>
+            <RotateCcw />
+            Reintentar
+          </Button>
+        </div>
+      )}
+
+      {isLoading && (
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,300px),1fr))] gap-6">
+          {Array.from({ length: 6 }, (_, index) => (
+            <PropertyCardSkeleton key={index} />
+          ))}
+        </div>
+      )}
+
+      {data && total === 0 && (
+        <div className="flex flex-col items-center gap-4 rounded-3xl bg-card px-6 py-16 text-center ring-1 ring-foreground/5">
+          <span className="flex size-14 items-center justify-center rounded-full bg-secondary text-primary">
+            <Building2 className="size-6" />
+          </span>
+          <div className="flex max-w-sm flex-col gap-1">
+            <p className="font-display text-2xl">Cargá tu primera propiedad</p>
+            <p className="text-sm text-muted-foreground">
+              Sumá fotos, precio y características para tenerla lista cuando quieras publicarla.
+            </p>
+          </div>
+          <CreatePropertyDialog />
+        </div>
+      )}
+
+      {data && total > 0 && filtered.length === 0 && (
+        <div className="flex flex-col items-center gap-4 rounded-3xl bg-card px-6 py-16 text-center ring-1 ring-foreground/5">
+          <span className="flex size-14 items-center justify-center rounded-full bg-secondary text-primary">
+            <SearchX className="size-6" />
+          </span>
+          <div className="flex max-w-sm flex-col gap-1">
+            <p className="font-display text-2xl">Nada coincide con esos filtros</p>
+            <p className="text-sm text-muted-foreground">
+              Probá con otra zona o quitá algún filtro para ver más propiedades.
+            </p>
+          </div>
+          {hasFilters && (
+            <Button variant="outline" onClick={clearFilters}>
+              Quitar filtros
+            </Button>
+          )}
+        </div>
+      )}
+
+      {filtered.length > 0 && (
+        <div
+          ref={gridRef}
+          className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,300px),1fr))] gap-6"
+        >
+          {filtered.map((property) => (
+            <PropertyCard key={property.id} property={property} />
+          ))}
+        </div>
+      )}
+    </div>
   );
 }

@@ -1,22 +1,192 @@
 "use client";
 
+import {
+  Building2,
+  CalendarDays,
+  LogOut,
+  Menu,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Settings,
+  Tag,
+  Users,
+  UsersRound,
+  type LucideIcon,
+} from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useCallback, useEffect, useRef, useState } from "react";
 
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { clearSession, getSessionUser } from "@/lib/auth/session";
+import { gsap, useGSAP } from "@/lib/gsap";
+import { SIDEBAR_COOKIE } from "@/lib/sidebar";
+import { distance, duration, ease, media, stagger } from "@/lib/motion";
+import { cn } from "@/lib/utils";
 
-const NAV_ITEMS = [
-  { href: "/properties", label: "Propiedades" },
-  { href: "/offers", label: "Ofertas" },
-  { href: "/clients", label: "Clientes" },
-  { href: "/bookings", label: "Reservas" },
-  { href: "/team", label: "Equipo" },
-  { href: "/settings", label: "Configuración" },
+interface NavItem {
+  href: string;
+  label: string;
+  icon: LucideIcon;
+}
+
+const EXPANDED_WIDTH = 255;
+const COLLAPSED_WIDTH = 72;
+
+const NAV_ITEMS: NavItem[] = [
+  { href: "/properties", label: "Propiedades", icon: Building2 },
+  { href: "/offers", label: "Ofertas", icon: Tag },
+  { href: "/clients", label: "Clientes", icon: Users },
+  { href: "/bookings", label: "Reservas", icon: CalendarDays },
+  { href: "/team", label: "Equipo", icon: UsersRound },
+  { href: "/settings", label: "Configuración", icon: Settings },
 ];
 
-export function DashboardSidebar() {
+const NAME_FALLBACK = "Tu nombre";
+
+function initials(name: string) {
+  return name
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join("");
+}
+
+function Brand() {
+  return (
+    <Link
+      href="/properties"
+      className="font-display text-2xl leading-none tracking-tight text-foreground"
+    >
+      Inmobiliario
+    </Link>
+  );
+}
+
+function SidebarNav({
+  collapsed,
+  onNavigate,
+}: {
+  collapsed: boolean;
+  onNavigate?: () => void;
+}) {
+  const pathname = usePathname();
+  const navRef = useRef<HTMLElement>(null);
+  const indicatorRef = useRef<HTMLSpanElement>(null);
+  const placed = useRef(false);
+
+  const activeHref = NAV_ITEMS.find((item) => pathname.startsWith(item.href))?.href;
+
+  // Entrance: links settle in one after another, once per mount.
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add(media.allowMotion, () => {
+        gsap.from("[data-nav-link]", {
+          opacity: 0,
+          x: -distance.sm,
+          duration: duration.base,
+          ease: ease.out,
+          stagger: stagger.base,
+        });
+      });
+      return () => mm.revert();
+    },
+    { scope: navRef },
+  );
+
+  // The active pill glides to the current link instead of jumping.
+  useGSAP(
+    () => {
+      const indicator = indicatorRef.current;
+      const nav = navRef.current;
+      if (!indicator || !nav) return;
+      const target = activeHref
+        ? nav.querySelector<HTMLElement>(`[data-nav-link][href="${activeHref}"]`)
+        : null;
+      if (!target) {
+        gsap.set(indicator, { opacity: 0 });
+        return;
+      }
+      const state = { y: target.offsetTop, height: target.offsetHeight, opacity: 1 };
+      const animate = placed.current && !window.matchMedia(media.reduceMotion).matches;
+      if (animate) {
+        gsap.to(indicator, { ...state, duration: duration.base, ease: ease.inOut });
+      } else {
+        gsap.set(indicator, state);
+      }
+      placed.current = true;
+    },
+    { scope: navRef, dependencies: [activeHref] },
+  );
+
+  return (
+    <nav ref={navRef} className="relative flex flex-col gap-3">
+      <span
+        ref={indicatorRef}
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 rounded-lg bg-primary opacity-0"
+      />
+      {NAV_ITEMS.map((item) => {
+        const active = item.href === activeHref;
+        return (
+          <Tooltip key={item.href} open={collapsed ? undefined : false}>
+            <TooltipTrigger asChild>
+              <Link
+                href={item.href}
+                data-nav-link
+                aria-current={active ? "page" : undefined}
+                aria-label={item.label}
+                onClick={onNavigate}
+                className={cn(
+                  "relative z-10 flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium whitespace-nowrap transition-colors",
+                  active
+                    ? "text-primary-foreground"
+                    : "text-muted-foreground hover:bg-foreground/5 hover:text-foreground",
+                )}
+              >
+                <item.icon className="size-4 shrink-0" />
+                <span
+                  className={cn(
+                    "transition-opacity duration-200",
+                    collapsed && "opacity-0",
+                  )}
+                >
+                  {item.label}
+                </span>
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent side="right" sideOffset={12}>
+              {item.label}
+            </TooltipContent>
+          </Tooltip>
+        );
+      })}
+    </nav>
+  );
+}
+
+function UserMenu({ collapsed }: { collapsed: boolean }) {
   const router = useRouter();
   // Deliberately not a lazy useState initializer: document.cookie is
   // unavailable during SSR but present on the client, so reading it
@@ -29,39 +199,167 @@ export function DashboardSidebar() {
     setUser(getSessionUser());
   }, []);
 
+  if (!user) return null;
+
   function handleLogout() {
     clearSession();
     router.push("/login");
   }
 
   return (
-    <aside className="hidden w-56 shrink-0 flex-col border-r bg-white sm:flex dark:bg-zinc-950">
-      <div className="px-4 py-4 text-lg font-semibold">Inmobiliario</div>
-      <nav className="flex flex-1 flex-col gap-1 px-2">
-        {NAV_ITEMS.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className="rounded-md px-3 py-2 text-sm text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
-          >
-            {item.label}
-          </Link>
-        ))}
-      </nav>
-      {user && (
-        <div className="border-t px-4 py-3">
-          <p className="truncate text-sm font-medium">{user.name}</p>
-          <p className="truncate text-xs text-zinc-500">{user.role}</p>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="mt-2 w-full justify-start px-0"
-            onClick={handleLogout}
-          >
-            Cerrar sesión
-          </Button>
-        </div>
-      )}
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button
+          type="button"
+          className={cn(
+            "flex w-full items-center gap-3 rounded-full p-1.5 text-left outline-none transition-colors hover:bg-foreground/5 focus-visible:ring-3 focus-visible:ring-ring/50",
+            collapsed ? "justify-center" : "pr-3",
+          )}
+        >
+          <Avatar>
+            <AvatarFallback className="bg-secondary text-xs font-semibold text-secondary-foreground">
+              {initials(user.name || NAME_FALLBACK)}
+            </AvatarFallback>
+          </Avatar>
+          {!collapsed && (
+            <span className="min-w-0 flex-1">
+              <span className="block truncate text-sm font-medium">{user.name || NAME_FALLBACK}</span>
+              <span className="block truncate text-xs text-muted-foreground">{user.role}</span>
+            </span>
+          )}
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent side="top" align="start" className="w-56">
+        <DropdownMenuItem onSelect={handleLogout}>
+          <LogOut />
+          Cerrar sesión
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
+function SidebarBody({
+  collapsed = false,
+  onToggle,
+  onNavigate,
+}: {
+  collapsed?: boolean;
+  onToggle?: () => void;
+  onNavigate?: () => void;
+}) {
+  return (
+    <div className="flex h-full flex-col gap-8 overflow-hidden p-4">
+      <div
+        className={cn(
+          "flex items-center pt-2",
+          collapsed ? "justify-center" : "justify-between pl-3",
+        )}
+      >
+        {!collapsed && <Brand />}
+        {onToggle && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={onToggle}
+                aria-label={collapsed ? "Expandir menú" : "Contraer menú"}
+                aria-expanded={!collapsed}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                {collapsed ? <PanelLeftOpen /> : <PanelLeftClose />}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="right" sideOffset={12}>
+              {collapsed ? "Expandir" : "Contraer"} (Ctrl/Cmd + B)
+            </TooltipContent>
+          </Tooltip>
+        )}
+      </div>
+      <div className="flex-1">
+        <SidebarNav collapsed={collapsed} onNavigate={onNavigate} />
+      </div>
+      <div
+        className={cn(
+          collapsed ? "" : "rounded-3xl bg-card/60 p-1.5 ring-1 ring-foreground/5 backdrop-blur",
+        )}
+      >
+        <UserMenu collapsed={collapsed} />
+      </div>
+    </div>
+  );
+}
+
+export function DashboardSidebar({ initialCollapsed }: { initialCollapsed: boolean }) {
+  const [collapsed, setCollapsed] = useState(initialCollapsed);
+  const asideRef = useRef<HTMLElement>(null);
+  const mounted = useRef(false);
+
+  const toggle = useCallback(() => {
+    setCollapsed((value) => {
+      const next = !value;
+      document.cookie = `${SIDEBAR_COOKIE}=${next ? "1" : "0"}; path=/; max-age=31536000; samesite=lax`;
+      return next;
+    });
+  }, []);
+
+  // Ctrl/Cmd + B toggles, like most editors.
+  useEffect(() => {
+    function onKeyDown(event: KeyboardEvent) {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "b") {
+        event.preventDefault();
+        toggle();
+      }
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [toggle]);
+
+  // The first render already has the right width (it comes from a cookie),
+  // so only later changes animate.
+  useGSAP(
+    () => {
+      const width = collapsed ? COLLAPSED_WIDTH : EXPANDED_WIDTH;
+      if (!mounted.current || window.matchMedia(media.reduceMotion).matches) {
+        gsap.set(asideRef.current, { width });
+      } else {
+        gsap.to(asideRef.current, { width, duration: duration.base, ease: ease.inOut });
+      }
+      mounted.current = true;
+    },
+    { dependencies: [collapsed] },
+  );
+
+  return (
+    <aside
+      ref={asideRef}
+      style={{ width: initialCollapsed ? COLLAPSED_WIDTH : EXPANDED_WIDTH }}
+      className="sticky top-0 hidden h-svh shrink-0 bg-sidebar md:block"
+    >
+      <SidebarBody collapsed={collapsed} onToggle={toggle} />
     </aside>
+  );
+}
+
+export function MobileTopbar() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <header className="sticky top-0 z-30 flex h-14 items-center justify-between bg-background/85 px-4 backdrop-blur md:hidden">
+      <Brand />
+      <Sheet open={open} onOpenChange={setOpen}>
+        <SheetTrigger asChild>
+          <Button variant="ghost" size="icon" aria-label="Abrir menú">
+            <Menu />
+          </Button>
+        </SheetTrigger>
+        <SheetContent side="left" className="w-72 bg-sidebar p-0" showCloseButton={false}>
+          <SheetTitle className="sr-only">Menú</SheetTitle>
+          <SheetDescription className="sr-only">Navegación principal</SheetDescription>
+          <SidebarBody onNavigate={() => setOpen(false)} />
+        </SheetContent>
+      </Sheet>
+    </header>
   );
 }

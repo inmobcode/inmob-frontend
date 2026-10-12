@@ -47,3 +47,36 @@ export const PAYMENT_TYPE_LABELS: Record<PaymentType, string> = {
   BALANCE: "Saldo",
   COMMISSION: "Comisión",
 };
+
+export const CATEGORY_LABELS: Record<string, string> = {
+  HOUSE: "Casa",
+  APARTMENT: "Apartamento",
+  PENTHOUSE: "Penthouse",
+  VILLA: "Villa",
+  CHALET: "Chalet",
+  SEASONAL_PROPERTY: "Alquiler de temporada",
+  MAISONETTE: "Dúplex",
+  DETACHED_VILLA: "Villa independiente",
+  SEMI_DETACHED_VILLA: "Villa pareada",
+  HOTEL: "Hotel",
+  TOWNHOUSE: "Casa adosada",
+  CONDO: "Condominio",
+  BUILDING: "Edificio",
+  LAND: "Terreno",
+  COMMERCIAL: "Local comercial",
+  OFFICE: "Oficina",
+};
+
+/** Spanish label for a category code, falling back to a readable version of the code. */
+export function categoryLabel(code: string) {
+  if (CATEGORY_LABELS[code]) return CATEGORY_LABELS[code];
+  const readable = code.replace(/_/g, " ").toLowerCase();
+  return readable.charAt(0).toUpperCase() + readable.slice(1);
+}
+
+export const LOCATION_CATEGORY_LABELS: Record<string, string> = {
+  PRIVATE: "Privada",
+  PART_OF_COMPLEX: "Parte de un complejo",
+  PART_OF_HOTEL: "Parte de un hotel",
+  PART_OF_RESORT: "Parte de un resort",
+};

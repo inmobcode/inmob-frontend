@@ -19,7 +19,7 @@ export function PlaceholderPage({
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
-      <CardContent className="text-sm text-zinc-500">
+      <CardContent className="text-sm text-muted-foreground">
         Módulo en construcción.
       </CardContent>
     </Card>
