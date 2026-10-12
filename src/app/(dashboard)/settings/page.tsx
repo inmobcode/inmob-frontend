@@ -193,7 +193,7 @@ export default function SettingsPage() {
 
   async function copyLink() {
     try {
-      await navigator.clipboard.writeText(`${window.location.origin}/${agency?.slug ?? slug}`);
+      await navigator.clipboard.writeText(`${window.location.origin}/page/${agency?.slug ?? slug}`);
       toast.success("Link copiado");
     } catch {
       toast.error("No se pudo copiar el link");
@@ -281,7 +281,7 @@ export default function SettingsPage() {
                 Copiar link
               </Button>
               <Button type="button" variant="ghost" size="sm" className="h-9 gap-1.5 rounded-full px-4" asChild>
-                <a href={`/${agency.slug}`} target="_blank" rel="noreferrer">
+                <a href={`/page/${agency.slug}`} target="_blank" rel="noreferrer">
                   <ExternalLink />
                   Ver portal
                 </a>

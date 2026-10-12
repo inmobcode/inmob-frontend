@@ -3,6 +3,10 @@ import type { AuthResponse } from "@/lib/api/auth";
 const ACCESS_COOKIE = "access_token";
 const REFRESH_COOKIE = "refresh_token";
 const USER_COOKIE = "tivvo_user";
+// Renamed from the product's old name. Sessions stored before the rename
+// still have their user info under this key — read it once and migrate it
+// so people aren't silently logged out of just the name/avatar menu.
+const LEGACY_USER_COOKIE = "inmobiliario_user";
 
 export type SessionUser = AuthResponse["user"];
 
@@ -61,8 +65,13 @@ export function getAccessToken(): string | null {
 }
 
 export function getSessionUser(): SessionUser | null {
-  const raw = getCookie(USER_COOKIE);
-  if (!raw) return null;
+  let raw = getCookie(USER_COOKIE);
+  if (!raw) {
+    raw = getCookie(LEGACY_USER_COOKIE);
+    if (!raw) return null;
+    setCookie(USER_COOKIE, raw, SESSION_DAYS);
+    deleteCookie(LEGACY_USER_COOKIE);
+  }
   try {
     return JSON.parse(raw) as SessionUser;
   } catch {

@@ -158,7 +158,7 @@ const FLOWS: Record<
     },
     {
       title: "Reserva",
-      text: "De la oferta aceptada pasás a la reserva, con cliente, propiedad y precio ya cargados.",
+      text: "Creás la reserva con el cliente, la propiedad y el precio de la oferta ya cargados.",
       shot: <SaleBookingFragment />,
     },
     {
@@ -180,7 +180,7 @@ const FLOWS: Record<
     },
     {
       title: "Oferta con link",
-      text: "Mandás una propuesta con las fechas y el precio, y ves si la abrieron.",
+      text: "Mandás una propuesta con el precio y el descuento de cada propiedad, y ves si la abrieron.",
       shot: <OfferFragment />,
     },
     {
@@ -492,18 +492,124 @@ const FAQ = [
     a: "Depende de cuántos datos tengas y en qué formato estén. En la demo lo vemos con tu caso y te damos una fecha concreta.",
   },
   {
-    q: "¿Puedo usar mi propio dominio en el sitio?",
-    a: "Tu sitio vive en su propia dirección con el nombre de tu agencia. Si querés usar tu dominio propio, lo hablamos en la demo.",
+    q: "¿Cómo es la dirección de mi sitio?",
+    a: "Tu sitio vive en un subdominio de Tivvo con el nombre de tu agencia. Por ahora no ofrecemos dominio propio.",
   },
   {
-    q: "¿Mis datos se mezclan con los de otras inmobiliarias?",
+    q: "¿Mis datos se mezclan con los de otras agencias?",
     a: "No. Cada agencia trabaja en su propio espacio y solo su equipo puede ver sus propiedades, clientes y reservas.",
   },
   {
     q: "¿Cuántos usuarios puedo tener?",
-    a: "No hay un número fijo. Armamos el plan según el tamaño de tu equipo.",
+    a: "En el plan Free, uno. En Pro y Enterprise no hay límite: suma a todo tu equipo.",
   },
 ];
+
+interface Plan {
+  name: string;
+  price: string;
+  period?: string;
+  tagline: string;
+  features: string[];
+  cta: string;
+  href: string;
+  highlight?: boolean;
+}
+
+const PLANS: Plan[] = [
+  {
+    name: "Free",
+    price: "Gratis",
+    tagline: "Para arrancar y probar el sistema con pocas propiedades.",
+    features: [
+      "Hasta 5 propiedades",
+      "1 usuario",
+      "Clientes y ofertas",
+      "Sitio con subdominio Tivvo",
+    ],
+    cta: "Empezar gratis",
+    href: "/register",
+  },
+  {
+    name: "Pro",
+    price: "USD 29,99",
+    period: "/mes",
+    tagline: "Para agencias que venden y alquilan todos los días.",
+    features: [
+      "Propiedades y equipo ilimitados",
+      "Reservas, tarifas y cobros",
+      "Portal del propietario",
+    ],
+    cta: "Pedir una demo",
+    href: "#demo",
+    highlight: true,
+  },
+  {
+    name: "Enterprise",
+    price: "Hablemos",
+    tagline: "Para redes de agencias o equipos grandes.",
+    features: [
+      "Todo lo de Pro",
+      "Múltiples sucursales",
+      "Soporte prioritario",
+      "Permisos avanzados por rol",
+    ],
+    cta: "Contactar ventas",
+    href: "#demo",
+  },
+];
+
+function PlanCard({ plan }: { plan: Plan }) {
+  return (
+    <li
+      className={cn(
+        "flex flex-col gap-6 rounded-xl border p-8",
+        plan.highlight
+          ? "border-forest bg-forest text-paper"
+          : "border-line bg-paper text-ink",
+      )}
+    >
+      <div className="flex flex-col gap-2">
+        <p className="font-logo text-xl font-semibold">{plan.name}</p>
+        <p className={cn("text-sm text-pretty", plan.highlight ? "text-paper/70" : "text-quiet")}>
+          {plan.tagline}
+        </p>
+      </div>
+      <p className="flex items-baseline gap-1.5">
+        <span className="font-logo text-4xl font-semibold tracking-tight">
+          {plan.price}
+        </span>
+        {plan.period && (
+          <span className={plan.highlight ? "text-paper/60" : "text-quiet"}>
+            {plan.period}
+          </span>
+        )}
+      </p>
+      <ul className="flex flex-col gap-3">
+        {plan.features.map((feature) => (
+          <li key={feature} className="flex items-start gap-3 text-sm leading-snug">
+            <Check
+              aria-hidden
+              className={cn("mt-0.5 size-4 shrink-0", plan.highlight ? "text-lime" : "text-forest")}
+            />
+            {feature}
+          </li>
+        ))}
+      </ul>
+      <a
+        href={plan.href}
+        className={cn(
+          "mt-auto inline-flex h-11 items-center justify-center rounded-lg px-5 text-sm font-semibold outline-none transition-[filter] hover:brightness-95 focus-visible:ring-2 focus-visible:ring-offset-2",
+          plan.highlight
+            ? "bg-lime text-forest-deep focus-visible:ring-paper focus-visible:ring-offset-forest"
+            : "bg-forest text-paper focus-visible:ring-forest",
+        )}
+      >
+        {plan.cta}
+      </a>
+    </li>
+  );
+}
 
 export function PlansAndFaq() {
   return (
@@ -512,26 +618,27 @@ export function PlansAndFaq() {
       aria-label="Planes y preguntas frecuentes"
       className="scroll-mt-16 border-b border-line"
     >
-      <div
-        className={cn(WRAP, SECTION, "grid gap-16 lg:grid-cols-12 lg:gap-8")}
-      >
-        <div className="flex flex-col items-start gap-6 lg:sticky lg:top-28 lg:col-span-5 lg:self-start">
-          <Heading
-            claim="Planes según el tamaño de tu equipo."
-            rest="Contanos cómo trabajás."
-          />
-          <a href="#demo" className={CTA}>
-            Pedir una demo
-          </a>
-        </div>
-        <div className="lg:col-span-6 lg:col-start-7">
+      <div className={cn(WRAP, SECTION, "flex flex-col gap-16")}>
+        <Heading
+          claim="Un plan para cada etapa de tu agencia."
+          rest="Empezá gratis y subí de plan cuando lo necesites."
+          className="max-w-3xl"
+        />
+
+        <ul className="grid gap-6 lg:grid-cols-3">
+          {PLANS.map((plan) => (
+            <PlanCard key={plan.name} plan={plan} />
+          ))}
+        </ul>
+
+        <div className="grid gap-8 lg:grid-cols-12 lg:gap-8">
           <h3
             id="preguntas"
-            className="scroll-mt-24 pb-4 font-logo text-xl font-semibold"
+            className="scroll-mt-24 font-logo text-xl font-semibold lg:col-span-5"
           >
             Preguntas frecuentes
           </h3>
-          <ul>
+          <ul className="lg:col-span-6 lg:col-start-7">
             {FAQ.map((item) => (
               <li key={item.q} className="border-t border-line last:border-b">
                 <details className="group">
@@ -566,7 +673,7 @@ const demoSchema = z.object({
 
 type DemoValues = z.infer<typeof demoSchema>;
 
-const TEAM_SIZES = ["2 a 5", "6 a 15", "16 a 30", "Más de 30"];
+const TEAM_SIZES = ["Particular", "2 a 5", "6 a 30", "Más de 30"];
 
 export function DemoForm() {
   const [sent, setSent] = useState(false);
@@ -604,7 +711,7 @@ export function DemoForm() {
           <Heading
             id="demo-titulo"
             tone="paper"
-            claim="Veamos tu inmobiliaria en Tivvo."
+            claim="Veamos tu agencia en Tivvo."
             rest="Con tus propiedades y tu equipo."
           />
         </div>
@@ -785,7 +892,7 @@ export function LandingFooter() {
             Tivvo
           </Link>
           <p className="max-w-xs text-pretty text-paper/60">
-            Sistema de gestión para inmobiliarias de venta y alquiler
+            Sistema de gestión para agencias de venta y alquiler
             temporario.
           </p>
         </div>

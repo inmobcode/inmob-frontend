@@ -29,7 +29,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Tivvo",
-  description: "Plataforma de gestión para agencias inmobiliarias",
+  description: "Plataforma de gestión para agencias",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

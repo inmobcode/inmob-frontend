@@ -81,7 +81,7 @@ export function Hero() {
             <span className="text-paper/45">al último cobro.</span>
           </h1>
           <p className="max-w-xl text-lg leading-relaxed text-pretty text-paper/75">
-            Propiedades, clientes, ofertas, reservas y cobros de tu inmobiliaria
+            Propiedades, clientes, ofertas, reservas y cobros de tu agencia
             en un solo sistema. Con tu propio sitio web y un portal para cada
             propietario.
           </p>

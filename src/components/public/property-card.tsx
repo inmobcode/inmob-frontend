@@ -14,7 +14,7 @@ export function PublicPropertyCard({
 
   return (
     <Link
-      href={`/${agencySlug}/${property.slug}`}
+      href={`/page/${agencySlug}/properties/${property.slug}`}
       className="block overflow-hidden rounded-lg border bg-white transition hover:shadow-md dark:bg-zinc-950"
     >
       <div className="aspect-[4/3] bg-zinc-100 dark:bg-zinc-900">

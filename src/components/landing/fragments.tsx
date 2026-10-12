@@ -373,7 +373,7 @@ export function SaleBookingFragment() {
               Casa en Olivos
             </p>
             <p className="text-xs text-quiet">
-              Valentina Ríos · desde la oferta aceptada
+              Valentina Ríos · creada desde la oferta
             </p>
           </div>
         </div>

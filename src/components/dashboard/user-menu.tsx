@@ -123,7 +123,7 @@ export function UserMenu({ collapsed }: { collapsed: boolean }) {
   async function copyPortalLink() {
     if (!agency) return;
     try {
-      await navigator.clipboard.writeText(`${window.location.origin}/${agency.slug}`);
+      await navigator.clipboard.writeText(`${window.location.origin}/page/${agency.slug}`);
       toast.success("Link del portal copiado");
     } catch {
       toast.error("No se pudo copiar el link");
@@ -208,7 +208,7 @@ export function UserMenu({ collapsed }: { collapsed: boolean }) {
             <>
               <DropdownMenuSeparator />
               <DropdownMenuItem className="rounded-xl py-2" asChild>
-                <a href={`/${agency.slug}`} target="_blank" rel="noreferrer">
+                <a href={`/page/${agency.slug}`} target="_blank" rel="noreferrer">
                   <ExternalLink />
                   Ver mi portal
                 </a>
