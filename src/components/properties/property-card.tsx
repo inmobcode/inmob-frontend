@@ -1,46 +1,78 @@
 import { formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
-import { Bath, BedDouble, Building2, Camera, LandPlot, MapPin, Ruler, User } from "lucide-react";
+import { Bath, BedDouble, Building2, Camera, Clock, LandPlot, MapPin, Ruler } from "lucide-react";
 import Link from "next/link";
 
-import type { Property, PropertyStatus } from "@/lib/api/properties";
+import type { Property } from "@/lib/api/properties";
+import { ControlsZone, PropertyMenu, SelectToggle, type PropertyActions } from "@/components/properties/property-controls";
 import { categoryLabel, LISTING_TYPE_LABELS, STATUS_LABELS } from "@/lib/properties-labels";
 import { cn } from "@/lib/utils";
 
-const STATUS_DOT: Record<PropertyStatus, string> = {
-  PUBLISHED: "bg-primary",
-  DRAFT: "bg-amber-500",
-  ARCHIVED: "bg-muted-foreground",
-};
-
-function coverOf(property: Property) {
+export function coverOf(property: Property) {
   const photos = [...property.photos].sort((a, b) => a.position - b.position);
   return photos.find((photo) => photo.isCover) ?? photos[0] ?? null;
 }
 
-function formatPrice(property: Property) {
+function formatAmount(property: Property) {
   if (!property.price) return null;
-  return `${property.currency} ${property.price.toLocaleString("es-AR")}`;
+  return property.price.toLocaleString("es-AR");
 }
 
-function Spec({ icon: Icon, children }: { icon: typeof Bath; children: React.ReactNode }) {
+export function initials(name: string) {
   return (
-    <span className="inline-flex items-center gap-1.5">
-      <Icon className="size-4 text-muted-foreground" />
-      {children}
+    name
+      .split(" ")
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part[0]?.toUpperCase())
+      .join("") || "?"
+  );
+}
+
+/** One figure of the spec row. `label` is read by screen readers and shown as a tooltip. */
+function Spec({
+  icon: Icon,
+  label,
+  children,
+}: {
+  icon: typeof Bath;
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <span className="inline-flex items-center gap-1.5" title={label}>
+      <Icon className="size-4 text-muted-foreground" aria-hidden />
+      <span aria-label={label}>{children}</span>
     </span>
   );
 }
 
 const CARD_CLASS =
-  "property-card group flex flex-col overflow-hidden rounded-2xl bg-card shadow-[0_1px_2px_oklch(0.3_0.05_160/0.04),0_12px_32px_-12px_oklch(0.3_0.05_160/0.14)] ring-1 ring-foreground/5 outline-none transition-shadow";
+  "property-card group flex flex-col overflow-hidden rounded-2xl bg-card shadow-[0_1px_2px_oklch(0.3_0.05_160/0.04),0_12px_32px_-12px_oklch(0.3_0.05_160/0.14)] ring-1 ring-foreground/5 outline-none transition-[box-shadow,transform] duration-300";
 
 /** `preview` renders the card as a static block (no link), for live previews in forms. */
-export function PropertyCard({ property, preview = false }: { property: Property; preview?: boolean }) {
+export function PropertyCard({
+  property,
+  preview = false,
+  actions,
+  selected = false,
+  selecting = false,
+  onToggle,
+}: {
+  property: Property;
+  preview?: boolean;
+  actions?: PropertyActions;
+  selected?: boolean;
+  /** True while anything is selected, so every card shows its checkbox. */
+  selecting?: boolean;
+  onToggle?: () => void;
+}) {
   const cover = coverOf(property);
-  const price = formatPrice(property);
+  const amount = formatAmount(property);
   const location = [property.area, property.region, property.country].filter(Boolean).join(", ");
   const updated = formatDistanceToNow(new Date(property.updatedAt), { addSuffix: true, locale: es });
+  const archived = property.status === "ARCHIVED";
+  const number = (value: number) => value.toLocaleString("es-AR");
 
   const inner = (
     <>
@@ -51,15 +83,18 @@ export function PropertyCard({ property, preview = false }: { property: Property
             src={cover.url}
             alt={property.title}
             loading="lazy"
-            className="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            className={cn(
+              "size-full object-cover transition-transform duration-700 ease-out group-hover:scale-105",
+              archived && "opacity-80 grayscale",
+            )}
           />
         ) : (
           <div className="flex size-full items-center justify-center text-primary/30">
             <Building2 className="size-14" strokeWidth={1.25} />
           </div>
         )}
-        <span className="absolute top-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-card/90 px-2.5 py-1 text-xs font-medium backdrop-blur">
-          <span className={cn("size-1.5 rounded-full", STATUS_DOT[property.status])} />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/20 to-transparent" />
+        <span className="absolute top-3 left-3 inline-flex items-center rounded-full bg-card/90 px-2.5 py-1 text-xs font-medium backdrop-blur">
           {STATUS_LABELS[property.status]}
         </span>
         {property.photos.length > 0 && (
@@ -68,14 +103,31 @@ export function PropertyCard({ property, preview = false }: { property: Property
             {property.photos.length}
           </span>
         )}
+        {actions && onToggle && (
+          <ControlsZone
+            className={cn(
+              "absolute inset-x-3 bottom-3 flex items-center justify-between transition-opacity duration-200 [@media(hover:none)]:opacity-100",
+              selecting || selected
+                ? "opacity-100"
+                : "opacity-0 group-focus-within:opacity-100 group-hover:opacity-100",
+            )}
+          >
+            <SelectToggle
+              checked={selected}
+              onToggle={onToggle}
+              label={selected ? `Quitar ${property.title} de la selección` : `Seleccionar ${property.title}`}
+            />
+            <PropertyMenu property={property} actions={actions} />
+          </ControlsZone>
+        )}
       </div>
 
-      <div className="flex flex-1 flex-col gap-3 p-5">
+      <div className="flex flex-1 flex-col gap-4 p-5">
         <div className="flex flex-col gap-1.5">
-          <p className="text-[0.7rem] font-semibold tracking-[0.12em] text-primary uppercase">
+          <p className="text-xs font-medium text-primary">
             {LISTING_TYPE_LABELS[property.listingType]} · {categoryLabel(property.category)}
           </p>
-          <h3 className="font-display text-xl leading-tight text-balance line-clamp-2">
+          <h3 className="font-display text-xl leading-tight text-balance line-clamp-2" title={property.title}>
             {property.title}
           </h3>
           {location && (
@@ -86,23 +138,58 @@ export function PropertyCard({ property, preview = false }: { property: Property
           )}
         </div>
 
-        <p className="font-display text-2xl tabular-nums">
-          {price ?? <span className="text-base text-muted-foreground">Precio a consultar</span>}
-        </p>
+        {/* Everything below is pinned to the bottom so prices line up across a row of cards. */}
+        <div className="mt-auto flex flex-col gap-3">
+          <p className="flex h-8 items-baseline gap-1.5 tabular-nums">
+            {amount ? (
+              <>
+                <span className="text-sm font-medium text-muted-foreground">{property.currency}</span>
+                <span className="text-2xl leading-none font-semibold tracking-tight">{amount}</span>
+              </>
+            ) : (
+              <span className="text-lg leading-none font-medium text-muted-foreground">Precio a consultar</span>
+            )}
+          </p>
 
-        <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-sm tabular-nums">
-          {property.bedrooms != null && <Spec icon={BedDouble}>{property.bedrooms.toLocaleString("es-AR")}</Spec>}
-          {property.bathrooms != null && <Spec icon={Bath}>{property.bathrooms.toLocaleString("es-AR")}</Spec>}
-          {property.areaSqm != null && <Spec icon={Ruler}>{property.areaSqm.toLocaleString("es-AR")} m²</Spec>}
-          {property.plotArea != null && <Spec icon={LandPlot}>{property.plotArea.toLocaleString("es-AR")} m²</Spec>}
-        </div>
+          <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-sm tabular-nums">
+            {property.bedrooms != null && (
+              <Spec icon={BedDouble} label={`${number(property.bedrooms)} dormitorios`}>
+                {number(property.bedrooms)}
+              </Spec>
+            )}
+            {property.bathrooms != null && (
+              <Spec icon={Bath} label={`${number(property.bathrooms)} baños`}>
+                {number(property.bathrooms)}
+              </Spec>
+            )}
+            {property.areaSqm != null && (
+              <Spec icon={Ruler} label={`${number(property.areaSqm)} metros cuadrados construidos`}>
+                {number(property.areaSqm)} m²
+              </Spec>
+            )}
+            {property.plotArea != null && (
+              <Spec icon={LandPlot} label={`${number(property.plotArea)} metros cuadrados de terreno`}>
+                {number(property.plotArea)} m²
+              </Spec>
+            )}
+          </div>
 
-        <div className="mt-auto flex items-center justify-between gap-3 pt-2 text-xs text-muted-foreground">
-          <span className="inline-flex min-w-0 items-center gap-1.5">
-            <User className="size-3.5 shrink-0" />
-            <span className="truncate">{property.owner?.name ?? "Sin propietario"}</span>
-          </span>
-          <span className="shrink-0">Actualizada {updated}</span>
+          <div className="mt-1 flex h-5 items-center justify-between gap-3 text-xs text-muted-foreground">
+            {property.owner ? (
+              <span className="inline-flex min-w-0 items-center gap-2" title={`Propietario: ${property.owner.name}`}>
+                <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-secondary text-[0.6rem] font-semibold text-secondary-foreground">
+                  {initials(property.owner.name)}
+                </span>
+                <span className="truncate">{property.owner.name}</span>
+              </span>
+            ) : (
+              <span />
+            )}
+            <span className="inline-flex shrink-0 items-center gap-1" title={`Actualizada ${updated}`}>
+              <Clock className="size-3" />
+              {updated}
+            </span>
+          </div>
         </div>
       </div>
     </>
@@ -116,7 +203,8 @@ export function PropertyCard({ property, preview = false }: { property: Property
       data-flip-id={property.id}
       className={cn(
         CARD_CLASS,
-        "hover:shadow-[0_1px_2px_oklch(0.3_0.05_160/0.06),0_20px_40px_-12px_oklch(0.3_0.05_160/0.24)] focus-visible:ring-3 focus-visible:ring-ring/50",
+        selected && "ring-2 ring-primary",
+        "hover:-translate-y-0.5 hover:shadow-[0_1px_2px_oklch(0.3_0.05_160/0.06),0_24px_44px_-12px_oklch(0.3_0.05_160/0.26)] focus-visible:ring-3 focus-visible:ring-ring/50",
       )}
     >
       {inner}
@@ -128,12 +216,15 @@ export function PropertyCardSkeleton() {
   return (
     <div className="flex animate-pulse flex-col overflow-hidden rounded-2xl bg-card ring-1 ring-foreground/5">
       <div className="aspect-[4/3] bg-secondary" />
-      <div className="flex flex-col gap-3 p-5">
-        <div className="h-3 w-24 rounded-full bg-muted" />
-        <div className="h-6 w-4/5 rounded-full bg-muted" />
-        <div className="h-4 w-1/2 rounded-full bg-muted" />
-        <div className="h-7 w-2/5 rounded-full bg-muted" />
+      <div className="flex flex-col gap-4 p-5">
+        <div className="flex flex-col gap-2">
+          <div className="h-3 w-24 rounded-full bg-muted" />
+          <div className="h-6 w-4/5 rounded-full bg-muted" />
+          <div className="h-4 w-1/2 rounded-full bg-muted" />
+        </div>
+        <div className="h-8 w-2/5 rounded-full bg-muted" />
         <div className="h-4 w-3/5 rounded-full bg-muted" />
+        <div className="h-4 w-full rounded-full bg-muted" />
       </div>
     </div>
   );
