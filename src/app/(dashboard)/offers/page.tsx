@@ -2,12 +2,14 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { FileText, RotateCcw, Search, SearchX } from "lucide-react";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { CreateOfferDialog } from "@/components/offers/create-offer-dialog";
 import { OfferCard, OfferCardSkeleton, type OfferActions } from "@/components/offers/offer-card";
-import { Segmented } from "@/components/properties/segmented";
+import { FilterMenu } from "@/components/filter-menu";
+import { OffersTable, OfferRow } from "@/components/offers/offer-views";
+import { ViewSwitch, type ViewMode } from "@/components/properties/view-switch";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -27,10 +29,7 @@ import { gsap, useGSAP } from "@/lib/gsap";
 import { distance, duration, ease, media, stagger } from "@/lib/motion";
 import { OFFER_STATUS_LABELS } from "@/lib/properties-labels";
 
-type StatusFilter = OfferStatus | "ALL";
-
-const STATUS_TABS: { value: StatusFilter; label: string }[] = [
-  { value: "ALL", label: "Todas" },
+const STATUS_OPTIONS: { value: OfferStatus; label: string }[] = [
   { value: "DRAFT", label: OFFER_STATUS_LABELS.DRAFT + "es" },
   { value: "SENT", label: OFFER_STATUS_LABELS.SENT + "s" },
   { value: "VIEWED", label: OFFER_STATUS_LABELS.VIEWED + "s" },
@@ -46,7 +45,26 @@ function requireToken() {
 export default function OffersPage() {
   const queryClient = useQueryClient();
   const gridRef = useRef<HTMLDivElement>(null);
-  const [status, setStatus] = useState<StatusFilter>("ALL");
+  const [status, setStatus] = useState<OfferStatus[]>([]);
+  const [view, setView] = useState<ViewMode>("grid");
+
+  // Remembered per browser; read after mount so the server and client first render match.
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem("offers-view");
+      if (saved === "list" || saved === "table") {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setView(saved);
+      }
+    } catch {}
+  }, []);
+
+  function changeView(next: ViewMode) {
+    setView(next);
+    try {
+      window.localStorage.setItem("offers-view", next);
+    } catch {}
+  }
   const [search, setSearch] = useState("");
   const [deleting, setDeleting] = useState<string | null>(null);
 
@@ -69,7 +87,7 @@ export default function OffersPage() {
   const filtered = useMemo(() => {
     const term = search.trim().toLowerCase();
     return sorted.filter((offer) => {
-      if (status !== "ALL" && offer.status !== status) return false;
+      if (status.length > 0 && !status.includes(offer.status)) return false;
       if (!term) return true;
       return [offer.title, offer.clientName, offer.clientEmail].filter(Boolean).join(" ").toLowerCase().includes(term);
     });
@@ -96,7 +114,7 @@ export default function OffersPage() {
 
   const total = sorted.length;
   const visibleKey = filtered.map((offer) => offer.id).join(",");
-  const hasFilters = status !== "ALL" || search.trim() !== "";
+  const hasFilters = status.length > 0 || search.trim() !== "";
 
   // Cards settle in one after another whenever the visible set changes.
   useGSAP(
@@ -114,7 +132,7 @@ export default function OffersPage() {
       });
       return () => mm.revert();
     },
-    { scope: gridRef, dependencies: [visibleKey] },
+    { scope: gridRef, dependencies: [visibleKey, view] },
   );
 
   return (
@@ -137,14 +155,17 @@ export default function OffersPage() {
           )}
           <div className="flex flex-wrap items-center gap-3 sm:ml-auto">
             {total > 0 && (
-              <Segmented
-                contained
-                label="Filtrar por estado"
-                value={status}
-                options={STATUS_TABS}
-                counts={counts}
-                onChange={setStatus}
-              />
+              <>
+                <FilterMenu
+                  name="Estado"
+                  plural="estados"
+                  options={STATUS_OPTIONS}
+                  value={status}
+                  onChange={setStatus}
+                  counts={counts}
+                />
+                <ViewSwitch value={view} onChange={changeView} />
+              </>
             )}
             <CreateOfferDialog />
           </div>
@@ -202,7 +223,7 @@ export default function OffersPage() {
             <Button
               variant="outline"
               onClick={() => {
-                setStatus("ALL");
+                setStatus([]);
                 setSearch("");
               }}
             >
@@ -212,11 +233,25 @@ export default function OffersPage() {
         </div>
       )}
 
-      {filtered.length > 0 && (
+      {filtered.length > 0 && view === "grid" && (
         <div ref={gridRef} className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,300px),1fr))] gap-6">
           {filtered.map((offer) => (
             <OfferCard key={offer.id} offer={offer} actions={actions} />
           ))}
+        </div>
+      )}
+
+      {filtered.length > 0 && view === "list" && (
+        <div ref={gridRef} className="flex flex-col gap-4">
+          {filtered.map((offer) => (
+            <OfferRow key={offer.id} offer={offer} actions={actions} />
+          ))}
+        </div>
+      )}
+
+      {filtered.length > 0 && view === "table" && (
+        <div ref={gridRef}>
+          <OffersTable offers={filtered} actions={actions} />
         </div>
       )}
 

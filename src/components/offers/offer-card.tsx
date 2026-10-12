@@ -24,12 +24,12 @@ export interface OfferActions {
   requestDelete: (id: string) => void;
 }
 
-function propertiesOf(offer: Offer) {
+export function propertiesOf(offer: Offer) {
   return offer.sections.flatMap((section) => section.properties);
 }
 
 /** Up to three different cover photos, in the order the properties appear. */
-function coversOf(offer: Offer) {
+export function coversOf(offer: Offer) {
   const urls: string[] = [];
   for (const item of propertiesOf(offer)) {
     const photos = [...item.property.photos].sort((a, b) => a.position - b.position);
@@ -40,7 +40,7 @@ function coversOf(offer: Offer) {
   return urls;
 }
 
-function Collage({ urls }: { urls: string[] }) {
+export function Collage({ urls }: { urls: string[] }) {
   if (urls.length === 0) {
     return (
       <div className="flex size-full items-center justify-center text-primary/30">
@@ -68,7 +68,7 @@ function Collage({ urls }: { urls: string[] }) {
   );
 }
 
-function OfferMenu({ offer, actions }: { offer: Offer; actions: OfferActions }) {
+export function OfferMenu({ offer, actions, className }: { offer: Offer; actions: OfferActions; className?: string }) {
   const router = useRouter();
 
   async function copyLink() {
@@ -86,7 +86,7 @@ function OfferMenu({ offer, actions }: { offer: Offer; actions: OfferActions }) 
         <button
           type="button"
           aria-label={`Acciones de ${offer.title}`}
-          className="flex size-8 shrink-0 items-center justify-center rounded-full bg-card/90 text-foreground backdrop-blur transition-colors outline-none hover:bg-card focus-visible:ring-3 focus-visible:ring-ring/50 data-[state=open]:bg-card"
+          className={cn("flex size-8 shrink-0 items-center justify-center rounded-full bg-card/90 text-foreground backdrop-blur transition-colors outline-none hover:bg-card focus-visible:ring-3 focus-visible:ring-ring/50 data-[state=open]:bg-card", className)}
         >
           <MoreHorizontal className="size-4" />
         </button>

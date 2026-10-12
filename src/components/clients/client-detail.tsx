@@ -1,173 +1,313 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { format, formatDistanceToNow } from "date-fns";
+import { es } from "date-fns/locale";
+import {
+  ArrowLeft,
+  CalendarDays,
+  Mail,
+  MessageSquareText,
+  Phone,
+  PhoneCall,
+  Plus,
+  Users,
+  type LucideIcon,
+} from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { Badge } from "@/components/ui/badge";
+import { ClientAvatar, SOURCE_LABELS, STAGES } from "@/components/clients/client-parts";
+import { FormSection } from "@/components/properties/form-section";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { ApiError } from "@/lib/api/client";
 import {
   addInteraction,
   getClient,
   updateClient,
+  type Client,
   type ClientStage,
   type InteractionType,
 } from "@/lib/api/clients";
 import { getAccessToken } from "@/lib/auth/session";
 import { CLIENT_STAGE_LABELS } from "@/lib/properties-labels";
+import { cn } from "@/lib/utils";
 
-const INTERACTION_TYPE_LABELS: Record<InteractionType, string> = {
-  NOTE: "Nota",
-  CALL: "Llamada",
-  EMAIL: "Email",
-  MEETING: "Reunión",
-};
+const INTERACTIONS: { value: InteractionType; label: string; icon: LucideIcon }[] = [
+  { value: "NOTE", label: "Nota", icon: MessageSquareText },
+  { value: "CALL", label: "Llamada", icon: PhoneCall },
+  { value: "EMAIL", label: "Email", icon: Mail },
+  { value: "MEETING", label: "Reunión", icon: Users },
+];
+
+function requireToken() {
+  const token = getAccessToken();
+  if (!token) throw new ApiError("No autenticado", 401);
+  return token;
+}
+
+function Skeleton() {
+  return (
+    <div className="flex animate-pulse flex-col gap-8">
+      <div className="h-5 w-24 rounded-full bg-muted" />
+      <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_20rem]">
+        <div className="flex flex-col gap-6">
+          <div className="h-40 rounded-3xl bg-muted" />
+          <div className="h-64 rounded-3xl bg-muted" />
+        </div>
+        <div className="h-72 rounded-3xl bg-muted" />
+      </div>
+    </div>
+  );
+}
 
 export function ClientDetail({ clientId }: { clientId: string }) {
   const queryClient = useQueryClient();
   const [notes, setNotes] = useState<string | null>(null);
-  const [noteContent, setNoteContent] = useState("");
+  const [type, setType] = useState<InteractionType>("NOTE");
+  const [content, setContent] = useState("");
 
-  const { data: client, isLoading } = useQuery({
+  const { data: client, isLoading, error } = useQuery({
     queryKey: ["client", clientId],
-    queryFn: () => {
-      const token = getAccessToken();
-      if (!token) throw new ApiError("No autenticado", 401);
-      return getClient(token, clientId);
-    },
+    queryFn: () => getClient(requireToken(), clientId),
   });
 
   const updateMutation = useMutation({
-    mutationFn: (payload: { stage?: ClientStage; notes?: string }) => {
-      const token = getAccessToken();
-      if (!token) throw new ApiError("No autenticado", 401);
-      return updateClient(token, clientId, payload);
-    },
-    onSuccess: (updated) => {
-      queryClient.setQueryData(["client", clientId], (prev: typeof client) => ({
-        ...prev,
-        ...updated,
-      }));
+    mutationFn: (payload: { stage?: ClientStage; notes?: string }) => updateClient(requireToken(), clientId, payload),
+    onSuccess: (updated, payload) => {
+      queryClient.setQueryData<Client>(["client", clientId], (prev) => (prev ? { ...prev, ...updated } : prev));
+      queryClient.invalidateQueries({ queryKey: ["clients"] });
+      if (payload.notes !== undefined) setNotes(null);
       toast.success("Cambios guardados");
     },
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudieron guardar los cambios"),
   });
 
-  const noteMutation = useMutation({
-    mutationFn: () => {
-      const token = getAccessToken();
-      if (!token) throw new ApiError("No autenticado", 401);
-      return addInteraction(token, clientId, { type: "NOTE", content: noteContent });
-    },
+  const interactionMutation = useMutation({
+    mutationFn: () => addInteraction(requireToken(), clientId, { type, content: content.trim() }),
     onSuccess: () => {
-      setNoteContent("");
+      setContent("");
       queryClient.invalidateQueries({ queryKey: ["client", clientId] });
+      queryClient.invalidateQueries({ queryKey: ["clients"] });
     },
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo registrar"),
   });
 
-  if (isLoading || !client) {
-    return <p className="text-sm text-zinc-500">Cargando...</p>;
+  if (error) {
+    return (
+      <div className="flex flex-col items-start gap-4 rounded-2xl bg-card p-6 ring-1 ring-foreground/5">
+        <div>
+          <p className="font-display text-xl">No encontramos al cliente</p>
+          <p className="text-sm text-muted-foreground">
+            {error instanceof ApiError ? error.message : "Revisá tu conexión e intentá de nuevo."}
+          </p>
+        </div>
+        <Button variant="outline" asChild>
+          <Link href="/clients">
+            <ArrowLeft />
+            Volver a clientes
+          </Link>
+        </Button>
+      </div>
+    );
   }
+  if (isLoading || !client) return <Skeleton />;
+
+  const notesValue = notes ?? client.notes ?? "";
+  const notesDirty = notes !== null && notes !== (client.notes ?? "");
+  const interactions = client.interactions ?? [];
 
   return (
-    <div className="max-w-2xl space-y-6">
-      <div>
-        <h1 className="text-xl font-semibold">{client.name}</h1>
-        <p className="text-sm text-zinc-500">{client.email}</p>
-        {client.phone && <p className="text-sm text-zinc-500">{client.phone}</p>}
-        <Badge className="mt-2">{client.source}</Badge>
-      </div>
+    <div className="flex flex-col gap-8">
+      <Link
+        href="/clients"
+        className="inline-flex w-fit items-center gap-1.5 rounded-full text-sm text-muted-foreground transition-colors outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
+      >
+        <ArrowLeft className="size-4" />
+        Clientes
+      </Link>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Etapa</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Select
-            value={client.stage}
-            onValueChange={(value) => updateMutation.mutate({ stage: value as ClientStage })}
+      <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_20rem]">
+        <div className="flex min-w-0 flex-col gap-12">
+          <header className="flex items-center gap-5">
+            <ClientAvatar name={client.name} className="size-20 text-3xl" />
+            <div className="flex min-w-0 flex-col gap-1">
+              <h1 className="font-display text-4xl leading-none tracking-tight text-balance">{client.name}</h1>
+              <p className="text-sm text-muted-foreground">
+                {SOURCE_LABELS[client.source]} · cliente desde{" "}
+                {format(new Date(client.createdAt), "d 'de' MMMM yyyy", { locale: es })}
+              </p>
+            </div>
+          </header>
+
+          <FormSection
+            title="Notas"
+            description="Lo que conviene recordar: qué busca, presupuesto, preferencias."
+            shown={false}
           >
-            <SelectTrigger className="w-full">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {Object.entries(CLIENT_STAGE_LABELS).map(([value, label]) => (
-                <SelectItem key={value} value={value}>
-                  {label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </CardContent>
-      </Card>
+            <div className="flex flex-col items-start gap-3">
+              <Textarea
+                rows={4}
+                aria-label="Notas del cliente"
+                placeholder="Todavía no hay notas."
+                value={notesValue}
+                onChange={(event) => setNotes(event.target.value)}
+              />
+              {notesDirty && (
+                <Button
+                  size="sm"
+                  className="rounded-full px-4"
+                  disabled={updateMutation.isPending}
+                  onClick={() => updateMutation.mutate({ notes: notesValue })}
+                >
+                  Guardar notas
+                </Button>
+              )}
+            </div>
+          </FormSection>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Notas</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <Textarea
-            rows={4}
-            defaultValue={client.notes ?? ""}
-            onChange={(e) => setNotes(e.target.value)}
-          />
-          <Button
-            size="sm"
-            onClick={() => updateMutation.mutate({ notes: notes ?? client.notes ?? "" })}
+          <FormSection
+            title="Historial"
+            description="Llamadas, emails y reuniones, de la más reciente a la más antigua."
+            shown={false}
           >
-            Guardar notas
-          </Button>
-        </CardContent>
-      </Card>
+            <div className="flex flex-col gap-3 rounded-3xl bg-card p-4 shadow-[0_1px_2px_oklch(0.3_0.05_160/0.04),0_12px_32px_-12px_oklch(0.3_0.05_160/0.14)] ring-1 ring-foreground/5">
+              <div role="group" aria-label="Tipo de interacción" className="flex flex-wrap gap-1.5">
+                {INTERACTIONS.map((item) => {
+                  const active = item.value === type;
+                  return (
+                    <button
+                      key={item.value}
+                      type="button"
+                      aria-pressed={active}
+                      onClick={() => setType(item.value)}
+                      className={cn(
+                        "inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-sm font-medium transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+                        active
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-foreground/[0.06] text-muted-foreground hover:bg-foreground/10 hover:text-foreground",
+                      )}
+                    >
+                      <item.icon className="size-3.5" />
+                      {item.label}
+                    </button>
+                  );
+                })}
+              </div>
+              <Textarea
+                rows={2}
+                aria-label="Detalle de la interacción"
+                placeholder="¿Qué pasó? Ej: Quedamos en visitar la casa el sábado."
+                value={content}
+                onChange={(event) => setContent(event.target.value)}
+              />
+              <Button
+                className="self-end rounded-full px-5"
+                disabled={!content.trim() || interactionMutation.isPending}
+                onClick={() => interactionMutation.mutate()}
+              >
+                <Plus />
+                Registrar
+              </Button>
+            </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Historial de interacciones</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex gap-2">
-            <Textarea
-              rows={2}
-              placeholder="Agregar una nota..."
-              value={noteContent}
-              onChange={(e) => setNoteContent(e.target.value)}
-            />
-            <Button
-              size="sm"
-              disabled={!noteContent || noteMutation.isPending}
-              onClick={() => noteMutation.mutate()}
-            >
-              Agregar
-            </Button>
+            {interactions.length > 0 ? (
+              <ol className="relative flex flex-col gap-6 pl-1">
+                {interactions.map((item, index) => {
+                  const meta = INTERACTIONS.find((entry) => entry.value === item.type) ?? INTERACTIONS[0];
+                  return (
+                    <li key={item.id} className="relative flex gap-4">
+                      {index < interactions.length - 1 && (
+                        <span aria-hidden className="absolute top-10 bottom-[-1.5rem] left-[1.125rem] w-px bg-foreground/10" />
+                      )}
+                      <span className="z-10 flex size-9 shrink-0 items-center justify-center rounded-full bg-secondary text-primary">
+                        <meta.icon className="size-4" />
+                      </span>
+                      <div className="flex min-w-0 flex-1 flex-col gap-1 pt-1">
+                        <p className="flex flex-wrap items-baseline gap-x-2 text-xs text-muted-foreground">
+                          <span className="font-medium text-foreground">{meta.label}</span>
+                          {item.createdBy && <span>· {item.createdBy}</span>}
+                          <span title={format(new Date(item.createdAt), "d MMM yyyy, HH:mm", { locale: es })}>
+                            · {formatDistanceToNow(new Date(item.createdAt), { addSuffix: true, locale: es })}
+                          </span>
+                        </p>
+                        <p className="text-sm text-pretty text-foreground/85">{item.content}</p>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ol>
+            ) : (
+              <p className="text-sm text-muted-foreground">Todavía no hay interacciones registradas.</p>
+            )}
+          </FormSection>
+        </div>
+
+        <aside className="flex flex-col gap-6 rounded-3xl bg-card p-6 shadow-[0_1px_2px_oklch(0.3_0.05_160/0.04),0_12px_32px_-12px_oklch(0.3_0.05_160/0.14)] ring-1 ring-foreground/5 lg:sticky lg:top-24">
+          <div className="flex flex-col gap-3">
+            <h2 className="font-display text-xl leading-tight">Etapa</h2>
+            <div role="group" aria-label="Etapa del cliente" className="flex flex-wrap gap-1.5">
+              {STAGES.map((stage) => {
+                const active = stage === client.stage;
+                return (
+                  <button
+                    key={stage}
+                    type="button"
+                    aria-pressed={active}
+                    disabled={updateMutation.isPending}
+                    onClick={() => !active && updateMutation.mutate({ stage })}
+                    className={cn(
+                      "inline-flex h-8 items-center rounded-full px-3 text-sm font-medium transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+                      active
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-foreground/[0.06] text-muted-foreground hover:bg-foreground/10 hover:text-foreground",
+                    )}
+                  >
+                    {CLIENT_STAGE_LABELS[stage]}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-          {client.interactions && client.interactions.length > 0 ? (
-            <ul className="space-y-3">
-              {client.interactions.map((interaction) => (
-                <li key={interaction.id} className="rounded-md border p-3 text-sm">
-                  <div className="flex items-center justify-between">
-                    <Badge variant="secondary">{INTERACTION_TYPE_LABELS[interaction.type]}</Badge>
-                    <span className="text-xs text-zinc-500">
-                      {new Date(interaction.createdAt).toLocaleString()}
-                    </span>
-                  </div>
-                  <p className="mt-1 text-zinc-700 dark:text-zinc-300">{interaction.content}</p>
-                </li>
-              ))}
+
+          <div className="flex flex-col gap-3">
+            <h2 className="font-display text-xl leading-tight">Contacto</h2>
+            <ul className="flex flex-col gap-2.5 text-sm">
+              <li>
+                <a
+                  href={`mailto:${client.email}`}
+                  className="flex items-center gap-2.5 rounded-lg outline-none hover:underline focus-visible:underline"
+                >
+                  <Mail className="size-4 shrink-0 text-muted-foreground" />
+                  <span className="truncate">{client.email}</span>
+                </a>
+              </li>
+              <li>
+                {client.phone ? (
+                  <a
+                    href={`tel:${client.phone.replace(/[^\d+]/g, "")}`}
+                    className="flex items-center gap-2.5 rounded-lg outline-none hover:underline focus-visible:underline"
+                  >
+                    <Phone className="size-4 shrink-0 text-muted-foreground" />
+                    <span className="tabular-nums">{client.phone}</span>
+                  </a>
+                ) : (
+                  <span className="flex items-center gap-2.5 text-muted-foreground">
+                    <Phone className="size-4 shrink-0" />
+                    Sin teléfono
+                  </span>
+                )}
+              </li>
+              <li className="flex items-center gap-2.5 text-muted-foreground">
+                <CalendarDays className="size-4 shrink-0" />
+                Actualizado {formatDistanceToNow(new Date(client.updatedAt), { addSuffix: true, locale: es })}
+              </li>
             </ul>
-          ) : (
-            <p className="text-sm text-zinc-500">Todavía no hay interacciones registradas.</p>
-          )}
-        </CardContent>
-      </Card>
+          </div>
+        </aside>
+      </div>
     </div>
   );
 }
