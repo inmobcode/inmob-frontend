@@ -18,7 +18,7 @@ import {
   Waves,
 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -43,6 +43,7 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
+import { PropertyHeader, SectionNavbar } from "@/components/properties/editor-shell";
 import { AvailabilityTab } from "@/components/properties/availability-tab";
 import { CheckboxGroup } from "@/components/properties/checkbox-group";
 import { EssentialsTab } from "@/components/properties/essentials-tab";
@@ -63,6 +64,8 @@ import {
   type UpdatePropertyPayload,
 } from "@/lib/api/properties";
 import { getAccessToken } from "@/lib/auth/session";
+import { gsap, useGSAP } from "@/lib/gsap";
+import { distance, duration, ease, media } from "@/lib/motion";
 import { useActionBarStore } from "@/lib/store/action-bar-store";
 import { LISTING_TYPE_LABELS } from "@/lib/properties-labels";
 import {
@@ -461,8 +464,12 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
   });
 
   useEffect(() => {
+    const navGroups = property ? buildGroups(property.listingType, property.category) : [];
     setActions({
-      title: property?.title ?? "Propiedad",
+      title: findTabMeta(navGroups, activeTab)?.label ?? "Propiedad",
+      navigation: property ? (
+        <SectionNavbar groups={navGroups} active={activeTab} onChange={setTab} />
+      ) : null,
       isSubmitting: saveMutation.isPending || publishMutation.isPending,
       canSubmit: true,
       onSave: form.handleSubmit((values) => saveMutation.mutate(values)),
@@ -471,10 +478,43 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
     });
     return resetActions;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [property, saveMutation.isPending, publishMutation.isPending]);
+  }, [property, activeTab, saveMutation.isPending, publishMutation.isPending]);
+
+  const contentRef = useRef<HTMLDivElement>(null);
+  const shownTab = useRef(activeTab);
+
+  // The section content eases in whenever you switch sections.
+  useGSAP(
+    () => {
+      // Only animate when the section actually changed (not on mount or Strict Mode re-runs).
+      if (shownTab.current === activeTab) return;
+      shownTab.current = activeTab;
+      const mm = gsap.matchMedia();
+      mm.add(media.allowMotion, () => {
+        gsap.from(contentRef.current, { opacity: 0, y: distance.sm, duration: duration.base, ease: ease.out });
+      });
+      return () => mm.revert();
+    },
+    { dependencies: [activeTab] },
+  );
 
   if (isLoading || !property) {
-    return <p className="text-sm text-zinc-500">Cargando...</p>;
+    return (
+      <div className="flex animate-pulse flex-col gap-8">
+        <div className="flex items-center gap-5">
+          <div className="size-24 rounded-2xl bg-secondary" />
+          <div className="flex flex-1 flex-col gap-3">
+            <div className="h-3 w-28 rounded-full bg-muted" />
+            <div className="h-8 w-2/3 rounded-full bg-muted" />
+            <div className="h-4 w-1/2 rounded-full bg-muted" />
+          </div>
+        </div>
+        <div className="flex gap-6">
+          <div className="hidden h-96 w-56 rounded-2xl bg-muted md:block" />
+          <div className="h-96 flex-1 rounded-2xl bg-muted" />
+        </div>
+      </div>
+    );
   }
 
   function setTab(value: string) {
@@ -490,43 +530,17 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
   const activeMeta = findTabMeta(groups, activeTab);
 
   return (
-    <Tabs value={activeTab} onValueChange={setTab} className="flex flex-col gap-6 sm:flex-row">
-      <nav className="flex shrink-0 flex-col gap-5 sm:w-56">
-        {groups.map((group) => (
-          <div key={group.label}>
-            <p className="mb-1.5 px-2 text-xs font-semibold uppercase tracking-wide text-zinc-400">
-              {group.label}
-            </p>
-            <div className="flex flex-col gap-0.5">
-              {group.tabs.map((tab) => {
-                const Icon = tab.icon;
-                const isActive = activeTab === tab.value;
-                return (
-                  <button
-                    key={tab.value}
-                    type="button"
-                    onClick={() => setTab(tab.value)}
-                    className={`flex items-center gap-2 rounded-md px-2.5 py-2 text-left text-sm transition-colors ${
-                      isActive
-                        ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
-                        : "text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
-                    }`}
-                  >
-                    <Icon className="h-4 w-4 shrink-0" />
-                    <span className="truncate">{tab.label}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        ))}
-      </nav>
+    <div className="flex flex-col gap-8">
+      <PropertyHeader property={property} />
 
-      <Card className="min-w-0 flex-1">
-        <CardHeader>
-          <CardTitle>{activeMeta?.label ?? "Propiedad"}</CardTitle>
-          <CardDescription>{TAB_DESCRIPTIONS[activeTab]}</CardDescription>
-        </CardHeader>
+      <Tabs value={activeTab} onValueChange={setTab} className="flex flex-col gap-6">
+        <Card ref={contentRef} className="min-w-0 flex-1">
+          <CardHeader>
+            <CardTitle className="font-display text-2xl leading-tight">
+              {activeMeta?.label ?? "Propiedad"}
+            </CardTitle>
+            <CardDescription>{TAB_DESCRIPTIONS[activeTab]}</CardDescription>
+          </CardHeader>
         <CardContent>
           <TabsContent value="basico" className="mt-0 max-w-xl space-y-5">
             <FieldGroup>
@@ -1074,7 +1088,8 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
           </TabsContent>
         </CardContent>
       </Card>
-    </Tabs>
+      </Tabs>
+    </div>
   );
 }
 

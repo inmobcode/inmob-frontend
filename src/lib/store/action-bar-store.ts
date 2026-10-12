@@ -1,7 +1,10 @@
+import type { ReactNode } from "react";
 import { create } from "zustand";
 
 interface ActionBarState {
   title: string | null;
+  /** Optional navigation rendered in place of the title (e.g. section menus). */
+  navigation: ReactNode | null;
   isSubmitting: boolean;
   canSubmit: boolean;
   onSave: (() => void) | null;
@@ -15,6 +18,7 @@ interface ActionBarState {
 
 const initialState = {
   title: null,
+  navigation: null,
   isSubmitting: false,
   canSubmit: true,
   onSave: null,
