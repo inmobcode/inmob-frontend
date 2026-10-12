@@ -7,24 +7,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { coverOf, initials } from "@/components/properties/property-card";
+import { StatusPill } from "@/components/properties/status-pill";
 import { ControlsZone, PropertyMenu, SelectToggle, type PropertyActions } from "@/components/properties/property-controls";
-import type { Property, PropertyStatus } from "@/lib/api/properties";
-import { categoryLabel, LISTING_TYPE_LABELS, STATUS_LABELS } from "@/lib/properties-labels";
+import type { Property } from "@/lib/api/properties";
+import { categoryLabel, LISTING_TYPE_LABELS } from "@/lib/properties-labels";
 import { cn } from "@/lib/utils";
-
-const STATUS_PILL: Record<PropertyStatus, string> = {
-  PUBLISHED: "bg-primary/10 text-primary",
-  DRAFT: "bg-amber-500/15 text-amber-700 dark:text-amber-400",
-  ARCHIVED: "bg-foreground/[0.07] text-muted-foreground",
-};
-
-function StatusPill({ status }: { status: PropertyStatus }) {
-  return (
-    <span className={cn("inline-flex h-6 items-center rounded-full px-2.5 text-xs font-medium", STATUS_PILL[status])}>
-      {STATUS_LABELS[status]}
-    </span>
-  );
-}
 
 const number = (value: number) => value.toLocaleString("es-AR");
 

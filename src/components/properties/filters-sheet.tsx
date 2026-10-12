@@ -5,7 +5,7 @@ import { useMemo, useRef, useState } from "react";
 
 import { Segmented } from "@/components/properties/segmented";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { ChipToggleGroup, UnitInput } from "@/components/properties/form-controls";
 import { Label } from "@/components/ui/label";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import {
@@ -20,7 +20,6 @@ import {
   SheetContent,
   SheetDescription,
   SheetFooter,
-  SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
@@ -35,12 +34,12 @@ import {
 } from "@/lib/property-filters";
 import { categoryLabel, LISTING_TYPE_LABELS, STATUS_LABELS } from "@/lib/properties-labels";
 
-const STATUS_OPTIONS = [
-  { value: "ALL", label: "Todos" },
-  { value: "PUBLISHED", label: STATUS_LABELS.PUBLISHED },
-  { value: "DRAFT", label: STATUS_LABELS.DRAFT },
-  { value: "ARCHIVED", label: STATUS_LABELS.ARCHIVED },
-] as const;
+const STATUS_OPTIONS = ["PUBLISHED", "DRAFT", "ARCHIVED"] as const;
+const STATUS_PLURAL: Record<string, string> = {
+  PUBLISHED: STATUS_LABELS.PUBLISHED + "s",
+  DRAFT: STATUS_LABELS.DRAFT + "es",
+  ARCHIVED: STATUS_LABELS.ARCHIVED + "s",
+};
 
 const TYPE_OPTIONS = [
   { value: "ALL", label: "Todo" },
@@ -122,6 +121,15 @@ export function FiltersSheet({
     return [...byId].map(([id, name]) => ({ value: id, label: name }));
   }, [properties]);
 
+  const statusCounts = useMemo(() => {
+    const result: Record<string, number> = { ALL: properties.length };
+    for (const property of properties) result[property.status] = (result[property.status] ?? 0) + 1;
+    return result;
+  }, [properties]);
+
+  // The unit shown inside the price fields: the chosen currency, or the only one in use.
+  const priceUnit = draft.currency !== "ALL" ? draft.currency : currencies.length === 1 ? currencies[0] : "";
+
   const resultCount = useMemo(
     () => applyFilters(properties, { ...draft, search: value.search }).length,
     [properties, draft, value.search],
@@ -184,20 +192,22 @@ export function FiltersSheet({
           Filtros
         </TooltipContent>
       </Tooltip>
-      <SheetContent side="right" className="w-full gap-0 p-0 sm:max-w-md">
-        <SheetHeader className="gap-1 p-6 pb-4">
-          <SheetTitle className="font-display text-3xl leading-none">Filtros</SheetTitle>
-          <SheetDescription>Combiná los que necesites y aplicalos juntos.</SheetDescription>
-        </SheetHeader>
+      <SheetContent side="right" className="w-full gap-0 overflow-hidden p-0 sm:max-w-md sm:rounded-l-[25px]">
+        {/* Required by the dialog for screen readers, not shown. */}
+        <SheetTitle className="sr-only">Filtros</SheetTitle>
+        <SheetDescription className="sr-only">Combiná los filtros que necesites y aplicalos juntos.</SheetDescription>
 
-        <div className="flex flex-1 flex-col gap-6 overflow-y-auto px-6 py-2">
+        <div className="flex flex-1 flex-col gap-6 overflow-y-auto px-6 pt-8 pb-2">
           <Section title="Estado">
-            <Segmented
+            <ChipToggleGroup
               label="Estado"
-              value={draft.status}
               options={[...STATUS_OPTIONS]}
-              onChange={(status) => update({ status })}
+              labels={STATUS_PLURAL}
+              counts={statusCounts}
+              value={draft.status}
+              onChange={(status) => update({ status: status as PropertyFilters["status"] })}
             />
+            <p className="text-xs text-muted-foreground">Podés elegir más de uno. Sin elegir, se ven todas.</p>
           </Section>
 
           <Section title="Tipo">
@@ -209,28 +219,31 @@ export function FiltersSheet({
             />
           </Section>
 
-          {categories.length > 0 && (
-            <Section title="Categoría">
-              <SelectFilter
-                id="filter-category"
-                value={draft.category}
-                onChange={(category) => update({ category })}
-                allLabel="Todas las categorías"
-                options={categories.map((category) => ({ value: category, label: categoryLabel(category) }))}
-              />
-            </Section>
-          )}
-
-          {regions.length > 0 && (
-            <Section title="Región">
-              <SelectFilter
-                id="filter-region"
-                value={draft.region}
-                onChange={(region) => update({ region })}
-                allLabel="Todas las regiones"
-                options={regions.map((region) => ({ value: region, label: region }))}
-              />
-            </Section>
+          {(categories.length > 0 || regions.length > 0) && (
+            <div className="grid grid-cols-2 gap-4">
+              {categories.length > 0 && (
+                <Section title="Categoría">
+                  <SelectFilter
+                    id="filter-category"
+                    value={draft.category}
+                    onChange={(category) => update({ category })}
+                    allLabel="Todas"
+                    options={categories.map((category) => ({ value: category, label: categoryLabel(category) }))}
+                  />
+                </Section>
+              )}
+              {regions.length > 0 && (
+                <Section title="Región">
+                  <SelectFilter
+                    id="filter-region"
+                    value={draft.region}
+                    onChange={(region) => update({ region })}
+                    allLabel="Todas"
+                    options={regions.map((region) => ({ value: region, label: region }))}
+                  />
+                </Section>
+              )}
+            </div>
           )}
 
           {owners.length > 0 && (
@@ -256,21 +269,23 @@ export function FiltersSheet({
               />
             )}
             <div className="grid grid-cols-2 gap-3">
-              <Input
+              <UnitInput
+                unit={priceUnit}
                 inputMode="numeric"
                 aria-label="Precio mínimo"
                 placeholder="Mínimo"
                 value={draft.minPrice}
                 onChange={(event) => update({ minPrice: event.target.value.replace(/[^\d.,]/g, "") })}
-                className="h-10 rounded-xl"
+                className={priceUnit ? "pr-14" : undefined}
               />
-              <Input
+              <UnitInput
+                unit={priceUnit}
                 inputMode="numeric"
                 aria-label="Precio máximo"
                 placeholder="Máximo"
                 value={draft.maxPrice}
                 onChange={(event) => update({ maxPrice: event.target.value.replace(/[^\d.,]/g, "") })}
-                className="h-10 rounded-xl"
+                className={priceUnit ? "pr-14" : undefined}
               />
             </div>
           </Section>
@@ -302,8 +317,12 @@ export function FiltersSheet({
           >
             Limpiar
           </Button>
-          <Button variant="highlight" className="h-10 flex-1" onClick={apply}>
-            {resultCount === 1 ? "Ver 1 propiedad" : `Ver ${resultCount} propiedades`}
+          <Button variant="highlight" className="h-10 flex-1" onClick={apply} disabled={resultCount === 0}>
+            {resultCount === 0
+              ? "Ninguna coincide"
+              : resultCount === 1
+                ? "Ver 1 propiedad"
+                : `Ver ${resultCount} propiedades`}
           </Button>
         </SheetFooter>
       </SheetContent>

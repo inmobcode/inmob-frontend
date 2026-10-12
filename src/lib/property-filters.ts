@@ -2,7 +2,8 @@ import type { ListingType, Property, PropertyStatus } from "@/lib/api/properties
 
 export interface PropertyFilters {
   search: string;
-  status: PropertyStatus | "ALL";
+  /** Any of these; empty means every status. */
+  status: PropertyStatus[];
   type: ListingType | "ALL";
   category: string;
   region: string;
@@ -17,7 +18,7 @@ export interface PropertyFilters {
 /** "ALL" and "" both mean "no filter" for the field. */
 export const DEFAULT_FILTERS: PropertyFilters = {
   search: "",
-  status: "ALL",
+  status: [],
   type: "ALL",
   category: "ALL",
   region: "ALL",
@@ -42,7 +43,7 @@ export function applyFilters(properties: Property[], filters: PropertyFilters) {
   const minBathrooms = toNumber(filters.minBathrooms);
 
   return properties.filter((property) => {
-    if (filters.status !== "ALL" && property.status !== filters.status) return false;
+    if (filters.status.length > 0 && !filters.status.includes(property.status)) return false;
     if (filters.type !== "ALL" && property.listingType !== filters.type) return false;
     if (filters.category !== "ALL" && property.category !== filters.category) return false;
     if (filters.region !== "ALL" && property.region !== filters.region) return false;
@@ -64,7 +65,7 @@ export function applyFilters(properties: Property[], filters: PropertyFilters) {
 /** Number of filters in effect, not counting the free-text search. */
 export function countActiveFilters(filters: PropertyFilters) {
   let count = 0;
-  if (filters.status !== "ALL") count++;
+  if (filters.status.length > 0) count++;
   if (filters.type !== "ALL") count++;
   if (filters.category !== "ALL") count++;
   if (filters.region !== "ALL") count++;

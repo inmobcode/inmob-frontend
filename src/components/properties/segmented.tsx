@@ -37,7 +37,9 @@ export function Segmented<T extends string>({
                 ? contained
                   ? "bg-card text-foreground shadow-sm"
                   : "bg-primary text-primary-foreground"
-                : "text-muted-foreground hover:bg-foreground/5 hover:text-foreground",
+                : contained
+                  ? "text-muted-foreground hover:bg-foreground/5 hover:text-foreground"
+                  : "bg-foreground/[0.07] text-muted-foreground hover:bg-foreground/10 hover:text-foreground",
             )}
           >
             {option.label}
@@ -45,7 +47,7 @@ export function Segmented<T extends string>({
               <span
                 className={cn(
                   "text-xs tabular-nums",
-                  active ? "text-primary-foreground/70" : "text-muted-foreground/70",
+                  active && !contained ? "text-primary-foreground/70" : "text-muted-foreground/70",
                 )}
               >
                 {counts[option.value] ?? 0}

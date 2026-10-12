@@ -43,7 +43,7 @@ export function BulkBar({
         ref={ref}
         role="toolbar"
         aria-label="Acciones sobre las propiedades seleccionadas"
-        className="pointer-events-auto flex flex-wrap items-center gap-1.5 rounded-full bg-foreground p-2 pl-5 text-background shadow-[0_20px_50px_-12px_oklch(0.2_0.04_160/0.55)]"
+        className="pointer-events-auto flex flex-wrap items-center gap-1.5 rounded-full bg-primary p-2 pl-5 text-primary-foreground shadow-[0_20px_50px_-12px_oklch(0.2_0.04_160/0.55)]"
       >
         <span className="mr-2 text-sm font-medium tabular-nums">
           {ids.length} {ids.length === 1 ? "seleccionada" : "seleccionadas"}
@@ -52,7 +52,7 @@ export function BulkBar({
           <Button
             type="button"
             variant="ghost"
-            className="h-9 px-3 text-background hover:bg-background/15 hover:text-background"
+            className="h-9 px-3 text-primary-foreground hover:bg-sidebar/20 hover:text-sidebar focus-visible:bg-sidebar/20 focus-visible:text-sidebar"
             onClick={onSelectAll}
           >
             Seleccionar las {total}
@@ -61,7 +61,7 @@ export function BulkBar({
         <Button
           type="button"
           variant="ghost"
-          className="h-9 gap-2 px-3 text-background hover:bg-background/15 hover:text-background"
+          className="h-9 gap-2 px-3 text-primary-foreground hover:bg-sidebar/20 hover:text-sidebar focus-visible:bg-sidebar/20 focus-visible:text-sidebar"
           onClick={() => actions.publish(ids)}
         >
           <Globe />
@@ -70,7 +70,7 @@ export function BulkBar({
         <Button
           type="button"
           variant="ghost"
-          className="h-9 gap-2 px-3 text-background hover:bg-background/15 hover:text-background"
+          className="h-9 gap-2 px-3 text-primary-foreground hover:bg-sidebar/20 hover:text-sidebar focus-visible:bg-sidebar/20 focus-visible:text-sidebar"
           onClick={() => actions.archive(ids)}
         >
           <Archive />
@@ -90,7 +90,7 @@ export function BulkBar({
           variant="ghost"
           size="icon"
           aria-label="Quitar la selección"
-          className="size-9 text-background hover:bg-background/15 hover:text-background"
+          className="size-9 text-primary-foreground hover:bg-sidebar/20 hover:text-sidebar focus-visible:bg-sidebar/20 focus-visible:text-sidebar"
           onClick={onClear}
         >
           <X />

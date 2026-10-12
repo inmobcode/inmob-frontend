@@ -196,6 +196,26 @@ export function SectionNavbar({
       <NavigationMenu.List className="flex flex-wrap items-center gap-1">
         {groups.map((group) => {
           const groupActive = group.tabs.some((tab) => tab.value === active);
+          const pillClass = cn(
+            "inline-flex h-9 items-center gap-1.5 rounded-full px-3.5 text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+            groupActive
+              ? "bg-primary/10 text-primary hover:bg-primary/15"
+              : "text-muted-foreground hover:bg-foreground/5 hover:text-foreground",
+          );
+
+          // A group with a single section has nothing to open: go straight to it, no chevron.
+          if (group.tabs.length === 1) {
+            return (
+              <NavigationMenu.Item key={group.label} value={group.label}>
+                <NavigationMenu.Link asChild active={groupActive}>
+                  <button type="button" className={pillClass} onClick={() => onChange(group.tabs[0].value)}>
+                    {group.label}
+                  </button>
+                </NavigationMenu.Link>
+              </NavigationMenu.Item>
+            );
+          }
+
           return (
             <NavigationMenu.Item
               key={group.label}
