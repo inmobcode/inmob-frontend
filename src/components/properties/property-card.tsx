@@ -5,7 +5,8 @@ import Link from "next/link";
 
 import type { Property } from "@/lib/api/properties";
 import { ControlsZone, PropertyMenu, SelectToggle, type PropertyActions } from "@/components/properties/property-controls";
-import { categoryLabel, LISTING_TYPE_LABELS, STATUS_LABELS } from "@/lib/properties-labels";
+import { StatusPill } from "@/components/properties/status-pill";
+import { categoryLabel, LISTING_TYPE_LABELS } from "@/lib/properties-labels";
 import { cn } from "@/lib/utils";
 
 export function coverOf(property: Property) {
@@ -94,11 +95,8 @@ export function PropertyCard({
           </div>
         )}
         <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/20 to-transparent" />
-        <span className="absolute top-3 left-3 inline-flex items-center rounded-full bg-card/90 px-2.5 py-1 text-xs font-medium backdrop-blur">
-          {STATUS_LABELS[property.status]}
-        </span>
         {property.photos.length > 0 && (
-          <span className="absolute top-3 right-3 inline-flex items-center gap-1 rounded-full bg-foreground/55 px-2.5 py-1 text-xs font-medium text-background backdrop-blur">
+          <span className="absolute bottom-3 left-3 inline-flex items-center gap-1 rounded-full bg-foreground/55 px-2.5 py-1 text-xs font-medium text-background backdrop-blur">
             <Camera className="size-3.5" />
             {property.photos.length}
           </span>
@@ -106,7 +104,7 @@ export function PropertyCard({
         {actions && onToggle && (
           <ControlsZone
             className={cn(
-              "absolute inset-x-3 bottom-3 flex items-center justify-between transition-opacity duration-200 [@media(hover:none)]:opacity-100",
+              "absolute inset-x-3 top-3 flex items-center justify-between transition-opacity duration-200 [@media(hover:none)]:opacity-100",
               selecting || selected
                 ? "opacity-100"
                 : "opacity-0 group-focus-within:opacity-100 group-hover:opacity-100",
@@ -174,21 +172,22 @@ export function PropertyCard({
             )}
           </div>
 
-          <div className="mt-1 flex h-5 items-center justify-between gap-3 text-xs text-muted-foreground">
-            {property.owner ? (
-              <span className="inline-flex min-w-0 items-center gap-2" title={`Propietario: ${property.owner.name}`}>
-                <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-secondary text-[0.6rem] font-semibold text-secondary-foreground">
-                  {initials(property.owner.name)}
+          <div className="mt-1 flex h-6 items-center gap-3 text-xs text-muted-foreground">
+            <StatusPill status={property.status} />
+            <div className="ml-auto flex min-w-0 items-center gap-3">
+              {property.owner && (
+                <span className="inline-flex min-w-0 items-center gap-1.5" title={`Propietario: ${property.owner.name}`}>
+                  <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-secondary text-[0.6rem] font-semibold text-secondary-foreground">
+                    {initials(property.owner.name)}
+                  </span>
+                  <span className="truncate">{property.owner.name}</span>
                 </span>
-                <span className="truncate">{property.owner.name}</span>
+              )}
+              <span className="inline-flex shrink-0 items-center gap-1" title={`Actualizada ${updated}`}>
+                <Clock className="size-3" />
+                {updated}
               </span>
-            ) : (
-              <span />
-            )}
-            <span className="inline-flex shrink-0 items-center gap-1" title={`Actualizada ${updated}`}>
-              <Clock className="size-3" />
-              {updated}
-            </span>
+            </div>
           </div>
         </div>
       </div>

@@ -1,0 +1,486 @@
+"use client";
+
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  Building2,
+  CalendarDays,
+  CornerDownLeft,
+  FileText,
+  LogOut,
+  Monitor,
+  Moon,
+  PanelLeftClose,
+  Plus,
+  Search,
+  Settings,
+  Sun,
+  Tag,
+  UserRound,
+  Users,
+  UsersRound,
+  type LucideIcon,
+} from "lucide-react";
+import { useTheme } from "next-themes";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { toast } from "sonner";
+
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
+import { listClients } from "@/lib/api/clients";
+import { listOffers } from "@/lib/api/offers";
+import { listProperties } from "@/lib/api/properties";
+import { clearSession, getAccessToken } from "@/lib/auth/session";
+import { useActionBarStore } from "@/lib/store/action-bar-store";
+import { cn } from "@/lib/utils";
+
+export const OPEN_SHORTCUTS_EVENT = "open-shortcuts";
+export const OPEN_PALETTE_EVENT = "open-palette";
+export const TOGGLE_SIDEBAR_EVENT = "toggle-sidebar";
+
+const CARD_SELECTOR = ".property-card, .offer-card, .client-card, .booking-card, .team-card";
+
+const GO_TO: Record<string, { path: string; label: string }> = {
+  p: { path: "/properties", label: "Propiedades" },
+  o: { path: "/offers", label: "Ofertas" },
+  c: { path: "/clients", label: "Clientes" },
+  r: { path: "/bookings", label: "Reservas" },
+  e: { path: "/team", label: "Equipo" },
+  s: { path: "/settings", label: "Configuración" },
+  m: { path: "/profile", label: "Mi perfil" },
+};
+
+const SHORTCUT_GROUPS: { title: string; items: { keys: string[]; label: string }[] }[] = [
+  {
+    title: "General",
+    items: [
+      { keys: ["Ctrl/Cmd", "K"], label: "Buscar y ejecutar comandos" },
+      { keys: ["Ctrl/Cmd", "B"], label: "Contraer o expandir el menú lateral" },
+      { keys: ["Ctrl/Cmd", "S"], label: "Guardar los cambios del formulario" },
+      { keys: ["?"], label: "Ver los atajos de teclado" },
+    ],
+  },
+  {
+    title: "Ir a",
+    items: Object.entries(GO_TO).map(([key, target]) => ({ keys: ["G", key.toUpperCase()], label: target.label })),
+  },
+  {
+    title: "En las listas",
+    items: [
+      { keys: ["N"], label: "Crear uno nuevo" },
+      { keys: ["/"], label: "Ir al buscador" },
+      { keys: ["F"], label: "Abrir el filtro" },
+      { keys: ["1", "2", "3"], label: "Vista cuadrícula, lista o tabla" },
+      { keys: ["J", "K"], label: "Bajar y subir entre elementos" },
+      { keys: ["Enter"], label: "Abrir el elemento seleccionado" },
+      { keys: ["Esc"], label: "Limpiar la selección" },
+    ],
+  },
+];
+
+function isTyping(target: EventTarget | null) {
+  return Boolean((target as HTMLElement | null)?.closest?.("input, textarea, select, [contenteditable='true']"));
+}
+
+function overlayOpen() {
+  return Boolean(document.querySelector("[role='dialog'], [role='alertdialog'], [role='menu'], [role='listbox']"));
+}
+
+function clickWhenReady(selector: string, timeout = 2500) {
+  const started = Date.now();
+  const tick = () => {
+    const element = document.querySelector<HTMLElement>(selector);
+    if (element) element.click();
+    else if (Date.now() - started < timeout) window.setTimeout(tick, 60);
+  };
+  tick();
+}
+
+function normalize(text: string) {
+  return text.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+}
+
+interface Command {
+  id: string;
+  label: string;
+  hint?: string;
+  icon: LucideIcon;
+  group: string;
+  run: () => void;
+}
+
+function requireToken() {
+  const token = getAccessToken();
+  if (!token) throw new Error("No autenticado");
+  return token;
+}
+
+function CommandPalette({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const { setTheme } = useTheme();
+  const [query, setQuery] = useState("");
+  const [active, setActive] = useState(0);
+  const listRef = useRef<HTMLDivElement>(null);
+
+  const properties = useQuery({ queryKey: ["properties"], queryFn: () => listProperties(requireToken()), enabled: open, staleTime: 60_000 });
+  const offers = useQuery({ queryKey: ["offers"], queryFn: () => listOffers(requireToken()), enabled: open, staleTime: 60_000 });
+  const clients = useQuery({ queryKey: ["clients"], queryFn: () => listClients(requireToken()), enabled: open, staleTime: 60_000 });
+
+  const close = useCallback(() => onOpenChange(false), [onOpenChange]);
+
+  const commands = useMemo<Command[]>(() => {
+    const go = (path: string) => () => {
+      close();
+      router.push(path);
+    };
+    const create = (path: string) => () => {
+      close();
+      router.push(path);
+      clickWhenReady("[data-new-item]");
+    };
+    const list: Command[] = [
+      { id: "go-properties", group: "Ir a", label: "Propiedades", hint: "G P", icon: Building2, run: go("/properties") },
+      { id: "go-offers", group: "Ir a", label: "Ofertas", hint: "G O", icon: Tag, run: go("/offers") },
+      { id: "go-clients", group: "Ir a", label: "Clientes", hint: "G C", icon: Users, run: go("/clients") },
+      { id: "go-bookings", group: "Ir a", label: "Reservas", hint: "G R", icon: CalendarDays, run: go("/bookings") },
+      { id: "go-team", group: "Ir a", label: "Equipo", hint: "G E", icon: UsersRound, run: go("/team") },
+      { id: "go-settings", group: "Ir a", label: "Configuración", hint: "G S", icon: Settings, run: go("/settings") },
+      { id: "go-profile", group: "Ir a", label: "Mi perfil", hint: "G M", icon: UserRound, run: go("/profile") },
+      { id: "new-property", group: "Crear", label: "Nueva propiedad", icon: Plus, run: create("/properties") },
+      { id: "new-offer", group: "Crear", label: "Nueva oferta", icon: Plus, run: create("/offers") },
+      { id: "new-client", group: "Crear", label: "Nuevo cliente", icon: Plus, run: create("/clients") },
+      { id: "new-booking", group: "Crear", label: "Nueva reserva", icon: Plus, run: create("/bookings") },
+      { id: "new-member", group: "Crear", label: "Invitar miembro", icon: Plus, run: create("/team") },
+      { id: "theme-light", group: "Acciones", label: "Modo claro", icon: Sun, run: () => { setTheme("light"); close(); } },
+      { id: "theme-dark", group: "Acciones", label: "Modo oscuro", icon: Moon, run: () => { setTheme("dark"); close(); } },
+      { id: "theme-system", group: "Acciones", label: "Modo automático", icon: Monitor, run: () => { setTheme("system"); close(); } },
+      { id: "sidebar", group: "Acciones", label: "Contraer o expandir el menú", hint: "⌘ B", icon: PanelLeftClose, run: () => { close(); window.dispatchEvent(new Event(TOGGLE_SIDEBAR_EVENT)); } },
+      { id: "logout", group: "Acciones", label: "Cerrar sesión", icon: LogOut, run: () => { clearSession(); queryClient.clear(); close(); router.push("/login"); } },
+    ];
+
+    const term = normalize(query.trim());
+    if (!term) return list;
+    const matches = list.filter((command) => normalize(command.label).includes(term));
+
+    interface RecordItem {
+      id: string;
+      group: string;
+      label: string;
+      hint?: string;
+      icon: LucideIcon;
+      text: string;
+      path: string;
+    }
+    const found: RecordItem[] = [
+      ...(properties.data ?? []).map((item) => ({
+        id: `property-${item.id}`,
+        group: "Propiedades",
+        label: item.title,
+        icon: Building2,
+        text: item.title,
+        path: `/properties/${item.id}`,
+      })),
+      ...(offers.data ?? []).map((item) => ({
+        id: `offer-${item.id}`,
+        group: "Ofertas",
+        label: item.title,
+        hint: item.clientName ?? undefined,
+        icon: FileText,
+        text: `${item.title} ${item.clientName ?? ""}`,
+        path: `/offers/${item.id}`,
+      })),
+      ...(clients.data ?? []).map((item) => ({
+        id: `client-${item.id}`,
+        group: "Clientes",
+        label: item.name,
+        hint: item.email,
+        icon: Users,
+        text: `${item.name} ${item.email}`,
+        path: `/clients/${item.id}`,
+      })),
+    ];
+    const records: Command[] = found
+      .filter((record) => normalize(record.text).includes(term))
+      .slice(0, 12)
+      .map((record) => ({
+        id: record.id,
+        group: record.group,
+        label: record.label,
+        hint: record.hint,
+        icon: record.icon,
+        run: go(record.path),
+      }));
+
+    return [...records, ...matches];
+  }, [query, properties.data, offers.data, clients.data, router, close, setTheme, queryClient]);
+
+  // Whatever is highlighted should stay on screen while arrowing through the list.
+  useEffect(() => {
+    listRef.current?.querySelector<HTMLElement>(`[data-index="${active}"]`)?.scrollIntoView({ block: "nearest" });
+  }, [active]);
+
+  function handleKeyDown(event: React.KeyboardEvent) {
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      setActive((value) => Math.min(value + 1, commands.length - 1));
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      setActive((value) => Math.max(value - 1, 0));
+    } else if (event.key === "Enter") {
+      event.preventDefault();
+      commands[active]?.run();
+    }
+  }
+
+  let lastGroup = "";
+
+  return (
+    <Dialog
+      open={open}
+      onOpenChange={(next) => {
+        onOpenChange(next);
+        if (!next) {
+          setQuery("");
+          setActive(0);
+        }
+      }}
+    >
+      <DialogContent className="top-[22%] translate-y-0 gap-0 overflow-hidden rounded-3xl p-0 sm:max-w-xl" showCloseButton={false}>
+        <DialogTitle className="sr-only">Buscar y ejecutar comandos</DialogTitle>
+        <DialogDescription className="sr-only">Escribí para buscar páginas, propiedades, ofertas o clientes.</DialogDescription>
+        <div className="flex items-center gap-3 px-5 py-4">
+          <Search className="size-4 shrink-0 text-muted-foreground" />
+          <input
+            autoFocus
+            value={query}
+            onChange={(event) => {
+              setQuery(event.target.value);
+              setActive(0);
+            }}
+            onKeyDown={handleKeyDown}
+            placeholder="Buscar una página, propiedad, oferta o cliente…"
+            aria-label="Buscar comandos"
+            className="min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-muted-foreground"
+          />
+          <kbd className="hidden h-6 items-center rounded-md bg-foreground/[0.07] px-1.5 text-xs text-muted-foreground sm:inline-flex">Esc</kbd>
+        </div>
+
+        <div ref={listRef} className="max-h-[22rem] overflow-y-auto px-2 pb-2">
+          {commands.length === 0 && (
+            <p className="px-3 py-8 text-center text-sm text-muted-foreground">No encontramos nada para “{query}”.</p>
+          )}
+          {commands.map((command, index) => {
+            const heading = command.group !== lastGroup;
+            lastGroup = command.group;
+            return (
+              <div key={command.id}>
+                {heading && <p className="px-3 pt-3 pb-1 text-xs font-medium text-muted-foreground">{command.group}</p>}
+                <button
+                  type="button"
+                  data-index={index}
+                  onMouseMove={() => setActive(index)}
+                  onClick={command.run}
+                  className={cn(
+                    "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm outline-none transition-colors",
+                    index === active ? "bg-secondary" : "hover:bg-foreground/[0.04]",
+                  )}
+                >
+                  <command.icon className="size-4 shrink-0 text-muted-foreground" />
+                  <span className="min-w-0 flex-1 truncate">{command.label}</span>
+                  {command.hint && <span className="shrink-0 truncate text-xs text-muted-foreground">{command.hint}</span>}
+                  {index === active && <CornerDownLeft className="size-3.5 shrink-0 text-muted-foreground" />}
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function ShortcutsDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="gap-0 rounded-3xl p-0 sm:max-w-lg" showCloseButton>
+        <div className="flex flex-col gap-1.5 px-7 pt-7 pb-5">
+          <DialogTitle className="font-display text-3xl leading-none tracking-tight">Atajos de teclado</DialogTitle>
+          <DialogDescription>Para moverte más rápido sin soltar el teclado.</DialogDescription>
+        </div>
+        <div className="flex max-h-[60vh] flex-col gap-6 overflow-y-auto px-7 pb-7">
+          {SHORTCUT_GROUPS.map((group) => (
+            <section key={group.title} className="flex flex-col gap-2.5">
+              <h3 className="font-display text-lg leading-tight">{group.title}</h3>
+              <ul className="flex flex-col gap-2.5">
+                {group.items.map((item) => (
+                  <li key={item.label} className="flex items-center justify-between gap-4 text-sm">
+                    <span>{item.label}</span>
+                    <span className="flex shrink-0 items-center gap-1">
+                      {item.keys.map((key, index) => (
+                        <span key={key} className="flex items-center gap-1">
+                          {index > 0 && group.title === "Ir a" && <span className="text-xs text-muted-foreground">luego</span>}
+                          <kbd className="inline-flex h-6 min-w-6 items-center justify-center rounded-md bg-foreground/[0.07] px-1.5 text-xs font-medium">
+                            {key}
+                          </kbd>
+                        </span>
+                      ))}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+/** Global keyboard shortcuts of the dashboard, the command palette and the help dialog. */
+export function Shortcuts() {
+  const router = useRouter();
+  const [helpOpen, setHelpOpen] = useState(false);
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const [pendingGo, setPendingGo] = useState(false);
+  const goTimer = useRef<number | null>(null);
+
+  useEffect(() => {
+    const openHelp = () => setHelpOpen(true);
+    const openPalette = () => setPaletteOpen(true);
+    window.addEventListener(OPEN_SHORTCUTS_EVENT, openHelp);
+    window.addEventListener(OPEN_PALETTE_EVENT, openPalette);
+    return () => {
+      window.removeEventListener(OPEN_SHORTCUTS_EVENT, openHelp);
+      window.removeEventListener(OPEN_PALETTE_EVENT, openPalette);
+    };
+  }, []);
+
+  useEffect(() => {
+    function endGo() {
+      if (goTimer.current) window.clearTimeout(goTimer.current);
+      goTimer.current = null;
+      setPendingGo(false);
+    }
+
+    function onKeyDown(event: KeyboardEvent) {
+      const mod = event.metaKey || event.ctrlKey;
+      const key = event.key.toLowerCase();
+
+      if (mod && key === "k") {
+        event.preventDefault();
+        setPaletteOpen((value) => !value);
+        return;
+      }
+
+      if (mod && key === "s") {
+        const { onSave, canSubmit, isSubmitting, isDirty } = useActionBarStore.getState();
+        if (!onSave) return;
+        event.preventDefault();
+        if (!isDirty) toast("No hay cambios para guardar");
+        else if (canSubmit && !isSubmitting) onSave();
+        return;
+      }
+
+      if (mod || event.altKey) return;
+      if (isTyping(event.target) || overlayOpen()) return;
+
+      if (event.key === "?") {
+        event.preventDefault();
+        setHelpOpen(true);
+        return;
+      }
+
+      if (goTimer.current) {
+        const target = GO_TO[key];
+        endGo();
+        if (target) {
+          event.preventDefault();
+          router.push(target.path);
+        }
+        return;
+      }
+
+      switch (key) {
+        case "g":
+          setPendingGo(true);
+          goTimer.current = window.setTimeout(endGo, 1500);
+          break;
+        case "n": {
+          const button = document.querySelector<HTMLElement>("[data-new-item]");
+          if (button) {
+            event.preventDefault();
+            button.click();
+          }
+          break;
+        }
+        case "/": {
+          const input = document.querySelector<HTMLInputElement>("input[aria-label^='Buscar']");
+          if (input) {
+            event.preventDefault();
+            input.focus();
+            input.select();
+          }
+          break;
+        }
+        case "f": {
+          const filter = document.querySelector<HTMLElement>("[data-filter-menu]");
+          if (filter) {
+            event.preventDefault();
+            filter.click();
+          }
+          break;
+        }
+        case "1":
+        case "2":
+        case "3": {
+          const label = { "1": "Cuadrícula", "2": "Lista", "3": "Tabla" }[key];
+          document.querySelector<HTMLElement>(`button[aria-label="${label}"]`)?.click();
+          break;
+        }
+        case "j":
+        case "k": {
+          const items = Array.from(document.querySelectorAll<HTMLElement>(CARD_SELECTOR));
+          if (items.length === 0) break;
+          event.preventDefault();
+          const current = items.findIndex((item) => item === document.activeElement || item.contains(document.activeElement));
+          const next = key === "j" ? Math.min(current + 1, items.length - 1) : Math.max(current <= 0 ? 0 : current - 1, 0);
+          const item = items[next];
+          const focusable = item.matches("a") ? item : (item.querySelector<HTMLElement>("a[href]") ?? item);
+          if (focusable === item && !item.hasAttribute("tabindex")) item.setAttribute("tabindex", "-1");
+          focusable.focus({ preventScroll: true });
+          item.scrollIntoView({ block: "center", behavior: "smooth" });
+          break;
+        }
+      }
+    }
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      if (goTimer.current) window.clearTimeout(goTimer.current);
+    };
+  }, [router]);
+
+  return (
+    <>
+      {pendingGo && (
+        <div
+          role="status"
+          className="fixed bottom-6 left-1/2 z-50 flex -translate-x-1/2 items-center gap-3 rounded-full bg-foreground/85 px-4 py-2 text-sm text-background shadow-lg backdrop-blur"
+        >
+          <kbd className="rounded-md bg-background/20 px-1.5 text-xs">G</kbd>
+          <span className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
+            {Object.entries(GO_TO).map(([key, target]) => (
+              <span key={key}>
+                <kbd className="mr-1 rounded-md bg-background/20 px-1.5">{key.toUpperCase()}</kbd>
+                {target.label}
+              </span>
+            ))}
+          </span>
+        </div>
+      )}
+      <ShortcutsDialog open={helpOpen} onOpenChange={setHelpOpen} />
+      <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} />
+    </>
+  );
+}

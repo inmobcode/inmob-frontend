@@ -40,6 +40,16 @@ export function setSession(auth: AuthResponse) {
   setCookie(USER_COOKIE, JSON.stringify(auth.user), SESSION_DAYS);
 }
 
+export const SESSION_USER_EVENT = "session-user-changed";
+
+/** Keeps the cookie in sync after the user edits their profile, and tells open menus to refresh. */
+export function updateSessionUser(patch: Partial<SessionUser>) {
+  const current = getSessionUser();
+  if (!current) return;
+  setCookie(USER_COOKIE, JSON.stringify({ ...current, ...patch }), 30);
+  window.dispatchEvent(new Event(SESSION_USER_EVENT));
+}
+
 export function clearSession() {
   deleteCookie(ACCESS_COOKIE);
   deleteCookie(REFRESH_COOKIE);

@@ -29,6 +29,12 @@ export const stagger = {
   base: 0.08,
 } as const;
 
+/**
+ * Stagger for a grid of cards: every card in a row enters together and the rows
+ * follow one after another, so the cards in the later columns don't trail behind.
+ */
+export const rowStagger = { each: 0.08, grid: "auto", axis: "y" } as const;
+
 /** Distance (px) for slide-in reveals. */
 export const distance = {
   sm: 8,

@@ -2,12 +2,13 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { LoaderCircle, Plus } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 
+import { NewItemButton } from "@/components/new-item-button";
 import { CategoryChips } from "@/components/properties/category-chips";
 import { ListingTypeCards } from "@/components/properties/listing-type-cards";
 import { Button } from "@/components/ui/button";
@@ -23,8 +24,6 @@ import { Label } from "@/components/ui/label";
 import { ApiError } from "@/lib/api/client";
 import { createProperty } from "@/lib/api/properties";
 import { getAccessToken } from "@/lib/auth/session";
-import { gsap } from "@/lib/gsap";
-import { duration, ease, media } from "@/lib/motion";
 import { ACCOMMODATION_TYPES, REAL_ESTATE_TYPES } from "@/lib/property-catalogs";
 
 const schema = z.object({
@@ -34,46 +33,6 @@ const schema = z.object({
 });
 
 type FormValues = z.infer<typeof schema>;
-
-// Receives the trigger's props (ref, onClick, aria-*) from DialogTrigger's
-// `asChild`, so they must be forwarded to the underlying Button.
-function NewPropertyButton({ onPointerEnter, onPointerLeave, onFocus, onBlur, ...props }: React.ComponentProps<typeof Button>) {
-  const iconRef = useRef<SVGSVGElement>(null);
-
-  function spin(rotation: number) {
-    if (window.matchMedia(media.reduceMotion).matches) return;
-    gsap.to(iconRef.current, { rotation, duration: duration.base, ease: ease.out });
-  }
-
-  return (
-    <Button
-      size="lg"
-      className="h-10 gap-2.5 pr-5 pl-1.5"
-      {...props}
-      onPointerEnter={(event) => {
-        onPointerEnter?.(event);
-        spin(90);
-      }}
-      onPointerLeave={(event) => {
-        onPointerLeave?.(event);
-        spin(0);
-      }}
-      onFocus={(event) => {
-        onFocus?.(event);
-        spin(90);
-      }}
-      onBlur={(event) => {
-        onBlur?.(event);
-        spin(0);
-      }}
-    >
-      <span className="flex size-7 items-center justify-center rounded-full bg-highlight text-highlight-foreground">
-        <Plus ref={iconRef} className="size-4" strokeWidth={2.5} />
-      </span>
-      Nueva propiedad
-    </Button>
-  );
-}
 
 export function CreatePropertyDialog() {
   const router = useRouter();
@@ -113,7 +72,7 @@ export function CreatePropertyDialog() {
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <NewPropertyButton />
+        <NewItemButton label="Nueva propiedad" />
       </DialogTrigger>
       <DialogContent className="gap-0 rounded-3xl p-0 sm:max-w-lg" showCloseButton>
         <form

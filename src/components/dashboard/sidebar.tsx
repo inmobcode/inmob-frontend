@@ -3,7 +3,6 @@
 import {
   Building2,
   CalendarDays,
-  LogOut,
   Menu,
   PanelLeftClose,
   PanelLeftOpen,
@@ -14,17 +13,12 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { TOGGLE_SIDEBAR_EVENT } from "@/components/dashboard/shortcuts";
+import { UserMenu } from "@/components/dashboard/user-menu";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   Tooltip,
   TooltipContent,
@@ -37,8 +31,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { clearSession, getSessionUser } from "@/lib/auth/session";
-import { SIDEBAR_COOKIE } from "@/lib/sidebar";
+import { gsap, useGSAP } from "@/lib/gsap";
+import { SIDEBAR_ANIMATING_ATTR, SIDEBAR_COOKIE, SIDEBAR_SETTLED_EVENT } from "@/lib/sidebar";
+import { distance, duration, ease, media, stagger } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 interface NavItem {
@@ -58,17 +53,6 @@ const NAV_ITEMS: NavItem[] = [
   { href: "/team", label: "Equipo", icon: UsersRound },
   { href: "/settings", label: "Configuración", icon: Settings },
 ];
-
-const NAME_FALLBACK = "Tu nombre";
-
-function initials(name: string) {
-  return name
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0]?.toUpperCase())
-    .join("");
-}
 
 function Brand() {
   return (
@@ -106,13 +90,14 @@ function NavLink({
       <TooltipTrigger asChild>
         <Link
           href={item.href}
+          data-nav-link
           aria-current={active ? "page" : undefined}
           aria-label={item.label}
           onClick={onNavigate}
           className={cn(
-            "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium whitespace-nowrap transition-colors",
+            "relative z-10 flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium whitespace-nowrap transition-colors",
             active
-              ? "bg-primary text-primary-foreground"
+              ? "text-sidebar-primary-foreground"
               : "text-muted-foreground hover:bg-foreground/5 hover:text-foreground",
           )}
         >
@@ -137,10 +122,64 @@ function SidebarNav({
   onNavigate?: () => void;
 }) {
   const pathname = usePathname();
+  const navRef = useRef<HTMLElement>(null);
+  const indicatorRef = useRef<HTMLSpanElement>(null);
+  const placed = useRef(false);
+
   const activeHref = NAV_ITEMS.find((item) => pathname.startsWith(item.href))?.href;
 
+  // Entrance: links settle in one after another, once per mount.
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add(media.allowMotion, () => {
+        gsap.from("[data-nav-link]", {
+          opacity: 0,
+          x: -distance.sm,
+          duration: duration.base,
+          ease: ease.out,
+          stagger: stagger.base,
+        });
+      });
+      return () => mm.revert();
+    },
+    // No deps means @gsap/react reruns this on every render — it replayed
+    // the fade/slide-in on every collapse toggle instead of just on mount.
+    { scope: navRef, dependencies: [] },
+  );
+
+  // The active pill glides to the current link instead of jumping.
+  useGSAP(
+    () => {
+      const indicator = indicatorRef.current;
+      const nav = navRef.current;
+      if (!indicator || !nav) return;
+      const target = activeHref
+        ? nav.querySelector<HTMLElement>(`[data-nav-link][href="${activeHref}"]`)
+        : null;
+      if (!target) {
+        gsap.set(indicator, { opacity: 0 });
+        return;
+      }
+      const state = { y: target.offsetTop, height: target.offsetHeight, opacity: 1 };
+      const animate = placed.current && !window.matchMedia(media.reduceMotion).matches;
+      if (animate) {
+        gsap.to(indicator, { ...state, duration: duration.base, ease: ease.inOut });
+      } else {
+        gsap.set(indicator, state);
+      }
+      placed.current = true;
+    },
+    { scope: navRef, dependencies: [activeHref] },
+  );
+
   return (
-    <nav className="flex flex-col gap-1">
+    <nav ref={navRef} className="relative flex flex-col gap-3">
+      <span
+        ref={indicatorRef}
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 rounded-lg bg-sidebar-primary opacity-0"
+      />
       {NAV_ITEMS.map((item) => (
         <NavLink
           key={item.href}
@@ -154,59 +193,6 @@ function SidebarNav({
   );
 }
 
-function UserMenu({ collapsed }: { collapsed: boolean }) {
-  const router = useRouter();
-  // Deliberately not a lazy useState initializer: document.cookie is
-  // unavailable during SSR but present on the client, so reading it
-  // synchronously on first render would make the hydrated output diverge
-  // from the server-rendered HTML. Deferring to an effect keeps both
-  // passes rendering `null` first, then fills in after mount.
-  const [user, setUser] = useState<ReturnType<typeof getSessionUser>>(null);
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setUser(getSessionUser());
-  }, []);
-
-  if (!user) return null;
-
-  function handleLogout() {
-    clearSession();
-    router.push("/login");
-  }
-
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <button
-          type="button"
-          className={cn(
-            "flex w-full items-center gap-3 rounded-full p-1.5 text-left outline-none transition-colors hover:bg-foreground/5 focus-visible:ring-3 focus-visible:ring-ring/50",
-            collapsed ? "justify-center" : "pr-3",
-          )}
-        >
-          <Avatar>
-            <AvatarFallback className="bg-secondary text-xs font-semibold text-secondary-foreground">
-              {initials(user.name || NAME_FALLBACK)}
-            </AvatarFallback>
-          </Avatar>
-          {!collapsed && (
-            <span className="min-w-0 flex-1">
-              <span className="block truncate text-sm font-medium">{user.name || NAME_FALLBACK}</span>
-              <span className="block truncate text-xs text-muted-foreground">{user.role}</span>
-            </span>
-          )}
-        </button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent side="top" align="start" className="w-56">
-        <DropdownMenuItem onSelect={handleLogout}>
-          <LogOut />
-          Cerrar sesión
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-}
-
 function SidebarBody({
   collapsed = false,
   onToggle,
@@ -216,25 +202,38 @@ function SidebarBody({
   onToggle?: () => void;
   onNavigate?: () => void;
 }) {
+  // The toggle moves while the sidebar resizes; its tooltip would chase it and
+  // swap its text mid-flight, so it stays closed until the pointer leaves.
+  const [tipOpen, setTipOpen] = useState(false);
+
   return (
     <div className="flex h-full flex-col gap-8 overflow-hidden p-4">
-      <div
-        className={cn(
-          "flex items-center pt-2",
-          collapsed ? "justify-center" : "justify-between pl-3",
-        )}
-      >
-        {!collapsed && <Brand />}
+      <div className="relative flex min-h-10 items-center justify-end pt-2">
+        <span
+          aria-hidden={collapsed}
+          className={cn(
+            "absolute top-2 left-3 flex h-8 items-center whitespace-nowrap transition-opacity duration-200",
+            collapsed && "pointer-events-none opacity-0",
+          )}
+        >
+          <Brand />
+        </span>
         {onToggle && (
-          <Tooltip>
+          <Tooltip open={tipOpen} onOpenChange={setTipOpen}>
             <TooltipTrigger asChild>
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={onToggle}
+                onClick={() => {
+                  setTipOpen(false);
+                  onToggle();
+                }}
                 aria-label={collapsed ? "Expandir menú" : "Contraer menú"}
                 aria-expanded={!collapsed}
-                className="text-muted-foreground hover:text-foreground"
+                className={cn(
+                  "shrink-0 text-muted-foreground transition-transform duration-300 hover:text-foreground",
+                  collapsed && "-translate-x-1",
+                )}
               >
                 {collapsed ? <PanelLeftOpen /> : <PanelLeftClose />}
               </Button>
@@ -250,7 +249,8 @@ function SidebarBody({
       </div>
       <div
         className={cn(
-          collapsed ? "" : "rounded-3xl bg-card/60 p-1.5 ring-1 ring-foreground/5 backdrop-blur",
+          "rounded-3xl p-1.5 ring-1 backdrop-blur transition-[background-color,box-shadow,padding] duration-300",
+          collapsed ? "bg-transparent p-0 ring-transparent" : "bg-card/60 ring-foreground/5",
         )}
       >
         <UserMenu collapsed={collapsed} />
@@ -261,6 +261,8 @@ function SidebarBody({
 
 export function DashboardSidebar({ initialCollapsed }: { initialCollapsed: boolean }) {
   const [collapsed, setCollapsed] = useState(initialCollapsed);
+  const asideRef = useRef<HTMLElement>(null);
+  const mounted = useRef(false);
 
   const toggle = useCallback(() => {
     setCollapsed((value) => {
@@ -282,10 +284,42 @@ export function DashboardSidebar({ initialCollapsed }: { initialCollapsed: boole
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [toggle]);
 
+  useEffect(() => {
+    window.addEventListener(TOGGLE_SIDEBAR_EVENT, toggle);
+    return () => window.removeEventListener(TOGGLE_SIDEBAR_EVENT, toggle);
+  }, [toggle]);
+
+  // The first render already has the right width (it comes from a cookie),
+  // so only later changes animate.
+  useGSAP(
+    () => {
+      const width = collapsed ? COLLAPSED_WIDTH : EXPANDED_WIDTH;
+      if (!mounted.current || window.matchMedia(media.reduceMotion).matches) {
+        gsap.set(asideRef.current, { width });
+      } else {
+        const root = document.documentElement;
+        root.setAttribute(SIDEBAR_ANIMATING_ATTR, "");
+        gsap.to(asideRef.current, {
+          width,
+          duration: duration.base,
+          ease: ease.inOut,
+          overwrite: true,
+          onComplete: () => {
+            root.removeAttribute(SIDEBAR_ANIMATING_ATTR);
+            window.dispatchEvent(new Event(SIDEBAR_SETTLED_EVENT));
+          },
+        });
+      }
+      mounted.current = true;
+    },
+    { dependencies: [collapsed] },
+  );
+
   return (
     <aside
-      style={{ width: collapsed ? COLLAPSED_WIDTH : EXPANDED_WIDTH }}
-      className="sticky top-0 hidden h-svh shrink-0 bg-sidebar transition-[width] duration-150 ease-linear md:block"
+      ref={asideRef}
+      style={{ width: initialCollapsed ? COLLAPSED_WIDTH : EXPANDED_WIDTH }}
+      className="sticky top-0 hidden h-svh shrink-0 bg-sidebar will-change-[width] md:block"
     >
       <SidebarBody collapsed={collapsed} onToggle={toggle} />
     </aside>

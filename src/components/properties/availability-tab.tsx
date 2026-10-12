@@ -1,5 +1,6 @@
 "use client";
 
+import { ArrowRight } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -121,7 +122,7 @@ export function AvailabilityTab({ property }: { property: Property }) {
                 <div className="flex items-center gap-2">
                   <Badge variant="secondary">{block.source}</Badge>
                   <span>
-                    {block.startDate} → {block.endDate}
+                    {block.startDate} <ArrowRight className="inline size-3.5 align-[-2px]" /> {block.endDate}
                   </span>
                   {block.note && <span className="text-zinc-500">({block.note})</span>}
                 </div>

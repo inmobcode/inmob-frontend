@@ -2,22 +2,23 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import { LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { NewItemButton } from "@/components/new-item-button";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
-  DialogHeader,
+  DialogDescription,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { ApiError } from "@/lib/api/client";
 import { createOffer } from "@/lib/api/offers";
 import { getAccessToken } from "@/lib/auth/session";
@@ -29,7 +30,8 @@ export function CreateOfferDialog() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
-  const form = useForm<FormValues>({ resolver: zodResolver(schema) });
+  const form = useForm<FormValues>({ resolver: zodResolver(schema), defaultValues: { title: "" } });
+  const titleError = form.formState.errors.title?.message;
 
   const mutation = useMutation({
     mutationFn: (values: FormValues) => {
@@ -46,35 +48,64 @@ export function CreateOfferDialog() {
     },
   });
 
+  function handleOpenChange(next: boolean) {
+    setOpen(next);
+    if (!next) {
+      form.reset();
+      setServerError(null);
+    }
+  }
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <Button>Nueva oferta</Button>
+        <NewItemButton label="Nueva oferta" />
       </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Nueva oferta</DialogTitle>
-        </DialogHeader>
+      <DialogContent className="gap-0 rounded-3xl p-0 sm:max-w-lg">
         <form
-          className="space-y-4"
+          className="flex flex-col"
           onSubmit={form.handleSubmit((values) => {
             setServerError(null);
             mutation.mutate(values);
           })}
         >
-          <FieldGroup>
-            <Field>
-              <FieldLabel htmlFor="title">Título</FieldLabel>
-              <Input id="title" placeholder="Ej. Propuesta para la familia Pérez" {...form.register("title")} />
-              <FieldError errors={[form.formState.errors.title]} />
-            </Field>
-          </FieldGroup>
-          {serverError && <p className="text-sm text-destructive">{serverError}</p>}
-          <DialogFooter>
-            <Button type="submit" disabled={mutation.isPending}>
-              {mutation.isPending ? "Creando..." : "Crear"}
+          <div className="flex flex-col gap-1.5 px-7 pt-7 pb-5">
+            <DialogTitle className="font-display text-3xl leading-none tracking-tight">Nueva oferta</DialogTitle>
+            <DialogDescription>
+              Ponele un nombre fácil de reconocer. Después sumás propiedades, descuentos y el link para tu cliente.
+            </DialogDescription>
+          </div>
+
+          <div className="flex flex-col gap-2.5 px-7 pb-2">
+            <Label htmlFor="offer-title">Título</Label>
+            <Input
+              id="offer-title"
+              autoComplete="off"
+              autoFocus
+              placeholder="Ej: Propuesta para la familia Pérez"
+              aria-invalid={Boolean(titleError)}
+              className="h-11 px-4"
+              {...form.register("title")}
+            />
+            {titleError && <p className="text-sm text-destructive">{titleError}</p>}
+            {serverError && <p className="text-sm text-destructive">{serverError}</p>}
+          </div>
+
+          <div className="flex items-center justify-end gap-2 px-7 pt-5 pb-7">
+            <Button type="button" variant="ghost" className="h-10 px-5" onClick={() => handleOpenChange(false)}>
+              Cancelar
             </Button>
-          </DialogFooter>
+            <Button type="submit" variant="highlight" className="h-10 gap-2 px-6" disabled={mutation.isPending}>
+              {mutation.isPending ? (
+                <>
+                  <LoaderCircle className="animate-spin" />
+                  Creando…
+                </>
+              ) : (
+                "Crear oferta"
+              )}
+            </Button>
+          </div>
         </form>
       </DialogContent>
     </Dialog>

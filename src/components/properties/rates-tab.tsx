@@ -1,5 +1,6 @@
 "use client";
 
+import { ArrowRight } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
@@ -138,7 +139,7 @@ export function RatesTab({ propertyId }: { propertyId: string }) {
               <div>
                 <p className="font-medium">{period.label || "Sin etiqueta"}</p>
                 <p className="text-zinc-500">
-                  {period.startDate} → {period.endDate}
+                  {period.startDate} <ArrowRight className="inline size-3.5 align-[-2px]" /> {period.endDate}
                   {period.officialPricePerNight ? ` · ${period.officialPricePerNight}/noche` : ""}
                   {period.minStay ? ` · mín. ${period.minStay} noches` : ""}
                 </p>

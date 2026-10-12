@@ -62,7 +62,7 @@ export function SelectToggle({
       aria-label={label}
       onClick={onToggle}
       className={cn(
-        "flex size-6 shrink-0 items-center justify-center rounded-full border-2 transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+        "flex size-6 shrink-0 items-center justify-center rounded-[6px] border-2 transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
         checked || indeterminate
           ? "border-primary bg-primary text-primary-foreground"
           : "border-foreground/25 bg-card/90 text-transparent backdrop-blur hover:border-primary",

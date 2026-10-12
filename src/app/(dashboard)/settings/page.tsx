@@ -2,49 +2,122 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Building2, Copy, ExternalLink, LoaderCircle, TriangleAlert } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { useForm, useWatch } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import { FormSection } from "@/components/properties/form-section";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { ApiError } from "@/lib/api/client";
+import { Label } from "@/components/ui/label";
 import { getAgency, updateAgency, uploadAgencyLogo } from "@/lib/api/agency";
+import { ApiError } from "@/lib/api/client";
 import { getAccessToken } from "@/lib/auth/session";
 import { compressToWebp } from "@/lib/image-compression";
+import { useActionBarStore } from "@/lib/store/action-bar-store";
+import { cn } from "@/lib/utils";
 
 const schema = z.object({
   name: z.string().min(2, "Ingresá un nombre"),
   slug: z
     .string()
-    .min(2, "Ingresá un slug")
+    .min(2, "Ingresá una dirección")
     .regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, "Solo minúsculas, números y guiones"),
-  contactEmail: z.string(),
-  locale: z.string().length(2, "2 letras, ej. es"),
-  currency: z.string().length(3, "3 letras, ej. USD"),
+  contactEmail: z.string().refine((value) => value === "" || z.string().email().safeParse(value).success, "Email inválido"),
+  locale: z.string().length(2),
+  currency: z.string().length(3),
 });
 
 type FormValues = z.infer<typeof schema>;
+
+const LOCALES = [
+  { value: "es", label: "Español" },
+  { value: "en", label: "English" },
+  { value: "pt", label: "Português" },
+];
+
+const CURRENCIES = ["USD", "ARS", "EUR", "UYU", "BRL", "MXN", "CLP"];
+
+function requireToken() {
+  const token = getAccessToken();
+  if (!token) throw new ApiError("No autenticado", 401);
+  return token;
+}
+
+function Chips({
+  label,
+  options,
+  value,
+  onChange,
+}: {
+  label: string;
+  options: { value: string; label: string }[];
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  // A value saved before this list existed still has to show up as selected.
+  const all = options.some((option) => option.value === value) || !value ? options : [...options, { value, label: value }];
+  return (
+    <div role="radiogroup" aria-label={label} className="flex flex-wrap gap-1.5">
+      {all.map((option) => {
+        const active = option.value === value;
+        return (
+          <button
+            key={option.value}
+            type="button"
+            role="radio"
+            aria-checked={active}
+            onClick={() => onChange(option.value)}
+            className={cn(
+              "inline-flex h-9 items-center rounded-full px-4 text-sm font-medium transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+              active
+                ? "bg-primary text-primary-foreground"
+                : "bg-foreground/[0.06] text-muted-foreground hover:bg-foreground/10 hover:text-foreground",
+            )}
+          >
+            {option.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function Skeleton() {
+  return (
+    <div className="flex max-w-2xl animate-pulse flex-col gap-12">
+      {[0, 1, 2].map((index) => (
+        <div key={index} className="flex flex-col gap-4">
+          <div className="h-6 w-48 rounded-full bg-muted" />
+          <div className="h-11 w-full rounded-xl bg-muted" />
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export default function SettingsPage() {
   const queryClient = useQueryClient();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isCompressing, setIsCompressing] = useState(false);
+  const setActions = useActionBarStore((state) => state.setActions);
+  const resetActions = useActionBarStore((state) => state.reset);
 
   const { data: agency, isLoading } = useQuery({
     queryKey: ["agency"],
-    queryFn: () => {
-      const token = getAccessToken();
-      if (!token) throw new ApiError("No autenticado", 401);
-      return getAgency(token);
-    },
+    queryFn: () => getAgency(requireToken()),
   });
 
-  const form = useForm<FormValues>({ resolver: zodResolver(schema) });
-  const slugValue = useWatch({ control: form.control, name: "slug" });
+  const form = useForm<FormValues>({
+    resolver: zodResolver(schema),
+    defaultValues: { name: "", slug: "", contactEmail: "", locale: "es", currency: "USD" },
+  });
+  const slug = useWatch({ control: form.control, name: "slug" });
+  const errors = form.formState.errors;
+  const isDirty = form.formState.isDirty;
+  const slugChanged = Boolean(agency && slug && slug !== agency.slug);
 
   const [formReady, setFormReady] = useState(false);
   useEffect(() => {
@@ -63,19 +136,23 @@ export default function SettingsPage() {
   }, [agency?.id]);
 
   const saveMutation = useMutation({
-    mutationFn: (values: FormValues) => {
-      const token = getAccessToken();
-      if (!token) throw new ApiError("No autenticado", 401);
-      return updateAgency(token, {
+    mutationFn: (values: FormValues) =>
+      updateAgency(requireToken(), {
         name: values.name,
         slug: values.slug,
         contactEmail: values.contactEmail || null,
         locale: values.locale,
         currency: values.currency,
-      });
-    },
+      }),
     onSuccess: (updated) => {
       queryClient.setQueryData(["agency"], updated);
+      form.reset({
+        name: updated.name,
+        slug: updated.slug,
+        contactEmail: updated.contactEmail ?? "",
+        locale: updated.locale,
+        currency: updated.currency,
+      });
       toast.success("Cambios guardados");
     },
     onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo guardar"),
@@ -83,8 +160,7 @@ export default function SettingsPage() {
 
   const logoMutation = useMutation({
     mutationFn: async (file: File) => {
-      const token = getAccessToken();
-      if (!token) throw new ApiError("No autenticado", 401);
+      const token = requireToken();
       setIsCompressing(true);
       const compressed = await compressToWebp(file, { maxSide: 512 });
       setIsCompressing(false);
@@ -100,90 +176,164 @@ export default function SettingsPage() {
     },
   });
 
-  if (isLoading || !agency || !formReady) {
-    return <p className="text-sm text-zinc-500">Cargando...</p>;
+  useEffect(() => {
+    setActions({
+      title: "Configuración",
+      isSubmitting: saveMutation.isPending,
+      isDirty,
+      canSubmit: true,
+      saveLabel: "Guardar",
+      onSave: form.handleSubmit((values) => saveMutation.mutate(values)),
+      onPublish: null,
+      onCancel: null,
+    });
+    return resetActions;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDirty, saveMutation.isPending]);
+
+  async function copyLink() {
+    try {
+      await navigator.clipboard.writeText(`${window.location.origin}/${agency?.slug ?? slug}`);
+      toast.success("Link copiado");
+    } catch {
+      toast.error("No se pudo copiar el link");
+    }
   }
 
+  if (isLoading || !agency || !formReady) return <Skeleton />;
+
+  const uploading = isCompressing || logoMutation.isPending;
+
   return (
-    <Card className="max-w-2xl">
-      <CardHeader>
-        <CardTitle>Configuración</CardTitle>
-        <CardDescription>Perfil de la agencia y branding del portal público.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form
-          className="space-y-6"
-          onSubmit={form.handleSubmit((values) => saveMutation.mutate(values))}
-        >
-          <div className="flex items-center gap-4">
-            <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-md border bg-zinc-50 dark:bg-zinc-900">
-              {agency.logoUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={agency.logoUrl} alt={agency.name} className="h-full w-full object-contain" />
-              ) : (
-                <span className="text-xs text-zinc-400">Sin logo</span>
+    <form
+      className="flex max-w-2xl min-w-0 flex-col gap-12"
+      onSubmit={form.handleSubmit((values) => saveMutation.mutate(values))}
+    >
+      <h1 className="sr-only">Configuración</h1>
+
+      <FormSection title="Tu agencia" description="El nombre y el logo con los que te ven tus clientes." shown>
+        <div className="flex items-center gap-5">
+          <button
+            type="button"
+            aria-label="Cambiar el logo"
+            disabled={uploading}
+            onClick={() => fileInputRef.current?.click()}
+            className="group relative flex size-24 shrink-0 items-center justify-center overflow-hidden rounded-3xl bg-foreground/[0.06] text-muted-foreground outline-none transition-colors hover:bg-foreground/10 focus-visible:ring-3 focus-visible:ring-ring/50"
+          >
+            {agency.logoUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={agency.logoUrl} alt={agency.name} className="size-full object-contain p-2" />
+            ) : (
+              <Building2 className="size-8" strokeWidth={1.5} />
+            )}
+            <span
+              className={cn(
+                "absolute inset-0 flex items-center justify-center bg-foreground/55 text-xs font-medium text-background opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100",
+                uploading && "opacity-100",
               )}
-            </div>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) logoMutation.mutate(file);
-                e.target.value = "";
-              }}
-            />
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              disabled={isCompressing || logoMutation.isPending}
-              onClick={() => fileInputRef.current?.click()}
             >
-              {isCompressing || logoMutation.isPending ? "Subiendo..." : "Cambiar logo"}
-            </Button>
+              {uploading ? <LoaderCircle className="size-5 animate-spin" /> : "Cambiar"}
+            </span>
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(event) => {
+              const file = event.target.files?.[0];
+              if (file) logoMutation.mutate(file);
+              event.target.value = "";
+            }}
+          />
+          <div className="flex min-w-0 flex-1 flex-col gap-2.5">
+            <Label htmlFor="name">Nombre de la agencia</Label>
+            <Input id="name" autoComplete="off" aria-invalid={Boolean(errors.name)} className="h-11 px-4" {...form.register("name")} />
+            {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
+          </div>
+        </div>
+      </FormSection>
+
+      <FormSection title="Portal público" description="La página donde tus clientes ven tus propiedades." shown>
+        <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-2.5">
+            <Label htmlFor="slug">Dirección del portal</Label>
+            <div className="relative">
+              <span className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-sm text-muted-foreground">/</span>
+              <Input
+                id="slug"
+                autoComplete="off"
+                aria-invalid={Boolean(errors.slug)}
+                className="h-11 pr-4 pl-8"
+                {...form.register("slug")}
+              />
+            </div>
+            {errors.slug && <p className="text-sm text-destructive">{errors.slug.message}</p>}
+            {slugChanged && (
+              <p className="flex items-start gap-2 rounded-2xl bg-amber-500/15 px-4 py-3 text-sm text-amber-800 dark:text-amber-300">
+                <TriangleAlert className="mt-0.5 size-4 shrink-0" />
+                Cambiar la dirección rompe los links que ya compartiste.
+              </p>
+            )}
+            <div className="flex flex-wrap items-center gap-2 pt-1">
+              <Button type="button" variant="outline" size="sm" className="h-9 gap-1.5 rounded-full px-4" onClick={copyLink}>
+                <Copy />
+                Copiar link
+              </Button>
+              <Button type="button" variant="ghost" size="sm" className="h-9 gap-1.5 rounded-full px-4" asChild>
+                <a href={`/${agency.slug}`} target="_blank" rel="noreferrer">
+                  <ExternalLink />
+                  Ver portal
+                </a>
+              </Button>
+            </div>
           </div>
 
-          <FieldGroup>
-            <Field>
-              <FieldLabel htmlFor="name">Nombre de la agencia</FieldLabel>
-              <Input id="name" {...form.register("name")} />
-              <FieldError errors={[form.formState.errors.name]} />
-            </Field>
-            <Field>
-              <FieldLabel htmlFor="slug">Slug del portal público</FieldLabel>
-              <Input id="slug" {...form.register("slug")} />
-              <p className="text-xs text-zinc-500">
-                Tu portal público vive en /{slugValue || agency.slug}. Cambiarlo rompe
-                cualquier link que ya hayas compartido.
-              </p>
-              <FieldError errors={[form.formState.errors.slug]} />
-            </Field>
-            <Field>
-              <FieldLabel htmlFor="contactEmail">Email de contacto</FieldLabel>
-              <Input id="contactEmail" type="email" {...form.register("contactEmail")} />
-            </Field>
-            <div className="grid grid-cols-2 gap-3">
-              <Field>
-                <FieldLabel htmlFor="locale">Idioma</FieldLabel>
-                <Input id="locale" maxLength={2} {...form.register("locale")} />
-                <FieldError errors={[form.formState.errors.locale]} />
-              </Field>
-              <Field>
-                <FieldLabel htmlFor="currency">Moneda por defecto</FieldLabel>
-                <Input id="currency" maxLength={3} {...form.register("currency")} />
-                <FieldError errors={[form.formState.errors.currency]} />
-              </Field>
-            </div>
-          </FieldGroup>
+          <div className="flex flex-col gap-2.5">
+            <Label htmlFor="contactEmail">
+              Email de contacto <span className="font-normal text-muted-foreground">(opcional)</span>
+            </Label>
+            <Input
+              id="contactEmail"
+              type="email"
+              autoComplete="off"
+              placeholder="contacto@tuagencia.com"
+              aria-invalid={Boolean(errors.contactEmail)}
+              className="h-11 px-4"
+              {...form.register("contactEmail")}
+            />
+            {errors.contactEmail && <p className="text-sm text-destructive">{errors.contactEmail.message}</p>}
+          </div>
+        </div>
+      </FormSection>
 
-          <Button type="submit" disabled={saveMutation.isPending}>
-            {saveMutation.isPending ? "Guardando..." : "Guardar cambios"}
-          </Button>
-        </form>
-      </CardContent>
-    </Card>
+      <FormSection title="Preferencias" description="Cómo se muestran los textos y los precios por defecto." shown={false}>
+        <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-2.5">
+            <Label>Idioma</Label>
+            <Controller
+              control={form.control}
+              name="locale"
+              render={({ field }) => <Chips label="Idioma" options={LOCALES} value={field.value} onChange={field.onChange} />}
+            />
+          </div>
+          <div className="flex flex-col gap-2.5">
+            <Label>Moneda por defecto</Label>
+            <Controller
+              control={form.control}
+              name="currency"
+              render={({ field }) => (
+                <Chips
+                  label="Moneda por defecto"
+                  options={CURRENCIES.map((value) => ({ value, label: value }))}
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              )}
+            />
+          </div>
+        </div>
+      </FormSection>
+    </form>
   );
 }

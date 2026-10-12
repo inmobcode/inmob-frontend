@@ -434,13 +434,15 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
   const category = useWatch({ control: form.control, name: "category" });
   const isDirty = form.formState.isDirty;
 
-  const [formReady, setFormReady] = useState(false);
+  // The form is filled from the property in an effect, so the very first render
+  // after loading still has empty values. Hold the tabs back until it has run,
+  // otherwise controls receive `undefined` (e.g. the steppers crash on it).
+  const [formFilled, setFormFilled] = useState(false);
   useEffect(() => {
-    if (property) {
-      form.reset(toFormValues(property));
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- gates the form's first render until reset() has populated real values
-      setFormReady(true);
-    }
+    if (!property) return;
+    form.reset(toFormValues(property));
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setFormFilled(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [property?.updatedAt]);
 
@@ -533,7 +535,7 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
     { dependencies: [activeTab] },
   );
 
-  if (isLoading || !property || !formReady) {
+  if (isLoading || !property || !formFilled) {
     return (
       <div className="flex animate-pulse flex-col gap-8">
         <div className="flex items-center gap-5">

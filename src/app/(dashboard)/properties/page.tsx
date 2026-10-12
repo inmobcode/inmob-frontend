@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { CreatePropertyDialog } from "@/components/properties/create-property-dialog";
+import { ActiveFilters } from "@/components/properties/active-filters";
 import { FiltersSheet } from "@/components/properties/filters-sheet";
 import { PropertyCard, PropertyCardSkeleton } from "@/components/properties/property-card";
 import { BulkBar } from "@/components/properties/bulk-bar";
@@ -36,7 +37,7 @@ import {
 } from "@/lib/api/properties";
 import { getAccessToken } from "@/lib/auth/session";
 import { Flip, gsap, useGSAP } from "@/lib/gsap";
-import { distance, duration, ease, media, stagger } from "@/lib/motion";
+import { distance, duration, ease, media, rowStagger } from "@/lib/motion";
 import { applyFilters, countActiveFilters, DEFAULT_FILTERS, type PropertyFilters } from "@/lib/property-filters";
 
 const TYPE_TABS: { value: PropertyFilters["type"]; label: string }[] = [
@@ -44,6 +45,24 @@ const TYPE_TABS: { value: PropertyFilters["type"]; label: string }[] = [
   { value: "SALE", label: "Venta" },
   { value: "RENT", label: "Alquiler" },
 ];
+
+const SEARCH_CLASS =
+  "h-10 rounded-full border-transparent bg-foreground/[0.07] pl-10 transition-[background-color,box-shadow,border-color] duration-500 ease-out focus-visible:border-primary/20 focus-visible:bg-card focus-visible:shadow-[0_8px_24px_-12px_oklch(0.3_0.05_160/0.3)] focus-visible:ring-0 dark:bg-foreground/10 dark:focus-visible:bg-card";
+
+function SearchField({ value, onChange, className }: { value: string; onChange: (value: string) => void; className?: string }) {
+  return (
+    <div className={`relative ${className ?? ""}`}>
+      <Search className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted-foreground" />
+      <Input
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        placeholder="Buscar por título, zona o propietario"
+        aria-label="Buscar propiedades"
+        className={SEARCH_CLASS}
+      />
+    </div>
+  );
+}
 
 export default function PropertiesPage() {
   const { data, isLoading, error, refetch, isFetching } = useQuery({
@@ -207,7 +226,7 @@ export default function PropertiesPage() {
             y: distance.md,
             duration: duration.macro,
             ease: ease.out,
-            stagger: stagger.tight,
+            stagger: rowStagger,
           });
         } else if (flipState.current) {
           Flip.from(flipState.current, {
@@ -229,8 +248,42 @@ export default function PropertiesPage() {
     { scope: gridRef, dependencies: [visibleKey, isLoading, view] },
   );
 
-  const hasFilters = countActiveFilters(filters) > 0 || filters.search.trim() !== "";
+  // When the toolbar has scrolled out of view, a compact search + filters bar
+  // takes its place at the top, so you can keep searching without scrolling back.
   const total = sorted.length;
+  const toolbarRef = useRef<HTMLDivElement>(null);
+  const compactRef = useRef<HTMLDivElement>(null);
+  const [toolbarGone, setToolbarGone] = useState(false);
+  const hasToolbar = total > 0;
+
+  useEffect(() => {
+    const element = toolbarRef.current;
+    if (!element) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setToolbarGone(!entry.isIntersecting && entry.boundingClientRect.bottom < 0),
+      { threshold: 0 },
+    );
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [hasToolbar]);
+
+  useGSAP(
+    () => {
+      const bar = compactRef.current;
+      if (!bar) return;
+      const reduce = window.matchMedia(media.reduceMotion).matches;
+      gsap.to(bar, {
+        autoAlpha: toolbarGone ? 1 : 0,
+        y: toolbarGone ? 0 : -distance.md,
+        duration: reduce ? 0 : duration.base,
+        ease: toolbarGone ? ease.out : ease.in,
+        overwrite: true,
+      });
+    },
+    { dependencies: [toolbarGone] },
+  );
+
+  const hasFilters = countActiveFilters(filters) > 0 || filters.search.trim() !== "";
 
   function clearFilters() {
     captureLayout();
@@ -246,27 +299,37 @@ export default function PropertiesPage() {
     <div className="flex flex-col gap-8">
       <h1 className="sr-only">Propiedades</h1>
 
+      {/* Compact bar: zero height, so it never moves the page, and hidden until the toolbar is gone. */}
+      {hasToolbar && (
+        <div className="pointer-events-none sticky top-[5.5rem] z-30 -mb-8 h-0 md:top-8">
+          <div
+            ref={compactRef}
+            aria-hidden={!toolbarGone}
+            inert={!toolbarGone}
+            style={{ opacity: 0, visibility: "hidden", transform: "translateY(-24px)" }}
+            className="pointer-events-auto mx-auto flex w-full max-w-xl items-center gap-2 rounded-full bg-card/30 p-1.5 shadow-[inset_0_1px_0_oklch(1_0_0/0.7),0_16px_40px_-12px_oklch(0.3_0.05_160/0.35)] ring-1 ring-foreground/[0.07] backdrop-blur-xl backdrop-saturate-200"
+          >
+            <SearchField className="flex-1" value={filters.search} onChange={(search) => updateFilters({ search })} />
+            <FiltersSheet
+              properties={sorted}
+              value={filters}
+              onApply={(next) => {
+                captureLayout();
+                setFilters(next);
+              }}
+            />
+          </div>
+        </div>
+      )}
+
       {!(data && total === 0) && (
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-3">
+        <div ref={toolbarRef} className="flex flex-wrap items-center gap-x-3 gap-y-3">
           {total > 0 && (
-            <div className="flex w-full items-center gap-2 sm:max-w-md sm:min-w-64 sm:flex-1">
-              <div className="relative flex-1">
-                <Search className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted-foreground" />
-                <Input
-                  value={filters.search}
-                  onChange={(event) => updateFilters({ search: event.target.value })}
-                  placeholder="Buscar por título, zona o propietario"
-                  aria-label="Buscar propiedades"
-                  className="h-10 rounded-full border-transparent bg-foreground/[0.07] pl-10 transition-[background-color,box-shadow,border-color] duration-500 ease-out focus-visible:border-primary/20 focus-visible:bg-card focus-visible:shadow-[0_8px_24px_-12px_oklch(0.3_0.05_160/0.3)] focus-visible:ring-0 dark:bg-foreground/10 dark:focus-visible:bg-card"
-                />
-              </div>
-              <FiltersSheet
-                properties={sorted}
-                value={filters}
-                onApply={(next) => {
-                  captureLayout();
-                  setFilters(next);
-                }}
+            <div className="flex w-full items-center gap-2 sm:max-w-xl sm:min-w-72 sm:flex-1">
+              <SearchField
+                className="flex-1"
+                value={filters.search}
+                onChange={(search) => updateFilters({ search })}
               />
             </div>
           )}
@@ -285,12 +348,32 @@ export default function PropertiesPage() {
                   counts={statusCounts}
                   onChange={(status) => updateFilters({ status })}
                 />
+                <FiltersSheet
+                  properties={sorted}
+                  value={filters}
+                  onApply={(next) => {
+                    captureLayout();
+                    setFilters(next);
+                  }}
+                />
                 <ViewSwitch value={view} onChange={changeView} />
               </>
             )}
             <CreatePropertyDialog />
           </div>
         </div>
+      )}
+
+      {total > 0 && (
+        <ActiveFilters
+          filters={filters}
+          properties={sorted}
+          onChange={updateFilters}
+          onClear={() => {
+            captureLayout();
+            setFilters((current) => ({ ...DEFAULT_FILTERS, search: current.search }));
+          }}
+        />
       )}
 
       {error && (

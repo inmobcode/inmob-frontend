@@ -6,9 +6,10 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
-function parse(value: string) {
-  const parsed = Number(value.replace(",", "."));
-  return value.trim() === "" || Number.isNaN(parsed) ? null : parsed;
+function parse(value: string | undefined) {
+  const text = value ?? "";
+  const parsed = Number(text.replace(",", "."));
+  return text.trim() === "" || Number.isNaN(parsed) ? null : parsed;
 }
 
 /** A number field with − / + buttons. The value stays a string, like the rest of the form. */
@@ -51,7 +52,7 @@ export function Stepper({
       <Input
         id={id}
         inputMode="decimal"
-        value={value}
+        value={value ?? ""}
         placeholder="0"
         onChange={(event) => onChange(event.target.value.replace(/[^\d.,]/g, ""))}
         className="min-w-0 text-center tabular-nums"
@@ -173,12 +174,15 @@ export function ChipToggleGroup({
   onChange,
   labels = {},
   label,
+  counts,
 }: {
   options: string[];
   value: string[];
   onChange: (value: string[]) => void;
   labels?: Record<string, string>;
   label: string;
+  /** Optional number shown after each option. */
+  counts?: Record<string, number>;
 }) {
   function toggle(option: string) {
     onChange(value.includes(option) ? value.filter((item) => item !== option) : [...value, option]);
@@ -202,6 +206,11 @@ export function ChipToggleGroup({
             )}
           >
             {labels[option] ?? option}
+            {counts && (
+              <span className={cn("text-xs tabular-nums", active ? "text-primary-foreground/70" : "text-muted-foreground/70")}>
+                {counts[option] ?? 0}
+              </span>
+            )}
           </button>
         );
       })}

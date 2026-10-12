@@ -1,3 +1,4 @@
+import { ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import type { OwnerPortal, OwnerPortalProperty } from "@/lib/api/owner-portal";
 import { BOOKING_STATUS_LABELS, LISTING_TYPE_LABELS, PAYMENT_TYPE_LABELS } from "@/lib/properties-labels";
@@ -35,7 +36,7 @@ function PropertyBlock({ property }: { property: OwnerPortalProperty }) {
               <div key={i} className="rounded-md border p-3 text-sm">
                 <div className="flex items-center justify-between">
                   <span>
-                    {booking.startDate ?? "—"} → {booking.endDate ?? "—"}
+                    {booking.startDate ?? "—"} <ArrowRight className="inline size-3.5 align-[-2px]" /> {booking.endDate ?? "—"}
                   </span>
                   <Badge variant={booking.status === "CONFIRMED" ? "default" : "secondary"}>
                     {BOOKING_STATUS_LABELS[booking.status]}
