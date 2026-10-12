@@ -2,6 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,7 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ApiError } from "@/lib/api/client";
-import { createOwner, listOwners } from "@/lib/api/properties";
+import { createOwner, listOwners, regenerateOwnerToken } from "@/lib/api/properties";
 import { getAccessToken } from "@/lib/auth/session";
 
 export function OwnerTab({
@@ -54,6 +55,21 @@ export function OwnerTab({
     },
   });
 
+  const selectedOwner = owners?.find((owner) => owner.id === ownerId);
+
+  const regenerateMutation = useMutation({
+    mutationFn: () => {
+      const token = getAccessToken();
+      if (!token) throw new ApiError("No autenticado", 401);
+      if (!selectedOwner) throw new Error("No hay propietario seleccionado");
+      return regenerateOwnerToken(token, selectedOwner.id);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["owners"] });
+      toast.success("Link regenerado");
+    },
+  });
+
   return (
     <div className="space-y-4">
       <Select value={ownerId || undefined} onValueChange={onChange}>
@@ -68,6 +84,48 @@ export function OwnerTab({
           ))}
         </SelectContent>
       </Select>
+
+      {selectedOwner && (
+        <div className="space-y-2 rounded-md border p-3">
+          <p className="text-sm font-medium">Acceso del propietario</p>
+          <p className="text-xs text-zinc-500">
+            Link de solo lectura para que {selectedOwner.name} vea el estado de sus propiedades
+            (disponibilidad, reservas y pagos), sin necesidad de contraseña.
+          </p>
+          <div className="flex items-center gap-2">
+            <Input
+              readOnly
+              value={
+                typeof window !== "undefined"
+                  ? `${window.location.origin}/owner/${selectedOwner.accessToken}`
+                  : ""
+              }
+            />
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                navigator.clipboard.writeText(
+                  `${window.location.origin}/owner/${selectedOwner.accessToken}`,
+                );
+                toast.success("Link copiado");
+              }}
+            >
+              Copiar link
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              disabled={regenerateMutation.isPending}
+              onClick={() => regenerateMutation.mutate()}
+            >
+              Regenerar
+            </Button>
+          </div>
+        </div>
+      )}
 
       {!showCreate ? (
         <Button type="button" variant="outline" size="sm" onClick={() => setShowCreate(true)}>

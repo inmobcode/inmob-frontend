@@ -1,9 +1,23 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
+import { MoreHorizontal } from "lucide-react";
+import { toast } from "sonner";
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -11,6 +25,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -21,9 +41,66 @@ import {
 } from "@/components/ui/table";
 import { CreatePropertyDialog } from "@/components/properties/create-property-dialog";
 import { ApiError } from "@/lib/api/client";
-import { listProperties } from "@/lib/api/properties";
+import { deleteProperty, listProperties, type Property } from "@/lib/api/properties";
 import { getAccessToken } from "@/lib/auth/session";
 import { LISTING_TYPE_LABELS, STATUS_LABELS } from "@/lib/properties-labels";
+
+function PropertyRowActions({ property }: { property: Property }) {
+  const queryClient = useQueryClient();
+
+  const deleteMutation = useMutation({
+    mutationFn: () => {
+      const token = getAccessToken();
+      if (!token) throw new ApiError("No autenticado", 401);
+      return deleteProperty(token, property.id);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["properties"] });
+      toast.success("Propiedad eliminada");
+    },
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo eliminar"),
+  });
+
+  return (
+    <AlertDialog>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" size="icon" className="h-8 w-8">
+            <MoreHorizontal className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem asChild>
+            <Link href={`/properties/${property.id}`}>Editar</Link>
+          </DropdownMenuItem>
+          <AlertDialogTrigger asChild>
+            <DropdownMenuItem
+              variant="destructive"
+              onSelect={(e) => e.preventDefault()}
+            >
+              Eliminar
+            </DropdownMenuItem>
+          </AlertDialogTrigger>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>¿Eliminar &quot;{property.title}&quot;?</AlertDialogTitle>
+          <AlertDialogDescription>
+            Esta acción no se puede deshacer. Se va a borrar la propiedad junto con sus fotos,
+            disponibilidad y cualquier oferta que la incluya.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancelar</AlertDialogCancel>
+          <AlertDialogAction onClick={() => deleteMutation.mutate()} disabled={deleteMutation.isPending}>
+            Eliminar
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}
 
 export default function PropertiesPage() {
   const { data, isLoading, error } = useQuery({
@@ -68,6 +145,7 @@ export default function PropertiesPage() {
                 <TableHead>Categoría</TableHead>
                 <TableHead>Precio</TableHead>
                 <TableHead>Estado</TableHead>
+                <TableHead className="w-10" />
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -89,6 +167,9 @@ export default function PropertiesPage() {
                     <Badge variant={property.status === "PUBLISHED" ? "default" : "secondary"}>
                       {STATUS_LABELS[property.status]}
                     </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <PropertyRowActions property={property} />
                   </TableCell>
                 </TableRow>
               ))}

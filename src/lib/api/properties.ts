@@ -18,6 +18,7 @@ export interface PropertyOwner {
   email?: string | null;
   phone?: string | null;
   notes?: string | null;
+  accessToken: string;
 }
 
 export interface PropertyPhoto {
@@ -275,13 +276,34 @@ export function createOwner(
   });
 }
 
-export function listPublicProperties(
-  agencySlug: string,
-  filters: { listingType?: ListingType; category?: PropertyCategory } = {},
-) {
+export function regenerateOwnerToken(token: string, ownerId: string) {
+  return apiFetch<PropertyOwner>(`/api/properties/owners/${ownerId}/regenerate-token`, {
+    method: "POST",
+    token,
+  });
+}
+
+export interface PublicPropertyFilters {
+  listingType?: ListingType;
+  category?: PropertyCategory;
+  country?: string;
+  region?: string;
+  area?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  q?: string;
+}
+
+export function listPublicProperties(agencySlug: string, filters: PublicPropertyFilters = {}) {
   const params = new URLSearchParams();
   if (filters.listingType) params.set("listingType", filters.listingType);
   if (filters.category) params.set("category", filters.category);
+  if (filters.country) params.set("country", filters.country);
+  if (filters.region) params.set("region", filters.region);
+  if (filters.area) params.set("area", filters.area);
+  if (filters.minPrice != null) params.set("minPrice", String(filters.minPrice));
+  if (filters.maxPrice != null) params.set("maxPrice", String(filters.maxPrice));
+  if (filters.q) params.set("q", filters.q);
   const query = params.toString();
   return apiFetch<Property[]>(
     `/api/public/${agencySlug}/properties${query ? `?${query}` : ""}`,
