@@ -51,7 +51,7 @@ const LOCALES = [
   { value: "pt", label: "Português" },
 ];
 
-const CURRENCIES = ["USD", "ARS", "EUR", "UYU", "BRL", "MXN", "CLP"];
+const CURRENCIES = ["USD", "EUR"];
 
 function requireToken() {
   const token = getAccessToken();

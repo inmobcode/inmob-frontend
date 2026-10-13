@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 // Each layer blurs a little more than the one above it and is masked to its own
 // band, so the blur ramps up smoothly toward the edge (the "progressive blur"
 // look of Apple's scroll edge effect) instead of starting with a hard line.
-const BLUR_LAYERS = [0.5, 1, 2, 4, 8, 14];
+const BLUR_LAYERS = [0.5, 1, 1.5, 2.5, 4, 6];
 
 function bandMask(
   index: number,
