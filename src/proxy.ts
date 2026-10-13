@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+// Agency-scoped sections, reached as /:agencySlug/<section>/...
 const DASHBOARD_SECTIONS = [
   "properties",
   "offers",
   "clients",
+  "inquiries",
   "bookings",
   "team",
   "settings",
@@ -31,6 +33,19 @@ function agencySlugFromToken(token: string): string | null {
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // The portal editor lives outside the agency-scoped tree (no slug segment),
+  // so it only needs the plain "are you logged in" check, not slug-correction.
+  if (pathname === "/portal" || pathname.startsWith("/portal/")) {
+    const token = request.cookies.get("access_token")?.value;
+    if (!token) {
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("next", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+    return NextResponse.next();
+  }
+
   const [, agencySlug, section] = pathname.split("/");
   const isDashboardRoute = DASHBOARD_SECTIONS.includes(section);
   if (!isDashboardRoute) return NextResponse.next();
@@ -53,5 +68,8 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/:agencySlug/(properties|offers|clients|bookings|team|settings|profile)/:path*"],
+  matcher: [
+    "/:agencySlug/(properties|offers|clients|inquiries|bookings|team|settings|profile)/:path*",
+    "/portal/:path*",
+  ],
 };

@@ -5,6 +5,7 @@ import {
   Building2,
   CalendarDays,
   Globe,
+  Inbox,
   Menu,
   PanelLeftClose,
   PanelLeftOpen,
@@ -14,11 +15,14 @@ import {
   UsersRound,
   type LucideIcon,
 } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { TOGGLE_SIDEBAR_EVENT } from "@/components/dashboard/shortcuts";
+import { getUnreadInquiries } from "@/lib/api/inquiries";
+import { getAccessToken } from "@/lib/auth/session";
 import { UserMenu } from "@/components/dashboard/user-menu";
 import { Button } from "@/components/ui/button";
 import { useSessionUser } from "@/lib/auth/session";
@@ -58,6 +62,7 @@ function navItemsFor(agencySlug: string, role: string | undefined): NavItem[] {
     { href: `/${agencySlug}/properties`, label: "Propiedades", icon: Building2 },
     { href: `/${agencySlug}/offers`, label: "Ofertas", icon: Tag },
     { href: `/${agencySlug}/clients`, label: "Clientes", icon: Users },
+    { href: `/${agencySlug}/inquiries`, label: "Consultas", icon: Inbox },
     { href: `/${agencySlug}/bookings`, label: "Reservas", icon: CalendarDays },
   ];
   if (role !== "AGENT") {
@@ -95,11 +100,14 @@ function NavLink({
   active,
   collapsed,
   onNavigate,
+  badge = 0,
 }: {
   item: NavItem;
   active: boolean;
   collapsed: boolean;
   onNavigate?: () => void;
+  /** A count of new things behind this link (unread inquiries). */
+  badge?: number;
 }) {
   const [hovering, setHovering] = useState(false);
 
@@ -110,7 +118,9 @@ function NavLink({
           href={item.href}
           data-nav-link
           aria-current={active ? "page" : undefined}
-          aria-label={item.label}
+          aria-label={
+            badge > 0 ? `${item.label}, ${badge} sin leer` : item.label
+          }
           onClick={onNavigate}
           className={cn(
             "relative z-10 flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium whitespace-nowrap transition-colors",
@@ -119,7 +129,15 @@ function NavLink({
               : "text-muted-foreground hover:bg-foreground/5 hover:text-foreground",
           )}
         >
-          <item.icon className="size-4 shrink-0" />
+          <span className="relative flex shrink-0">
+            <item.icon className="size-4" />
+            {badge > 0 && collapsed && (
+              <span
+                aria-hidden
+                className="absolute -top-1 -right-1 size-2 rounded-full bg-highlight ring-2 ring-sidebar"
+              />
+            )}
+          </span>
           <span
             className={cn(
               "transition-opacity duration-200",
@@ -128,6 +146,14 @@ function NavLink({
           >
             {item.label}
           </span>
+          {badge > 0 && !collapsed && (
+            <span
+              aria-hidden
+              className="ml-auto flex h-5 min-w-5 items-center justify-center rounded-full bg-highlight px-1.5 text-xs font-semibold text-highlight-foreground tabular-nums"
+            >
+              {badge > 99 ? "99+" : badge}
+            </span>
+          )}
         </Link>
       </TooltipTrigger>
       <TooltipContent side="right" sideOffset={12}>
@@ -151,6 +177,17 @@ function SidebarNav({
   const placed = useRef(false);
 
   const navItems = user ? navItemsFor(user.agencySlug, user.role) : [];
+
+  // New inquiries show as a count on "Consultas"; refreshed every minute.
+  const { data: unread } = useQuery({
+    queryKey: ["inquiries-unread"],
+    queryFn: () => {
+      const token = getAccessToken();
+      return token ? getUnreadInquiries(token) : { count: 0 };
+    },
+    refetchInterval: 60_000,
+  });
+
   const activeHref = navItems.find((item) =>
     pathname.startsWith(item.href),
   )?.href;
@@ -225,6 +262,7 @@ function SidebarNav({
           active={item.href === activeHref}
           collapsed={collapsed}
           onNavigate={onNavigate}
+          badge={item.href.endsWith("/inquiries") ? (unread?.count ?? 0) : 0}
         />
       ))}
     </nav>
