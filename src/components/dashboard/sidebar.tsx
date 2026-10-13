@@ -134,6 +134,23 @@ function NavLink({
 }) {
   const [hovering, setHovering] = useState(false);
 
+  // Collapsing/expanding reflows every row under a stationary pointer, so
+  // Radix sees the cursor "enter" several links in the same frame and opens
+  // all their tooltips at once. Force them shut as soon as the width tween
+  // starts; a genuine hover re-opens the right one once it settles.
+  useEffect(() => {
+    const root = document.documentElement;
+    if (root.hasAttribute(SIDEBAR_ANIMATING_ATTR)) setHovering(false);
+    const observer = new MutationObserver(() => {
+      if (root.hasAttribute(SIDEBAR_ANIMATING_ATTR)) setHovering(false);
+    });
+    observer.observe(root, {
+      attributes: true,
+      attributeFilter: [SIDEBAR_ANIMATING_ATTR],
+    });
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <Tooltip open={collapsed && hovering} onOpenChange={setHovering}>
       <TooltipTrigger asChild>
