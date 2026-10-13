@@ -134,7 +134,12 @@ function NavLink({
             {badge > 0 && collapsed && (
               <span
                 aria-hidden
-                className="absolute -top-1 -right-1 size-2 rounded-full bg-highlight ring-2 ring-sidebar"
+                className={cn(
+                  "absolute -top-1 -right-1 size-2 rounded-full ring-2",
+                  active
+                    ? "bg-sidebar-primary-foreground ring-sidebar-primary"
+                    : "bg-primary ring-sidebar",
+                )}
               />
             )}
           </span>
@@ -149,7 +154,13 @@ function NavLink({
           {badge > 0 && !collapsed && (
             <span
               aria-hidden
-              className="ml-auto flex h-5 min-w-5 items-center justify-center rounded-full bg-highlight px-1.5 text-xs font-semibold text-highlight-foreground tabular-nums"
+              className={cn(
+                "ml-auto flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-xs font-semibold tabular-nums",
+                // On the active (dark) row the badge flips so it stays visible.
+                active
+                  ? "bg-sidebar-primary-foreground text-sidebar-primary"
+                  : "bg-primary text-primary-foreground",
+              )}
             >
               {badge > 99 ? "99+" : badge}
             </span>

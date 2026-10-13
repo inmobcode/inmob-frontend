@@ -14,7 +14,7 @@ export interface Inquiry {
   /** When someone on the team opened it; null means it's new. */
   readAt: string | null;
   client: { id: string; name: string; stage: string } | null;
-  property: { id: string; title: string; slug: string } | null;
+  property: { id: string; title: string; slug: string; coverUrl: string | null } | null;
   offer: { id: string; title: string } | null;
 }
 
