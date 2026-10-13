@@ -156,6 +156,7 @@ export function CreateBookingDialog({
                 id="dates"
                 start={startDate}
                 end={endDate}
+                minDate={new Date()}
                 onChange={(from, to) => {
                   setStartDate(from);
                   setEndDate(to);

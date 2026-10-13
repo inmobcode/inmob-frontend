@@ -1,6 +1,8 @@
 import { apiFetch } from "./client";
 import type { BookingStatus, PaymentType } from "./bookings";
+import type { PublicAgency } from "./agency";
 import type { PublicProperty } from "./offers";
+import type { PropertyStatus } from "./properties";
 
 export interface OwnerPortalPayment {
   amount: number;
@@ -20,12 +22,16 @@ export interface OwnerPortalBooking {
 }
 
 export interface OwnerPortalProperty extends PublicProperty {
+  status: PropertyStatus;
+  /** Only published properties have a public page to link to. */
+  published: boolean;
   bookings: OwnerPortalBooking[];
 }
 
 export interface OwnerPortal {
   ownerName: string;
   agencyName: string;
+  agency: PublicAgency & { slug: string };
   properties: OwnerPortalProperty[];
 }
 

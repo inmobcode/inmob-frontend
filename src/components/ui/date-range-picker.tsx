@@ -13,6 +13,7 @@ import {
   isSameDay,
   isSameMonth,
   parseISO,
+  startOfDay,
   startOfMonth,
   startOfWeek,
 } from "date-fns"
@@ -31,10 +32,14 @@ interface DateRangePickerProps {
   onChange: (start: string, end: string) => void
   id?: string
   placeholder?: string
+  /** Earliest day that can be picked; earlier ones show disabled. */
+  minDate?: Date
 }
 
 /** Pick a check-in and a check-out on one calendar: first click opens the range, second closes it. */
-function DateRangePicker({ start, end, onChange, id, placeholder = "Elegí las fechas" }: DateRangePickerProps) {
+function DateRangePicker({ start, end, onChange, id, placeholder = "Elegí las fechas", minDate }: DateRangePickerProps) {
+  const min = minDate ? startOfDay(minDate) : null
+  const tooEarly = (day: Date) => min != null && isBefore(day, min)
   const [open, setOpen] = React.useState(false)
   const startDate = start ? parseISO(start) : null
   const endDate = end ? parseISO(end) : null
@@ -54,6 +59,7 @@ function DateRangePicker({ start, end, onChange, id, placeholder = "Elegí las f
   const nights = rangeStart && rangeEnd ? differenceInCalendarDays(rangeEnd, rangeStart) : 0
 
   function pick(day: Date) {
+    if (tooEarly(day)) return
     if (!anchor || !isAfter(day, anchor)) {
       setAnchor(day)
       setHover(null)
@@ -108,8 +114,10 @@ function DateRangePicker({ start, end, onChange, id, placeholder = "Elegí las f
             <button
               type="button"
               aria-label="Mes anterior"
+              // Nothing to pick before the minimum's month.
+              disabled={min != null && !isAfter(month, startOfMonth(min))}
               onClick={() => setMonth((current) => addMonths(current, -1))}
-              className="flex size-8 items-center justify-center rounded-full text-muted-foreground transition-colors outline-none hover:bg-foreground/[0.06] hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
+              className="flex size-8 items-center justify-center rounded-full text-muted-foreground transition-colors outline-none hover:bg-foreground/[0.06] hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-30"
             >
               <ChevronLeft className="size-4" />
             </button>
@@ -141,6 +149,7 @@ function DateRangePicker({ start, end, onChange, id, placeholder = "Elegí las f
               const isEnd = rangeEnd != null && isSameDay(day, rangeEnd)
               const inside = rangeStart != null && rangeEnd != null && isAfter(day, rangeStart) && isBefore(day, rangeEnd)
               const today = isSameDay(day, new Date())
+              const disabled = tooEarly(day)
               return (
                 <div
                   key={toKey(day)}
@@ -157,14 +166,16 @@ function DateRangePicker({ start, end, onChange, id, placeholder = "Elegí las f
                     type="button"
                     aria-label={format(day, "d 'de' MMMM yyyy", { locale: es })}
                     aria-pressed={isStart || isEnd}
+                    disabled={disabled}
                     onClick={() => pick(day)}
-                    onMouseEnter={() => anchor && setHover(day)}
+                    onMouseEnter={() => anchor && !disabled && setHover(day)}
                     className={cn(
                       "flex size-9 items-center justify-center rounded-full text-sm tabular-nums transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
                       outside && !inside && !isStart && !isEnd && "text-muted-foreground/40",
                       !isStart && !isEnd && "hover:bg-foreground/[0.08]",
                       today && !isStart && !isEnd && "font-semibold text-primary",
-                      (isStart || isEnd) && "bg-primary font-medium text-primary-foreground"
+                      (isStart || isEnd) && "bg-primary font-medium text-primary-foreground",
+                      disabled && "pointer-events-none text-muted-foreground/30 line-through decoration-muted-foreground/30"
                     )}
                   >
                     {format(day, "d")}
