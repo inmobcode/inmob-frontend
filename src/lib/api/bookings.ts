@@ -37,6 +37,8 @@ export interface Booking {
   payments?: Payment[];
   createdAt: string;
   updatedAt: string;
+  /** Set while it's in the trash. */
+  deletedAt?: string | null;
 }
 
 export interface CreateBookingPayload {
@@ -64,6 +66,24 @@ export function createBooking(token: string, payload: CreateBookingPayload) {
 
 export function getBooking(token: string, id: string) {
   return apiFetch<Booking>(`/api/bookings/${id}`, { token });
+}
+
+/** Moves it to the trash (see listTrashedBookings). */
+export function deleteBooking(token: string, id: string) {
+  return apiFetch<void>(`/api/bookings/${id}`, { method: "DELETE", token });
+}
+
+/** What's in the trash, latest first. The backend deletes for good what's older than 30 days. */
+export function listTrashedBookings(token: string) {
+  return apiFetch<Booking[]>("/api/bookings/trash", { token });
+}
+
+export function restoreBooking(token: string, id: string) {
+  return apiFetch<Booking>(`/api/bookings/${id}/restore`, { method: "POST", token });
+}
+
+export function deleteBookingForever(token: string, id: string) {
+  return apiFetch<void>(`/api/bookings/${id}/permanent`, { method: "DELETE", token });
 }
 
 export function confirmBooking(token: string, id: string) {

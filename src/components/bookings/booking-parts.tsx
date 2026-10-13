@@ -2,7 +2,18 @@
 
 import { differenceInCalendarDays, format, parseISO } from "date-fns";
 import { es } from "date-fns/locale";
-import { ArrowRight, Banknote, Check, CircleCheck, Copy, ExternalLink, MoreHorizontal, Pencil, X } from "lucide-react";
+import {
+  ArrowRight,
+  Banknote,
+  Check,
+  CircleCheck,
+  Copy,
+  ExternalLink,
+  MoreHorizontal,
+  Pencil,
+  Trash2,
+  X,
+} from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -23,6 +34,8 @@ export interface BookingActions {
   confirm: (id: string) => void;
   complete: (id: string) => void;
   cancel: (id: string) => void;
+  /** Moves it to the trash. */
+  remove: (id: string) => void;
 }
 
 const STATUS_STYLES: Record<BookingStatus, string> = {
@@ -187,6 +200,11 @@ export function BookingMenu({
             </DropdownMenuItem>
           </>
         )}
+        {!open && <DropdownMenuSeparator />}
+        <DropdownMenuItem variant="destructive" className="rounded-xl py-2" onSelect={() => actions.remove(booking.id)}>
+          <Trash2 />
+          Eliminar
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

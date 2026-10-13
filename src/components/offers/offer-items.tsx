@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Controller, useFieldArray, useWatch, type Control } from "react-hook-form";
 
 import { fitsOperation } from "@/components/offers/offer-operation";
-import { OfferPropertyPicker } from "@/components/offers/offer-property-picker";
+import { PropertyPicker } from "@/components/properties/property-picker";
 import { RichTextEditor } from "@/components/rich-text/rich-text-editor";
 import { UnitInput } from "@/components/properties/form-controls";
 import { Button } from "@/components/ui/button";
@@ -140,7 +140,7 @@ function OfferLine({
             control={control}
             name={`${name}.propertyId`}
             render={({ field }) => (
-              <OfferPropertyPicker
+              <PropertyPicker
                 properties={properties}
                 operation={operation}
                 value={field.value}

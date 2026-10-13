@@ -142,6 +142,8 @@ export interface Property {
   content?: PropertyDescription | null;
   createdAt: string;
   updatedAt: string;
+  /** Set while it's in the trash. */
+  deletedAt?: string | null;
 }
 
 export interface CreatePropertyPayload {
@@ -209,8 +211,22 @@ export function updateProperty(
   });
 }
 
+/** Moves it to the trash (see listTrashedProperties). */
 export function deleteProperty(token: string, id: string) {
   return apiFetch<void>(`/api/properties/${id}`, { method: "DELETE", token });
+}
+
+/** What's in the trash, latest first. The backend deletes for good what's older than 30 days. */
+export function listTrashedProperties(token: string) {
+  return apiFetch<Property[]>("/api/properties/trash", { token });
+}
+
+export function restoreProperty(token: string, id: string) {
+  return apiFetch<Property>(`/api/properties/${id}/restore`, { method: "POST", token });
+}
+
+export function deletePropertyForever(token: string, id: string) {
+  return apiFetch<void>(`/api/properties/${id}/permanent`, { method: "DELETE", token });
 }
 
 export function publishProperty(token: string, id: string) {

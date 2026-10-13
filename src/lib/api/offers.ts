@@ -55,6 +55,8 @@ export interface Offer {
   total: number | null;
   createdAt: string;
   updatedAt: string;
+  /** Set while it's in the trash. */
+  deletedAt?: string | null;
 }
 
 export interface OfferPropertyInput {
@@ -118,8 +120,22 @@ export function updateOffer(
   });
 }
 
+/** Moves it to the trash (see listTrashedOffers). */
 export function deleteOffer(token: string, id: string) {
   return apiFetch<void>(`/api/offers/${id}`, { method: "DELETE", token });
+}
+
+/** What's in the trash, latest first. The backend deletes for good what's older than 30 days. */
+export function listTrashedOffers(token: string) {
+  return apiFetch<Offer[]>("/api/offers/trash", { token });
+}
+
+export function restoreOffer(token: string, id: string) {
+  return apiFetch<Offer>(`/api/offers/${id}/restore`, { method: "POST", token });
+}
+
+export function deleteOfferForever(token: string, id: string) {
+  return apiFetch<void>(`/api/offers/${id}/permanent`, { method: "DELETE", token });
 }
 
 export function sendOffer(token: string, id: string) {

@@ -2,28 +2,28 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { FileText, RotateCcw, Search, SearchX } from "lucide-react";
+import { useParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { CreateOfferDialog } from "@/components/offers/create-offer-dialog";
 import { OfferCard, OfferCardSkeleton, type OfferActions } from "@/components/offers/offer-card";
 import { FilterMenu } from "@/components/filter-menu";
+import { TrashLink } from "@/components/trash/trash-link";
 import { OffersTable, OfferRow } from "@/components/offers/offer-views";
 import { ViewSwitch, type ViewMode } from "@/components/properties/view-switch";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ApiError } from "@/lib/api/client";
-import { deleteOffer, listOffers, sendOffer, type OfferOperation, type OfferStatus } from "@/lib/api/offers";
+import {
+  deleteOffer,
+  listOffers,
+  listTrashedOffers,
+  restoreOffer,
+  sendOffer,
+  type OfferOperation,
+  type OfferStatus,
+} from "@/lib/api/offers";
 import { getAccessToken } from "@/lib/auth/session";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { distance, duration, ease, media, rowStagger } from "@/lib/motion";
@@ -49,6 +49,7 @@ function requireToken() {
 }
 
 export default function OffersPage() {
+  const { agencySlug } = useParams<{ agencySlug: string }>();
   const queryClient = useQueryClient();
   const gridRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<OfferStatus[]>([]);
@@ -73,7 +74,6 @@ export default function OffersPage() {
     } catch {}
   }
   const [search, setSearch] = useState("");
-  const [deleting, setDeleting] = useState<string | null>(null);
 
   const { data, isLoading, error, refetch, isFetching } = useQuery({
     queryKey: ["offers"],
@@ -114,17 +114,31 @@ export default function OffersPage() {
     onSettled: () => queryClient.invalidateQueries({ queryKey: ["offers"] }),
   });
 
+  // Deleting moves it to the trash, so it needs no confirmation: the toast can undo it.
   const deleteMutation = useMutation({
     mutationFn: (id: string) => deleteOffer(requireToken(), id),
-    onSuccess: () => toast.success("Oferta eliminada"),
+    onSuccess: (_, id) =>
+      toast.success("Oferta movida a la papelera", {
+        action: {
+          label: "Deshacer",
+          onClick: () =>
+            restoreOffer(requireToken(), id)
+              .then(() => queryClient.invalidateQueries({ queryKey: ["offers"] }))
+              .catch(() => toast.error("No se pudo restaurar la oferta")),
+        },
+      }),
     onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo eliminar la oferta"),
     onSettled: () => queryClient.invalidateQueries({ queryKey: ["offers"] }),
   });
 
   const actions: OfferActions = {
     send: (id) => sendMutation.mutate(id),
-    requestDelete: (id) => setDeleting(id),
+    requestDelete: (id) => deleteMutation.mutate(id),
   };
+
+  const trashLink = (
+    <TrashLink href={`/${agencySlug}/offers/trash`} queryKey={["offers", "trash"]} list={listTrashedOffers} />
+  );
 
   const total = sorted.length;
   const visibleKey = filtered.map((offer) => offer.id).join(",");
@@ -189,6 +203,7 @@ export default function OffersPage() {
                 <ViewSwitch value={view} onChange={changeView} />
               </>
             )}
+            {trashLink}
             <CreateOfferDialog />
           </div>
         </div>
@@ -228,7 +243,10 @@ export default function OffersPage() {
               Elegí propiedades, sumá descuentos y compartí un link con tu cliente.
             </p>
           </div>
-          <CreateOfferDialog />
+          <div className="flex flex-wrap justify-center gap-3">
+            <CreateOfferDialog />
+            {trashLink}
+          </div>
         </div>
       )}
 
@@ -278,28 +296,6 @@ export default function OffersPage() {
         </div>
       )}
 
-      <AlertDialog open={deleting != null} onOpenChange={(open) => !open && setDeleting(null)}>
-        <AlertDialogContent className="rounded-3xl">
-          <AlertDialogHeader>
-            <AlertDialogTitle className="font-display text-2xl">¿Eliminar esta oferta?</AlertDialogTitle>
-            <AlertDialogDescription>
-              El link público deja de funcionar y no se puede recuperar. Las propiedades no se tocan.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction
-              variant="destructive"
-              onClick={() => {
-                if (deleting) deleteMutation.mutate(deleting);
-                setDeleting(null);
-              }}
-            >
-              Eliminar
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </div>
   );
 }

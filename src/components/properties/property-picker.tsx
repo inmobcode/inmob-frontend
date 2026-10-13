@@ -61,20 +61,26 @@ function Thumb({ property, className }: { property: Property; className?: string
 }
 
 /**
- * Picks the property for one line of an offer: tabs for sale / rent on top
- * (the one the offer's operation leaves out is disabled), a search by name or place, and
+ * Picks a property (an offer's line, a booking): tabs for sale / rent on top
+ * (the one `operation` leaves out is disabled), a search by name or place, and
  * the list. Arrow keys move through the results and Enter picks one.
  */
-export function OfferPropertyPicker({
+export function PropertyPicker({
+  id,
   properties,
-  operation,
+  operation = "BOTH",
   value,
   onChange,
+  className,
 }: {
+  id?: string;
   properties: Property[];
-  operation: OfferOperation;
+  /** Which properties can be picked; "BOTH" (the default) takes any. */
+  operation?: OfferOperation;
   value: string;
   onChange: (id: string) => void;
+  /** For the trigger, e.g. its height. */
+  className?: string;
 }) {
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<Tab>("ALL");
@@ -83,7 +89,7 @@ export function OfferPropertyPicker({
   const listRef = useRef<HTMLDivElement>(null);
   const selected = properties.find((entry) => entry.id === value);
 
-  // The offer's operation already narrows the list; the tabs narrow it further.
+  // The operation already narrows the list; the tabs narrow it further.
   const fitting = useMemo(
     () => properties.filter((entry) => operation === "BOTH" || entry.listingType === operation),
     [properties, operation],
@@ -133,7 +139,9 @@ export function OfferPropertyPicker({
 
   const empty =
     fitting.length === 0
-      ? `No tenés propiedades en ${operation === "SALE" ? "venta" : "alquiler"}.`
+      ? operation === "BOTH"
+        ? "Todavía no tenés propiedades."
+        : `No tenés propiedades en ${operation === "SALE" ? "venta" : "alquiler"}.`
       : query.trim()
         ? `Ninguna propiedad coincide con «${query.trim()}».`
         : "No hay propiedades en esta pestaña.";
@@ -143,8 +151,12 @@ export function OfferPropertyPicker({
       <PopoverTrigger asChild>
         <button
           type="button"
-          aria-label="Propiedad"
-          className="flex h-10 w-full items-center justify-between gap-2 rounded-xl border border-transparent bg-foreground/[0.07] pr-3 pl-3.5 text-left text-sm transition-[background-color,box-shadow,border-color] duration-300 ease-out outline-none hover:bg-foreground/10 focus-visible:border-primary/20 focus-visible:bg-card focus-visible:shadow-[0_8px_24px_-12px_oklch(0.3_0.05_160/0.3)] data-[state=open]:bg-card dark:bg-foreground/10"
+          id={id}
+          aria-label={id ? undefined : "Propiedad"}
+          className={cn(
+            "flex h-10 w-full items-center justify-between gap-2 rounded-xl border border-transparent bg-foreground/[0.07] pr-3 pl-3.5 text-left text-sm transition-[background-color,box-shadow,border-color] duration-300 ease-out outline-none hover:bg-foreground/10 focus-visible:border-primary/20 focus-visible:bg-card focus-visible:shadow-[0_8px_24px_-12px_oklch(0.3_0.05_160/0.3)] data-[state=open]:bg-card dark:bg-foreground/10",
+            className,
+          )}
         >
           {selected ? (
             <span className="flex min-w-0 items-center gap-2">
@@ -180,7 +192,7 @@ export function OfferPropertyPicker({
                     role="tab"
                     aria-selected={current}
                     disabled={off}
-                    title={off ? `La oferta es solo de ${operation === "SALE" ? "venta" : "alquiler"}` : undefined}
+                    title={off ? `Solo propiedades en ${operation === "SALE" ? "venta" : "alquiler"}` : undefined}
                     onClick={() => {
                       setTab(item.value);
                       setActive(0);

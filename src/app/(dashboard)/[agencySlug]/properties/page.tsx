@@ -2,10 +2,12 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Building2, RotateCcw, Search, SearchX } from "lucide-react";
+import { useParams } from "next/navigation";
 import { toast } from "sonner";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { CreatePropertyDialog } from "@/components/properties/create-property-dialog";
+import { TrashLink } from "@/components/trash/trash-link";
 import { ActiveFilters } from "@/components/properties/active-filters";
 import { FiltersSheet } from "@/components/properties/filters-sheet";
 import { PropertyCard, PropertyCardSkeleton } from "@/components/properties/property-card";
@@ -16,16 +18,6 @@ import { PropertiesPagination } from "@/components/properties/properties-paginat
 import { ViewSwitch, type ViewMode } from "@/components/properties/view-switch";
 import { Segmented } from "@/components/properties/segmented";
 import { StatusSelect } from "@/components/properties/status-select";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ApiError } from "@/lib/api/client";
@@ -33,6 +25,8 @@ import {
   archiveProperty,
   deleteProperty,
   listProperties,
+  listTrashedProperties,
+  restoreProperty,
   publishProperty,
   unpublishProperty,
 } from "@/lib/api/properties";
@@ -68,6 +62,7 @@ function SearchField({ value, onChange, className }: { value: string; onChange: 
 }
 
 export default function PropertiesPage() {
+  const { agencySlug } = useParams<{ agencySlug: string }>();
   const { data, isLoading, error, refetch, isFetching } = useQuery({
     queryKey: ["properties"],
     queryFn: () => {
@@ -85,7 +80,6 @@ export default function PropertiesPage() {
   const queryClient = useQueryClient();
   const [view, setView] = useState<ViewMode>("table");
   const [selected, setSelected] = useState<Set<string>>(new Set());
-  const [deleting, setDeleting] = useState<string[] | null>(null);
 
   // Remembered per browser. Read after mount so the server and client first render match.
   useEffect(() => {
@@ -197,9 +191,23 @@ export default function PropertiesPage() {
         publish: "publicada",
         unpublish: "despublicada",
         archive: "archivada",
-        delete: "eliminada",
+        delete: "movida",
       }[action];
-      if (ok > 0) toast.success(`${ok} ${noun} ${done}${ok === 1 ? "" : "s"}`);
+      if (ok > 0 && action === "delete") {
+        // Deleting moves them to the trash, so it needs no confirmation: the toast can undo it.
+        toast.success(`${ok} ${noun} ${done}${ok === 1 ? "" : "s"} a la papelera`, {
+          action: {
+            label: "Deshacer",
+            onClick: () => {
+              const token = getAccessToken();
+              if (!token) return;
+              Promise.allSettled(ids.map((id) => restoreProperty(token, id))).then(() =>
+                queryClient.invalidateQueries({ queryKey: ["properties"] }),
+              );
+            },
+          },
+        });
+      } else if (ok > 0) toast.success(`${ok} ${noun} ${done}${ok === 1 ? "" : "s"}`);
       if (failed > 0) toast.error(`No se pudieron procesar ${failed}. Intentá de nuevo.`);
       setSelected((current) => {
         const next = new Set(current);
@@ -211,22 +219,26 @@ export default function PropertiesPage() {
     onSettled: () => queryClient.invalidateQueries({ queryKey: ["properties"] }),
   });
 
+  const trashLink = (
+    <TrashLink href={`/${agencySlug}/properties/trash`} queryKey={["properties", "trash"]} list={listTrashedProperties} />
+  );
+
   const actions: PropertyActions = {
     publish: (ids) => bulkMutation.mutate({ action: "publish", ids }),
     unpublish: (ids) => bulkMutation.mutate({ action: "unpublish", ids }),
     archive: (ids) => bulkMutation.mutate({ action: "archive", ids }),
-    requestDelete: (ids) => setDeleting(ids),
+    requestDelete: (ids) => bulkMutation.mutate({ action: "delete", ids }),
   };
 
   // Escape clears the selection.
   useEffect(() => {
     if (selected.size === 0) return;
     function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape" && !deleting) setSelected(new Set());
+      if (event.key === "Escape") setSelected(new Set());
     }
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [selected.size, deleting]);
+  }, [selected.size]);
 
   useGSAP(
     () => {
@@ -379,6 +391,7 @@ export default function PropertiesPage() {
                 <ViewSwitch value={view} onChange={changeView} />
               </>
             )}
+            {trashLink}
             <CreatePropertyDialog />
           </div>
         </div>
@@ -431,7 +444,10 @@ export default function PropertiesPage() {
               Sumá fotos, precio y características para tenerla lista cuando quieras publicarla.
             </p>
           </div>
-          <CreatePropertyDialog />
+          <div className="flex flex-wrap justify-center gap-3">
+            <CreatePropertyDialog />
+            {trashLink}
+          </div>
         </div>
       )}
 
@@ -511,31 +527,6 @@ export default function PropertiesPage() {
         />
       )}
 
-      <AlertDialog open={deleting != null} onOpenChange={(open) => !open && setDeleting(null)}>
-        <AlertDialogContent className="rounded-3xl">
-          <AlertDialogHeader>
-            <AlertDialogTitle className="font-display text-2xl">
-              {deleting?.length === 1 ? "¿Eliminar esta propiedad?" : `¿Eliminar ${deleting?.length ?? 0} propiedades?`}
-            </AlertDialogTitle>
-            <AlertDialogDescription>
-              Se borran para siempre, junto con sus fotos y su información. Si solo querés sacarlas del portal, mejor
-              archivalas.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction
-              variant="destructive"
-              onClick={() => {
-                if (deleting) bulkMutation.mutate({ action: "delete", ids: deleting });
-                setDeleting(null);
-              }}
-            >
-              Eliminar
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </div>
   );
 }

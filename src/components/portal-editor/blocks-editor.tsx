@@ -23,6 +23,13 @@ import { toast } from "sonner";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { RichTextEditor } from "@/components/rich-text/rich-text-editor";
 import {
@@ -427,22 +434,23 @@ function ButtonFields({
         />
       </Field>
       <Field label="Lleva a" htmlFor={`${id}-target`}>
-        <select
-          id={`${id}-target`}
+        <Select
           value={section.buttonTarget ?? "contact"}
-          onChange={(event) =>
-            onChange({
-              buttonTarget: event.target.value as SiteSection["buttonTarget"],
-            })
+          onValueChange={(value) =>
+            onChange({ buttonTarget: value as SiteSection["buttonTarget"] })
           }
-          className="h-10 rounded-md border border-input bg-transparent px-3 text-sm outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
         >
-          {BUTTON_TARGETS.map((target) => (
-            <option key={target.value} value={target.value}>
-              {target.label}
-            </option>
-          ))}
-        </select>
+          <SelectTrigger id={`${id}-target`} className="h-10 w-full">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {BUTTON_TARGETS.map((target) => (
+              <SelectItem key={target.value} value={target.value}>
+                {target.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </Field>
     </div>
   );

@@ -2,6 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { CalendarX2, RotateCcw, Search, SearchX } from "lucide-react";
+import { useParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -9,6 +10,7 @@ import { BOOKING_STATUSES, type BookingActions } from "@/components/bookings/boo
 import { BookingCard, BookingCardSkeleton, BookingRow, BookingsTable } from "@/components/bookings/booking-views";
 import { CreateBookingDialog } from "@/components/bookings/create-booking-dialog";
 import { FilterMenu } from "@/components/filter-menu";
+import { TrashLink } from "@/components/trash/trash-link";
 import { ViewSwitch, type ViewMode } from "@/components/properties/view-switch";
 import {
   AlertDialog,
@@ -26,7 +28,10 @@ import {
   cancelBooking,
   completeBooking,
   confirmBooking,
+  deleteBooking,
   listBookings,
+  listTrashedBookings,
+  restoreBooking,
   type BookingStatus,
 } from "@/lib/api/bookings";
 import { ApiError } from "@/lib/api/client";
@@ -50,6 +55,7 @@ function requireToken() {
 }
 
 export default function BookingsPage() {
+  const { agencySlug } = useParams<{ agencySlug: string }>();
   const queryClient = useQueryClient();
   const gridRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<BookingStatus[]>([]);
@@ -111,12 +117,33 @@ export default function BookingsPage() {
   const confirmMutation = useMutation(action("Reserva confirmada", confirmBooking));
   const completeMutation = useMutation(action("Reserva completada", completeBooking));
   const cancelMutation = useMutation(action("Reserva cancelada", cancelBooking));
+  // Deleting moves it to the trash, so it needs no confirmation: the toast can undo it.
+  const deleteMutation = useMutation({
+    mutationFn: (id: string) => deleteBooking(requireToken(), id),
+    onSuccess: (_: unknown, id: string) =>
+      toast.success("Reserva movida a la papelera", {
+        action: {
+          label: "Deshacer",
+          onClick: () =>
+            restoreBooking(requireToken(), id)
+              .then(() => queryClient.invalidateQueries({ queryKey: ["bookings"] }))
+              .catch(() => toast.error("No se pudo restaurar la reserva")),
+        },
+      }),
+    onError: (err: unknown) => toast.error(err instanceof ApiError ? err.message : "No se pudo eliminar la reserva"),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["bookings"] }),
+  });
 
   const actions: BookingActions = {
     confirm: (id) => confirmMutation.mutate(id),
     complete: (id) => completeMutation.mutate(id),
     cancel: (id) => setCancelling(id),
+    remove: (id) => deleteMutation.mutate(id),
   };
+
+  const trashLink = (
+    <TrashLink href={`/${agencySlug}/bookings/trash`} queryKey={["bookings", "trash"]} list={listTrashedBookings} />
+  );
 
   const total = sorted.length;
   const visibleKey = filtered.map((booking) => booking.id).join(",");
@@ -173,6 +200,7 @@ export default function BookingsPage() {
                 <ViewSwitch value={view} onChange={changeView} />
               </>
             )}
+            {trashLink}
             <CreateBookingDialog />
           </div>
         </div>
@@ -212,7 +240,10 @@ export default function BookingsPage() {
               Cargá la primera para seguir fechas, pagos y comisión en un solo lugar.
             </p>
           </div>
-          <CreateBookingDialog />
+          <div className="flex flex-wrap justify-center gap-3">
+            <CreateBookingDialog />
+            {trashLink}
+          </div>
         </div>
       )}
 

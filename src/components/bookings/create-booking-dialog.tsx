@@ -6,6 +6,7 @@ import { useState } from "react";
 import { LoaderCircle } from "lucide-react";
 
 import { NewItemButton } from "@/components/new-item-button";
+import { PropertyPicker } from "@/components/properties/property-picker";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
@@ -122,18 +123,13 @@ export function CreateBookingDialog({
           <div className="flex flex-col gap-5 px-7 pb-2">
             <div className="flex flex-col gap-2.5">
               <Label htmlFor="property">Propiedad</Label>
-              <Select value={propertyId} onValueChange={setPropertyId}>
-                <SelectTrigger id="property" className="h-11 w-full">
-                  <SelectValue placeholder="Elegí una propiedad" />
-                </SelectTrigger>
-                <SelectContent>
-                  {properties?.map((property) => (
-                    <SelectItem key={property.id} value={property.id}>
-                      {property.title}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <PropertyPicker
+                id="property"
+                properties={properties ?? []}
+                value={propertyId}
+                onChange={setPropertyId}
+                className="h-11"
+              />
             </div>
             <div className="flex flex-col gap-2.5">
               <Label htmlFor="client">
