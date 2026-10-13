@@ -100,7 +100,11 @@ export function getOffer(token: string, id: string) {
   return apiFetch<Offer>(`/api/offers/${id}`, { token });
 }
 
-export function updateOffer(token: string, id: string, payload: Partial<SaveOfferPayload>) {
+export function updateOffer(
+  token: string,
+  id: string,
+  payload: Partial<SaveOfferPayload>,
+) {
   return apiFetch<Offer>(`/api/offers/${id}`, {
     method: "PATCH",
     token,

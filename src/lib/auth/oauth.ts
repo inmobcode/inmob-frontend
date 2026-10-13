@@ -7,7 +7,8 @@ const DEFAULT_NEXT = "/properties";
 
 /** Only same-site paths: anything else (`//evil.com`, `https://…`) falls back to the dashboard. */
 export function safeNext(value: string | null | undefined) {
-  if (!value || !value.startsWith("/") || value.startsWith("//")) return DEFAULT_NEXT;
+  if (!value || !value.startsWith("/") || value.startsWith("//"))
+    return DEFAULT_NEXT;
   return value;
 }
 

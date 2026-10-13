@@ -22,7 +22,10 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-import { OPEN_PALETTE_EVENT, OPEN_SHORTCUTS_EVENT } from "@/components/dashboard/shortcuts";
+import {
+  OPEN_PALETTE_EVENT,
+  OPEN_SHORTCUTS_EVENT,
+} from "@/components/dashboard/shortcuts";
 import { RolePill } from "@/components/team/team-parts";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -33,7 +36,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { getAgency } from "@/lib/api/agency";
-import { clearSession, getAccessToken, getSessionUser, SESSION_USER_EVENT } from "@/lib/auth/session";
+import {
+  clearSession,
+  getAccessToken,
+  getSessionUser,
+  SESSION_USER_EVENT,
+} from "@/lib/auth/session";
 import { cn } from "@/lib/utils";
 
 const NAME_FALLBACK = "Tu nombre";
@@ -57,7 +65,11 @@ const THEMES: { value: string; label: string; icon: LucideIcon }[] = [
 function ThemeSwitch() {
   const { theme, setTheme } = useTheme();
   return (
-    <div role="radiogroup" aria-label="Apariencia" className="flex gap-0.5 rounded-full bg-foreground/[0.06] p-1">
+    <div
+      role="radiogroup"
+      aria-label="Apariencia"
+      className="flex gap-0.5 rounded-full bg-foreground/[0.06] p-1"
+    >
       {THEMES.map((item) => {
         const active = (theme ?? "system") === item.value;
         return (
@@ -71,7 +83,9 @@ function ThemeSwitch() {
             onClick={() => setTheme(item.value)}
             className={cn(
               "flex size-7 items-center justify-center rounded-full transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
-              active ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground",
+              active
+                ? "bg-card text-foreground shadow-sm"
+                : "text-muted-foreground hover:text-foreground",
             )}
           >
             <item.icon className="size-3.5" />
@@ -123,7 +137,9 @@ export function UserMenu({ collapsed }: { collapsed: boolean }) {
   async function copyPortalLink() {
     if (!agency) return;
     try {
-      await navigator.clipboard.writeText(`${window.location.origin}/page/${agency.slug}`);
+      await navigator.clipboard.writeText(
+        `${window.location.origin}/page/${agency.slug}`,
+      );
       toast.success("Link del portal copiado");
     } catch {
       toast.error("No se pudo copiar el link");
@@ -157,12 +173,18 @@ export function UserMenu({ collapsed }: { collapsed: boolean }) {
               )}
             >
               <span className="block truncate text-sm font-medium">{name}</span>
-              <span className="block truncate text-xs text-muted-foreground">{agency?.name ?? user.email}</span>
+              <span className="block truncate text-xs text-muted-foreground">
+                {agency?.name ?? user.email}
+              </span>
             </span>
           </button>
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent side="top" align="start" className="w-72 rounded-2xl p-1.5">
+        <DropdownMenuContent
+          side="top"
+          align="start"
+          className="w-72 rounded-2xl p-1.5"
+        >
           <div className="flex items-center gap-3 px-2.5 pt-2 pb-3">
             <Avatar size="lg" className="size-12">
               {user.avatarUrl && <AvatarImage src={user.avatarUrl} alt="" />}
@@ -171,9 +193,16 @@ export function UserMenu({ collapsed }: { collapsed: boolean }) {
               </AvatarFallback>
             </Avatar>
             <div className="flex min-w-0 flex-1 flex-col gap-1">
-              <span className="truncate font-display text-lg leading-tight">{name}</span>
-              <span className="truncate text-xs text-muted-foreground">{user.email}</span>
-              <RolePill role={user.role} className="mt-0.5 h-5 self-start px-2 text-[11px]" />
+              <span className="truncate font-display text-lg leading-tight">
+                {name}
+              </span>
+              <span className="truncate text-xs text-muted-foreground">
+                {user.email}
+              </span>
+              <RolePill
+                role={user.role}
+                className="mt-0.5 h-5 self-start px-2 text-[11px]"
+              />
             </div>
           </div>
 
@@ -182,12 +211,18 @@ export function UserMenu({ collapsed }: { collapsed: boolean }) {
               <span className="flex size-7 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-card text-muted-foreground">
                 {agency.logoUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={agency.logoUrl} alt="" className="size-full object-contain" />
+                  <img
+                    src={agency.logoUrl}
+                    alt=""
+                    className="size-full object-contain"
+                  />
                 ) : (
                   <Building2 className="size-3.5" />
                 )}
               </span>
-              <span className="truncate text-sm font-medium">{agency.name}</span>
+              <span className="truncate text-sm font-medium">
+                {agency.name}
+              </span>
             </div>
           )}
 
@@ -208,12 +243,19 @@ export function UserMenu({ collapsed }: { collapsed: boolean }) {
             <>
               <DropdownMenuSeparator />
               <DropdownMenuItem className="rounded-xl py-2" asChild>
-                <a href={`/page/${agency.slug}`} target="_blank" rel="noreferrer">
+                <a
+                  href={`/page/${agency.slug}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <ExternalLink />
                   Ver mi portal
                 </a>
               </DropdownMenuItem>
-              <DropdownMenuItem className="rounded-xl py-2" onSelect={copyPortalLink}>
+              <DropdownMenuItem
+                className="rounded-xl py-2"
+                onSelect={copyPortalLink}
+              >
                 <Copy />
                 Copiar link del portal
               </DropdownMenuItem>
@@ -227,12 +269,20 @@ export function UserMenu({ collapsed }: { collapsed: boolean }) {
           </div>
 
           <DropdownMenuSeparator />
-          <DropdownMenuItem className="rounded-xl py-2" onSelect={() => window.dispatchEvent(new Event(OPEN_PALETTE_EVENT))}>
+          <DropdownMenuItem
+            className="rounded-xl py-2"
+            onSelect={() => window.dispatchEvent(new Event(OPEN_PALETTE_EVENT))}
+          >
             <Search />
             Buscar y comandos
             <kbd className="ml-auto text-xs text-muted-foreground">⌘ K</kbd>
           </DropdownMenuItem>
-          <DropdownMenuItem className="rounded-xl py-2" onSelect={() => window.dispatchEvent(new Event(OPEN_SHORTCUTS_EVENT))}>
+          <DropdownMenuItem
+            className="rounded-xl py-2"
+            onSelect={() =>
+              window.dispatchEvent(new Event(OPEN_SHORTCUTS_EVENT))
+            }
+          >
             <Keyboard />
             Atajos de teclado
             <kbd className="ml-auto text-xs text-muted-foreground">?</kbd>
@@ -247,13 +297,16 @@ export function UserMenu({ collapsed }: { collapsed: boolean }) {
           )}
 
           <DropdownMenuSeparator />
-          <DropdownMenuItem variant="destructive" className="rounded-xl py-2" onSelect={handleLogout}>
+          <DropdownMenuItem
+            variant="destructive"
+            className="rounded-xl py-2"
+            onSelect={handleLogout}
+          >
             <LogOut />
             Cerrar sesión
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-
     </>
   );
 }

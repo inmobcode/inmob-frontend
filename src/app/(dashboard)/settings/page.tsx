@@ -2,7 +2,15 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Building2, Copy, ExternalLink, LoaderCircle, TriangleAlert } from "lucide-react";
+import {
+  Building2,
+  Copy,
+  ExternalLink,
+  LoaderCircle,
+  Paintbrush,
+  TriangleAlert,
+} from "lucide-react";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
@@ -25,7 +33,12 @@ const schema = z.object({
     .string()
     .min(2, "Ingresá una dirección")
     .regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, "Solo minúsculas, números y guiones"),
-  contactEmail: z.string().refine((value) => value === "" || z.string().email().safeParse(value).success, "Email inválido"),
+  contactEmail: z
+    .string()
+    .refine(
+      (value) => value === "" || z.string().email().safeParse(value).success,
+      "Email inválido",
+    ),
   locale: z.string().length(2),
   currency: z.string().length(3),
 });
@@ -58,9 +71,16 @@ function Chips({
   onChange: (value: string) => void;
 }) {
   // A value saved before this list existed still has to show up as selected.
-  const all = options.some((option) => option.value === value) || !value ? options : [...options, { value, label: value }];
+  const all =
+    options.some((option) => option.value === value) || !value
+      ? options
+      : [...options, { value, label: value }];
   return (
-    <div role="radiogroup" aria-label={label} className="flex flex-wrap gap-1.5">
+    <div
+      role="radiogroup"
+      aria-label={label}
+      className="flex flex-wrap gap-1.5"
+    >
       {all.map((option) => {
         const active = option.value === value;
         return (
@@ -112,7 +132,13 @@ export default function SettingsPage() {
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { name: "", slug: "", contactEmail: "", locale: "es", currency: "USD" },
+    defaultValues: {
+      name: "",
+      slug: "",
+      contactEmail: "",
+      locale: "es",
+      currency: "USD",
+    },
   });
   const slug = useWatch({ control: form.control, name: "slug" });
   const errors = form.formState.errors;
@@ -155,7 +181,8 @@ export default function SettingsPage() {
       });
       toast.success("Cambios guardados");
     },
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo guardar"),
+    onError: (err) =>
+      toast.error(err instanceof ApiError ? err.message : "No se pudo guardar"),
   });
 
   const logoMutation = useMutation({
@@ -172,7 +199,9 @@ export default function SettingsPage() {
     },
     onError: (err) => {
       setIsCompressing(false);
-      toast.error(err instanceof ApiError ? err.message : "No se pudo subir el logo");
+      toast.error(
+        err instanceof ApiError ? err.message : "No se pudo subir el logo",
+      );
     },
   });
 
@@ -186,14 +215,47 @@ export default function SettingsPage() {
       onSave: form.handleSubmit((values) => saveMutation.mutate(values)),
       onPublish: null,
       onCancel: null,
+      extra: agency ? (
+        <div className="flex items-center gap-1 sm:mr-2">
+          <Button
+            type="button"
+            variant="ghost"
+            className="gap-1.5"
+            onClick={copyLink}
+            title="Copiar link del portal"
+          >
+            <Copy />
+            <span className="hidden md:inline">Copiar link</span>
+          </Button>
+          <Button type="button" variant="ghost" className="gap-1.5" asChild>
+            <a
+              href={`/page/${agency.slug}`}
+              target="_blank"
+              rel="noreferrer"
+              title="Ver portal"
+            >
+              <ExternalLink />
+              <span className="hidden md:inline">Ver portal</span>
+            </a>
+          </Button>
+          <Button type="button" variant="ghost" className="gap-1.5" asChild>
+            <Link href="/portal" title="Personalizar portal">
+              <Paintbrush />
+              <span className="hidden md:inline">Personalizar portal</span>
+            </Link>
+          </Button>
+        </div>
+      ) : null,
     });
     return resetActions;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDirty, saveMutation.isPending]);
+  }, [isDirty, saveMutation.isPending, agency?.slug]);
 
   async function copyLink() {
     try {
-      await navigator.clipboard.writeText(`${window.location.origin}/page/${agency?.slug ?? slug}`);
+      await navigator.clipboard.writeText(
+        `${window.location.origin}/page/${agency?.slug ?? slug}`,
+      );
       toast.success("Link copiado");
     } catch {
       toast.error("No se pudo copiar el link");
@@ -211,7 +273,11 @@ export default function SettingsPage() {
     >
       <h1 className="sr-only">Configuración</h1>
 
-      <FormSection title="Tu agencia" description="El nombre y el logo con los que te ven tus clientes." shown>
+      <FormSection
+        title="Tu agencia"
+        description="El nombre y el logo con los que te ven tus clientes."
+        shown
+      >
         <div className="flex items-center gap-5">
           <button
             type="button"
@@ -222,7 +288,11 @@ export default function SettingsPage() {
           >
             {agency.logoUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={agency.logoUrl} alt={agency.name} className="size-full object-contain p-2" />
+              <img
+                src={agency.logoUrl}
+                alt={agency.name}
+                className="size-full object-contain p-2"
+              />
             ) : (
               <Building2 className="size-8" strokeWidth={1.5} />
             )}
@@ -232,7 +302,11 @@ export default function SettingsPage() {
                 uploading && "opacity-100",
               )}
             >
-              {uploading ? <LoaderCircle className="size-5 animate-spin" /> : "Cambiar"}
+              {uploading ? (
+                <LoaderCircle className="size-5 animate-spin" />
+              ) : (
+                "Cambiar"
+              )}
             </span>
           </button>
           <input
@@ -248,18 +322,32 @@ export default function SettingsPage() {
           />
           <div className="flex min-w-0 flex-1 flex-col gap-2.5">
             <Label htmlFor="name">Nombre de la agencia</Label>
-            <Input id="name" autoComplete="off" aria-invalid={Boolean(errors.name)} className="h-11 px-4" {...form.register("name")} />
-            {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
+            <Input
+              id="name"
+              autoComplete="off"
+              aria-invalid={Boolean(errors.name)}
+              className="h-11 px-4"
+              {...form.register("name")}
+            />
+            {errors.name && (
+              <p className="text-sm text-destructive">{errors.name.message}</p>
+            )}
           </div>
         </div>
       </FormSection>
 
-      <FormSection title="Portal público" description="La página donde tus clientes ven tus propiedades." shown>
+      <FormSection
+        title="Portal público"
+        description="La página donde tus clientes ven tus propiedades."
+        shown
+      >
         <div className="flex flex-col gap-5">
           <div className="flex flex-col gap-2.5">
             <Label htmlFor="slug">Dirección del portal</Label>
             <div className="relative">
-              <span className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-sm text-muted-foreground">/</span>
+              <span className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-sm text-muted-foreground">
+                /
+              </span>
               <Input
                 id="slug"
                 autoComplete="off"
@@ -268,30 +356,23 @@ export default function SettingsPage() {
                 {...form.register("slug")}
               />
             </div>
-            {errors.slug && <p className="text-sm text-destructive">{errors.slug.message}</p>}
+            {errors.slug && (
+              <p className="text-sm text-destructive">{errors.slug.message}</p>
+            )}
             {slugChanged && (
               <p className="flex items-start gap-2 rounded-2xl bg-amber-500/15 px-4 py-3 text-sm text-amber-800 dark:text-amber-300">
                 <TriangleAlert className="mt-0.5 size-4 shrink-0" />
                 Cambiar la dirección rompe los links que ya compartiste.
               </p>
             )}
-            <div className="flex flex-wrap items-center gap-2 pt-1">
-              <Button type="button" variant="outline" size="sm" className="h-9 gap-1.5 rounded-full px-4" onClick={copyLink}>
-                <Copy />
-                Copiar link
-              </Button>
-              <Button type="button" variant="ghost" size="sm" className="h-9 gap-1.5 rounded-full px-4" asChild>
-                <a href={`/page/${agency.slug}`} target="_blank" rel="noreferrer">
-                  <ExternalLink />
-                  Ver portal
-                </a>
-              </Button>
-            </div>
           </div>
 
           <div className="flex flex-col gap-2.5">
             <Label htmlFor="contactEmail">
-              Email de contacto <span className="font-normal text-muted-foreground">(opcional)</span>
+              Email de contacto{" "}
+              <span className="font-normal text-muted-foreground">
+                (opcional)
+              </span>
             </Label>
             <Input
               id="contactEmail"
@@ -302,19 +383,34 @@ export default function SettingsPage() {
               className="h-11 px-4"
               {...form.register("contactEmail")}
             />
-            {errors.contactEmail && <p className="text-sm text-destructive">{errors.contactEmail.message}</p>}
+            {errors.contactEmail && (
+              <p className="text-sm text-destructive">
+                {errors.contactEmail.message}
+              </p>
+            )}
           </div>
         </div>
       </FormSection>
 
-      <FormSection title="Preferencias" description="Cómo se muestran los textos y los precios por defecto." shown={false}>
+      <FormSection
+        title="Preferencias"
+        description="Cómo se muestran los textos y los precios por defecto."
+        shown={false}
+      >
         <div className="flex flex-col gap-5">
           <div className="flex flex-col gap-2.5">
             <Label>Idioma</Label>
             <Controller
               control={form.control}
               name="locale"
-              render={({ field }) => <Chips label="Idioma" options={LOCALES} value={field.value} onChange={field.onChange} />}
+              render={({ field }) => (
+                <Chips
+                  label="Idioma"
+                  options={LOCALES}
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              )}
             />
           </div>
           <div className="flex flex-col gap-2.5">

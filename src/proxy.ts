@@ -7,6 +7,7 @@ const DASHBOARD_PREFIXES = [
   "/clients",
   "/bookings",
   "/team",
+  "/portal",
   "/settings",
   "/profile",
 ];
@@ -35,6 +36,7 @@ export const config = {
     "/clients/:path*",
     "/bookings/:path*",
     "/team/:path*",
+    "/portal/:path*",
     "/settings/:path*",
     "/profile/:path*",
   ],

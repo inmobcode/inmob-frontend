@@ -31,11 +31,25 @@ export function parseGoogleMapsCoords(url: string): Coordinates | null {
 }
 
 /** Looks an address up in OpenStreetMap's Nominatim. Call it only on a user action. */
-export async function geocode(query: string): Promise<(Coordinates & { label: string }) | null> {
-  const params = new URLSearchParams({ format: "jsonv2", limit: "1", "accept-language": "es", q: query });
-  const res = await fetch(`https://nominatim.openstreetmap.org/search?${params}`);
-  if (!res.ok) throw new Error("No se pudo consultar el buscador de direcciones");
-  const results = (await res.json()) as { lat: string; lon: string; display_name: string }[];
+export async function geocode(
+  query: string,
+): Promise<(Coordinates & { label: string }) | null> {
+  const params = new URLSearchParams({
+    format: "jsonv2",
+    limit: "1",
+    "accept-language": "es",
+    q: query,
+  });
+  const res = await fetch(
+    `https://nominatim.openstreetmap.org/search?${params}`,
+  );
+  if (!res.ok)
+    throw new Error("No se pudo consultar el buscador de direcciones");
+  const results = (await res.json()) as {
+    lat: string;
+    lon: string;
+    display_name: string;
+  }[];
   const first = results[0];
   if (!first) return null;
   const found = valid(Number(first.lat), Number(first.lon));

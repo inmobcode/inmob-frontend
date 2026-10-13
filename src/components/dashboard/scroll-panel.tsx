@@ -10,7 +10,11 @@ import { cn } from "@/lib/utils";
 // look of Apple's scroll edge effect) instead of starting with a hard line.
 const BLUR_LAYERS = [0.5, 1, 2, 4, 8, 14];
 
-function bandMask(index: number, total: number, direction: "to bottom" | "to top" = "to bottom") {
+function bandMask(
+  index: number,
+  total: number,
+  direction: "to bottom" | "to top" = "to bottom",
+) {
   const step = 100 / total;
   const start = index * step;
   const stops = [
@@ -23,7 +27,13 @@ function bandMask(index: number, total: number, direction: "to bottom" | "to top
 }
 
 /** A soft progressive blur along the top or bottom edge, shown while there is content past that edge. */
-function BlurEdge({ edge, visible }: { edge: "top" | "bottom"; visible: boolean }) {
+function BlurEdge({
+  edge,
+  visible,
+}: {
+  edge: "top" | "bottom";
+  visible: boolean;
+}) {
   const direction = edge === "top" ? "to top" : "to bottom";
   return (
     <div
@@ -49,7 +59,9 @@ function BlurEdge({ edge, visible }: { edge: "top" | "bottom"; visible: boolean 
       <div
         className={cn(
           "absolute inset-0 bg-gradient-to-b",
-          edge === "top" ? "from-background/60 to-transparent" : "from-transparent to-background/55",
+          edge === "top"
+            ? "from-background/60 to-transparent"
+            : "from-transparent to-background/55",
         )}
       />
     </div>
@@ -61,7 +73,13 @@ function BlurEdge({ edge, visible }: { edge: "top" | "bottom"; visible: boolean 
  * fold, a soft progressive blur fades in along the bottom edge; it fades out
  * once you reach the end.
  */
-export function ScrollPanel({ className, children }: { className?: string; children: React.ReactNode }) {
+export function ScrollPanel({
+  className,
+  children,
+}: {
+  className?: string;
+  children: React.ReactNode;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const [moreBelow, setMoreBelow] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -74,7 +92,9 @@ export function ScrollPanel({ className, children }: { className?: string; child
       if (!element) return;
       // The sidebar is resizing: measuring now would flip the blur on and off as text reflows.
       if (document.documentElement.hasAttribute(SIDEBAR_ANIMATING_ATTR)) return;
-      setMoreBelow(element.scrollHeight - element.scrollTop - element.clientHeight > 8);
+      setMoreBelow(
+        element.scrollHeight - element.scrollTop - element.clientHeight > 8,
+      );
       setScrolled(element.scrollTop > 8);
     }
 
@@ -117,12 +137,20 @@ export function PanelCorners() {
       <span
         aria-hidden
         className="pointer-events-none absolute top-0 left-0 z-30 hidden md:block"
-        style={{ width: CORNER, height: CORNER, background: cut(`${CORNER}px ${CORNER}px`) }}
+        style={{
+          width: CORNER,
+          height: CORNER,
+          background: cut(`${CORNER}px ${CORNER}px`),
+        }}
       />
       <span
         aria-hidden
         className="pointer-events-none absolute bottom-0 left-0 z-30 hidden md:block"
-        style={{ width: CORNER, height: CORNER, background: cut(`${CORNER}px 0px`) }}
+        style={{
+          width: CORNER,
+          height: CORNER,
+          background: cut(`${CORNER}px 0px`),
+        }}
       />
     </>
   );

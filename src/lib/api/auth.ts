@@ -39,6 +39,22 @@ export function registerAgency(payload: RegisterAgencyPayload) {
   });
 }
 
+// Password recovery follows the contract the forgot/reset screens need; the
+// backend doesn't expose these endpoints yet.
+export function requestPasswordReset(payload: { email: string }) {
+  return apiFetch<void>("/api/auth/password/forgot", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function resetPassword(payload: { token: string; password: string }) {
+  return apiFetch<void>("/api/auth/password/reset", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
 export type Profile = AuthResponse["user"];
 
 export function getProfile(token: string) {
@@ -47,7 +63,10 @@ export function getProfile(token: string) {
 
 // The three calls below follow the contract the profile screen needs; the
 // backend only exposes GET /api/auth/me for now.
-export function updateProfile(token: string, payload: { name?: string; email?: string }) {
+export function updateProfile(
+  token: string,
+  payload: { name?: string; email?: string },
+) {
   return apiFetch<Profile>("/api/auth/me", {
     method: "PATCH",
     token,
@@ -55,7 +74,10 @@ export function updateProfile(token: string, payload: { name?: string; email?: s
   });
 }
 
-export function changePassword(token: string, payload: { currentPassword: string; newPassword: string }) {
+export function changePassword(
+  token: string,
+  payload: { currentPassword: string; newPassword: string },
+) {
   return apiFetch<void>("/api/auth/me/password", {
     method: "POST",
     token,

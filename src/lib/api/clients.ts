@@ -1,6 +1,7 @@
 import { apiFetch } from "./client";
 
-export type ClientStage = "LEAD" | "CONTACTED" | "NEGOTIATING" | "CLIENT" | "LOST";
+export type ClientStage =
+  "LEAD" | "CONTACTED" | "NEGOTIATING" | "CLIENT" | "LOST";
 export type ClientSource = "WEBSITE" | "MANUAL" | "OFFER";
 export type InteractionType = "NOTE" | "CALL" | "EMAIL" | "MEETING";
 
@@ -49,7 +50,9 @@ export function getClient(token: string, id: string) {
 export function updateClient(
   token: string,
   id: string,
-  payload: Partial<Pick<Client, "name" | "phone" | "stage" | "notes" | "assignedAgentId">>,
+  payload: Partial<
+    Pick<Client, "name" | "phone" | "stage" | "notes" | "assignedAgentId">
+  >,
 ) {
   return apiFetch<Client>(`/api/clients/${id}`, {
     method: "PATCH",

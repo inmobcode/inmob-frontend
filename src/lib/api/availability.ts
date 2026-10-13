@@ -13,7 +13,10 @@ export interface AvailabilityBlock {
 }
 
 export function listAvailabilityBlocks(token: string, propertyId: string) {
-  return apiFetch<AvailabilityBlock[]>(`/api/properties/${propertyId}/availability/`, { token });
+  return apiFetch<AvailabilityBlock[]>(
+    `/api/properties/${propertyId}/availability/`,
+    { token },
+  );
 }
 
 export function createAvailabilityBlock(
@@ -21,24 +24,37 @@ export function createAvailabilityBlock(
   propertyId: string,
   payload: { startDate: string; endDate: string; note?: string },
 ) {
-  return apiFetch<AvailabilityBlock>(`/api/properties/${propertyId}/availability/`, {
-    method: "POST",
-    token,
-    body: JSON.stringify(payload),
-  });
+  return apiFetch<AvailabilityBlock>(
+    `/api/properties/${propertyId}/availability/`,
+    {
+      method: "POST",
+      token,
+      body: JSON.stringify(payload),
+    },
+  );
 }
 
-export function deleteAvailabilityBlock(token: string, propertyId: string, blockId: string) {
-  return apiFetch<void>(`/api/properties/${propertyId}/availability/${blockId}`, {
-    method: "DELETE",
-    token,
-  });
+export function deleteAvailabilityBlock(
+  token: string,
+  propertyId: string,
+  blockId: string,
+) {
+  return apiFetch<void>(
+    `/api/properties/${propertyId}/availability/${blockId}`,
+    {
+      method: "DELETE",
+      token,
+    },
+  );
 }
 
 export function syncIcal(token: string, propertyId: string, icalUrl: string) {
-  return apiFetch<{ importedCount: number }>(`/api/properties/${propertyId}/availability/sync`, {
-    method: "POST",
-    token,
-    body: JSON.stringify({ icalUrl }),
-  });
+  return apiFetch<{ importedCount: number }>(
+    `/api/properties/${propertyId}/availability/sync`,
+    {
+      method: "POST",
+      token,
+      body: JSON.stringify({ icalUrl }),
+    },
+  );
 }

@@ -6,6 +6,7 @@ import {
   CalendarDays,
   CornerDownLeft,
   FileText,
+  Globe,
   LogOut,
   Monitor,
   Moon,
@@ -25,7 +26,12 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { listClients } from "@/lib/api/clients";
 import { listOffers } from "@/lib/api/offers";
 import { listProperties } from "@/lib/api/properties";
@@ -37,7 +43,8 @@ export const OPEN_SHORTCUTS_EVENT = "open-shortcuts";
 export const OPEN_PALETTE_EVENT = "open-palette";
 export const TOGGLE_SIDEBAR_EVENT = "toggle-sidebar";
 
-const CARD_SELECTOR = ".property-card, .offer-card, .client-card, .booking-card, .team-card";
+const CARD_SELECTOR =
+  ".property-card, .offer-card, .client-card, .booking-card, .team-card";
 
 const GO_TO: Record<string, { path: string; label: string }> = {
   p: { path: "/properties", label: "Propiedades" },
@@ -45,11 +52,15 @@ const GO_TO: Record<string, { path: string; label: string }> = {
   c: { path: "/clients", label: "Clientes" },
   r: { path: "/bookings", label: "Reservas" },
   e: { path: "/team", label: "Equipo" },
+  w: { path: "/portal", label: "Portal" },
   s: { path: "/settings", label: "Configuración" },
   m: { path: "/profile", label: "Mi perfil" },
 };
 
-const SHORTCUT_GROUPS: { title: string; items: { keys: string[]; label: string }[] }[] = [
+const SHORTCUT_GROUPS: {
+  title: string;
+  items: { keys: string[]; label: string }[];
+}[] = [
   {
     title: "General",
     items: [
@@ -61,7 +72,10 @@ const SHORTCUT_GROUPS: { title: string; items: { keys: string[]; label: string }
   },
   {
     title: "Ir a",
-    items: Object.entries(GO_TO).map(([key, target]) => ({ keys: ["G", key.toUpperCase()], label: target.label })),
+    items: Object.entries(GO_TO).map(([key, target]) => ({
+      keys: ["G", key.toUpperCase()],
+      label: target.label,
+    })),
   },
   {
     title: "En las listas",
@@ -78,11 +92,19 @@ const SHORTCUT_GROUPS: { title: string; items: { keys: string[]; label: string }
 ];
 
 function isTyping(target: EventTarget | null) {
-  return Boolean((target as HTMLElement | null)?.closest?.("input, textarea, select, [contenteditable='true']"));
+  return Boolean(
+    (target as HTMLElement | null)?.closest?.(
+      "input, textarea, select, [contenteditable='true']",
+    ),
+  );
 }
 
 function overlayOpen() {
-  return Boolean(document.querySelector("[role='dialog'], [role='alertdialog'], [role='menu'], [role='listbox']"));
+  return Boolean(
+    document.querySelector(
+      "[role='dialog'], [role='alertdialog'], [role='menu'], [role='listbox']",
+    ),
+  );
 }
 
 function clickWhenReady(selector: string, timeout = 2500) {
@@ -114,7 +136,13 @@ function requireToken() {
   return token;
 }
 
-function CommandPalette({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
+function CommandPalette({
+  open,
+  onOpenChange,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}) {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { setTheme } = useTheme();
@@ -122,9 +150,24 @@ function CommandPalette({ open, onOpenChange }: { open: boolean; onOpenChange: (
   const [active, setActive] = useState(0);
   const listRef = useRef<HTMLDivElement>(null);
 
-  const properties = useQuery({ queryKey: ["properties"], queryFn: () => listProperties(requireToken()), enabled: open, staleTime: 60_000 });
-  const offers = useQuery({ queryKey: ["offers"], queryFn: () => listOffers(requireToken()), enabled: open, staleTime: 60_000 });
-  const clients = useQuery({ queryKey: ["clients"], queryFn: () => listClients(requireToken()), enabled: open, staleTime: 60_000 });
+  const properties = useQuery({
+    queryKey: ["properties"],
+    queryFn: () => listProperties(requireToken()),
+    enabled: open,
+    staleTime: 60_000,
+  });
+  const offers = useQuery({
+    queryKey: ["offers"],
+    queryFn: () => listOffers(requireToken()),
+    enabled: open,
+    staleTime: 60_000,
+  });
+  const clients = useQuery({
+    queryKey: ["clients"],
+    queryFn: () => listClients(requireToken()),
+    enabled: open,
+    staleTime: 60_000,
+  });
 
   const close = useCallback(() => onOpenChange(false), [onOpenChange]);
 
@@ -139,28 +182,165 @@ function CommandPalette({ open, onOpenChange }: { open: boolean; onOpenChange: (
       clickWhenReady("[data-new-item]");
     };
     const list: Command[] = [
-      { id: "go-properties", group: "Ir a", label: "Propiedades", hint: "G P", icon: Building2, run: go("/properties") },
-      { id: "go-offers", group: "Ir a", label: "Ofertas", hint: "G O", icon: Tag, run: go("/offers") },
-      { id: "go-clients", group: "Ir a", label: "Clientes", hint: "G C", icon: Users, run: go("/clients") },
-      { id: "go-bookings", group: "Ir a", label: "Reservas", hint: "G R", icon: CalendarDays, run: go("/bookings") },
-      { id: "go-team", group: "Ir a", label: "Equipo", hint: "G E", icon: UsersRound, run: go("/team") },
-      { id: "go-settings", group: "Ir a", label: "Configuración", hint: "G S", icon: Settings, run: go("/settings") },
-      { id: "go-profile", group: "Ir a", label: "Mi perfil", hint: "G M", icon: UserRound, run: go("/profile") },
-      { id: "new-property", group: "Crear", label: "Nueva propiedad", icon: Plus, run: create("/properties") },
-      { id: "new-offer", group: "Crear", label: "Nueva oferta", icon: Plus, run: create("/offers") },
-      { id: "new-client", group: "Crear", label: "Nuevo cliente", icon: Plus, run: create("/clients") },
-      { id: "new-booking", group: "Crear", label: "Nueva reserva", icon: Plus, run: create("/bookings") },
-      { id: "new-member", group: "Crear", label: "Invitar miembro", icon: Plus, run: create("/team") },
-      { id: "theme-light", group: "Acciones", label: "Modo claro", icon: Sun, run: () => { setTheme("light"); close(); } },
-      { id: "theme-dark", group: "Acciones", label: "Modo oscuro", icon: Moon, run: () => { setTheme("dark"); close(); } },
-      { id: "theme-system", group: "Acciones", label: "Modo automático", icon: Monitor, run: () => { setTheme("system"); close(); } },
-      { id: "sidebar", group: "Acciones", label: "Contraer o expandir el menú", hint: "⌘ B", icon: PanelLeftClose, run: () => { close(); window.dispatchEvent(new Event(TOGGLE_SIDEBAR_EVENT)); } },
-      { id: "logout", group: "Acciones", label: "Cerrar sesión", icon: LogOut, run: () => { clearSession(); queryClient.clear(); close(); router.push("/login"); } },
+      {
+        id: "go-properties",
+        group: "Ir a",
+        label: "Propiedades",
+        hint: "G P",
+        icon: Building2,
+        run: go("/properties"),
+      },
+      {
+        id: "go-offers",
+        group: "Ir a",
+        label: "Ofertas",
+        hint: "G O",
+        icon: Tag,
+        run: go("/offers"),
+      },
+      {
+        id: "go-clients",
+        group: "Ir a",
+        label: "Clientes",
+        hint: "G C",
+        icon: Users,
+        run: go("/clients"),
+      },
+      {
+        id: "go-bookings",
+        group: "Ir a",
+        label: "Reservas",
+        hint: "G R",
+        icon: CalendarDays,
+        run: go("/bookings"),
+      },
+      {
+        id: "go-team",
+        group: "Ir a",
+        label: "Equipo",
+        hint: "G E",
+        icon: UsersRound,
+        run: go("/team"),
+      },
+      {
+        id: "go-portal",
+        group: "Ir a",
+        label: "Portal",
+        hint: "G W",
+        icon: Globe,
+        run: go("/portal"),
+      },
+      {
+        id: "go-settings",
+        group: "Ir a",
+        label: "Configuración",
+        hint: "G S",
+        icon: Settings,
+        run: go("/settings"),
+      },
+      {
+        id: "go-profile",
+        group: "Ir a",
+        label: "Mi perfil",
+        hint: "G M",
+        icon: UserRound,
+        run: go("/profile"),
+      },
+      {
+        id: "new-property",
+        group: "Crear",
+        label: "Nueva propiedad",
+        icon: Plus,
+        run: create("/properties"),
+      },
+      {
+        id: "new-offer",
+        group: "Crear",
+        label: "Nueva oferta",
+        icon: Plus,
+        run: create("/offers"),
+      },
+      {
+        id: "new-client",
+        group: "Crear",
+        label: "Nuevo cliente",
+        icon: Plus,
+        run: create("/clients"),
+      },
+      {
+        id: "new-booking",
+        group: "Crear",
+        label: "Nueva reserva",
+        icon: Plus,
+        run: create("/bookings"),
+      },
+      {
+        id: "new-member",
+        group: "Crear",
+        label: "Invitar miembro",
+        icon: Plus,
+        run: create("/team"),
+      },
+      {
+        id: "theme-light",
+        group: "Acciones",
+        label: "Modo claro",
+        icon: Sun,
+        run: () => {
+          setTheme("light");
+          close();
+        },
+      },
+      {
+        id: "theme-dark",
+        group: "Acciones",
+        label: "Modo oscuro",
+        icon: Moon,
+        run: () => {
+          setTheme("dark");
+          close();
+        },
+      },
+      {
+        id: "theme-system",
+        group: "Acciones",
+        label: "Modo automático",
+        icon: Monitor,
+        run: () => {
+          setTheme("system");
+          close();
+        },
+      },
+      {
+        id: "sidebar",
+        group: "Acciones",
+        label: "Contraer o expandir el menú",
+        hint: "⌘ B",
+        icon: PanelLeftClose,
+        run: () => {
+          close();
+          window.dispatchEvent(new Event(TOGGLE_SIDEBAR_EVENT));
+        },
+      },
+      {
+        id: "logout",
+        group: "Acciones",
+        label: "Cerrar sesión",
+        icon: LogOut,
+        run: () => {
+          clearSession();
+          queryClient.clear();
+          close();
+          router.push("/login");
+        },
+      },
     ];
 
     const term = normalize(query.trim());
     if (!term) return list;
-    const matches = list.filter((command) => normalize(command.label).includes(term));
+    const matches = list.filter((command) =>
+      normalize(command.label).includes(term),
+    );
 
     interface RecordItem {
       id: string;
@@ -212,11 +392,22 @@ function CommandPalette({ open, onOpenChange }: { open: boolean; onOpenChange: (
       }));
 
     return [...records, ...matches];
-  }, [query, properties.data, offers.data, clients.data, router, close, setTheme, queryClient]);
+  }, [
+    query,
+    properties.data,
+    offers.data,
+    clients.data,
+    router,
+    close,
+    setTheme,
+    queryClient,
+  ]);
 
   // Whatever is highlighted should stay on screen while arrowing through the list.
   useEffect(() => {
-    listRef.current?.querySelector<HTMLElement>(`[data-index="${active}"]`)?.scrollIntoView({ block: "nearest" });
+    listRef.current
+      ?.querySelector<HTMLElement>(`[data-index="${active}"]`)
+      ?.scrollIntoView({ block: "nearest" });
   }, [active]);
 
   function handleKeyDown(event: React.KeyboardEvent) {
@@ -245,9 +436,16 @@ function CommandPalette({ open, onOpenChange }: { open: boolean; onOpenChange: (
         }
       }}
     >
-      <DialogContent className="top-[22%] translate-y-0 gap-0 overflow-hidden rounded-3xl p-0 sm:max-w-xl" showCloseButton={false}>
-        <DialogTitle className="sr-only">Buscar y ejecutar comandos</DialogTitle>
-        <DialogDescription className="sr-only">Escribí para buscar páginas, propiedades, ofertas o clientes.</DialogDescription>
+      <DialogContent
+        className="top-[22%] translate-y-0 gap-0 overflow-hidden rounded-3xl p-0 sm:max-w-xl"
+        showCloseButton={false}
+      >
+        <DialogTitle className="sr-only">
+          Buscar y ejecutar comandos
+        </DialogTitle>
+        <DialogDescription className="sr-only">
+          Escribí para buscar páginas, propiedades, ofertas o clientes.
+        </DialogDescription>
         <div className="flex items-center gap-3 px-5 py-4">
           <Search className="size-4 shrink-0 text-muted-foreground" />
           <input
@@ -262,19 +460,27 @@ function CommandPalette({ open, onOpenChange }: { open: boolean; onOpenChange: (
             aria-label="Buscar comandos"
             className="min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-muted-foreground"
           />
-          <kbd className="hidden h-6 items-center rounded-md bg-foreground/[0.07] px-1.5 text-xs text-muted-foreground sm:inline-flex">Esc</kbd>
+          <kbd className="hidden h-6 items-center rounded-md bg-foreground/[0.07] px-1.5 text-xs text-muted-foreground sm:inline-flex">
+            Esc
+          </kbd>
         </div>
 
         <div ref={listRef} className="max-h-[22rem] overflow-y-auto px-2 pb-2">
           {commands.length === 0 && (
-            <p className="px-3 py-8 text-center text-sm text-muted-foreground">No encontramos nada para “{query}”.</p>
+            <p className="px-3 py-8 text-center text-sm text-muted-foreground">
+              No encontramos nada para “{query}”.
+            </p>
           )}
           {commands.map((command, index) => {
             const heading = command.group !== lastGroup;
             lastGroup = command.group;
             return (
               <div key={command.id}>
-                {heading && <p className="px-3 pt-3 pb-1 text-xs font-medium text-muted-foreground">{command.group}</p>}
+                {heading && (
+                  <p className="px-3 pt-3 pb-1 text-xs font-medium text-muted-foreground">
+                    {command.group}
+                  </p>
+                )}
                 <button
                   type="button"
                   data-index={index}
@@ -282,13 +488,23 @@ function CommandPalette({ open, onOpenChange }: { open: boolean; onOpenChange: (
                   onClick={command.run}
                   className={cn(
                     "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm outline-none transition-colors",
-                    index === active ? "bg-secondary" : "hover:bg-foreground/[0.04]",
+                    index === active
+                      ? "bg-secondary"
+                      : "hover:bg-foreground/[0.04]",
                   )}
                 >
                   <command.icon className="size-4 shrink-0 text-muted-foreground" />
-                  <span className="min-w-0 flex-1 truncate">{command.label}</span>
-                  {command.hint && <span className="shrink-0 truncate text-xs text-muted-foreground">{command.hint}</span>}
-                  {index === active && <CornerDownLeft className="size-3.5 shrink-0 text-muted-foreground" />}
+                  <span className="min-w-0 flex-1 truncate">
+                    {command.label}
+                  </span>
+                  {command.hint && (
+                    <span className="shrink-0 truncate text-xs text-muted-foreground">
+                      {command.hint}
+                    </span>
+                  )}
+                  {index === active && (
+                    <CornerDownLeft className="size-3.5 shrink-0 text-muted-foreground" />
+                  )}
                 </button>
               </div>
             );
@@ -299,26 +515,48 @@ function CommandPalette({ open, onOpenChange }: { open: boolean; onOpenChange: (
   );
 }
 
-function ShortcutsDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
+function ShortcutsDialog({
+  open,
+  onOpenChange,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="gap-0 rounded-3xl p-0 sm:max-w-lg" showCloseButton>
+      <DialogContent
+        className="gap-0 rounded-3xl p-0 sm:max-w-lg"
+        showCloseButton
+      >
         <div className="flex flex-col gap-1.5 px-7 pt-7 pb-5">
-          <DialogTitle className="font-display text-3xl leading-none tracking-tight">Atajos de teclado</DialogTitle>
-          <DialogDescription>Para moverte más rápido sin soltar el teclado.</DialogDescription>
+          <DialogTitle className="font-display text-3xl leading-none tracking-tight">
+            Atajos de teclado
+          </DialogTitle>
+          <DialogDescription>
+            Para moverte más rápido sin soltar el teclado.
+          </DialogDescription>
         </div>
         <div className="flex max-h-[60vh] flex-col gap-6 overflow-y-auto px-7 pb-7">
           {SHORTCUT_GROUPS.map((group) => (
             <section key={group.title} className="flex flex-col gap-2.5">
-              <h3 className="font-display text-lg leading-tight">{group.title}</h3>
+              <h3 className="font-display text-lg leading-tight">
+                {group.title}
+              </h3>
               <ul className="flex flex-col gap-2.5">
                 {group.items.map((item) => (
-                  <li key={item.label} className="flex items-center justify-between gap-4 text-sm">
+                  <li
+                    key={item.label}
+                    className="flex items-center justify-between gap-4 text-sm"
+                  >
                     <span>{item.label}</span>
                     <span className="flex shrink-0 items-center gap-1">
                       {item.keys.map((key, index) => (
                         <span key={key} className="flex items-center gap-1">
-                          {index > 0 && group.title === "Ir a" && <span className="text-xs text-muted-foreground">luego</span>}
+                          {index > 0 && group.title === "Ir a" && (
+                            <span className="text-xs text-muted-foreground">
+                              luego
+                            </span>
+                          )}
                           <kbd className="inline-flex h-6 min-w-6 items-center justify-center rounded-md bg-foreground/[0.07] px-1.5 text-xs font-medium">
                             {key}
                           </kbd>
@@ -373,7 +611,8 @@ export function Shortcuts() {
       }
 
       if (mod && key === "s") {
-        const { onSave, canSubmit, isSubmitting, isDirty } = useActionBarStore.getState();
+        const { onSave, canSubmit, isSubmitting, isDirty } =
+          useActionBarStore.getState();
         if (!onSave) return;
         event.preventDefault();
         if (!isDirty) toast("No hay cambios para guardar");
@@ -414,7 +653,9 @@ export function Shortcuts() {
           break;
         }
         case "/": {
-          const input = document.querySelector<HTMLInputElement>("input[aria-label^='Buscar']");
+          const input = document.querySelector<HTMLInputElement>(
+            "input[aria-label^='Buscar']",
+          );
           if (input) {
             event.preventDefault();
             input.focus();
@@ -423,7 +664,8 @@ export function Shortcuts() {
           break;
         }
         case "f": {
-          const filter = document.querySelector<HTMLElement>("[data-filter-menu]");
+          const filter =
+            document.querySelector<HTMLElement>("[data-filter-menu]");
           if (filter) {
             event.preventDefault();
             filter.click();
@@ -434,19 +676,33 @@ export function Shortcuts() {
         case "2":
         case "3": {
           const label = { "1": "Cuadrícula", "2": "Lista", "3": "Tabla" }[key];
-          document.querySelector<HTMLElement>(`button[aria-label="${label}"]`)?.click();
+          document
+            .querySelector<HTMLElement>(`button[aria-label="${label}"]`)
+            ?.click();
           break;
         }
         case "j":
         case "k": {
-          const items = Array.from(document.querySelectorAll<HTMLElement>(CARD_SELECTOR));
+          const items = Array.from(
+            document.querySelectorAll<HTMLElement>(CARD_SELECTOR),
+          );
           if (items.length === 0) break;
           event.preventDefault();
-          const current = items.findIndex((item) => item === document.activeElement || item.contains(document.activeElement));
-          const next = key === "j" ? Math.min(current + 1, items.length - 1) : Math.max(current <= 0 ? 0 : current - 1, 0);
+          const current = items.findIndex(
+            (item) =>
+              item === document.activeElement ||
+              item.contains(document.activeElement),
+          );
+          const next =
+            key === "j"
+              ? Math.min(current + 1, items.length - 1)
+              : Math.max(current <= 0 ? 0 : current - 1, 0);
           const item = items[next];
-          const focusable = item.matches("a") ? item : (item.querySelector<HTMLElement>("a[href]") ?? item);
-          if (focusable === item && !item.hasAttribute("tabindex")) item.setAttribute("tabindex", "-1");
+          const focusable = item.matches("a")
+            ? item
+            : (item.querySelector<HTMLElement>("a[href]") ?? item);
+          if (focusable === item && !item.hasAttribute("tabindex"))
+            item.setAttribute("tabindex", "-1");
           focusable.focus({ preventScroll: true });
           item.scrollIntoView({ block: "center", behavior: "smooth" });
           break;
@@ -472,7 +728,9 @@ export function Shortcuts() {
           <span className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
             {Object.entries(GO_TO).map(([key, target]) => (
               <span key={key}>
-                <kbd className="mr-1 rounded-md bg-background/20 px-1.5">{key.toUpperCase()}</kbd>
+                <kbd className="mr-1 rounded-md bg-background/20 px-1.5">
+                  {key.toUpperCase()}
+                </kbd>
                 {target.label}
               </span>
             ))}

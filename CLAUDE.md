@@ -21,8 +21,14 @@ Frontend de una plataforma inmobiliaria (propiedades, ofertas, clientes, reserva
 
 **Grupos de rutas (`src/app`)**
 - `(auth)` — `/login`, `/register`
-- `(dashboard)` — área protegida: `properties`, `offers`, `clients`, `bookings`, `team`, `settings` (con rutas `[id]`). Su layout monta `DashboardSidebar` y `ActionBar`.
-- `(public)` — páginas públicas: `/[agencySlug]`, `/[agencySlug]/[propertySlug]` y `/offer/[token]`.
+- `(dashboard)` — área protegida: `properties`, `offers`, `clients`, `bookings`, `team`, `portal`, `settings` (con rutas `[id]`). Su layout monta `DashboardSidebar` y `ActionBar`.
+- `(public)` — páginas públicas: el sitio de cada agencia en `/page/[agencySlug]` y `/page/[agencySlug]/properties/[propertySlug]`, más `/offer/[token]` y `/owner/[token]`.
+
+**Sitio público de cada agencia**
+- Es de la agencia, no de Tivvo: base neutra (scope `.site` en `globals.css`, utilidades `bg-site-*`, `text-site-*`, `border-site-*`) y personalización por agencia guardada en `agency.site` (backend: `PATCH /api/agency/site`, `POST /api/agency/cover`).
+- `lib/site-theme.ts` define plantillas (`portada`, `editorial`, `compacto`), colores, tipografías y los valores por defecto (`resolveSite`); `siteThemeStyle` los pasa como variables CSS.
+- Bloques propios en `site.sections`: `location`, `promo`, `featured`, `destinations`, `text` y `cta`, cada uno con sus diseños (`layout`; ver `SECTION_TYPES` en `lib/site-theme.ts`). Se renderizan en `components/public/portal-sections.tsx` entre la portada y el listado; las imágenes se suben con `POST /api/agency/site-image`.
+- El editor está en `/portal` (entrada propia en el sidebar), en el grupo `(editor)`: pantalla completa sin el sidebar del dashboard, código en `components/portal-editor/`; su vista previa renderiza `AgencyPortal` dentro de un iframe del mismo origen para que los breakpoints respondan al ancho simulado.
 
 **Autenticación**
 - `lib/auth/session.ts` guarda el par JWT y el usuario en cookies **no httpOnly** (`access_token`, `refresh_token`, `tivvo_user`), para que `src/proxy.ts` pueda leer `access_token` en el servidor. Si falta, redirige a `/login?next=...`.

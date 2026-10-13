@@ -1,4 +1,8 @@
-import type { ListingType, Property, PropertyStatus } from "@/lib/api/properties";
+import type {
+  ListingType,
+  Property,
+  PropertyStatus,
+} from "@/lib/api/properties";
 
 export interface PropertyFilters {
   search: string;
@@ -43,18 +47,34 @@ export function applyFilters(properties: Property[], filters: PropertyFilters) {
   const minBathrooms = toNumber(filters.minBathrooms);
 
   return properties.filter((property) => {
-    if (filters.status.length > 0 && !filters.status.includes(property.status)) return false;
-    if (filters.type !== "ALL" && property.listingType !== filters.type) return false;
-    if (filters.category !== "ALL" && property.category !== filters.category) return false;
-    if (filters.region !== "ALL" && property.region !== filters.region) return false;
-    if (filters.owner !== "ALL" && property.owner?.id !== filters.owner) return false;
-    if (filters.currency !== "ALL" && property.currency !== filters.currency) return false;
-    if (minPrice != null && (property.price ?? -Infinity) < minPrice) return false;
-    if (maxPrice != null && (property.price ?? Infinity) > maxPrice) return false;
-    if (minBedrooms != null && (property.bedrooms ?? 0) < minBedrooms) return false;
-    if (minBathrooms != null && (property.bathrooms ?? 0) < minBathrooms) return false;
+    if (filters.status.length > 0 && !filters.status.includes(property.status))
+      return false;
+    if (filters.type !== "ALL" && property.listingType !== filters.type)
+      return false;
+    if (filters.category !== "ALL" && property.category !== filters.category)
+      return false;
+    if (filters.region !== "ALL" && property.region !== filters.region)
+      return false;
+    if (filters.owner !== "ALL" && property.owner?.id !== filters.owner)
+      return false;
+    if (filters.currency !== "ALL" && property.currency !== filters.currency)
+      return false;
+    if (minPrice != null && (property.price ?? -Infinity) < minPrice)
+      return false;
+    if (maxPrice != null && (property.price ?? Infinity) > maxPrice)
+      return false;
+    if (minBedrooms != null && (property.bedrooms ?? 0) < minBedrooms)
+      return false;
+    if (minBathrooms != null && (property.bathrooms ?? 0) < minBathrooms)
+      return false;
     if (!term) return true;
-    const haystack = [property.title, property.area, property.region, property.country, property.owner?.name]
+    const haystack = [
+      property.title,
+      property.area,
+      property.region,
+      property.country,
+      property.owner?.name,
+    ]
       .filter(Boolean)
       .join(" ")
       .toLowerCase();

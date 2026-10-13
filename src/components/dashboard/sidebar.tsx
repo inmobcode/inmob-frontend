@@ -4,6 +4,7 @@ import { LogoIcon } from "@/components/logo-icon";
 import {
   Building2,
   CalendarDays,
+  Globe,
   Menu,
   PanelLeftClose,
   PanelLeftOpen,
@@ -33,7 +34,11 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { gsap, useGSAP } from "@/lib/gsap";
-import { SIDEBAR_ANIMATING_ATTR, SIDEBAR_COOKIE, SIDEBAR_SETTLED_EVENT } from "@/lib/sidebar";
+import {
+  SIDEBAR_ANIMATING_ATTR,
+  SIDEBAR_COOKIE,
+  SIDEBAR_SETTLED_EVENT,
+} from "@/lib/sidebar";
 import { distance, duration, ease, media, stagger } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
@@ -52,6 +57,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: "/clients", label: "Clientes", icon: Users },
   { href: "/bookings", label: "Reservas", icon: CalendarDays },
   { href: "/team", label: "Equipo", icon: UsersRound },
+  { href: "/portal", label: "Portal", icon: Globe },
   { href: "/settings", label: "Configuración", icon: Settings },
 ];
 
@@ -104,7 +110,12 @@ function NavLink({
           )}
         >
           <item.icon className="size-4 shrink-0" />
-          <span className={cn("transition-opacity duration-200", collapsed && "opacity-0")}>
+          <span
+            className={cn(
+              "transition-opacity duration-200",
+              collapsed && "opacity-0",
+            )}
+          >
             {item.label}
           </span>
         </Link>
@@ -128,7 +139,9 @@ function SidebarNav({
   const indicatorRef = useRef<HTMLSpanElement>(null);
   const placed = useRef(false);
 
-  const activeHref = NAV_ITEMS.find((item) => pathname.startsWith(item.href))?.href;
+  const activeHref = NAV_ITEMS.find((item) =>
+    pathname.startsWith(item.href),
+  )?.href;
 
   // Entrance: links settle in one after another, once per mount.
   useGSAP(
@@ -157,16 +170,27 @@ function SidebarNav({
       const nav = navRef.current;
       if (!indicator || !nav) return;
       const target = activeHref
-        ? nav.querySelector<HTMLElement>(`[data-nav-link][href="${activeHref}"]`)
+        ? nav.querySelector<HTMLElement>(
+            `[data-nav-link][href="${activeHref}"]`,
+          )
         : null;
       if (!target) {
         gsap.set(indicator, { opacity: 0 });
         return;
       }
-      const state = { y: target.offsetTop, height: target.offsetHeight, opacity: 1 };
-      const animate = placed.current && !window.matchMedia(media.reduceMotion).matches;
+      const state = {
+        y: target.offsetTop,
+        height: target.offsetHeight,
+        opacity: 1,
+      };
+      const animate =
+        placed.current && !window.matchMedia(media.reduceMotion).matches;
       if (animate) {
-        gsap.to(indicator, { ...state, duration: duration.base, ease: ease.inOut });
+        gsap.to(indicator, {
+          ...state,
+          duration: duration.base,
+          ease: ease.inOut,
+        });
       } else {
         gsap.set(indicator, state);
       }
@@ -252,7 +276,9 @@ function SidebarBody({
       <div
         className={cn(
           "rounded-3xl p-1.5 ring-1 backdrop-blur transition-[background-color,box-shadow,padding] duration-300",
-          collapsed ? "bg-transparent p-0 ring-transparent" : "bg-card/60 ring-foreground/5",
+          collapsed
+            ? "bg-transparent p-0 ring-transparent"
+            : "bg-card/60 ring-foreground/5",
         )}
       >
         <UserMenu collapsed={collapsed} />
@@ -261,7 +287,11 @@ function SidebarBody({
   );
 }
 
-export function DashboardSidebar({ initialCollapsed }: { initialCollapsed: boolean }) {
+export function DashboardSidebar({
+  initialCollapsed,
+}: {
+  initialCollapsed: boolean;
+}) {
   const [collapsed, setCollapsed] = useState(initialCollapsed);
   const asideRef = useRef<HTMLElement>(null);
   const mounted = useRef(false);
@@ -340,9 +370,15 @@ export function MobileTopbar() {
             <Menu />
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="w-72 bg-sidebar p-0" showCloseButton={false}>
+        <SheetContent
+          side="left"
+          className="w-72 bg-sidebar p-0"
+          showCloseButton={false}
+        >
           <SheetTitle className="sr-only">Menú</SheetTitle>
-          <SheetDescription className="sr-only">Navegación principal</SheetDescription>
+          <SheetDescription className="sr-only">
+            Navegación principal
+          </SheetDescription>
           <SidebarBody onNavigate={() => setOpen(false)} />
         </SheetContent>
       </Sheet>

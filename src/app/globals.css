@@ -18,6 +18,13 @@
   --color-forest: var(--l-forest);
   --color-forest-deep: var(--l-forest-deep);
   --color-lime: var(--l-lime);
+  --color-site-bg: var(--s-bg);
+  --color-site-ink: var(--s-ink);
+  --color-site-quiet: var(--s-quiet);
+  --color-site-line: var(--s-line);
+  --color-site-surface: var(--s-surface);
+  --color-site-accent: var(--s-accent);
+  --color-site-accent-ink: var(--s-accent-ink);
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -146,11 +153,12 @@
   }
 }
 /*
- * Landing. Paleta propia, siempre clara: papel blanco, tinta verde, verde bosque
- * en bloques planos y lima solo para la acción principal y el isotipo.
- * Las utilidades (bg-paper, text-ink, border-line…) solo resuelven dentro de `.landing`.
+ * Landing y páginas de acceso. Paleta propia, siempre clara: papel blanco, tinta
+ * verde, verde bosque en bloques planos y lima solo para la acción principal y el isotipo.
+ * Las utilidades (bg-paper, text-ink, border-line…) solo resuelven dentro de `.landing` y `.auth`.
  */
-.landing {
+.landing,
+.auth {
   --l-paper: #fbfbf8;
   --l-ink: #14281f;
   --l-quiet: #5d6b63;
@@ -171,4 +179,42 @@
   color-scheme: light;
   background: var(--l-paper);
   color: var(--l-ink);
+}
+
+/*
+ * Sitio público de cada agencia. Base neutra y siempre clara; la agencia elige
+ * el color de acento y las tipografías, que llegan como variables en el
+ * elemento raíz (ver `siteThemeStyle` en lib/site-theme.ts).
+ */
+.site {
+  --s-bg: #ffffff;
+  --s-ink: #1b201e;
+  --s-quiet: #646b67;
+  --s-line: #e4e6e3;
+  --s-surface: #f3f4f2;
+  --s-accent: #22302a;
+  --s-accent-ink: #ffffff;
+  --s-heading: var(--font-sora);
+  --s-body: var(--font-dm-sans);
+
+  /* Los componentes de shadcn dentro del sitio usan la paleta neutra. */
+  --background: var(--s-bg);
+  --foreground: var(--s-ink);
+  --popover: var(--s-bg);
+  --popover-foreground: var(--s-ink);
+  --muted-foreground: var(--s-quiet);
+  --accent: var(--s-surface);
+  --accent-foreground: var(--s-ink);
+  --border: var(--s-line);
+  --input: #d6d9d5;
+  --ring: var(--s-accent);
+  color-scheme: light;
+  background: var(--s-bg);
+  color: var(--s-ink);
+  font-family: var(--s-body);
+}
+.site .s-heading {
+  font-family: var(--s-heading);
+  font-weight: var(--s-heading-weight, 600);
+  letter-spacing: var(--s-heading-tracking, -0.03em);
 }

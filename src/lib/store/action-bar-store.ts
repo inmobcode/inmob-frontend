@@ -5,6 +5,8 @@ interface ActionBarState {
   title: string | null;
   /** Optional navigation rendered in place of the title (e.g. section menus). */
   navigation: ReactNode | null;
+  /** Page-specific actions shown before the save buttons (e.g. links to share or preview). */
+  extra: ReactNode | null;
   isSubmitting: boolean;
   /** True when the form has edits that are not saved yet. */
   isDirty: boolean;
@@ -14,13 +16,16 @@ interface ActionBarState {
   onCancel: (() => void) | null;
   saveLabel: string;
   publishLabel: string;
-  setActions: (actions: Partial<Omit<ActionBarState, "setActions" | "reset">>) => void;
+  setActions: (
+    actions: Partial<Omit<ActionBarState, "setActions" | "reset">>,
+  ) => void;
   reset: () => void;
 }
 
 const initialState = {
   title: null,
   navigation: null,
+  extra: null,
   isSubmitting: false,
   isDirty: false,
   canSubmit: true,

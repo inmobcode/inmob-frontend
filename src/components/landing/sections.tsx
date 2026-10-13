@@ -2,7 +2,7 @@
 
 import { Check, LoaderCircle, Plus } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useId, useLayoutEffect, useRef, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -25,7 +25,7 @@ import { Label } from "@/components/ui/label";
 import { requestDemo } from "@/lib/api/demo";
 import { ApiError } from "@/lib/api/client";
 import { gsap } from "@/lib/gsap";
-import { duration, ease, media } from "@/lib/motion";
+import { ease, media } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 const WRAP = "mx-auto w-full max-w-[1440px] px-5 sm:px-8";
@@ -204,26 +204,95 @@ const MODES: [Mode, string][] = [
 export function Flow() {
   const [mode, setMode] = useState<Mode>("sale");
   const [step, setStep] = useState(0);
+  const panelRef = useRef<HTMLDivElement>(null);
   const shotRef = useRef<HTMLDivElement>(null);
-  const firstRender = useRef(true);
+  const listRef = useRef<HTMLOListElement>(null);
+  const tabsRef = useRef<HTMLDivElement>(null);
+  const [indicator, setIndicator] = useState({ left: 0, width: 0 });
+  // Where the person asked to go, and the panel height before the swap.
+  const target = useRef({ mode, step });
+  const pending = useRef<{ height: number; modeChanged: boolean } | null>(null);
   const steps = FLOWS[mode];
   const current = steps[step];
 
-  // The screen swaps with a short fade when someone picks a step or a mode.
-  useEffect(() => {
-    if (firstRender.current) {
-      firstRender.current = false;
+  // The underline slides under the active operation.
+  useLayoutEffect(() => {
+    function place() {
+      const tab = tabsRef.current?.querySelector<HTMLElement>(
+        '[aria-selected="true"]',
+      );
+      if (tab) setIndicator({ left: tab.offsetLeft, width: tab.offsetWidth });
+    }
+    place();
+    window.addEventListener("resize", place);
+    return () => window.removeEventListener("resize", place);
+  }, [mode]);
+
+  /**
+   * Changing step or operation is a short sequence: the screen fades out, the
+   * content swaps, then the panel eases to its new height while the new screen
+   * fades in. Changing operation also swaps the step list, so it fades too.
+   */
+  function go(nextMode: Mode, nextStep: number) {
+    target.current = { mode: nextMode, step: nextStep };
+    if (nextMode === mode && nextStep === step) return;
+    const modeChanged = nextMode !== mode;
+
+    // Without motion, or in a background tab where animations don't advance, swap right away.
+    if (
+      window.matchMedia(media.reduceMotion).matches ||
+      document.visibilityState === "hidden"
+    ) {
+      setMode(nextMode);
+      setStep(nextStep);
       return;
     }
-    const mm = gsap.matchMedia();
-    mm.add(media.allowMotion, () => {
-      gsap.fromTo(
-        shotRef.current,
-        { opacity: 0, y: 8 },
-        { opacity: 1, y: 0, duration: duration.base, ease: ease.out },
-      );
+
+    const leaving = modeChanged
+      ? [shotRef.current, listRef.current]
+      : [shotRef.current];
+    gsap.killTweensOf([shotRef.current, listRef.current, panelRef.current]);
+    gsap.to(leaving, {
+      opacity: 0,
+      y: -6,
+      duration: 0.16,
+      ease: ease.in,
+      onComplete: () => {
+        pending.current = {
+          height: panelRef.current?.offsetHeight ?? 0,
+          modeChanged,
+        };
+        setMode(target.current.mode);
+        setStep(target.current.step);
+      },
     });
-    return () => mm.revert();
+  }
+
+  useLayoutEffect(() => {
+    const swap = pending.current;
+    if (!swap) return;
+    pending.current = null;
+    const panel = panelRef.current;
+    if (!panel) return;
+
+    const height = panel.offsetHeight;
+    gsap.fromTo(
+      panel,
+      { height: swap.height },
+      { height, duration: 0.45, ease: ease.inOut, clearProps: "height" },
+    );
+    gsap.fromTo(
+      shotRef.current,
+      { opacity: 0, y: 10 },
+      { opacity: 1, y: 0, duration: 0.45, delay: 0.08, ease: ease.out },
+    );
+    if (swap.modeChanged) {
+      gsap.fromTo(
+        listRef.current,
+        { opacity: 0, y: 6 },
+        { opacity: 1, y: 0, duration: 0.4, ease: ease.out },
+      );
+    }
   }, [mode, step]);
 
   return (
@@ -241,9 +310,10 @@ export function Flow() {
             className="max-w-3xl"
           />
           <div
+            ref={tabsRef}
             role="tablist"
             aria-label="Tipo de operación"
-            className="flex shrink-0 gap-6 border-b border-line"
+            className="relative flex shrink-0 gap-6 border-b border-line"
           >
             {MODES.map(([value, label]) => (
               <button
@@ -251,25 +321,25 @@ export function Flow() {
                 type="button"
                 role="tab"
                 aria-selected={mode === value}
-                onClick={() => {
-                  setMode(value);
-                  setStep(0);
-                }}
+                onClick={() => go(value, 0)}
                 className={cn(
-                  "-mb-px h-11 border-b-2 text-base font-medium outline-none transition-colors focus-visible:text-ink focus-visible:underline",
-                  mode === value
-                    ? "border-forest text-ink"
-                    : "border-transparent text-quiet hover:text-ink",
+                  "h-11 text-base font-medium outline-none transition-colors duration-300 focus-visible:text-ink focus-visible:underline",
+                  mode === value ? "text-ink" : "text-quiet hover:text-ink",
                 )}
               >
                 {label}
               </button>
             ))}
+            <span
+              aria-hidden
+              className="absolute -bottom-px h-0.5 bg-forest transition-[left,width] duration-400 ease-out motion-reduce:transition-none"
+              style={{ left: indicator.left, width: indicator.width }}
+            />
           </div>
         </div>
 
         <div className="grid gap-8 lg:grid-cols-12">
-          <ol className="lg:col-span-4">
+          <ol ref={listRef} className="lg:col-span-4">
             {steps.map((item, index) => {
               const active = index === step;
               return (
@@ -280,12 +350,12 @@ export function Flow() {
                   <button
                     type="button"
                     aria-current={active ? "step" : undefined}
-                    onClick={() => setStep(index)}
+                    onClick={() => go(mode, index)}
                     className="group flex w-full gap-4 py-4 text-left outline-none focus-visible:bg-mist"
                   >
                     <span
                       className={cn(
-                        "flex size-7 shrink-0 items-center justify-center rounded-md text-sm font-medium tabular-nums transition-colors",
+                        "flex size-7 shrink-0 items-center justify-center rounded-md text-sm font-medium tabular-nums transition-colors duration-300",
                         active
                           ? "bg-forest text-paper"
                           : "bg-mist text-quiet group-hover:text-ink",
@@ -293,20 +363,29 @@ export function Flow() {
                     >
                       {index + 1}
                     </span>
-                    <span className="flex flex-col gap-1.5 pt-0.5">
+                    <span className="flex flex-col pt-0.5">
                       <span
                         className={cn(
-                          "text-lg leading-tight font-semibold",
+                          "text-lg leading-tight font-semibold transition-colors duration-300",
                           !active && "text-quiet group-hover:text-ink",
                         )}
                       >
                         {item.title}
                       </span>
-                      {active && (
-                        <span className="text-pretty text-quiet">
+                      {/* Every step keeps its text; the open one unfolds it, the rest fold it away. */}
+                      <span
+                        aria-hidden={!active}
+                        className={cn(
+                          "grid transition-[grid-template-rows,opacity,margin] duration-400 ease-out motion-reduce:transition-none",
+                          active
+                            ? "mt-1.5 grid-rows-[1fr] opacity-100"
+                            : "mt-0 grid-rows-[0fr] opacity-0",
+                        )}
+                      >
+                        <span className="overflow-hidden text-pretty text-quiet">
                           {item.text}
                         </span>
-                      )}
+                      </span>
                     </span>
                   </button>
                 </li>
@@ -314,7 +393,10 @@ export function Flow() {
             })}
           </ol>
 
-          <div className="flex min-w-0 items-center rounded-2xl bg-mist p-4 sm:p-8 lg:col-span-8 lg:p-12">
+          <div
+            ref={panelRef}
+            className="flex min-w-0 items-center overflow-hidden rounded-2xl bg-mist p-4 sm:p-8 lg:col-span-8 lg:p-12"
+          >
             <div ref={shotRef} className="w-full">
               {current.shot}
             </div>
@@ -571,7 +653,12 @@ function PlanCard({ plan }: { plan: Plan }) {
     >
       <div className="flex flex-col gap-2">
         <p className="font-logo text-xl font-semibold">{plan.name}</p>
-        <p className={cn("text-sm text-pretty", plan.highlight ? "text-paper/70" : "text-quiet")}>
+        <p
+          className={cn(
+            "text-sm text-pretty",
+            plan.highlight ? "text-paper/70" : "text-quiet",
+          )}
+        >
           {plan.tagline}
         </p>
       </div>
@@ -587,10 +674,16 @@ function PlanCard({ plan }: { plan: Plan }) {
       </p>
       <ul className="flex flex-col gap-3">
         {plan.features.map((feature) => (
-          <li key={feature} className="flex items-start gap-3 text-sm leading-snug">
+          <li
+            key={feature}
+            className="flex items-start gap-3 text-sm leading-snug"
+          >
             <Check
               aria-hidden
-              className={cn("mt-0.5 size-4 shrink-0", plan.highlight ? "text-lime" : "text-forest")}
+              className={cn(
+                "mt-0.5 size-4 shrink-0",
+                plan.highlight ? "text-lime" : "text-forest",
+              )}
             />
             {feature}
           </li>
@@ -608,6 +701,54 @@ function PlanCard({ plan }: { plan: Plan }) {
         {plan.cta}
       </a>
     </li>
+  );
+}
+
+/** One question. The answer unfolds smoothly instead of popping open like a native `<details>`. */
+function FaqItem({ question, answer }: { question: string; answer: string }) {
+  const [open, setOpen] = useState(false);
+  const id = useId();
+  return (
+    <>
+      <h4>
+        <button
+          type="button"
+          aria-expanded={open}
+          aria-controls={id}
+          onClick={() => setOpen((current) => !current)}
+          className="flex w-full cursor-pointer items-start gap-4 py-5 text-left text-lg font-medium outline-none focus-visible:bg-mist"
+        >
+          <span className="flex-1">{question}</span>
+          <Plus
+            aria-hidden
+            className={cn(
+              "mt-1 size-5 shrink-0 text-quiet transition-transform duration-400 ease-out motion-reduce:transition-none",
+              open && "rotate-45 text-ink",
+            )}
+          />
+        </button>
+      </h4>
+      <div
+        id={id}
+        role="region"
+        aria-hidden={!open}
+        className={cn(
+          "grid transition-[grid-template-rows,opacity] duration-400 ease-out motion-reduce:transition-none",
+          open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
+        )}
+      >
+        <div className="overflow-hidden">
+          <p
+            className={cn(
+              "max-w-prose pr-9 pb-6 text-pretty text-quiet transition-transform duration-400 ease-out motion-reduce:transition-none",
+              open ? "translate-y-0" : "-translate-y-1",
+            )}
+          >
+            {answer}
+          </p>
+        </div>
+      </div>
+    </>
   );
 }
 
@@ -641,18 +782,7 @@ export function PlansAndFaq() {
           <ul className="lg:col-span-6 lg:col-start-7">
             {FAQ.map((item) => (
               <li key={item.q} className="border-t border-line last:border-b">
-                <details className="group">
-                  <summary className="flex cursor-pointer list-none items-start gap-4 py-5 text-lg font-medium outline-none focus-visible:bg-mist [&::-webkit-details-marker]:hidden">
-                    <span className="flex-1">{item.q}</span>
-                    <Plus
-                      aria-hidden
-                      className="mt-1 size-5 shrink-0 text-quiet transition-transform duration-200 group-open:rotate-45"
-                    />
-                  </summary>
-                  <p className="max-w-prose pr-9 pb-6 text-pretty text-quiet">
-                    {item.a}
-                  </p>
-                </details>
+                <FaqItem question={item.q} answer={item.a} />
               </li>
             ))}
           </ul>
@@ -892,8 +1022,7 @@ export function LandingFooter() {
             Tivvo
           </Link>
           <p className="max-w-xs text-pretty text-paper/60">
-            Sistema de gestión para agencias de venta y alquiler
-            temporario.
+            Sistema de gestión para agencias de venta y alquiler temporario.
           </p>
         </div>
 

@@ -180,7 +180,9 @@ export function listProperties(
   if (filters.status) params.set("status", filters.status);
   if (filters.listingType) params.set("listingType", filters.listingType);
   const query = params.toString();
-  return apiFetch<Property[]>(`/api/properties/${query ? `?${query}` : ""}`, { token });
+  return apiFetch<Property[]>(`/api/properties/${query ? `?${query}` : ""}`, {
+    token,
+  });
 }
 
 export function createProperty(token: string, payload: CreatePropertyPayload) {
@@ -195,7 +197,11 @@ export function getProperty(token: string, id: string) {
   return apiFetch<Property>(`/api/properties/${id}`, { token });
 }
 
-export function updateProperty(token: string, id: string, payload: UpdatePropertyPayload) {
+export function updateProperty(
+  token: string,
+  id: string,
+  payload: UpdatePropertyPayload,
+) {
   return apiFetch<Property>(`/api/properties/${id}`, {
     method: "PATCH",
     token,
@@ -208,15 +214,24 @@ export function deleteProperty(token: string, id: string) {
 }
 
 export function publishProperty(token: string, id: string) {
-  return apiFetch<Property>(`/api/properties/${id}/publish`, { method: "POST", token });
+  return apiFetch<Property>(`/api/properties/${id}/publish`, {
+    method: "POST",
+    token,
+  });
 }
 
 export function archiveProperty(token: string, id: string) {
-  return apiFetch<Property>(`/api/properties/${id}/archive`, { method: "POST", token });
+  return apiFetch<Property>(`/api/properties/${id}/archive`, {
+    method: "POST",
+    token,
+  });
 }
 
 export function unpublishProperty(token: string, id: string) {
-  return apiFetch<Property>(`/api/properties/${id}/unpublish`, { method: "POST", token });
+  return apiFetch<Property>(`/api/properties/${id}/unpublish`, {
+    method: "POST",
+    token,
+  });
 }
 
 export function createRoom(token: string, hotelPropertyId: string) {
@@ -231,13 +246,18 @@ export function uploadPropertyPhoto(
   token: string,
   id: string,
   file: File,
-  options: { isCover?: boolean; section?: PhotoSection; sectionDetail?: string } = {},
+  options: {
+    isCover?: boolean;
+    section?: PhotoSection;
+    sectionDetail?: string;
+  } = {},
 ) {
   const formData = new FormData();
   formData.append("file", file, file.name);
   if (options.isCover) formData.append("isCover", "true");
   if (options.section) formData.append("section", options.section);
-  if (options.sectionDetail) formData.append("sectionDetail", options.sectionDetail);
+  if (options.sectionDetail)
+    formData.append("sectionDetail", options.sectionDetail);
 
   return apiFetch<Property>(`/api/properties/${id}/photos`, {
     method: "POST",
@@ -258,7 +278,11 @@ export function addPropertyPhotoByUrl(
   });
 }
 
-export function removePropertyPhoto(token: string, id: string, photoId: string) {
+export function removePropertyPhoto(
+  token: string,
+  id: string,
+  photoId: string,
+) {
   return apiFetch<Property>(`/api/properties/${id}/photos/${photoId}`, {
     method: "DELETE",
     token,
@@ -275,7 +299,11 @@ export function updatePropertyPhoto(
   token: string,
   id: string,
   photoId: string,
-  payload: { isCover?: boolean; section?: PhotoSection; sectionDetail?: string | null },
+  payload: {
+    isCover?: boolean;
+    section?: PhotoSection;
+    sectionDetail?: string | null;
+  },
 ) {
   return apiFetch<Property>(`/api/properties/${id}/photos/${photoId}`, {
     method: "PATCH",
@@ -290,7 +318,11 @@ export function updatePropertyPhoto(
  * every photo of the property in its new order; the backend rewrites
  * `position` from the array index. Returns the updated Property.
  */
-export function reorderPropertyPhotos(token: string, id: string, photoIds: string[]) {
+export function reorderPropertyPhotos(
+  token: string,
+  id: string,
+  photoIds: string[],
+) {
   return apiFetch<Property>(`/api/properties/${id}/photos/order`, {
     method: "PUT",
     token,
@@ -314,10 +346,13 @@ export function createOwner(
 }
 
 export function regenerateOwnerToken(token: string, ownerId: string) {
-  return apiFetch<PropertyOwner>(`/api/properties/owners/${ownerId}/regenerate-token`, {
-    method: "POST",
-    token,
-  });
+  return apiFetch<PropertyOwner>(
+    `/api/properties/owners/${ownerId}/regenerate-token`,
+    {
+      method: "POST",
+      token,
+    },
+  );
 }
 
 export interface PublicPropertyFilters {
@@ -331,15 +366,20 @@ export interface PublicPropertyFilters {
   q?: string;
 }
 
-export function listPublicProperties(agencySlug: string, filters: PublicPropertyFilters = {}) {
+export function listPublicProperties(
+  agencySlug: string,
+  filters: PublicPropertyFilters = {},
+) {
   const params = new URLSearchParams();
   if (filters.listingType) params.set("listingType", filters.listingType);
   if (filters.category) params.set("category", filters.category);
   if (filters.country) params.set("country", filters.country);
   if (filters.region) params.set("region", filters.region);
   if (filters.area) params.set("area", filters.area);
-  if (filters.minPrice != null) params.set("minPrice", String(filters.minPrice));
-  if (filters.maxPrice != null) params.set("maxPrice", String(filters.maxPrice));
+  if (filters.minPrice != null)
+    params.set("minPrice", String(filters.minPrice));
+  if (filters.maxPrice != null)
+    params.set("maxPrice", String(filters.maxPrice));
   if (filters.q) params.set("q", filters.q);
   const query = params.toString();
   return apiFetch<Property[]>(
@@ -348,12 +388,20 @@ export function listPublicProperties(agencySlug: string, filters: PublicProperty
 }
 
 export function getPublicProperty(agencySlug: string, propertySlug: string) {
-  return apiFetch<Property>(`/api/public/${agencySlug}/properties/${propertySlug}`);
+  return apiFetch<Property>(
+    `/api/public/${agencySlug}/properties/${propertySlug}`,
+  );
 }
 
 export function submitPropertyInquiry(
   agencySlug: string,
-  payload: { name: string; email: string; phone?: string; message?: string; propertyId?: string },
+  payload: {
+    name: string;
+    email: string;
+    phone?: string;
+    message?: string;
+    propertyId?: string;
+  },
 ) {
   return apiFetch<{ id: string }>(`/api/public/${agencySlug}/inquiries`, {
     method: "POST",

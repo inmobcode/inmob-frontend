@@ -16,7 +16,11 @@ const DEFAULT_MAX_SIDE = 2048;
 const DEFAULT_QUALITY = 0.86;
 
 function isHeicLike(file: File): boolean {
-  return /\.(heic|heif)$/i.test(file.name) || file.type === "image/heic" || file.type === "image/heif";
+  return (
+    /\.(heic|heif)$/i.test(file.name) ||
+    file.type === "image/heic" ||
+    file.type === "image/heif"
+  );
 }
 
 function loadImageElement(file: File): Promise<HTMLImageElement> {
@@ -35,7 +39,9 @@ function loadImageElement(file: File): Promise<HTMLImageElement> {
   });
 }
 
-async function loadDecodedImage(file: File): Promise<ImageBitmap | HTMLImageElement> {
+async function loadDecodedImage(
+  file: File,
+): Promise<ImageBitmap | HTMLImageElement> {
   if (typeof createImageBitmap === "function") {
     try {
       return await createImageBitmap(file);
@@ -58,45 +64,59 @@ function computeDimensions(
   const longest = Math.max(sourceWidth, sourceHeight);
   if (longest <= maxSide) return { width: sourceWidth, height: sourceHeight };
   const scale = maxSide / longest;
-  return { width: Math.round(sourceWidth * scale), height: Math.round(sourceHeight * scale) };
+  return {
+    width: Math.round(sourceWidth * scale),
+    height: Math.round(sourceHeight * scale),
+  };
 }
 
 function canvasToWebpBlob(
   canvas: OffscreenCanvas | HTMLCanvasElement,
   quality: number,
 ): Promise<Blob> {
-  if (typeof OffscreenCanvas !== "undefined" && canvas instanceof OffscreenCanvas) {
+  if (
+    typeof OffscreenCanvas !== "undefined" &&
+    canvas instanceof OffscreenCanvas
+  ) {
     return canvas.convertToBlob({ type: "image/webp", quality });
   }
   return new Promise((resolve, reject) => {
     (canvas as HTMLCanvasElement).toBlob(
-      (blob) => (blob ? resolve(blob) : reject(new Error("canvas.toBlob returned null"))),
+      (blob) =>
+        blob ? resolve(blob) : reject(new Error("canvas.toBlob returned null")),
       "image/webp",
       quality,
     );
   });
 }
 
-export async function compressToWebp(file: File, options: CompressOptions = {}): Promise<File> {
+export async function compressToWebp(
+  file: File,
+  options: CompressOptions = {},
+): Promise<File> {
   const quality = options.quality ?? DEFAULT_QUALITY;
   const decoded = await loadDecodedImage(file);
   const sourceWidth = "width" in decoded ? decoded.width : 0;
   const sourceHeight = "height" in decoded ? decoded.height : 0;
-  const { width, height } = computeDimensions(sourceWidth, sourceHeight, options);
+  const { width, height } = computeDimensions(
+    sourceWidth,
+    sourceHeight,
+    options,
+  );
 
   const canvas: OffscreenCanvas | HTMLCanvasElement =
     typeof OffscreenCanvas !== "undefined"
       ? new OffscreenCanvas(width, height)
       : document.createElement("canvas");
-  if (!(typeof OffscreenCanvas !== "undefined" && canvas instanceof OffscreenCanvas)) {
+  if (!(
+    typeof OffscreenCanvas !== "undefined" && canvas instanceof OffscreenCanvas
+  )) {
     (canvas as HTMLCanvasElement).width = width;
     (canvas as HTMLCanvasElement).height = height;
   }
 
   const ctx = canvas.getContext("2d") as
-    | OffscreenCanvasRenderingContext2D
-    | CanvasRenderingContext2D
-    | null;
+    OffscreenCanvasRenderingContext2D | CanvasRenderingContext2D | null;
   if (!ctx) throw new Error("Could not get a 2D canvas context");
   ctx.drawImage(decoded, 0, 0, width, height);
 

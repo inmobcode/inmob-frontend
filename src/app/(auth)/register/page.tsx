@@ -1,30 +1,53 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoaderCircle } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import {
+  AUTH_INPUT,
+  AuthDivider,
+  AuthField,
+  AuthFormError,
+  AuthHeading,
+  AuthSubmit,
+  authErrorMessage,
+  fieldA11y,
+} from "@/components/auth/form-parts";
 import { PasswordInput } from "@/components/auth/password-input";
 import { SocialButtons } from "@/components/auth/social-buttons";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { registerAgency } from "@/lib/api/auth";
-import { ApiError } from "@/lib/api/client";
 import { setSession } from "@/lib/auth/session";
 
+const PASSWORD_HINT = "Al menos 8 caracteres.";
+
 const schema = z.object({
-  agencyName: z.string().min(2, "Ingresá el nombre de tu agencia"),
-  name: z.string().min(2, "Ingresá tu nombre"),
-  email: z.string().email("Email inválido"),
-  password: z.string().min(8, "Mínimo 8 caracteres"),
+  agencyName: z.string().min(2, "Ingresá el nombre de tu agencia."),
+  name: z.string().min(2, "Ingresá tu nombre."),
+  email: z.string().email("Revisá el email: falta la @ o el dominio."),
+  password: z.string().min(8, "La contraseña necesita al menos 8 caracteres."),
 });
 
 type FormValues = z.infer<typeof schema>;
+
+const TEXT_FIELDS: {
+  id: Exclude<keyof FormValues, "password">;
+  label: string;
+  autoComplete: string;
+  type?: string;
+}[] = [
+  {
+    id: "agencyName",
+    label: "Nombre de la agencia",
+    autoComplete: "organization",
+  },
+  { id: "name", label: "Tu nombre", autoComplete: "name" },
+  { id: "email", label: "Email", autoComplete: "email", type: "email" },
+];
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -42,70 +65,73 @@ export default function RegisterPage() {
       setSession(auth);
       router.push("/properties");
     } catch (err) {
-      setServerError(err instanceof ApiError ? err.message : "Error inesperado");
+      setServerError(authErrorMessage(err, "register"));
     }
   }
 
-  const text = (id: keyof FormValues, label: string, autoComplete: string, type = "text") => (
-    <div className="flex flex-col gap-2.5">
-      <Label htmlFor={id}>{label}</Label>
-      <Input
-        id={id}
-        type={type}
-        autoComplete={autoComplete}
-        aria-invalid={Boolean(errors[id])}
-        className="h-12 rounded-xl px-4"
-        {...form.register(id)}
-      />
-      {errors[id] && <p className="text-sm text-destructive">{errors[id]?.message}</p>}
-    </div>
-  );
-
   return (
     <div className="flex flex-col gap-8">
-      <div className="flex flex-col gap-2">
-        <h1 className="font-display text-4xl leading-none tracking-tight">Creá tu agencia</h1>
-        <p className="text-muted-foreground">Registrala y empezá a cargar propiedades.</p>
-      </div>
+      <AuthHeading
+        title="Creá tu agencia"
+        text="Después podés invitar a tu equipo."
+      />
 
       <SocialButtons verb="Registrarte" />
 
-      <p className="text-center text-sm text-muted-foreground">o registrate con tu email</p>
+      <AuthDivider>o con tu email</AuthDivider>
 
-      <form className="flex flex-col gap-5" onSubmit={form.handleSubmit(onSubmit)} noValidate>
-        {text("agencyName", "Nombre de la agencia", "organization")}
-        {text("name", "Tu nombre", "name")}
-        {text("email", "Email", "email", "email")}
-        <div className="flex flex-col gap-2.5">
-          <Label htmlFor="password">Contraseña</Label>
+      <form
+        className="flex flex-col gap-5"
+        onSubmit={form.handleSubmit(onSubmit)}
+        noValidate
+      >
+        {TEXT_FIELDS.map((field) => (
+          <AuthField
+            key={field.id}
+            id={field.id}
+            label={field.label}
+            error={errors[field.id]?.message}
+          >
+            <Input
+              id={field.id}
+              type={field.type ?? "text"}
+              autoComplete={field.autoComplete}
+              className={AUTH_INPUT}
+              {...fieldA11y(field.id, { error: errors[field.id]?.message })}
+              {...form.register(field.id)}
+            />
+          </AuthField>
+        ))}
+        <AuthField
+          id="password"
+          label="Contraseña"
+          hint={PASSWORD_HINT}
+          error={errors.password?.message}
+        >
           <PasswordInput
             id="password"
             autoComplete="new-password"
-            aria-invalid={Boolean(errors.password)}
+            {...fieldA11y("password", {
+              hint: PASSWORD_HINT,
+              error: errors.password?.message,
+            })}
             {...form.register("password")}
           />
-          {errors.password && <p className="text-sm text-destructive">{errors.password.message}</p>}
-        </div>
-        {serverError && (
-          <p role="alert" className="rounded-2xl bg-destructive/10 px-4 py-3 text-sm text-destructive">
-            {serverError}
-          </p>
-        )}
-        <Button type="submit" size="lg" className="h-12 gap-2 rounded-full text-base" disabled={form.formState.isSubmitting}>
-          {form.formState.isSubmitting ? (
-            <>
-              <LoaderCircle className="animate-spin" />
-              Creando cuenta…
-            </>
-          ) : (
-            "Crear cuenta"
-          )}
-        </Button>
+        </AuthField>
+        <AuthFormError message={serverError} />
+        <AuthSubmit
+          pending={form.formState.isSubmitting}
+          label="Crear cuenta"
+          pendingLabel="Creando cuenta…"
+        />
       </form>
 
-      <p className="text-center text-sm text-muted-foreground">
+      <p className="text-center text-sm text-quiet">
         ¿Ya tenés cuenta?{" "}
-        <Link href="/login" className="font-medium text-foreground underline-offset-4 outline-none hover:underline focus-visible:underline">
+        <Link
+          href="/login"
+          className="rounded-sm font-medium text-ink underline-offset-4 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-forest"
+        >
           Ingresá
         </Link>
       </p>

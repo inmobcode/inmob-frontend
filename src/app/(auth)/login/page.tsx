@@ -1,34 +1,46 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoaderCircle } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import {
+  AUTH_INPUT,
+  AuthDivider,
+  AuthField,
+  AuthFormError,
+  AuthHeading,
+  AuthSubmit,
+  authErrorMessage,
+  fieldA11y,
+} from "@/components/auth/form-parts";
 import { PasswordInput } from "@/components/auth/password-input";
 import { SocialButtons } from "@/components/auth/social-buttons";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { login } from "@/lib/api/auth";
-import { ApiError } from "@/lib/api/client";
 import { getAccessToken, setSession } from "@/lib/auth/session";
 import { readNext } from "@/lib/auth/oauth";
 
 const schema = z.object({
-  email: z.string().email("Email inválido"),
-  password: z.string().min(1, "Ingresá tu contraseña"),
+  email: z.string().email("Revisá el email: falta la @ o el dominio."),
+  password: z.string().min(1, "Ingresá tu contraseña."),
 });
 
 type FormValues = z.infer<typeof schema>;
 
+const LINK =
+  "rounded-sm font-medium text-ink underline-offset-4 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-forest";
+
 export default function LoginPage() {
   const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
-  const form = useForm<FormValues>({ resolver: zodResolver(schema), defaultValues: { email: "", password: "" } });
+  const form = useForm<FormValues>({
+    resolver: zodResolver(schema),
+    defaultValues: { email: "", password: "" },
+  });
   const errors = form.formState.errors;
 
   useEffect(() => {
@@ -42,65 +54,65 @@ export default function LoginPage() {
       setSession(auth);
       router.push(readNext());
     } catch (err) {
-      setServerError(err instanceof ApiError ? err.message : "Error inesperado");
+      setServerError(authErrorMessage(err, "login"));
     }
   }
 
   return (
-    <div className="flex flex-col gap-8">
-      <div className="flex flex-col gap-2">
-        <h1 className="font-display text-4xl leading-none tracking-tight">Te damos la bienvenida</h1>
-        <p className="text-muted-foreground">Entrá al panel de tu agencia.</p>
-      </div>
+    <div className="flex flex-col gap-8 [@media(max-height:820px)]:gap-6">
+      <AuthHeading title="Entrá a tu agencia" />
 
       <SocialButtons />
 
-      <p className="text-center text-sm text-muted-foreground">o ingresá con tu email</p>
+      <AuthDivider>o con tu email</AuthDivider>
 
-      <form className="flex flex-col gap-5" onSubmit={form.handleSubmit(onSubmit)} noValidate>
-        <div className="flex flex-col gap-2.5">
-          <Label htmlFor="email">Email</Label>
+      <form
+        className="flex flex-col gap-5"
+        onSubmit={form.handleSubmit(onSubmit)}
+        noValidate
+      >
+        <AuthField id="email" label="Email" error={errors.email?.message}>
           <Input
             id="email"
             type="email"
             autoComplete="email"
             placeholder="tu@agencia.com"
-            aria-invalid={Boolean(errors.email)}
-            className="h-12 rounded-xl px-4"
+            className={AUTH_INPUT}
+            {...fieldA11y("email", { error: errors.email?.message })}
             {...form.register("email")}
           />
-          {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
-        </div>
-        <div className="flex flex-col gap-2.5">
-          <Label htmlFor="password">Contraseña</Label>
+        </AuthField>
+        <AuthField
+          id="password"
+          label="Contraseña"
+          error={errors.password?.message}
+          aside={
+            <Link
+              href="/forgot-password"
+              className="rounded-sm text-sm text-quiet underline-offset-4 outline-none hover:text-ink hover:underline focus-visible:ring-2 focus-visible:ring-forest"
+            >
+              ¿La olvidaste?
+            </Link>
+          }
+        >
           <PasswordInput
             id="password"
             autoComplete="current-password"
-            aria-invalid={Boolean(errors.password)}
+            {...fieldA11y("password", { error: errors.password?.message })}
             {...form.register("password")}
           />
-          {errors.password && <p className="text-sm text-destructive">{errors.password.message}</p>}
-        </div>
-        {serverError && (
-          <p role="alert" className="rounded-2xl bg-destructive/10 px-4 py-3 text-sm text-destructive">
-            {serverError}
-          </p>
-        )}
-        <Button type="submit" size="lg" className="h-12 gap-2 rounded-full text-base" disabled={form.formState.isSubmitting}>
-          {form.formState.isSubmitting ? (
-            <>
-              <LoaderCircle className="animate-spin" />
-              Entrando…
-            </>
-          ) : (
-            "Entrar"
-          )}
-        </Button>
+        </AuthField>
+        <AuthFormError message={serverError} />
+        <AuthSubmit
+          pending={form.formState.isSubmitting}
+          label="Entrar"
+          pendingLabel="Entrando…"
+        />
       </form>
 
-      <p className="text-center text-sm text-muted-foreground">
+      <p className="text-center text-sm text-quiet">
         ¿Todavía no tenés cuenta?{" "}
-        <Link href="/register" className="font-medium text-foreground underline-offset-4 outline-none hover:underline focus-visible:underline">
+        <Link href="/register" className={LINK}>
           Creá tu agencia
         </Link>
       </p>

@@ -17,7 +17,9 @@ export interface RatePeriod {
 export type RatePeriodPayload = Omit<RatePeriod, "id" | "propertyId">;
 
 export function listRatePeriods(token: string, propertyId: string) {
-  return apiFetch<RatePeriod[]>(`/api/properties/${propertyId}/rates`, { token });
+  return apiFetch<RatePeriod[]>(`/api/properties/${propertyId}/rates`, {
+    token,
+  });
 }
 
 export function createRatePeriod(
@@ -38,14 +40,21 @@ export function updateRatePeriod(
   periodId: string,
   payload: Partial<RatePeriodPayload>,
 ) {
-  return apiFetch<RatePeriod>(`/api/properties/${propertyId}/rates/${periodId}`, {
-    method: "PATCH",
-    token,
-    body: JSON.stringify(payload),
-  });
+  return apiFetch<RatePeriod>(
+    `/api/properties/${propertyId}/rates/${periodId}`,
+    {
+      method: "PATCH",
+      token,
+      body: JSON.stringify(payload),
+    },
+  );
 }
 
-export function deleteRatePeriod(token: string, propertyId: string, periodId: string) {
+export function deleteRatePeriod(
+  token: string,
+  propertyId: string,
+  periodId: string,
+) {
   return apiFetch<void>(`/api/properties/${propertyId}/rates/${periodId}`, {
     method: "DELETE",
     token,

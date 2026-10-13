@@ -1,0 +1,278 @@
+"use client";
+
+import { Search } from "lucide-react";
+
+import { AgencyMark, SITE_WRAP } from "@/components/public/site-chrome";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import type { PublicAgency } from "@/lib/api/agency";
+import { LISTING_TYPE_LABELS, categoryLabel } from "@/lib/properties-labels";
+import type { ResolvedSite } from "@/lib/site-theme";
+import { cn } from "@/lib/utils";
+
+export type Operation = "" | "SALE" | "RENT";
+
+export interface SearchValues {
+  op: Operation;
+  zone: string;
+  type: string;
+}
+
+const ALL = "__all";
+const OPERATIONS: [Operation, string][] = [
+  ["", "Todas"],
+  ["SALE", LISTING_TYPE_LABELS.SALE],
+  ["RENT", LISTING_TYPE_LABELS.RENT],
+];
+
+/**
+ * The three questions people ask first: buy or rent, where, and what kind of
+ * place. Results update as they choose; the button takes them to the list.
+ */
+export function SearchBar({
+  values,
+  onChange,
+  zones,
+  types,
+  resultCount,
+  onSubmit,
+  layout = "bar",
+  className,
+}: {
+  values: SearchValues;
+  onChange: (next: Partial<SearchValues>) => void;
+  zones: string[];
+  types: string[];
+  resultCount: number;
+  onSubmit: () => void;
+  /** `bar` lines the fields up on wide screens; `stack` keeps them in a column. */
+  layout?: "bar" | "stack";
+  className?: string;
+}) {
+  const button =
+    resultCount === 0
+      ? "Sin resultados"
+      : resultCount === 1
+        ? "Ver 1 propiedad"
+        : `Ver ${resultCount} propiedades`;
+
+  return (
+    <form
+      role="search"
+      aria-label="Buscar propiedades"
+      onSubmit={(event) => {
+        event.preventDefault();
+        onSubmit();
+      }}
+      className={cn(
+        "grid gap-3 rounded-xl bg-white p-3 text-site-ink",
+        layout === "bar" &&
+          "lg:grid-cols-[auto_minmax(0,1fr)_minmax(0,1fr)_auto] lg:items-end",
+        className,
+      )}
+    >
+      <fieldset className="flex flex-col gap-1.5">
+        <legend className="mb-1.5 px-1 text-xs text-site-quiet">
+          Operación
+        </legend>
+        <div
+          role="radiogroup"
+          aria-label="Operación"
+          className="flex h-11 rounded-lg bg-site-surface p-1"
+        >
+          {OPERATIONS.map(([value, label]) => (
+            <button
+              key={label}
+              type="button"
+              role="radio"
+              aria-checked={values.op === value}
+              onClick={() => onChange({ op: value })}
+              className={cn(
+                "flex-1 rounded-md px-3.5 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-site-accent",
+                values.op === value
+                  ? "bg-white text-site-ink shadow-sm"
+                  : "text-site-quiet hover:text-site-ink",
+              )}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </fieldset>
+
+      <SearchSelect
+        label="Zona"
+        value={values.zone}
+        allLabel="Todas las zonas"
+        options={zones.map((zone) => ({ value: zone, label: zone }))}
+        onChange={(zone) => onChange({ zone })}
+      />
+      <SearchSelect
+        label="Tipo de propiedad"
+        value={values.type}
+        allLabel="Todos los tipos"
+        options={types.map((type) => ({
+          value: type,
+          label: categoryLabel(type),
+        }))}
+        onChange={(type) => onChange({ type })}
+      />
+
+      <button
+        type="submit"
+        className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-site-accent px-5 text-sm font-medium whitespace-nowrap text-site-accent-ink outline-none transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-site-accent focus-visible:ring-offset-2"
+      >
+        <Search className="size-4" aria-hidden />
+        {button}
+      </button>
+    </form>
+  );
+}
+
+function SearchSelect({
+  label,
+  value,
+  allLabel,
+  options,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  allLabel: string;
+  options: { value: string; label: string }[];
+  onChange: (value: string) => void;
+}) {
+  return (
+    <div className="flex min-w-0 flex-col gap-1.5">
+      <span className="px-1 text-xs text-site-quiet" aria-hidden>
+        {label}
+      </span>
+      <Select
+        value={value || ALL}
+        onValueChange={(next) => onChange(next === ALL ? "" : next)}
+      >
+        <SelectTrigger
+          aria-label={label}
+          className="h-11! w-full rounded-lg border-0 bg-site-surface px-3.5 text-sm shadow-none"
+        >
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value={ALL}>{allLabel}</SelectItem>
+          {options.map((option) => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
+  );
+}
+
+/** The top of the agency's home page, in the layout the agency picked. */
+export function PortalHero({
+  agency,
+  site,
+  search,
+}: {
+  agency: PublicAgency;
+  site: ResolvedSite;
+  /** The search bar, rendered by the page so it shares the listing's filters. */
+  search: (layout: "bar" | "stack") => React.ReactNode;
+}) {
+  const subtitle = site.heroSubtitle && (
+    <p className="max-w-xl text-lg text-pretty opacity-85">
+      {site.heroSubtitle}
+    </p>
+  );
+
+  if (site.template === "editorial") {
+    return (
+      <section
+        className={cn(
+          SITE_WRAP,
+          "grid items-center gap-10 py-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:py-20",
+        )}
+      >
+        <div className="flex flex-col gap-6">
+          <h1 className="s-heading text-[clamp(2.75rem,5.4vw,5rem)] leading-[1] text-balance">
+            {site.heroTitle}
+          </h1>
+          {subtitle}
+          {search("stack")}
+        </div>
+        <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-site-surface max-lg:max-h-[28rem] max-lg:aspect-[4/3]">
+          {site.coverUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={site.coverUrl}
+              alt=""
+              className="size-full object-cover"
+            />
+          ) : (
+            <div className="flex size-full items-center justify-center p-10">
+              <AgencyMark agency={agency} />
+            </div>
+          )}
+        </div>
+      </section>
+    );
+  }
+
+  if (site.template === "compacto") {
+    return (
+      <section className="border-b border-site-line">
+        <div className={cn(SITE_WRAP, "flex flex-col gap-6 py-10 lg:py-14")}>
+          <div className="flex flex-col gap-3">
+            <h1 className="s-heading text-[clamp(2rem,3.6vw,3rem)] leading-[1.05] text-balance">
+              {site.heroTitle}
+            </h1>
+            {subtitle && <div className="text-site-quiet">{subtitle}</div>}
+          </div>
+          {search("bar")}
+        </div>
+      </section>
+    );
+  }
+
+  // Portada: the cover photo fills the top, with the headline and search on it.
+  // Without a cover, the accent color fills that space instead.
+  return (
+    <section
+      className={cn(
+        "relative isolate flex min-h-[clamp(30rem,78svh,46rem)] flex-col justify-end overflow-hidden",
+        site.coverUrl ? "text-white" : "bg-site-accent text-site-accent-ink",
+      )}
+    >
+      {site.coverUrl && (
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={site.coverUrl}
+            alt=""
+            className="absolute inset-0 -z-10 size-full object-cover"
+          />
+          <div
+            aria-hidden
+            className="absolute inset-0 -z-10 bg-gradient-to-t from-black/70 via-black/25 to-black/35"
+          />
+        </>
+      )}
+      <div
+        className={cn(SITE_WRAP, "flex flex-col gap-6 pt-32 pb-10 lg:pb-14")}
+      >
+        <h1 className="s-heading max-w-3xl text-[clamp(2.5rem,6vw,4.75rem)] leading-[1.02] text-balance">
+          {site.heroTitle}
+        </h1>
+        {subtitle}
+        {search("bar")}
+      </div>
+    </section>
+  );
+}

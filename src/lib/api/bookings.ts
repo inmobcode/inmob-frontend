@@ -63,21 +63,35 @@ export function getBooking(token: string, id: string) {
 }
 
 export function confirmBooking(token: string, id: string) {
-  return apiFetch<Booking>(`/api/bookings/${id}/confirm`, { method: "POST", token });
+  return apiFetch<Booking>(`/api/bookings/${id}/confirm`, {
+    method: "POST",
+    token,
+  });
 }
 
 export function cancelBooking(token: string, id: string) {
-  return apiFetch<Booking>(`/api/bookings/${id}/cancel`, { method: "POST", token });
+  return apiFetch<Booking>(`/api/bookings/${id}/cancel`, {
+    method: "POST",
+    token,
+  });
 }
 
 export function completeBooking(token: string, id: string) {
-  return apiFetch<Booking>(`/api/bookings/${id}/complete`, { method: "POST", token });
+  return apiFetch<Booking>(`/api/bookings/${id}/complete`, {
+    method: "POST",
+    token,
+  });
 }
 
 export function addPayment(
   token: string,
   bookingId: string,
-  payload: { amount: number; type: PaymentType; currency?: string; method?: string },
+  payload: {
+    amount: number;
+    type: PaymentType;
+    currency?: string;
+    method?: string;
+  },
 ) {
   return apiFetch<Payment>(`/api/bookings/${bookingId}/payments`, {
     method: "POST",
@@ -86,9 +100,16 @@ export function addPayment(
   });
 }
 
-export function markPaymentPaid(token: string, bookingId: string, paymentId: string) {
-  return apiFetch<Payment>(`/api/bookings/${bookingId}/payments/${paymentId}/mark-paid`, {
-    method: "POST",
-    token,
-  });
+export function markPaymentPaid(
+  token: string,
+  bookingId: string,
+  paymentId: string,
+) {
+  return apiFetch<Payment>(
+    `/api/bookings/${bookingId}/payments/${paymentId}/mark-paid`,
+    {
+      method: "POST",
+      token,
+    },
+  );
 }

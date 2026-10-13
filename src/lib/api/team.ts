@@ -23,7 +23,10 @@ export function listTeam(token: string) {
   return apiFetch<TeamMember[]>("/api/team/", { token });
 }
 
-export function createTeamMember(token: string, payload: CreateTeamMemberPayload) {
+export function createTeamMember(
+  token: string,
+  payload: CreateTeamMemberPayload,
+) {
   return apiFetch<TeamMember>("/api/team/", {
     method: "POST",
     token,
