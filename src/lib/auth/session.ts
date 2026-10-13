@@ -1,3 +1,6 @@
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
 import type { AuthResponse } from "@/lib/api/auth";
 
 const ACCESS_COOKIE = "access_token";
@@ -64,6 +67,11 @@ export function getAccessToken(): string | null {
   return getCookie(ACCESS_COOKIE);
 }
 
+/** The agency slug the dashboard's URLs are currently scoped to. */
+export function getAgencySlug(): string | null {
+  return getSessionUser()?.agencySlug ?? null;
+}
+
 export function getSessionUser(): SessionUser | null {
   let raw = getCookie(USER_COOKIE);
   if (!raw) {
@@ -77,4 +85,39 @@ export function getSessionUser(): SessionUser | null {
   } catch {
     return null;
   }
+}
+
+/**
+ * The session user, re-read whenever `updateSessionUser` fires its event.
+ * Starts `null` on both the server and the first client render (cookies
+ * aren't readable during SSR), then fills in after mount — never a lazy
+ * initializer, or the hydrated output would diverge from the server HTML.
+ */
+export function useSessionUser(): SessionUser | null {
+  const [user, setUser] = useState<SessionUser | null>(null);
+
+  useEffect(() => {
+    function read() {
+      setUser(getSessionUser());
+    }
+    read();
+    window.addEventListener(SESSION_USER_EVENT, read);
+    return () => window.removeEventListener(SESSION_USER_EVENT, read);
+  }, []);
+
+  return user;
+}
+
+/**
+ * Equipo, Configuración and the portal editor are OWNER/ADMIN territory (see
+ * sidebar.tsx) — this is the matching guard for AGENT hitting the URL
+ * directly. The real block is the backend's `@require_role`; this is just UX.
+ */
+export function useRequireNonAgent() {
+  const user = useSessionUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user && user.role === "AGENT") router.replace(`/${user.agencySlug}/properties`);
+  }, [user, router]);
 }

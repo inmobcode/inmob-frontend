@@ -4,7 +4,7 @@ import { format, formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
 import { CalendarClock, Clock, FileText, Link2, MoreHorizontal, Pencil, Send, Trash2, UserRound } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { OfferStatusPill } from "@/components/offers/offer-status-pill";
@@ -70,6 +70,7 @@ export function Collage({ urls }: { urls: string[] }) {
 
 export function OfferMenu({ offer, actions, className }: { offer: Offer; actions: OfferActions; className?: string }) {
   const router = useRouter();
+  const { agencySlug } = useParams<{ agencySlug: string }>();
 
   async function copyLink() {
     try {
@@ -92,7 +93,7 @@ export function OfferMenu({ offer, actions, className }: { offer: Offer; actions
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-52 rounded-2xl p-1.5">
-        <DropdownMenuItem className="rounded-xl py-2" onSelect={() => router.push(`/offers/${offer.id}`)}>
+        <DropdownMenuItem className="rounded-xl py-2" onSelect={() => router.push(`/${agencySlug}/offers/${offer.id}`)}>
           <Pencil />
           Editar
         </DropdownMenuItem>
@@ -120,6 +121,7 @@ const CARD_CLASS =
   "offer-card group flex flex-col overflow-hidden rounded-2xl bg-card shadow-[0_1px_2px_oklch(0.3_0.05_160/0.04),0_12px_32px_-12px_oklch(0.3_0.05_160/0.14)] ring-1 ring-foreground/5 outline-none transition-[box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:shadow-[0_1px_2px_oklch(0.3_0.05_160/0.06),0_24px_44px_-12px_oklch(0.3_0.05_160/0.26)] focus-visible:ring-3 focus-visible:ring-ring/50";
 
 export function OfferCard({ offer, actions }: { offer: Offer; actions: OfferActions }) {
+  const { agencySlug } = useParams<{ agencySlug: string }>();
   const items = propertiesOf(offer);
   const covers = coversOf(offer);
   const expired = offer.status === "EXPIRED";
@@ -127,7 +129,7 @@ export function OfferCard({ offer, actions }: { offer: Offer; actions: OfferActi
   const client = offer.clientName?.trim();
 
   return (
-    <Link href={`/offers/${offer.id}`} className={CARD_CLASS}>
+    <Link href={`/${agencySlug}/offers/${offer.id}`} className={CARD_CLASS}>
       <div className="relative aspect-[16/10] overflow-hidden bg-secondary">
         <div className={cn("size-full transition-transform duration-700 ease-out group-hover:scale-105", expired && "opacity-70 grayscale")}>
           <Collage urls={covers} />

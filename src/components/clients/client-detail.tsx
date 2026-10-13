@@ -15,6 +15,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -64,6 +65,7 @@ function Skeleton() {
 }
 
 export function ClientDetail({ clientId }: { clientId: string }) {
+  const { agencySlug } = useParams<{ agencySlug: string }>();
   const queryClient = useQueryClient();
   const [notes, setNotes] = useState<string | null>(null);
   const [type, setType] = useState<InteractionType>("NOTE");
@@ -105,7 +107,7 @@ export function ClientDetail({ clientId }: { clientId: string }) {
           </p>
         </div>
         <Button variant="outline" asChild>
-          <Link href="/clients">
+          <Link href={`/${agencySlug}/clients`}>
             <ArrowLeft />
             Volver a clientes
           </Link>
@@ -122,7 +124,7 @@ export function ClientDetail({ clientId }: { clientId: string }) {
   return (
     <div className="flex flex-col gap-8">
       <Link
-        href="/clients"
+        href={`/${agencySlug}/clients`}
         className="inline-flex w-fit items-center gap-1.5 rounded-full text-sm text-muted-foreground transition-colors outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
       >
         <ArrowLeft className="size-4" />

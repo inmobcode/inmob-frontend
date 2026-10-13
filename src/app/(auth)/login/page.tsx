@@ -21,7 +21,7 @@ import { PasswordInput } from "@/components/auth/password-input";
 import { SocialButtons } from "@/components/auth/social-buttons";
 import { Input } from "@/components/ui/input";
 import { login } from "@/lib/api/auth";
-import { getAccessToken, setSession } from "@/lib/auth/session";
+import { getAgencySlug, setSession } from "@/lib/auth/session";
 import { readNext } from "@/lib/auth/oauth";
 
 const schema = z.object({
@@ -44,7 +44,8 @@ export default function LoginPage() {
   const errors = form.formState.errors;
 
   useEffect(() => {
-    if (getAccessToken()) router.replace(readNext());
+    const slug = getAgencySlug();
+    if (slug) router.replace(readNext(slug));
   }, [router]);
 
   async function onSubmit(values: FormValues) {
@@ -52,7 +53,7 @@ export default function LoginPage() {
     try {
       const auth = await login(values);
       setSession(auth);
-      router.push(readNext());
+      router.push(readNext(auth.user.agencySlug));
     } catch (err) {
       setServerError(authErrorMessage(err, "login"));
     }

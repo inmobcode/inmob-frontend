@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { ArrowLeft, Check, CircleCheck, X } from "lucide-react";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -72,6 +73,7 @@ function Stat({ label, value, strong }: { label: string; value: string; strong?:
 }
 
 export function BookingDetail({ bookingId }: { bookingId: string }) {
+  const { agencySlug } = useParams<{ agencySlug: string }>();
   const queryClient = useQueryClient();
   const [confirmingCancel, setConfirmingCancel] = useState(false);
 
@@ -118,7 +120,7 @@ export function BookingDetail({ bookingId }: { bookingId: string }) {
           </p>
         </div>
         <Button variant="outline" asChild>
-          <Link href="/bookings">
+          <Link href={`/${agencySlug}/bookings`}>
             <ArrowLeft />
             Volver a reservas
           </Link>
@@ -137,7 +139,7 @@ export function BookingDetail({ bookingId }: { bookingId: string }) {
   return (
     <div className="flex flex-col gap-8">
       <Link
-        href="/bookings"
+        href={`/${agencySlug}/bookings`}
         className="inline-flex w-fit items-center gap-1.5 rounded-full text-sm text-muted-foreground transition-colors outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
       >
         <ArrowLeft className="size-4" />
@@ -155,7 +157,7 @@ export function BookingDetail({ bookingId }: { bookingId: string }) {
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-sm text-muted-foreground">
                 <BookingStatusPill status={booking.status} />
                 {booking.clientId && booking.clientName ? (
-                  <Link href={`/clients/${booking.clientId}`} className="outline-none hover:text-foreground hover:underline focus-visible:underline">
+                  <Link href={`/${agencySlug}/clients/${booking.clientId}`} className="outline-none hover:text-foreground hover:underline focus-visible:underline">
                     {booking.clientName}
                   </Link>
                 ) : (

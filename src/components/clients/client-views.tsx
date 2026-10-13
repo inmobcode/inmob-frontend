@@ -4,7 +4,7 @@ import { formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
 import { Clock, Mail, MessageSquareText, Phone } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import {
   ClientAvatar,
@@ -44,11 +44,12 @@ function Contact({ client, className }: { client: Client; className?: string }) 
 }
 
 export function ClientCard({ client, actions }: { client: Client; actions: ClientActions }) {
+  const { agencySlug } = useParams<{ agencySlug: string }>();
   const last = client.interactions?.[0];
   const lost = client.stage === "LOST";
 
   return (
-    <Link href={`/clients/${client.id}`} className={cn(SURFACE, "flex flex-col gap-5 p-5", lost && "opacity-75")}>
+    <Link href={`/${agencySlug}/clients/${client.id}`} className={cn(SURFACE, "flex flex-col gap-5 p-5", lost && "opacity-75")}>
       <div className="flex items-start gap-3.5">
         <ClientAvatar name={client.name} />
         <div className="flex min-w-0 flex-1 flex-col gap-1.5 pt-0.5">
@@ -83,11 +84,12 @@ export function ClientCard({ client, actions }: { client: Client; actions: Clien
 }
 
 export function ClientRow({ client, actions }: { client: Client; actions: ClientActions }) {
+  const { agencySlug } = useParams<{ agencySlug: string }>();
   const last = client.interactions?.[0];
 
   return (
     <Link
-      href={`/clients/${client.id}`}
+      href={`/${agencySlug}/clients/${client.id}`}
       className={cn(SURFACE, "flex flex-col gap-4 p-4 sm:flex-row sm:items-center", client.stage === "LOST" && "opacity-75")}
     >
       <div className="flex min-w-0 items-center gap-3.5 sm:w-72 sm:shrink-0">
@@ -121,6 +123,7 @@ const HEAD = "px-4 py-3 text-left text-xs font-medium text-muted-foreground";
 
 export function ClientsTable({ clients, actions }: { clients: Client[]; actions: ClientActions }) {
   const router = useRouter();
+  const { agencySlug } = useParams<{ agencySlug: string }>();
 
   return (
     <div className="overflow-x-auto rounded-2xl bg-card shadow-[0_1px_2px_oklch(0.3_0.05_160/0.04),0_12px_32px_-12px_oklch(0.3_0.05_160/0.14)] ring-1 ring-foreground/5">
@@ -141,7 +144,7 @@ export function ClientsTable({ clients, actions }: { clients: Client[]; actions:
           {clients.map((client) => (
             <tr
               key={client.id}
-              onClick={() => router.push(`/clients/${client.id}`)}
+              onClick={() => router.push(`/${agencySlug}/clients/${client.id}`)}
               className="client-card cursor-pointer border-t border-foreground/5 transition-colors hover:bg-foreground/[0.03]"
             >
               <td className="px-4 py-3">
@@ -149,7 +152,7 @@ export function ClientsTable({ clients, actions }: { clients: Client[]; actions:
                   <ClientAvatar name={client.name} className="size-10 text-base" />
                   <div className="flex min-w-0 flex-col">
                     <Link
-                      href={`/clients/${client.id}`}
+                      href={`/${agencySlug}/clients/${client.id}`}
                       onClick={(event) => event.stopPropagation()}
                       className="truncate font-medium outline-none hover:underline focus-visible:underline"
                     >

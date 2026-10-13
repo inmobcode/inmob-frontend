@@ -1,8 +1,9 @@
 "use client";
 
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Building2,
+  Check,
   Copy,
   ExternalLink,
   Keyboard,
@@ -19,7 +20,6 @@ import {
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import {
@@ -32,16 +32,16 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuPortal,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { getAgency } from "@/lib/api/agency";
-import {
-  clearSession,
-  getAccessToken,
-  getSessionUser,
-  SESSION_USER_EVENT,
-} from "@/lib/auth/session";
+import { listMyAgencies, switchAgency } from "@/lib/api/auth";
+import { clearSession, getAccessToken, setSession, useSessionUser } from "@/lib/auth/session";
 import { cn } from "@/lib/utils";
 
 const NAME_FALLBACK = "Tu nombre";
@@ -96,23 +96,67 @@ function ThemeSwitch() {
   );
 }
 
+/** Only rendered once there's more than one agency to switch to. */
+function AgencySwitcherItems({ currentAgencyId }: { currentAgencyId: string }) {
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
+  const { data: agencies } = useQuery({
+    queryKey: ["my-agencies"],
+    queryFn: () => {
+      const token = getAccessToken();
+      if (!token) throw new Error("No autenticado");
+      return listMyAgencies(token);
+    },
+    staleTime: 60_000,
+  });
+
+  const mutation = useMutation({
+    mutationFn: (agencyId: string) => {
+      const token = getAccessToken();
+      if (!token) throw new Error("No autenticado");
+      return switchAgency(token, agencyId);
+    },
+    onSuccess: (auth) => {
+      setSession(auth);
+      // Every cached list/detail below belonged to the previous agency.
+      queryClient.clear();
+      router.push(`/${auth.user.agencySlug}/properties`);
+    },
+    onError: () => toast.error("No se pudo cambiar de agencia"),
+  });
+
+  if (!agencies || agencies.length < 2) return null;
+
+  return (
+    <DropdownMenuSub>
+      <DropdownMenuSubTrigger className="rounded-xl py-2">
+        <Building2 />
+        Cambiar de agencia
+      </DropdownMenuSubTrigger>
+      <DropdownMenuPortal>
+        <DropdownMenuSubContent className="w-56 rounded-2xl p-1.5">
+          {agencies.map((item) => (
+            <DropdownMenuItem
+              key={item.id}
+              className="gap-2 rounded-xl py-2"
+              disabled={item.id === currentAgencyId || mutation.isPending}
+              onSelect={() => mutation.mutate(item.id)}
+            >
+              {item.id === currentAgencyId ? <Check /> : <span className="size-4" />}
+              <span className="min-w-0 flex-1 truncate">{item.name}</span>
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuSubContent>
+      </DropdownMenuPortal>
+    </DropdownMenuSub>
+  );
+}
+
 export function UserMenu({ collapsed }: { collapsed: boolean }) {
   const router = useRouter();
   const queryClient = useQueryClient();
-  // Deliberately not a lazy useState initializer: document.cookie is
-  // unavailable during SSR but present on the client, so reading it
-  // synchronously on first render would make the hydrated output diverge
-  // from the server-rendered HTML. Deferring to an effect keeps both
-  // passes rendering `null` first, then fills in after mount.
-  const [user, setUser] = useState<ReturnType<typeof getSessionUser>>(null);
-  useEffect(() => {
-    function read() {
-      setUser(getSessionUser());
-    }
-    read();
-    window.addEventListener(SESSION_USER_EVENT, read);
-    return () => window.removeEventListener(SESSION_USER_EVENT, read);
-  }, []);
+  const user = useSessionUser();
 
   const { data: agency } = useQuery({
     queryKey: ["agency"],
@@ -227,17 +271,21 @@ export function UserMenu({ collapsed }: { collapsed: boolean }) {
           )}
 
           <DropdownMenuItem className="rounded-xl py-2" asChild>
-            <Link href="/profile">
+            <Link href={`/${user.agencySlug}/profile`}>
               <UserRound />
               Mi perfil
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem className="rounded-xl py-2" asChild>
-            <Link href="/settings">
-              <Settings />
-              Configuración
-            </Link>
-          </DropdownMenuItem>
+          {user.role !== "AGENT" && (
+            <DropdownMenuItem className="rounded-xl py-2" asChild>
+              <Link href={`/${user.agencySlug}/settings`}>
+                <Settings />
+                Configuración
+              </Link>
+            </DropdownMenuItem>
+          )}
+
+          <AgencySwitcherItems currentAgencyId={user.agencyId} />
 
           {agency && (
             <>

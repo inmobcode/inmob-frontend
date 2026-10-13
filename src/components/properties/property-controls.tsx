@@ -1,7 +1,7 @@
 "use client";
 
 import { Archive, Check, EyeOff, Globe, Minus, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import {
   DropdownMenu,
@@ -84,6 +84,7 @@ export function PropertyMenu({
   className?: string;
 }) {
   const router = useRouter();
+  const { agencySlug } = useParams<{ agencySlug: string }>();
 
   return (
     <DropdownMenu>
@@ -100,7 +101,7 @@ export function PropertyMenu({
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-52 rounded-2xl p-1.5">
-        <DropdownMenuItem className="rounded-xl py-2" onSelect={() => router.push(`/properties/${property.id}`)}>
+        <DropdownMenuItem className="rounded-xl py-2" onSelect={() => router.push(`/${agencySlug}/properties/${property.id}`)}>
           <Pencil />
           Editar
         </DropdownMenuItem>

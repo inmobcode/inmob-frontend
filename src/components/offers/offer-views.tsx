@@ -4,7 +4,7 @@ import { format, formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
 import { CalendarClock, UserRound } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import { Collage, coversOf, OfferMenu, propertiesOf, type OfferActions } from "@/components/offers/offer-card";
 import { OfferStatusPill } from "@/components/offers/offer-status-pill";
@@ -41,12 +41,13 @@ const ROW_CLASS =
 
 /** One offer as a wide row: collage on the left, details in the middle, total and status on the right. */
 export function OfferRow({ offer, actions }: { offer: Offer; actions: OfferActions }) {
+  const { agencySlug } = useParams<{ agencySlug: string }>();
   const items = propertiesOf(offer);
   const updated = formatDistanceToNow(new Date(offer.updatedAt), { addSuffix: true, locale: es });
   const expired = offer.status === "EXPIRED";
 
   return (
-    <Link href={`/offers/${offer.id}`} className={ROW_CLASS}>
+    <Link href={`/${agencySlug}/offers/${offer.id}`} className={ROW_CLASS}>
       <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl bg-secondary sm:w-56 sm:shrink-0">
         <div className={cn("size-full", expired && "opacity-70 grayscale")}>
           <Collage urls={coversOf(offer)} />
@@ -88,6 +89,7 @@ const HEAD = "px-4 py-3 text-left text-xs font-medium text-muted-foreground";
 /** One offer per line, for scanning many at once. */
 export function OffersTable({ offers, actions }: { offers: Offer[]; actions: OfferActions }) {
   const router = useRouter();
+  const { agencySlug } = useParams<{ agencySlug: string }>();
 
   return (
     <div className="overflow-x-auto rounded-2xl bg-card shadow-[0_1px_2px_oklch(0.3_0.05_160/0.04),0_12px_32px_-12px_oklch(0.3_0.05_160/0.14)] ring-1 ring-foreground/5">
@@ -111,7 +113,7 @@ export function OffersTable({ offers, actions }: { offers: Offer[]; actions: Off
             return (
               <tr
                 key={offer.id}
-                onClick={() => router.push(`/offers/${offer.id}`)}
+                onClick={() => router.push(`/${agencySlug}/offers/${offer.id}`)}
                 className="offer-card cursor-pointer border-t border-foreground/5 transition-colors hover:bg-foreground/[0.03]"
               >
                 <td className="px-4 py-3">
@@ -121,7 +123,7 @@ export function OffersTable({ offers, actions }: { offers: Offer[]; actions: Off
                     </div>
                     <div className="flex min-w-0 flex-col">
                       <Link
-                        href={`/offers/${offer.id}`}
+                        href={`/${agencySlug}/offers/${offer.id}`}
                         onClick={(event) => event.stopPropagation()}
                         className="truncate font-medium outline-none hover:underline focus-visible:underline"
                         title={offer.title}

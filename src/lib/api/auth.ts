@@ -21,8 +21,29 @@ export interface AuthResponse {
     email: string;
     role: "OWNER" | "ADMIN" | "AGENT";
     agencyId: string;
+    agencySlug: string;
     avatarUrl?: string | null;
   };
+}
+
+export interface MyAgency {
+  id: string;
+  name: string;
+  slug: string;
+  logoUrl: string | null;
+  role: "OWNER" | "ADMIN" | "AGENT";
+}
+
+export function listMyAgencies(token: string) {
+  return apiFetch<MyAgency[]>("/api/auth/me/agencies", { token });
+}
+
+export function switchAgency(token: string, agencyId: string) {
+  return apiFetch<AuthResponse>("/api/auth/switch-agency", {
+    method: "POST",
+    token,
+    body: JSON.stringify({ agencyId }),
+  });
 }
 
 export function login(payload: LoginPayload) {

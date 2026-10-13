@@ -35,9 +35,14 @@ import {
 import { listClients } from "@/lib/api/clients";
 import { listOffers } from "@/lib/api/offers";
 import { listProperties } from "@/lib/api/properties";
-import { clearSession, getAccessToken } from "@/lib/auth/session";
+import { clearSession, getAccessToken, useSessionUser } from "@/lib/auth/session";
 import { useActionBarStore } from "@/lib/store/action-bar-store";
 import { cn } from "@/lib/utils";
+
+// The portal editor and login live outside the agency-scoped dashboard tree.
+const BARE_PATHS = new Set(["/portal", "/login"]);
+// Equipo, Configuración and Portal are OWNER/ADMIN territory — see sidebar.tsx.
+const RESTRICTED_PATHS = new Set(["/team", "/settings", "/portal"]);
 
 export const OPEN_SHORTCUTS_EVENT = "open-shortcuts";
 export const OPEN_PALETTE_EVENT = "open-palette";
@@ -145,6 +150,7 @@ function CommandPalette({
 }) {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const user = useSessionUser();
   const { setTheme } = useTheme();
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
@@ -172,13 +178,15 @@ function CommandPalette({
   const close = useCallback(() => onOpenChange(false), [onOpenChange]);
 
   const commands = useMemo<Command[]>(() => {
+    const resolve = (path: string) =>
+      BARE_PATHS.has(path) || !user ? path : `/${user.agencySlug}${path}`;
     const go = (path: string) => () => {
       close();
-      router.push(path);
+      router.push(resolve(path));
     };
     const create = (path: string) => () => {
       close();
-      router.push(path);
+      router.push(resolve(path));
       clickWhenReady("[data-new-item]");
     };
     const list: Command[] = [
@@ -336,9 +344,20 @@ function CommandPalette({
       },
     ];
 
+    const RESTRICTED_COMMANDS = new Set([
+      "go-team",
+      "go-portal",
+      "go-settings",
+      "new-member",
+    ]);
+    const allowed =
+      user?.role === "AGENT"
+        ? list.filter((command) => !RESTRICTED_COMMANDS.has(command.id))
+        : list;
+
     const term = normalize(query.trim());
-    if (!term) return list;
-    const matches = list.filter((command) =>
+    if (!term) return allowed;
+    const matches = allowed.filter((command) =>
       normalize(command.label).includes(term),
     );
 
@@ -401,6 +420,7 @@ function CommandPalette({
     close,
     setTheme,
     queryClient,
+    user,
   ]);
 
   // Whatever is highlighted should stay on screen while arrowing through the list.
@@ -577,6 +597,7 @@ function ShortcutsDialog({
 /** Global keyboard shortcuts of the dashboard, the command palette and the help dialog. */
 export function Shortcuts() {
   const router = useRouter();
+  const user = useSessionUser();
   const [helpOpen, setHelpOpen] = useState(false);
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [pendingGo, setPendingGo] = useState(false);
@@ -632,9 +653,13 @@ export function Shortcuts() {
       if (goTimer.current) {
         const target = GO_TO[key];
         endGo();
-        if (target) {
+        if (target && !(RESTRICTED_PATHS.has(target.path) && user?.role === "AGENT")) {
           event.preventDefault();
-          router.push(target.path);
+          const path =
+            BARE_PATHS.has(target.path) || !user
+              ? target.path
+              : `/${user.agencySlug}${target.path}`;
+          router.push(path);
         }
         return;
       }
@@ -715,7 +740,7 @@ export function Shortcuts() {
       window.removeEventListener("keydown", onKeyDown);
       if (goTimer.current) window.clearTimeout(goTimer.current);
     };
-  }, [router]);
+  }, [router, user]);
 
   return (
     <>
@@ -726,14 +751,19 @@ export function Shortcuts() {
         >
           <kbd className="rounded-md bg-background/20 px-1.5 text-xs">G</kbd>
           <span className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
-            {Object.entries(GO_TO).map(([key, target]) => (
-              <span key={key}>
-                <kbd className="mr-1 rounded-md bg-background/20 px-1.5">
-                  {key.toUpperCase()}
-                </kbd>
-                {target.label}
-              </span>
-            ))}
+            {Object.entries(GO_TO)
+              .filter(
+                ([, target]) =>
+                  !(RESTRICTED_PATHS.has(target.path) && user?.role === "AGENT"),
+              )
+              .map(([key, target]) => (
+                <span key={key}>
+                  <kbd className="mr-1 rounded-md bg-background/20 px-1.5">
+                    {key.toUpperCase()}
+                  </kbd>
+                  {target.label}
+                </span>
+              ))}
           </span>
         </div>
       )}

@@ -23,8 +23,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ApiError } from "@/lib/api/client";
-import { listTeam, updateTeamMember, type TeamMember, type TeamRole } from "@/lib/api/team";
-import { getAccessToken } from "@/lib/auth/session";
+import { listTeam, removeTeamMember, updateTeamMember, type TeamMember, type TeamRole } from "@/lib/api/team";
+import { getAccessToken, useRequireNonAgent } from "@/lib/auth/session";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { distance, duration, ease, media, rowStagger } from "@/lib/motion";
 
@@ -44,12 +44,14 @@ function requireToken() {
 }
 
 export default function TeamPage() {
+  useRequireNonAgent();
   const queryClient = useQueryClient();
   const gridRef = useRef<HTMLDivElement>(null);
   const [role, setRole] = useState<TeamRole[]>([]);
   const [search, setSearch] = useState("");
   const [view, setView] = useState<ViewMode>("grid");
   const [deactivating, setDeactivating] = useState<TeamMember | null>(null);
+  const [removing, setRemoving] = useState<TeamMember | null>(null);
 
   // Remembered per browser; read after mount so the server and client first render match.
   useEffect(() => {
@@ -109,6 +111,13 @@ export default function TeamPage() {
     onSettled: () => queryClient.invalidateQueries({ queryKey: ["team"] }),
   });
 
+  const removeMutation = useMutation({
+    mutationFn: (id: string) => removeTeamMember(requireToken(), id),
+    onSuccess: () => toast.success("Lo quitamos del equipo"),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo quitar del equipo"),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["team"] }),
+  });
+
   const actions: TeamActions = {
     changeRole: (id, next) =>
       updateMutation.mutate({ id, role: next, done: `Ahora es ${ROLE_LABELS[next].toLowerCase()}` }),
@@ -116,6 +125,10 @@ export default function TeamPage() {
       const member = data?.find((m) => m.id === id);
       if (isActive) updateMutation.mutate({ id, isActive, done: "Acceso reactivado" });
       else if (member) setDeactivating(member);
+    },
+    requestRemove: (id) => {
+      const member = data?.find((m) => m.id === id);
+      if (member) setRemoving(member);
     },
   };
 
@@ -279,6 +292,30 @@ export default function TeamPage() {
               }}
             >
               Desactivar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={removing != null} onOpenChange={(open) => !open && setRemoving(null)}>
+        <AlertDialogContent className="rounded-3xl">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="font-display text-2xl">¿Quitar del equipo?</AlertDialogTitle>
+            <AlertDialogDescription>
+              {removing?.name} deja de tener acceso a esta agencia. Su cuenta no se borra: si pertenece a otra
+              agencia, sigue entrando ahí sin problema.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Volver</AlertDialogCancel>
+            <AlertDialogAction
+              variant="destructive"
+              onClick={() => {
+                if (removing) removeMutation.mutate(removing.id);
+                setRemoving(null);
+              }}
+            >
+              Quitar
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -4,7 +4,7 @@ import { formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
 import { Bath, BedDouble, Building2, Camera, MapPin, Ruler } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import { coverOf, initials } from "@/components/properties/property-card";
 import { StatusPill } from "@/components/properties/status-pill";
@@ -65,11 +65,12 @@ export function PropertyRow({
   selecting: boolean;
   onToggle: () => void;
 }) {
+  const { agencySlug } = useParams<{ agencySlug: string }>();
   const location = [property.area, property.region, property.country].filter(Boolean).join(", ");
   const updated = formatDistanceToNow(new Date(property.updatedAt), { addSuffix: true, locale: es });
 
   return (
-    <Link href={`/properties/${property.id}`} data-flip-id={property.id} className={cn(ROW_CLASS, selected && "ring-2 ring-primary")}>
+    <Link href={`/${agencySlug}/properties/${property.id}`} data-flip-id={property.id} className={cn(ROW_CLASS, selected && "ring-2 ring-primary")}>
       <div className="relative sm:w-56 sm:shrink-0">
         <Thumb property={property} className="aspect-[4/3] w-full rounded-xl" />
         {property.photos.length > 0 && (
@@ -162,6 +163,7 @@ export function PropertiesTable({
   const allSelected = properties.length > 0 && properties.every((property) => selectedIds.has(property.id));
   const someSelected = !allSelected && properties.some((property) => selectedIds.has(property.id));
   const router = useRouter();
+  const { agencySlug } = useParams<{ agencySlug: string }>();
 
   return (
     <div className="overflow-x-auto rounded-2xl bg-card shadow-[0_1px_2px_oklch(0.3_0.05_160/0.04),0_12px_32px_-12px_oklch(0.3_0.05_160/0.14)] ring-1 ring-foreground/5">
@@ -197,7 +199,7 @@ export function PropertiesTable({
               <tr
                 key={property.id}
                 data-flip-id={property.id}
-                onClick={() => router.push(`/properties/${property.id}`)}
+                onClick={() => router.push(`/${agencySlug}/properties/${property.id}`)}
                 className={cn(
                   "property-card cursor-pointer border-t border-foreground/5 transition-colors hover:bg-foreground/[0.03]",
                   selectedIds.has(property.id) && "bg-primary/[0.06] hover:bg-primary/[0.08]",
@@ -216,7 +218,7 @@ export function PropertiesTable({
                     <Thumb property={property} className="size-12 shrink-0 rounded-lg" />
                     <div className="flex min-w-0 flex-col">
                       <Link
-                        href={`/properties/${property.id}`}
+                        href={`/${agencySlug}/properties/${property.id}`}
                         onClick={(event) => event.stopPropagation()}
                         className="truncate font-medium outline-none hover:underline focus-visible:underline"
                         title={property.title}

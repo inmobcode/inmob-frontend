@@ -2,9 +2,10 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Eye, EyeOff, LoaderCircle } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import { NewItemButton } from "@/components/new-item-button";
@@ -21,17 +22,15 @@ import { cn } from "@/lib/utils";
 const schema = z.object({
   name: z.string().min(2, "Ingresá un nombre"),
   email: z.string().email("Email inválido"),
-  password: z.string().min(8, "Mínimo 8 caracteres"),
   role: z.enum(["ADMIN", "AGENT"]),
 });
 
 type FormValues = z.infer<typeof schema>;
 
-const DEFAULTS: FormValues = { name: "", email: "", password: "", role: "AGENT" };
+const DEFAULTS: FormValues = { name: "", email: "", role: "AGENT" };
 
 export function InviteMemberDialog() {
   const [open, setOpen] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const queryClient = useQueryClient();
   const form = useForm<FormValues>({ resolver: zodResolver(schema), defaultValues: DEFAULTS });
@@ -43,9 +42,14 @@ export function InviteMemberDialog() {
       if (!token) throw new ApiError("No autenticado", 401);
       return createTeamMember(token, values);
     },
-    onSuccess: () => {
+    onSuccess: (result) => {
       queryClient.invalidateQueries({ queryKey: ["team"] });
       handleOpenChange(false);
+      toast.success(
+        result.linkedExisting
+          ? "Ya tenía cuenta en Tivvo: lo sumamos a tu equipo"
+          : "Le enviamos el acceso por email",
+      );
     },
     onError: (err) => setServerError(err instanceof ApiError ? err.message : "Error inesperado"),
   });
@@ -54,7 +58,6 @@ export function InviteMemberDialog() {
     setOpen(next);
     if (!next) {
       form.reset(DEFAULTS);
-      setShowPassword(false);
       setServerError(null);
     }
   }
@@ -74,7 +77,9 @@ export function InviteMemberDialog() {
         >
           <div className="flex flex-col gap-1.5 px-7 pt-7 pb-5">
             <DialogTitle className="font-display text-3xl leading-none tracking-tight">Invitar miembro</DialogTitle>
-            <DialogDescription>Le creás el acceso con una contraseña temporal para que la cambie al entrar.</DialogDescription>
+            <DialogDescription>
+              Si ya tiene cuenta en Tivvo lo sumamos a tu equipo; si no, le mandamos el acceso por email.
+            </DialogDescription>
           </div>
 
           <div className="flex flex-col gap-5 px-7 pb-2">
@@ -87,28 +92,6 @@ export function InviteMemberDialog() {
               <Label htmlFor="email">Email</Label>
               <Input id="email" type="email" autoComplete="off" placeholder="nombre@correo.com" aria-invalid={Boolean(errors.email)} className="h-11 px-4" {...form.register("email")} />
               {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
-            </div>
-            <div className="flex flex-col gap-2.5">
-              <Label htmlFor="password">Contraseña temporal</Label>
-              <div className="relative">
-                <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  autoComplete="new-password"
-                  aria-invalid={Boolean(errors.password)}
-                  className="h-11 px-4 pr-12"
-                  {...form.register("password")}
-                />
-                <button
-                  type="button"
-                  aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
-                  onClick={() => setShowPassword((current) => !current)}
-                  className="absolute top-1/2 right-2 flex size-8 -translate-y-1/2 items-center justify-center rounded-full text-muted-foreground transition-colors outline-none hover:bg-foreground/[0.06] hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
-                >
-                  {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
-                </button>
-              </div>
-              {errors.password && <p className="text-sm text-destructive">{errors.password.message}</p>}
             </div>
             <div className="flex flex-col gap-2.5">
               <Label>Rol</Label>

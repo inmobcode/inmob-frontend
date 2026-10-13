@@ -4,7 +4,7 @@ import { formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
 import { CalendarDays, Clock, UserRound } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import {
   BookingMenu,
@@ -57,9 +57,10 @@ function Client({ booking }: { booking: Booking }) {
 }
 
 export function BookingCard({ booking, actions }: { booking: Booking; actions: BookingActions }) {
+  const { agencySlug } = useParams<{ agencySlug: string }>();
   const cancelled = booking.status === "CANCELLED";
   return (
-    <Link href={`/bookings/${booking.id}`} className={cn(SURFACE, "flex flex-col gap-5 p-5", cancelled && "opacity-70")}>
+    <Link href={`/${agencySlug}/bookings/${booking.id}`} className={cn(SURFACE, "flex flex-col gap-5 p-5", cancelled && "opacity-70")}>
       <div className="flex items-start gap-3.5">
         <DateTile booking={booking} />
         <div className="flex min-w-0 flex-1 flex-col gap-1 pt-0.5">
@@ -91,10 +92,11 @@ export function BookingCard({ booking, actions }: { booking: Booking; actions: B
 }
 
 export function BookingRow({ booking, actions }: { booking: Booking; actions: BookingActions }) {
+  const { agencySlug } = useParams<{ agencySlug: string }>();
   const cancelled = booking.status === "CANCELLED";
   return (
     <Link
-      href={`/bookings/${booking.id}`}
+      href={`/${agencySlug}/bookings/${booking.id}`}
       className={cn(SURFACE, "flex flex-col gap-4 p-4 sm:flex-row sm:items-center", cancelled && "opacity-70")}
     >
       <div className="flex min-w-0 items-center gap-3.5 sm:w-80 sm:shrink-0">
@@ -129,6 +131,7 @@ const HEAD = "px-4 py-3 text-left text-xs font-medium text-muted-foreground";
 
 export function BookingsTable({ bookings, actions }: { bookings: Booking[]; actions: BookingActions }) {
   const router = useRouter();
+  const { agencySlug } = useParams<{ agencySlug: string }>();
   return (
     <div className="overflow-x-auto rounded-2xl bg-card shadow-[0_1px_2px_oklch(0.3_0.05_160/0.04),0_12px_32px_-12px_oklch(0.3_0.05_160/0.14)] ring-1 ring-foreground/5">
       <table className="w-full min-w-[860px] border-collapse text-sm">
@@ -151,7 +154,7 @@ export function BookingsTable({ bookings, actions }: { bookings: Booking[]; acti
             return (
               <tr
                 key={booking.id}
-                onClick={() => router.push(`/bookings/${booking.id}`)}
+                onClick={() => router.push(`/${agencySlug}/bookings/${booking.id}`)}
                 className="booking-card cursor-pointer border-t border-foreground/5 transition-colors hover:bg-foreground/[0.03]"
               >
                 <td className="px-4 py-3">
@@ -159,7 +162,7 @@ export function BookingsTable({ bookings, actions }: { bookings: Booking[]; acti
                     <DateTile booking={booking} className="size-11 rounded-xl [&_.font-display]:text-lg" />
                     <div className="flex min-w-0 flex-col">
                       <Link
-                        href={`/bookings/${booking.id}`}
+                        href={`/${agencySlug}/bookings/${booking.id}`}
                         onClick={(event) => event.stopPropagation()}
                         className="truncate font-medium outline-none hover:underline focus-visible:underline"
                       >

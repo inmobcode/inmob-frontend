@@ -46,7 +46,7 @@ import { Button } from "@/components/ui/button";
 import { getAgency, updateSite, uploadAgencyCover } from "@/lib/api/agency";
 import { ApiError } from "@/lib/api/client";
 import { listPublicProperties } from "@/lib/api/properties";
-import { getAccessToken } from "@/lib/auth/session";
+import { getAccessToken, getAgencySlug, useRequireNonAgent } from "@/lib/auth/session";
 import { compressToWebp } from "@/lib/image-compression";
 import { resolveSite } from "@/lib/site-theme";
 import { cn } from "@/lib/utils";
@@ -77,6 +77,7 @@ const VIEWPORTS: { value: Viewport; label: string; icon: typeof Monitor }[] = [
  * dashboard's sidebar stays out of the way while the agency designs.
  */
 export default function PortalEditorPage() {
+  useRequireNonAgent();
   const router = useRouter();
   const queryClient = useQueryClient();
   const [tab, setTab] = useState<Tab>("design");
@@ -150,7 +151,7 @@ export default function PortalEditorPage() {
 
   function leave() {
     if (window.history.length > 1) router.back();
-    else router.push("/properties");
+    else router.push(`/${getAgencySlug()}/properties`);
   }
 
   const canSave =

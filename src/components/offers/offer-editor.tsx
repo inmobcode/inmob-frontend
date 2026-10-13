@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Copy, Link2, Plus, UserRound } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { Controller, useFieldArray, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
@@ -136,6 +136,7 @@ function ToggleRow({
 
 export function OfferEditor({ offerId }: { offerId: string }) {
   const router = useRouter();
+  const { agencySlug } = useParams<{ agencySlug: string }>();
   const queryClient = useQueryClient();
   const setActions = useActionBarStore((state) => state.setActions);
   const resetActions = useActionBarStore((state) => state.reset);
@@ -224,7 +225,7 @@ export function OfferEditor({ offerId }: { offerId: string }) {
         offer?.status === "DRAFT"
           ? form.handleSubmit((values) => sendMutation.mutate(values))
           : null,
-      onCancel: () => router.push("/offers"),
+      onCancel: () => router.push(`/${agencySlug}/offers`),
     });
     return resetActions;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -401,7 +402,7 @@ export function OfferEditor({ offerId }: { offerId: string }) {
             <OfferStatusPill status={offer.status} />
             {offer.clientId && (
               <Link
-                href={`/clients/${offer.clientId}`}
+                href={`/${agencySlug}/clients/${offer.clientId}`}
                 className="inline-flex items-center gap-1.5 text-sm font-medium text-primary underline-offset-4 hover:underline"
               >
                 <UserRound className="size-4" />

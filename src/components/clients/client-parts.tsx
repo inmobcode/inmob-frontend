@@ -1,7 +1,7 @@
 "use client";
 
 import { Check, Copy, Mail, MoreHorizontal, Pencil, Phone, Repeat2 } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import {
@@ -92,6 +92,7 @@ export function ClientMenu({
   className?: string;
 }) {
   const router = useRouter();
+  const { agencySlug } = useParams<{ agencySlug: string }>();
 
   async function copyEmail() {
     try {
@@ -117,7 +118,7 @@ export function ClientMenu({
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56 rounded-2xl p-1.5">
-        <DropdownMenuItem className="rounded-xl py-2" onSelect={() => router.push(`/clients/${client.id}`)}>
+        <DropdownMenuItem className="rounded-xl py-2" onSelect={() => router.push(`/${agencySlug}/clients/${client.id}`)}>
           <Pencil />
           Ver ficha
         </DropdownMenuItem>

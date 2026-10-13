@@ -2,6 +2,7 @@ import { formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
 import { Bath, BedDouble, Building2, Camera, Clock, LandPlot, MapPin, Ruler } from "lucide-react";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
 import type { Property } from "@/lib/api/properties";
 import { ControlsZone, PropertyMenu, SelectToggle, type PropertyActions } from "@/components/properties/property-controls";
@@ -68,6 +69,7 @@ export function PropertyCard({
   selecting?: boolean;
   onToggle?: () => void;
 }) {
+  const { agencySlug } = useParams<{ agencySlug: string }>();
   const cover = coverOf(property);
   const amount = formatAmount(property);
   const location = [property.area, property.region, property.country].filter(Boolean).join(", ");
@@ -198,7 +200,7 @@ export function PropertyCard({
 
   return (
     <Link
-      href={`/properties/${property.id}`}
+      href={`/${agencySlug}/properties/${property.id}`}
       data-flip-id={property.id}
       className={cn(
         CARD_CLASS,

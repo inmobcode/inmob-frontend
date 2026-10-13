@@ -21,6 +21,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { TOGGLE_SIDEBAR_EVENT } from "@/components/dashboard/shortcuts";
 import { UserMenu } from "@/components/dashboard/user-menu";
 import { Button } from "@/components/ui/button";
+import { useSessionUser } from "@/lib/auth/session";
 import {
   Tooltip,
   TooltipContent,
@@ -51,20 +52,29 @@ interface NavItem {
 const EXPANDED_WIDTH = 255;
 const COLLAPSED_WIDTH = 72;
 
-const NAV_ITEMS: NavItem[] = [
-  { href: "/properties", label: "Propiedades", icon: Building2 },
-  { href: "/offers", label: "Ofertas", icon: Tag },
-  { href: "/clients", label: "Clientes", icon: Users },
-  { href: "/bookings", label: "Reservas", icon: CalendarDays },
-  { href: "/team", label: "Equipo", icon: UsersRound },
-  { href: "/portal", label: "Portal", icon: Globe },
-  { href: "/settings", label: "Configuración", icon: Settings },
-];
+/** Team, Settings and the portal editor are OWNER/ADMIN territory. */
+function navItemsFor(agencySlug: string, role: string | undefined): NavItem[] {
+  const items: NavItem[] = [
+    { href: `/${agencySlug}/properties`, label: "Propiedades", icon: Building2 },
+    { href: `/${agencySlug}/offers`, label: "Ofertas", icon: Tag },
+    { href: `/${agencySlug}/clients`, label: "Clientes", icon: Users },
+    { href: `/${agencySlug}/bookings`, label: "Reservas", icon: CalendarDays },
+  ];
+  if (role !== "AGENT") {
+    items.push(
+      { href: `/${agencySlug}/team`, label: "Equipo", icon: UsersRound },
+      { href: "/portal", label: "Portal", icon: Globe },
+      { href: `/${agencySlug}/settings`, label: "Configuración", icon: Settings },
+    );
+  }
+  return items;
+}
 
 function Brand() {
+  const user = useSessionUser();
   return (
     <Link
-      href="/properties"
+      href={user ? `/${user.agencySlug}/properties` : "#"}
       className="flex items-center gap-2 font-logo text-2xl font-semibold leading-none tracking-tight text-foreground"
     >
       <LogoIcon className="text-primary" />
@@ -135,11 +145,13 @@ function SidebarNav({
   onNavigate?: () => void;
 }) {
   const pathname = usePathname();
+  const user = useSessionUser();
   const navRef = useRef<HTMLElement>(null);
   const indicatorRef = useRef<HTMLSpanElement>(null);
   const placed = useRef(false);
 
-  const activeHref = NAV_ITEMS.find((item) =>
+  const navItems = user ? navItemsFor(user.agencySlug, user.role) : [];
+  const activeHref = navItems.find((item) =>
     pathname.startsWith(item.href),
   )?.href;
 
@@ -206,7 +218,7 @@ function SidebarNav({
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 rounded-lg bg-sidebar-primary opacity-0"
       />
-      {NAV_ITEMS.map((item) => (
+      {navItems.map((item) => (
         <NavLink
           key={item.href}
           item={item}

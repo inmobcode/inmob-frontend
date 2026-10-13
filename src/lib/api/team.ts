@@ -15,8 +15,11 @@ export interface TeamMember {
 export interface CreateTeamMemberPayload {
   name: string;
   email: string;
-  password: string;
   role: Exclude<TeamRole, "OWNER">;
+}
+
+export interface InviteResult extends TeamMember {
+  linkedExisting: boolean;
 }
 
 export function listTeam(token: string) {
@@ -27,7 +30,7 @@ export function createTeamMember(
   token: string,
   payload: CreateTeamMemberPayload,
 ) {
-  return apiFetch<TeamMember>("/api/team/", {
+  return apiFetch<InviteResult>("/api/team/", {
     method: "POST",
     token,
     body: JSON.stringify(payload),
@@ -43,5 +46,12 @@ export function updateTeamMember(
     method: "PATCH",
     token,
     body: JSON.stringify(payload),
+  });
+}
+
+export function removeTeamMember(token: string, id: string) {
+  return apiFetch<void>(`/api/team/${id}`, {
+    method: "DELETE",
+    token,
   });
 }

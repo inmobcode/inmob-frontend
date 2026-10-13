@@ -2,6 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { ApiError } from "@/lib/api/client";
@@ -10,6 +11,7 @@ import { getAccessToken } from "@/lib/auth/session";
 
 export function RoomsTab({ hotelPropertyId }: { hotelPropertyId: string }) {
   const queryClient = useQueryClient();
+  const { agencySlug } = useParams<{ agencySlug: string }>();
 
   const { data: properties } = useQuery({
     queryKey: ["properties"],
@@ -46,7 +48,7 @@ export function RoomsTab({ hotelPropertyId }: { hotelPropertyId: string }) {
           {rooms.map((room) => (
             <div key={room.id} className="flex items-center justify-between rounded-md border p-3 text-sm">
               <span>{room.title}</span>
-              <Link href={`/properties/${room.id}`} className="text-blue-600 hover:underline">
+              <Link href={`/${agencySlug}/properties/${room.id}`} className="text-blue-600 hover:underline">
                 Editar
               </Link>
             </div>

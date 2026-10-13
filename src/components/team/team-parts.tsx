@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Copy, Mail, MoreHorizontal, Power, Repeat2 } from "lucide-react";
+import { Check, Copy, Mail, MoreHorizontal, Power, Repeat2, UserMinus } from "lucide-react";
 import { toast } from "sonner";
 
 import {
@@ -33,6 +33,7 @@ export const ROLE_HINTS: Record<TeamRole, string> = {
 export interface TeamActions {
   changeRole: (id: string, role: Exclude<TeamRole, "OWNER">) => void;
   setActive: (id: string, isActive: boolean) => void;
+  requestRemove: (id: string) => void;
 }
 
 const ROLE_STYLES: Record<TeamRole, string> = {
@@ -142,6 +143,14 @@ export function TeamMenu({
             >
               <Power />
               {member.isActive ? "Desactivar acceso" : "Reactivar acceso"}
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              variant="destructive"
+              className="rounded-xl py-2"
+              onSelect={() => actions.requestRemove(member.id)}
+            >
+              <UserMinus />
+              Quitar del equipo
             </DropdownMenuItem>
           </>
         )}

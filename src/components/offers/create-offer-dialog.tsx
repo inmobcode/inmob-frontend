@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { LoaderCircle } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -28,6 +28,7 @@ type FormValues = z.infer<typeof schema>;
 
 export function CreateOfferDialog() {
   const router = useRouter();
+  const { agencySlug } = useParams<{ agencySlug: string }>();
   const [open, setOpen] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const form = useForm<FormValues>({ resolver: zodResolver(schema), defaultValues: { title: "" } });
@@ -41,7 +42,7 @@ export function CreateOfferDialog() {
     },
     onSuccess: (offer) => {
       setOpen(false);
-      router.push(`/offers/${offer.id}`);
+      router.push(`/${agencySlug}/offers/${offer.id}`);
     },
     onError: (err) => {
       setServerError(err instanceof ApiError ? err.message : "Error inesperado");

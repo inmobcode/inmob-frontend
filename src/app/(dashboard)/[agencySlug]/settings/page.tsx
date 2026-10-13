@@ -22,7 +22,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { getAgency, updateAgency, uploadAgencyLogo } from "@/lib/api/agency";
 import { ApiError } from "@/lib/api/client";
-import { getAccessToken } from "@/lib/auth/session";
+import { getAccessToken, useRequireNonAgent } from "@/lib/auth/session";
 import { compressToWebp } from "@/lib/image-compression";
 import { useActionBarStore } from "@/lib/store/action-bar-store";
 import { cn } from "@/lib/utils";
@@ -119,6 +119,7 @@ function Skeleton() {
 }
 
 export default function SettingsPage() {
+  useRequireNonAgent();
   const queryClient = useQueryClient();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isCompressing, setIsCompressing] = useState(false);

@@ -3,7 +3,7 @@
 import { differenceInCalendarDays, format, parseISO } from "date-fns";
 import { es } from "date-fns/locale";
 import { ArrowRight, Banknote, Check, CircleCheck, MoreHorizontal, Pencil, X } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import {
   DropdownMenu,
@@ -123,6 +123,7 @@ export function BookingMenu({
   className?: string;
 }) {
   const router = useRouter();
+  const { agencySlug } = useParams<{ agencySlug: string }>();
   const open = booking.status === "PENDING" || booking.status === "CONFIRMED";
 
   return (
@@ -140,7 +141,7 @@ export function BookingMenu({
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56 rounded-2xl p-1.5">
-        <DropdownMenuItem className="rounded-xl py-2" onSelect={() => router.push(`/bookings/${booking.id}`)}>
+        <DropdownMenuItem className="rounded-xl py-2" onSelect={() => router.push(`/${agencySlug}/bookings/${booking.id}`)}>
           <Pencil />
           Ver reserva
         </DropdownMenuItem>

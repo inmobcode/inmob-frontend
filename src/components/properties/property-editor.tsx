@@ -17,7 +17,7 @@ import {
   User,
   Waves,
 } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
@@ -415,6 +415,7 @@ function toPayload(values: FormValues, originalOwnerId?: string | null): UpdateP
 export function PropertyEditor({ propertyId }: { propertyId: string }) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { agencySlug } = useParams<{ agencySlug: string }>();
   const activeTab = searchParams.get("tab") ?? "basico";
   const queryClient = useQueryClient();
   const setActions = useActionBarStore((state) => state.setActions);
@@ -503,7 +504,7 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
       onPublish: isPublished
         ? () => unpublishMutation.mutate()
         : form.handleSubmit((values) => publishMutation.mutate(values)),
-      onCancel: () => router.push("/properties"),
+      onCancel: () => router.push(`/${agencySlug}/properties`),
     });
     return resetActions;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -557,7 +558,7 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
   function setTab(value: string) {
     const params = new URLSearchParams(searchParams);
     params.set("tab", value);
-    router.replace(`/properties/${propertyId}?${params.toString()}`);
+    router.replace(`/${agencySlug}/properties/${propertyId}?${params.toString()}`);
   }
 
   const isRent = listingType === "RENT";

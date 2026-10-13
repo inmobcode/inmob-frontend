@@ -51,7 +51,7 @@ export default function OAuthCallbackPage() {
     setSession(result.auth);
     // Take the tokens out of the address bar before moving on.
     window.history.replaceState(null, "", window.location.pathname);
-    router.replace(consumeNext());
+    router.replace(consumeNext(result.auth.user.agencySlug));
   }, [router]);
 
   if (error) {
