@@ -17,15 +17,9 @@ import {
   SiteHeader,
   SiteRoot,
 } from "@/components/public/site-chrome";
-import type { Property } from "@/lib/api/properties";
-import {
-  INDOOR_AMENITY_LABELS,
-  LISTING_TYPE_LABELS,
-  LOCATION_FEATURE_LABELS,
-  OUTDOOR_AMENITY_LABELS,
-  VIEW_LABELS,
-  categoryLabel,
-} from "@/lib/properties-labels";
+import { LISTING_TYPE_LABELS, categoryLabel } from "@/lib/properties-labels";
+import { propertyFacts, propertyFeatureGroups } from "@/lib/property-details";
+import { richTextHtml } from "@/lib/rich-text";
 import { resolveSite, whatsappLink } from "@/lib/site-theme";
 import { cn } from "@/lib/utils";
 
@@ -53,58 +47,6 @@ export async function generateMetadata({
   };
 }
 
-/** The key figures, only the ones the agency filled in. */
-function facts(property: Property) {
-  const number = (value: number) => value.toLocaleString("es-AR");
-  return [
-    property.bedrooms != null && {
-      label: "Dormitorios",
-      value: number(property.bedrooms),
-    },
-    property.bathrooms != null && {
-      label: "Baños",
-      value: number(property.bathrooms),
-    },
-    property.areaSqm != null && {
-      label: "Superficie",
-      value: `${number(property.areaSqm)} m²`,
-    },
-    property.plotArea != null && {
-      label: "Terreno",
-      value: `${number(property.plotArea)} m²`,
-    },
-    property.guests && { label: "Huéspedes", value: property.guests },
-    property.constructionYear != null && {
-      label: "Año",
-      value: String(property.constructionYear),
-    },
-  ].filter(Boolean) as { label: string; value: string }[];
-}
-
-const AMENITY_LABELS = { ...OUTDOOR_AMENITY_LABELS, ...INDOOR_AMENITY_LABELS };
-
-function featureGroups(property: Property) {
-  const label = (map: Record<string, string>) => (code: string) =>
-    map[code] ?? code;
-  return [
-    {
-      title: "Comodidades",
-      items: [
-        ...new Set([
-          ...property.amenities,
-          ...property.outdoorAmenities,
-          ...property.indoorAmenities,
-        ]),
-      ].map(label(AMENITY_LABELS)),
-    },
-    { title: "Vistas", items: property.view.map(label(VIEW_LABELS)) },
-    {
-      title: "Ubicación",
-      items: property.locationFeatures.map(label(LOCATION_FEATURE_LABELS)),
-    },
-  ].filter((group) => group.items.length > 0);
-}
-
 export default async function PublicPropertyPage({
   params,
 }: {
@@ -121,8 +63,8 @@ export default async function PublicPropertyPage({
   const unit = priceUnit(property);
   const place = placeOf(property);
   const location = [property.address, place].filter(Boolean).join(" · ");
-  const keyFacts = facts(property);
-  const groups = featureGroups(property);
+  const keyFacts = propertyFacts(property);
+  const groups = propertyFeatureGroups(property);
   const others = all.filter((other) => other.id !== property.id).slice(0, 3);
   const whatsappMessage = `Hola, me interesa "${property.title}". ¿Sigue disponible?`;
 
@@ -193,9 +135,11 @@ export default async function PublicPropertyPage({
                   </p>
                 )}
                 {property.content?.description && (
-                  <p className="leading-relaxed text-pretty whitespace-pre-line text-site-ink/85">
-                    {property.content.description}
-                  </p>
+                  // Cleaned by the backend (app/utils/rich_text.py): only the editor's tags.
+                  <div
+                    className="rich-text leading-relaxed text-pretty text-site-ink/85"
+                    dangerouslySetInnerHTML={{ __html: richTextHtml(property.content.description) }}
+                  />
                 )}
               </section>
             )}

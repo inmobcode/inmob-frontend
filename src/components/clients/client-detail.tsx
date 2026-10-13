@@ -21,6 +21,7 @@ import { toast } from "sonner";
 
 import { ClientAvatar, SOURCE_LABELS, STAGES } from "@/components/clients/client-parts";
 import { FormSection } from "@/components/properties/form-section";
+import { RichTextEditor } from "@/components/rich-text/rich-text-editor";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ApiError } from "@/lib/api/client";
@@ -150,12 +151,11 @@ export function ClientDetail({ clientId }: { clientId: string }) {
             shown={false}
           >
             <div className="flex flex-col items-start gap-3">
-              <Textarea
-                rows={4}
-                aria-label="Notas del cliente"
+              <RichTextEditor
+                ariaLabel="Notas del cliente"
                 placeholder="Todavía no hay notas."
                 value={notesValue}
-                onChange={(event) => setNotes(event.target.value)}
+                onChange={setNotes}
               />
               {notesDirty && (
                 <Button

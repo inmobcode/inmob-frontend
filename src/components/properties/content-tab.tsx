@@ -4,10 +4,12 @@ import { Controller, useWatch, type UseFormReturn } from "react-hook-form";
 
 import { ChipPicker } from "@/components/properties/form-controls";
 import { FormSection as Section } from "@/components/properties/form-section";
+import { RichTextEditor } from "@/components/rich-text/rich-text-editor";
 import type { FormValues } from "@/components/properties/property-editor";
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
 import { INCLUDED_SERVICE_LABELS } from "@/lib/properties-labels";
+import { richTextPlain } from "@/lib/rich-text";
 import { INCLUDED_SERVICES } from "@/lib/property-catalogs";
 import { cn } from "@/lib/utils";
 
@@ -26,7 +28,7 @@ function Counter({ length, limit }: { length: number; limit?: number }) {
 export function ContentTab({ form, isRent }: { form: UseFormReturn<FormValues>; isRent: boolean }) {
   const values = useWatch({ control: form.control });
   const summary = values.summary ?? "";
-  const description = values.description ?? "";
+  const description = richTextPlain(values.description ?? "");
 
   return (
     <div className="flex max-w-2xl min-w-0 flex-col gap-12">
@@ -51,8 +53,20 @@ export function ContentTab({ form, isRent }: { form: UseFormReturn<FormValues>; 
               <FieldLabel htmlFor="description">Descripción</FieldLabel>
               <Counter length={description.length} />
             </div>
-            <Textarea id="description" rows={8} {...form.register("description")} />
-            <FieldDescription>Los saltos de línea se respetan, así que podés separar en párrafos.</FieldDescription>
+            <Controller
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <RichTextEditor
+                  id="description"
+                  value={field.value}
+                  onChange={field.onChange}
+                  stickyToolbar
+                  contentClassName="min-h-48"
+                />
+              )}
+            />
+            <FieldDescription>Usá títulos y listas para ordenar ambientes, comodidades o lo que incluye.</FieldDescription>
           </Field>
         </FieldGroup>
       </Section>

@@ -12,6 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import { RichTextEditor } from "@/components/rich-text/rich-text-editor";
 import type { Property } from "@/lib/api/properties";
 import {
   ACCENT_PRESETS,
@@ -454,14 +455,12 @@ export function AgencyPanel({ draft, set }: { draft: Draft; set: SetDraft }) {
             onCheckedChange={(checked) => set("showAbout", checked)}
           />
         </label>
-        <Textarea
-          aria-label="Texto sobre tu agencia"
-          rows={6}
-          maxLength={2000}
+        <RichTextEditor
+          ariaLabel="Texto sobre tu agencia"
           value={draft.about}
           placeholder="Somos una inmobiliaria familiar con 20 años en la zona…"
-          onChange={(event) => set("about", event.target.value)}
-          className="px-4 py-3"
+          onChange={(html) => set("about", html)}
+          contentClassName="min-h-36"
         />
       </Group>
 

@@ -3,6 +3,8 @@ import { create } from "zustand";
 
 interface ActionBarState {
   title: string | null;
+  /** Link back to the page's listing, shown first in the bar. */
+  back: { href: string; label: string } | null;
   /** Optional navigation rendered in place of the title (e.g. section menus). */
   navigation: ReactNode | null;
   /** Page-specific actions shown before the save buttons (e.g. links to share or preview). */
@@ -24,6 +26,7 @@ interface ActionBarState {
 
 const initialState = {
   title: null,
+  back: null,
   navigation: null,
   extra: null,
   isSubmitting: false,

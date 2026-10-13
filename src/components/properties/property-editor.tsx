@@ -493,6 +493,7 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
     const navGroups = property ? buildGroups(property.listingType, property.category) : [];
     setActions({
       title: findTabMeta(navGroups, activeTab)?.label ?? "Propiedad",
+      back: { href: `/${agencySlug}/properties`, label: "Propiedades" },
       navigation: property ? (
         <SectionNavbar groups={navGroups} active={activeTab} onChange={setTab} />
       ) : null,

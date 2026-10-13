@@ -396,7 +396,7 @@ export function DashboardSidebar({
   // Ctrl/Cmd + B toggles, like most editors.
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
-      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "b") {
+      if ((event.metaKey || event.ctrlKey) && event.key?.toLowerCase() === "b") {
         event.preventDefault();
         toggle();
       }

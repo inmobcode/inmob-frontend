@@ -2,11 +2,11 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Copy, Link2, Plus, UserRound } from "lucide-react";
+import { Copy, Hand, Home, Link2, Plus, Settings2, UserRound } from "lucide-react";
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
-import { Controller, useFieldArray, useForm, useWatch } from "react-hook-form";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Controller, useFieldArray, useForm, useWatch, type FieldErrors } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
@@ -18,17 +18,23 @@ import {
   OfferSectionBlock,
   type OfferFormValues,
 } from "@/components/offers/offer-items";
+import { SectionNavbar, type SectionGroup } from "@/components/properties/editor-shell";
+import { RichTextEditor } from "@/components/rich-text/rich-text-editor";
 import { FormSection as Section } from "@/components/properties/form-section";
 import { Segmented } from "@/components/properties/segmented";
 import { Button } from "@/components/ui/button";
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { ApiError } from "@/lib/api/client";
+import { listClients } from "@/lib/api/clients";
 import { listProperties } from "@/lib/api/properties";
 import { getOffer, sendOffer, updateOffer, type Offer, type SaveOfferPayload } from "@/lib/api/offers";
 import { getAccessToken } from "@/lib/auth/session";
+import { gsap, useGSAP } from "@/lib/gsap";
+import { distance, duration, ease, media } from "@/lib/motion";
 import { useActionBarStore } from "@/lib/store/action-bar-store";
 
 const offerPropertySchema = z.object({
@@ -55,6 +61,7 @@ const schema = z.object({
   welcomeTitle: z.string(),
   welcomeDateLabel: z.string(),
   welcomeContent: z.string(),
+  clientId: z.string(),
   sections: z.array(offerSectionSchema),
 });
 
@@ -70,6 +77,7 @@ function toFormValues(offer: Offer): FormValues {
     welcomeTitle: offer.welcomeTitle ?? "",
     welcomeDateLabel: offer.welcomeDateLabel ?? "",
     welcomeContent: offer.welcomeContent ?? "",
+    clientId: offer.clientId ?? "",
     sections: offer.sections.map((section) => ({
       title: section.title ?? "",
       text: section.text ?? "",
@@ -95,6 +103,7 @@ function toPayload(values: FormValues): SaveOfferPayload {
     welcomeTitle: values.welcomeTitle || null,
     welcomeDateLabel: values.welcomeDateLabel || null,
     welcomeContent: values.welcomeContent || null,
+    clientId: values.clientId || null,
     sections: values.sections.map((section) => ({
       title: section.title || null,
       text: section.text || null,
@@ -111,6 +120,23 @@ function toPayload(values: FormValues): SaveOfferPayload {
 }
 
 const CURRENCIES = ["USD", "EUR"];
+
+// Radix Select can't hold an empty value, so "no client" gets its own.
+const NO_CLIENT = "none";
+
+// One section per group, so the action bar shows them as plain pills.
+const TAB_GROUPS: SectionGroup[] = [
+  { label: "General", tabs: [{ value: "general", label: "General", icon: Settings2 }] },
+  { label: "Bienvenida", tabs: [{ value: "bienvenida", label: "Bienvenida", icon: Hand }] },
+  { label: "Propiedades", tabs: [{ value: "propiedades", label: "Propiedades", icon: Home }] },
+];
+
+/** The tab holding the first invalid field, so a failed save shows the error. */
+function tabWithError(errors: FieldErrors<FormValues>): string | null {
+  if (errors.title || errors.operation || errors.currency) return "general";
+  if (errors.sections) return "propiedades";
+  return null;
+}
 
 function ToggleRow({
   id,
@@ -140,7 +166,9 @@ function ToggleRow({
 
 export function OfferEditor({ offerId }: { offerId: string }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { agencySlug } = useParams<{ agencySlug: string }>();
+  const activeTab = searchParams.get("tab") ?? "general";
   const queryClient = useQueryClient();
   const setActions = useActionBarStore((state) => state.setActions);
   const resetActions = useActionBarStore((state) => state.reset);
@@ -151,6 +179,15 @@ export function OfferEditor({ offerId }: { offerId: string }) {
       const token = getAccessToken();
       if (!token) throw new ApiError("No autenticado", 401);
       return getOffer(token, offerId);
+    },
+  });
+
+  const { data: clients } = useQuery({
+    queryKey: ["clients"],
+    queryFn: () => {
+      const token = getAccessToken();
+      if (!token) throw new ApiError("No autenticado", 401);
+      return listClients(token);
     },
   });
 
@@ -174,7 +211,9 @@ export function OfferEditor({ offerId }: { offerId: string }) {
   } = useFieldArray({ control: form.control, name: "sections" });
   const isDirty = form.formState.isDirty;
   const currency = useWatch({ control: form.control, name: "currency" }) || "USD";
+  const operation = useWatch({ control: form.control, name: "operation" });
   const sections = useWatch({ control: form.control, name: "sections" });
+  const clientId = useWatch({ control: form.control, name: "clientId" });
   const [copied, setCopied] = useState(false);
 
   // Re-sync the form from the server whenever the offer actually changes
@@ -197,6 +236,9 @@ export function OfferEditor({ offerId }: { offerId: string }) {
     },
     onSuccess: (updated) => {
       queryClient.setQueryData(["offer", offerId], updated);
+      // Changing only the sections doesn't touch the offer row, so `updatedAt`
+      // may not move and the effect above won't re-sync: reset here.
+      form.reset(toFormValues(updated));
       toast.success("Cambios guardados");
     },
     onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo guardar"),
@@ -211,29 +253,67 @@ export function OfferEditor({ offerId }: { offerId: string }) {
     },
     onSuccess: (updated) => {
       queryClient.setQueryData(["offer", offerId], updated);
-      toast.success("Oferta enviada");
+      form.reset(toFormValues(updated));
+      toast.success(updated.clientEmail ? `Oferta enviada a ${updated.clientEmail}` : "Link publicado");
     },
     onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo enviar"),
   });
 
+  const isDraft = offer?.status === "DRAFT";
+  const canResend = offer?.status === "SENT" || offer?.status === "VIEWED";
+
+  function setTab(value: string) {
+    const params = new URLSearchParams(searchParams);
+    params.set("tab", value);
+    router.replace(`/${agencySlug}/offers/${offerId}?${params.toString()}`);
+  }
+
+  function showInvalid(errors: FieldErrors<FormValues>) {
+    const tab = tabWithError(errors);
+    if (tab && tab !== activeTab) setTab(tab);
+    toast.error("Revisá los campos marcados");
+  }
+
   useEffect(() => {
     setActions({
       title: offer?.title ?? "Oferta",
+      back: { href: `/${agencySlug}/offers`, label: "Ofertas" },
+      navigation: offer ? <SectionNavbar groups={TAB_GROUPS} active={activeTab} onChange={setTab} /> : null,
       isSubmitting: saveMutation.isPending || sendMutation.isPending,
       isDirty,
       canSubmit: true,
       saveLabel: "Guardar",
-      publishLabel: "Enviar oferta",
-      onSave: form.handleSubmit((values) => saveMutation.mutate(values)),
+      // Without a client there's nobody to email: sending only turns the link on.
+      // Once out, it can only be sent again to a client.
+      publishLabel: isDraft ? (clientId ? "Enviar oferta" : "Publicar link") : "Reenviar oferta",
+      onSave: form.handleSubmit((values) => saveMutation.mutate(values), showInvalid),
       onPublish:
-        offer?.status === "DRAFT"
-          ? form.handleSubmit((values) => sendMutation.mutate(values))
+        isDraft || (canResend && clientId)
+          ? form.handleSubmit((values) => sendMutation.mutate(values), showInvalid)
           : null,
       onCancel: () => router.push(`/${agencySlug}/offers`),
     });
     return resetActions;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [offer, isDirty, saveMutation.isPending, sendMutation.isPending]);
+  }, [offer, activeTab, clientId, isDirty, saveMutation.isPending, sendMutation.isPending]);
+
+  const contentRef = useRef<HTMLDivElement>(null);
+  const shownTab = useRef(activeTab);
+
+  // The tab content eases in whenever you switch tabs.
+  useGSAP(
+    () => {
+      // Only animate when the tab actually changed (not on mount or Strict Mode re-runs).
+      if (shownTab.current === activeTab) return;
+      shownTab.current = activeTab;
+      const mm = gsap.matchMedia();
+      mm.add(media.allowMotion, () => {
+        gsap.from(contentRef.current, { opacity: 0, y: distance.sm, duration: duration.base, ease: ease.out });
+      });
+      return () => mm.revert();
+    },
+    { dependencies: [activeTab] },
+  );
 
   const allProperties = useMemo(() => properties ?? [], [properties]);
   const chosen = (sections ?? []).flatMap((section) => section.properties ?? []);
@@ -276,138 +356,183 @@ export function OfferEditor({ offerId }: { offerId: string }) {
 
   return (
     <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-12">
-      <div className="flex max-w-3xl min-w-0 flex-col gap-12">
-        <Section
-          title="General"
-          description="Cómo se llama la oferta y qué ve el cliente al abrirla."
-          shown={false}
-        >
-          <FieldGroup>
-            <Field>
-              <FieldLabel htmlFor="title">Título</FieldLabel>
-              <Input id="title" className="h-12 text-base" {...form.register("title")} />
-              <FieldError errors={[form.formState.errors.title]} />
-            </Field>
-            <Field>
-              <FieldLabel>Operación</FieldLabel>
-              <Controller
-                control={form.control}
-                name="operation"
-                render={({ field }) => <OperationPicker value={field.value} onChange={field.onChange} />}
-              />
-              <FieldDescription>Define qué propiedades podés sumar a la oferta.</FieldDescription>
-            </Field>
-            <Field>
-              <FieldLabel>Moneda</FieldLabel>
-              <Controller
-                control={form.control}
-                name="currency"
-                render={({ field }) => (
-                  <div className="flex">
-                    <Segmented
-                      contained
-                      label="Moneda"
-                      value={field.value || "USD"}
-                      options={currencyOptions}
-                      onChange={field.onChange}
-                    />
+      <Tabs value={activeTab} onValueChange={setTab} className="max-w-3xl min-w-0">
+        <div ref={contentRef}>
+          <TabsContent value="general" className="mt-0">
+            <Section
+              title="General"
+              description="Cómo se llama la oferta y qué ve el cliente al abrirla."
+              shown={false}
+            >
+              <FieldGroup>
+                <Field>
+                  <FieldLabel htmlFor="title">Título</FieldLabel>
+                  <Input id="title" className="h-12 text-base" {...form.register("title")} />
+                  <FieldError errors={[form.formState.errors.title]} />
+                </Field>
+                <Field>
+                  <FieldLabel htmlFor="client">Cliente</FieldLabel>
+                  <Controller
+                    control={form.control}
+                    name="clientId"
+                    render={({ field }) => (
+                      <Select
+                        value={field.value || NO_CLIENT}
+                        onValueChange={(value) => field.onChange(value === NO_CLIENT ? "" : value)}
+                      >
+                        <SelectTrigger id="client" className="h-11 w-full">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value={NO_CLIENT}>Sin cliente</SelectItem>
+                          {clients?.map((entry) => (
+                            <SelectItem key={entry.id} value={entry.id}>
+                              {entry.name}
+                              <span className="text-muted-foreground">{entry.email}</span>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    )}
+                  />
+                  <FieldDescription>
+                    {offer.status !== "DRAFT"
+                      ? clientId
+                        ? "Con «Reenviar oferta» le llega el link por email."
+                        : "La oferta ya está publicada. Elegí un cliente para mandarle el link por email."
+                      : clientId
+                        ? "Al enviar la oferta le llega el link por email."
+                        : "Sin cliente, la oferta solo publica el link y lo compartís vos."}
+                  </FieldDescription>
+                </Field>
+                <Field>
+                  <FieldLabel>Operación</FieldLabel>
+                  <Controller
+                    control={form.control}
+                    name="operation"
+                    render={({ field }) => <OperationPicker value={field.value} onChange={field.onChange} />}
+                  />
+                  <FieldDescription>Define qué propiedades podés sumar a la oferta.</FieldDescription>
+                </Field>
+                <Field>
+                  <FieldLabel>Moneda</FieldLabel>
+                  <Controller
+                    control={form.control}
+                    name="currency"
+                    render={({ field }) => (
+                      <div className="flex">
+                        <Segmented
+                          contained
+                          label="Moneda"
+                          value={field.value || "USD"}
+                          options={currencyOptions}
+                          onChange={field.onChange}
+                        />
+                      </div>
+                    )}
+                  />
+                </Field>
+                <div className="flex flex-col gap-3">
+                  <Controller
+                    control={form.control}
+                    name="showPrice"
+                    render={({ field }) => (
+                      <ToggleRow
+                        id="showPrice"
+                        title="Mostrar precios al cliente"
+                        description="Si lo apagás, el cliente ve las propiedades sin montos ni total."
+                        checked={field.value}
+                        onChange={field.onChange}
+                      />
+                    )}
+                  />
+                  <Controller
+                    control={form.control}
+                    name="branded"
+                    render={({ field }) => (
+                      <ToggleRow
+                        id="branded"
+                        title="Mostrar la identidad de tu agencia"
+                        description="Encabezado, pie y datos de contacto de la agencia en la oferta."
+                        checked={field.value}
+                        onChange={field.onChange}
+                      />
+                    )}
+                  />
+                </div>
+              </FieldGroup>
+            </Section>
+          </TabsContent>
+
+          <TabsContent value="bienvenida" className="mt-0">
+            <Section title="Bienvenida" description="El saludo con el que arranca la oferta." shown>
+              <FieldGroup>
+                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                  <Field>
+                    <FieldLabel htmlFor="welcomeTitle">Título</FieldLabel>
+                    <Input id="welcomeTitle" placeholder="Ej: Bienvenidos" {...form.register("welcomeTitle")} />
+                  </Field>
+                  <Field>
+                    <FieldLabel htmlFor="welcomeDateLabel">Fecha o temporada</FieldLabel>
+                    <Input id="welcomeDateLabel" placeholder="Ej: Verano 2026" {...form.register("welcomeDateLabel")} />
+                  </Field>
+                </div>
+                <Field>
+                  <FieldLabel htmlFor="welcomeContent">Mensaje</FieldLabel>
+                  <Controller
+                    control={form.control}
+                    name="welcomeContent"
+                    render={({ field }) => (
+                      <RichTextEditor id="welcomeContent" value={field.value} onChange={field.onChange} stickyToolbar />
+                    )}
+                  />
+                  <FieldDescription>Usá títulos, negrita y listas para ordenar el mensaje.</FieldDescription>
+                </Field>
+              </FieldGroup>
+            </Section>
+          </TabsContent>
+
+          <TabsContent value="propiedades" className="mt-0">
+            <Section
+              title="Propiedades"
+              description="Agrupalas en secciones y ajustá el precio de cada una para esta oferta."
+              shown
+            >
+              <div className="flex flex-col gap-5">
+                {sectionFields.length === 0 && (
+                  <div className="flex flex-col items-center gap-3 rounded-3xl bg-foreground/[0.04] px-6 py-10 text-center">
+                    <p className="font-display text-xl">Todavía no hay propiedades</p>
+                    <p className="max-w-sm text-sm text-muted-foreground">
+                      Creá una sección y sumale las propiedades que querés mostrarle a tu cliente.
+                    </p>
                   </div>
                 )}
-              />
-            </Field>
-            <div className="flex flex-col gap-3">
-              <Controller
-                control={form.control}
-                name="showPrice"
-                render={({ field }) => (
-                  <ToggleRow
-                    id="showPrice"
-                    title="Mostrar precios al cliente"
-                    description="Si lo apagás, el cliente ve las propiedades sin montos ni total."
-                    checked={field.value}
-                    onChange={field.onChange}
+                {sectionFields.map((field, sectionIndex) => (
+                  <OfferSectionBlock
+                    key={field.id}
+                    control={form.control}
+                    sectionIndex={sectionIndex}
+                    properties={allProperties}
+                    currency={currency}
+                    onRemoveSection={() => removeSection(sectionIndex)}
                   />
-                )}
-              />
-              <Controller
-                control={form.control}
-                name="branded"
-                render={({ field }) => (
-                  <ToggleRow
-                    id="branded"
-                    title="Mostrar la identidad de tu agencia"
-                    description="Encabezado, pie y datos de contacto de la agencia en la oferta."
-                    checked={field.value}
-                    onChange={field.onChange}
-                  />
-                )}
-              />
-            </div>
-          </FieldGroup>
-        </Section>
-
-        <Section
-          title="Bienvenida"
-          description="El saludo con el que arranca la oferta."
-          shown
-        >
-          <FieldGroup>
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-              <Field>
-                <FieldLabel htmlFor="welcomeTitle">Título</FieldLabel>
-                <Input id="welcomeTitle" placeholder="Ej: Bienvenidos" {...form.register("welcomeTitle")} />
-              </Field>
-              <Field>
-                <FieldLabel htmlFor="welcomeDateLabel">Fecha o temporada</FieldLabel>
-                <Input id="welcomeDateLabel" placeholder="Ej: Verano 2026" {...form.register("welcomeDateLabel")} />
-              </Field>
-            </div>
-            <Field>
-              <FieldLabel htmlFor="welcomeContent">Mensaje</FieldLabel>
-              <Textarea id="welcomeContent" rows={3} {...form.register("welcomeContent")} />
-              <FieldDescription>Los saltos de línea se respetan.</FieldDescription>
-            </Field>
-          </FieldGroup>
-        </Section>
-
-        <Section
-          title="Propiedades"
-          description="Agrupalas en secciones y ajustá el precio de cada una para esta oferta."
-          shown
-        >
-          <div className="flex flex-col gap-5">
-            {sectionFields.length === 0 && (
-              <div className="flex flex-col items-center gap-3 rounded-3xl bg-foreground/[0.04] px-6 py-10 text-center">
-                <p className="font-display text-xl">Todavía no hay propiedades</p>
-                <p className="max-w-sm text-sm text-muted-foreground">
-                  Creá una sección y sumale las propiedades que querés mostrarle a tu cliente.
-                </p>
+                ))}
+                <div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="h-10 gap-2 px-5"
+                    onClick={() => appendSection({ title: "", text: "", properties: [emptyOfferProperty()] })}
+                  >
+                    <Plus />
+                    Agregar sección
+                  </Button>
+                </div>
               </div>
-            )}
-            {sectionFields.map((field, sectionIndex) => (
-              <OfferSectionBlock
-                key={field.id}
-                control={form.control}
-                sectionIndex={sectionIndex}
-                properties={allProperties}
-                currency={currency}
-                onRemoveSection={() => removeSection(sectionIndex)}
-              />
-            ))}
-            <div>
-              <Button
-                type="button"
-                variant="outline"
-                className="h-10 gap-2 px-5"
-                onClick={() => appendSection({ title: "", text: "", properties: [emptyOfferProperty()] })}
-              >
-                <Plus />
-                Agregar sección
-              </Button>
-            </div>
-          </div>
-        </Section>
-      </div>
+            </Section>
+          </TabsContent>
+        </div>
+      </Tabs>
 
       <aside className="order-first lg:order-none">
         <div className="sticky top-28 flex flex-col gap-5 rounded-3xl bg-secondary p-6">
@@ -424,23 +549,31 @@ export function OfferEditor({ offerId }: { offerId: string }) {
             )}
           </div>
 
-          <div className="flex flex-col gap-1">
-            <p className="text-sm text-muted-foreground">Total de la oferta</p>
-            {lines.length > 0 && total > 0 ? (
-              <p className="tabular-nums">
-                <span className="mr-1.5 text-sm font-medium text-muted-foreground">{currency}</span>
-                <span className="text-4xl font-semibold tracking-tight">
-                  {total.toLocaleString("es-AR", { maximumFractionDigits: 0 })}
-                </span>
-              </p>
-            ) : (
-              <p className="text-2xl font-medium text-muted-foreground">Sin total todavía</p>
-            )}
+          {/* Rentals are options to choose from, priced per night: adding them up says nothing. */}
+          {operation === "RENT" ? (
             <p className="text-sm text-muted-foreground">
               {lines.length} {lines.length === 1 ? "propiedad" : "propiedades"} en {sectionFields.length}{" "}
               {sectionFields.length === 1 ? "sección" : "secciones"}
             </p>
-          </div>
+          ) : (
+            <div className="flex flex-col gap-1">
+              <p className="text-sm text-muted-foreground">Total de la oferta</p>
+              {lines.length > 0 && total > 0 ? (
+                <p className="tabular-nums">
+                  <span className="mr-1.5 text-sm font-medium text-muted-foreground">{currency}</span>
+                  <span className="text-4xl font-semibold tracking-tight">
+                    {total.toLocaleString("es-AR", { maximumFractionDigits: 0 })}
+                  </span>
+                </p>
+              ) : (
+                <p className="text-2xl font-medium text-muted-foreground">Sin total todavía</p>
+              )}
+              <p className="text-sm text-muted-foreground">
+                {lines.length} {lines.length === 1 ? "propiedad" : "propiedades"} en {sectionFields.length}{" "}
+                {sectionFields.length === 1 ? "sección" : "secciones"}
+              </p>
+            </div>
+          )}
 
           <div className="flex flex-col gap-2">
             <p className="flex items-center gap-1.5 text-sm font-medium">
@@ -448,7 +581,9 @@ export function OfferEditor({ offerId }: { offerId: string }) {
               Link para el cliente
             </p>
             {offer.status === "DRAFT" ? (
-              <p className="text-sm text-muted-foreground">Se activa cuando envíes la oferta.</p>
+              <p className="text-sm text-muted-foreground">
+                {clientId ? "Se activa cuando envíes la oferta." : "Se activa cuando publiques el link."}
+              </p>
             ) : (
               <>
                 <Input

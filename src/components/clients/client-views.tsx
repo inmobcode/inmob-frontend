@@ -15,6 +15,7 @@ import {
 } from "@/components/clients/client-parts";
 import { ControlsZone } from "@/components/properties/property-controls";
 import type { Client } from "@/lib/api/clients";
+import { richTextPlain } from "@/lib/rich-text";
 import { cn } from "@/lib/utils";
 
 const SURFACE =
@@ -67,7 +68,7 @@ export function ClientCard({ client, actions }: { client: Client; actions: Clien
 
       <p className="flex min-h-10 items-start gap-2 text-sm text-foreground/75">
         <MessageSquareText className="mt-0.5 size-3.5 shrink-0 text-muted-foreground" />
-        <span className="line-clamp-2">{last?.content ?? client.notes ?? "Todavía sin interacciones."}</span>
+        <span className="line-clamp-2">{last?.content ?? (client.notes ? richTextPlain(client.notes) : null) ?? "Todavía sin interacciones."}</span>
       </p>
 
       <div className="mt-auto flex items-center gap-3 text-xs text-muted-foreground">
@@ -105,7 +106,7 @@ export function ClientRow({ client, actions }: { client: Client; actions: Client
       <Contact client={client} className="sm:w-64 sm:shrink-0" />
 
       <p className="line-clamp-2 min-w-0 flex-1 text-sm text-foreground/75">
-        {last?.content ?? client.notes ?? <span className="text-muted-foreground">Todavía sin interacciones.</span>}
+        {last?.content ?? (client.notes ? richTextPlain(client.notes) : null) ?? <span className="text-muted-foreground">Todavía sin interacciones.</span>}
       </p>
 
       <div className="flex items-center justify-between gap-3 sm:w-52 sm:shrink-0 sm:flex-col sm:items-end sm:gap-2">

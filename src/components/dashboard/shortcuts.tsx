@@ -632,6 +632,8 @@ export function Shortcuts() {
     }
 
     function onKeyDown(event: KeyboardEvent) {
+      // Chrome's autofill fires keydown events with no `key`: nothing to match.
+      if (!event.key) return;
       const mod = event.metaKey || event.ctrlKey;
       const key = event.key.toLowerCase();
 

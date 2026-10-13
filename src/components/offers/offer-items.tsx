@@ -5,6 +5,8 @@ import { useState } from "react";
 import { Controller, useFieldArray, useWatch, type Control } from "react-hook-form";
 
 import { fitsOperation } from "@/components/offers/offer-operation";
+import { OfferPropertyPicker } from "@/components/offers/offer-property-picker";
+import { RichTextEditor } from "@/components/rich-text/rich-text-editor";
 import { UnitInput } from "@/components/properties/form-controls";
 import { Button } from "@/components/ui/button";
 import { Field, FieldLabel } from "@/components/ui/field";
@@ -16,10 +18,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 import type { DiscountType, OfferOperation } from "@/lib/api/offers";
 import type { Property } from "@/lib/api/properties";
-import { DISCOUNT_TYPE_LABELS, LISTING_TYPE_LABELS } from "@/lib/properties-labels";
+import { DISCOUNT_TYPE_LABELS } from "@/lib/properties-labels";
 import { cn } from "@/lib/utils";
 
 /** The shape of the offer form that these pieces read and write. */
@@ -32,6 +33,8 @@ export interface OfferFormValues {
   welcomeTitle: string;
   welcomeDateLabel: string;
   welcomeContent: string;
+  /** "" = no client. */
+  clientId: string;
   sections: {
     title: string;
     text: string;
@@ -122,10 +125,6 @@ function OfferLine({
   const item = useWatch({ control, name });
   const property = properties.find((entry) => entry.id === item?.propertyId);
   const operation = useWatch({ control, name: "operation" }) ?? "BOTH";
-  // Only properties that fit the offer's operation; the chosen one stays listed even if it no longer fits.
-  const options = properties.filter(
-    (entry) => fitsOperation(operation, entry.listingType) || entry.id === item?.propertyId,
-  );
   const misfit = property && !fitsOperation(operation, property.listingType);
   const { base, final } = linePrice(item, property);
   const adjusted = item && (item.discountType !== "NONE" || toNumber(item.priceOverride) != null);
@@ -141,31 +140,12 @@ function OfferLine({
             control={control}
             name={`${name}.propertyId`}
             render={({ field }) => (
-              <Select value={field.value || undefined} onValueChange={field.onChange}>
-                <SelectTrigger aria-label="Propiedad" className="w-full">
-                  <SelectValue placeholder="Elegir propiedad">{property?.title}</SelectValue>
-                </SelectTrigger>
-                <SelectContent>
-                  {options.length === 0 && (
-                    <p className="px-3 py-2 text-sm text-muted-foreground">
-                      No tenés propiedades en {operation === "SALE" ? "venta" : "alquiler"}.
-                    </p>
-                  )}
-                  {options.map((entry) => (
-                    <SelectItem key={entry.id} value={entry.id}>
-                      <span className="flex min-w-0 items-center gap-3">
-                        <Thumb property={entry} className="size-8 rounded-md" />
-                        <span className="truncate">{entry.title}</span>
-                        {operation === "BOTH" && (
-                          <span className="shrink-0 text-xs text-muted-foreground">
-                            {LISTING_TYPE_LABELS[entry.listingType]}
-                          </span>
-                        )}
-                      </span>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <OfferPropertyPicker
+                properties={properties}
+                operation={operation}
+                value={field.value}
+                onChange={field.onChange}
+              />
             )}
           />
         </div>
@@ -325,12 +305,13 @@ export function OfferSectionBlock({
             control={control}
             name={`sections.${sectionIndex}.text`}
             render={({ field }) => (
-              <Textarea
-                aria-label="Texto de la sección"
+              <RichTextEditor
+                variant="inline"
+                ariaLabel="Texto de la sección"
                 placeholder="Una línea para presentar estas propiedades (opcional)"
-                rows={2}
-                className="min-h-16 bg-card"
-                {...field}
+                value={field.value}
+                onChange={field.onChange}
+                className="bg-card"
               />
             )}
           />

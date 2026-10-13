@@ -24,6 +24,7 @@ import { toast } from "sonner";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { RichTextEditor } from "@/components/rich-text/rich-text-editor";
 import {
   type Destination,
   type SiteSection,
@@ -566,15 +567,25 @@ function BlockFields({
       )}
 
       <Field label="Texto" htmlFor={`${id}-text`}>
-        <Textarea
-          id={`${id}-text`}
-          rows={3}
-          maxLength={1000}
-          value={section.text ?? ""}
-          placeholder={placeholders.text}
-          onChange={(event) => onChange({ text: event.target.value })}
-          className="px-3.5 py-2.5"
-        />
+        {/* The free text block takes formatting; in the rest the text is a short line. */}
+        {section.type === "text" ? (
+          <RichTextEditor
+            id={`${id}-text`}
+            value={section.text ?? ""}
+            placeholder={placeholders.text}
+            onChange={(html) => onChange({ text: html })}
+          />
+        ) : (
+          <Textarea
+            id={`${id}-text`}
+            rows={3}
+            maxLength={1000}
+            value={section.text ?? ""}
+            placeholder={placeholders.text}
+            onChange={(event) => onChange({ text: event.target.value })}
+            className="px-3.5 py-2.5"
+          />
+        )}
       </Field>
 
       {usesImage && (

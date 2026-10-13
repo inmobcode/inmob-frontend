@@ -34,6 +34,7 @@ import type { PublicAgency } from "@/lib/api/agency";
 import { listPublicProperties, type Property } from "@/lib/api/properties";
 import { LISTING_TYPE_LABELS, categoryLabel } from "@/lib/properties-labels";
 import { type ResolvedSite, whatsappLink } from "@/lib/site-theme";
+import { richTextHtml } from "@/lib/rich-text";
 import { cn } from "@/lib/utils";
 
 type Sort = "recent" | "price-asc" | "price-desc";
@@ -523,9 +524,11 @@ export function AgencyPortal({
               >
                 Sobre {agency.name}
               </h2>
-              <p className="max-w-prose text-lg leading-relaxed text-pretty whitespace-pre-line">
-                {site.about}
-              </p>
+              {/* Formatted text, cleaned by the backend (app/utils/rich_text.py). */}
+              <div
+                className="rich-text max-w-prose text-lg leading-relaxed text-pretty"
+                dangerouslySetInnerHTML={{ __html: richTextHtml(site.about) }}
+              />
             </div>
           </section>
         )}

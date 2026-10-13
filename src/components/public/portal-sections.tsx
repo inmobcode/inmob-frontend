@@ -21,6 +21,7 @@ import {
   sectionLayout,
   whatsappLink,
 } from "@/lib/site-theme";
+import { richTextHtml } from "@/lib/rich-text";
 import { cn } from "@/lib/utils";
 
 const CARDS = "grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3";
@@ -648,9 +649,11 @@ function TextBlock({ section, site }: BlockProps) {
         </h2>
       )}
       {section.text && (
-        <p className="max-w-prose text-lg leading-relaxed text-pretty whitespace-pre-line text-site-quiet">
-          {section.text}
-        </p>
+        // Formatted text, cleaned by the backend (app/utils/rich_text.py).
+        <div
+          className="rich-text max-w-prose text-lg leading-relaxed text-pretty text-site-quiet"
+          dangerouslySetInnerHTML={{ __html: richTextHtml(section.text) }}
+        />
       )}
       <BlockButton section={section} site={site} />
     </>

@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ApiError } from "@/lib/api/client";
 import { submitOfferInquiry } from "@/lib/api/offers";
+import { cn } from "@/lib/utils";
 
 const schema = z.object({
   name: z.string().min(2, "Ingresá tu nombre"),
@@ -22,12 +23,22 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
-export function OfferInquiryForm({ offerToken }: { offerToken: string }) {
+export function OfferInquiryForm({
+  offerToken,
+  defaultMessage = "",
+  framed = true,
+}: {
+  offerToken: string;
+  /** Prefilled message, e.g. naming the property it's asked from. */
+  defaultMessage?: string;
+  /** false: no box or heading of its own, for a page that already titles it. */
+  framed?: boolean;
+}) {
   const [sent, setSent] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { name: "", email: "", phone: "", message: "" },
+    defaultValues: { name: "", email: "", phone: "", message: defaultMessage },
   });
 
   const mutation = useMutation({
@@ -52,13 +63,13 @@ export function OfferInquiryForm({ offerToken }: { offerToken: string }) {
 
   return (
     <form
-      className="max-w-md space-y-4 rounded-md border p-4"
+      className={cn("space-y-4", framed && "max-w-md rounded-md border p-4")}
       onSubmit={form.handleSubmit((values) => {
         setServerError(null);
         mutation.mutate(values);
       })}
     >
-      <h3 className="font-medium">Contactanos</h3>
+      {framed && <h3 className="font-medium">Contactanos</h3>}
       <FieldGroup>
         <Field>
           <FieldLabel htmlFor="name">Nombre</FieldLabel>

@@ -82,6 +82,8 @@ export interface SaveOfferPayload {
   welcomeTitle?: string | null;
   welcomeDateLabel?: string | null;
   welcomeContent?: string | null;
+  /** A CRM client: the offer copies its contact details and "send" emails it the link. */
+  clientId?: string | null;
   clientName?: string | null;
   clientEmail?: string | null;
   clientPhone?: string | null;
