@@ -17,7 +17,7 @@ import { PropertiesTable, PropertyRow } from "@/components/properties/property-v
 import { PropertiesPagination } from "@/components/properties/properties-pagination";
 import { ViewSwitch, type ViewMode } from "@/components/properties/view-switch";
 import { Segmented } from "@/components/properties/segmented";
-import { StatusSelect } from "@/components/properties/status-select";
+import { SortSelect } from "@/components/properties/sort-select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ApiError } from "@/lib/api/client";
@@ -34,6 +34,7 @@ import { getAccessToken } from "@/lib/auth/session";
 import { Flip, gsap, useGSAP } from "@/lib/gsap";
 import { distance, duration, ease, media, rowStagger } from "@/lib/motion";
 import { applyFilters, countActiveFilters, DEFAULT_FILTERS, type PropertyFilters } from "@/lib/property-filters";
+import { DEFAULT_SORT, sortProperties, type SortValue } from "@/lib/property-sort";
 
 const PAGE_SIZE = 25;
 
@@ -73,6 +74,7 @@ export default function PropertiesPage() {
   });
 
   const [filters, setFilters] = useState<PropertyFilters>(DEFAULT_FILTERS);
+  const [sort, setSort] = useState<SortValue>(DEFAULT_SORT);
 
   const gridRef = useRef<HTMLDivElement>(null);
   const flipState = useRef<Flip.FlipState | null>(null);
@@ -102,19 +104,7 @@ export default function PropertiesPage() {
     } catch {}
   }
 
-  const sorted = useMemo(
-    () =>
-      [...(data ?? [])].sort(
-        (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
-      ),
-    [data],
-  );
-
-  const statusCounts = useMemo(() => {
-    const counts: Record<string, number> = { ALL: sorted.length };
-    for (const property of sorted) counts[property.status] = (counts[property.status] ?? 0) + 1;
-    return counts;
-  }, [sorted]);
+  const sorted = useMemo(() => sortProperties(data ?? [], sort), [data, sort]);
 
   const filtered = useMemo(() => applyFilters(sorted, filters), [sorted, filters]);
 
@@ -325,6 +315,12 @@ export default function PropertiesPage() {
     setPage(1);
   }
 
+  function changeSort(next: SortValue) {
+    captureLayout();
+    setSort(next);
+    setPage(1);
+  }
+
   return (
     <div className="flex flex-col gap-8">
       <h1 className="sr-only">Propiedades</h1>
@@ -374,11 +370,7 @@ export default function PropertiesPage() {
                   options={TYPE_TABS}
                   onChange={(type) => updateFilters({ type })}
                 />
-                <StatusSelect
-                  value={filters.status}
-                  counts={statusCounts}
-                  onChange={(status) => updateFilters({ status })}
-                />
+                <SortSelect value={sort} onChange={changeSort} />
                 <FiltersSheet
                   properties={sorted}
                   value={filters}

@@ -6,6 +6,7 @@ import Link from "next/link";
 
 import { ApiError } from "@/lib/api/client";
 import { getAccessToken } from "@/lib/auth/session";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 /** The way into a section's trash, from its list's toolbar, with how many items wait there. */
 export function TrashLink({
@@ -28,18 +29,24 @@ export function TrashLink({
   const count = data?.length ?? 0;
 
   return (
-    <Link
-      href={href}
-      aria-label={count > 0 ? `Papelera, ${count} elementos` : "Papelera"}
-      className="inline-flex h-10 items-center gap-2 rounded-full bg-foreground/[0.07] px-4 text-sm outline-none transition-colors hover:bg-foreground/10 focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-foreground/10 dark:hover:bg-foreground/15"
-    >
-      <Trash2 className="size-4" />
-      Papelera
-      {count > 0 && (
-        <span className="min-w-6 rounded-full bg-foreground/[0.07] px-2 py-0.5 text-center text-xs text-muted-foreground tabular-nums">
-          {count}
-        </span>
-      )}
-    </Link>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Link
+          href={href}
+          aria-label={count > 0 ? `Papelera, ${count} elementos` : "Papelera"}
+          className="relative inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-foreground/[0.07] outline-none transition-colors hover:bg-foreground/10 focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-foreground/10 dark:hover:bg-foreground/15"
+        >
+          <Trash2 className="size-4" />
+          {count > 0 && (
+            <span className="absolute -top-1 -right-1 flex size-5 items-center justify-center rounded-full bg-primary text-[0.65rem] font-semibold text-primary-foreground tabular-nums ring-2 ring-background">
+              {count}
+            </span>
+          )}
+        </Link>
+      </TooltipTrigger>
+      <TooltipContent side="bottom" sideOffset={10}>
+        Papelera
+      </TooltipContent>
+    </Tooltip>
   );
 }
