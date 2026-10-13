@@ -3,7 +3,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
-import { ArrowLeft, Check, CircleCheck, X } from "lucide-react";
+import { ArrowLeft, Check, CircleCheck, Copy, ExternalLink, X } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
@@ -14,6 +14,8 @@ import {
   BookingStatusPill,
   DateTile,
   PaidBar,
+  clientLinkPath,
+  copyClientLink,
   datesOf,
   money,
   paymentsOf,
@@ -68,6 +70,36 @@ function Stat({ label, value, strong }: { label: string; value: string; strong?:
     <div className="flex items-baseline justify-between gap-3 text-sm">
       <span className="text-muted-foreground">{label}</span>
       <span className={cn("tabular-nums", strong && "font-semibold")}>{value}</span>
+    </div>
+  );
+}
+
+/** The client's read-only page for this booking, to copy and send or to preview. */
+function ClientLink({ token, hasClient }: { token: string; hasClient: boolean }) {
+  const path = clientLinkPath({ token });
+
+  return (
+    <div className="flex flex-col gap-3 border-t border-foreground/5 pt-5">
+      <div className="flex flex-col gap-1">
+        <h2 className="text-sm font-medium">Página del cliente</h2>
+        <p className="text-xs text-muted-foreground">
+          {hasClient
+            ? "El cliente la recibe por email al crear, confirmar o cancelar la reserva."
+            : "Asigná un cliente para que la reciba por email, o mandale el link."}
+        </p>
+      </div>
+      <div className="flex gap-2">
+        <Button variant="outline" size="sm" className="flex-1 rounded-full" onClick={() => copyClientLink({ token })}>
+          <Copy />
+          Copiar link
+        </Button>
+        <Button variant="ghost" size="sm" className="rounded-full" asChild>
+          <a href={path} target="_blank" rel="noreferrer">
+            <ExternalLink />
+            Ver
+          </a>
+        </Button>
+      </div>
     </div>
   );
 }
@@ -169,8 +201,8 @@ export function BookingDetail({ bookingId }: { bookingId: string }) {
 
           <FormSection
             title="Estadía"
-            description={dates ? "Fechas del alquiler." : "Es una operación de venta, no tiene fechas."}
-            shown={false}
+            description={dates ? "Fechas del alquiler. El cliente las ve en su página." : "Es una operación de venta, no tiene fechas."}
+            shown={null}
           >
             {dates ? (
               <div className="grid max-w-md grid-cols-2 gap-3">
@@ -193,7 +225,11 @@ export function BookingDetail({ bookingId }: { bookingId: string }) {
             ) : null}
           </FormSection>
 
-          <FormSection title="Pagos" description="Anticipos, saldo y comisión, con lo que ya se cobró." shown={false}>
+          <FormSection
+            title="Pagos"
+            description="Anticipos, saldo y comisión, con lo que ya se cobró. El cliente ve anticipos y saldo, nunca la comisión."
+            shown={null}
+          >
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-4">
                 <PaidBar booking={booking} className="min-w-0 flex-1" />
@@ -256,6 +292,8 @@ export function BookingDetail({ bookingId }: { bookingId: string }) {
               <Stat label="Por cobrar" value={money(booking.currency, Math.max(base - paid, 0))} />
             </div>
           </div>
+
+          <ClientLink token={booking.token} hasClient={Boolean(booking.clientId)} />
 
           {open && (
             <div className="flex flex-col gap-2">

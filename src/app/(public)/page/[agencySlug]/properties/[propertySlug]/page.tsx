@@ -8,6 +8,7 @@ import {
   PublicPropertyCard,
   coverPhoto,
   formatPrice,
+  priceUnit,
   placeOf,
 } from "@/components/public/property-card";
 import {
@@ -117,6 +118,7 @@ export default async function PublicPropertyPage({
   ]);
   const site = resolveSite(agency.site);
   const price = formatPrice(property);
+  const unit = priceUnit(property);
   const place = placeOf(property);
   const location = [property.address, place].filter(Boolean).join(" · ");
   const keyFacts = facts(property);
@@ -245,6 +247,11 @@ export default async function PublicPropertyPage({
                 </p>
                 <p className="s-heading text-3xl tabular-nums">
                   {price ?? "Precio a consultar"}
+                  {price && unit && (
+                    <span className="font-sans text-base font-normal tracking-normal text-site-quiet">
+                      {unit}
+                    </span>
+                  )}
                 </p>
               </div>
               {site.whatsapp && (
@@ -298,6 +305,11 @@ export default async function PublicPropertyPage({
       <div className="fixed inset-x-0 bottom-0 z-30 flex items-center justify-between gap-4 border-t border-site-line bg-site-bg/95 px-5 py-3 backdrop-blur lg:hidden">
         <p className="s-heading truncate text-lg tabular-nums">
           {price ?? "Precio a consultar"}
+          {price && unit && (
+            <span className="font-sans text-sm font-normal tracking-normal text-site-quiet">
+              {unit}
+            </span>
+          )}
         </p>
         <a
           href="#consulta"

@@ -8,6 +8,7 @@ import type { Property } from "@/lib/api/properties";
 import { ControlsZone, PropertyMenu, SelectToggle, type PropertyActions } from "@/components/properties/property-controls";
 import { StatusPill } from "@/components/properties/status-pill";
 import { categoryLabel, LISTING_TYPE_LABELS } from "@/lib/properties-labels";
+import { parseApiDate } from "@/lib/dates";
 import { cn } from "@/lib/utils";
 
 export function coverOf(property: Property) {
@@ -73,7 +74,7 @@ export function PropertyCard({
   const cover = coverOf(property);
   const amount = formatAmount(property);
   const location = [property.area, property.region, property.country].filter(Boolean).join(", ");
-  const updated = formatDistanceToNow(new Date(property.updatedAt), { addSuffix: true, locale: es });
+  const updated = formatDistanceToNow(parseApiDate(property.updatedAt), { addSuffix: true, locale: es });
   const archived = property.status === "ARCHIVED";
   const number = (value: number) => value.toLocaleString("es-AR");
 

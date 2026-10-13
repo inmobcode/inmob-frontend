@@ -8,7 +8,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-dm-sans);
-  --font-display: var(--font-dm-serif-display);
+  --font-display: var(--font-sora);
   --font-logo: var(--font-sora);
   --color-paper: var(--l-paper);
   --color-ink: var(--l-ink);
@@ -142,6 +142,12 @@
 }
 
 @layer base {
+  /* Títulos en Sora: semibold y un poco más apretada. En la capa base, así una
+     utilidad explícita (font-medium, tracking-*) en el mismo elemento gana. */
+  .font-display {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
   * {
     @apply border-border outline-ring/50;
   }
@@ -167,7 +173,6 @@
   --l-forest: #164832;
   --l-forest-deep: #0f3524;
   --l-lime: #77e500;
-  --font-dm-serif-display: var(--font-sora);
 
   /* Los componentes de shadcn dentro de la landing usan siempre la versión clara. */
   --background: var(--l-paper);

@@ -16,6 +16,11 @@ export function formatPrice(property: Pick<Property, "price" | "currency">) {
   return `${property.currency} ${property.price.toLocaleString("es-AR")}`;
 }
 
+/** What the price is charged per: rentals are priced by the night. */
+export function priceUnit(property: Pick<Property, "listingType">) {
+  return property.listingType === "RENT" ? "/por noche" : null;
+}
+
 export function placeOf(
   property: Pick<Property, "area" | "region" | "country">,
 ) {
@@ -110,6 +115,7 @@ export function PublicPropertyCard({
 }) {
   const cover = coverPhoto(property);
   const price = formatPrice(property);
+  const unit = priceUnit(property);
   const place = placeOf(property);
   const compact = template === "compacto";
   const editorial = template === "editorial";
@@ -175,7 +181,14 @@ export function PublicPropertyCard({
             compact ? "text-sm font-semibold" : "mt-1 text-lg font-semibold",
           )}
         >
-          {price ?? (
+          {price ? (
+            <>
+              {price}
+              {unit && (
+                <span className="font-normal text-site-quiet">{unit}</span>
+              )}
+            </>
+          ) : (
             <span className="font-medium text-site-quiet">
               Precio a consultar
             </span>

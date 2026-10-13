@@ -11,6 +11,8 @@ const dmSans = DM_Sans({
   subsets: ["latin"],
 });
 
+// Only for the agency portals' "Clásica" type option (lib/site-theme.ts); the
+// app itself uses Sora for headings.
 const dmSerifDisplay = DM_Serif_Display({
   variable: "--font-dm-serif-display",
   subsets: ["latin"],
@@ -40,7 +42,20 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${dmSans.variable} ${dmSerifDisplay.variable} ${sora.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-sidebar">
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+        {/*
+          next-themes renders an inline <script> that sets the theme before paint.
+          It runs from the server HTML; if React ever has to create it again in
+          the browser (e.g. after a hydration mismatch), React 19 warns about a
+          script it won't execute. Marking it as data on the client avoids that
+          without changing anything: the theme is already applied by then.
+        */}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+          scriptProps={{ type: typeof window === "undefined" ? undefined : "text/plain" }}
+        >
           <QueryProvider>
             <TooltipProvider>
               {children}

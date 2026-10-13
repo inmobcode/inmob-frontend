@@ -1,4 +1,6 @@
+import type { PublicAgency } from "./agency";
 import { apiFetch } from "./client";
+import type { Property } from "./properties";
 
 export type BookingStatus = "PENDING" | "CONFIRMED" | "CANCELLED" | "COMPLETED";
 export type PaymentType = "DEPOSIT" | "BALANCE" | "COMMISSION";
@@ -19,6 +21,8 @@ export interface Payment {
 export interface Booking {
   id: string;
   agencyId: string;
+  /** Opens the client's page at /booking/<token>. */
+  token: string;
   propertyId: string;
   propertyTitle: string | null;
   clientId: string | null;
@@ -112,4 +116,22 @@ export function markPaymentPaid(
       token,
     },
   );
+}
+
+/** What the client sees at /booking/<token>: no commission, only their own payments. */
+export interface PublicBooking {
+  status: BookingStatus;
+  startDate: string | null;
+  endDate: string | null;
+  totalPrice: number | null;
+  currency: string;
+  clientName: string | null;
+  createdAt: string;
+  payments: Pick<Payment, "amount" | "currency" | "type" | "status" | "paidAt">[];
+  property: Property & { published: boolean };
+  agency: PublicAgency & { slug: string };
+}
+
+export function getPublicBooking(token: string) {
+  return apiFetch<PublicBooking>(`/api/public/bookings/${token}`);
 }

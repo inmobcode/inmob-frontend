@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { TOGGLE_SIDEBAR_EVENT } from "@/components/dashboard/shortcuts";
@@ -56,30 +56,53 @@ interface NavItem {
 const EXPANDED_WIDTH = 255;
 const COLLAPSED_WIDTH = 72;
 
-/** Team, Settings and the portal editor are OWNER/ADMIN territory. */
+/**
+ * The agency the dashboard is showing. The URL (`/[agencySlug]/…`) always has
+ * it; the session cookie is only a fallback, because sessions started before
+ * the slug was stored there don't carry it.
+ */
+function useAgencySlug() {
+  const params = useParams<{ agencySlug?: string }>();
+  const user = useSessionUser();
+  return params.agencySlug ?? user?.agencySlug ?? null;
+}
+
+/**
+ * Team, Settings and the portal editor are OWNER/ADMIN territory. The role
+ * comes from the session cookie, read after mount: until then only the
+ * shared items show, so an agent never sees admin links flash by.
+ */
 function navItemsFor(agencySlug: string, role: string | undefined): NavItem[] {
   const items: NavItem[] = [
-    { href: `/${agencySlug}/properties`, label: "Propiedades", icon: Building2 },
+    {
+      href: `/${agencySlug}/properties`,
+      label: "Propiedades",
+      icon: Building2,
+    },
     { href: `/${agencySlug}/offers`, label: "Ofertas", icon: Tag },
     { href: `/${agencySlug}/clients`, label: "Clientes", icon: Users },
     { href: `/${agencySlug}/inquiries`, label: "Consultas", icon: Inbox },
     { href: `/${agencySlug}/bookings`, label: "Reservas", icon: CalendarDays },
   ];
-  if (role !== "AGENT") {
+  if (role && role !== "AGENT") {
     items.push(
       { href: `/${agencySlug}/team`, label: "Equipo", icon: UsersRound },
       { href: "/portal", label: "Portal", icon: Globe },
-      { href: `/${agencySlug}/settings`, label: "Configuración", icon: Settings },
+      {
+        href: `/${agencySlug}/settings`,
+        label: "Configuración",
+        icon: Settings,
+      },
     );
   }
   return items;
 }
 
 function Brand() {
-  const user = useSessionUser();
+  const agencySlug = useAgencySlug();
   return (
     <Link
-      href={user ? `/${user.agencySlug}/properties` : "#"}
+      href={agencySlug ? `/${agencySlug}/properties` : "/"}
       className="flex items-center gap-2 font-logo text-2xl font-semibold leading-none tracking-tight text-foreground"
     >
       <LogoIcon className="text-primary" />
@@ -187,7 +210,9 @@ function SidebarNav({
   const indicatorRef = useRef<HTMLSpanElement>(null);
   const placed = useRef(false);
 
-  const navItems = user ? navItemsFor(user.agencySlug, user.role) : [];
+  const agencySlug = useAgencySlug();
+  const navItems = agencySlug ? navItemsFor(agencySlug, user?.role) : [];
+  const entered = useRef(false);
 
   // New inquiries show as a count on "Consultas"; refreshed every minute.
   const { data: unread } = useQuery({
@@ -203,9 +228,12 @@ function SidebarNav({
     pathname.startsWith(item.href),
   )?.href;
 
-  // Entrance: links settle in one after another, once per mount.
+  // Entrance: links settle in one after another, once, as soon as there are links.
   useGSAP(
     () => {
+      if (entered.current || !navRef.current?.querySelector("[data-nav-link]"))
+        return;
+      entered.current = true;
       const mm = gsap.matchMedia();
       mm.add(media.allowMotion, () => {
         gsap.from("[data-nav-link]", {
@@ -219,8 +247,8 @@ function SidebarNav({
       return () => mm.revert();
     },
     // No deps means @gsap/react reruns this on every render — it replayed
-    // the fade/slide-in on every collapse toggle instead of just on mount.
-    { scope: navRef, dependencies: [] },
+    // the fade/slide-in on every collapse toggle. It waits for the first links instead.
+    { scope: navRef, dependencies: [navItems.length > 0] },
   );
 
   // The active pill glides to the current link instead of jumping.

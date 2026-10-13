@@ -22,7 +22,7 @@ Frontend de una plataforma inmobiliaria (propiedades, ofertas, clientes, reserva
 **Grupos de rutas (`src/app`)**
 - `(auth)` — `/login`, `/register`
 - `(dashboard)` — área protegida: `properties`, `offers`, `clients`, `inquiries`, `bookings`, `team`, `settings` (con rutas `[id]`). Su layout monta `DashboardSidebar` y `ActionBar`.
-- `(public)` — páginas públicas: el sitio de cada agencia en `/page/[agencySlug]` y `/page/[agencySlug]/properties/[propertySlug]`, más `/offer/[token]` y `/owner/[token]`.
+- `(public)` — páginas públicas: el sitio de cada agencia en `/page/[agencySlug]` y `/page/[agencySlug]/properties/[propertySlug]`, más `/offer/[token]`, `/owner/[token]` y `/booking/[token]` (la reserva vista por el cliente: sin comisión; el backend le manda el link por email al crear, confirmar o cancelar).
 
 **Sitio público de cada agencia**
 - Es de la agencia, no de Tivvo: base neutra (scope `.site` en `globals.css`, utilidades `bg-site-*`, `text-site-*`, `border-site-*`) y personalización por agencia guardada en `agency.site` (backend: `PATCH /api/agency/site`, `POST /api/agency/cover`).

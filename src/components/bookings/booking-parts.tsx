@@ -2,8 +2,9 @@
 
 import { differenceInCalendarDays, format, parseISO } from "date-fns";
 import { es } from "date-fns/locale";
-import { ArrowRight, Banknote, Check, CircleCheck, MoreHorizontal, Pencil, X } from "lucide-react";
+import { ArrowRight, Banknote, Check, CircleCheck, Copy, ExternalLink, MoreHorizontal, Pencil, X } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import {
   DropdownMenu,
@@ -113,6 +114,18 @@ export function PaidBar({ booking, className }: { booking: Booking; className?: 
   );
 }
 
+/** The client's read-only page for a booking. */
+export const clientLinkPath = (booking: Pick<Booking, "token">) => `/booking/${booking.token}`;
+
+export async function copyClientLink(booking: Pick<Booking, "token">) {
+  try {
+    await navigator.clipboard.writeText(`${window.location.origin}${clientLinkPath(booking)}`);
+    toast.success("Link copiado");
+  } catch {
+    toast.error("No se pudo copiar el link");
+  }
+}
+
 export function BookingMenu({
   booking,
   actions,
@@ -144,6 +157,14 @@ export function BookingMenu({
         <DropdownMenuItem className="rounded-xl py-2" onSelect={() => router.push(`/${agencySlug}/bookings/${booking.id}`)}>
           <Pencil />
           Ver reserva
+        </DropdownMenuItem>
+        <DropdownMenuItem className="rounded-xl py-2" onSelect={() => copyClientLink(booking)}>
+          <Copy />
+          Copiar link para el cliente
+        </DropdownMenuItem>
+        <DropdownMenuItem className="rounded-xl py-2" onSelect={() => window.open(clientLinkPath(booking), "_blank", "noopener")}>
+          <ExternalLink />
+          Ver como cliente
         </DropdownMenuItem>
         {booking.status === "PENDING" && (
           <DropdownMenuItem className="rounded-xl py-2" onSelect={() => actions.confirm(booking.id)}>
