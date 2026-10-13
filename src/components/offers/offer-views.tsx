@@ -10,6 +10,7 @@ import { Collage, coversOf, OfferMenu, propertiesOf, type OfferActions } from "@
 import { OfferStatusPill } from "@/components/offers/offer-status-pill";
 import { ControlsZone } from "@/components/properties/property-controls";
 import type { Offer } from "@/lib/api/offers";
+import { OFFER_OPERATION_LABELS } from "@/lib/properties-labels";
 import { cn } from "@/lib/utils";
 
 const number = (value: number) => value.toLocaleString("es-AR");
@@ -58,6 +59,7 @@ export function OfferRow({ offer, actions }: { offer: Offer; actions: OfferActio
       </div>
 
       <div className="flex min-w-0 flex-1 flex-col gap-1.5 sm:py-1">
+        <p className="text-xs font-medium text-primary">{OFFER_OPERATION_LABELS[offer.operation]}</p>
         <h3 className="font-display text-xl leading-tight text-balance line-clamp-2" title={offer.title}>
           {offer.title}
         </h3>
@@ -131,7 +133,7 @@ export function OffersTable({ offers, actions }: { offers: Offer[]; actions: Off
                         {offer.title}
                       </Link>
                       <span className="truncate text-xs text-muted-foreground">
-                        {offer.clientName?.trim() || "Sin cliente asignado"}
+                        {OFFER_OPERATION_LABELS[offer.operation]} · {offer.clientName?.trim() || "Sin cliente asignado"}
                       </span>
                     </div>
                   </div>

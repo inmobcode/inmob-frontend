@@ -2,6 +2,8 @@ import { apiFetch } from "./client";
 import type { Property } from "./properties";
 
 export type OfferStatus = "DRAFT" | "SENT" | "VIEWED" | "EXPIRED";
+/** Which properties the offer holds: only for sale, only for rent, or both. */
+export type OfferOperation = "SALE" | "RENT" | "BOTH";
 export type DiscountType = "NONE" | "PERCENT" | "FIXED";
 
 export type PublicProperty = Omit<
@@ -37,6 +39,7 @@ export interface Offer {
   clientId?: string | null;
   token: string;
   title: string;
+  operation: OfferOperation;
   currency: string;
   showPrice: boolean;
   branded: boolean;
@@ -71,6 +74,7 @@ export interface OfferSectionInput {
 
 export interface SaveOfferPayload {
   title: string;
+  operation?: OfferOperation;
   currency?: string;
   showPrice?: boolean;
   branded?: boolean;

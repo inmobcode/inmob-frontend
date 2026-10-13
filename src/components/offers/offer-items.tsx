@@ -4,6 +4,7 @@ import { Building2, ChevronDown, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { Controller, useFieldArray, useWatch, type Control } from "react-hook-form";
 
+import { fitsOperation } from "@/components/offers/offer-operation";
 import { UnitInput } from "@/components/properties/form-controls";
 import { Button } from "@/components/ui/button";
 import { Field, FieldLabel } from "@/components/ui/field";
@@ -16,14 +17,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import type { DiscountType } from "@/lib/api/offers";
+import type { DiscountType, OfferOperation } from "@/lib/api/offers";
 import type { Property } from "@/lib/api/properties";
-import { DISCOUNT_TYPE_LABELS } from "@/lib/properties-labels";
+import { DISCOUNT_TYPE_LABELS, LISTING_TYPE_LABELS } from "@/lib/properties-labels";
 import { cn } from "@/lib/utils";
 
 /** The shape of the offer form that these pieces read and write. */
 export interface OfferFormValues {
   title: string;
+  operation: OfferOperation;
   currency: string;
   showPrice: boolean;
   branded: boolean;
@@ -119,6 +121,12 @@ function OfferLine({
   const name = `sections.${sectionIndex}.properties.${index}` as const;
   const item = useWatch({ control, name });
   const property = properties.find((entry) => entry.id === item?.propertyId);
+  const operation = useWatch({ control, name: "operation" }) ?? "BOTH";
+  // Only properties that fit the offer's operation; the chosen one stays listed even if it no longer fits.
+  const options = properties.filter(
+    (entry) => fitsOperation(operation, entry.listingType) || entry.id === item?.propertyId,
+  );
+  const misfit = property && !fitsOperation(operation, property.listingType);
   const { base, final } = linePrice(item, property);
   const adjusted = item && (item.discountType !== "NONE" || toNumber(item.priceOverride) != null);
   // Lines that already carry adjustments, or are still empty, start expanded.
@@ -138,11 +146,21 @@ function OfferLine({
                   <SelectValue placeholder="Elegir propiedad">{property?.title}</SelectValue>
                 </SelectTrigger>
                 <SelectContent>
-                  {properties.map((entry) => (
+                  {options.length === 0 && (
+                    <p className="px-3 py-2 text-sm text-muted-foreground">
+                      No tenés propiedades en {operation === "SALE" ? "venta" : "alquiler"}.
+                    </p>
+                  )}
+                  {options.map((entry) => (
                     <SelectItem key={entry.id} value={entry.id}>
                       <span className="flex min-w-0 items-center gap-3">
                         <Thumb property={entry} className="size-8 rounded-md" />
                         <span className="truncate">{entry.title}</span>
+                        {operation === "BOTH" && (
+                          <span className="shrink-0 text-xs text-muted-foreground">
+                            {LISTING_TYPE_LABELS[entry.listingType]}
+                          </span>
+                        )}
                       </span>
                     </SelectItem>
                   ))}
@@ -187,6 +205,13 @@ function OfferLine({
           </button>
         </div>
       </div>
+
+      {misfit && (
+        <p className="text-sm text-destructive">
+          Es una propiedad en {property.listingType === "SALE" ? "venta" : "alquiler"} y la oferta es de{" "}
+          {operation === "SALE" ? "venta" : "alquiler"}. Cambiala o quitala para poder guardar.
+        </p>
+      )}
 
       {open && (
         <div className="flex flex-col gap-4 animate-in fade-in slide-in-from-top-1 duration-300">

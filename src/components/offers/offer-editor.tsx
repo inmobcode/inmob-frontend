@@ -10,6 +10,7 @@ import { Controller, useFieldArray, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import { OperationPicker } from "@/components/offers/offer-operation";
 import { OfferStatusPill } from "@/components/offers/offer-status-pill";
 import {
   emptyOfferProperty,
@@ -47,6 +48,7 @@ const offerSectionSchema = z.object({
 
 const schema = z.object({
   title: z.string().min(2, "Ingresá un título"),
+  operation: z.enum(["SALE", "RENT", "BOTH"]),
   currency: z.string().length(3, "3 letras, ej. USD"),
   showPrice: z.boolean(),
   branded: z.boolean(),
@@ -61,6 +63,7 @@ type FormValues = OfferFormValues;
 function toFormValues(offer: Offer): FormValues {
   return {
     title: offer.title,
+    operation: offer.operation,
     currency: offer.currency,
     showPrice: offer.showPrice,
     branded: offer.branded,
@@ -85,6 +88,7 @@ function toFormValues(offer: Offer): FormValues {
 function toPayload(values: FormValues): SaveOfferPayload {
   return {
     title: values.title,
+    operation: values.operation,
     currency: values.currency,
     showPrice: values.showPrice,
     branded: values.branded,
@@ -283,6 +287,15 @@ export function OfferEditor({ offerId }: { offerId: string }) {
               <FieldLabel htmlFor="title">Título</FieldLabel>
               <Input id="title" className="h-12 text-base" {...form.register("title")} />
               <FieldError errors={[form.formState.errors.title]} />
+            </Field>
+            <Field>
+              <FieldLabel>Operación</FieldLabel>
+              <Controller
+                control={form.control}
+                name="operation"
+                render={({ field }) => <OperationPicker value={field.value} onChange={field.onChange} />}
+              />
+              <FieldDescription>Define qué propiedades podés sumar a la oferta.</FieldDescription>
             </Field>
             <Field>
               <FieldLabel>Moneda</FieldLabel>

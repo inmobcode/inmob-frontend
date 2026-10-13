@@ -17,6 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import type { Offer } from "@/lib/api/offers";
+import { OFFER_OPERATION_LABELS } from "@/lib/properties-labels";
 import { cn } from "@/lib/utils";
 
 export interface OfferActions {
@@ -147,6 +148,7 @@ export function OfferCard({ offer, actions }: { offer: Offer; actions: OfferActi
 
       <div className="flex flex-1 flex-col gap-4 p-5">
         <div className="flex flex-col gap-1.5">
+          <p className="text-xs font-medium text-primary">{OFFER_OPERATION_LABELS[offer.operation]}</p>
           <h3 className="font-display text-xl leading-tight text-balance line-clamp-2" title={offer.title}>
             {offer.title}
           </h3>

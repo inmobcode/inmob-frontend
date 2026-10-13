@@ -1,5 +1,5 @@
 import type { ListingType, PropertyStatus } from "@/lib/api/properties";
-import type { DiscountType, OfferStatus } from "@/lib/api/offers";
+import type { DiscountType, OfferOperation, OfferStatus } from "@/lib/api/offers";
 import type { ClientStage } from "@/lib/api/clients";
 import type { BookingStatus, PaymentType } from "@/lib/api/bookings";
 
@@ -12,6 +12,12 @@ export const STATUS_LABELS: Record<PropertyStatus, string> = {
   DRAFT: "Borrador",
   PUBLISHED: "Publicada",
   ARCHIVED: "Archivada",
+};
+
+export const OFFER_OPERATION_LABELS: Record<OfferOperation, string> = {
+  SALE: "Venta",
+  RENT: "Alquiler",
+  BOTH: "Venta y alquiler",
 };
 
 export const OFFER_STATUS_LABELS: Record<OfferStatus, string> = {

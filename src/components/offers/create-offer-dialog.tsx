@@ -5,10 +5,11 @@ import { useMutation } from "@tanstack/react-query";
 import { LoaderCircle } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { NewItemButton } from "@/components/new-item-button";
+import { OperationPicker } from "@/components/offers/offer-operation";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -23,7 +24,11 @@ import { ApiError } from "@/lib/api/client";
 import { createOffer } from "@/lib/api/offers";
 import { getAccessToken } from "@/lib/auth/session";
 
-const schema = z.object({ title: z.string().min(2, "Ingresá un título") });
+const schema = z.object({
+  title: z.string().min(2, "Ingresá un título"),
+  // No default: the agent has to say which kind of offer it is.
+  operation: z.enum(["SALE", "RENT", "BOTH"], { error: "Elegí si es de venta, alquiler o ambas" }),
+});
 type FormValues = z.infer<typeof schema>;
 
 export function CreateOfferDialog() {
@@ -33,6 +38,7 @@ export function CreateOfferDialog() {
   const [serverError, setServerError] = useState<string | null>(null);
   const form = useForm<FormValues>({ resolver: zodResolver(schema), defaultValues: { title: "" } });
   const titleError = form.formState.errors.title?.message;
+  const operationError = form.formState.errors.operation?.message;
 
   const mutation = useMutation({
     mutationFn: (values: FormValues) => {
@@ -89,6 +95,18 @@ export function CreateOfferDialog() {
               {...form.register("title")}
             />
             {titleError && <p className="text-sm text-destructive">{titleError}</p>}
+          </div>
+
+          <div className="flex flex-col gap-2.5 px-7 pt-5 pb-2">
+            <p className="text-sm leading-none font-medium">Operación</p>
+            <Controller
+              control={form.control}
+              name="operation"
+              render={({ field }) => (
+                <OperationPicker value={field.value} onChange={field.onChange} invalid={Boolean(operationError)} />
+              )}
+            />
+            {operationError && <p className="text-sm text-destructive">{operationError}</p>}
             {serverError && <p className="text-sm text-destructive">{serverError}</p>}
           </div>
 

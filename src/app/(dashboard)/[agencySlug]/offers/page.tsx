@@ -23,17 +23,23 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ApiError } from "@/lib/api/client";
-import { deleteOffer, listOffers, sendOffer, type OfferStatus } from "@/lib/api/offers";
+import { deleteOffer, listOffers, sendOffer, type OfferOperation, type OfferStatus } from "@/lib/api/offers";
 import { getAccessToken } from "@/lib/auth/session";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { distance, duration, ease, media, rowStagger } from "@/lib/motion";
-import { OFFER_STATUS_LABELS } from "@/lib/properties-labels";
+import { OFFER_OPERATION_LABELS, OFFER_STATUS_LABELS } from "@/lib/properties-labels";
 
 const STATUS_OPTIONS: { value: OfferStatus; label: string }[] = [
   { value: "DRAFT", label: OFFER_STATUS_LABELS.DRAFT + "es" },
   { value: "SENT", label: OFFER_STATUS_LABELS.SENT + "s" },
   { value: "VIEWED", label: OFFER_STATUS_LABELS.VIEWED + "s" },
   { value: "EXPIRED", label: OFFER_STATUS_LABELS.EXPIRED + "s" },
+];
+
+const OPERATION_OPTIONS: { value: OfferOperation; label: string }[] = [
+  { value: "SALE", label: OFFER_OPERATION_LABELS.SALE },
+  { value: "RENT", label: OFFER_OPERATION_LABELS.RENT },
+  { value: "BOTH", label: OFFER_OPERATION_LABELS.BOTH },
 ];
 
 function requireToken() {
@@ -46,6 +52,7 @@ export default function OffersPage() {
   const queryClient = useQueryClient();
   const gridRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<OfferStatus[]>([]);
+  const [operation, setOperation] = useState<OfferOperation[]>([]);
   const [view, setView] = useState<ViewMode>("grid");
 
   // Remembered per browser; read after mount so the server and client first render match.
@@ -84,14 +91,21 @@ export default function OffersPage() {
     return result;
   }, [sorted]);
 
+  const operationCounts = useMemo(() => {
+    const result: Record<string, number> = { ALL: sorted.length };
+    for (const offer of sorted) result[offer.operation] = (result[offer.operation] ?? 0) + 1;
+    return result;
+  }, [sorted]);
+
   const filtered = useMemo(() => {
     const term = search.trim().toLowerCase();
     return sorted.filter((offer) => {
       if (status.length > 0 && !status.includes(offer.status)) return false;
+      if (operation.length > 0 && !operation.includes(offer.operation)) return false;
       if (!term) return true;
       return [offer.title, offer.clientName, offer.clientEmail].filter(Boolean).join(" ").toLowerCase().includes(term);
     });
-  }, [sorted, status, search]);
+  }, [sorted, status, operation, search]);
 
   const sendMutation = useMutation({
     mutationFn: (id: string) => sendOffer(requireToken(), id),
@@ -114,7 +128,7 @@ export default function OffersPage() {
 
   const total = sorted.length;
   const visibleKey = filtered.map((offer) => offer.id).join(",");
-  const hasFilters = status.length > 0 || search.trim() !== "";
+  const hasFilters = status.length > 0 || operation.length > 0 || search.trim() !== "";
 
   // Cards settle in one after another whenever the visible set changes.
   useGSAP(
@@ -156,6 +170,14 @@ export default function OffersPage() {
           <div className="flex flex-wrap items-center gap-3 sm:ml-auto">
             {total > 0 && (
               <>
+                <FilterMenu
+                  name="Operación"
+                  plural="operaciones"
+                  options={OPERATION_OPTIONS}
+                  value={operation}
+                  onChange={setOperation}
+                  counts={operationCounts}
+                />
                 <FilterMenu
                   name="Estado"
                   plural="estados"
@@ -217,13 +239,14 @@ export default function OffersPage() {
           </span>
           <div className="flex max-w-sm flex-col gap-1">
             <p className="font-display text-2xl">Nada coincide con eso</p>
-            <p className="text-sm text-muted-foreground">Probá con otro nombre o quitá el filtro de estado.</p>
+            <p className="text-sm text-muted-foreground">Probá con otro nombre o quitá los filtros.</p>
           </div>
           {hasFilters && (
             <Button
               variant="outline"
               onClick={() => {
                 setStatus([]);
+                setOperation([]);
                 setSearch("");
               }}
             >
