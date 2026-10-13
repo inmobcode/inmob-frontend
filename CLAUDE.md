@@ -21,7 +21,7 @@ Frontend de una plataforma inmobiliaria (propiedades, ofertas, clientes, reserva
 
 **Grupos de rutas (`src/app`)**
 - `(auth)` — `/login`, `/register`
-- `(dashboard)` — área protegida: `properties`, `offers`, `clients`, `bookings`, `team`, `portal`, `settings` (con rutas `[id]`). Su layout monta `DashboardSidebar` y `ActionBar`.
+- `(dashboard)` — área protegida: `properties`, `offers`, `clients`, `inquiries`, `bookings`, `team`, `settings` (con rutas `[id]`). Su layout monta `DashboardSidebar` y `ActionBar`.
 - `(public)` — páginas públicas: el sitio de cada agencia en `/page/[agencySlug]` y `/page/[agencySlug]/properties/[propertySlug]`, más `/offer/[token]` y `/owner/[token]`.
 
 **Sitio público de cada agencia**
@@ -34,6 +34,10 @@ Frontend de una plataforma inmobiliaria (propiedades, ofertas, clientes, reserva
 - `lib/auth/session.ts` guarda el par JWT y el usuario en cookies **no httpOnly** (`access_token`, `refresh_token`, `tivvo_user`), para que `src/proxy.ts` pueda leer `access_token` en el servidor. Si falta, redirige a `/login?next=...`.
 - Al añadir una nueva sección del dashboard hay que actualizar **dos veces** `DASHBOARD_PREFIXES` y `config.matcher` en `src/proxy.ts`.
 - El proxy solo comprueba que exista la cookie; no valida el token.
+
+**Consultas**
+- Las consultas del portal, de las fichas y de las ofertas crean (o reutilizan por email) un cliente, una nota en su historial que nombra la propiedad u oferta, y un registro en `inquiries`. Se listan en `/inquiries` (bandeja con nuevas y leídas, `read_at`); el sidebar muestra cuántas hay sin leer.
+- El backend avisa a la agencia por email (al email de contacto o, si no hay, a propietarios y administradores) y confirma al cliente, vía Resend (`RESEND_API_KEY`, `EMAIL_FROM`, `FRONTEND_URL` en el `.env` del backend). Sin clave, los emails solo se registran en el log.
 
 **Capa de API (`src/lib/api`)**
 - `client.ts` expone `apiFetch<T>(path, { token })`: añade `Authorization: Bearer`, fuerza `Content-Type: application/json` salvo con `FormData` (subida de archivos), lanza `ApiError(message, status)` y devuelve `undefined` en 204.
