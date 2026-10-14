@@ -113,35 +113,31 @@ export function SearchPanel({
     );
   }
 
-  const tabs: { value: Operation; label: string; count: number }[] = [
+  const operations: { value: Operation; label: string; count: number }[] = [
     { value: "RENT", label: "Alquiler temporario", count: facets.operations.RENT },
     { value: "SALE", label: "Comprar", count: facets.operations.SALE },
   ];
 
   return (
-    <form onSubmit={submit} className="flex flex-col gap-3">
-      <div role="tablist" aria-label="Qué buscás" className="flex gap-1">
-        {tabs.map((tab) => (
-          <button
-            key={tab.value}
-            type="button"
-            role="tab"
-            aria-selected={operation === tab.value}
-            onClick={() => setOperation(tab.value)}
-            className={cn(
-              "inline-flex h-10 items-center gap-2 rounded-full px-4 text-sm font-medium transition-colors outline-none focus-visible:ring-3 focus-visible:ring-lime/60",
-              operation === tab.value ? "bg-paper text-ink" : "text-paper/75 hover:bg-paper/10 hover:text-paper",
-            )}
-          >
-            {tab.label}
-            <span className={cn("text-xs tabular-nums", operation === tab.value ? "text-quiet" : "text-paper/50")}>
-              {tab.count}
-            </span>
-          </button>
-        ))}
-      </div>
+    <form onSubmit={submit}>
+      <div className="grid gap-1 rounded-[1.75rem] bg-paper p-3 text-ink shadow-[0_30px_60px_-30px_rgba(0,0,0,0.5)] lg:grid-cols-[1fr_1.2fr_1.3fr_1fr_auto] lg:items-end lg:divide-x lg:divide-line lg:p-3">
+        <Cell label="Busco">
+          <Select value={operation} onValueChange={(next) => setOperation(next as Operation)}>
+            <SelectTrigger aria-label="Qué buscás" className={TRIGGER}>
+              {/* The counts are for the list; the field shows just the choice. */}
+              <SelectValue>{operations.find((option) => option.value === operation)?.label}</SelectValue>
+            </SelectTrigger>
+            <SelectContent className="landing">
+              {operations.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                  <span className="text-quiet tabular-nums">{option.count}</span>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </Cell>
 
-      <div className="grid gap-1 rounded-[1.75rem] bg-paper p-3 text-ink shadow-[0_30px_60px_-30px_rgba(0,0,0,0.5)] lg:grid-cols-[1.2fr_1.3fr_1fr_auto] lg:items-end lg:divide-x lg:divide-line lg:p-3">
         <Cell label="Dónde">
           <Select value={zone || ANY} onValueChange={(next) => setZone(next === ANY ? "" : next)}>
             <SelectTrigger aria-label="Dónde" className={TRIGGER}>
