@@ -2,6 +2,8 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  ArrowUpRight,
+  BookOpen,
   Building2,
   Check,
   Copy,
@@ -318,6 +320,14 @@ export function UserMenu({ collapsed }: { collapsed: boolean }) {
           </div>
 
           <DropdownMenuSeparator />
+          <DropdownMenuItem className="group rounded-xl py-2" asChild>
+            <Link href="/docs" target="_blank" rel="noreferrer">
+              <BookOpen />
+              Documentación
+              {/* Shows on hover/focus: it opens in a new tab. */}
+              <ArrowUpRight className="ml-auto text-muted-foreground opacity-0 transition-[opacity,translate] duration-200 group-data-[highlighted]:translate-x-0.5 group-data-[highlighted]:-translate-y-0.5 group-data-[highlighted]:opacity-100" />
+            </Link>
+          </DropdownMenuItem>
           <DropdownMenuItem
             className="rounded-xl py-2"
             onSelect={() => window.dispatchEvent(new Event(OPEN_PALETTE_EVENT))}

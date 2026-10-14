@@ -17,12 +17,15 @@ const DASHBOARD_SECTIONS = [
   "portal",
 ];
 
+// Logged-in pages outside the agency-scoped tree (no slug segment): the dashboard docs.
+const UNSCOPED_APP_PREFIXES = ["/docs"];
+
 // Route groups that must only be reached through the app subdomain: the auth
-// flow and the dashboard itself (agency-scoped routes under "/[agencySlug]",
-// which now includes the site editor at "/[agencySlug]/portal"). Everything
-// else — the marketing landing page and the (public) group (agency sites,
-// shared offer/booking/owner links) — stays on the apex domain.
-const APP_ONLY_PREFIXES = ["/login", "/register", "/forgot-password", "/reset-password", "/auth", "/inquiries"];
+// flow, the dashboard itself (agency-scoped routes under "/[agencySlug]",
+// which now includes the site editor at "/[agencySlug]/portal") and the docs.
+// Everything else — the marketing landing page and the (public) group (agency
+// sites, shared offer/booking/owner links) — stays on the apex domain.
+const APP_ONLY_PREFIXES = ["/login", "/register", "/forgot-password", "/reset-password", "/auth", "/docs", "/inquiries"];
 
 // The (public) and (legal) groups: reachable from either host, but these are
 // the only paths allowed to stay on the apex domain unredirected.
@@ -62,6 +65,18 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  // These live outside the agency-scoped tree (no slug segment), so they
+  // only need the plain "are you logged in" check, not slug-correction.
+  if (UNSCOPED_APP_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`))) {
+    const token = request.cookies.get("access_token")?.value;
+    if (!token) {
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("next", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+    return NextResponse.next();
+  }
+
   const [, agencySlug, section] = pathname.split("/");
   const isDashboardRoute = DASHBOARD_SECTIONS.includes(section);
   if (!isDashboardRoute) return NextResponse.next();
@@ -84,5 +99,6 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next|api|favicon.ico|icon.svg|apple-icon.png).*)"],
+  // docs-media: the docs' screenshots, fetched by the image optimizer without cookies.
+  matcher: ["/((?!_next|api|docs-media|favicon.ico|icon.svg|apple-icon.png).*)"],
 };

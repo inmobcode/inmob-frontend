@@ -2,6 +2,7 @@
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  BookOpen,
   Building2,
   CalendarDays,
   CornerDownLeft,
@@ -40,8 +41,8 @@ import { clearSession, getAccessToken, useSessionUser } from "@/lib/auth/session
 import { useActionBarStore } from "@/lib/store/action-bar-store";
 import { cn } from "@/lib/utils";
 
-// Only login lives outside the agency-scoped dashboard tree.
-const BARE_PATHS = new Set(["/login"]);
+// The docs and login live outside the agency-scoped dashboard tree.
+const BARE_PATHS = new Set(["/docs", "/login"]);
 // Equipo, Configuración and Portal are OWNER/ADMIN territory — see sidebar.tsx.
 const RESTRICTED_PATHS = new Set(["/team", "/settings", "/portal"]);
 
@@ -263,6 +264,17 @@ function CommandPalette({
         hint: "G M",
         icon: UserRound,
         run: go("/profile"),
+      },
+      {
+        id: "go-docs",
+        group: "Ir a",
+        label: "Documentación",
+        icon: BookOpen,
+        // Opens beside the dashboard, so reading it never loses your place.
+        run: () => {
+          close();
+          window.open("/docs", "_blank", "noopener");
+        },
       },
       {
         id: "new-property",
