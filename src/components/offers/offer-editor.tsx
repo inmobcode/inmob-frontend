@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Copy, Hand, Home, Link2, Plus, Settings2, UserRound } from "lucide-react";
+import { Copy, Hand, Home, Link2, Plus, Settings2, Sparkles, UserRound } from "lucide-react";
 import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 import { OperationPicker } from "@/components/offers/offer-operation";
+import { OfferServicesSection, serviceLineTotal } from "@/components/offers/offer-services";
 import { OfferStatusPill } from "@/components/offers/offer-status-pill";
 import {
   emptyOfferProperty,
@@ -63,6 +64,32 @@ const schema = z.object({
   welcomeDateLabel: z.string(),
   welcomeContent: z.string(),
   clientId: z.string(),
+  services: z.array(
+    z.object({
+      serviceId: z.string(),
+      name: z.string().min(1),
+      type: z.enum([
+        "BUTLER",
+        "CHEF",
+        "YACHT",
+        "TRANSFER",
+        "CAR",
+        "EXCURSION",
+        "SPA",
+        "BABYSITTER",
+        "HOUSEKEEPING",
+        "EVENT",
+        "OTHER",
+      ]),
+      description: z.string(),
+      imageUrl: z.string(),
+      unit: z.enum(["SERVICE", "PERSON", "DAY", "NIGHT", "HOUR"]),
+      unitPrice: z.string(),
+      quantity: z.string(),
+      date: z.string(),
+      note: z.string(),
+    }),
+  ),
   sections: z.array(offerSectionSchema),
 });
 
@@ -79,6 +106,18 @@ function toFormValues(offer: Offer): FormValues {
     welcomeDateLabel: offer.welcomeDateLabel ?? "",
     welcomeContent: offer.welcomeContent ?? "",
     clientId: offer.clientId ?? "",
+    services: (offer.services ?? []).map((item) => ({
+      serviceId: item.serviceId ?? "",
+      name: item.name,
+      type: item.type,
+      description: item.description ?? "",
+      imageUrl: item.imageUrl ?? "",
+      unit: item.unit,
+      unitPrice: item.unitPrice != null ? String(item.unitPrice) : "",
+      quantity: String(item.quantity),
+      date: item.date ?? "",
+      note: item.note ?? "",
+    })),
     sections: offer.sections.map((section) => ({
       title: section.title ?? "",
       text: section.text ?? "",
@@ -105,6 +144,18 @@ function toPayload(values: FormValues): SaveOfferPayload {
     welcomeDateLabel: values.welcomeDateLabel || null,
     welcomeContent: values.welcomeContent || null,
     clientId: values.clientId || null,
+    services: values.services.map((item) => ({
+      serviceId: item.serviceId || null,
+      name: item.name,
+      type: item.type,
+      description: item.description || null,
+      imageUrl: item.imageUrl || null,
+      unit: item.unit,
+      unitPrice: item.unitPrice.trim() !== "" && !Number.isNaN(Number(item.unitPrice)) ? Number(item.unitPrice) : null,
+      quantity: Math.max(Number.parseInt(item.quantity, 10) || 1, 1),
+      date: item.date || null,
+      note: item.note.trim() || null,
+    })),
     sections: values.sections.map((section) => ({
       title: section.title || null,
       text: section.text || null,
@@ -130,12 +181,14 @@ const TAB_GROUPS: SectionGroup[] = [
   { label: "General", tabs: [{ value: "general", label: "General", icon: Settings2 }] },
   { label: "Bienvenida", tabs: [{ value: "bienvenida", label: "Bienvenida", icon: Hand }] },
   { label: "Propiedades", tabs: [{ value: "propiedades", label: "Propiedades", icon: Home }] },
+  { label: "Servicios", tabs: [{ value: "servicios", label: "Servicios", icon: Sparkles }] },
 ];
 
 /** The tab holding the first invalid field, so a failed save shows the error. */
 function tabWithError(errors: FieldErrors<FormValues>): string | null {
   if (errors.title || errors.operation || errors.currency) return "general";
   if (errors.sections) return "propiedades";
+  if (errors.services) return "servicios";
   return null;
 }
 
@@ -323,6 +376,8 @@ export function OfferEditor({ offerId }: { offerId: string }) {
     (sum, item) => sum + (linePrice(item, allProperties.find((entry) => entry.id === item.propertyId)).final ?? 0),
     0,
   );
+  const offerServices = useWatch({ control: form.control, name: "services" }) ?? [];
+  const servicesTotal = offerServices.reduce((sum, item) => sum + (serviceLineTotal(item) ?? 0), 0);
 
   if (isLoading || !offer || !formFilled) {
     return (
@@ -532,6 +587,16 @@ export function OfferEditor({ offerId }: { offerId: string }) {
               </div>
             </Section>
           </TabsContent>
+
+          <TabsContent value="servicios" className="mt-0">
+            <Section
+              title="Servicios"
+              description="Experiencias y servicios de tu librería, con el precio, la cantidad y la fecha para este cliente."
+              shown
+            >
+              <OfferServicesSection control={form.control} currency={currency} />
+            </Section>
+          </TabsContent>
         </div>
       </Tabs>
 
@@ -552,18 +617,34 @@ export function OfferEditor({ offerId }: { offerId: string }) {
 
           {/* Rentals are options to choose from, priced per night: adding them up says nothing. */}
           {operation === "RENT" ? (
-            <p className="text-sm text-muted-foreground">
-              {lines.length} {lines.length === 1 ? "propiedad" : "propiedades"} en {sectionFields.length}{" "}
-              {sectionFields.length === 1 ? "sección" : "secciones"}
-            </p>
+            <div className="flex flex-col gap-1">
+              <p className="text-sm text-muted-foreground">
+                {lines.length} {lines.length === 1 ? "propiedad" : "propiedades"} en {sectionFields.length}{" "}
+                {sectionFields.length === 1 ? "sección" : "secciones"}
+              </p>
+              {offerServices.length > 0 && (
+                <p className="text-sm text-muted-foreground">
+                  {offerServices.length} {offerServices.length === 1 ? "servicio" : "servicios"}
+                  {servicesTotal > 0 && (
+                    <>
+                      {" "}
+                      por{" "}
+                      <span className="font-medium text-foreground tabular-nums">
+                        {currency} {servicesTotal.toLocaleString("es-AR", { maximumFractionDigits: 0 })}
+                      </span>
+                    </>
+                  )}
+                </p>
+              )}
+            </div>
           ) : (
             <div className="flex flex-col gap-1">
               <p className="text-sm text-muted-foreground">Total de la oferta</p>
-              {lines.length > 0 && total > 0 ? (
+              {total + servicesTotal > 0 ? (
                 <p className="tabular-nums">
                   <span className="mr-1.5 text-sm font-medium text-muted-foreground">{currency}</span>
                   <span className="text-4xl font-semibold tracking-tight">
-                    {total.toLocaleString("es-AR", { maximumFractionDigits: 0 })}
+                    {(total + servicesTotal).toLocaleString("es-AR", { maximumFractionDigits: 0 })}
                   </span>
                 </p>
               ) : (
@@ -572,6 +653,8 @@ export function OfferEditor({ offerId }: { offerId: string }) {
               <p className="text-sm text-muted-foreground">
                 {lines.length} {lines.length === 1 ? "propiedad" : "propiedades"} en {sectionFields.length}{" "}
                 {sectionFields.length === 1 ? "sección" : "secciones"}
+                {offerServices.length > 0 &&
+                  ` y ${offerServices.length} ${offerServices.length === 1 ? "servicio" : "servicios"}`}
               </p>
             </div>
           )}

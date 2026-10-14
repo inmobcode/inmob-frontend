@@ -8,6 +8,7 @@ const DASHBOARD_SECTIONS = [
   "clients",
   "inquiries",
   "bookings",
+  "services",
   "team",
   "settings",
   "profile",

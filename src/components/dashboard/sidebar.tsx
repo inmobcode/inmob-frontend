@@ -10,6 +10,7 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   Settings,
+  Sparkles,
   Tag,
   Users,
   UsersRound,
@@ -83,6 +84,7 @@ function navItemsFor(agencySlug: string, role: string | undefined): NavItem[] {
     { href: `/${agencySlug}/clients`, label: "Clientes", icon: Users },
     { href: `/${agencySlug}/inquiries`, label: "Consultas", icon: Inbox },
     { href: `/${agencySlug}/bookings`, label: "Reservas", icon: CalendarDays },
+    { href: `/${agencySlug}/services`, label: "Servicios", icon: Sparkles },
   ];
   if (role && role !== "AGENT") {
     items.push(

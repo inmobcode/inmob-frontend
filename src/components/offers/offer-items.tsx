@@ -20,8 +20,26 @@ import {
 } from "@/components/ui/select";
 import type { DiscountType, OfferOperation } from "@/lib/api/offers";
 import type { Property } from "@/lib/api/properties";
+import type { ServiceType, ServiceUnit } from "@/lib/api/services";
 import { DISCOUNT_TYPE_LABELS } from "@/lib/properties-labels";
 import { cn } from "@/lib/utils";
+
+/** A service in the offer form; numbers stay as typed text until saving. */
+export interface OfferServiceFormValue {
+  /** "" when it didn't come from the library (or it was deleted). */
+  serviceId: string;
+  name: string;
+  type: ServiceType;
+  description: string;
+  imageUrl: string;
+  unit: ServiceUnit;
+  /** "" = a consultar. */
+  unitPrice: string;
+  quantity: string;
+  /** yyyy-MM-dd or "". */
+  date: string;
+  note: string;
+}
 
 /** The shape of the offer form that these pieces read and write. */
 export interface OfferFormValues {
@@ -35,6 +53,7 @@ export interface OfferFormValues {
   welcomeContent: string;
   /** "" = no client. */
   clientId: string;
+  services: OfferServiceFormValue[];
   sections: {
     title: string;
     text: string;

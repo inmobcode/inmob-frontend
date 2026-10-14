@@ -5,8 +5,14 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { OfferInquiryForm } from "@/components/offers/offer-inquiry-form";
 import { OfferPropertyCard } from "@/components/offers/offer-property-card";
+import { ServiceTypeIcon } from "@/components/services/service-type-icon";
 import type { Offer } from "@/lib/api/offers";
 import { richTextHtml } from "@/lib/rich-text";
+import { SERVICE_TYPE_LABELS, formatMoney, unitCount, unitPer } from "@/lib/service-labels";
+
+// Dates come as yyyy-MM-dd: read them as a calendar day, not a UTC instant.
+const longDate = (iso: string) =>
+  new Date(`${iso}T12:00:00`).toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long" });
 
 export function SharedOfferView({ initialOffer: offer }: { initialOffer: Offer }) {
   const [showContactForm, setShowContactForm] = useState(false);
@@ -39,9 +45,9 @@ export function SharedOfferView({ initialOffer: offer }: { initialOffer: Offer }
         )}
 
         {/* Rentals are options priced per night, as in the editor: adding them up says nothing. */}
-        {offer.total != null && offer.showPrice && offer.operation !== "RENT" && (
+        {offer.showPrice && offer.operation !== "RENT" && (offer.total != null || offer.servicesTotal != null) && (
           <p className="mt-6 text-xl font-semibold">
-            Total: {offer.currency} {offer.total.toLocaleString("es-AR", { maximumFractionDigits: 0 })}
+            Total: {formatMoney(offer.currency, (offer.total ?? 0) + (offer.servicesTotal ?? 0))}
           </p>
         )}
 
@@ -63,6 +69,70 @@ export function SharedOfferView({ initialOffer: offer }: { initialOffer: Offer }
             </div>
           ))}
         </div>
+
+        {(offer.services ?? []).length > 0 && (
+          <section className="mt-12 border-t pt-10">
+            <div className="flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <h2 className="text-lg font-medium">Servicios y experiencias</h2>
+                <p className="mt-1 text-sm text-zinc-500">Para sumar a tu estadía.</p>
+              </div>
+              {offer.servicesTotal != null && (
+                <p className="text-sm text-zinc-500">
+                  Subtotal{" "}
+                  <span className="font-semibold text-zinc-900 tabular-nums dark:text-zinc-100">
+                    {formatMoney(offer.currency, offer.servicesTotal)}
+                  </span>
+                </p>
+              )}
+            </div>
+            <ul className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {offer.services.map((item) => {
+                const per = unitPer(item.unit);
+                return (
+                  <li key={item.id} className="flex gap-4 overflow-hidden rounded-lg border p-3">
+                    <div className="flex size-24 shrink-0 items-center justify-center overflow-hidden rounded-md bg-zinc-100 text-zinc-400 dark:bg-zinc-900">
+                      {item.imageUrl ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={item.imageUrl} alt="" className="size-full object-cover" />
+                      ) : (
+                        <ServiceTypeIcon type={item.type} className="size-7" strokeWidth={1.5} />
+                      )}
+                    </div>
+                    <div className="flex min-w-0 flex-1 flex-col gap-1">
+                      <p className="flex items-center gap-1.5 text-xs text-zinc-500">
+                        <ServiceTypeIcon type={item.type} className="size-3.5" />
+                        {SERVICE_TYPE_LABELS[item.type]}
+                      </p>
+                      <h3 className="font-medium break-words">{item.name}</h3>
+                      {item.description && <p className="text-sm break-words text-zinc-600 dark:text-zinc-400">{item.description}</p>}
+                      {item.date && <p className="text-xs text-zinc-500 first-letter:uppercase">{longDate(item.date)}</p>}
+                      {item.note && <p className="text-xs break-words text-zinc-500">{item.note}</p>}
+                      <p className="mt-auto pt-1 text-sm tabular-nums">
+                        {item.total != null && item.unitPrice != null ? (
+                          <>
+                            <span className="font-semibold">{formatMoney(offer.currency, item.total)}</span>
+                            {(item.quantity > 1 || per) && (
+                              <span className="text-zinc-500">
+                                {" "}
+                                · {unitCount(item.unit, item.quantity)}
+                                {per && ` a ${formatMoney(offer.currency, item.unitPrice)} ${per}`}
+                              </span>
+                            )}
+                          </>
+                        ) : (
+                          <span className="text-zinc-500">
+                            {offer.showPrice ? "Precio a consultar" : unitCount(item.unit, item.quantity)}
+                          </span>
+                        )}
+                      </p>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        )}
 
         {offer.status === "EXPIRED" && (
           <p className="mt-10 text-sm text-zinc-500">Esta oferta venció.</p>

@@ -1,5 +1,6 @@
 import { apiFetch } from "./client";
 import type { Property } from "./properties";
+import type { ServiceType, ServiceUnit } from "./services";
 
 export type OfferStatus = "DRAFT" | "SENT" | "VIEWED" | "EXPIRED";
 /** Which properties the offer holds: only for sale, only for rent, or both. */
@@ -53,10 +54,45 @@ export interface Offer {
   clientPhone: string | null;
   sections: OfferSection[];
   total: number | null;
+  /** Services and experiences added to the offer, each with its own copy of the details. */
+  services: OfferServiceItem[];
+  /** What the priced services add up to; null when none is priced or prices are hidden. */
+  servicesTotal: number | null;
   createdAt: string;
   updatedAt: string;
   /** Set while it's in the trash. */
   deletedAt?: string | null;
+}
+
+export interface OfferServiceItem {
+  id: string;
+  /** The library entry it came from; null if it was deleted. Not sent publicly. */
+  serviceId?: string | null;
+  name: string;
+  type: ServiceType;
+  description: string | null;
+  imageUrl: string | null;
+  unit: ServiceUnit;
+  quantity: number;
+  /** yyyy-MM-dd */
+  date: string | null;
+  note: string | null;
+  /** Null: "a consultar" (or hidden on the public page). */
+  unitPrice: number | null;
+  total: number | null;
+}
+
+export interface OfferServiceInput {
+  serviceId?: string | null;
+  name: string;
+  type: ServiceType;
+  description?: string | null;
+  imageUrl?: string | null;
+  unit: ServiceUnit;
+  unitPrice?: number | null;
+  quantity: number;
+  date?: string | null;
+  note?: string | null;
 }
 
 export interface OfferPropertyInput {
@@ -90,6 +126,7 @@ export interface SaveOfferPayload {
   clientEmail?: string | null;
   clientPhone?: string | null;
   sections?: OfferSectionInput[];
+  services?: OfferServiceInput[];
 }
 
 export function listOffers(token: string) {
