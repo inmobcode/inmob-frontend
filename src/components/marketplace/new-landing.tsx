@@ -363,34 +363,9 @@ export function NewLanding({ facets }: { facets: MarketplaceFacets }) {
       </section>
 
       <main className="flex-1">
-        {/* Ways in: by type and by place, both straight into the results. */}
-        {(facets.categories.length > 0 || facets.zones.length > 0) && (
+        {/* A way in by place, straight into the results. */}
+        {facets.zones.length > 0 && (
           <section className={cn(WRAP, "flex flex-col gap-12 py-14 lg:py-20")}>
-            {facets.categories.length > 0 && (
-              <div className="flex flex-col gap-4">
-                <h2 className="font-display text-2xl tracking-tight">Por tipo</h2>
-                <div className="flex flex-wrap gap-2">
-                  {facets.categories.map((entry) => {
-                    const on = query.category === entry.value;
-                    return (
-                      <button
-                        key={entry.value}
-                        type="button"
-                        aria-pressed={on}
-                        onClick={() => go({ ...query, category: on ? undefined : entry.value })}
-                        className={cn(
-                          "inline-flex h-10 items-center gap-2 rounded-full border px-4 text-sm transition-colors outline-none focus-visible:ring-3 focus-visible:ring-forest/30",
-                          on ? "border-forest bg-forest text-paper" : "border-line hover:border-ink",
-                        )}
-                      >
-                        {categoryLabel(entry.value)}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
             {facets.zones.length > 0 && (
               <div className="flex flex-col gap-4">
                 <h2 className="font-display text-2xl tracking-tight">Por destino</h2>
