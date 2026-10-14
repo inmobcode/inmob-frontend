@@ -26,21 +26,28 @@ function bandMask(
   return `linear-gradient(${direction}, ${stops.join(", ")})`;
 }
 
-/** A soft progressive blur along the top or bottom edge, shown while there is content past that edge. */
-function BlurEdge({
+/**
+ * A soft progressive blur along the top or bottom edge, shown while there is
+ * content past that edge. `fixed` pins it to the window instead of a scroller.
+ */
+export function BlurEdge({
   edge,
   visible,
+  fixed = false,
 }: {
   edge: "top" | "bottom";
   visible: boolean;
+  fixed?: boolean;
 }) {
   const direction = edge === "top" ? "to top" : "to bottom";
   return (
     <div
       aria-hidden
       className={cn(
-        "pointer-events-none sticky shrink-0 transition-opacity duration-500 ease-out",
-        edge === "top" ? "top-0 z-10 -mb-24 h-24" : "bottom-0 z-20 -mt-28 h-28",
+        "pointer-events-none shrink-0 transition-opacity duration-500 ease-out",
+        fixed
+          ? cn("fixed inset-x-0 z-30", edge === "top" ? "top-0 h-28" : "bottom-0 h-28")
+          : cn("sticky", edge === "top" ? "top-0 z-10 -mb-24 h-24" : "bottom-0 z-20 -mt-28 h-28"),
         visible ? "opacity-100" : "opacity-0",
       )}
     >

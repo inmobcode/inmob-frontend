@@ -7,8 +7,9 @@ import { ArrowUpRight, List, Map as MapIcon, SearchX, X } from "lucide-react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import { BlurEdge } from "@/components/dashboard/scroll-panel";
 import { LogoIcon } from "@/components/logo-icon";
 import { ListingCard } from "@/components/marketplace/listing-card";
 import { SearchPanel } from "@/components/marketplace/search-panel";
@@ -77,11 +78,36 @@ export function NewLanding({ facets }: { facets: MarketplaceFacets }) {
   const query = useMemo(() => readQuery(new URLSearchParams(searchParams.toString())), [searchParams]);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [showMap, setShowMap] = useState(false);
+  const heroSearchRef = useRef<HTMLDivElement>(null);
+  // The hero's search is out of view: the compact one takes over, with the top blur under it.
+  const [pinned, setPinned] = useState(false);
+  const [moreBelow, setMoreBelow] = useState(true);
+
+  useEffect(() => {
+    const target = heroSearchRef.current;
+    if (!target) return;
+    const observer = new IntersectionObserver(([entry]) =>
+      setPinned(!entry.isIntersecting && entry.boundingClientRect.top < 0),
+    );
+    observer.observe(target);
+    function onScroll() {
+      const root = document.documentElement;
+      setMoreBelow(root.scrollHeight - window.scrollY - window.innerHeight > 8);
+    }
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
 
   const {
     data: results,
     isLoading,
-    isFetching,
+    isPlaceholderData,
   } = useQuery({
     queryKey: ["marketplace", query],
     queryFn: () => searchMarketplace(query),
@@ -135,6 +161,28 @@ export function NewLanding({ facets }: { facets: MarketplaceFacets }) {
 
   return (
     <div className="landing flex min-h-svh flex-1 flex-col">
+      <BlurEdge edge="top" visible={pinned} fixed />
+      {/* Only over the paper sections: on the green hero it would read as a haze. */}
+      <BlurEdge edge="bottom" visible={pinned && moreBelow} fixed />
+      {/* The search follows you once the hero's is gone. */}
+      <div
+        aria-hidden={!pinned}
+        inert={!pinned}
+        className={cn(
+          "fixed inset-x-0 top-3 z-40 px-3 transition-[opacity,transform] duration-300 ease-out sm:top-4 sm:px-8",
+          pinned ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-6 opacity-0",
+        )}
+      >
+        <div className="mx-auto max-w-6xl">
+          <SearchPanel
+            key={`bar-${writeQuery(query)}`}
+            compact
+            facets={facets}
+            value={query}
+            onSearch={(next) => go(next)}
+          />
+        </div>
+      </div>
       {/* Hero: the forest block holds the one decision that matters, the search. */}
       <section className="bg-forest text-paper">
         <header className={cn(WRAP, "flex h-16 items-center justify-between gap-4")}>
@@ -193,7 +241,9 @@ export function NewLanding({ facets }: { facets: MarketplaceFacets }) {
               </div>
             )}
           </div>
-          <SearchPanel key={writeQuery(query)} facets={facets} value={query} onSearch={(next) => go(next)} />
+          <div ref={heroSearchRef}>
+            <SearchPanel key={writeQuery(query)} facets={facets} value={query} onSearch={(next) => go(next)} />
+          </div>
         </div>
       </section>
 
@@ -219,7 +269,6 @@ export function NewLanding({ facets }: { facets: MarketplaceFacets }) {
                         )}
                       >
                         {categoryLabel(entry.value)}
-                        <span className={cn("tabular-nums", on ? "text-paper/60" : "text-quiet")}>{entry.count}</span>
                       </button>
                     );
                   })}
@@ -251,10 +300,11 @@ export function NewLanding({ facets }: { facets: MarketplaceFacets }) {
                         </span>
                         <span className="flex flex-col">
                           <span className="font-medium">{zone.name}</span>
-                          <span className="text-sm text-quiet">
-                            {zone.count} {zone.count === 1 ? "propiedad" : "propiedades"}
-                            {zone.country && ` · ${zone.country}`}
-                          </span>
+                          {(zone.region || zone.country) && (
+                            <span className="text-sm text-quiet">
+                              {[zone.region, zone.country].filter(Boolean).join(", ")}
+                            </span>
+                          )}
                         </span>
                       </button>
                     </li>
@@ -271,7 +321,7 @@ export function NewLanding({ facets }: { facets: MarketplaceFacets }) {
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div className="flex flex-col gap-1">
                 <h2 className="font-display text-3xl tracking-tight">
-                  {filtered ? `${count} ${count === 1 ? "propiedad" : "propiedades"}` : "Recién publicadas"}
+                  {filtered ? "Resultados" : "Recién publicadas"}
                 </h2>
                 <p className="text-quiet">
                   {query.checkIn && query.checkOut
@@ -334,7 +384,7 @@ export function NewLanding({ facets }: { facets: MarketplaceFacets }) {
 
             <div className={cn(showMap && "grid gap-6 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)]")}>
               <div
-                className={cn(showMap && "max-lg:hidden", isFetching && !isLoading && "opacity-60 transition-opacity")}
+                className={cn(showMap && "max-lg:hidden", isPlaceholderData && "opacity-60 transition-opacity")}
               >
                 {isLoading ? (
                   <div className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">

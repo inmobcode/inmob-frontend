@@ -17,10 +17,11 @@ const PRICE_CAPS = [100000, 200000, 300000, 500000, 1000000];
 type Operation = "RENT" | "SALE";
 
 /** A labeled cell of the search ticket; on desktop the cells sit in one row split by hairlines. */
-function Cell({ label, children, className }: { label: string; children: React.ReactNode; className?: string }) {
+function Cell({ label, children, compact = false }: { label: string; children: React.ReactNode; compact?: boolean }) {
   return (
-    <div className={cn("flex min-w-0 flex-col gap-1.5 px-1 py-2 lg:px-4 lg:py-1", className)}>
-      <span className="px-1 text-xs font-medium text-quiet">{label}</span>
+    <div className={cn("flex min-w-0 flex-col gap-1.5 px-1 py-2 lg:px-4 lg:py-1", compact && "lg:px-1.5 lg:py-0")}>
+      {/* The compact bar keeps the label for screen readers only; its fields speak for themselves. */}
+      <span className={cn("px-1 text-xs font-medium text-quiet", compact && "lg:sr-only")}>{label}</span>
       {children}
     </div>
   );
@@ -49,7 +50,13 @@ function GuestsField({ value, onChange }: { value: number; onChange: (value: num
             <span className="text-sm text-quiet">Contando chicos</span>
           </div>
           <div className="flex items-center gap-3">
-            <button type="button" aria-label="Uno menos" className={stepper} disabled={value <= 0} onClick={() => onChange(value - 1)}>
+            <button
+              type="button"
+              aria-label="Uno menos"
+              className={stepper}
+              disabled={value <= 0}
+              onClick={() => onChange(value - 1)}
+            >
               <Minus className="size-4" />
             </button>
             <span className="w-5 text-center tabular-nums">{value}</span>
@@ -78,10 +85,13 @@ export function SearchPanel({
   facets,
   value,
   onSearch,
+  compact = false,
 }: {
   facets: MarketplaceFacets;
   value: MarketplaceQuery;
   onSearch: (query: MarketplaceQuery) => void;
+  /** The sticky bar: tighter, translucent, labels hidden on desktop. */
+  compact?: boolean;
 }) {
   const [operation, setOperation] = useState<Operation>(value.operation ?? "RENT");
   const [zone, setZone] = useState(value.zone ?? "");
@@ -113,32 +123,38 @@ export function SearchPanel({
     );
   }
 
-  const operations: { value: Operation; label: string; count: number }[] = [
-    { value: "RENT", label: "Alquiler temporario", count: facets.operations.RENT },
-    { value: "SALE", label: "Comprar", count: facets.operations.SALE },
+  const operations: { value: Operation; label: string }[] = [
+    { value: "RENT", label: "Alquiler temporario" },
+    { value: "SALE", label: "Comprar" },
   ];
 
   return (
     <form onSubmit={submit}>
-      <div className="grid gap-1 rounded-[1.75rem] bg-paper p-3 text-ink shadow-[0_30px_60px_-30px_rgba(0,0,0,0.5)] lg:grid-cols-[1fr_1.2fr_1.3fr_1fr_auto] lg:items-end lg:divide-x lg:divide-line lg:p-3">
-        <Cell label="Busco">
+      <div
+        className={cn(
+          "grid gap-1 text-ink lg:grid-cols-[1fr_1.2fr_1.3fr_1fr_auto] lg:items-end",
+          compact
+            ? // The dashboard's floating bar: glass over whatever scrolls under it.
+              "rounded-[1.75rem] bg-paper/45 p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_16px_40px_-12px_rgba(15,53,36,0.35)] ring-1 ring-ink/[0.07] backdrop-blur-xl backdrop-saturate-200 lg:items-center lg:rounded-full lg:p-1.5"
+            : "rounded-[1.75rem] bg-paper p-3 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.5)] lg:divide-x lg:divide-line lg:p-3",
+        )}
+      >
+        <Cell compact={compact} label="Busco">
           <Select value={operation} onValueChange={(next) => setOperation(next as Operation)}>
             <SelectTrigger aria-label="Qué buscás" className={TRIGGER}>
-              {/* The counts are for the list; the field shows just the choice. */}
-              <SelectValue>{operations.find((option) => option.value === operation)?.label}</SelectValue>
+              <SelectValue />
             </SelectTrigger>
             <SelectContent className="landing">
               {operations.map((option) => (
                 <SelectItem key={option.value} value={option.value}>
                   {option.label}
-                  <span className="text-quiet tabular-nums">{option.count}</span>
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
         </Cell>
 
-        <Cell label="Dónde">
+        <Cell compact={compact} label="Dónde">
           <Select value={zone || ANY} onValueChange={(next) => setZone(next === ANY ? "" : next)}>
             <SelectTrigger aria-label="Dónde" className={TRIGGER}>
               <SelectValue />
@@ -157,7 +173,7 @@ export function SearchPanel({
 
         {operation === "RENT" ? (
           <>
-            <Cell label="Cuándo">
+            <Cell compact={compact} label="Cuándo">
               <DateRangePicker
                 start={checkIn}
                 end={checkOut}
@@ -169,13 +185,13 @@ export function SearchPanel({
                 }}
               />
             </Cell>
-            <Cell label="Quiénes">
+            <Cell compact={compact} label="Quiénes">
               <GuestsField value={guests} onChange={setGuests} />
             </Cell>
           </>
         ) : (
           <>
-            <Cell label="Qué">
+            <Cell compact={compact} label="Qué">
               <Select value={category || ANY} onValueChange={(next) => setCategory(next === ANY ? "" : next)}>
                 <SelectTrigger aria-label="Tipo de propiedad" className={TRIGGER}>
                   <SelectValue />
@@ -190,7 +206,7 @@ export function SearchPanel({
                 </SelectContent>
               </Select>
             </Cell>
-            <Cell label="Hasta">
+            <Cell compact={compact} label="Hasta">
               <Select value={maxPrice || ANY} onValueChange={(next) => setMaxPrice(next === ANY ? "" : next)}>
                 <SelectTrigger aria-label="Precio máximo" className={TRIGGER}>
                   <SelectValue />
@@ -208,10 +224,13 @@ export function SearchPanel({
           </>
         )}
 
-        <div className="pt-2 lg:pt-0 lg:pl-3">
+        <div className={cn("pt-2 lg:pt-0", compact ? "lg:pl-1" : "lg:pl-3")}>
           <button
             type="submit"
-            className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-lime px-6 font-medium text-forest-deep transition-[filter] outline-none hover:brightness-95 focus-visible:ring-3 focus-visible:ring-forest/40 lg:h-14"
+            className={cn(
+              "inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-lime px-6 font-medium text-forest-deep transition-[filter] outline-none hover:brightness-95 focus-visible:ring-3 focus-visible:ring-forest/40",
+              compact ? "lg:h-11" : "lg:h-14",
+            )}
           >
             <Search className="size-4" />
             Buscar
