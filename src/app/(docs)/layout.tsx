@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
+
 import { SessionWatcher } from "@/components/auth/session-watcher";
 import { DocsHeader } from "@/components/docs/docs-header";
+
+export const metadata: Metadata = {
+  title: "Documentación",
+  robots: { index: false, follow: false },
+};
 
 /**
  * The dashboard's documentation, on its own page without the sidebar so it

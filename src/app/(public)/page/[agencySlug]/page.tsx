@@ -15,7 +15,8 @@ export async function generateMetadata({
   const agency = await loadAgency(agencySlug);
   const site = resolveSite(agency.site);
   return {
-    title: agency.name,
+    // Absolute: this is the agency's own public site, not a Tivvo surface.
+    title: { absolute: agency.name },
     description:
       site.heroSubtitle ?? `Propiedades en venta y alquiler de ${agency.name}.`,
     openGraph: site.coverUrl ? { images: [site.coverUrl] } : undefined,

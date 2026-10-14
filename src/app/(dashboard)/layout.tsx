@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { cookies } from "next/headers";
 
 import { SessionWatcher } from "@/components/auth/session-watcher";
@@ -6,6 +7,9 @@ import { SIDEBAR_COOKIE } from "@/lib/sidebar";
 import { Shortcuts } from "@/components/dashboard/shortcuts";
 import { ActionBar } from "@/components/dashboard/action-bar";
 import { PanelCorners, ScrollPanel } from "@/components/dashboard/scroll-panel";
+
+// Every section under here sets its own title; this is just the shared "keep out of search engines" default.
+export const metadata: Metadata = { robots: { index: false, follow: false } };
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   // The collapsed state lives in a cookie so the server renders the right

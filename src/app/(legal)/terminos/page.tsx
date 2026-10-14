@@ -4,7 +4,7 @@ import { LegalDocument, LegalLink, type LegalSection } from "@/components/legal/
 import { LEGAL_ENTITY } from "@/lib/legal";
 
 export const metadata: Metadata = {
-  title: "Términos y condiciones · Tivvo",
+  title: "Términos y condiciones",
   description:
     "Condiciones de uso de Tivvo, el sistema de gestión para agencias de venta y alquiler temporario.",
 };

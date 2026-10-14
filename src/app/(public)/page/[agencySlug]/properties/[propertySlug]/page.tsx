@@ -39,7 +39,8 @@ export async function generateMetadata({
   ]);
   const cover = coverPhoto(property);
   return {
-    title: `${property.title} · ${agency.name}`,
+    // Absolute: this is the agency's own public site, not a Tivvo surface.
+    title: { absolute: `${property.title} · ${agency.name}` },
     description:
       property.content?.summary ??
       `${categoryLabel(property.category)} en ${LISTING_TYPE_LABELS[property.listingType].toLowerCase()}.`,

@@ -5,7 +5,8 @@ import { NewLanding } from "@/components/marketplace/new-landing";
 import { getMarketplaceFacets, type MarketplaceFacets } from "@/lib/api/marketplace";
 
 export const metadata: Metadata = {
-  title: "Tivvo · Alquileres temporarios y propiedades en venta",
+  // Absolute: reads better without "· Tivvo" tacked on twice.
+  title: { absolute: "Tivvo · Alquileres temporarios y propiedades en venta" },
   description:
     "Casas, departamentos y villas de inmobiliarias reales. Elegí fechas, mirá qué está libre y consultá directo a quien la publica.",
   // Not the public landing right now: kept reachable for testing, out of the index.

@@ -105,7 +105,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Tivvo",
+  // Pages set their own short title ("Propiedades", "Ingresar", …) and get
+  // this suffix for free; only the root page (no override) shows "Tivvo" bare.
+  title: { default: "Tivvo", template: "%s · Tivvo" },
   description: "Plataforma de gestión para agencias",
 };
 

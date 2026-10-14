@@ -4,7 +4,7 @@ import { LegalDocument, LegalLink, type LegalSection } from "@/components/legal/
 import { LEGAL_ENTITY } from "@/lib/legal";
 
 export const metadata: Metadata = {
-  title: "Política de privacidad · Tivvo",
+  title: "Política de privacidad",
   description:
     "Qué datos personales trata Tivvo, para qué, con quién los comparte y cómo ejercer tus derechos.",
 };

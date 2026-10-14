@@ -35,7 +35,11 @@ const loadItem = cache(async (token: string, propertyId: string) => {
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { token, propertyId } = await params;
   const { offer, item } = await loadItem(token, propertyId);
-  return { title: `${item.property.title} · ${offer.title}`, robots: { index: false } };
+  return {
+    // Absolute: this is the agency's own offer link, not a Tivvo surface.
+    title: { absolute: `${item.property.title} · ${offer.title}` },
+    robots: { index: false },
+  };
 }
 
 // A fixed locale: the page renders on the server and in the browser, and both must print the same.

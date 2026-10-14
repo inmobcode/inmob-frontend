@@ -14,7 +14,8 @@ import {
 } from "@/components/landing/sections";
 
 export const metadata: Metadata = {
-  title: "Tivvo para inmobiliarias",
+  // Absolute: the home page reads better without "· Tivvo" tacked on twice.
+  title: { absolute: "Tivvo · Sistema de gestión para inmobiliarias" },
   description: "Sistema de gestión para agencias de venta y alquiler temporario.",
 };
 

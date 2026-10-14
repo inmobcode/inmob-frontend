@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
+
 import { SessionWatcher } from "@/components/auth/session-watcher";
+
+export const metadata: Metadata = {
+  title: "Portal",
+  robots: { index: false, follow: false },
+};
 
 /**
  * Full-screen tools that need the whole window (the portal editor), without
