@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { differenceInCalendarDays, format, parseISO } from "date-fns";
 import { es } from "date-fns/locale";
-import { ArrowUpRight, List, Map as MapIcon, SearchX, X } from "lucide-react";
+import { ArrowUpRight, Compass, List, Map as MapIcon, X } from "lucide-react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -71,6 +71,114 @@ function writeQuery(query: MarketplaceQuery) {
 }
 
 const shortDate = (iso: string) => format(parseISO(iso), "d MMM", { locale: es });
+
+/**
+ * Nothing matched. With a place that has nothing yet, it says so by name and
+ * points to the destinations that do; otherwise it suggests loosening filters.
+ */
+function EmptyResults({
+  query,
+  facets,
+  onSearch,
+}: {
+  query: MarketplaceQuery;
+  facets: MarketplaceFacets;
+  onSearch: (query: MarketplaceQuery) => void;
+}) {
+  const hasDates = Boolean(query.checkIn && query.checkOut);
+  const elsewhere = facets.zones.filter((zone) => zone.name !== query.zone && zone.coverUrl).slice(0, 4);
+  const button =
+    "inline-flex h-11 items-center gap-2 rounded-full px-5 text-sm font-medium outline-none focus-visible:ring-3 focus-visible:ring-forest/30";
+
+  return (
+    <div className="flex flex-col gap-10 border-y border-line py-12 lg:py-16">
+      <div className="flex max-w-2xl flex-col gap-4">
+        <span className="flex size-12 items-center justify-center rounded-full bg-forest text-lime">
+          <Compass className="size-5" />
+        </span>
+        <h3 className="font-display text-[clamp(1.75rem,3.2vw,2.5rem)] leading-tight tracking-tight text-balance">
+          {query.zone ? (
+            <>
+              Todavía no hay propiedades en {query.zone}.{" "}
+              <span className="text-quiet">{hasDates ? "Al menos no para esas fechas." : "Pronto puede haber."}</span>
+            </>
+          ) : (
+            <>
+              No hay nada con todo eso junto. <span className="text-quiet">Probá aflojar algún filtro.</span>
+            </>
+          )}
+        </h3>
+        <p className="text-quiet">
+          {query.zone
+            ? "Las inmobiliarias que publican en Tivvo todavía no tienen nada ahí. Mientras tanto, mirá los destinos donde sí hay."
+            : "Sacá algún filtro o cambiá las fechas y vas a ver más opciones."}
+        </p>
+        <div className="flex flex-wrap gap-2 pt-1">
+          {query.zone && (
+            <button
+              type="button"
+              onClick={() => onSearch({ ...query, zone: undefined })}
+              className={cn(button, "bg-forest text-paper hover:bg-forest-deep")}
+            >
+              Buscar en todos los destinos
+            </button>
+          )}
+          {hasDates && (
+            <button
+              type="button"
+              onClick={() => onSearch({ ...query, checkIn: undefined, checkOut: undefined })}
+              className={cn(button, "border border-line hover:border-ink")}
+            >
+              Probar sin fechas
+            </button>
+          )}
+          {!query.zone && !hasDates && (
+            <button
+              type="button"
+              onClick={() => onSearch({})}
+              className={cn(button, "bg-forest text-paper hover:bg-forest-deep")}
+            >
+              Ver todas las propiedades
+            </button>
+          )}
+        </div>
+      </div>
+
+      {elsewhere.length > 0 && (
+        <div className="flex flex-col gap-4">
+          <h4 className="text-sm font-medium text-quiet">Destinos con propiedades</h4>
+          <ul className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+            {elsewhere.map((zone) => (
+              <li key={zone.name}>
+                <button
+                  type="button"
+                  onClick={() => onSearch({ ...query, zone: zone.name })}
+                  className="group flex w-full flex-col gap-2 rounded-2xl text-left outline-none focus-visible:ring-3 focus-visible:ring-forest/30"
+                >
+                  <span className="block aspect-[4/3] overflow-hidden rounded-2xl bg-mist">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={zone.coverUrl!}
+                      alt=""
+                      loading="lazy"
+                      className="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                    />
+                  </span>
+                  <span className="flex flex-col">
+                    <span className="font-medium">{zone.name}</span>
+                    {(zone.region || zone.country) && (
+                      <span className="text-sm text-quiet">{[zone.region, zone.country].filter(Boolean).join(", ")}</span>
+                    )}
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export function NewLanding({ facets }: { facets: MarketplaceFacets }) {
   const router = useRouter();
@@ -397,24 +505,7 @@ export function NewLanding({ facets }: { facets: MarketplaceFacets }) {
                     ))}
                   </div>
                 ) : count === 0 ? (
-                  <div className="flex flex-col items-start gap-4 border-y border-line py-14">
-                    <SearchX className="size-7 text-quiet" />
-                    <div className="flex flex-col gap-1">
-                      <p className="font-display text-2xl tracking-tight">No hay nada con todo eso junto</p>
-                      <p className="text-quiet">
-                        {query.checkIn
-                          ? "Probá con otras fechas o sacá algún filtro."
-                          : "Sacá algún filtro para ver más propiedades."}
-                      </p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => go({}, false)}
-                      className="inline-flex h-10 items-center rounded-full bg-forest px-5 text-sm font-medium text-paper hover:bg-forest-deep"
-                    >
-                      Ver todas
-                    </button>
-                  </div>
+                  <EmptyResults query={query} facets={facets} onSearch={(next) => go(next, false)} />
                 ) : (
                   <div
                     className={cn(

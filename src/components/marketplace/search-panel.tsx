@@ -3,6 +3,7 @@
 import { Minus, Plus, Search, Users } from "lucide-react";
 import { useState } from "react";
 
+import { DestinationField } from "@/components/marketplace/destination-field";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -107,7 +108,7 @@ export function SearchPanel({
       operation === "RENT"
         ? {
             operation,
-            zone: zone || undefined,
+            zone: zone.trim() || undefined,
             checkIn: checkIn || undefined,
             checkOut: checkOut || undefined,
             guests: guests || undefined,
@@ -115,7 +116,7 @@ export function SearchPanel({
           }
         : {
             operation,
-            zone: zone || undefined,
+            zone: zone.trim() || undefined,
             category: category || undefined,
             maxPrice: maxPrice ? Number(maxPrice) : undefined,
             sort: value.sort,
@@ -155,20 +156,7 @@ export function SearchPanel({
         </Cell>
 
         <Cell compact={compact} label="Dónde">
-          <Select value={zone || ANY} onValueChange={(next) => setZone(next === ANY ? "" : next)}>
-            <SelectTrigger aria-label="Dónde" className={TRIGGER}>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent className="landing">
-              <SelectItem value={ANY}>Cualquier lugar</SelectItem>
-              {facets.zones.map((entry) => (
-                <SelectItem key={entry.name} value={entry.name}>
-                  {entry.name}
-                  <span className="text-quiet">{[entry.region, entry.country].filter(Boolean).join(", ")}</span>
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <DestinationField value={zone} onChange={setZone} zones={facets.zones} />
         </Cell>
 
         {operation === "RENT" ? (
