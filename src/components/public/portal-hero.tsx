@@ -180,11 +180,14 @@ export function PortalHero({
   agency,
   site,
   search,
+  photos = [],
 }: {
   agency: PublicAgency;
   site: ResolvedSite;
   /** The search bar, rendered by the page so it shares the listing's filters. */
   search: (layout: "bar" | "stack") => React.ReactNode;
+  /** Cover photos of some listings, for the `mosaico` collage when the agency picked none. */
+  photos?: string[];
 }) {
   const subtitle = site.heroSubtitle && (
     <p className="max-w-xl text-lg text-pretty opacity-85">
@@ -221,6 +224,74 @@ export function PortalHero({
             </div>
           )}
         </div>
+      </section>
+    );
+  }
+
+  if (site.template === "dividido") {
+    // Edge to edge: the accent color holds the words, the cover photo the other half.
+    return (
+      <section className="grid lg:min-h-[clamp(32rem,70svh,44rem)] lg:grid-cols-2">
+        <div className="relative order-first aspect-[4/3] bg-site-surface lg:order-last lg:aspect-auto">
+          {site.coverUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={site.coverUrl} alt="" className="absolute inset-0 size-full object-cover" />
+          ) : (
+            <div className="flex size-full items-center justify-center p-10">
+              <AgencyMark agency={agency} />
+            </div>
+          )}
+        </div>
+        <div className="flex flex-col justify-center gap-6 bg-site-accent px-5 py-12 text-site-accent-ink sm:px-8 lg:py-16 lg:pr-14 lg:pl-[max(2rem,calc((100vw-72rem)/2+2rem))]">
+          <h1 className="s-heading text-[clamp(2.5rem,4.6vw,4.25rem)] leading-[1.02] text-balance">
+            {site.heroTitle}
+          </h1>
+          {subtitle}
+          <div className="text-site-ink">{search("stack")}</div>
+        </div>
+      </section>
+    );
+  }
+
+  if (site.template === "mosaico") {
+    // The photos the agency picked; without them, its listings' covers make the collage.
+    const picked = site.mosaicPhotos.length > 0 ? site.mosaicPhotos : photos;
+    const tiles = (picked.length > 0 ? picked : site.coverUrl ? [site.coverUrl] : []).slice(0, 4);
+    return (
+      <section className={cn(SITE_WRAP, "flex flex-col gap-8 py-10 lg:py-14")}>
+        <div className="flex flex-col gap-3">
+          <h1 className="s-heading max-w-4xl text-[clamp(2.5rem,5vw,4.5rem)] leading-[1.02] text-balance">
+            {site.heroTitle}
+          </h1>
+          {subtitle && <div className="text-site-quiet">{subtitle}</div>}
+        </div>
+        {tiles.length > 0 && (
+          <div
+            className={cn(
+              "grid h-[clamp(16rem,40vw,30rem)] gap-2 sm:gap-3",
+              tiles.length === 1 && "grid-cols-1",
+              tiles.length === 2 && "grid-cols-2",
+              tiles.length === 3 && "grid-cols-[2fr_1fr] grid-rows-2",
+              tiles.length === 4 && "grid-cols-2 grid-rows-2 sm:grid-cols-[2fr_1fr_1fr]",
+            )}
+          >
+            {tiles.map((url, index) => (
+              <div
+                key={url + index}
+                className={cn(
+                  "overflow-hidden rounded-xl bg-site-surface",
+                  tiles.length >= 3 && index === 0 && "row-span-2",
+                  tiles.length === 4 && index === 0 && "max-sm:col-span-2 max-sm:row-span-1",
+                  tiles.length === 4 && index === 3 && "sm:col-start-2 sm:col-span-2 max-sm:hidden",
+                )}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={url} alt="" className="size-full object-cover" />
+              </div>
+            ))}
+          </div>
+        )}
+        {search("bar")}
       </section>
     );
   }

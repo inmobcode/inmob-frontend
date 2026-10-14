@@ -297,13 +297,16 @@ export default function PortalEditorPage() {
               aria-labelledby={`tab-${tab}`}
               className="flex min-h-0 flex-1 flex-col gap-10 overflow-y-auto px-6 py-8"
             >
-              {tab === "design" && <DesignPanel draft={draft} set={set} />}
+              {tab === "design" && (
+                <DesignPanel draft={draft} set={set} viewport={viewport} onViewportChange={setViewport} />
+              )}
               {tab === "cover" && (
                 <CoverPanel
                   draft={draft}
                   set={set}
                   uploading={coverMutation.isPending}
                   onUpload={(file) => coverMutation.mutate(file)}
+                  properties={properties}
                 />
               )}
               {tab === "blocks" && (

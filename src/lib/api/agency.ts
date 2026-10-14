@@ -1,7 +1,15 @@
 import { apiFetch } from "./client";
 
-export type SiteTemplate = "portada" | "editorial" | "compacto";
-export type SiteFonts = "moderna" | "clasica" | "sobria";
+export type SiteTemplate = "portada" | "editorial" | "compacto" | "dividido" | "mosaico";
+export type SiteFonts =
+  | "moderna"
+  | "clasica"
+  | "sobria"
+  | "elegante"
+  | "editorial"
+  | "calida"
+  | "urbana"
+  | "arquitectonica";
 
 export type SiteSectionType =
   "location" | "promo" | "featured" | "destinations" | "text" | "cta";
@@ -61,11 +69,15 @@ export interface SiteSection {
 /** What an agency customized on its public site. Anything missing uses the defaults in `lib/site-theme.ts`. */
 export interface SiteSettings {
   template?: SiteTemplate;
+  /** The layout on phones; null or missing means the same as `template`. */
+  templateMobile?: SiteTemplate | null;
   accent?: string;
   fonts?: SiteFonts;
   heroTitle?: string | null;
   heroSubtitle?: string | null;
   coverUrl?: string | null;
+  /** The `mosaico` collage, in order (up to 4); empty uses the listings' cover photos. */
+  mosaicPhotos?: string[];
   about?: string | null;
   showAbout?: boolean;
   phone?: string | null;

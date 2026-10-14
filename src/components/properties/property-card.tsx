@@ -5,7 +5,13 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 
 import type { Property } from "@/lib/api/properties";
-import { ControlsZone, PropertyMenu, SelectToggle, type PropertyActions } from "@/components/properties/property-controls";
+import {
+  ControlsZone,
+  PropertyMenu,
+  SelectToggle,
+  ViewOnSiteButton,
+  type PropertyActions,
+} from "@/components/properties/property-controls";
 import { StatusPill } from "@/components/properties/status-pill";
 import { categoryLabel, LISTING_TYPE_LABELS } from "@/lib/properties-labels";
 import { parseApiDate } from "@/lib/dates";
@@ -118,7 +124,10 @@ export function PropertyCard({
               onToggle={onToggle}
               label={selected ? `Quitar ${property.title} de la selección` : `Seleccionar ${property.title}`}
             />
-            <PropertyMenu property={property} actions={actions} />
+            <div className="flex items-center gap-1.5">
+              <ViewOnSiteButton property={property} />
+              <PropertyMenu property={property} actions={actions} />
+            </div>
           </ControlsZone>
         )}
       </div>

@@ -3,8 +3,11 @@ import { resolveSite } from "@/lib/site-theme";
 
 /** Every setting the editor manages, with empty strings for "not set". */
 export type Draft = Required<{
-  [K in keyof SiteSettings]: NonNullable<SiteSettings[K]>;
-}>;
+  [K in Exclude<keyof SiteSettings, "templateMobile">]: NonNullable<SiteSettings[K]>;
+}> & {
+  /** "" while phones use the same layout as desktop. */
+  templateMobile: NonNullable<SiteSettings["templateMobile"]> | "";
+};
 
 export const HEX = /^#[0-9a-fA-F]{6}$/;
 
@@ -12,11 +15,13 @@ export function toDraft(site: SiteSettings | undefined): Draft {
   const resolved = resolveSite(site);
   return {
     template: resolved.template,
+    templateMobile: site?.templateMobile ?? "",
     accent: resolved.accent,
     fonts: resolved.fonts,
     heroTitle: site?.heroTitle ?? "",
     heroSubtitle: site?.heroSubtitle ?? "",
     coverUrl: site?.coverUrl ?? "",
+    mosaicPhotos: site?.mosaicPhotos ?? [],
     about: site?.about ?? "",
     showAbout: resolved.showAbout,
     phone: site?.phone ?? "",
@@ -32,11 +37,13 @@ export function toPayload(draft: Draft): SiteSettings {
   const text = (value: string) => (value.trim() ? value.trim() : null);
   return {
     template: draft.template,
+    templateMobile: draft.templateMobile && draft.templateMobile !== draft.template ? draft.templateMobile : null,
     accent: draft.accent,
     fonts: draft.fonts,
     heroTitle: text(draft.heroTitle),
     heroSubtitle: text(draft.heroSubtitle),
     coverUrl: text(draft.coverUrl),
+    mosaicPhotos: draft.mosaicPhotos,
     about: text(draft.about),
     showAbout: draft.showAbout,
     phone: text(draft.phone),

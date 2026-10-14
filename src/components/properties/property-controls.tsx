@@ -1,6 +1,6 @@
 "use client";
 
-import { Archive, Check, EyeOff, Globe, Minus, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import { Archive, Check, ExternalLink, EyeOff, Globe, Minus, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 
 import {
@@ -20,6 +20,39 @@ export interface PropertyActions {
   archive: (ids: string[]) => void;
   /** Asks for confirmation first; the page owns the dialog. */
   requestDelete: (ids: string[]) => void;
+}
+
+/** The property's page on the agency's public site; only published ones have one. */
+export function publicPropertyUrl(property: Property, agencySlug: string) {
+  return `/page/${property.agencySlug ?? agencySlug}/properties/${property.slug}`;
+}
+
+function openOnSite(property: Property, agencySlug: string) {
+  window.open(publicPropertyUrl(property, agencySlug), "_blank", "noopener");
+}
+
+/**
+ * Opens the published property on the agency's site in a new tab, straight
+ * from the list. A button rather than a link: it sits inside cards that are
+ * links themselves, whose controls zone cancels link navigation.
+ */
+export function ViewOnSiteButton({ property, className }: { property: Property; className?: string }) {
+  const { agencySlug } = useParams<{ agencySlug: string }>();
+  if (property.status !== "PUBLISHED") return null;
+  return (
+    <button
+      type="button"
+      aria-label={`Ver ${property.title} en el sitio`}
+      title="Ver en el sitio"
+      onClick={() => openOnSite(property, agencySlug)}
+      className={cn(
+        "flex size-8 shrink-0 items-center justify-center rounded-full bg-card/90 text-foreground backdrop-blur transition-colors outline-none hover:bg-card focus-visible:ring-3 focus-visible:ring-ring/50",
+        className,
+      )}
+    >
+      <ExternalLink className="size-4" />
+    </button>
+  );
 }
 
 /**
@@ -105,6 +138,12 @@ export function PropertyMenu({
           <Pencil />
           Editar
         </DropdownMenuItem>
+        {property.status === "PUBLISHED" && (
+          <DropdownMenuItem className="rounded-xl py-2" onSelect={() => openOnSite(property, agencySlug)}>
+            <ExternalLink />
+            Ver en el sitio
+          </DropdownMenuItem>
+        )}
         {property.status !== "PUBLISHED" && (
           <DropdownMenuItem className="rounded-xl py-2" onSelect={() => actions.publish([property.id])}>
             <Globe />

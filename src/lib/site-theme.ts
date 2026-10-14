@@ -36,6 +36,18 @@ export const SITE_TEMPLATES: {
     description:
       "Sin foto de portada. Muestra muchas propiedades de un vistazo.",
   },
+  {
+    value: "dividido",
+    label: "Dividido",
+    description:
+      "Mitad en tu color con el titular y el buscador, mitad con la foto de portada.",
+  },
+  {
+    value: "mosaico",
+    label: "Mosaico",
+    description:
+      "Un collage de fotos arriba, que elegís en Portada, y la primera propiedad destacada en grande.",
+  },
 ];
 
 export const ACCENT_PRESETS: { value: string; label: string }[] = [
@@ -49,12 +61,20 @@ export const ACCENT_PRESETS: { value: string; label: string }[] = [
   { value: "#6B5643", label: "Madera" },
 ];
 
+/**
+ * Type pairings for the agency's site. Each sets its own heading weight and
+ * tracking: serif display faces read best at their regular weight and almost
+ * untracked, geometric sans tighter and heavier. The fonts are loaded in the
+ * root layout.
+ */
 export const FONT_PAIRS: {
   value: SiteFonts;
   label: string;
   description: string;
   heading: string;
   body: string;
+  weight: number;
+  tracking: string;
 }[] = [
   {
     value: "moderna",
@@ -62,6 +82,8 @@ export const FONT_PAIRS: {
     description: "Títulos geométricos, limpios.",
     heading: "var(--font-sora)",
     body: "var(--font-dm-sans)",
+    weight: 600,
+    tracking: "-0.03em",
   },
   {
     value: "clasica",
@@ -69,6 +91,8 @@ export const FONT_PAIRS: {
     description: "Títulos con serif, elegante.",
     heading: "var(--font-dm-serif-display)",
     body: "var(--font-dm-sans)",
+    weight: 400,
+    tracking: "-0.01em",
   },
   {
     value: "sobria",
@@ -76,16 +100,66 @@ export const FONT_PAIRS: {
     description: "Una sola familia, discreta.",
     heading: "var(--font-dm-sans)",
     body: "var(--font-dm-sans)",
+    weight: 600,
+    tracking: "-0.03em",
+  },
+  {
+    value: "elegante",
+    label: "Elegante",
+    description: "Serif fina, para propiedades de lujo.",
+    heading: "var(--font-cormorant)",
+    body: "var(--font-manrope)",
+    weight: 600,
+    tracking: "-0.01em",
+  },
+  {
+    value: "editorial",
+    label: "Editorial",
+    description: "Serif con carácter, como una revista.",
+    heading: "var(--font-fraunces)",
+    body: "var(--font-source-sans)",
+    weight: 500,
+    tracking: "-0.02em",
+  },
+  {
+    value: "calida",
+    label: "Cálida",
+    description: "Serif suave y texto redondeado.",
+    heading: "var(--font-lora)",
+    body: "var(--font-nunito-sans)",
+    weight: 600,
+    tracking: "-0.01em",
+  },
+  {
+    value: "urbana",
+    label: "Urbana",
+    description: "Sans actual, clara y amigable.",
+    heading: "var(--font-jakarta)",
+    body: "var(--font-jakarta)",
+    weight: 700,
+    tracking: "-0.03em",
+  },
+  {
+    value: "arquitectonica",
+    label: "Arquitectónica",
+    description: "Títulos anchos y con presencia.",
+    heading: "var(--font-syne)",
+    body: "var(--font-inter)",
+    weight: 700,
+    tracking: "-0.02em",
   },
 ];
 
 export interface ResolvedSite {
   template: SiteTemplate;
+  /** On phones; the same as `template` unless the agency picked another. */
+  templateMobile: SiteTemplate;
   accent: string;
   fonts: SiteFonts;
   heroTitle: string;
   heroSubtitle: string | null;
   coverUrl: string | null;
+  mosaicPhotos: string[];
   about: string | null;
   showAbout: boolean;
   phone: string | null;
@@ -106,11 +180,13 @@ export function resolveSite(
     text && text.trim() ? text.trim() : null;
   return {
     template: site?.template ?? "portada",
+    templateMobile: site?.templateMobile ?? site?.template ?? "portada",
     accent: site?.accent ?? ACCENT_PRESETS[0].value,
     fonts: site?.fonts ?? "moderna",
     heroTitle: value(site?.heroTitle) ?? DEFAULT_HERO_TITLE,
     heroSubtitle: value(site?.heroSubtitle),
     coverUrl: value(site?.coverUrl),
+    mosaicPhotos: site?.mosaicPhotos ?? [],
     about: value(site?.about),
     showAbout: site?.showAbout ?? true,
     phone: value(site?.phone),
@@ -150,9 +226,8 @@ export function siteThemeStyle(site: ResolvedSite): React.CSSProperties {
     "--s-accent-ink": accentInk(site.accent),
     "--s-heading": fonts.heading,
     "--s-body": fonts.body,
-    // Serif headings read better a little looser and without the negative tracking.
-    "--s-heading-tracking": site.fonts === "clasica" ? "-0.01em" : "-0.03em",
-    "--s-heading-weight": site.fonts === "clasica" ? "400" : "600",
+    "--s-heading-tracking": fonts.tracking,
+    "--s-heading-weight": String(fonts.weight),
   } as React.CSSProperties;
 }
 

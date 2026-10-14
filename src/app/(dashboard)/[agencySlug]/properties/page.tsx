@@ -16,7 +16,6 @@ import type { PropertyActions } from "@/components/properties/property-controls"
 import { PropertiesTable, PropertyRow } from "@/components/properties/property-views";
 import { PropertiesPagination } from "@/components/properties/properties-pagination";
 import { ViewSwitch, type ViewMode } from "@/components/properties/view-switch";
-import { Segmented } from "@/components/properties/segmented";
 import { SortSelect } from "@/components/properties/sort-select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -37,12 +36,6 @@ import { applyFilters, countActiveFilters, DEFAULT_FILTERS, type PropertyFilters
 import { DEFAULT_SORT, sortProperties, type SortValue } from "@/lib/property-sort";
 
 const PAGE_SIZE = 25;
-
-const TYPE_TABS: { value: PropertyFilters["type"]; label: string }[] = [
-  { value: "ALL", label: "Todo" },
-  { value: "SALE", label: "Venta" },
-  { value: "RENT", label: "Alquiler" },
-];
 
 const SEARCH_CLASS =
   "h-10 rounded-full border-transparent bg-foreground/[0.07] pl-10 transition-[background-color,box-shadow,border-color] duration-500 ease-out focus-visible:border-primary/20 focus-visible:bg-card focus-visible:shadow-[0_8px_24px_-12px_oklch(0.3_0.05_160/0.3)] focus-visible:ring-0 dark:bg-foreground/10 dark:focus-visible:bg-card";
@@ -363,13 +356,6 @@ export default function PropertiesPage() {
           <div className="flex flex-wrap items-center gap-3 sm:ml-auto">
             {total > 0 && (
               <>
-                <Segmented
-                  contained
-                  label="Filtrar por tipo"
-                  value={filters.type}
-                  options={TYPE_TABS}
-                  onChange={(type) => updateFilters({ type })}
-                />
                 <SortSelect value={sort} onChange={changeSort} />
                 <FiltersSheet
                   properties={sorted}
