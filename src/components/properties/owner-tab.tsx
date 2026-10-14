@@ -14,6 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ApiError } from "@/lib/api/client";
 import { createOwner, listOwners, regenerateOwnerToken, type PropertyOwner } from "@/lib/api/properties";
 import { getAccessToken } from "@/lib/auth/session";
+import { getPublicOrigin } from "@/lib/public-origin";
 import { cn } from "@/lib/utils";
 
 function initials(name: string) {
@@ -156,7 +157,7 @@ export function OwnerTab({
             <Input
               readOnly
               aria-label="Link de acceso del propietario"
-              value={typeof window !== "undefined" ? `${window.location.origin}/owner/${selected.accessToken}` : ""}
+              value={typeof window !== "undefined" ? `${getPublicOrigin()}/owner/${selected.accessToken}` : ""}
               onFocus={(event) => event.currentTarget.select()}
               className="min-w-64 flex-1"
             />
@@ -166,7 +167,7 @@ export function OwnerTab({
               className="h-10 gap-2 px-5"
               onClick={async () => {
                 try {
-                  await navigator.clipboard.writeText(`${window.location.origin}/owner/${selected.accessToken}`);
+                  await navigator.clipboard.writeText(`${getPublicOrigin()}/owner/${selected.accessToken}`);
                   toast.success("Link copiado");
                 } catch {
                   toast.error("No se pudo copiar. Seleccioná el link y copialo a mano.");

@@ -18,8 +18,9 @@ import Link from "next/link";
 import { PhotoPlaceholder, formatPrice, placeOf } from "@/components/public/property-card";
 import { SITE_WRAP, SiteFooter, SiteHeader, SiteRoot } from "@/components/public/site-chrome";
 import type { BookingStatus, PaymentType } from "@/lib/api/bookings";
-import type { OwnerPortal, OwnerPortalBooking, OwnerPortalProperty } from "@/lib/api/owner-portal";
+import type { OwnerPortal, OwnerPortalBooking, OwnerPortalProperty, OwnerPortalRecommendation } from "@/lib/api/owner-portal";
 import type { PropertyStatus } from "@/lib/api/properties";
+import type { RecommendationPriority, RecommendationStatus } from "@/lib/api/recommendations";
 import { LISTING_TYPE_LABELS, categoryLabel } from "@/lib/properties-labels";
 import { resolveSite, whatsappLink } from "@/lib/site-theme";
 import { cn } from "@/lib/utils";
@@ -46,6 +47,18 @@ const OWNER_PAYMENT_LABELS: Record<PaymentType, string> = {
   DEPOSIT: "Seña",
   BALANCE: "Saldo",
   COMMISSION: "Comisión",
+};
+
+const RECOMMENDATION_PRIORITY_PILL: Record<RecommendationPriority, { label: string; className: string }> = {
+  LOW: { label: "Prioridad baja", className: "bg-site-surface text-site-quiet" },
+  MEDIUM: { label: "Prioridad media", className: "bg-site-surface text-site-ink" },
+  HIGH: { label: "Prioridad alta", className: "bg-site-accent text-site-accent-ink" },
+};
+
+const RECOMMENDATION_STATUS_LABELS: Record<RecommendationStatus, string> = {
+  PROPOSED: "Propuesta",
+  APPROVED: "Aprobada",
+  DONE: "Hecha",
 };
 
 function Pill({ className, children }: { className: string; children: React.ReactNode }) {
@@ -215,6 +228,35 @@ function BookingRow({ booking, today }: { booking: OwnerPortalBooking; today: Da
   );
 }
 
+function RecommendationRow({ recommendation, currency }: { recommendation: OwnerPortalRecommendation; currency: string }) {
+  const priority = RECOMMENDATION_PRIORITY_PILL[recommendation.priority];
+  const done = recommendation.status === "DONE";
+
+  return (
+    <li className={cn("flex flex-col gap-1.5 py-5", done && "opacity-70")}>
+      <div className="flex flex-wrap items-center gap-2.5">
+        <span className="s-heading text-lg">{recommendation.title}</span>
+        <Pill className={priority.className}>{priority.label}</Pill>
+        <span className="text-sm text-site-quiet">{RECOMMENDATION_STATUS_LABELS[recommendation.status]}</span>
+      </div>
+      {recommendation.details && <p className="text-sm text-site-quiet">{recommendation.details}</p>}
+      <div className="flex flex-wrap items-center gap-4 text-sm text-site-quiet">
+        {recommendation.estCost != null && <span>Costo estimado: {money(currency, recommendation.estCost)}</span>}
+        {recommendation.pdfUrl && (
+          <a
+            href={recommendation.pdfUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="font-medium text-site-ink underline underline-offset-2 hover:no-underline"
+          >
+            Ver propuesta
+          </a>
+        )}
+      </div>
+    </li>
+  );
+}
+
 function PropertySection({
   property,
   agencySlug,
@@ -293,6 +335,17 @@ function PropertySection({
               ))}
             </ul>
           )}
+        </section>
+      )}
+
+      {property.recommendations.length > 0 && (
+        <section aria-label={`Mejoras sugeridas para ${property.title}`} className="flex flex-col">
+          <h3 className="s-heading text-xl">Mejoras sugeridas</h3>
+          <ul className="divide-y divide-site-line">
+            {property.recommendations.map((recommendation) => (
+              <RecommendationRow key={recommendation.id} recommendation={recommendation} currency={property.currency} />
+            ))}
+          </ul>
         </section>
       )}
     </article>

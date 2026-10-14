@@ -5,7 +5,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Building2,
   Calendar,
-  Compass,
   DoorOpen,
   FileText,
   Images,
@@ -15,7 +14,6 @@ import {
   Percent,
   Settings,
   User,
-  Waves,
 } from "lucide-react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -33,13 +31,11 @@ import { LocationTab } from "@/components/properties/location-tab";
 import { PricesTab } from "@/components/properties/prices-tab";
 import { AvailabilityTab } from "@/components/properties/availability-tab";
 import { EssentialsTab } from "@/components/properties/essentials-tab";
-import { ExperiencesTab } from "@/components/properties/experiences-tab";
 import { OwnerTab } from "@/components/properties/owner-tab";
 import { PhotosTab } from "@/components/properties/photos-tab";
 import { RatesTab } from "@/components/properties/rates-tab";
 import { RecommendationsTab } from "@/components/properties/recommendations-tab";
 import { RoomsTab } from "@/components/properties/rooms-tab";
-import { VillaPageTab } from "@/components/properties/villa-page-tab";
 import { ApiError } from "@/lib/api/client";
 import {
   getProperty,
@@ -181,8 +177,6 @@ function buildGroups(listingType: "SALE" | "RENT", category: string): TabGroup[]
       label: "Alquiler",
       tabs: [
         { value: "disponibilidad", label: "Disponibilidad", icon: Calendar },
-        { value: "villa-page", label: "Villa Page", icon: Waves },
-        { value: "experiences", label: "Experiences", icon: Compass },
         { value: "rates", label: "Rates", icon: Percent },
       ],
     };
@@ -596,18 +590,6 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
           {isRent && (
             <TabsContent value="disponibilidad" className="mt-0 max-w-xl">
               <AvailabilityTab property={property} />
-            </TabsContent>
-          )}
-
-          {isRent && (
-            <TabsContent value="villa-page" className="mt-0">
-              <VillaPageTab property={property} />
-            </TabsContent>
-          )}
-
-          {isRent && (
-            <TabsContent value="experiences" className="mt-0">
-              <ExperiencesTab property={property} />
             </TabsContent>
           )}
 

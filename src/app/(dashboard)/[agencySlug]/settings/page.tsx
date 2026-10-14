@@ -13,6 +13,7 @@ import {
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
+import { getPublicOrigin } from "@/lib/public-origin";
 import { toast } from "sonner";
 import { z } from "zod";
 
@@ -255,7 +256,7 @@ export default function SettingsPage() {
   async function copyLink() {
     try {
       await navigator.clipboard.writeText(
-        `${window.location.origin}/page/${agency?.slug ?? slug}`,
+        `${getPublicOrigin()}/page/${agency?.slug ?? slug}`,
       );
       toast.success("Link copiado");
     } catch {

@@ -25,6 +25,7 @@ import {
   ChevronRight,
   ImagePlus,
   Play,
+  Plus,
   Star,
   Trash2,
   X,
@@ -62,8 +63,6 @@ import { distance, duration, ease, media, stagger } from "@/lib/motion";
 import { PHOTO_SECTIONS } from "@/lib/property-catalogs";
 import { cn } from "@/lib/utils";
 
-const SECTION_LABELS = Object.fromEntries(PHOTO_SECTIONS.map((section) => [section.value, section.label]));
-
 function requireToken() {
   const token = getAccessToken();
   if (!token) throw new ApiError("No autenticado", 401);
@@ -77,12 +76,14 @@ function youtubeThumbnail(url: string) {
 
 function PhotoTile({
   photo,
+  sections,
   onOpen,
   onCover,
   onMove,
   onRemove,
 }: {
   photo: PropertyPhoto;
+  sections: { value: string; label: string }[];
   onOpen: () => void;
   onCover: () => void;
   onMove: (section: PhotoSection) => void;
@@ -149,11 +150,11 @@ function PhotoTile({
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-52 rounded-2xl p-1.5">
-            {PHOTO_SECTIONS.map((section) => (
+            {sections.map((section) => (
               <DropdownMenuItem
                 key={section.value}
                 disabled={section.value === photo.section}
-                onSelect={() => onMove(section.value as PhotoSection)}
+                onSelect={() => onMove(section.value)}
                 className="rounded-xl py-2"
               >
                 {section.label}
@@ -200,17 +201,28 @@ export function PhotosTab({ property }: { property: Property }) {
   const [lightbox, setLightbox] = useState<number | null>(null);
   const [newVideoUrl, setNewVideoUrl] = useState("");
   const [videoError, setVideoError] = useState<string | null>(null);
+  const [pendingSections, setPendingSections] = useState<string[]>([]);
+  const [addingSection, setAddingSection] = useState(false);
+  const [newSectionName, setNewSectionName] = useState("");
 
   const isRealEstate = property.listingType === "SALE";
   const ordered = [...property.photos].sort((a, b) => a.position - b.position);
-  const groups = PHOTO_SECTIONS.map((section) => ({
-    section,
-    photos: ordered.filter((photo) => photo.section === section.value),
-  })).filter((group) => group.photos.length > 0);
-  // Photos in a section we do not know yet still need to be reachable.
   const known = new Set(PHOTO_SECTIONS.map((section) => section.value));
-  const strays = ordered.filter((photo) => !known.has(photo.section));
-  if (strays.length > 0) groups.push({ section: { value: "OTHER", label: "Otras" }, photos: strays });
+  // Any section value already in use that isn't one of the fixed ones is a
+  // custom section the agent created — each gets its own named group, not a
+  // shared "Otras" bucket.
+  const customValues = [...new Set(ordered.map((photo) => photo.section).filter((value) => !known.has(value)))];
+  for (const value of pendingSections) if (!customValues.includes(value)) customValues.push(value);
+
+  const sections = [
+    ...PHOTO_SECTIONS,
+    ...customValues.map((value) => ({ value, label: value })),
+  ];
+  const sectionLabel = (value: string) => sections.find((section) => section.value === value)?.label ?? value;
+
+  const groups = sections
+    .map((section) => ({ section, photos: ordered.filter((photo) => photo.section === section.value) }))
+    .filter((group) => group.photos.length > 0);
   const flat = groups.flatMap((group) => group.photos);
 
   const sensors = useSensors(
@@ -269,7 +281,7 @@ export function PhotosTab({ property }: { property: Property }) {
       updatePropertyPhoto(requireToken(), property.id, photoId, { section }),
     onMutate: ({ photoId, section }) =>
       patchCache((photos) => photos.map((photo) => (photo.id === photoId ? { ...photo, section } : photo))),
-    onSuccess: (_, { section }) => toast.success(`Movida a ${SECTION_LABELS[section]}`),
+    onSuccess: (_, { section }) => toast.success(`Movida a ${sectionLabel(section)}`),
     onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo mover la foto"),
     onSettled: refresh,
   });
@@ -295,6 +307,17 @@ export function PhotosTab({ property }: { property: Property }) {
     onSuccess: refresh,
     onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo guardar"),
   });
+
+  function addCustomSection() {
+    const name = newSectionName.trim();
+    if (!name) return;
+    if (!sections.some((section) => section.value === name)) {
+      setPendingSections((current) => [...current, name]);
+    }
+    setUploadSection(name);
+    setNewSectionName("");
+    setAddingSection(false);
+  }
 
   function startUpload(list: FileList | File[] | null) {
     if (!list || list.length === 0) return;
@@ -377,12 +400,39 @@ export function PhotosTab({ property }: { property: Property }) {
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-3">
             <p className="text-sm font-medium">Subir a la sección</p>
-            <Segmented
-              label="Sección de destino"
-              value={uploadSection}
-              options={PHOTO_SECTIONS.map((section) => ({ value: section.value as PhotoSection, label: section.label }))}
-              onChange={setUploadSection}
-            />
+            <div className="flex flex-wrap items-center gap-1.5">
+              <Segmented label="Sección de destino" value={uploadSection} options={sections} onChange={setUploadSection} />
+              {addingSection ? (
+                <Input
+                  autoFocus
+                  placeholder="Nombre"
+                  aria-label="Nombre de la nueva sección"
+                  value={newSectionName}
+                  onChange={(event) => setNewSectionName(event.target.value)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter") {
+                      event.preventDefault();
+                      addCustomSection();
+                    }
+                    if (event.key === "Escape") {
+                      setAddingSection(false);
+                      setNewSectionName("");
+                    }
+                  }}
+                  onBlur={() => (newSectionName.trim() ? addCustomSection() : setAddingSection(false))}
+                  className="h-9 w-40 rounded-full border-transparent bg-foreground/[0.07] px-4 text-sm dark:bg-foreground/10"
+                />
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setAddingSection(true)}
+                  className="inline-flex h-9 items-center gap-1.5 rounded-full bg-foreground/[0.07] px-4 text-sm font-medium text-muted-foreground outline-none transition-colors hover:bg-foreground/10 hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-foreground/10 dark:hover:bg-foreground/15"
+                >
+                  <Plus className="size-3.5" />
+                  Agregar
+                </button>
+              )}
+            </div>
           </div>
 
           <input
@@ -477,6 +527,7 @@ export function PhotosTab({ property }: { property: Property }) {
                           <PhotoTile
                             key={photo.id}
                             photo={photo}
+                            sections={sections}
                             onOpen={() => setLightbox(flat.findIndex((item) => item.id === photo.id))}
                             onCover={() => coverMutation.mutate(photo.id)}
                             onMove={(section) => moveMutation.mutate({ photoId: photo.id, section })}
@@ -595,7 +646,7 @@ export function PhotosTab({ property }: { property: Property }) {
               </div>
               <div className="flex items-center justify-between gap-3 px-1 text-sm">
                 <span className="text-muted-foreground">
-                  {SECTION_LABELS[current.section] ?? "Otras"} · {(lightbox ?? 0) + 1} de {flat.length}
+                  {sectionLabel(current.section)} · {(lightbox ?? 0) + 1} de {flat.length}
                 </span>
                 {current.isCover && (
                   <span className="inline-flex items-center gap-1 font-medium">

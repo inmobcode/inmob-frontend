@@ -3,14 +3,8 @@ import { apiFetch } from "./client";
 export type ListingType = "SALE" | "RENT";
 export type PropertyCategory = string; // see ACCOMMODATION_TYPES / REAL_ESTATE_TYPES in property-catalogs.ts
 export type PropertyStatus = "DRAFT" | "PUBLISHED" | "ARCHIVED";
-export type PhotoSection =
-  | "GENERAL"
-  | "BEDROOMS"
-  | "INDOOR_LIVING"
-  | "POOL"
-  | "OUTDOOR"
-  | "ADDED_FACILITIES"
-  | "VIEWS";
+// One of PHOTO_SECTIONS in property-catalogs.ts, or a custom name the agent typed.
+export type PhotoSection = string;
 
 export interface PropertyOwner {
   id: string;

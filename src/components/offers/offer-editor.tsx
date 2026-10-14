@@ -35,6 +35,7 @@ import { getOffer, sendOffer, updateOffer, type Offer, type SaveOfferPayload } f
 import { getAccessToken } from "@/lib/auth/session";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { distance, duration, ease, media } from "@/lib/motion";
+import { getPublicOrigin } from "@/lib/public-origin";
 import { useActionBarStore } from "@/lib/store/action-bar-store";
 
 const offerPropertySchema = z.object({
@@ -336,7 +337,7 @@ export function OfferEditor({ offerId }: { offerId: string }) {
     );
   }
 
-  const publicUrl = typeof window !== "undefined" ? `${window.location.origin}/offer/${offer.token}` : "";
+  const publicUrl = typeof window !== "undefined" ? `${getPublicOrigin()}/offer/${offer.token}` : "";
 
   async function copyLink() {
     try {

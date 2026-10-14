@@ -27,8 +27,6 @@ const SHORT_DESCRIPTIONS: Record<string, string> = {
   precios: "Precio y moneda",
   fotos: "Galería y videos",
   disponibilidad: "Bloqueos y calendario iCal",
-  "villa-page": "Contenido destacado",
-  experiences: "Cerca de la propiedad",
   rates: "Tarifas por temporada",
   essentials: "Management y licencia",
   recomendaciones: "Mejoras sugeridas",

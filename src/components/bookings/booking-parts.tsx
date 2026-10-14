@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import type { Booking, BookingStatus } from "@/lib/api/bookings";
 import { BOOKING_STATUS_LABELS } from "@/lib/properties-labels";
+import { getPublicOrigin } from "@/lib/public-origin";
 import { cn } from "@/lib/utils";
 
 export const BOOKING_STATUSES: BookingStatus[] = ["PENDING", "CONFIRMED", "COMPLETED", "CANCELLED"];
@@ -132,7 +133,7 @@ export const clientLinkPath = (booking: Pick<Booking, "token">) => `/booking/${b
 
 export async function copyClientLink(booking: Pick<Booking, "token">) {
   try {
-    await navigator.clipboard.writeText(`${window.location.origin}${clientLinkPath(booking)}`);
+    await navigator.clipboard.writeText(`${getPublicOrigin()}${clientLinkPath(booking)}`);
     toast.success("Link copiado");
   } catch {
     toast.error("No se pudo copiar el link");

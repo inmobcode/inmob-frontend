@@ -17,6 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import type { Offer } from "@/lib/api/offers";
+import { getPublicOrigin } from "@/lib/public-origin";
 import { OFFER_OPERATION_LABELS } from "@/lib/properties-labels";
 import { cn } from "@/lib/utils";
 
@@ -75,7 +76,7 @@ export function OfferMenu({ offer, actions, className }: { offer: Offer; actions
 
   async function copyLink() {
     try {
-      await navigator.clipboard.writeText(`${window.location.origin}/offer/${offer.token}`);
+      await navigator.clipboard.writeText(`${getPublicOrigin()}/offer/${offer.token}`);
       toast.success("Link copiado");
     } catch {
       toast.error("No se pudo copiar el link");

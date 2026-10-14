@@ -42,6 +42,7 @@ import {
 import { getAgency } from "@/lib/api/agency";
 import { listMyAgencies, switchAgency } from "@/lib/api/auth";
 import { clearSession, getAccessToken, setSession, useSessionUser } from "@/lib/auth/session";
+import { getPublicOrigin } from "@/lib/public-origin";
 import { cn } from "@/lib/utils";
 
 const NAME_FALLBACK = "Tu nombre";
@@ -182,7 +183,7 @@ export function UserMenu({ collapsed }: { collapsed: boolean }) {
     if (!agency) return;
     try {
       await navigator.clipboard.writeText(
-        `${window.location.origin}/page/${agency.slug}`,
+        `${getPublicOrigin()}/page/${agency.slug}`,
       );
       toast.success("Link del portal copiado");
     } catch {

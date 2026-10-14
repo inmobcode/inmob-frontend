@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PropertiesPagination } from "@/components/properties/properties-pagination";
 import {
   listAvailabilityBlocks,
   createAvailabilityBlock,
@@ -19,6 +20,7 @@ import type { Property } from "@/lib/api/properties";
 import { getAccessToken } from "@/lib/auth/session";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:5000";
+const BLOCKS_PAGE_SIZE = 10;
 
 export function AvailabilityTab({ property }: { property: Property }) {
   const queryClient = useQueryClient();
@@ -26,6 +28,7 @@ export function AvailabilityTab({ property }: { property: Property }) {
   const [endDate, setEndDate] = useState("");
   const [note, setNote] = useState("");
   const [icalUrl, setIcalUrl] = useState(property.icalImportUrl ?? "");
+  const [blocksPage, setBlocksPage] = useState(1);
 
   const { data: blocks, isLoading } = useQuery({
     queryKey: ["availability", property.id],
@@ -78,6 +81,13 @@ export function AvailabilityTab({ property }: { property: Property }) {
     onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo sincronizar"),
   });
 
+  const blocksPageCount = Math.max(1, Math.ceil((blocks?.length ?? 0) / BLOCKS_PAGE_SIZE));
+  const safeBlocksPage = Math.min(blocksPage, blocksPageCount);
+  const pagedBlocks = (blocks ?? []).slice(
+    (safeBlocksPage - 1) * BLOCKS_PAGE_SIZE,
+    safeBlocksPage * BLOCKS_PAGE_SIZE,
+  );
+
   const exportUrl =
     property.agencySlug && property.status === "PUBLISHED"
       ? `${API_URL}/api/public/${property.agencySlug}/properties/${property.slug}/availability.ics`
@@ -113,32 +123,35 @@ export function AvailabilityTab({ property }: { property: Property }) {
           <p className="text-sm text-zinc-500">No hay fechas bloqueadas.</p>
         )}
         {blocks && blocks.length > 0 && (
-          <ul className="space-y-2">
-            {blocks.map((block) => (
-              <li
-                key={block.id}
-                className="flex items-center justify-between rounded-md border p-2 text-sm"
-              >
-                <div className="flex items-center gap-2">
-                  <Badge variant="secondary">{block.source}</Badge>
-                  <span>
-                    {block.startDate} <ArrowRight className="inline size-3.5 align-[-2px]" /> {block.endDate}
-                  </span>
-                  {block.note && <span className="text-zinc-500">({block.note})</span>}
-                </div>
-                {block.source === "MANUAL" && (
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => deleteMutation.mutate(block.id)}
-                  >
-                    Quitar
-                  </Button>
-                )}
-              </li>
-            ))}
-          </ul>
+          <>
+            <ul className="space-y-2">
+              {pagedBlocks.map((block) => (
+                <li
+                  key={block.id}
+                  className="flex items-center justify-between rounded-md border p-2 text-sm"
+                >
+                  <div className="flex items-center gap-2">
+                    <Badge variant="secondary">{block.source}</Badge>
+                    <span>
+                      {block.startDate} <ArrowRight className="inline size-3.5 align-[-2px]" /> {block.endDate}
+                    </span>
+                    {block.note && <span className="text-zinc-500">({block.note})</span>}
+                  </div>
+                  {block.source === "MANUAL" && (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => deleteMutation.mutate(block.id)}
+                    >
+                      Quitar
+                    </Button>
+                  )}
+                </li>
+              ))}
+            </ul>
+            <PropertiesPagination page={safeBlocksPage} pageCount={blocksPageCount} onChange={setBlocksPage} />
+          </>
         )}
       </div>
 
