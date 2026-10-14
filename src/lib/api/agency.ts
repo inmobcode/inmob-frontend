@@ -1,3 +1,5 @@
+import { siteCache } from "@/lib/site-cache";
+
 import { apiFetch } from "./client";
 
 export type SiteTemplate = "portada" | "editorial" | "compacto" | "dividido" | "mosaico";
@@ -164,5 +166,5 @@ export function uploadSiteImage(token: string, file: File) {
 }
 
 export function getPublicAgency(agencySlug: string) {
-  return apiFetch<PublicAgency>(`/api/public/${agencySlug}`);
+  return apiFetch<PublicAgency>(`/api/public/${agencySlug}`, siteCache(agencySlug));
 }

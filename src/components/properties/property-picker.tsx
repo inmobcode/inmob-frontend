@@ -7,6 +7,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import type { OfferOperation } from "@/lib/api/offers";
 import type { ListingType, Property } from "@/lib/api/properties";
 import { cn } from "@/lib/utils";
+import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 
 type Tab = "ALL" | ListingType;
 
@@ -52,7 +53,7 @@ function Thumb({ property, className }: { property: Property; className?: string
     <span className={cn("flex shrink-0 items-center justify-center overflow-hidden rounded-md bg-secondary text-primary/40", className)}>
       {url ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={url} alt="" className="size-full object-cover" />
+        <img src={sizedImage(url, IMAGE_WIDTH.thumb)} alt="" className="size-full object-cover" />
       ) : (
         <Building2 className="size-1/2" strokeWidth={1.5} />
       )}

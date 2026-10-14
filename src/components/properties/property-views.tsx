@@ -27,6 +27,7 @@ import type { Property } from "@/lib/api/properties";
 import { categoryLabel, LISTING_TYPE_LABELS } from "@/lib/properties-labels";
 import { parseApiDate } from "@/lib/dates";
 import { cn } from "@/lib/utils";
+import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 
 const number = (value: number) => value.toLocaleString("es-AR");
 
@@ -63,7 +64,7 @@ function Thumb({
       {cover ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={cover.url}
+          src={sizedImage(cover.url, IMAGE_WIDTH.card)}
           alt=""
           loading="lazy"
           className={cn(
@@ -263,7 +264,7 @@ function PropertyPeek({
           <div className="relative aspect-[16/9] bg-secondary">
             {cover ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={cover.url} alt="" className="size-full object-cover" />
+              <img src={sizedImage(cover.url, IMAGE_WIDTH.thumb)} alt="" className="size-full object-cover" />
             ) : (
               <div className="flex size-full items-center justify-center text-primary/30">
                 <Building2 className="size-10" strokeWidth={1.25} />

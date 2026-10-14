@@ -44,6 +44,7 @@ import { getAccessToken } from "@/lib/auth/session";
 import { CLIENT_STAGE_LABELS } from "@/lib/properties-labels";
 import { whatsappLink } from "@/lib/site-theme";
 import { cn } from "@/lib/utils";
+import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 
 function requireToken() {
   const token = getAccessToken();
@@ -246,7 +247,7 @@ function InquiryDetail({
               {inquiry.property.coverUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
-                  src={inquiry.property.coverUrl}
+                  src={sizedImage(inquiry.property.coverUrl, IMAGE_WIDTH.thumb)}
                   alt=""
                   className="size-full object-cover"
                 />

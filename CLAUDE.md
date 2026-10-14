@@ -28,6 +28,7 @@ Frontend de una plataforma inmobiliaria (propiedades, ofertas, clientes, reserva
 - Es de la agencia, no de Tivvo: base neutra (scope `.site` en `globals.css`, utilidades `bg-site-*`, `text-site-*`, `border-site-*`) y personalización por agencia guardada en `agency.site` (backend: `PATCH /api/agency/site`, `POST /api/agency/cover`).
 - `lib/site-theme.ts` define plantillas (`portada`, `editorial`, `compacto`), colores, tipografías y los valores por defecto (`resolveSite`); `siteThemeStyle` los pasa como variables CSS.
 - Bloques propios en `site.sections`: `location`, `promo`, `featured`, `destinations`, `text` y `cta`, cada uno con sus diseños (`layout`; ver `SECTION_TYPES` en `lib/site-theme.ts`). Se renderizan en `components/public/portal-sections.tsx` entre la portada y el listado; las imágenes se suben con `POST /api/agency/site-image`.
+- Las lecturas públicas del sitio (`getPublicAgency`, `listPublicProperties`, `getPublicProperty`) se cachean en Next 5 min con la etiqueta `site:<slug>` (`lib/site-cache.ts`). Toda mutación del dashboard la expira vía `POST /api/site-cache` (desde el `MutationCache` de `lib/query-provider.tsx`); los links por token (oferta, reserva, propietario) no se cachean.
 - El editor está en `/portal` (entrada propia en el sidebar), en el grupo `(editor)`: pantalla completa sin el sidebar del dashboard, código en `components/portal-editor/`; su vista previa renderiza `AgencyPortal` dentro de un iframe del mismo origen para que los breakpoints respondan al ancho simulado.
 
 **Autenticación**
@@ -51,6 +52,8 @@ Frontend de una plataforma inmobiliaria (propiedades, ofertas, clientes, reserva
 
 **UI**
 - shadcn/ui (estilo `radix-nova`, icon library lucide) en `src/components/ui`; añadir componentes con la CLI de `shadcn`. Alias `@/components`, `@/lib`, `@/hooks`.
+- Imágenes en tarjetas y miniaturas: pasar la URL por `sizedImage(url, IMAGE_WIDTH.*)` (`lib/image-url.ts`), que pide a Supabase una copia reducida; el original (hasta 2048 px) solo para portadas, galería y lightbox.
+- GSAP: importar desde `@/lib/gsap` (solo el núcleo); cada plugin en su módulo (`@/lib/gsap-flip`) para no cargarlo en todas las páginas. El editor de texto (Tiptap) se carga bajo demanda desde `components/rich-text/rich-text-editor.tsx`.
 - Tailwind v4 (configuración en `src/app/globals.css`, sin `tailwind.config`), `next-themes` para modo oscuro, `sonner` para toasts.
 - Componentes de feature agrupados por dominio en `src/components/{clients,offers,bookings,properties,team,dashboard,public}`.
 - Alias de importación: `@/*` → `src/*`.

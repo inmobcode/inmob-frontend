@@ -9,6 +9,7 @@ import { ServiceTypeIcon } from "@/components/services/service-type-icon";
 import type { Offer } from "@/lib/api/offers";
 import { richTextHtml } from "@/lib/rich-text";
 import { SERVICE_TYPE_LABELS, formatMoney, unitCount, unitPer } from "@/lib/service-labels";
+import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 
 // Dates come as yyyy-MM-dd: read them as a calendar day, not a UTC instant.
 const longDate = (iso: string) =>
@@ -94,7 +95,7 @@ export function SharedOfferView({ initialOffer: offer }: { initialOffer: Offer }
                     <div className="flex size-24 shrink-0 items-center justify-center overflow-hidden rounded-md bg-zinc-100 text-zinc-400 dark:bg-zinc-900">
                       {item.imageUrl ? (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img src={item.imageUrl} alt="" className="size-full object-cover" />
+                        <img src={sizedImage(item.imageUrl, IMAGE_WIDTH.thumb)} alt="" className="size-full object-cover" />
                       ) : (
                         <ServiceTypeIcon type={item.type} className="size-7" strokeWidth={1.5} />
                       )}

@@ -24,6 +24,7 @@ import type { RecommendationPriority, RecommendationStatus } from "@/lib/api/rec
 import { LISTING_TYPE_LABELS, categoryLabel } from "@/lib/properties-labels";
 import { resolveSite, whatsappLink } from "@/lib/site-theme";
 import { cn } from "@/lib/utils";
+import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 
 /** How far ahead the occupancy strip looks. */
 const STRIP_MONTHS = 6;
@@ -281,7 +282,7 @@ function PropertySection({
         <div className="aspect-[4/3] overflow-hidden rounded-xl bg-site-surface">
           {cover ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={cover.url} alt="" className="size-full object-cover" />
+            <img src={sizedImage(cover.url, IMAGE_WIDTH.card)} alt="" className="size-full object-cover" />
           ) : (
             <PhotoPlaceholder />
           )}

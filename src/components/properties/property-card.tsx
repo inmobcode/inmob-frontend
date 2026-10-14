@@ -16,6 +16,7 @@ import { StatusPill } from "@/components/properties/status-pill";
 import { categoryLabel, LISTING_TYPE_LABELS } from "@/lib/properties-labels";
 import { parseApiDate } from "@/lib/dates";
 import { cn } from "@/lib/utils";
+import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 
 export function coverOf(property: Property) {
   const photos = [...property.photos].sort((a, b) => a.position - b.position);
@@ -90,7 +91,7 @@ export function PropertyCard({
         {cover ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={cover.url}
+            src={sizedImage(cover.url, IMAGE_WIDTH.card)}
             alt={property.title}
             loading="lazy"
             className={cn(

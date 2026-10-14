@@ -14,6 +14,7 @@ import type { PublicAgency } from "@/lib/api/agency";
 import { LISTING_TYPE_LABELS, categoryLabel } from "@/lib/properties-labels";
 import type { ResolvedSite } from "@/lib/site-theme";
 import { cn } from "@/lib/utils";
+import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 
 export type Operation = "" | "SALE" | "RENT";
 
@@ -286,7 +287,7 @@ export function PortalHero({
                 )}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={url} alt="" className="size-full object-cover" />
+                <img src={sizedImage(url, IMAGE_WIDTH.tile)} alt="" className="size-full object-cover" />
               </div>
             ))}
           </div>

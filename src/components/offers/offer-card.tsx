@@ -20,6 +20,7 @@ import type { Offer } from "@/lib/api/offers";
 import { getPublicOrigin } from "@/lib/public-origin";
 import { OFFER_OPERATION_LABELS } from "@/lib/properties-labels";
 import { cn } from "@/lib/utils";
+import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 
 export interface OfferActions {
   send: (id: string) => void;
@@ -52,17 +53,17 @@ export function Collage({ urls }: { urls: string[] }) {
   }
   if (urls.length === 1) {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img src={urls[0]} alt="" loading="lazy" className="size-full object-cover" />;
+    return <img src={sizedImage(urls[0], IMAGE_WIDTH.card)} alt="" loading="lazy" className="size-full object-cover" />;
   }
   return (
     <div className="grid size-full grid-cols-[2fr_1fr] grid-rows-2 gap-0.5">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={urls[0]} alt="" loading="lazy" className="row-span-2 size-full object-cover" />
+      <img src={sizedImage(urls[0], IMAGE_WIDTH.card)} alt="" loading="lazy" className="row-span-2 size-full object-cover" />
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={urls[1]} alt="" loading="lazy" className="size-full object-cover" />
+      <img src={sizedImage(urls[1], IMAGE_WIDTH.card)} alt="" loading="lazy" className="size-full object-cover" />
       {urls[2] ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={urls[2]} alt="" loading="lazy" className="size-full object-cover" />
+        <img src={sizedImage(urls[2], IMAGE_WIDTH.card)} alt="" loading="lazy" className="size-full object-cover" />
       ) : (
         <div className="bg-secondary" />
       )}

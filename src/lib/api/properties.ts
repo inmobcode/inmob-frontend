@@ -1,3 +1,5 @@
+import { siteCache } from "@/lib/site-cache";
+
 import { apiFetch } from "./client";
 
 export type ListingType = "SALE" | "RENT";
@@ -394,12 +396,14 @@ export function listPublicProperties(
   const query = params.toString();
   return apiFetch<Property[]>(
     `/api/public/${agencySlug}/properties${query ? `?${query}` : ""}`,
+    siteCache(agencySlug),
   );
 }
 
 export function getPublicProperty(agencySlug: string, propertySlug: string) {
   return apiFetch<Property>(
     `/api/public/${agencySlug}/properties/${propertySlug}`,
+    siteCache(agencySlug),
   );
 }
 

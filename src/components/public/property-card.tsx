@@ -5,6 +5,7 @@ import type { Property } from "@/lib/api/properties";
 import type { SiteTemplate } from "@/lib/api/agency";
 import { LISTING_TYPE_LABELS, categoryLabel } from "@/lib/properties-labels";
 import { cn } from "@/lib/utils";
+import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 
 export function coverPhoto(property: Property) {
   const photos = [...property.photos].sort((a, b) => a.position - b.position);
@@ -138,7 +139,7 @@ export function PublicPropertyCard({
         {cover ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={cover.url}
+            src={sizedImage(cover.url, IMAGE_WIDTH.card)}
             alt=""
             loading="lazy"
             className="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"

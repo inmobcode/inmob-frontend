@@ -15,6 +15,7 @@ import { listServices, type Service, type ServiceType } from "@/lib/api/services
 import { getAccessToken } from "@/lib/auth/session";
 import { SERVICE_TYPE_LABELS, SERVICE_TYPES, formatMoney, unitPer } from "@/lib/service-labels";
 import { cn } from "@/lib/utils";
+import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 
 function requireToken() {
   const token = getAccessToken();
@@ -36,7 +37,7 @@ function ServiceCard({ service, onOpen }: { service: Service; onOpen: () => void
         {service.imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={service.imageUrl}
+            src={sizedImage(service.imageUrl, IMAGE_WIDTH.thumb)}
             alt=""
             className="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
           />

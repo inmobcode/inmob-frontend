@@ -18,6 +18,7 @@ import { listServices, type Service } from "@/lib/api/services";
 import { getAccessToken } from "@/lib/auth/session";
 import { SERVICE_TYPE_LABELS, formatMoney, unitCount, unitPer } from "@/lib/service-labels";
 import { cn } from "@/lib/utils";
+import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 
 /** "250" or "" → 250 or null. */
 const price = (text: string) => (text.trim() === "" || Number.isNaN(Number(text)) ? null : Number(text));
@@ -129,7 +130,7 @@ function ServicePicker({
                       <span className="flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-secondary text-primary/60">
                         {service.imageUrl ? (
                           // eslint-disable-next-line @next/next/no-img-element
-                          <img src={service.imageUrl} alt="" className="size-full object-cover" />
+                          <img src={sizedImage(service.imageUrl, IMAGE_WIDTH.thumb)} alt="" className="size-full object-cover" />
                         ) : (
                           <ServiceTypeIcon type={service.type} className="size-5" />
                         )}
@@ -186,7 +187,7 @@ function ServiceLine({
         <span className="flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-card text-primary/60">
           {item.imageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={item.imageUrl} alt="" className="size-full object-cover" />
+            <img src={sizedImage(item.imageUrl, IMAGE_WIDTH.thumb)} alt="" className="size-full object-cover" />
           ) : (
             <ServiceTypeIcon type={item.type} className="size-6" />
           )}

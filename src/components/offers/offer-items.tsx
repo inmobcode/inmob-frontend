@@ -23,6 +23,7 @@ import type { Property } from "@/lib/api/properties";
 import type { ServiceType, ServiceUnit } from "@/lib/api/services";
 import { DISCOUNT_TYPE_LABELS } from "@/lib/properties-labels";
 import { cn } from "@/lib/utils";
+import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 
 /** A service in the offer form; numbers stay as typed text until saving. */
 export interface OfferServiceFormValue {
@@ -117,7 +118,7 @@ function Thumb({ property, className }: { property: Property | undefined; classN
     <span className={cn("flex shrink-0 items-center justify-center overflow-hidden rounded-lg bg-secondary text-primary/40", className)}>
       {url ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={url} alt="" className="size-full object-cover" />
+        <img src={sizedImage(url, IMAGE_WIDTH.thumb)} alt="" className="size-full object-cover" />
       ) : (
         <Building2 className="size-1/2" strokeWidth={1.5} />
       )}

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import type { OfferPropertyItem } from "@/lib/api/offers";
 import { categoryLabel, LISTING_TYPE_LABELS } from "@/lib/properties-labels";
+import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 
 // A fixed locale: the page renders on the server and in the browser, and both must print the same.
 const money = (value: number) => value.toLocaleString("es-AR", { maximumFractionDigits: 0 });
@@ -27,7 +28,7 @@ export function OfferPropertyCard({
       <Link href={href} tabIndex={-1} aria-hidden className="block aspect-[4/3] overflow-hidden bg-zinc-100 dark:bg-zinc-900">
         {cover && (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={cover.url} alt="" className="h-full w-full object-cover transition-transform duration-500 hover:scale-[1.03]" />
+          <img src={sizedImage(cover.url, IMAGE_WIDTH.card)} alt="" className="h-full w-full object-cover transition-transform duration-500 hover:scale-[1.03]" />
         )}
       </Link>
       <div className="space-y-1 p-4">

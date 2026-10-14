@@ -11,6 +11,7 @@ import type { Property } from "@/lib/api/properties";
 import { getAccessToken } from "@/lib/auth/session";
 import { compressToWebp } from "@/lib/image-compression";
 import { cn } from "@/lib/utils";
+import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 
 const SLOTS = 4;
 
@@ -101,7 +102,7 @@ export function MosaicPicker({
               >
                 {url ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={url} alt="" className="size-full object-cover" />
+                  <img src={sizedImage(url, IMAGE_WIDTH.thumb)} alt="" className="size-full object-cover" />
                 ) : (
                   <Plus className="size-5" />
                 )}
@@ -170,7 +171,7 @@ export function MosaicPicker({
                       )}
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={photo.url} alt="" loading="lazy" className="size-full object-cover" />
+                      <img src={sizedImage(photo.url, IMAGE_WIDTH.thumb)} alt="" loading="lazy" className="size-full object-cover" />
                       {used && (
                         <span className="absolute top-1.5 right-1.5 flex size-5 items-center justify-center rounded-full bg-primary text-primary-foreground">
                           <Check className="size-3" />

@@ -21,6 +21,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { ApiError } from "@/lib/api/client";
 import { getAccessToken } from "@/lib/auth/session";
+import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 
 /** Days something stays in the trash; the backend deletes it for good after that (app/utils/trash.py). */
 export const TRASH_DAYS = 30;
@@ -150,7 +151,7 @@ export function TrashView<T>({
                 <span className="flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-secondary text-primary/50">
                   {item.imageUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={item.imageUrl} alt="" className="size-full object-cover" />
+                    <img src={sizedImage(item.imageUrl, IMAGE_WIDTH.thumb)} alt="" className="size-full object-cover" />
                   ) : (
                     <Building2 className="size-5" strokeWidth={1.5} />
                   )}

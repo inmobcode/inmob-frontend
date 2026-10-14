@@ -23,6 +23,7 @@ import {
 } from "@/lib/properties-labels";
 import { resolveSite, whatsappLink } from "@/lib/site-theme";
 import { cn } from "@/lib/utils";
+import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 
 /** The headline and the line under it, written to the client, per status. */
 const STATUS_COPY: Record<BookingStatus, { title: string; detail: string }> = {
@@ -131,7 +132,7 @@ export function BookingView({ booking }: { booking: PublicBooking }) {
           <div className="aspect-[16/10] bg-site-surface sm:aspect-auto sm:min-h-44">
             {cover ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={cover.url} alt="" className="size-full object-cover" />
+              <img src={sizedImage(cover.url, IMAGE_WIDTH.card)} alt="" className="size-full object-cover" />
             ) : (
               <PhotoPlaceholder />
             )}

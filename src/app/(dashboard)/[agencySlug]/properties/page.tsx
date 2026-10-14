@@ -30,7 +30,8 @@ import {
   unpublishProperty,
 } from "@/lib/api/properties";
 import { getAccessToken } from "@/lib/auth/session";
-import { Flip, gsap, useGSAP } from "@/lib/gsap";
+import { gsap, useGSAP } from "@/lib/gsap";
+import { Flip } from "@/lib/gsap-flip";
 import { distance, duration, ease, media, rowStagger } from "@/lib/motion";
 import { applyFilters, countActiveFilters, DEFAULT_FILTERS, type PropertyFilters } from "@/lib/property-filters";
 import { DEFAULT_SORT, sortProperties, type SortValue } from "@/lib/property-sort";

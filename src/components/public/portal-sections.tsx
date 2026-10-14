@@ -23,6 +23,7 @@ import {
 } from "@/lib/site-theme";
 import { richTextHtml } from "@/lib/rich-text";
 import { cn } from "@/lib/utils";
+import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 
 const CARDS = "grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3";
 const BLOCK = "py-14 lg:py-20";
@@ -217,7 +218,7 @@ function Photo({
       {url ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={url}
+          src={sizedImage(url, IMAGE_WIDTH.tile)}
           alt=""
           loading="lazy"
           className="size-full object-cover"
@@ -568,7 +569,7 @@ function DestinationTile({
       {destination.imageUrl ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={destination.imageUrl}
+          src={sizedImage(destination.imageUrl, IMAGE_WIDTH.card)}
           alt=""
           loading="lazy"
           className="absolute inset-0 -z-10 size-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"

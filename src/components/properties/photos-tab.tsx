@@ -62,6 +62,7 @@ import { compressManySmart } from "@/lib/image-compression";
 import { distance, duration, ease, media, stagger } from "@/lib/motion";
 import { PHOTO_SECTIONS } from "@/lib/property-catalogs";
 import { cn } from "@/lib/utils";
+import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 
 function requireToken() {
   const token = getAccessToken();
@@ -109,7 +110,7 @@ function PhotoTile({
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={photo.url}
+        src={sizedImage(photo.url, IMAGE_WIDTH.thumb)}
         alt=""
         draggable={false}
         onClick={onOpen}
