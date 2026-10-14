@@ -1,5 +1,19 @@
 import type { Metadata } from "next";
-import { DM_Sans, DM_Serif_Display, Geist_Mono, Sora } from "next/font/google";
+import {
+  Cormorant_Garamond,
+  DM_Sans,
+  DM_Serif_Display,
+  Fraunces,
+  Geist_Mono,
+  Inter,
+  Lora,
+  Manrope,
+  Nunito_Sans,
+  Plus_Jakarta_Sans,
+  Sora,
+  Source_Sans_3,
+  Syne,
+} from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -18,6 +32,67 @@ const dmSerifDisplay = DM_Serif_Display({
   subsets: ["latin"],
   weight: "400",
 });
+
+// The rest of the agency portals' type options. Not preloaded: a page only
+// downloads the ones its site actually uses. (next/font needs literal options.)
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
+  subsets: ["latin"],
+  weight: ["500", "600"],
+  preload: false,
+  display: "swap",
+});
+const manrope = Manrope({
+  variable: "--font-manrope",
+  subsets: ["latin"],
+  preload: false,
+  display: "swap",
+});
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
+  subsets: ["latin"],
+  preload: false,
+  display: "swap",
+});
+const sourceSans = Source_Sans_3({
+  variable: "--font-source-sans",
+  subsets: ["latin"],
+  preload: false,
+  display: "swap",
+});
+const lora = Lora({
+  variable: "--font-lora",
+  subsets: ["latin"],
+  preload: false,
+  display: "swap",
+});
+const nunitoSans = Nunito_Sans({
+  variable: "--font-nunito-sans",
+  subsets: ["latin"],
+  preload: false,
+  display: "swap",
+});
+const jakarta = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
+  subsets: ["latin"],
+  preload: false,
+  display: "swap",
+});
+const syne = Syne({
+  variable: "--font-syne",
+  subsets: ["latin"],
+  preload: false,
+  display: "swap",
+});
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  preload: false,
+  display: "swap",
+});
+const portalFonts = [cormorant, manrope, fraunces, sourceSans, lora, nunitoSans, jakarta, syne, inter]
+  .map((font) => font.variable)
+  .join(" ");
 
 const sora = Sora({
   variable: "--font-sora",
@@ -39,7 +114,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="es"
       suppressHydrationWarning
-      className={`${dmSans.variable} ${dmSerifDisplay.variable} ${sora.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${dmSans.variable} ${dmSerifDisplay.variable} ${sora.variable} ${geistMono.variable} ${portalFonts} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-sidebar">
         {/*

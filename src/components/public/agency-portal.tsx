@@ -15,6 +15,7 @@ import {
 import {
   PropertyCardSkeleton,
   PublicPropertyCard,
+  coverPhoto,
 } from "@/components/public/property-card";
 import {
   SITE_WRAP,
@@ -30,7 +31,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { PublicAgency } from "@/lib/api/agency";
+import type { PublicAgency, SiteTemplate } from "@/lib/api/agency";
 import { listPublicProperties, type Property } from "@/lib/api/properties";
 import { LISTING_TYPE_LABELS, categoryLabel } from "@/lib/properties-labels";
 import { type ResolvedSite, whatsappLink } from "@/lib/site-theme";
@@ -143,6 +144,38 @@ const BEDS = ["", "1", "2", "3", "4"];
  * `preview` renders the same page inside the dashboard's site editor, without
  * touching the address bar.
  */
+/** How each layout lays out the listing. */
+const LISTING_GRID: Record<SiteTemplate, string> = {
+  portada: "grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3",
+  dividido: "grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3",
+  editorial: "grid gap-x-8 gap-y-12 md:grid-cols-2",
+  compacto: "grid gap-x-5 gap-y-8 sm:grid-cols-2 lg:grid-cols-4",
+  // The first listing takes a double cell, like the head of the collage.
+  mosaico:
+    "grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 lg:[&>*:first-child]:col-span-2 lg:[&>*:first-child]:row-span-2",
+};
+
+/**
+ * Renders a piece of the page in the desktop layout and, when the agency
+ * picked a different one for phones, again in that one: CSS shows each on its
+ * screen size, so it also works inside the editor's phone-sized preview.
+ */
+function ByViewport({
+  site,
+  children,
+}: {
+  site: ResolvedSite;
+  children: (template: SiteTemplate) => React.ReactNode;
+}) {
+  if (site.template === site.templateMobile) return children(site.template);
+  return (
+    <>
+      <div className="contents max-md:hidden">{children(site.template)}</div>
+      <div className="contents md:hidden">{children(site.templateMobile)}</div>
+    </>
+  );
+}
+
 export function AgencyPortal({
   agencySlug,
   agency,
@@ -238,46 +271,54 @@ export function AgencyPortal({
     filters.q,
   ].filter(Boolean).length;
 
-  const onPhoto = site.template === "portada" && Boolean(site.coverUrl);
-  const grid =
-    site.template === "editorial"
-      ? "grid gap-x-8 gap-y-12 md:grid-cols-2"
-      : site.template === "compacto"
-        ? "grid gap-x-5 gap-y-8 sm:grid-cols-2 lg:grid-cols-4"
-        : "grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3";
+  const onPhoto = (template: SiteTemplate) =>
+    template === "portada" && Boolean(site.coverUrl);
+  const coverPhotos = all
+    .map((property) => coverPhoto(property)?.url)
+    .filter((url): url is string => Boolean(url))
+    .slice(0, 4);
 
   return (
     <SiteRoot site={site}>
-      <SiteHeader
-        agency={agency}
-        site={site}
-        slug={agencySlug}
-        overlay={onPhoto}
-      />
+      <ByViewport site={site}>
+        {(template) => (
+          <SiteHeader
+            agency={agency}
+            site={site}
+            slug={agencySlug}
+            overlay={onPhoto(template)}
+          />
+        )}
+      </ByViewport>
 
       <main className="flex-1">
-        <PortalHero
-          agency={agency}
-          site={site}
-          search={(layout) => (
-            <SearchBar
-              layout={layout}
-              values={filters}
-              onChange={update}
-              zones={zones}
-              types={types}
-              resultCount={results.length}
-              onSubmit={showResults}
-              className={cn(
-                site.template !== "portada" && "border border-site-line",
-                site.template === "portada" &&
-                  !site.coverUrl &&
-                  "shadow-lg shadow-black/10",
-                onPhoto && "shadow-2xl shadow-black/25",
+        <ByViewport site={site}>
+          {(template) => (
+            <PortalHero
+              agency={agency}
+              site={{ ...site, template }}
+              photos={coverPhotos}
+              search={(layout) => (
+                <SearchBar
+                  layout={layout}
+                  values={filters}
+                  onChange={update}
+                  zones={zones}
+                  types={types}
+                  resultCount={results.length}
+                  onSubmit={showResults}
+                  className={cn(
+                    template !== "portada" && "border border-site-line",
+                    template === "portada" &&
+                      !site.coverUrl &&
+                      "shadow-lg shadow-black/10",
+                    onPhoto(template) && "shadow-2xl shadow-black/25",
+                  )}
+                />
               )}
             />
           )}
-        />
+        </ByViewport>
 
         <PortalSections
           sections={site.sections}
@@ -463,11 +504,15 @@ export function AgencyPortal({
             )}
 
             {isLoading && !properties ? (
-              <div className={grid}>
-                {[0, 1, 2].map((index) => (
-                  <PropertyCardSkeleton key={index} template={site.template} />
-                ))}
-              </div>
+              <ByViewport site={site}>
+                {(template) => (
+                  <div className={LISTING_GRID[template]}>
+                    {[0, 1, 2].map((index) => (
+                      <PropertyCardSkeleton key={index} template={template} />
+                    ))}
+                  </div>
+                )}
+              </ByViewport>
             ) : all.length === 0 ? (
               <div className="rounded-xl border border-dashed border-site-line px-6 py-16 text-center">
                 <p className="s-heading text-xl">
@@ -492,16 +537,20 @@ export function AgencyPortal({
                 </button>
               </div>
             ) : (
-              <div className={grid}>
-                {results.map((property) => (
-                  <PublicPropertyCard
-                    key={property.id}
-                    property={property}
-                    agencySlug={agencySlug}
-                    template={site.template}
-                  />
-                ))}
-              </div>
+              <ByViewport site={site}>
+                {(template) => (
+                  <div className={LISTING_GRID[template]}>
+                    {results.map((property) => (
+                      <PublicPropertyCard
+                        key={property.id}
+                        property={property}
+                        agencySlug={agencySlug}
+                        template={template}
+                      />
+                    ))}
+                  </div>
+                )}
+              </ByViewport>
             )}
           </div>
         </section>

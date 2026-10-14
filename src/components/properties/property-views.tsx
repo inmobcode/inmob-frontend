@@ -19,6 +19,7 @@ import { StatusPill } from "@/components/properties/status-pill";
 import {
   ControlsZone,
   PropertyMenu,
+  ViewOnSiteButton,
   SelectToggle,
   type PropertyActions,
 } from "@/components/properties/property-controls";
@@ -190,6 +191,7 @@ export function PropertyRow({
       <div className="flex items-center justify-between gap-3 sm:w-44 sm:flex-col sm:items-end sm:py-1 sm:text-right">
         <ControlsZone className="flex items-center gap-2">
           <StatusPill status={property.status} />
+          <ViewOnSiteButton property={property} className="bg-foreground/[0.06] hover:bg-foreground/10" />
           <PropertyMenu
             property={property}
             actions={actions}
@@ -393,7 +395,7 @@ export function PropertiesTable({
               Propietario
             </th>
             <th className={cn(HEAD, "w-28", SHOW_UPDATED)}>Actualizada</th>
-            <th className={cn(HEAD, "w-14")}>
+            <th className={cn(HEAD, "w-24")}>
               <span className="sr-only">Acciones</span>
             </th>
           </tr>
@@ -537,14 +539,17 @@ export function PropertiesTable({
                   {shortAgo(property.updatedAt)}
                 </td>
                 <td
-                  className="w-14 py-3 pr-4 text-center"
+                  className="w-24 py-3 pr-4"
                   onClick={(event) => event.stopPropagation()}
                 >
-                  <PropertyMenu
-                    property={property}
-                    actions={actions}
-                    className="bg-foreground/[0.06] hover:bg-foreground/10"
-                  />
+                  <div className="flex items-center justify-end gap-1.5">
+                    <ViewOnSiteButton property={property} className="bg-foreground/[0.06] hover:bg-foreground/10" />
+                    <PropertyMenu
+                      property={property}
+                      actions={actions}
+                      className="bg-foreground/[0.06] hover:bg-foreground/10"
+                    />
+                  </div>
                 </td>
               </tr>
             );
