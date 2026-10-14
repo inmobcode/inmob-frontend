@@ -62,7 +62,7 @@ export function LandingFooter() {
       >
         <div className="flex flex-col items-start gap-4 lg:col-span-4">
           <Link
-            href="/for-agencies"
+            href="/"
             className="flex items-center gap-2 rounded-sm font-logo text-xl leading-none font-semibold tracking-tight outline-none focus-visible:ring-2 focus-visible:ring-lime"
           >
             <LogoIcon className="h-[0.95em] text-lime" />

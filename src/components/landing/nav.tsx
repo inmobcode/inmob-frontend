@@ -52,7 +52,7 @@ export function LandingNav() {
         className="mx-auto flex h-16 max-w-[1440px] items-center gap-8 px-5 sm:px-8"
       >
         <Link
-          href="/for-agencies"
+          href="/"
           className="flex items-center gap-2 rounded-sm font-logo text-xl leading-none font-semibold tracking-tight outline-none focus-visible:ring-2 focus-visible:ring-lime"
         >
           <LogoIcon className="h-[0.95em] text-lime" />
@@ -76,15 +76,6 @@ export function LandingNav() {
           ))}
         </ul>
         <div className="ml-auto flex items-center gap-2">
-          <Link
-            href="/"
-            className={cn(
-              "inline-flex h-10 items-center rounded-lg border px-4 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-lime",
-              onDark ? "border-paper/20 hover:bg-paper/10" : "border-line hover:bg-mist",
-            )}
-          >
-            Home
-          </Link>
           <Link
             href="/login"
             className={cn(
