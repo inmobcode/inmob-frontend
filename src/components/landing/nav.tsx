@@ -77,6 +77,15 @@ export function LandingNav() {
         </ul>
         <div className="ml-auto flex items-center gap-2">
           <Link
+            href="/new-landing"
+            className={cn(
+              "inline-flex h-10 items-center rounded-lg border px-4 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-lime",
+              onDark ? "border-paper/20 hover:bg-paper/10" : "border-line hover:bg-mist",
+            )}
+          >
+            Ver nueva landing
+          </Link>
+          <Link
             href="/login"
             className={cn(
               "hidden h-10 items-center rounded-lg px-4 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-lime sm:inline-flex",
