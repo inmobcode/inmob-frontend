@@ -23,9 +23,9 @@ const DASHBOARD_SECTIONS = [
 // the apex domain.
 const APP_ONLY_PREFIXES = ["/login", "/register", "/forgot-password", "/reset-password", "/auth", "/portal", "/inquiries"];
 
-// The (public) group: reachable from either host, but these are the only
-// paths allowed to stay on the apex domain unredirected.
-const PUBLIC_ONLY_PREFIXES = ["/page", "/offer", "/booking", "/owner"];
+// The (public) and (legal) groups: reachable from either host, but these are
+// the only paths allowed to stay on the apex domain unredirected.
+const PUBLIC_ONLY_PREFIXES = ["/page", "/offer", "/booking", "/owner", "/terminos", "/privacidad"];
 
 function isAppOnlyPath(pathname: string): boolean {
   if (pathname === "/") return false;

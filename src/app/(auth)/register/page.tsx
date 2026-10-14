@@ -25,6 +25,9 @@ import { setSession } from "@/lib/auth/session";
 
 const PASSWORD_HINT = "Al menos 8 caracteres.";
 
+const LEGAL_LINK =
+  "rounded-sm text-ink underline underline-offset-4 outline-none focus-visible:ring-2 focus-visible:ring-forest";
+
 const schema = z.object({
   agencyName: z.string().min(2, "Ingresá el nombre de tu agencia."),
   name: z.string().min(2, "Ingresá tu nombre."),
@@ -124,6 +127,17 @@ export default function RegisterPage() {
           label="Crear cuenta"
           pendingLabel="Creando cuenta…"
         />
+        <p className="text-center text-xs text-pretty text-quiet">
+          Al crear tu cuenta aceptás los{" "}
+          <Link href="/terminos" className={LEGAL_LINK}>
+            Términos y condiciones
+          </Link>{" "}
+          y la{" "}
+          <Link href="/privacidad" className={LEGAL_LINK}>
+            Política de privacidad
+          </Link>
+          .
+        </p>
       </form>
 
       <p className="text-center text-sm text-quiet">

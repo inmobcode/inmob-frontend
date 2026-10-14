@@ -1,9 +1,9 @@
+import { LandingFooter } from "@/components/landing/footer";
 import { Hero } from "@/components/landing/hero";
 import { LandingNav } from "@/components/landing/nav";
 import {
   DemoForm,
   Flow,
-  LandingFooter,
   Migration,
   PlansAndFaq,
   Portals,
