@@ -168,7 +168,7 @@ export function DestinationField({
             }}
             onFocus={() => setOpen(true)}
             onKeyDown={onKeyDown}
-            className="h-11 w-full rounded-xl bg-mist pr-3 pl-10 text-sm outline-none placeholder:text-quiet focus:bg-white focus:ring-1 focus:ring-line"
+            className="h-11 w-full rounded-xl bg-ink/[0.07] pr-3 pl-10 text-sm transition-[background-color,box-shadow] duration-300 outline-none placeholder:text-quiet hover:bg-ink/10 focus:bg-white focus:shadow-[0_8px_24px_-12px_oklch(0.3_0.05_160/0.3)]"
           />
         </div>
       </PopoverAnchor>

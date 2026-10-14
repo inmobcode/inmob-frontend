@@ -29,7 +29,8 @@ function Cell({ label, children, compact = false }: { label: string; children: R
 }
 
 const TRIGGER =
-  "h-11! w-full rounded-xl border-0 bg-mist px-3.5 text-sm shadow-none data-[state=open]:bg-white data-[state=open]:ring-1 data-[state=open]:ring-line";
+  // Translucent like the date picker's, so over the glass bar every field shows what's behind it alike.
+  "h-11! w-full rounded-xl border-0 bg-ink/[0.07] px-3.5 text-sm shadow-none transition-[background-color,box-shadow] duration-300 hover:bg-ink/10 data-[state=open]:bg-white data-[state=open]:shadow-[0_8px_24px_-12px_oklch(0.3_0.05_160/0.3)]";
 
 function GuestsField({ value, onChange }: { value: number; onChange: (value: number) => void }) {
   const stepper =
