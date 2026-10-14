@@ -38,7 +38,11 @@ export function SortSelect({
         sideOffset={8}
         className="w-56 rounded-2xl p-1.5 shadow-[0_16px_40px_-12px_oklch(0.3_0.05_160/0.3)] ring-foreground/5"
       >
-        <DropdownMenuRadioGroup value={value} onValueChange={(next) => onChange(next as SortValue)}>
+        <DropdownMenuRadioGroup
+          value={value}
+          onValueChange={(next) => onChange(next as SortValue)}
+          className="flex flex-col gap-1"
+        >
           {SORT_OPTIONS.map((option) => (
             <DropdownMenuRadioItem
               key={option.value}
