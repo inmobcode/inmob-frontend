@@ -16,13 +16,8 @@ function searchHref(params: Record<string, string>) {
 
 const LINK = "text-paper/70 underline-offset-4 transition-colors hover:text-paper hover:underline";
 
-/**
- * The end of the landing: every destination with listings set large, as the
- * last invitation to search; then the usual ways around (rent, buy, for
- * agencies) and the legal line.
- */
+/** The end of the landing: the ways around (rent, buy, for agencies) and the legal line. */
 export function SiteFooter({ facets }: { facets: MarketplaceFacets }) {
-  const destinations = facets.zones.slice(0, 12);
   const types = facets.categories.slice(0, 6);
 
   const columns: { title: string; links: { label: string; href: string; external?: boolean }[] }[] = [
@@ -64,29 +59,7 @@ export function SiteFooter({ facets }: { facets: MarketplaceFacets }) {
 
   return (
     <footer id="pie" className="bg-forest-deep text-paper">
-      {destinations.length > 0 && (
-        <div className={cn(WRAP, "flex flex-col gap-8 pt-16 pb-14 lg:pt-24")}>
-          <h2 className="text-sm text-paper/60">¿A dónde vamos?</h2>
-          <ul className="flex flex-wrap items-baseline gap-x-6 gap-y-2 sm:gap-x-8">
-            {destinations.map((zone) => (
-              <li key={zone.name}>
-                <Link
-                  href={searchHref({ zone: zone.name })}
-                  className="group inline-flex items-baseline gap-2 font-display text-[clamp(2rem,5vw,4rem)] leading-[1.05] tracking-tight text-paper/85 transition-colors outline-none hover:text-lime focus-visible:text-lime"
-                >
-                  {zone.name}
-                  <ArrowUpRight
-                    aria-hidden
-                    className="size-[0.45em] -translate-x-1 opacity-0 transition-[opacity,transform] duration-200 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:opacity-100"
-                  />
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      <div className={cn(WRAP, "grid gap-12 border-t border-paper/10 py-14 lg:grid-cols-[1.2fr_2fr] lg:gap-16")}>
+      <div className={cn(WRAP, "grid gap-12 pt-16 pb-14 lg:grid-cols-[1.2fr_2fr] lg:gap-16 lg:pt-20")}>
         <div className="flex flex-col items-start gap-5">
           <Link href={PATH} className="inline-flex items-center gap-2 font-display text-2xl tracking-tight">
             <LogoIcon className="text-lime" />
