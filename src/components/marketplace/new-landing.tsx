@@ -13,6 +13,7 @@ import { BlurEdge } from "@/components/dashboard/scroll-panel";
 import { LogoIcon } from "@/components/logo-icon";
 import { ListingCard } from "@/components/marketplace/listing-card";
 import { SearchPanel } from "@/components/marketplace/search-panel";
+import { SiteFooter } from "@/components/marketplace/site-footer";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
   searchMarketplace,
@@ -190,6 +191,9 @@ export function NewLanding({ facets }: { facets: MarketplaceFacets }) {
   // The hero's search is out of view: the compact one takes over, with the top blur under it.
   const [pinned, setPinned] = useState(false);
   const [moreBelow, setMoreBelow] = useState(true);
+  // The blurs fade to paper, so over the dark footer they'd read as a haze: they step aside there.
+  const [footerAtBottom, setFooterAtBottom] = useState(false);
+  const [footerAtTop, setFooterAtTop] = useState(false);
 
   useEffect(() => {
     const target = heroSearchRef.current;
@@ -201,6 +205,9 @@ export function NewLanding({ facets }: { facets: MarketplaceFacets }) {
     function onScroll() {
       const root = document.documentElement;
       setMoreBelow(root.scrollHeight - window.scrollY - window.innerHeight > 8);
+      const footerTop = document.getElementById("pie")?.getBoundingClientRect().top ?? Infinity;
+      setFooterAtBottom(footerTop < window.innerHeight - 24);
+      setFooterAtTop(footerTop < 112);
     }
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -269,9 +276,9 @@ export function NewLanding({ facets }: { facets: MarketplaceFacets }) {
 
   return (
     <div className="landing flex min-h-svh flex-1 flex-col">
-      <BlurEdge edge="top" visible={pinned} fixed />
+      <BlurEdge edge="top" visible={pinned && !footerAtTop} fixed />
       {/* Only over the paper sections: on the green hero it would read as a haze. */}
-      <BlurEdge edge="bottom" visible={pinned && moreBelow} fixed />
+      <BlurEdge edge="bottom" visible={pinned && moreBelow && !footerAtBottom} fixed />
       {/* The search follows you once the hero's is gone. */}
       <div
         aria-hidden={!pinned}
@@ -535,7 +542,7 @@ export function NewLanding({ facets }: { facets: MarketplaceFacets }) {
         </section>
 
         {/* How it works: a real sequence, so numbered. */}
-        <section className="border-t border-line bg-mist/60">
+        <section id="como-funciona" className="scroll-mt-24 border-t border-line bg-mist/60">
           <div className={cn(WRAP, "grid gap-10 py-14 lg:grid-cols-[1fr_2fr] lg:gap-16 lg:py-20")}>
             <h2 className="font-display text-3xl leading-tight tracking-tight text-balance">
               Sin intermediarios de más. <span className="text-quiet">Hablás con la inmobiliaria.</span>
@@ -565,39 +572,9 @@ export function NewLanding({ facets }: { facets: MarketplaceFacets }) {
           </div>
         </section>
 
-        {/* For agencies: the way to the product landing. */}
-        <section className="bg-forest-deep text-paper">
-          <div
-            className={cn(
-              WRAP,
-              "flex flex-col items-start justify-between gap-6 py-14 lg:flex-row lg:items-center lg:py-16",
-            )}
-          >
-            <div className="flex max-w-2xl flex-col gap-2">
-              <h2 className="font-display text-3xl tracking-tight text-balance">¿Tenés una inmobiliaria?</h2>
-              <p className="text-paper/70">
-                Publicá tus propiedades acá y manejá consultas, ofertas y reservas desde un solo lugar.
-              </p>
-            </div>
-            <Link
-              href="/"
-              className="inline-flex h-12 items-center gap-2 rounded-full bg-lime px-6 font-medium text-forest-deep hover:brightness-95"
-            >
-              Conocé Tivvo para inmobiliarias
-              <ArrowUpRight className="size-4" />
-            </Link>
-          </div>
-        </section>
       </main>
 
-      <footer className="border-t border-line">
-        <div className={cn(WRAP, "flex flex-wrap items-center justify-between gap-4 py-8 text-sm text-quiet")}>
-          <span className="inline-flex items-center gap-2">
-            <LogoIcon className="text-forest" />© {new Date().getFullYear()} Tivvo
-          </span>
-          <span>Cada propiedad la publica y la gestiona su inmobiliaria.</span>
-        </div>
-      </footer>
+      <SiteFooter facets={facets} />
     </div>
   );
 }
