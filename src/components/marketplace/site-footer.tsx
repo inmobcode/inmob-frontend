@@ -6,7 +6,7 @@ import type { MarketplaceFacets } from "@/lib/api/marketplace";
 import { categoryLabel } from "@/lib/properties-labels";
 import { cn } from "@/lib/utils";
 
-const PATH = "/new-landing";
+const PATH = "/";
 const WRAP = "mx-auto w-full max-w-7xl px-5 sm:px-8";
 
 /** A link into the results with a ready-made search; real hrefs, so they work without JS and can be crawled. */
@@ -43,7 +43,7 @@ export function SiteFooter({ facets }: { facets: MarketplaceFacets }) {
     {
       title: "Para inmobiliarias",
       links: [
-        { label: "Conocé Tivvo", href: "/" },
+        { label: "Conocé Tivvo", href: "/for-agencies" },
         { label: "Crear una cuenta", href: "/register" },
         { label: "Ingresar", href: "/login" },
       ],
@@ -75,7 +75,7 @@ export function SiteFooter({ facets }: { facets: MarketplaceFacets }) {
               Publicá tus propiedades acá y manejá consultas, ofertas y reservas desde un solo lugar.
             </p>
             <Link
-              href="/"
+              href="/for-agencies"
               className="inline-flex h-11 w-fit items-center gap-2 rounded-full bg-lime px-5 text-sm font-medium text-forest-deep transition-[filter] hover:brightness-95"
             >
               Conocé Tivvo para inmobiliarias

@@ -29,7 +29,7 @@ const ResultsMap = dynamic(() => import("@/components/marketplace/results-map"),
   loading: () => <div className="size-full animate-pulse bg-mist" />,
 });
 
-const PATH = "/new-landing";
+const PATH = "/";
 const WRAP = "mx-auto w-full max-w-7xl px-5 sm:px-8";
 
 const SORTS: { value: MarketplaceSort; label: string }[] = [
@@ -321,7 +321,7 @@ export function NewLanding({ facets }: { facets: MarketplaceFacets }) {
               Comprar
             </button>
             <Link
-              href="/"
+              href="/for-agencies"
               className="inline-flex h-9 items-center gap-1 rounded-full border border-paper/25 px-3.5 text-paper hover:bg-paper/10"
             >
               Soy inmobiliaria
