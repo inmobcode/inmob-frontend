@@ -26,7 +26,7 @@ const APP_ONLY_PREFIXES = ["/login", "/register", "/forgot-password", "/reset-pa
 
 // The (public) and (legal) groups: reachable from either host, but these are
 // the only paths allowed to stay on the apex domain unredirected.
-const PUBLIC_ONLY_PREFIXES = ["/page", "/offer", "/booking", "/owner", "/terminos", "/privacidad"];
+const PUBLIC_ONLY_PREFIXES = ["/for-agencies", "/page", "/offer", "/booking", "/owner", "/terminos", "/privacidad"];
 
 function isAppOnlyPath(pathname: string): boolean {
   if (pathname === "/") return false;
