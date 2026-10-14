@@ -154,6 +154,11 @@ export function OfferCard({ offer, actions }: { offer: Offer; actions: OfferActi
           <h3 className="font-display text-xl leading-tight text-balance line-clamp-2" title={offer.title}>
             {offer.title}
           </h3>
+          {offer.referenceCode && (
+            <p className="truncate text-xs font-medium text-muted-foreground" title={offer.referenceCode}>
+              Ref: {offer.referenceCode}
+            </p>
+          )}
           <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
             <UserRound className="size-3.5 shrink-0" />
             <span className="truncate">{client || "Sin cliente asignado"}</span>

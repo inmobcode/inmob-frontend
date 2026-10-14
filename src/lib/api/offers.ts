@@ -40,6 +40,8 @@ export interface Offer {
   clientId?: string | null;
   token: string;
   title: string;
+  /** The agency's own tracking code, free text and optional. */
+  referenceCode: string | null;
   operation: OfferOperation;
   currency: string;
   showPrice: boolean;
@@ -112,6 +114,7 @@ export interface OfferSectionInput {
 
 export interface SaveOfferPayload {
   title: string;
+  referenceCode?: string | null;
   operation?: OfferOperation;
   currency?: string;
   showPrice?: boolean;

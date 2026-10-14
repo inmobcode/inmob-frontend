@@ -89,7 +89,7 @@ function navItemsFor(agencySlug: string, role: string | undefined): NavItem[] {
   if (role && role !== "AGENT") {
     items.push(
       { href: `/${agencySlug}/team`, label: "Equipo", icon: UsersRound },
-      { href: "/portal", label: "Portal", icon: Globe },
+      { href: `/${agencySlug}/portal`, label: "Portal", icon: Globe },
       {
         href: `/${agencySlug}/settings`,
         label: "Configuración",

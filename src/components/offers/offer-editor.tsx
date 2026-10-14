@@ -56,6 +56,7 @@ const offerSectionSchema = z.object({
 
 const schema = z.object({
   title: z.string().min(2, "Ingresá un título"),
+  referenceCode: z.string(),
   operation: z.enum(["SALE", "RENT", "BOTH"]),
   currency: z.string().length(3, "3 letras, ej. USD"),
   showPrice: z.boolean(),
@@ -98,6 +99,7 @@ type FormValues = OfferFormValues;
 function toFormValues(offer: Offer): FormValues {
   return {
     title: offer.title,
+    referenceCode: offer.referenceCode ?? "",
     operation: offer.operation,
     currency: offer.currency,
     showPrice: offer.showPrice,
@@ -136,6 +138,7 @@ function toFormValues(offer: Offer): FormValues {
 function toPayload(values: FormValues): SaveOfferPayload {
   return {
     title: values.title,
+    referenceCode: values.referenceCode.trim() || null,
     operation: values.operation,
     currency: values.currency,
     showPrice: values.showPrice,
@@ -425,6 +428,12 @@ export function OfferEditor({ offerId }: { offerId: string }) {
                   <FieldLabel htmlFor="title">Título</FieldLabel>
                   <Input id="title" className="h-12 text-base" {...form.register("title")} />
                   <FieldError errors={[form.formState.errors.title]} />
+                </Field>
+                <Field>
+                  <FieldLabel htmlFor="referenceCode">
+                    Reference code <span className="font-normal text-muted-foreground">(opcional)</span>
+                  </FieldLabel>
+                  <Input id="referenceCode" placeholder="Ej: REF-1042" {...form.register("referenceCode")} />
                 </Field>
                 <Field>
                   <FieldLabel htmlFor="client">Cliente</FieldLabel>

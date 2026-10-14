@@ -32,6 +32,8 @@ export interface Service {
   currency: string;
   unit: ServiceUnit;
   active: boolean;
+  reservationPolicy: string | null;
+  cancellationPolicy: string | null;
   createdAt: string;
   updatedAt: string;
 }

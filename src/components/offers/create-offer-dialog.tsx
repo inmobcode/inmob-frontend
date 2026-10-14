@@ -26,6 +26,8 @@ import { getAccessToken } from "@/lib/auth/session";
 
 const schema = z.object({
   title: z.string().min(2, "Ingresá un título"),
+  // Optional: the agency's own tracking code, not required to create the offer.
+  referenceCode: z.string().max(100, "Máximo 100 caracteres").optional(),
   // No default: the agent has to say which kind of offer it is.
   operation: z.enum(["SALE", "RENT", "BOTH"], { error: "Elegí si es de venta, alquiler o ambas" }),
 });
@@ -36,15 +38,19 @@ export function CreateOfferDialog() {
   const { agencySlug } = useParams<{ agencySlug: string }>();
   const [open, setOpen] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
-  const form = useForm<FormValues>({ resolver: zodResolver(schema), defaultValues: { title: "" } });
+  const form = useForm<FormValues>({
+    resolver: zodResolver(schema),
+    defaultValues: { title: "", referenceCode: "" },
+  });
   const titleError = form.formState.errors.title?.message;
+  const referenceCodeError = form.formState.errors.referenceCode?.message;
   const operationError = form.formState.errors.operation?.message;
 
   const mutation = useMutation({
     mutationFn: (values: FormValues) => {
       const token = getAccessToken();
       if (!token) throw new ApiError("No autenticado", 401);
-      return createOffer(token, values);
+      return createOffer(token, { ...values, referenceCode: values.referenceCode || null });
     },
     onSuccess: (offer) => {
       setOpen(false);
@@ -95,6 +101,21 @@ export function CreateOfferDialog() {
               {...form.register("title")}
             />
             {titleError && <p className="text-sm text-destructive">{titleError}</p>}
+          </div>
+
+          <div className="flex flex-col gap-2.5 px-7 pt-5 pb-2">
+            <Label htmlFor="offer-reference-code">
+              Reference code <span className="font-normal text-quiet">(opcional)</span>
+            </Label>
+            <Input
+              id="offer-reference-code"
+              autoComplete="off"
+              placeholder="Ej: REF-1042"
+              aria-invalid={Boolean(referenceCodeError)}
+              className="h-11 px-4"
+              {...form.register("referenceCode")}
+            />
+            {referenceCodeError && <p className="text-sm text-destructive">{referenceCodeError}</p>}
           </div>
 
           <div className="flex flex-col gap-2.5 px-7 pt-5 pb-2">

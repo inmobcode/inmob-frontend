@@ -59,6 +59,8 @@ const EMPTY: SaveServicePayload = {
   currency: "USD",
   unit: "SERVICE",
   active: true,
+  reservationPolicy: null,
+  cancellationPolicy: null,
 };
 
 function toDraft(service: Service | null): SaveServicePayload {
@@ -74,6 +76,8 @@ function toDraft(service: Service | null): SaveServicePayload {
     currency: service.currency,
     unit: service.unit,
     active: service.active,
+    reservationPolicy: service.reservationPolicy,
+    cancellationPolicy: service.cancellationPolicy,
   };
 }
 
@@ -222,6 +226,8 @@ export function ServiceDialog({
         description: draft.description?.trim() || null,
         provider: draft.provider?.trim() || null,
         price: priceText.trim() === "" ? null : Number(priceText),
+        reservationPolicy: draft.reservationPolicy?.trim() || null,
+        cancellationPolicy: draft.cancellationPolicy?.trim() || null,
       };
       return service ? updateService(requireToken(), service.id, payload) : createService(requireToken(), payload);
     },
@@ -395,6 +401,29 @@ export function ServiceDialog({
                 />
                 <FieldDescription>Solo lo ve tu equipo, nunca el cliente.</FieldDescription>
               </Field>
+
+              <div className="grid gap-5 sm:grid-cols-2">
+                <Field>
+                  <FieldLabel htmlFor="service-reservation-policy">Política de reserva</FieldLabel>
+                  <Textarea
+                    id="service-reservation-policy"
+                    rows={3}
+                    value={draft.reservationPolicy ?? ""}
+                    placeholder="Cómo se reserva, seña, plazos…"
+                    onChange={(event) => set("reservationPolicy", event.target.value)}
+                  />
+                </Field>
+                <Field>
+                  <FieldLabel htmlFor="service-cancellation-policy">Política de cancelación</FieldLabel>
+                  <Textarea
+                    id="service-cancellation-policy"
+                    rows={3}
+                    value={draft.cancellationPolicy ?? ""}
+                    placeholder="Plazos y condiciones para cancelar…"
+                    onChange={(event) => set("cancellationPolicy", event.target.value)}
+                  />
+                </Field>
+              </div>
 
               <label className="flex items-center justify-between gap-4 rounded-2xl bg-foreground/[0.04] p-4">
                 <span className="flex flex-col gap-0.5">

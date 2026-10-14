@@ -241,7 +241,7 @@ export default function SettingsPage() {
             </a>
           </Button>
           <Button type="button" variant="ghost" className="gap-1.5" asChild>
-            <Link href="/portal" title="Personalizar portal">
+            <Link href={`/${agency.slug}/portal`} title="Personalizar portal">
               <Paintbrush />
               <span className="hidden md:inline">Personalizar portal</span>
             </Link>

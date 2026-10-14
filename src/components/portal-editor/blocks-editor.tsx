@@ -5,6 +5,8 @@ import {
   ArrowUp,
   BadgePercent,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   Compass,
   Eye,
   EyeOff,
@@ -13,12 +15,13 @@ import {
   MapPin,
   Megaphone,
   Plus,
+  Search,
   Star,
   TextQuote,
   Trash2,
   X,
 } from "lucide-react";
-import { useId, useRef, useState } from "react";
+import { useId, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { Checkbox } from "@/components/ui/checkbox";
@@ -53,6 +56,7 @@ import { cn } from "@/lib/utils";
 const MAX_SECTIONS = 12;
 const MAX_PROPERTIES = 12;
 const MAX_DESTINATIONS = 12;
+const PROPERTY_PAGE_SIZE = 8;
 
 const ICONS: Record<SiteSection["type"], typeof MapPin> = {
   location: MapPin,
@@ -217,7 +221,7 @@ function ImageUpload({
   );
 }
 
-/** A checklist of the agency's published listings, capped at twelve. */
+/** A checklist of the agency's published listings, capped at twelve, with a search box and pagination for agencies with many listings. */
 function PropertyPicker({
   label,
   selected,
@@ -230,6 +234,28 @@ function PropertyPicker({
   properties: Property[];
 }) {
   const full = selected.length >= MAX_PROPERTIES;
+  const [query, setQuery] = useState("");
+  const [page, setPage] = useState(0);
+
+  const filtered = useMemo(() => {
+    const term = query.trim().toLowerCase();
+    if (!term) return properties;
+    return properties.filter((property) =>
+      [property.title, property.area, property.region, property.country]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase()
+        .includes(term),
+    );
+  }, [properties, query]);
+
+  const pageCount = Math.max(Math.ceil(filtered.length / PROPERTY_PAGE_SIZE), 1);
+  const clampedPage = Math.min(page, pageCount - 1);
+  const paged = filtered.slice(
+    clampedPage * PROPERTY_PAGE_SIZE,
+    clampedPage * PROPERTY_PAGE_SIZE + PROPERTY_PAGE_SIZE,
+  );
+
   return (
     <fieldset className="flex flex-col gap-2">
       <legend className="mb-2 text-sm font-medium">
@@ -243,49 +269,95 @@ function PropertyPicker({
           Todavía no tenés propiedades publicadas.
         </p>
       ) : (
-        <ul className="flex max-h-64 flex-col overflow-y-auto rounded-lg border border-border">
-          {properties.map((property) => {
-            const checked = selected.includes(property.id);
-            const place = [property.area, property.region]
-              .filter(Boolean)
-              .join(", ");
-            return (
-              <li
-                key={property.id}
-                className="border-b border-border last:border-b-0"
-              >
-                <label
-                  className={cn(
-                    "flex cursor-pointer items-center gap-3 px-3 py-2.5 hover:bg-foreground/[0.03]",
-                    !checked && full && "cursor-not-allowed opacity-50",
-                  )}
-                >
-                  <Checkbox
-                    checked={checked}
-                    disabled={!checked && full}
-                    onCheckedChange={(next) =>
-                      onChange(
-                        next
-                          ? [...selected, property.id]
-                          : selected.filter((id) => id !== property.id),
-                      )
-                    }
-                  />
-                  <span className="min-w-0 flex-1">
-                    <span className="block truncate text-sm font-medium">
-                      {property.title}
-                    </span>
-                    {place && (
-                      <span className="block truncate text-xs text-muted-foreground">
-                        {place}
+        <>
+          <div className="relative">
+            <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              value={query}
+              onChange={(event) => {
+                setQuery(event.target.value);
+                setPage(0);
+              }}
+              placeholder="Buscar por título o zona"
+              aria-label={`Buscar en ${label.toLowerCase()}`}
+              className="h-9 pl-9"
+            />
+          </div>
+          {filtered.length === 0 ? (
+            <p className="px-1 text-sm text-muted-foreground">
+              Nada coincide con esa búsqueda.
+            </p>
+          ) : (
+            <ul className="flex flex-col overflow-hidden rounded-lg border border-border">
+              {paged.map((property) => {
+                const checked = selected.includes(property.id);
+                const place = [property.area, property.region]
+                  .filter(Boolean)
+                  .join(", ");
+                return (
+                  <li
+                    key={property.id}
+                    className="border-b border-border last:border-b-0"
+                  >
+                    <label
+                      className={cn(
+                        "flex cursor-pointer items-center gap-3 px-3 py-2.5 hover:bg-foreground/[0.03]",
+                        !checked && full && "cursor-not-allowed opacity-50",
+                      )}
+                    >
+                      <Checkbox
+                        checked={checked}
+                        disabled={!checked && full}
+                        onCheckedChange={(next) =>
+                          onChange(
+                            next
+                              ? [...selected, property.id]
+                              : selected.filter((id) => id !== property.id),
+                          )
+                        }
+                      />
+                      <span className="min-w-0 flex-1">
+                        <span className="block truncate text-sm font-medium">
+                          {property.title}
+                        </span>
+                        {place && (
+                          <span className="block truncate text-xs text-muted-foreground">
+                            {place}
+                          </span>
+                        )}
                       </span>
-                    )}
-                  </span>
-                </label>
-              </li>
-            );
-          })}
-        </ul>
+                    </label>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+          {pageCount > 1 && (
+            <div className="flex items-center justify-between px-1 text-sm text-muted-foreground">
+              <button
+                type="button"
+                className={cn(ICON_BUTTON, "size-7")}
+                aria-label="Página anterior"
+                disabled={clampedPage === 0}
+                onClick={() => setPage(clampedPage - 1)}
+              >
+                <ChevronLeft className="size-4" />
+              </button>
+              <span>
+                Página {clampedPage + 1} de {pageCount}
+              </span>
+              <button
+                type="button"
+                className={cn(ICON_BUTTON, "size-7")}
+                aria-label="Página siguiente"
+                disabled={clampedPage === pageCount - 1}
+                onClick={() => setPage(clampedPage + 1)}
+              >
+                <ChevronRight className="size-4" />
+              </button>
+            </div>
+          )}
+        </>
       )}
     </fieldset>
   );

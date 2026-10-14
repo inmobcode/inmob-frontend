@@ -40,8 +40,8 @@ import { clearSession, getAccessToken, useSessionUser } from "@/lib/auth/session
 import { useActionBarStore } from "@/lib/store/action-bar-store";
 import { cn } from "@/lib/utils";
 
-// The portal editor and login live outside the agency-scoped dashboard tree.
-const BARE_PATHS = new Set(["/portal", "/login"]);
+// Only login lives outside the agency-scoped dashboard tree.
+const BARE_PATHS = new Set(["/login"]);
 // Equipo, Configuración and Portal are OWNER/ADMIN territory — see sidebar.tsx.
 const RESTRICTED_PATHS = new Set(["/team", "/settings", "/portal"]);
 

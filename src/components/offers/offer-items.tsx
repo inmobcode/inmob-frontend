@@ -45,6 +45,8 @@ export interface OfferServiceFormValue {
 /** The shape of the offer form that these pieces read and write. */
 export interface OfferFormValues {
   title: string;
+  /** The agency's own tracking code, free text and optional. */
+  referenceCode: string;
   operation: OfferOperation;
   currency: string;
   showPrice: boolean;

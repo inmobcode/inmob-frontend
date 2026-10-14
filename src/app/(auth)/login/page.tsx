@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -37,15 +37,24 @@ const LINK =
 export default function LoginPage() {
   const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
+  // Starts true on both server and first client render so we never paint the
+  // form before checking for an existing session; useLayoutEffect below
+  // resolves it synchronously, before the browser paints, so an already
+  // logged-in visitor never sees the login form flash.
+  const [checkingSession, setCheckingSession] = useState(true);
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: { email: "", password: "" },
   });
   const errors = form.formState.errors;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const slug = getAgencySlug();
-    if (slug) router.replace(readNext(slug));
+    if (slug) {
+      router.replace(readNext(slug));
+      return;
+    }
+    setCheckingSession(false);
   }, [router]);
 
   async function onSubmit(values: FormValues) {
@@ -58,6 +67,8 @@ export default function LoginPage() {
       setServerError(authErrorMessage(err, "login"));
     }
   }
+
+  if (checkingSession) return null;
 
   return (
     <div className="flex flex-col gap-8 [@media(max-height:820px)]:gap-6">

@@ -103,7 +103,11 @@ export default function OffersPage() {
       if (status.length > 0 && !status.includes(offer.status)) return false;
       if (operation.length > 0 && !operation.includes(offer.operation)) return false;
       if (!term) return true;
-      return [offer.title, offer.clientName, offer.clientEmail].filter(Boolean).join(" ").toLowerCase().includes(term);
+      return [offer.title, offer.referenceCode, offer.clientName, offer.clientEmail]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase()
+        .includes(term);
     });
   }, [sorted, status, operation, search]);
 
@@ -175,7 +179,7 @@ export default function OffersPage() {
               <Input
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
-                placeholder="Buscar por título o cliente"
+                placeholder="Buscar por título, cliente o reference code"
                 aria-label="Buscar ofertas"
                 className="h-10 rounded-full border-transparent bg-foreground/[0.07] pl-10 transition-[background-color,box-shadow,border-color] duration-500 ease-out focus-visible:border-primary/20 focus-visible:bg-card focus-visible:shadow-[0_8px_24px_-12px_oklch(0.3_0.05_160/0.3)] focus-visible:ring-0 dark:bg-foreground/10 dark:focus-visible:bg-card"
               />

@@ -375,6 +375,7 @@ function InquiryDetail({
  * right. On phones the two take turns. Opening one marks it read.
  */
 export default function InquiriesPage() {
+  const { agencySlug } = useParams<{ agencySlug: string }>();
   const queryClient = useQueryClient();
   const [filter, setFilter] = useState<Filter>("all");
   const [search, setSearch] = useState("");
@@ -507,7 +508,7 @@ export default function InquiriesPage() {
           ver acá y te llega un aviso por email.
         </p>
         <Button variant="outline" className="mt-2 rounded-full" asChild>
-          <Link href="/portal">Ir a tu portal</Link>
+          <Link href={`/${agencySlug}/portal`}>Ir a tu portal</Link>
         </Button>
       </div>
     );

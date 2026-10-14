@@ -14,14 +14,15 @@ const DASHBOARD_SECTIONS = [
   "team",
   "settings",
   "profile",
+  "portal",
 ];
 
 // Route groups that must only be reached through the app subdomain: the auth
-// flow, the dashboard itself (agency-scoped routes under "/[agencySlug]"),
-// and the site editor. Everything else — the marketing landing page and the
-// (public) group (agency sites, shared offer/booking/owner links) — stays on
-// the apex domain.
-const APP_ONLY_PREFIXES = ["/login", "/register", "/forgot-password", "/reset-password", "/auth", "/portal", "/inquiries"];
+// flow and the dashboard itself (agency-scoped routes under "/[agencySlug]",
+// which now includes the site editor at "/[agencySlug]/portal"). Everything
+// else — the marketing landing page and the (public) group (agency sites,
+// shared offer/booking/owner links) — stays on the apex domain.
+const APP_ONLY_PREFIXES = ["/login", "/register", "/forgot-password", "/reset-password", "/auth", "/inquiries"];
 
 // The (public) and (legal) groups: reachable from either host, but these are
 // the only paths allowed to stay on the apex domain unredirected.
@@ -59,18 +60,6 @@ export function proxy(request: NextRequest) {
     const url = new URL(request.nextUrl);
     url.pathname = "/login";
     return NextResponse.redirect(url);
-  }
-
-  // The portal editor lives outside the agency-scoped tree (no slug segment),
-  // so it only needs the plain "are you logged in" check, not slug-correction.
-  if (pathname === "/portal" || pathname.startsWith("/portal/")) {
-    const token = request.cookies.get("access_token")?.value;
-    if (!token) {
-      const loginUrl = new URL("/login", request.url);
-      loginUrl.searchParams.set("next", pathname);
-      return NextResponse.redirect(loginUrl);
-    }
-    return NextResponse.next();
   }
 
   const [, agencySlug, section] = pathname.split("/");

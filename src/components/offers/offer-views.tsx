@@ -63,6 +63,11 @@ export function OfferRow({ offer, actions }: { offer: Offer; actions: OfferActio
         <h3 className="font-display text-xl leading-tight text-balance line-clamp-2" title={offer.title}>
           {offer.title}
         </h3>
+        {offer.referenceCode && (
+          <p className="truncate text-xs font-medium text-muted-foreground" title={offer.referenceCode}>
+            Ref: {offer.referenceCode}
+          </p>
+        )}
         <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
           <UserRound className="size-3.5 shrink-0" />
           <span className="truncate">{offer.clientName?.trim() || "Sin cliente asignado"}</span>
@@ -99,6 +104,7 @@ export function OffersTable({ offers, actions }: { offers: Offer[]; actions: Off
         <thead>
           <tr>
             <th className={cn(HEAD, "pl-4")}>Oferta</th>
+            <th className={HEAD}>Reference code</th>
             <th className={HEAD}>Estado</th>
             <th className={cn(HEAD, "text-right")}>Propiedades</th>
             <th className={cn(HEAD, "text-right")}>Total</th>
@@ -137,6 +143,9 @@ export function OffersTable({ offers, actions }: { offers: Offer[]; actions: Off
                       </span>
                     </div>
                   </div>
+                </td>
+                <td className="px-4 py-3 whitespace-nowrap text-muted-foreground">
+                  {offer.referenceCode || "—"}
                 </td>
                 <td className="px-4 py-3">
                   <OfferStatusPill status={offer.status} />
