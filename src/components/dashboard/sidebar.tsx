@@ -20,7 +20,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 
 import { TOGGLE_SIDEBAR_EVENT } from "@/components/dashboard/shortcuts";
 import { getUnreadInquiries } from "@/lib/api/inquiries";
@@ -54,6 +54,8 @@ interface NavItem {
   href: string;
   label: string;
   icon: LucideIcon;
+  /** Leaves a little extra room above it: the start of the administration links. */
+  startsGroup?: boolean;
 }
 
 const EXPANDED_WIDTH = 255;
@@ -76,23 +78,25 @@ function useAgencySlug() {
  * shared items show, so an agent never sees admin links flash by.
  */
 function navItemsFor(agencySlug: string, role: string | undefined): NavItem[] {
+  // In the order the business runs: a question comes in, becomes a client, gets
+  // properties offered, turns into a booking. Agency administration goes last.
   const items: NavItem[] = [
+    { href: `/${agencySlug}/inquiries`, label: "Consultas", icon: Inbox },
+    { href: `/${agencySlug}/clients`, label: "Clientes", icon: Users },
     {
       href: `/${agencySlug}/properties`,
       label: "Propiedades",
       icon: Building2,
     },
     { href: `/${agencySlug}/offers`, label: "Ofertas", icon: Tag },
-    { href: `/${agencySlug}/clients`, label: "Clientes", icon: Users },
-    { href: `/${agencySlug}/inquiries`, label: "Consultas", icon: Inbox },
     { href: `/${agencySlug}/bookings`, label: "Reservas", icon: CalendarDays },
-    { href: `/${agencySlug}/services`, label: "Servicios", icon: Sparkles },
     { href: `/${agencySlug}/availability`, label: "Disponibilidad", icon: CalendarCheck },
+    { href: `/${agencySlug}/services`, label: "Servicios", icon: Sparkles },
   ];
   if (role && role !== "AGENT") {
     items.push(
+      { href: `/${agencySlug}/portal`, label: "Portal", icon: Globe, startsGroup: true },
       { href: `/${agencySlug}/team`, label: "Equipo", icon: UsersRound },
-      { href: `/${agencySlug}/portal`, label: "Portal", icon: Globe },
       {
         href: `/${agencySlug}/settings`,
         label: "Configuración",
@@ -316,14 +320,16 @@ function SidebarNav({
         className="pointer-events-none absolute inset-x-0 top-0 rounded-lg bg-sidebar-primary opacity-0"
       />
       {navItems.map((item) => (
-        <NavLink
-          key={item.href}
-          item={item}
-          active={item.href === activeHref}
-          collapsed={collapsed}
-          onNavigate={onNavigate}
-          badge={item.href.endsWith("/inquiries") ? (unread?.count ?? 0) : 0}
-        />
+        <Fragment key={item.href}>
+          {item.startsGroup && <span aria-hidden className="h-2" />}
+          <NavLink
+            item={item}
+            active={item.href === activeHref}
+            collapsed={collapsed}
+            onNavigate={onNavigate}
+            badge={item.href.endsWith("/inquiries") ? (unread?.count ?? 0) : 0}
+          />
+        </Fragment>
       ))}
     </nav>
   );
