@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Building2,
+  CircleQuestionMark,
   Copy,
   ExternalLink,
   LoaderCircle,
@@ -17,6 +18,7 @@ import { getPublicOrigin } from "@/lib/public-origin";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import { docsHref } from "@/components/docs/docs-sections";
 import { FormSection } from "@/components/properties/form-section";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -219,6 +221,17 @@ export default function SettingsPage() {
       onCancel: null,
       extra: agency ? (
         <div className="flex items-center gap-1 sm:mr-2">
+          <Button type="button" variant="ghost" className="gap-1.5" asChild>
+            <a
+              href={docsHref("configuracion")}
+              target="_blank"
+              rel="noreferrer"
+              title="Ayuda con la configuración"
+            >
+              <CircleQuestionMark />
+              <span className="hidden md:inline">Ayuda</span>
+            </a>
+          </Button>
           <Button
             type="button"
             variant="ghost"

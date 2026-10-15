@@ -3,6 +3,7 @@
 import { LogoIcon } from "@/components/logo-icon";
 import {
   Building2,
+  CalendarCheck,
   CalendarDays,
   Globe,
   Inbox,
@@ -85,6 +86,7 @@ function navItemsFor(agencySlug: string, role: string | undefined): NavItem[] {
     { href: `/${agencySlug}/inquiries`, label: "Consultas", icon: Inbox },
     { href: `/${agencySlug}/bookings`, label: "Reservas", icon: CalendarDays },
     { href: `/${agencySlug}/services`, label: "Servicios", icon: Sparkles },
+    { href: `/${agencySlug}/availability`, label: "Disponibilidad", icon: CalendarCheck },
   ];
   if (role && role !== "AGENT") {
     items.push(

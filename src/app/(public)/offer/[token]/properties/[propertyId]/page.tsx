@@ -10,6 +10,7 @@ import { PropertyGallery } from "@/components/public/property-gallery";
 import { SITE_WRAP, SiteRoot } from "@/components/public/site-chrome";
 import { ApiError } from "@/lib/api/client";
 import { getPublicOffer } from "@/lib/api/offers";
+import { listingDescription, listingImages } from "@/lib/listing-seo";
 import { categoryLabel, LISTING_TYPE_LABELS } from "@/lib/properties-labels";
 import { propertyFacts, propertyFeatureGroups } from "@/lib/property-details";
 import { richTextHtml } from "@/lib/rich-text";
@@ -35,10 +36,18 @@ const loadItem = cache(async (token: string, propertyId: string) => {
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { token, propertyId } = await params;
   const { offer, item } = await loadItem(token, propertyId);
+  const title = `${item.property.title} · ${offer.title}`;
+  const description = listingDescription(item.property);
+  const images = listingImages(item.property);
+
   return {
     // Absolute: this is the agency's own offer link, not a Tivvo surface.
-    title: { absolute: `${item.property.title} · ${offer.title}` },
+    title: { absolute: title },
+    description,
     robots: { index: false },
+    // Clients get this link by WhatsApp: the card carries the listing's own photo.
+    openGraph: { type: "website", title, description, images },
+    twitter: { card: images ? "summary_large_image" : "summary", title, description, images },
   };
 }
 

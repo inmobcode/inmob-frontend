@@ -129,11 +129,11 @@ export default function RegisterPage() {
         />
         <p className="text-center text-xs text-pretty text-quiet">
           Al crear tu cuenta aceptás los{" "}
-          <Link href="/terminos" className={LEGAL_LINK}>
+          <Link href="/terms" className={LEGAL_LINK}>
             Términos y condiciones
           </Link>{" "}
           y la{" "}
-          <Link href="/privacidad" className={LEGAL_LINK}>
+          <Link href="/privacy" className={LEGAL_LINK}>
             Política de privacidad
           </Link>
           .

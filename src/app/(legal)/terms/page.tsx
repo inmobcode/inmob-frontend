@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 
 import { LegalDocument, LegalLink, type LegalSection } from "@/components/legal/legal-document";
 import { LEGAL_ENTITY } from "@/lib/legal";
+import { absoluteUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Términos y condiciones",
   description:
     "Condiciones de uso de Tivvo, el sistema de gestión para agencias de venta y alquiler temporario.",
+  alternates: { canonical: absoluteUrl("/terms") },
 };
 
 const { name, taxId, address, jurisdiction, contactEmail } = LEGAL_ENTITY;
@@ -32,7 +34,7 @@ const SECTIONS: LegalSection[] = [
         </p>
         <p>
           Los Términos forman, junto con la{" "}
-          <LegalLink href="/privacidad">Política de privacidad</LegalLink> y las condiciones del
+          <LegalLink href="/privacy">Política de privacidad</LegalLink> y las condiciones del
           plan que contrates, el acuerdo completo entre Tivvo y la Agencia. Si una condición
           particular de tu plan (por ejemplo, un acuerdo Enterprise firmado) dice algo distinto,
           prevalece la condición particular.
@@ -323,7 +325,7 @@ const SECTIONS: LegalSection[] = [
         <p>
           La Agencia, por su parte, garantiza que tiene una base legal para cargar esos datos y
           que informa a sus Clientes finales cómo los trata. La{" "}
-          <LegalLink href="/privacidad">Política de privacidad</LegalLink> explica qué datos trata
+          <LegalLink href="/privacy">Política de privacidad</LegalLink> explica qué datos trata
           Tivvo, con qué proveedores y en qué países.
         </p>
       </>
@@ -559,7 +561,7 @@ export default function TermsPage() {
       }
       summary={SUMMARY}
       sections={SECTIONS}
-      related={{ href: "/privacidad", label: "Política de privacidad" }}
+      related={{ href: "/privacy", label: "Política de privacidad" }}
     />
   );
 }

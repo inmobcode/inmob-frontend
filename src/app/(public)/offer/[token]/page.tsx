@@ -34,12 +34,30 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const { token } = await params;
   const offer = await loadOffer(token);
   const cover = coverOf(offer);
+  const count = offer.sections.reduce((total, section) => total + section.properties.length, 0);
+  // Sent by WhatsApp and email, so the card has to say what it is on its own.
+  const description = offer.welcomeTitle?.trim()
+    ? offer.welcomeTitle
+    : `${count} ${count === 1 ? "propiedad seleccionada" : "propiedades seleccionadas"} para vos.`;
+
   return {
     // Absolute: this is the agency's own offer link, not a Tivvo surface.
     title: { absolute: offer.title },
+    description,
     // A private link: keep it out of search engines.
     robots: { index: false, follow: false },
-    openGraph: cover ? { images: [cover] } : undefined,
+    openGraph: {
+      type: "website",
+      title: offer.title,
+      description,
+      images: cover ? [{ url: cover, alt: offer.title }] : undefined,
+    },
+    twitter: {
+      card: cover ? "summary_large_image" : "summary",
+      title: offer.title,
+      description,
+      images: cover ? [cover] : undefined,
+    },
   };
 }
 

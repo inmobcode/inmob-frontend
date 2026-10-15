@@ -7,6 +7,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { CreateOfferDialog } from "@/components/offers/create-offer-dialog";
+import { HelpHint, HelpLink } from "@/components/docs/help-link";
 import { OfferCard, OfferCardSkeleton, type OfferActions } from "@/components/offers/offer-card";
 import { FilterMenu } from "@/components/filter-menu";
 import { TrashLink } from "@/components/trash/trash-link";
@@ -207,6 +208,7 @@ export default function OffersPage() {
                 <ViewSwitch value={view} onChange={changeView} />
               </>
             )}
+            <HelpLink section="ofertas" label="Ayuda con ofertas" />
             {trashLink}
             <CreateOfferDialog />
           </div>
@@ -251,6 +253,7 @@ export default function OffersPage() {
             <CreateOfferDialog />
             {trashLink}
           </div>
+          <HelpHint section="ofertas">Cómo armar y enviar una oferta</HelpHint>
         </div>
       )}
 

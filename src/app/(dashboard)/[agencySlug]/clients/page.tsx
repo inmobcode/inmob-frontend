@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { ClientCard, ClientCardSkeleton, ClientRow, ClientsTable } from "@/components/clients/client-views";
 import { STAGES, type ClientActions } from "@/components/clients/client-parts";
 import { CreateClientDialog } from "@/components/clients/create-client-dialog";
+import { HelpHint, HelpLink } from "@/components/docs/help-link";
 import { FilterMenu } from "@/components/filter-menu";
 import { ViewSwitch, type ViewMode } from "@/components/properties/view-switch";
 import { Button } from "@/components/ui/button";
@@ -156,6 +157,7 @@ export default function ClientsPage() {
                 <ViewSwitch value={view} onChange={changeView} />
               </>
             )}
+            <HelpLink section="clientes" label="Ayuda con clientes" />
             <CreateClientDialog />
           </div>
         </div>
@@ -196,6 +198,7 @@ export default function ClientsPage() {
             </p>
           </div>
           <CreateClientDialog />
+          <HelpHint section="clientes">Cómo seguir a un cliente por etapas</HelpHint>
         </div>
       )}
 

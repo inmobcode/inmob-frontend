@@ -28,9 +28,11 @@ import {
   DocTip,
   Kbd,
 } from "@/components/docs/docs-parts";
+import type { DocSectionId } from "@/components/docs/docs-sections";
 
 export interface DocEntry {
-  id: string;
+  /** Also what the dashboard's help links point at: see docs-sections.ts. */
+  id: DocSectionId;
   label: string;
   icon: LucideIcon;
   adminOnly?: boolean;

@@ -48,7 +48,6 @@ import { getPublicOrigin } from "@/lib/public-origin";
 import { cn } from "@/lib/utils";
 
 const NAME_FALLBACK = "Tu nombre";
-const SUPPORT_EMAIL = process.env.NEXT_PUBLIC_SUPPORT_EMAIL;
 
 export function initials(name: string) {
   return name
@@ -346,14 +345,12 @@ export function UserMenu({ collapsed }: { collapsed: boolean }) {
             Atajos de teclado
             <kbd className="ml-auto text-xs text-muted-foreground">?</kbd>
           </DropdownMenuItem>
-          {SUPPORT_EMAIL && (
-            <DropdownMenuItem className="rounded-xl py-2" asChild>
-              <a href={`mailto:${SUPPORT_EMAIL}`}>
-                <LifeBuoy />
-                Ayuda y soporte
-              </a>
-            </DropdownMenuItem>
-          )}
+          <DropdownMenuItem className="rounded-xl py-2" asChild>
+            <a href="/help" target="_blank" rel="noreferrer">
+              <LifeBuoy />
+              Ayuda y soporte
+            </a>
+          </DropdownMenuItem>
 
           <DropdownMenuSeparator />
           <DropdownMenuItem

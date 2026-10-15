@@ -18,6 +18,7 @@ import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryProvider } from "@/lib/query-provider";
+import { SITE_NAME, SITE_URL } from "@/lib/seo";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -105,10 +106,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  // Every relative canonical and Open Graph image below resolves against this.
+  metadataBase: new URL(SITE_URL),
   // Pages set their own short title ("Propiedades", "Ingresar", …) and get
   // this suffix for free; only the root page (no override) shows "Tivvo" bare.
-  title: { default: "Tivvo", template: "%s · Tivvo" },
-  description: "Plataforma de gestión para agencias",
+  title: { default: SITE_NAME, template: `%s · ${SITE_NAME}` },
+  description: "Sistema de gestión para inmobiliarias: propiedades, ofertas, reservas y el sitio de tu agencia.",
+  applicationName: SITE_NAME,
+  // Agency sites and listings override these with their own name and photos.
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    locale: "es_AR",
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

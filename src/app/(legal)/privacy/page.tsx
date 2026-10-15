@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 
 import { LegalDocument, LegalLink, type LegalSection } from "@/components/legal/legal-document";
 import { LEGAL_ENTITY } from "@/lib/legal";
+import { absoluteUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Política de privacidad",
   description:
     "Qué datos personales trata Tivvo, para qué, con quién los comparte y cómo ejercer tus derechos.",
+  alternates: { canonical: absoluteUrl("/privacy") },
 };
 
 const { name, taxId, address, privacyEmail } = LEGAL_ENTITY;
@@ -405,7 +407,7 @@ export default function PrivacyPage() {
       }
       summary={SUMMARY}
       sections={SECTIONS}
-      related={{ href: "/terminos", label: "Términos y condiciones" }}
+      related={{ href: "/terms", label: "Términos y condiciones" }}
     />
   );
 }

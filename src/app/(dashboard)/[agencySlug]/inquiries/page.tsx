@@ -30,6 +30,7 @@ import { useParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
+import { HelpHint, HelpLink } from "@/components/docs/help-link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ApiError } from "@/lib/api/client";
@@ -510,6 +511,7 @@ export default function InquiriesPage() {
         <Button variant="outline" className="mt-2 rounded-full" asChild>
           <Link href={`/${agencySlug}/portal`}>Ir a tu portal</Link>
         </Button>
+        <HelpHint section="consultas">De dónde salen las consultas</HelpHint>
       </div>
     );
   }
@@ -572,6 +574,12 @@ export default function InquiriesPage() {
                   <CheckCheck className="size-4" />
                 </button>
               )}
+              {/* Ghost, like the button beside it: this panel has no filled toolbar. */}
+              <HelpLink
+                section="consultas"
+                label="Ayuda con consultas"
+                className="bg-transparent hover:bg-foreground/[0.06] dark:bg-transparent dark:hover:bg-foreground/[0.06]"
+              />
             </div>
             <div className="relative">
               <Search className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted-foreground" />

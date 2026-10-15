@@ -11,6 +11,7 @@ const LINKS = [
   { href: "#portales", label: "Portales" },
   { href: "#migracion", label: "Migración" },
   { href: "#planes", label: "Planes" },
+  { href: "/help", label: "Ayuda" },
 ];
 
 export function LandingNav() {

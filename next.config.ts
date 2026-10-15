@@ -19,6 +19,14 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  // These pages used to live at their Spanish names; keep old links working.
+  async redirects() {
+    return [
+      { source: "/ayuda", destination: "/help", permanent: true },
+      { source: "/terminos", destination: "/terms", permanent: true },
+      { source: "/privacidad", destination: "/privacy", permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;

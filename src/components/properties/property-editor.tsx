@@ -5,6 +5,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Building2,
   Calendar,
+  CircleQuestionMark,
   DoorOpen,
   FileText,
   Images,
@@ -21,8 +22,10 @@ import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
+import { docsHref } from "@/components/docs/docs-sections";
 import { SectionNavbar } from "@/components/properties/editor-shell";
 import { AmenitiesTab } from "@/components/properties/amenities-tab";
 import { BasicTab } from "@/components/properties/basic-tab";
@@ -500,6 +503,16 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
         ? () => unpublishMutation.mutate()
         : form.handleSubmit((values) => publishMutation.mutate(values)),
       onCancel: () => router.push(`/${agencySlug}/properties`),
+      extra: (
+        <div className="flex items-center gap-1 sm:mr-2">
+          <Button type="button" variant="ghost" className="gap-1.5" asChild>
+            <a href={docsHref("propiedades")} target="_blank" rel="noreferrer" title="Ayuda con propiedades">
+              <CircleQuestionMark />
+              <span className="hidden lg:inline">Ayuda</span>
+            </a>
+          </Button>
+        </div>
+      ),
     });
     return resetActions;
     // eslint-disable-next-line react-hooks/exhaustive-deps

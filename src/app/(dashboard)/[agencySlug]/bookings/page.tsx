@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { BOOKING_STATUSES, type BookingActions } from "@/components/bookings/booking-parts";
 import { BookingCard, BookingCardSkeleton, BookingRow, BookingsTable } from "@/components/bookings/booking-views";
 import { CreateBookingDialog } from "@/components/bookings/create-booking-dialog";
+import { HelpHint, HelpLink } from "@/components/docs/help-link";
 import { FilterMenu } from "@/components/filter-menu";
 import { TrashLink } from "@/components/trash/trash-link";
 import { ViewSwitch, type ViewMode } from "@/components/properties/view-switch";
@@ -200,6 +201,7 @@ export default function BookingsPage() {
                 <ViewSwitch value={view} onChange={changeView} />
               </>
             )}
+            <HelpLink section="reservas" label="Ayuda con reservas" />
             {trashLink}
             <CreateBookingDialog />
           </div>
@@ -244,6 +246,7 @@ export default function BookingsPage() {
             <CreateBookingDialog />
             {trashLink}
           </div>
+          <HelpHint section="reservas">Cómo cargar una reserva y sus pagos</HelpHint>
         </div>
       )}
 

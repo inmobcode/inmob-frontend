@@ -44,8 +44,9 @@ const FOOTER_LINKS: {
 ];
 
 const LEGAL_LINKS = [
-  { label: "Términos y condiciones", href: "/terminos" },
-  { label: "Privacidad", href: "/privacidad" },
+  { label: "Ayuda", href: "/help" },
+  { label: "Términos y condiciones", href: "/terms" },
+  { label: "Privacidad", href: "/privacy" },
 ];
 
 const FOOTER_LINK =

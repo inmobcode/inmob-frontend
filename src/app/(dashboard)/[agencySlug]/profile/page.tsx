@@ -2,13 +2,14 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Camera, Eye, EyeOff, LoaderCircle } from "lucide-react";
+import { Camera, CircleQuestionMark, Eye, EyeOff, LoaderCircle } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
 import { initials } from "@/components/dashboard/user-menu";
+import { docsHref } from "@/components/docs/docs-sections";
 import { FormSection } from "@/components/properties/form-section";
 import { RolePill } from "@/components/team/team-parts";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -162,6 +163,16 @@ export default function ProfilePage() {
       onSave: form.handleSubmit((values) => saveMutation.mutate(values)),
       onPublish: null,
       onCancel: null,
+      extra: (
+        <div className="flex items-center gap-1 sm:mr-2">
+          <Button type="button" variant="ghost" className="gap-1.5" asChild>
+            <a href={docsHref("perfil")} target="_blank" rel="noreferrer" title="Ayuda con mi perfil">
+              <CircleQuestionMark />
+              <span className="hidden md:inline">Ayuda</span>
+            </a>
+          </Button>
+        </div>
+      ),
     });
     return resetActions;
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Copy, Hand, Home, Link2, Plus, Settings2, Sparkles, UserRound } from "lucide-react";
+import { CircleQuestionMark, Copy, Hand, Home, Link2, Plus, Settings2, Sparkles, UserRound } from "lucide-react";
 import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -10,6 +10,7 @@ import { Controller, useFieldArray, useForm, useWatch, type FieldErrors } from "
 import { toast } from "sonner";
 import { z } from "zod";
 
+import { docsHref } from "@/components/docs/docs-sections";
 import { OperationPicker } from "@/components/offers/offer-operation";
 import { OfferServicesSection, serviceLineTotal } from "@/components/offers/offer-services";
 import { OfferStatusPill } from "@/components/offers/offer-status-pill";
@@ -349,6 +350,16 @@ export function OfferEditor({ offerId }: { offerId: string }) {
           ? form.handleSubmit((values) => sendMutation.mutate(values), showInvalid)
           : null,
       onCancel: () => router.push(`/${agencySlug}/offers`),
+      extra: (
+        <div className="flex items-center gap-1 sm:mr-2">
+          <Button type="button" variant="ghost" className="gap-1.5" asChild>
+            <a href={docsHref("ofertas")} target="_blank" rel="noreferrer" title="Ayuda con ofertas">
+              <CircleQuestionMark />
+              <span className="hidden lg:inline">Ayuda</span>
+            </a>
+          </Button>
+        </div>
+      ),
     });
     return resetActions;
     // eslint-disable-next-line react-hooks/exhaustive-deps

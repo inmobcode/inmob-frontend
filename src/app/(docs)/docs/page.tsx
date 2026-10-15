@@ -16,7 +16,8 @@ function jumpTo(event: React.MouseEvent<HTMLAnchorElement>, id: string) {
 }
 
 export default function DocsPage() {
-  const [active, setActive] = useState(DOC_SECTIONS[0].id);
+  // A plain string: what the observer below reads back is a DOM id.
+  const [active, setActive] = useState<string>(DOC_SECTIONS[0].id);
 
   // The index follows whichever section crosses the upper part of the screen.
   useEffect(() => {

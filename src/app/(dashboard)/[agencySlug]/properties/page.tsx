@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { CreatePropertyDialog } from "@/components/properties/create-property-dialog";
+import { HelpHint, HelpLink } from "@/components/docs/help-link";
 import { TrashLink } from "@/components/trash/trash-link";
 import { ActiveFilters } from "@/components/properties/active-filters";
 import { FiltersSheet } from "@/components/properties/filters-sheet";
@@ -370,6 +371,7 @@ export default function PropertiesPage() {
                 <ViewSwitch value={view} onChange={changeView} />
               </>
             )}
+            <HelpLink section="propiedades" label="Ayuda con propiedades" />
             {trashLink}
             <CreatePropertyDialog />
           </div>
@@ -427,6 +429,7 @@ export default function PropertiesPage() {
             <CreatePropertyDialog />
             {trashLink}
           </div>
+          <HelpHint section="propiedades">Cómo cargar y publicar una propiedad</HelpHint>
         </div>
       )}
 

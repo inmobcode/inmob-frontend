@@ -11,6 +11,7 @@ const DASHBOARD_SECTIONS = [
   "inquiries",
   "bookings",
   "services",
+  "availability",
   "team",
   "settings",
   "profile",
@@ -29,7 +30,7 @@ const APP_ONLY_PREFIXES = ["/login", "/register", "/forgot-password", "/reset-pa
 
 // The (public) and (legal) groups: reachable from either host, but these are
 // the only paths allowed to stay on the apex domain unredirected.
-const PUBLIC_ONLY_PREFIXES = ["/landing-test", "/page", "/offer", "/booking", "/owner", "/terminos", "/privacidad"];
+const PUBLIC_ONLY_PREFIXES = ["/landing-test", "/page", "/offer", "/booking", "/owner", "/terms", "/privacy", "/help"];
 
 function isAppOnlyPath(pathname: string): boolean {
   if (pathname === "/") return false;
@@ -39,6 +40,17 @@ function isAppOnlyPath(pathname: string): boolean {
   // Anything left over past the root is an agency-scoped dashboard route
   // (/[agencySlug]/properties, /[agencySlug]/settings, etc.)
   return !PUBLIC_ONLY_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
+}
+
+/**
+ * Passes the request through. On the `app.` host it also tells crawlers to
+ * skip the response: the dashboard has nothing to index, and an agency site
+ * answers on both hosts — only the apex copy should be in results.
+ */
+function pass(isAppHost: boolean) {
+  const response = NextResponse.next();
+  if (isAppHost) response.headers.set("X-Robots-Tag", "noindex, nofollow");
+  return response;
 }
 
 export function proxy(request: NextRequest) {
@@ -74,12 +86,12 @@ export function proxy(request: NextRequest) {
       loginUrl.searchParams.set("next", pathname);
       return NextResponse.redirect(loginUrl);
     }
-    return NextResponse.next();
+    return pass(isAppHost);
   }
 
   const [, agencySlug, section] = pathname.split("/");
   const isDashboardRoute = DASHBOARD_SECTIONS.includes(section);
-  if (!isDashboardRoute) return NextResponse.next();
+  if (!isDashboardRoute) return pass(isAppHost);
 
   const token = request.cookies.get("access_token")?.value;
   if (!token) {
@@ -95,10 +107,15 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(corrected);
   }
 
-  return NextResponse.next();
+  return pass(isAppHost);
 }
 
 export const config = {
   // docs-media: the docs' screenshots, fetched by the image optimizer without cookies.
-  matcher: ["/((?!_next|api|docs-media|favicon.ico|icon.svg|apple-icon.png).*)"],
+  // robots/sitemap/llms/opengraph-image: generated files, not pages — without
+  // this the catch-all below reads them as agency-scoped and sends them to
+  // `app.`, where a crawler asking the apex domain for them would never follow.
+  matcher: [
+    "/((?!_next|api|docs-media|robots.txt|sitemap.xml|llms.txt|opengraph-image|favicon.ico|icon.svg|apple-icon.png).*)",
+  ],
 };

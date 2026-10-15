@@ -3,6 +3,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   ChevronLeft,
+  CircleQuestionMark,
   ExternalLink,
   Eye,
   LoaderCircle,
@@ -43,6 +44,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { docsHref } from "@/components/docs/docs-sections";
 import { getAgency, updateSite, uploadAgencyCover } from "@/lib/api/agency";
 import { ApiError } from "@/lib/api/client";
 import { listPublicProperties } from "@/lib/api/properties";
@@ -212,6 +214,17 @@ export default function PortalEditorPage() {
           >
             {showPreview ? <PenLine /> : <Eye />}
             {showPreview ? "Editar" : "Vista previa"}
+          </Button>
+          <Button variant="ghost" className="gap-1.5" asChild>
+            <a
+              href={docsHref("portal")}
+              target="_blank"
+              rel="noreferrer"
+              title="Ayuda con el portal"
+            >
+              <CircleQuestionMark />
+              <span className="hidden xl:inline">Ayuda</span>
+            </a>
           </Button>
           {agency && (
             <Button variant="ghost" className="gap-1.5" asChild>

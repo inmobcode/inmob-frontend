@@ -6,7 +6,6 @@ import { InquiryForm } from "@/components/public/inquiry-form";
 import { PropertyGallery } from "@/components/public/property-gallery";
 import {
   PublicPropertyCard,
-  coverPhoto,
   formatPrice,
   priceUnit,
   placeOf,
@@ -17,9 +16,12 @@ import {
   SiteHeader,
   SiteRoot,
 } from "@/components/public/site-chrome";
+import { JsonLd } from "@/components/seo/json-ld";
+import { breadcrumbJsonLd, listingDescription, listingImages, listingJsonLd } from "@/lib/listing-seo";
 import { LISTING_TYPE_LABELS, categoryLabel } from "@/lib/properties-labels";
 import { propertyFacts, propertyFeatureGroups } from "@/lib/property-details";
 import { richTextHtml } from "@/lib/rich-text";
+import { absoluteUrl, agencyPath, propertyPath } from "@/lib/seo";
 import { resolveSite, whatsappLink } from "@/lib/site-theme";
 import { cn } from "@/lib/utils";
 
@@ -37,14 +39,26 @@ export async function generateMetadata({
     loadAgency(agencySlug),
     loadProperty(agencySlug, propertySlug),
   ]);
-  const cover = coverPhoto(property);
+  const title = `${property.title} · ${agency.name}`;
+  const description = listingDescription(property);
+  const images = listingImages(property);
+  const path = propertyPath(agencySlug, propertySlug);
+
   return {
     // Absolute: this is the agency's own public site, not a Tivvo surface.
-    title: { absolute: `${property.title} · ${agency.name}` },
-    description:
-      property.content?.summary ??
-      `${categoryLabel(property.category)} en ${LISTING_TYPE_LABELS[property.listingType].toLowerCase()}.`,
-    openGraph: cover ? { images: [cover.url] } : undefined,
+    title: { absolute: title },
+    description,
+    // The listing answers on both hosts; only the public one should be indexed.
+    alternates: { canonical: absoluteUrl(path) },
+    openGraph: {
+      type: "website",
+      title,
+      description,
+      url: absoluteUrl(path),
+      siteName: agency.name,
+      images,
+    },
+    twitter: { card: images ? "summary_large_image" : "summary", title, description, images },
   };
 }
 
@@ -69,9 +83,26 @@ export default async function PublicPropertyPage({
   const others = all.filter((other) => other.id !== property.id).slice(0, 3);
   const whatsappMessage = `Hola, me interesa "${property.title}". ¿Sigue disponible?`;
 
+  const agencyUrl = absoluteUrl(agencyPath(agencySlug));
+  const listingUrl = absoluteUrl(propertyPath(agencySlug, propertySlug));
+
   return (
     // Bottom padding on phones leaves room for the fixed price bar.
     <SiteRoot site={site} className="pb-[4.25rem] lg:pb-0">
+      <JsonLd
+        data={listingJsonLd({
+          property,
+          agency: { name: agency.name, url: agencyUrl },
+          url: listingUrl,
+          description: listingDescription(property),
+        })}
+      />
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: agency.name, url: agencyUrl },
+          { name: property.title, url: listingUrl },
+        ])}
+      />
       <SiteHeader agency={agency} site={site} slug={agencySlug} />
 
       <main className="flex-1">

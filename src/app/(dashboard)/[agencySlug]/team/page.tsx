@@ -7,6 +7,7 @@ import { toast } from "sonner";
 
 import { FilterMenu } from "@/components/filter-menu";
 import { ViewSwitch, type ViewMode } from "@/components/properties/view-switch";
+import { HelpHint, HelpLink } from "@/components/docs/help-link";
 import { InviteMemberDialog } from "@/components/team/invite-member-dialog";
 import { ROLES, ROLE_LABELS, type TeamActions } from "@/components/team/team-parts";
 import { TeamCard, TeamCardSkeleton, TeamRow, TeamTable } from "@/components/team/team-views";
@@ -187,6 +188,7 @@ export default function TeamPage() {
                 <ViewSwitch value={view} onChange={changeView} />
               </>
             )}
+            <HelpLink section="equipo" label="Ayuda con el equipo" />
             <InviteMemberDialog />
           </div>
         </div>
@@ -225,6 +227,7 @@ export default function TeamPage() {
             <p className="text-sm text-muted-foreground">Sumá administradores y agentes para trabajar juntos.</p>
           </div>
           <InviteMemberDialog />
+          <HelpHint section="equipo">Qué puede hacer cada rol</HelpHint>
         </div>
       )}
 

@@ -7,7 +7,7 @@ import { LISTING_TYPE_LABELS, categoryLabel } from "@/lib/properties-labels";
 import { cn } from "@/lib/utils";
 import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 
-export function coverPhoto(property: Property) {
+export function coverPhoto(property: Pick<Property, "photos">) {
   const photos = [...property.photos].sort((a, b) => a.position - b.position);
   return photos.find((photo) => photo.isCover) ?? photos[0] ?? null;
 }
@@ -157,7 +157,7 @@ export function PublicPropertyCard({
         )}
       </div>
 
-      <div className={cn("flex flex-col", compact ? "gap-1" : "gap-1.5")}>
+      <div className={cn("flex flex-1 flex-col", compact ? "gap-1" : "gap-1.5")}>
         <p className="text-sm text-site-quiet">
           {categoryLabel(property.category)}
           {place && ` en ${place}`}
@@ -176,10 +176,14 @@ export function PublicPropertyCard({
           </p>
         )}
         {!compact && <PropertySpecs property={property} className="mt-1" />}
+        {/* `mt-auto`: pins the price to the card's bottom edge no matter how
+            many lines the title/summary above it take, so prices line up
+            across cards in the same grid row (the grid stretches every card
+            to the row's tallest). */}
         <p
           className={cn(
-            "tabular-nums",
-            compact ? "text-sm font-semibold" : "mt-1 text-lg font-semibold",
+            "mt-auto tabular-nums",
+            compact ? "text-sm font-semibold" : "text-lg font-semibold",
           )}
         >
           {price ? (

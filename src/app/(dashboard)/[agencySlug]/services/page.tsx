@@ -5,6 +5,7 @@ import { MapPin, RotateCcw, Search, SearchX, Sparkles } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import { FilterMenu } from "@/components/filter-menu";
+import { HelpHint, HelpLink } from "@/components/docs/help-link";
 import { NewItemButton } from "@/components/new-item-button";
 import { ServiceDialog } from "@/components/services/service-dialog";
 import { ServiceTypeIcon } from "@/components/services/service-type-icon";
@@ -144,6 +145,7 @@ export default function ServicesPage() {
                 counts={counts}
               />
             )}
+            <HelpLink section="servicios" label="Ayuda con servicios" />
             {newButton}
           </div>
         </div>
@@ -184,6 +186,7 @@ export default function ServicesPage() {
             </p>
           </div>
           {newButton}
+          <HelpHint section="servicios">Cómo usar la librería de servicios</HelpHint>
         </div>
       )}
 
