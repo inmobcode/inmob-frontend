@@ -224,31 +224,28 @@ export function FiltersSheet({
             />
           </Section>
 
-          {(categories.length > 0 || places.length > 0) && (
-            <div className="grid grid-cols-2 gap-4">
-              {categories.length > 0 && (
-                <Section title="Categoría">
-                  <SelectFilter
-                    id="filter-category"
-                    value={draft.category}
-                    onChange={(category) => update({ category })}
-                    allLabel="Todas"
-                    options={categories.map((category) => ({ value: category, label: categoryLabel(category) }))}
-                  />
-                </Section>
-              )}
-              {places.length > 0 && (
-                <Section title="Ubicación">
-                  <SelectFilter
-                    id="filter-location"
-                    value={draft.region}
-                    onChange={(region) => update({ region })}
-                    allLabel="Todas"
-                    options={places.map((place) => ({ value: place, label: place }))}
-                  />
-                </Section>
-              )}
-            </div>
+          {categories.length > 0 && (
+            <Section title="Categoría">
+              <SelectFilter
+                id="filter-category"
+                value={draft.category}
+                onChange={(category) => update({ category })}
+                allLabel="Todas"
+                options={categories.map((category) => ({ value: category, label: categoryLabel(category) }))}
+              />
+            </Section>
+          )}
+
+          {places.length > 0 && (
+            <Section title="Ubicación">
+              <SelectFilter
+                id="filter-location"
+                value={draft.region}
+                onChange={(region) => update({ region })}
+                allLabel="Todas"
+                options={places.map((place) => ({ value: place, label: place }))}
+              />
+            </Section>
           )}
 
           {owners.length > 0 && (
