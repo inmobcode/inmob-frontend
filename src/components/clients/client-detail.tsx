@@ -20,6 +20,8 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { ClientAvatar, SOURCE_LABELS, STAGES } from "@/components/clients/client-parts";
+import { AssigneeSelect, useMemberName } from "@/components/shared/assignee-select";
+import { TaskList } from "@/components/tasks/task-list";
 import { FormSection } from "@/components/properties/form-section";
 import { RichTextEditor } from "@/components/rich-text/rich-text-editor";
 import { Button } from "@/components/ui/button";
@@ -33,7 +35,7 @@ import {
   type ClientStage,
   type InteractionType,
 } from "@/lib/api/clients";
-import { getAccessToken } from "@/lib/auth/session";
+import { getAccessToken, useSessionUser } from "@/lib/auth/session";
 import { CLIENT_STAGE_LABELS } from "@/lib/properties-labels";
 import { cn } from "@/lib/utils";
 
@@ -71,6 +73,7 @@ export function ClientDetail({ clientId }: { clientId: string }) {
   const [notes, setNotes] = useState<string | null>(null);
   const [type, setType] = useState<InteractionType>("NOTE");
   const [content, setContent] = useState("");
+  const user = useSessionUser();
 
   const { data: client, isLoading, error } = useQuery({
     queryKey: ["client", clientId],
@@ -78,7 +81,7 @@ export function ClientDetail({ clientId }: { clientId: string }) {
   });
 
   const updateMutation = useMutation({
-    mutationFn: (payload: { stage?: ClientStage; notes?: string }) => updateClient(requireToken(), clientId, payload),
+    mutationFn: (payload: { stage?: ClientStage; notes?: string; assignedAgentId?: string | null }) => updateClient(requireToken(), clientId, payload),
     onSuccess: (updated, payload) => {
       queryClient.setQueryData<Client>(["client", clientId], (prev) => (prev ? { ...prev, ...updated } : prev));
       queryClient.invalidateQueries({ queryKey: ["clients"] });
@@ -97,6 +100,8 @@ export function ClientDetail({ clientId }: { clientId: string }) {
     },
     onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo registrar"),
   });
+
+  const ownerName = useMemberName(client?.assignedAgentId);
 
   if (error) {
     return (
@@ -168,6 +173,14 @@ export function ClientDetail({ clientId }: { clientId: string }) {
                 </Button>
               )}
             </div>
+          </FormSection>
+
+          <FormSection
+            title="Tareas"
+            description="Lo que hay que hacer con este cliente: llamar, mandar fotos, coordinar una visita."
+            shown={false}
+          >
+            <TaskList clientId={clientId} emptyText="No hay tareas pendientes con este cliente." />
           </FormSection>
 
           <FormSection
@@ -272,6 +285,33 @@ export function ClientDetail({ clientId }: { clientId: string }) {
                 );
               })}
             </div>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <h2 className="font-display text-xl leading-tight">Responsable</h2>
+            {user?.role === "AGENT" ? (
+              client.assignedAgentId === user.id ? (
+                <p className="text-sm text-muted-foreground">Es tu cliente.</p>
+              ) : (
+                <Button
+                  variant="outline"
+                  className="self-start"
+                  disabled={updateMutation.isPending}
+                  onClick={() => updateMutation.mutate({ assignedAgentId: user.id })}
+                >
+                  Quedármelo
+                </Button>
+              )
+            ) : (
+              <AssigneeSelect
+                value={client.assignedAgentId}
+                disabled={updateMutation.isPending}
+                onChange={(assignedAgentId) => updateMutation.mutate({ assignedAgentId })}
+              />
+            )}
+            {user?.role !== "AGENT" && ownerName === null && client.assignedAgentId && (
+              <p className="text-xs text-muted-foreground">Asignado a alguien que ya no está en el equipo.</p>
+            )}
           </div>
 
           <div className="flex flex-col gap-3">

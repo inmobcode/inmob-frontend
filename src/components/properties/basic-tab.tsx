@@ -1,12 +1,15 @@
 "use client";
 
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Controller, useWatch, type UseFormReturn } from "react-hook-form";
+import { toast } from "sonner";
 
 import { CategoryChips } from "@/components/properties/category-chips";
 import { Stepper, TagsInput, UnitInput } from "@/components/properties/form-controls";
 import { ListingTypeCards } from "@/components/properties/listing-type-cards";
 import type { FormValues } from "@/components/properties/property-editor";
 import { PropertyCard } from "@/components/properties/property-card";
+import { AssigneeSelect } from "@/components/shared/assignee-select";
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import {
@@ -16,7 +19,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { Property } from "@/lib/api/properties";
+import { ApiError } from "@/lib/api/client";
+import { updateProperty, type Property } from "@/lib/api/properties";
+import { getAccessToken, useSessionUser } from "@/lib/auth/session";
 import { LOCATION_CATEGORY_LABELS } from "@/lib/properties-labels";
 import {
   ACCOMMODATION_TYPES,
@@ -48,6 +53,40 @@ function Section({
       </div>
       {children}
     </section>
+  );
+}
+
+/** Who looks after the property. Saved on its own, apart from the form; only owners and admins can change it. */
+function ResponsibleField({ property }: { property: Property }) {
+  const user = useSessionUser();
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (assignedAgentId: string | null) => {
+      const token = getAccessToken();
+      if (!token) throw new ApiError("No autenticado", 401);
+      return updateProperty(token, property.id, { assignedAgentId });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["property", property.id] });
+      queryClient.invalidateQueries({ queryKey: ["properties"] });
+      toast.success("Responsable actualizado");
+    },
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo cambiar el responsable"),
+  });
+
+  if (!user || user.role === "AGENT") return null;
+  return (
+    <Field>
+      <FieldLabel>Responsable</FieldLabel>
+      <AssigneeSelect
+        value={property.assignedAgentId}
+        disabled={mutation.isPending}
+        onChange={(userId) => mutation.mutate(userId)}
+      />
+      <FieldDescription>
+        Un agente solo ve las propiedades que tiene asignadas. Se guarda al elegirlo.
+      </FieldDescription>
+    </Field>
   );
 }
 
@@ -92,6 +131,7 @@ export function BasicTab({
                 Solo lo ven vos y tu equipo. Sirve para distinguir propiedades parecidas.
               </FieldDescription>
             </Field>
+            <ResponsibleField property={property} />
             <Field>
               <FieldLabel>Operación</FieldLabel>
               <Controller

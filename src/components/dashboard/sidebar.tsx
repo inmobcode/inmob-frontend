@@ -6,6 +6,7 @@ import {
   CalendarCheck,
   CalendarDays,
   Globe,
+  House,
   Inbox,
   Menu,
   PanelLeftClose,
@@ -25,6 +26,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { TOGGLE_SIDEBAR_EVENT } from "@/components/dashboard/shortcuts";
 import { getUnreadInquiries } from "@/lib/api/inquiries";
 import { getAccessToken } from "@/lib/auth/session";
+import { NotificationBell } from "@/components/dashboard/notification-bell";
 import { UserMenu } from "@/components/dashboard/user-menu";
 import { Button } from "@/components/ui/button";
 import { useSessionUser } from "@/lib/auth/session";
@@ -53,6 +55,8 @@ interface NavItem {
   href: string;
   label: string;
   icon: LucideIcon;
+  /** Active only on this exact path (Inicio, whose URL prefixes every other section). */
+  exact?: boolean;
 }
 
 const EXPANDED_WIDTH = 255;
@@ -76,6 +80,7 @@ function useAgencySlug() {
  */
 function navItemsFor(agencySlug: string, role: string | undefined): NavItem[] {
   const items: NavItem[] = [
+    { href: `/${agencySlug}`, label: "Inicio", icon: House, exact: true },
     {
       href: `/${agencySlug}/properties`,
       label: "Propiedades",
@@ -106,7 +111,7 @@ function Brand() {
   const agencySlug = useAgencySlug();
   return (
     <Link
-      href={agencySlug ? `/${agencySlug}/properties` : "/"}
+      href={agencySlug ? `/${agencySlug}` : "/"}
       className="flex items-center gap-2 font-logo text-2xl font-semibold leading-none tracking-tight text-foreground"
     >
       <LogoIcon className="text-primary" />
@@ -245,7 +250,7 @@ function SidebarNav({
   });
 
   const activeHref = navItems.find((item) =>
-    pathname.startsWith(item.href),
+    item.exact ? pathname === item.href : pathname.startsWith(item.href),
   )?.href;
 
   // Entrance: links settle in one after another, once, as soon as there are links.
@@ -342,7 +347,7 @@ function SidebarBody({
   const [tipOpen, setTipOpen] = useState(false);
 
   return (
-    <div className="flex h-full flex-col gap-8 overflow-hidden p-4">
+    <div className="flex h-full flex-col gap-6 overflow-hidden p-4">
       <div className="relative flex min-h-10 items-center justify-end pt-2">
         <span
           aria-hidden={collapsed}
@@ -379,9 +384,11 @@ function SidebarBody({
           </Tooltip>
         )}
       </div>
-      <div className="flex-1">
+      {/* On short screens the links scroll instead of pushing the bell and the user menu out of view. */}
+      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
         <SidebarNav collapsed={collapsed} onNavigate={onNavigate} />
       </div>
+      <NotificationBell collapsed={collapsed} onNavigate={onNavigate} />
       <div
         className={cn(
           "rounded-3xl p-1.5 ring-1 backdrop-blur transition-[background-color,box-shadow,padding] duration-300",

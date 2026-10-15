@@ -54,6 +54,7 @@ const CARD_SELECTOR =
   ".property-card, .offer-card, .client-card, .booking-card, .team-card";
 
 const GO_TO: Record<string, { path: string; label: string }> = {
+  h: { path: "", label: "Inicio" },
   p: { path: "/properties", label: "Propiedades" },
   o: { path: "/offers", label: "Ofertas" },
   c: { path: "/clients", label: "Clientes" },
