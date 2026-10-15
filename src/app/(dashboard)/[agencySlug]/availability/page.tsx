@@ -9,12 +9,12 @@ import { toast } from "sonner";
 import { AvailabilityCalendarView } from "@/components/availability/availability-calendar-view";
 import { AvailabilityMonthView } from "@/components/availability/availability-month-view";
 import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ApiError } from "@/lib/api/client";
 import { getAvailabilityCalendar } from "@/lib/api/availability";
 import { getAccessToken } from "@/lib/auth/session";
 import { getPublicOrigin } from "@/lib/public-origin";
 import { availabilityPath } from "@/lib/seo";
-import { cn } from "@/lib/utils";
 
 type View = "grid" | "month";
 
@@ -47,6 +47,22 @@ export default function AvailabilityCalendarPage() {
     }
   }
 
+  // Switches between the 90-day grid and the month; each view puts it at the end of its own filters.
+  const viewControl = (
+    <Select value={view} onValueChange={(next) => setView(next as View)}>
+      <SelectTrigger aria-label="Vista" className="h-10 w-full sm:w-44">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        {VIEWS.map((item) => (
+          <SelectItem key={item.value} value={item.value}>
+            {item.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
@@ -64,24 +80,7 @@ export default function AvailabilityCalendarPage() {
         </Button>
       </div>
 
-      <div role="group" aria-label="Cambiar la vista" className="flex w-fit gap-0.5 rounded-full bg-foreground/[0.06] p-1">
-        {VIEWS.map((item) => (
-          <button
-            key={item.value}
-            type="button"
-            aria-pressed={view === item.value}
-            onClick={() => setView(item.value)}
-            className={cn(
-              "h-8 rounded-full px-4 text-sm font-medium transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
-              view === item.value ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground",
-            )}
-          >
-            {item.label}
-          </button>
-        ))}
-      </div>
-
-      {view === "month" && <AvailabilityMonthView />}
+      {view === "month" && <AvailabilityMonthView viewControl={viewControl} />}
 
       {view === "grid" && error && (
         <div className="flex flex-col items-start gap-4 rounded-2xl bg-card p-6 ring-1 ring-foreground/5">
@@ -111,6 +110,7 @@ export default function AvailabilityCalendarPage() {
 
       {view === "grid" && data && data.properties.length > 0 && (
         <AvailabilityCalendarView
+          viewControl={viewControl}
           from={data.from}
           to={data.to}
           properties={data.properties.map((property) => ({

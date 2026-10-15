@@ -1,6 +1,7 @@
 import { apiFetch } from "./client";
 import type { BookingStatus, PaymentType } from "./bookings";
 import type { PublicAgency } from "./agency";
+import type { OwnerStatement } from "./owner-accounts";
 import type { PublicProperty } from "./offers";
 import type { PropertyStatus } from "./properties";
 import type { Recommendation } from "./recommendations";
@@ -37,6 +38,8 @@ export interface OwnerPortal {
   agencyName: string;
   agency: PublicAgency & { slug: string };
   properties: OwnerPortalProperty[];
+  /** What was collected, what is due to the owner and what was handed over. */
+  statement: OwnerStatement;
 }
 
 export function getOwnerPortal(ownerToken: string) {

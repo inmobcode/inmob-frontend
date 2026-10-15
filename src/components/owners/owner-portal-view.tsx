@@ -15,6 +15,7 @@ import { es } from "date-fns/locale";
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import Link from "next/link";
 
+import { OwnerStatementView } from "@/components/owners/owner-statement";
 import { PhotoPlaceholder, formatPrice, placeOf } from "@/components/public/property-card";
 import { SITE_WRAP, SiteFooter, SiteHeader, SiteRoot } from "@/components/public/site-chrome";
 import type { BookingStatus, PaymentType } from "@/lib/api/bookings";
@@ -445,6 +446,18 @@ export function OwnerPortalView({ portal }: { portal: OwnerPortal }) {
         </section>
 
         <div className={cn(SITE_WRAP, "flex flex-col gap-14 py-12 sm:py-16")}>
+          {(portal.statement.totals.length > 0 || portal.statement.payouts.length > 0) && (
+            <section aria-labelledby="estado-de-cuenta" className="flex flex-col gap-5">
+              <div className="flex flex-col gap-1">
+                <h2 id="estado-de-cuenta" className="s-heading text-2xl">
+                  Estado de cuenta
+                </h2>
+                <p className="max-w-xl text-site-quiet">Lo que se cobró de tus reservas, lo que te corresponde y lo que {agency.name} ya te liquidó.</p>
+              </div>
+              <OwnerStatementView statement={portal.statement} tone="site" />
+            </section>
+          )}
+
           {properties.length === 0 ? (
             <p className="max-w-xl text-lg text-site-quiet">
               Todavía no tenés propiedades asignadas. Cuando {agency.name} te asigne una, aparece acá.

@@ -18,6 +18,8 @@ export interface AvailabilityCalendarProperty {
   coverUrl: string | null;
   /** ISO dates (YYYY-MM-DD) already booked or blocked within the window. */
   blockedDates: string[];
+  /** Days of bookings still pending confirmation. Only the dashboard gets them. */
+  pendingDates?: string[];
 }
 
 export interface AvailabilityCalendar {

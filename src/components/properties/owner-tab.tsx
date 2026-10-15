@@ -12,6 +12,7 @@ import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ApiError } from "@/lib/api/client";
+import { OwnerAccount } from "@/components/owners/owner-account";
 import { createOwner, listOwners, regenerateOwnerToken, type PropertyOwner } from "@/lib/api/properties";
 import { getAccessToken } from "@/lib/auth/session";
 import { getPublicOrigin } from "@/lib/public-origin";
@@ -190,6 +191,8 @@ export function OwnerTab({
           </div>
         </Section>
       )}
+
+      {selected && <OwnerAccount owner={selected} />}
 
       <Section
         title="Elegir propietario"

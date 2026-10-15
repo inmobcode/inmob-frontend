@@ -34,12 +34,15 @@ export function AvailabilityCalendarView({
   to,
   properties,
   openLinksInNewTab = false,
+  viewControl,
 }: {
   from: string;
   to: string;
   properties: AvailabilityRow[];
   /** The public calendar opens a listing beside itself: the visitor was reading dates. */
   openLinksInNewTab?: boolean;
+  /** Something to put at the far right of the filters (the dashboard's view switch). */
+  viewControl?: React.ReactNode;
 }) {
   const [search, setSearch] = useState("");
   const [place, setPlace] = useState(ALL_PLACES);
@@ -126,10 +129,11 @@ export function AvailabilityCalendarView({
               minDate={new Date(`${from}T00:00:00`)}
             />
           </div>
+          {viewControl && <div className="w-full sm:w-auto">{viewControl}</div>}
         </div>
       </div>
 
-      <AvailabilityLegend />
+      <AvailabilityLegend showPending={properties.some((property) => (property.pendingDates?.length ?? 0) > 0)} />
 
       {filtered.length === 0 ? (
         <div className="flex flex-col items-center gap-2 rounded-2xl bg-card px-6 py-12 text-center ring-1 ring-foreground/5">

@@ -4,6 +4,7 @@ import { Fragment } from "react";
 
 import type { AvailabilityCalendarProperty } from "@/lib/api/availability";
 import { formatPrice, placeOf } from "@/components/public/property-card";
+import { dayKind } from "@/lib/availability-range";
 import { placeKey, placeLabel } from "@/lib/places";
 import { cn } from "@/lib/utils";
 
@@ -132,6 +133,7 @@ export function AvailabilityGrid({
                 const price = formatPrice(property);
                 const place = placeOf(property);
                 const blocked = new Set(property.blockedDates);
+                const pending = new Set(property.pendingDates ?? []);
 
                 return (
                   <tr key={property.id}>
@@ -172,6 +174,30 @@ export function AvailabilityGrid({
                         return (
                           <td key={dateStr} title={`${dayLabel} — Pasado`} className={tdClass}>
                             <div className={cn(CELL, "mx-auto bg-muted")} />
+                          </td>
+                        );
+                      }
+
+                      // A pending booking holds no dates yet, so it only paints days nobody else has.
+                      const pendingKind = isBlocked ? "free" : dayKind(pending, dateStr);
+                      if (pendingKind === "busy" || pendingKind === "in" || pendingKind === "out") {
+                        const label = pendingKind === "busy" ? "Reserva pendiente" : `Reserva pendiente (${pendingKind === "in" ? "check-in" : "check-out"})`;
+                        return (
+                          <td key={dateStr} title={`${dayLabel} — ${label}`} className={tdClass}>
+                            <div className={cn(CELL, "relative mx-auto overflow-hidden")}>
+                              <div className="absolute inset-0 bg-primary" />
+                              <div
+                                className="absolute inset-0 bg-amber-400"
+                                style={{
+                                  clipPath:
+                                    pendingKind === "busy"
+                                      ? undefined
+                                      : pendingKind === "in"
+                                        ? "polygon(100% 0, 100% 100%, 0 100%)"
+                                        : "polygon(0 0, 100% 0, 0 100%)",
+                                }}
+                              />
+                            </div>
                           </td>
                         );
                       }

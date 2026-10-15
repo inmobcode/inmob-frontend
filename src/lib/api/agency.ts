@@ -97,6 +97,8 @@ export interface Agency {
   contactEmail: string | null;
   locale: string;
   currency: string;
+  /** Whether the owner's portal itemizes the agency's commission. */
+  ownerPortalShowsCommission: boolean;
   site: SiteSettings;
 }
 
@@ -111,6 +113,7 @@ export interface UpdateAgencyPayload {
   contactEmail?: string | null;
   locale?: string;
   currency?: string;
+  ownerPortalShowsCommission?: boolean;
 }
 
 export function getAgency(token: string) {

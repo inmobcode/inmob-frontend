@@ -21,6 +21,7 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Combobox } from "@/components/ui/combobox";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { Input } from "@/components/ui/input";
 import { createAvailabilityBlock, getAvailabilityCalendar } from "@/lib/api/availability";
 import { ApiError } from "@/lib/api/client";
@@ -29,6 +30,28 @@ import { dayKind, isFreeFor, nightTaken, stayFromDrag, type DayKind } from "@/li
 import { cn } from "@/lib/utils";
 
 const WEEKS = 6;
+// How many properties a day lists before "+N más".
+const SHOWN_PER_DAY = 3;
+
+// Each property keeps its own color across the whole month, so a booking can be followed from day to day.
+const PROPERTY_TINTS = [
+  "bg-primary/15 text-primary",
+  "bg-amber-500/20 text-amber-800 dark:text-amber-300",
+  "bg-sky-500/20 text-sky-800 dark:text-sky-300",
+  "bg-violet-500/20 text-violet-800 dark:text-violet-300",
+  "bg-rose-500/20 text-rose-800 dark:text-rose-300",
+  "bg-teal-500/20 text-teal-800 dark:text-teal-300",
+];
+const PROPERTY_DOTS = ["bg-primary", "bg-amber-500", "bg-sky-500", "bg-violet-500", "bg-rose-500", "bg-teal-500"];
+function indexOf(id: string) {
+  let hash = 0;
+  for (const char of id) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
+  return hash % PROPERTY_TINTS.length;
+}
+const dotOf = (id: string) => PROPERTY_DOTS[indexOf(id)];
+function tintOf(id: string) {
+  return PROPERTY_TINTS[indexOf(id)];
+}
 const ALL = "__all__";
 const WEEKDAYS = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
 const key = (date: Date) => format(date, "yyyy-MM-dd");
@@ -42,6 +65,12 @@ function requireToken() {
 // A check-in day is taken from the afternoon (lower right half), a check-out
 // day until the morning (upper left half), the same as in the 90-day grid.
 const RED = "var(--destructive)";
+const AMBER = "oklch(0.83 0.16 80)";
+const PENDING_BACKGROUND: Partial<Record<DayKind, string>> = {
+  busy: AMBER,
+  in: `linear-gradient(to bottom right, transparent 50%, ${AMBER} 50%)`,
+  out: `linear-gradient(to bottom right, ${AMBER} 50%, transparent 50%)`,
+};
 const KIND_BACKGROUND: Partial<Record<DayKind, string>> = {
   busy: RED,
   in: `linear-gradient(to bottom right, transparent 50%, ${RED} 50%)`,
@@ -54,7 +83,7 @@ const KIND_BACKGROUND: Partial<Record<DayKind, string>> = {
  * how many are taken that night; pick one property and the days show its
  * bookings and blocks, and dragging across free nights blocks them.
  */
-export function AvailabilityMonthView() {
+export function AvailabilityMonthView({ viewControl }: { viewControl?: React.ReactNode }) {
   const { agencySlug } = useParams<{ agencySlug: string }>();
   const queryClient = useQueryClient();
   const [month, setMonth] = useState(() => startOfMonth(new Date()));
@@ -80,7 +109,12 @@ export function AvailabilityMonthView() {
     [properties],
   );
   const selected = propertyId === ALL ? null : (properties.find((property) => property.id === propertyId) ?? null);
+  const pendingBy = useMemo(
+    () => new Map(properties.map((property) => [property.id, new Set(property.pendingDates ?? [])])),
+    [properties],
+  );
   const selectedBlocked = selected ? (blockedBy.get(selected.id) ?? new Set<string>()) : null;
+  const selectedPending = selected ? (pendingBy.get(selected.id) ?? new Set<string>()) : null;
   const todayKey = key(new Date());
 
   const range = drag ? stayFromDrag(drag.anchor, drag.current) : pending ? stayFromDrag(pending.first, pending.last) : null;
@@ -159,8 +193,13 @@ export function AvailabilityMonthView() {
   }
 
   const taken = (propertyKey: string, day: string) => nightTaken(blockedBy.get(propertyKey) ?? new Set(), day);
+  // A night with a pending booking and nobody else on it.
+  const waiting = (propertyKey: string, day: string) =>
+    !taken(propertyKey, day) && nightTaken(pendingBy.get(propertyKey) ?? new Set(), day);
   const focusTaken = focusDay ? properties.filter((property) => taken(property.id, focusDay)) : [];
-  const focusFree = focusDay ? properties.filter((property) => !taken(property.id, focusDay)) : [];
+  const focusWaiting = focusDay ? properties.filter((property) => waiting(property.id, focusDay)) : [];
+  const focusFree = focusDay ? properties.filter((property) => !taken(property.id, focusDay) && !waiting(property.id, focusDay)) : [];
+  const hasPending = properties.some((property) => (property.pendingDates?.length ?? 0) > 0);
 
   return (
     <div className="flex flex-col gap-4">
@@ -191,6 +230,7 @@ export function AvailabilityMonthView() {
             options={properties.map((property) => ({ value: property.id, label: property.title }))}
           />
         </div>
+        {viewControl && <div className="w-full sm:w-auto">{viewControl}</div>}
       </div>
 
       <p className="text-sm text-muted-foreground">
@@ -198,6 +238,13 @@ export function AvailabilityMonthView() {
           ? "Arrastrá sobre las noches libres para bloquearlas. Con el teclado: Enter en el primer día y Enter en el último."
           : "Cada día muestra cuántas propiedades están ocupadas esa noche. Elegí una propiedad para ver sus reservas y bloquear fechas."}
       </p>
+
+      {hasPending && (
+        <p className="flex items-center gap-2 text-xs text-muted-foreground">
+          <span aria-hidden className="inline-block size-3 shrink-0 rounded-sm bg-amber-400" />
+          Reserva pendiente: todavía no bloquea las fechas, pero está pedida.
+        </p>
+      )}
 
       {error && (
         <div className="flex flex-col items-start gap-3 rounded-2xl bg-card p-6 ring-1 ring-foreground/5">
@@ -240,11 +287,14 @@ export function AvailabilityMonthView() {
               const past = day < todayKey;
               const kind = selectedBlocked ? dayKind(selectedBlocked, day) : "free";
               const marked = inRange(day);
-              const occupied = selected ? 0 : properties.filter((property) => taken(property.id, day)).length;
-              const share = properties.length > 0 ? occupied / properties.length : 0;
+              const busyOnes = selected ? [] : properties.filter((property) => taken(property.id, day));
+              const waitingOnes = selected ? [] : properties.filter((property) => waiting(property.id, day));
+              const occupied = busyOnes.length;
+              const listed = [...busyOnes.map((property) => ({ property, pending: false })), ...waitingOnes.map((property) => ({ property, pending: true }))];
+              const pendingKind = selectedPending && kind === "free" ? dayKind(selectedPending, day) : "free";
               const canPick = !!selected && selectable(day);
 
-              return (
+              const cell = (
                 <button
                   key={day}
                   type="button"
@@ -254,7 +304,7 @@ export function AvailabilityMonthView() {
                   aria-label={`${format(date, "EEEE d 'de' MMMM", { locale: es })}${selected ? "" : `: ${occupied} de ${properties.length} ocupadas`}`}
                   aria-pressed={marked || day === focusDay}
                   className={cn(
-                    "relative flex min-h-24 flex-col items-start gap-1 border-r border-b border-foreground/5 p-2 text-left outline-none transition-colors focus-visible:z-10 focus-visible:ring-3 focus-visible:ring-ring/50 [&:nth-child(7n)]:border-r-0",
+                    "relative flex min-h-28 flex-col items-start gap-1 border-r border-b border-foreground/5 p-2 text-left outline-none transition-colors focus-visible:z-10 focus-visible:ring-3 focus-visible:ring-ring/50 [&:nth-child(7n)]:border-r-0",
                     outside && "bg-foreground/[0.025] text-muted-foreground/60",
                     past && !outside && "text-muted-foreground",
                     canPick ? "cursor-cell hover:bg-primary/10" : selected ? "cursor-default" : "hover:bg-foreground/[0.04]",
@@ -262,6 +312,9 @@ export function AvailabilityMonthView() {
                     marked && "bg-primary/20 ring-2 ring-primary ring-inset",
                   )}
                 >
+                  {selected && pendingKind !== "free" && pendingKind !== "turnover" && (
+                    <span aria-hidden className="pointer-events-none absolute inset-0 opacity-80" style={{ background: PENDING_BACKGROUND[pendingKind] }} />
+                  )}
                   {selected && KIND_BACKGROUND[kind] && (
                     <span aria-hidden className="pointer-events-none absolute inset-0 opacity-75" style={{ background: KIND_BACKGROUND[kind] }} />
                   )}
@@ -276,17 +329,33 @@ export function AvailabilityMonthView() {
                   </span>
 
                   {!selected && properties.length > 0 && (
-                    <span className="relative mt-auto w-full">
-                      <span className="mb-1 block text-xs tabular-nums">
+                    <>
+                      <span
+                        className={cn(
+                          "absolute top-2 right-2 text-xs tabular-nums",
+                          occupied === properties.length && occupied > 0 ? "font-semibold text-destructive" : "text-muted-foreground",
+                        )}
+                      >
                         {occupied}/{properties.length}
                       </span>
-                      <span className="block h-1.5 overflow-hidden rounded-full bg-foreground/[0.07]">
-                        <span
-                          className={cn("block h-full rounded-full", share >= 1 ? "bg-destructive" : "bg-primary")}
-                          style={{ width: `${share * 100}%` }}
-                        />
+                      <span className="relative flex w-full flex-col gap-0.5">
+                        {listed.slice(0, SHOWN_PER_DAY).map(({ property, pending }) => (
+                          <span
+                            key={property.id}
+                            className={cn(
+                              "block truncate rounded px-1.5 py-0.5 text-[11px] leading-tight font-medium",
+                              pending ? "border border-dashed border-amber-500 bg-amber-400/15 text-amber-800 dark:text-amber-300" : tintOf(property.id),
+                            )}
+                          >
+                            {pending && "⏳ "}
+                            {property.title}
+                          </span>
+                        ))}
+                        {listed.length > SHOWN_PER_DAY && (
+                          <span className="px-1.5 text-[11px] text-muted-foreground">+{listed.length - SHOWN_PER_DAY} más</span>
+                        )}
                       </span>
-                    </span>
+                    </>
                   )}
 
                   {selected && (kind === "in" || kind === "out" || kind === "turnover") && (
@@ -295,6 +364,31 @@ export function AvailabilityMonthView() {
                     </span>
                   )}
                 </button>
+              );
+
+              // Hovering a day with bookings names them; a light card, not a tooltip dump.
+              if (selected || listed.length === 0) return cell;
+              return (
+                <HoverCard key={day}>
+                  <HoverCardTrigger asChild>{cell}</HoverCardTrigger>
+                  <HoverCardContent>
+                    <p className="flex items-baseline justify-between gap-3 text-xs text-muted-foreground">
+                      <span className="first-letter:uppercase">{format(date, "EEEE d 'de' MMMM", { locale: es })}</span>
+                      <span className="tabular-nums">
+                        {occupied}/{properties.length} ocupadas
+                      </span>
+                    </p>
+                    <ul className="mt-2 flex flex-col gap-1.5">
+                      {listed.map(({ property, pending }) => (
+                        <li key={property.id} className="flex items-center gap-2">
+                          <span aria-hidden className={cn("size-2 shrink-0 rounded-full", pending ? "bg-amber-400" : dotOf(property.id))} />
+                          <span className="min-w-0 flex-1 truncate">{property.title}</span>
+                          {pending && <span className="shrink-0 text-xs text-amber-700 dark:text-amber-300">Pendiente</span>}
+                        </li>
+                      ))}
+                    </ul>
+                  </HoverCardContent>
+                </HoverCard>
               );
             })}
           </div>
@@ -333,9 +427,12 @@ export function AvailabilityMonthView() {
 
       {!selected && focusDay && data && (
         <section className="flex flex-col gap-3 rounded-2xl bg-card p-5 ring-1 ring-foreground/5" aria-live="polite">
-          <h3 className="font-display text-lg capitalize">{format(parseISO(focusDay), "EEEE d 'de' MMMM", { locale: es })}</h3>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <h3 className="font-display text-lg first-letter:uppercase">{format(parseISO(focusDay), "EEEE d 'de' MMMM", { locale: es })}</h3>
+          <div className={cn("grid gap-4", focusWaiting.length > 0 ? "sm:grid-cols-3" : "sm:grid-cols-2")}>
             <PropertyList title={`Ocupadas (${focusTaken.length})`} items={focusTaken} agencySlug={agencySlug} onPick={changeProperty} />
+            {focusWaiting.length > 0 && (
+              <PropertyList title={`Pendientes (${focusWaiting.length})`} items={focusWaiting} agencySlug={agencySlug} onPick={changeProperty} />
+            )}
             <PropertyList title={`Libres (${focusFree.length})`} items={focusFree} agencySlug={agencySlug} onPick={changeProperty} />
           </div>
         </section>
