@@ -4,6 +4,7 @@ import { Fragment } from "react";
 
 import type { AvailabilityCalendarProperty } from "@/lib/api/availability";
 import { formatPrice, placeOf } from "@/components/public/property-card";
+import { placeKey, placeLabel } from "@/lib/places";
 import { cn } from "@/lib/utils";
 
 const CELL = "h-8 w-8 shrink-0 rounded-sm sm:h-9 sm:w-9";
@@ -56,13 +57,15 @@ export function AvailabilityGrid({
   today.setHours(0, 0, 0, 0);
   const todayStr = toDateStr(today);
 
-  const regions = new Map<string, AvailabilityRow[]>();
+  // Group by place however it was spelled ("Islas Baleares" and "islas baleares" are one group).
+  const regions = new Map<string, { label: string; rows: AvailabilityRow[] }>();
   for (const property of properties) {
-    const key = regionOf(property);
-    if (!regions.has(key)) regions.set(key, []);
-    regions.get(key)!.push(property);
+    const name = regionOf(property);
+    const key = placeKey(name);
+    if (!regions.has(key)) regions.set(key, { label: placeLabel(name), rows: [] });
+    regions.get(key)!.rows.push(property);
   }
-  const regionGroups = Array.from(regions.entries()).sort(([a], [b]) => a.localeCompare(b));
+  const regionGroups = Array.from(regions.entries()).sort(([, a], [, b]) => a.label.localeCompare(b.label, "es"));
 
   if (dateRange.length === 0 || properties.length === 0) {
     return <p className="text-sm text-muted-foreground">No hay propiedades para mostrar.</p>;
@@ -108,11 +111,11 @@ export function AvailabilityGrid({
           </tr>
         </thead>
         <tbody>
-          {regionGroups.map(([region, group]) => (
-            <Fragment key={region}>
+          {regionGroups.map(([key, { label, rows: group }]) => (
+            <Fragment key={key}>
               <tr className="bg-foreground/[0.03]">
-                <td className="sticky left-0 z-10 border-r border-b border-foreground/5 bg-foreground/[0.03] px-3 py-1.5 text-xs font-medium text-muted-foreground uppercase">
-                  {region} · {group.length}
+                <td className="sticky left-0 z-10 border-r border-b border-foreground/5 bg-foreground/[0.03] px-3 py-1.5 text-xs font-medium text-muted-foreground">
+                  {label} · {group.length}
                 </td>
                 <td colSpan={dateRange.length} className="border-b border-foreground/5" />
               </tr>
