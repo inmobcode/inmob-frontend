@@ -430,9 +430,11 @@ export default function InquiriesPage() {
   }
 
   const markMutation = useMutation({
+    meta: { affectsSite: false },
     mutationFn: ({ id, read }: { id: string; read: boolean }) =>
       markInquiry(requireToken(), id, read),
     onMutate: ({ id, read }) => {
+      const previous = queryClient.getQueryData<Inquiry[]>(["inquiries"]);
       queryClient.setQueryData<Inquiry[]>(["inquiries"], (current) =>
         current?.map((inquiry) =>
           inquiry.id === id
@@ -440,12 +442,17 @@ export default function InquiriesPage() {
             : inquiry,
         ),
       );
+      return { previous };
     },
     onSettled: refresh,
-    onError: () => toast.error("No se pudo actualizar la consulta"),
+    onError: (_err, _vars, context) => {
+      if (context?.previous) queryClient.setQueryData(["inquiries"], context.previous);
+      toast.error("No se pudo actualizar la consulta");
+    },
   });
 
   const readAllMutation = useMutation({
+    meta: { affectsSite: false },
     mutationFn: () => markAllInquiriesRead(requireToken()),
     onSuccess: ({ updated }) => {
       refresh();

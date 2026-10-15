@@ -87,14 +87,20 @@ export default function ClientsPage() {
   }, [sorted, stage, search]);
 
   const stageMutation = useMutation({
+    meta: { affectsSite: false },
     mutationFn: ({ id, next }: { id: string; next: ClientStage }) => updateClient(requireToken(), id, { stage: next }),
     onMutate: ({ id, next }) => {
+      const previous = queryClient.getQueryData<Client[]>(["clients"]);
       queryClient.setQueryData<Client[]>(["clients"], (prev) =>
         prev?.map((client) => (client.id === id ? { ...client, stage: next } : client)),
       );
+      return { previous };
     },
     onSuccess: (_, { next }) => toast.success(`Pasó a ${CLIENT_STAGE_LABELS[next].toLowerCase()}`),
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo cambiar la etapa"),
+    onError: (err, _vars, context) => {
+      if (context?.previous) queryClient.setQueryData(["clients"], context.previous);
+      toast.error(err instanceof ApiError ? err.message : "No se pudo cambiar la etapa");
+    },
     onSettled: () => queryClient.invalidateQueries({ queryKey: ["clients"] }),
   });
 
