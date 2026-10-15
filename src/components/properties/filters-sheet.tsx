@@ -26,6 +26,7 @@ import {
 import type { Property } from "@/lib/api/properties";
 import { gsap } from "@/lib/gsap";
 import { media } from "@/lib/motion";
+import { Combobox } from "@/components/ui/combobox";
 import { uniquePlaces } from "@/lib/places";
 import {
   applyFilters,
@@ -238,12 +239,17 @@ export function FiltersSheet({
 
           {places.length > 0 && (
             <Section title="Ubicación">
-              <SelectFilter
+              <Combobox
                 id="filter-location"
+                ariaLabel="Ubicación"
                 value={draft.region}
                 onChange={(region) => update({ region })}
+                allValue="ALL"
                 allLabel="Todas"
+                searchPlaceholder="Buscar ubicación…"
+                emptyText="Ninguna ubicación coincide."
                 options={places.map((place) => ({ value: place, label: place }))}
+                className="rounded-xl"
               />
             </Section>
           )}

@@ -7,7 +7,7 @@ import { AvailabilityGrid, type AvailabilityRow } from "@/components/availabilit
 import { AvailabilityLegend } from "@/components/availability/availability-legend";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Combobox } from "@/components/ui/combobox";
 import { placeMatches, uniquePlaces } from "@/lib/places";
 
 const PAGE_SIZE = 25;
@@ -71,25 +71,20 @@ export function AvailabilityCalendarView({
             className="h-10 w-full sm:w-64"
           />
           {places.length > 0 && (
-            <Select
+            <Combobox
+              ariaLabel="Ubicación"
               value={place}
-              onValueChange={(next) => {
+              onChange={(next) => {
                 setPlace(next);
                 setVisibleCount(PAGE_SIZE);
               }}
-            >
-              <SelectTrigger aria-label="Ubicación" className="h-10 w-full sm:w-56">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value={ALL_PLACES}>Todas las ubicaciones</SelectItem>
-                {places.map((option) => (
-                  <SelectItem key={option} value={option}>
-                    {option}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+              allValue={ALL_PLACES}
+              allLabel="Todas las ubicaciones"
+              searchPlaceholder="Buscar ubicación…"
+              emptyText="Ninguna ubicación coincide."
+              options={places.map((option) => ({ value: option, label: option }))}
+              className="w-full sm:w-56"
+            />
           )}
         </div>
         <p className="text-sm text-muted-foreground">
