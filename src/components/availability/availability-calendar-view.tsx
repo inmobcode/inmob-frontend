@@ -66,49 +66,38 @@ export function AvailabilityCalendarView({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex w-full flex-wrap items-center gap-3 sm:w-auto">
-          <Input
-            value={search}
-            onChange={(event) => {
-              setSearch(event.target.value);
+      <div className="flex flex-wrap items-center gap-3">
+        <Input
+          value={search}
+          onChange={(event) => {
+            setSearch(event.target.value);
+            setVisibleCount(PAGE_SIZE);
+          }}
+          placeholder="Buscar propiedad…"
+          aria-label="Buscar propiedad"
+          className="h-10 w-full sm:w-64"
+        />
+        {places.length > 0 && (
+          <Combobox
+            ariaLabel="Ubicación"
+            value={place}
+            onChange={(next) => {
+              setPlace(next);
               setVisibleCount(PAGE_SIZE);
             }}
-            placeholder="Buscar propiedad…"
-            aria-label="Buscar propiedad"
-            className="h-10 w-full sm:w-64"
+            allValue={ALL_PLACES}
+            allLabel="Todas las ubicaciones"
+            searchPlaceholder="Buscar ubicación…"
+            emptyText="Ninguna ubicación coincide."
+            options={places.map((option) => ({ value: option, label: option }))}
+            className="w-full sm:w-56"
           />
-          {places.length > 0 && (
-            <Combobox
-              ariaLabel="Ubicación"
-              value={place}
-              onChange={(next) => {
-                setPlace(next);
-                setVisibleCount(PAGE_SIZE);
-              }}
-              allValue={ALL_PLACES}
-              allLabel="Todas las ubicaciones"
-              searchPlaceholder="Buscar ubicación…"
-              emptyText="Ninguna ubicación coincide."
-              options={places.map((option) => ({ value: option, label: option }))}
-              className="w-full sm:w-56"
-            />
-          )}
-          <div className="w-full sm:w-72">
-            <DateRangePicker
-              start={range.start}
-              end={range.end}
-              onChange={(start, end) => {
-                setRange({ start, end });
-                setVisibleCount(PAGE_SIZE);
-              }}
-              placeholder="Elegí las fechas"
-              minDate={new Date(`${from}T00:00:00`)}
-            />
-          </div>
+        )}
+
+        <div className="flex w-full flex-wrap items-center gap-3 sm:ml-auto sm:w-auto sm:flex-nowrap">
           {hasRange && (
             <>
-              <label className="flex cursor-pointer items-center gap-2 text-sm">
+              <label className="flex cursor-pointer items-center gap-2 text-sm whitespace-nowrap">
                 <input
                   type="checkbox"
                   checked={onlyFree}
@@ -125,11 +114,19 @@ export function AvailabilityCalendarView({
               </Button>
             </>
           )}
+          <div className="w-full sm:w-72">
+            <DateRangePicker
+              start={range.start}
+              end={range.end}
+              onChange={(start, end) => {
+                setRange({ start, end });
+                setVisibleCount(PAGE_SIZE);
+              }}
+              placeholder="Elegí las fechas"
+              minDate={new Date(`${from}T00:00:00`)}
+            />
+          </div>
         </div>
-        <p className="text-sm text-muted-foreground">
-          Mostrando {shown.length} de {filtered.length} {filtered.length === 1 ? "propiedad" : "propiedades"}
-          {!search.trim() && place === ALL_PLACES && !hasRange && " · próximos 90 días"}
-        </p>
       </div>
 
       <AvailabilityLegend />
