@@ -21,6 +21,7 @@ import {
   sectionLayout,
   whatsappLink,
 } from "@/lib/site-theme";
+import { placeMatches } from "@/lib/places";
 import { richTextHtml } from "@/lib/rich-text";
 import { cn } from "@/lib/utils";
 import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
@@ -33,7 +34,7 @@ const BUTTON =
   "inline-flex h-11 w-fit items-center rounded-lg px-5 text-sm font-medium outline-none transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-offset-2";
 
 export function inZone(property: Property, zone: string) {
-  return [property.area, property.region, property.country].includes(zone);
+  return placeMatches(property, zone);
 }
 
 /** Listings by id, in the order given; ones that were unpublished drop out. */

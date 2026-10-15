@@ -1,5 +1,6 @@
 "use client";
 
+import { placeMatches, uniquePlaces } from "@/lib/places";
 import { useQuery } from "@tanstack/react-query";
 import { Mail, MessageCircle, Phone, SlidersHorizontal, X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -100,11 +101,7 @@ function distinct(values: (string | null | undefined)[]) {
 function matches(property: Property, filters: Filters) {
   if (filters.op && property.listingType !== filters.op) return false;
   if (filters.type && property.category !== filters.type) return false;
-  if (
-    filters.zone &&
-    ![property.area, property.region, property.country].includes(filters.zone)
-  )
-    return false;
+  if (filters.zone && !placeMatches(property, filters.zone)) return false;
   if (filters.beds && (property.bedrooms ?? 0) < Number(filters.beds))
     return false;
   if (
@@ -206,7 +203,7 @@ export function AgencyPortal({
 
   const all = useMemo(() => properties ?? [], [properties]);
   const zones = useMemo(
-    () => distinct(all.flatMap((p) => [p.area, p.region, p.country])),
+    () => uniquePlaces(all.flatMap((p) => [p.area, p.region, p.country])),
     [all],
   );
   const types = useMemo(() => distinct(all.map((p) => p.category)), [all]);
