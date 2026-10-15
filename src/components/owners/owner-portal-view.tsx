@@ -374,6 +374,10 @@ export function OwnerPortalView({ portal }: { portal: OwnerPortal }) {
     ),
   );
 
+  // Without the gross figures in the statement, the commission is hidden.
+  const netOnly = portal.statement.totals.some((total) => total.collected === undefined);
+  const due = sumByCurrency(portal.statement.totals.map((total) => ({ currency: total.currency, amount: total.due })));
+
   const hasRentals = properties.some((property) => property.listingType === "RENT");
   const figures = [
     {
@@ -393,11 +397,19 @@ export function OwnerPortalView({ portal }: { portal: OwnerPortal }) {
             value: next ? format(next.stay!.start, "d 'de' MMMM", { locale: es }) : "Ninguna",
             detail: next ? next.property.title : "No hay reservas por delante",
           }),
-    allBookings.length > 0 && {
-      label: "Cobrado",
-      value: collected.length > 0 ? collected.map(([currency, amount]) => money(currency, amount)).join(" + ") : "—",
-      detail: collected.length > 0 ? "en pagos de tus reservas" : "Todavía no hay pagos",
-    },
+    allBookings.length > 0 &&
+      (netOnly
+        ? {
+            // The commission is hidden, so the gross collected would give it away next to what's due.
+            label: "Te corresponde",
+            value: due.length > 0 ? due.map(([currency, amount]) => money(currency, amount)).join(" + ") : "—",
+            detail: due.length > 0 ? "de lo cobrado de tus reservas" : "Todavía no hay pagos",
+          }
+        : {
+            label: "Cobrado",
+            value: collected.length > 0 ? collected.map(([currency, amount]) => money(currency, amount)).join(" + ") : "—",
+            detail: collected.length > 0 ? "en pagos de tus reservas" : "Todavía no hay pagos",
+          }),
   ].filter(Boolean) as { label: string; value: string; detail: string }[];
 
   const contacts = [

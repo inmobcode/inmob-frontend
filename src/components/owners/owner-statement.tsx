@@ -30,16 +30,20 @@ function Figure({ label, value, hint, tone, emphasis }: { label: string; value: 
 
 function TotalBlock({ total, tone }: { total: OwnerStatementTotal; tone: StatementTone }) {
   const t = TONES[tone];
+  // Gross figures only come with the commission: see OwnerStatementTotal.
   const hasCommission = total.commission !== undefined;
+  const hasGross = total.collected !== undefined && total.booked !== undefined;
   return (
     <div className={cn("flex flex-col gap-4 border-t pt-5", t.line)}>
       <dl
         className={cn("grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-3", tone === "site" && "lg:grid-cols-(--cols)")}
-        style={{ "--cols": hasCommission ? "repeat(5, minmax(0, 1fr))" : "repeat(4, minmax(0, 1fr))" } as React.CSSProperties}
+        style={{ "--cols": `repeat(${(hasGross ? 1 : 0) + (hasCommission ? 1 : 0) + 3}, minmax(0, 1fr))` } as React.CSSProperties}
       >
-        <Figure tone={tone} label="Cobrado" value={money(total.currency, total.collected)} hint={`de ${money(total.currency, total.booked)} reservados`} />
+        {hasGross && (
+          <Figure tone={tone} label="Cobrado" value={money(total.currency, total.collected!)} hint={`de ${money(total.currency, total.booked!)} reservados`} />
+        )}
         {hasCommission && <Figure tone={tone} label="Comisión" value={`− ${money(total.currency, total.commission!)}`} hint="de la agencia" />}
-        <Figure tone={tone} label="Te corresponde" value={money(total.currency, total.due)} hint="lo cobrado menos la comisión" />
+        <Figure tone={tone} label="Te corresponde" value={money(total.currency, total.due)} hint={hasCommission ? "lo cobrado menos la comisión" : "de lo cobrado"} />
         <Figure tone={tone} label="Ya liquidado" value={money(total.currency, total.paidOut)} />
         <Figure
           tone={tone}
@@ -95,10 +99,12 @@ export function OwnerStatementView({
                   {day(booking.startDate)} → {day(booking.endDate)}
                   {booking.status === "PENDING" && " · sin confirmar"}
                 </span>
-                <span className={cn("text-right text-xs tabular-nums", t.quiet)}>
-                  cobrado {money(booking.currency, booking.collected)} de {money(booking.currency, booking.total)}
-                  {showCommission && booking.commission !== undefined && booking.commission > 0 && ` · comisión ${money(booking.currency, booking.commission)}`}
-                </span>
+                {booking.collected !== undefined && booking.total !== undefined && (
+                  <span className={cn("text-right text-xs tabular-nums", t.quiet)}>
+                    cobrado {money(booking.currency, booking.collected)} de {money(booking.currency, booking.total)}
+                    {showCommission && booking.commission !== undefined && booking.commission > 0 && ` · comisión ${money(booking.currency, booking.commission)}`}
+                  </span>
+                )}
               </li>
             ))}
           </ul>

@@ -309,7 +309,7 @@ function SidebarNav({
   );
 
   return (
-    <nav ref={navRef} className="relative flex flex-col gap-3">
+    <nav ref={navRef} className="relative flex flex-col gap-2">
       <span
         ref={indicatorRef}
         aria-hidden

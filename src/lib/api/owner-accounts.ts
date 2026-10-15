@@ -3,11 +3,15 @@ import { apiFetch } from "./client";
 /** One currency's line of an owner's account: what the agency has collected and owes. */
 export interface OwnerStatementTotal {
   currency: string;
+  /**
+   * The gross figures (booked, collected) and the commission only come when the
+   * commission is shown: next to `due` they would give it away.
+   */
   /** Sum of the bookings' prices. */
-  booked: number;
+  booked?: number;
   /** What was actually collected from the guests. */
-  collected: number;
-  /** The agency's commission. Absent when the portal doesn't itemize it. */
+  collected?: number;
+  /** The agency's commission. */
   commission?: number;
   /** What is owed to the owner so far: the collected money minus the commission. */
   due: number;
@@ -23,8 +27,8 @@ export interface OwnerStatementBooking {
   endDate: string | null;
   status: "PENDING" | "CONFIRMED" | "COMPLETED";
   currency: string;
-  total: number;
-  collected: number;
+  total?: number;
+  collected?: number;
   commission?: number;
   due: number;
 }

@@ -29,14 +29,20 @@ function UnsavedChip() {
     { scope: ref },
   );
 
+  // The words only fit on very wide screens; otherwise the bar would wrap into two rows
+  // just to say it. Below that, an amber dot says it and the tooltip spells it out.
   return (
-    <span
-      ref={ref}
-      className="mr-2 hidden items-center gap-2 text-sm text-muted-foreground sm:inline-flex"
-    >
-      <span className="size-2 rounded-full bg-amber-500" />
-      Cambios sin guardar
-    </span>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <span ref={ref} className="mr-1 inline-flex items-center gap-2 text-sm text-muted-foreground" role="status">
+          <span aria-hidden className="size-2.5 rounded-full bg-amber-500 ring-4 ring-amber-500/20" />
+          <span className="sr-only 2xl:not-sr-only">Cambios sin guardar</span>
+        </span>
+      </TooltipTrigger>
+      <TooltipContent side="bottom" sideOffset={6}>
+        Cambios sin guardar
+      </TooltipContent>
+    </Tooltip>
   );
 }
 
