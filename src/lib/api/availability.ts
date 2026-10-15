@@ -28,8 +28,13 @@ export interface AvailabilityCalendar {
 }
 
 /** The dashboard's internal view: every rental listing, draft or published. */
-export function getAvailabilityCalendar(token: string) {
-  return apiFetch<AvailabilityCalendar>("/api/properties/calendar", { token });
+export function getAvailabilityCalendar(
+  token: string,
+  /** Another window than the next 90 days: `from` is yyyy-MM-dd. */
+  window?: { from: string; days: number },
+) {
+  const query = window ? `?from=${window.from}&days=${window.days}` : "";
+  return apiFetch<AvailabilityCalendar>(`/api/properties/calendar${query}`, { token });
 }
 
 /** The agency's shareable link: published rentals only. */

@@ -49,6 +49,7 @@ Frontend de una plataforma inmobiliaria (propiedades, ofertas, clientes, reserva
 - El proxy solo comprueba que exista la cookie; no valida el token (la API sí). El refresh token se guarda pero no se usa: al vencer el access token, `SessionWatcher` cierra la sesión.
 
 **Tareas, notificaciones y roles**
+- Disponibilidad (`/availability`): grilla de 90 días y vista **Mensual** (`components/availability/availability-month-view.tsx`: ocupación por día, y con una propiedad elegida se arrastra sobre las noches libres para bloquearlas). El calendario viene de `GET /api/properties/calendar?from=&days=`; la lógica de noches vs. días bloqueados está en `lib/availability-range.ts` (un día está ocupado de check-in a check-out, y una noche se ocupa cuando ese día y el siguiente están bloqueados).
 - Tareas de seguimiento (`lib/api/tasks.ts`, `components/tasks/task-list.tsx`): en el detalle del cliente. Clientes también se ven como **tablero** por etapa (`components/clients/client-board.tsx`, dnd-kit).
 - Campana (`components/dashboard/notification-bell.tsx`, en el sidebar, consulta cada minuto `GET /api/notifications/`): consulta nueva, oferta abierta, pago registrado, tarea asignada. El backend escribe una fila por persona.
 - Roles: `AGENT` ve solo sus propiedades (`assignedAgentId`), ofertas y reservas (`createdBy`), sus clientes y los leads sin asignar; `OWNER`/`ADMIN` ven todo y reasignan con `components/shared/assignee-select.tsx` (solo ellos pueden listar el equipo). El backend lo aplica; la UI solo oculta lo que no corresponde.
