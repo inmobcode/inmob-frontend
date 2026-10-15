@@ -1,10 +1,13 @@
 import Link from "next/link";
 
+import { LegalIndex } from "@/components/legal/legal-index";
 import { LEGAL_UPDATED_AT } from "@/lib/legal";
 
 export interface LegalSection {
   id: string;
   title: string;
+  /** One plain-language sentence shown above the full text ("En corto"). */
+  brief?: string;
   content: React.ReactNode;
 }
 
@@ -30,9 +33,10 @@ export function LegalLink({ href, children }: { href: string; children: React.Re
 }
 
 /**
- * A legal page: the title, a plain-language summary and the numbered sections,
- * with an index that stays in view on wide screens. Sections are divided by
- * hairlines, like the rest of the landing.
+ * A legal page. A forest block opens it (title, plain-language summary as a
+ * ruled ledger, when it took effect); below, a sticky index that follows the
+ * reader sits beside the numbered sections, each with a one-line "En corto"
+ * above the full text. Everything is divided by hairlines and prints cleanly.
  */
 export function LegalDocument({
   title,
@@ -49,78 +53,92 @@ export function LegalDocument({
 }) {
   return (
     <main className="flex-1">
-      <div className="mx-auto w-full max-w-[1440px] px-5 pt-14 pb-20 sm:px-8 md:pt-20 md:pb-28">
-        <header className="max-w-3xl border-b border-line pb-10">
-          <p className="text-sm text-quiet">Vigente desde el {LEGAL_UPDATED_AT}</p>
-          <h1 className="mt-4 font-logo text-[clamp(2.25rem,4.6vw,4rem)] leading-[1.02] font-semibold tracking-[-0.035em] text-balance">
-            {title}
-          </h1>
-          <div className="mt-6 max-w-2xl text-lg text-pretty text-quiet">{intro}</div>
-        </header>
+      <header className="bg-forest text-paper print:bg-transparent print:text-ink">
+        <div className="mx-auto grid w-full max-w-[1440px] gap-12 px-5 pt-14 pb-14 sm:px-8 md:pt-20 md:pb-20 lg:grid-cols-12 lg:gap-8">
+          <div className="lg:col-span-6">
+            <h1 className="font-logo text-[clamp(2.5rem,5.4vw,4.75rem)] leading-[1.02] font-semibold tracking-[-0.035em] text-balance">
+              {title}
+            </h1>
+            <div className="mt-6 max-w-xl text-lg text-pretty text-paper/60 print:text-quiet">{intro}</div>
+            <dl className="mt-10 flex flex-wrap gap-x-10 gap-y-4 border-t border-paper/15 pt-6 text-sm print:border-line">
+              <div>
+                <dt className="text-paper/55 print:text-quiet">Vigente desde</dt>
+                <dd className="mt-1 font-medium">{LEGAL_UPDATED_AT}</dd>
+              </div>
+              <div>
+                <dt className="text-paper/55 print:text-quiet">Secciones</dt>
+                <dd className="mt-1 font-medium">{sections.length}</dd>
+              </div>
+              <div>
+                <dt className="text-paper/55 print:text-quiet">Ver también</dt>
+                <dd className="mt-1 font-medium">
+                  <Link
+                    href={related.href}
+                    className="rounded-sm underline decoration-paper/40 underline-offset-4 outline-none transition-colors hover:decoration-paper focus-visible:ring-2 focus-visible:ring-lime print:decoration-line"
+                  >
+                    {related.label}
+                  </Link>
+                </dd>
+              </div>
+            </dl>
+          </div>
 
-        <div className="grid gap-12 pt-10 lg:grid-cols-12 lg:gap-8">
-          <nav aria-label="Índice" className="lg:col-span-3">
-            <div className="lg:sticky lg:top-24">
-              <h2 className="text-sm text-quiet">Contenido</h2>
-              <ol className="mt-4 flex flex-col gap-2 text-sm">
-                {sections.map((section, index) => (
-                  <li key={section.id}>
-                    <a
-                      href={`#${section.id}`}
-                      className="group flex gap-3 rounded-sm text-quiet outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-forest"
-                    >
-                      <span className="w-5 shrink-0 tabular-nums text-quiet/60">
-                        {index + 1}
-                      </span>
-                      {section.title}
-                    </a>
-                  </li>
-                ))}
-              </ol>
-              <p className="mt-8 border-t border-line pt-6 text-sm text-quiet">
-                Ver también: <LegalLink href={related.href}>{related.label}</LegalLink>
-              </p>
-            </div>
-          </nav>
-
-          <article className="flex max-w-[44rem] flex-col lg:col-span-8 lg:col-start-5">
-            <section aria-labelledby="resumen" className="pb-10">
-              <h2 id="resumen" className="font-logo text-xl font-semibold tracking-tight">
-                En pocas palabras
-              </h2>
-              <ul className="mt-5 flex flex-col border-t border-line">
-                {summary.map((item) => (
-                  <li key={item} className="border-b border-line py-3.5 text-pretty">
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-4 text-sm text-quiet">
-                Este resumen ayuda a leer el documento, pero no lo reemplaza: rige el texto completo.
-              </p>
-            </section>
-
-            {sections.map((section, index) => (
-              <section
-                key={section.id}
-                id={section.id}
-                aria-labelledby={`${section.id}-title`}
-                className="scroll-mt-24 border-t border-line py-10"
-              >
-                <h2
-                  id={`${section.id}-title`}
-                  className="flex gap-4 font-logo text-xl font-semibold tracking-tight text-balance"
+          <section aria-labelledby="resumen" className="lg:col-span-5 lg:col-start-8">
+            <h2 id="resumen" className="font-logo text-xl font-semibold tracking-tight">
+              En pocas palabras
+            </h2>
+            <ol className="mt-5 flex flex-col border-t border-paper/15 print:border-line">
+              {summary.map((item, index) => (
+                <li
+                  key={item}
+                  className="grid grid-cols-[1.75rem_1fr] gap-3 border-b border-paper/15 py-4 text-pretty print:border-line"
                 >
-                  <span className="w-7 shrink-0 tabular-nums text-quiet/60">{index + 1}</span>
-                  {section.title}
-                </h2>
-                <div className="mt-5 flex flex-col gap-4 leading-relaxed sm:pl-11 text-pretty text-ink/85 [&_h3]:mt-3 [&_h3]:font-semibold [&_h3]:text-ink [&_li]:pl-1 [&_ol]:flex [&_ol]:list-[lower-alpha] [&_ol]:flex-col [&_ol]:gap-2 [&_ol]:pl-5 [&_strong]:font-semibold [&_strong]:text-ink [&_ul]:flex [&_ul]:list-disc [&_ul]:flex-col [&_ul]:gap-2 [&_ul]:pl-5 [&_ul]:marker:text-quiet/60">
-                  {section.content}
-                </div>
-              </section>
-            ))}
-          </article>
+                  <span className="tabular-nums text-paper/45 print:text-quiet">{index + 1}</span>
+                  {item}
+                </li>
+              ))}
+            </ol>
+            <p className="mt-4 text-sm text-paper/55 print:text-quiet">
+              Este resumen ayuda a leer el documento, pero no lo reemplaza: rige el texto completo.
+            </p>
+          </section>
         </div>
+      </header>
+
+      <div className="mx-auto grid w-full max-w-[1440px] gap-10 px-5 pt-10 pb-20 sm:px-8 md:pb-28 lg:grid-cols-12 lg:gap-8 lg:pt-14">
+        <div className="lg:col-span-3">
+          <div className="lg:sticky lg:top-24 lg:max-h-[calc(100svh-8rem)] lg:overflow-y-auto">
+            <LegalIndex items={sections.map(({ id, title }) => ({ id, title }))} />
+          </div>
+        </div>
+
+        <article className="flex max-w-[46rem] flex-col lg:col-span-8 lg:col-start-5">
+          {sections.map((section, index) => (
+            <section
+              key={section.id}
+              id={section.id}
+              aria-labelledby={`${section.id}-title`}
+              className="scroll-mt-24 border-b border-line py-10 first:pt-0 last:border-b-0 print:break-inside-avoid-page"
+            >
+              <h2
+                id={`${section.id}-title`}
+                className="flex gap-4 font-logo text-2xl font-semibold tracking-tight text-balance"
+              >
+                <span className="w-7 shrink-0 tabular-nums text-quiet/60">{index + 1}</span>
+                {section.title}
+              </h2>
+              {section.brief && (
+                <p className="mt-5 border-l-2 border-forest py-0.5 pl-4 text-pretty font-medium text-ink sm:ml-11">
+                  <span className="text-quiet">En corto: </span>
+                  {section.brief}
+                </p>
+              )}
+              <div className="mt-5 flex flex-col gap-4 leading-relaxed sm:pl-11 text-pretty text-ink/85 [&_h3]:mt-3 [&_h3]:font-semibold [&_h3]:text-ink [&_li]:pl-1 [&_ol]:flex [&_ol]:list-[lower-alpha] [&_ol]:flex-col [&_ol]:gap-2 [&_ol]:pl-5 [&_strong]:font-semibold [&_strong]:text-ink [&_ul]:flex [&_ul]:list-disc [&_ul]:flex-col [&_ul]:gap-2 [&_ul]:pl-5 [&_ul]:marker:text-quiet/60">
+                {section.content}
+              </div>
+            </section>
+          ))}
+        </article>
       </div>
     </main>
   );

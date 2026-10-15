@@ -24,6 +24,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "quienes-somos",
     title: "Quiénes somos y qué regulan estos términos",
+    brief:
+      "Estos Términos, la Política de privacidad y las condiciones de tu plan forman el acuerdo completo entre Tivvo y tu agencia.",
     content: (
       <>
         <p>
@@ -45,6 +47,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "definiciones",
     title: "Definiciones",
+    brief:
+      "Agencia es quien abre la cuenta, Usuarios son quienes trabajan en ella y Clientes finales las personas cuyos datos se cargan.",
     content: (
       <ul>
         <li>
@@ -74,6 +78,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "aceptacion",
     title: "Aceptación y capacidad",
+    brief:
+      "Al usar Tivvo aceptás estos Términos. Tenés que ser mayor de 18 años y poder contratar.",
     content: (
       <>
         <p>
@@ -97,6 +103,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "cuenta",
     title: "Cuenta, usuarios y seguridad",
+    brief:
+      "Mantené tus datos al día, no compartas contraseñas y avisanos si sospechás que alguien entró a tu cuenta.",
     content: (
       <>
         <p>
@@ -119,6 +127,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "servicio",
     title: "Qué incluye el Servicio",
+    brief:
+      "Qué podés hacer depende de tu plan. Podemos cambiar funciones; si retiramos una esencial de un plan pago, avisamos 30 días antes.",
     content: (
       <>
         <p>Según el plan contratado, el Servicio permite, entre otras cosas:</p>
@@ -150,6 +160,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "rol-de-tivvo",
     title: "Tivvo no es parte de tus operaciones",
+    brief:
+      "Tivvo es software: no es inmobiliaria ni intermediario, y no procesa ni custodia tus cobros.",
     content: (
       <>
         <p>
@@ -170,6 +182,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "obligaciones-agencia",
     title: "Responsabilidades de la Agencia",
+    brief:
+      "Tu agencia responde por su matrícula, la veracidad de sus avisos, sus contratos, los datos de sus clientes y sus impuestos.",
     content: (
       <>
         <p>La Agencia es la única responsable de su actividad y, en particular, de:</p>
@@ -204,6 +218,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "uso-aceptable",
     title: "Uso aceptable",
+    brief:
+      "Nada de avisos falsos, spam, datos sensibles innecesarios, scraping ni intentos de entrar a cuentas ajenas.",
     content: (
       <>
         <p>No está permitido usar el Servicio para:</p>
@@ -240,6 +256,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "planes-y-pagos",
     title: "Planes, precios y pagos",
+    brief:
+      "Se factura por adelantado y se renueva solo. Avisamos 30 días antes de cambiar precios; si un pago falla, tenés 15 días para regularizarlo.",
     content: (
       <>
         <p>
@@ -275,6 +293,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "baja",
     title: "Baja y derecho de revocación",
+    brief:
+      "Podés darte de baja cuando quieras. Rige al final del período pagado y no hay reintegro proporcional, salvo que la ley disponga otra cosa.",
     content: (
       <>
         <p>
@@ -302,6 +322,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "datos-personales",
     title: "Datos de la Agencia y datos personales",
+    brief:
+      "Los datos son de tu agencia y no los vendemos. De los datos de tus clientes sos responsable vos; nosotros los tratamos por tu cuenta.",
     content: (
       <>
         <p>
@@ -334,6 +356,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "contenido",
     title: "Contenido de la Agencia y licencia",
+    brief:
+      "Tu contenido sigue siendo tuyo; solo nos das permiso para alojarlo y mostrarlo mientras uses el Servicio.",
     content: (
       <>
         <p>
@@ -353,6 +377,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "sitio-y-links",
     title: "Sitio de la Agencia y links compartidos",
+    brief:
+      "El sitio es de tu agencia. Los links privados los abre cualquiera que los tenga: enviáselos solo a quien corresponde.",
     content: (
       <>
         <p>
@@ -376,6 +402,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "propiedad-intelectual",
     title: "Propiedad intelectual de Tivvo",
+    brief:
+      "El software y la marca Tivvo son nuestros; vos podés usarlos mientras tu cuenta esté vigente.",
     content: (
       <p>
         El software, el diseño, las plantillas del sitio, la marca Tivvo y su logo son de Tivvo o
@@ -389,6 +417,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "terceros",
     title: "Servicios de terceros",
+    brief:
+      "Google, Apple y los calendarios externos se rigen por sus propias condiciones, y no respondemos por ellos.",
     content: (
       <p>
         El Servicio se integra con servicios de terceros, como el inicio de sesión con Google o
@@ -401,6 +431,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "disponibilidad",
     title: "Disponibilidad y soporte",
+    brief:
+      "Hacemos lo razonable para que ande bien, sin garantizar cero interrupciones. Soporte por email en días hábiles.",
     content: (
       <>
         <p>
@@ -422,6 +454,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "exportacion",
     title: "Exportación y eliminación de datos",
+    brief:
+      "Lo que borrás va a la papelera 30 días. Si cerrás la cuenta, tenés 30 días para exportar tus datos.",
     content: (
       <>
         <p>
@@ -443,6 +477,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "suspension",
     title: "Suspensión y terminación por parte de Tivvo",
+    brief:
+      "Podemos suspender una cuenta por incumplimientos graves o riesgo de seguridad, avisando antes salvo urgencia.",
     content: (
       <>
         <p>
@@ -462,6 +498,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "responsabilidad",
     title: "Limitación de responsabilidad",
+    brief:
+      "No respondemos por lucro cesante ni por tus operaciones; el tope es lo que pagaste en los últimos 12 meses, con las excepciones que fija la ley.",
     content: (
       <>
         <p>
@@ -486,6 +524,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "indemnidad",
     title: "Indemnidad",
+    brief:
+      "Si un tercero reclama por lo que publicás o por tus operaciones, tu agencia se hace cargo.",
     content: (
       <p>
         La Agencia mantendrá indemne a Tivvo frente a reclamos de terceros (incluidos Clientes
@@ -498,6 +538,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "cambios",
     title: "Cambios en estos Términos",
+    brief:
+      "Avisamos los cambios relevantes con 30 días de anticipación, y podés darte de baja antes de que rijan.",
     content: (
       <>
         <p>
@@ -516,6 +558,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "ley-aplicable",
     title: "Ley aplicable y jurisdicción",
+    brief:
+      "Rige la ley argentina. Primero intentamos resolverlo hablando; si sos consumidor, podés reclamar en tu domicilio.",
     content: (
       <>
         <p>
