@@ -54,6 +54,8 @@ export default function LoginPage() {
       router.replace(readNext(slug));
       return;
     }
+    // Intentional: must flip before paint (see comment above), so it can't wait for an event.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCheckingSession(false);
   }, [router]);
 

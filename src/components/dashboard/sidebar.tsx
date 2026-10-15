@@ -144,7 +144,6 @@ function NavLink({
   // starts; a genuine hover re-opens the right one once it settles.
   useEffect(() => {
     const root = document.documentElement;
-    if (root.hasAttribute(SIDEBAR_ANIMATING_ATTR)) setHovering(false);
     const observer = new MutationObserver(() => {
       if (root.hasAttribute(SIDEBAR_ANIMATING_ATTR)) setHovering(false);
     });
