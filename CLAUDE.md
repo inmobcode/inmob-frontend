@@ -23,7 +23,7 @@ Frontend de una plataforma inmobiliaria (propiedades, ofertas, clientes, reserva
 
 **Grupos de rutas (`src/app`)**
 - `(auth)` — `/login`, `/register`, `/forgot-password`, `/reset-password`, `/auth/callback`
-- `(dashboard)/[agencySlug]/…` — área protegida, **con el slug de la agencia en la URL**. La raíz `/[agencySlug]` es el **Inicio** (`components/dashboard/home-view.tsx`: cifras, tareas, próximas reservas, embudo, consultas; datos de `GET /api/dashboard/summary`); como el proxy solo vigila `/<slug>/<sección>`, esa página comprueba la cookie ella misma. Secciones: `properties`, `offers`, `clients`, `inquiries`, `bookings`, `services`, `team`, `settings`, `profile` (con rutas `[id]` y `trash` donde aplica). Su layout monta `DashboardSidebar`, `ActionBar` y `Shortcuts`.
+- `(dashboard)/[agencySlug]/…` — área protegida, **con el slug de la agencia en la URL**. La raíz `/[agencySlug]` redirige a `properties`. Secciones: `properties`, `offers`, `clients`, `inquiries`, `bookings`, `services`, `team`, `settings`, `profile` (con rutas `[id]` y `trash` donde aplica). Su layout monta `DashboardSidebar`, `ActionBar` y `Shortcuts`.
 - `(editor)/[agencySlug]/portal` — editor del sitio, pantalla completa sin sidebar.
 - `(docs)/docs` — documentación del panel (requiere sesión); capturas en `public/docs-media`.
 - `(legal)` — `/terms`, `/privacy` y `/help`. Términos y privacidad usan `components/legal/legal-document.tsx` (cabecera en bloque bosque, índice con sección activa, `brief` «En corto» opcional por sección, `action` opcional) y `legal-table.tsx` para tablas (plazos, proveedores, cookies, derechos). Datos de la empresa en `lib/legal.ts`.
@@ -49,7 +49,7 @@ Frontend de una plataforma inmobiliaria (propiedades, ofertas, clientes, reserva
 - El proxy solo comprueba que exista la cookie; no valida el token (la API sí). El refresh token se guarda pero no se usa: al vencer el access token, `SessionWatcher` cierra la sesión.
 
 **Tareas, notificaciones y roles**
-- Tareas de seguimiento (`lib/api/tasks.ts`, `components/tasks/task-list.tsx`): en el detalle del cliente y en el Inicio («Tus tareas»). Clientes también se ven como **tablero** por etapa (`components/clients/client-board.tsx`, dnd-kit).
+- Tareas de seguimiento (`lib/api/tasks.ts`, `components/tasks/task-list.tsx`): en el detalle del cliente. Clientes también se ven como **tablero** por etapa (`components/clients/client-board.tsx`, dnd-kit).
 - Campana (`components/dashboard/notification-bell.tsx`, en el sidebar, consulta cada minuto `GET /api/notifications/`): consulta nueva, oferta abierta, pago registrado, tarea asignada. El backend escribe una fila por persona.
 - Roles: `AGENT` ve solo sus propiedades (`assignedAgentId`), ofertas y reservas (`createdBy`), sus clientes y los leads sin asignar; `OWNER`/`ADMIN` ven todo y reasignan con `components/shared/assignee-select.tsx` (solo ellos pueden listar el equipo). El backend lo aplica; la UI solo oculta lo que no corresponde.
 

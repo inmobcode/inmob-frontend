@@ -11,7 +11,7 @@ const NEXT_KEY = "auth-next";
  */
 export function safeNext(value: string | null | undefined, fallbackSlug: string) {
   if (!value || !value.startsWith("/") || value.startsWith("//"))
-    return `/${fallbackSlug}`;
+    return `/${fallbackSlug}/properties`;
   return value;
 }
 
@@ -45,6 +45,6 @@ export function consumeNext(fallbackSlug: string) {
     window.sessionStorage.removeItem(NEXT_KEY);
     return safeNext(value, fallbackSlug);
   } catch {
-    return `/${fallbackSlug}`;
+    return `/${fallbackSlug}/properties`;
   }
 }

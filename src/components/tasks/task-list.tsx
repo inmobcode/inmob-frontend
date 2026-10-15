@@ -119,7 +119,6 @@ export function TaskList({
 
   function refresh() {
     queryClient.invalidateQueries({ queryKey: ["tasks"] });
-    queryClient.invalidateQueries({ queryKey: ["dashboard-summary"] });
   }
 
   const addMutation = useMutation({

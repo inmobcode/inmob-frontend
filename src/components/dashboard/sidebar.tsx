@@ -6,7 +6,6 @@ import {
   CalendarCheck,
   CalendarDays,
   Globe,
-  House,
   Inbox,
   Menu,
   PanelLeftClose,
@@ -55,8 +54,6 @@ interface NavItem {
   href: string;
   label: string;
   icon: LucideIcon;
-  /** Active only on this exact path (Inicio, whose URL prefixes every other section). */
-  exact?: boolean;
 }
 
 const EXPANDED_WIDTH = 255;
@@ -80,7 +77,6 @@ function useAgencySlug() {
  */
 function navItemsFor(agencySlug: string, role: string | undefined): NavItem[] {
   const items: NavItem[] = [
-    { href: `/${agencySlug}`, label: "Inicio", icon: House, exact: true },
     {
       href: `/${agencySlug}/properties`,
       label: "Propiedades",
@@ -111,7 +107,7 @@ function Brand() {
   const agencySlug = useAgencySlug();
   return (
     <Link
-      href={agencySlug ? `/${agencySlug}` : "/"}
+      href={agencySlug ? `/${agencySlug}/properties` : "/"}
       className="flex items-center gap-2 font-logo text-2xl font-semibold leading-none tracking-tight text-foreground"
     >
       <LogoIcon className="text-primary" />
@@ -250,7 +246,7 @@ function SidebarNav({
   });
 
   const activeHref = navItems.find((item) =>
-    item.exact ? pathname === item.href : pathname.startsWith(item.href),
+    pathname.startsWith(item.href),
   )?.href;
 
   // Entrance: links settle in one after another, once, as soon as there are links.
