@@ -384,16 +384,21 @@ function SidebarBody({
       <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
         <SidebarNav collapsed={collapsed} onNavigate={onNavigate} />
       </div>
-      <NotificationBell collapsed={collapsed} onNavigate={onNavigate} />
       <div
         className={cn(
-          "rounded-3xl p-1.5 ring-1 backdrop-blur transition-[background-color,box-shadow,padding] duration-300",
+          "flex rounded-3xl p-1.5 ring-1 backdrop-blur transition-[background-color,box-shadow,padding] duration-300",
           collapsed
-            ? "bg-transparent p-0 ring-transparent"
-            : "bg-card/60 ring-foreground/5",
+            ? "flex-col items-center gap-1 bg-transparent p-0 ring-transparent"
+            : "items-center bg-card/60 ring-foreground/5",
         )}
       >
-        <UserMenu collapsed={collapsed} />
+        {/* The bell lives with the profile: it's about you, and it fits in the collapsed rail too. */}
+        <div className={cn("min-w-0", !collapsed && "order-2 pr-1", collapsed && "order-1")}>
+          <NotificationBell onNavigate={onNavigate} />
+        </div>
+        <div className={cn("min-w-0", collapsed ? "order-2 w-full" : "order-1 flex-1")}>
+          <UserMenu collapsed={collapsed} />
+        </div>
       </div>
     </div>
   );

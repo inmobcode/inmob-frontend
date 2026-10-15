@@ -47,10 +47,8 @@ const FEED_KEY = ["notifications"];
  * opened offer, a payment, a task handed to them). Refreshed every minute.
  */
 export function NotificationBell({
-  collapsed = false,
   onNavigate,
 }: {
-  collapsed?: boolean;
   onNavigate?: () => void;
 }) {
   const router = useRouter();
@@ -98,32 +96,16 @@ export function NotificationBell({
         <button
           type="button"
           aria-label={label}
-          title={collapsed ? "Notificaciones" : undefined}
-          className="relative z-10 flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium whitespace-nowrap text-muted-foreground transition-colors outline-none hover:bg-foreground/5 hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
+          title="Notificaciones"
+          className="relative flex size-9 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors outline-none hover:bg-foreground/5 hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 data-[state=open]:bg-foreground/5 data-[state=open]:text-foreground"
         >
-          <span className="relative flex shrink-0">
-            <Bell className="size-4" />
-            {unread > 0 && collapsed && (
-              <span
-                aria-hidden
-                className="absolute -top-1 -right-1 size-2 rounded-full bg-primary ring-2 ring-sidebar"
-              />
-            )}
-          </span>
-          <span
-            className={cn(
-              "transition-opacity duration-200",
-              collapsed && "opacity-0",
-            )}
-          >
-            Notificaciones
-          </span>
-          {unread > 0 && !collapsed && (
+          <Bell className="size-[1.125rem]" />
+          {unread > 0 && (
             <span
               aria-hidden
-              className="ml-auto flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1.5 text-xs font-semibold text-primary-foreground tabular-nums"
+              className="absolute top-0.5 right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] leading-none font-semibold text-primary-foreground tabular-nums ring-2 ring-sidebar"
             >
-              {unread > 99 ? "99+" : unread}
+              {unread > 9 ? "9+" : unread}
             </span>
           )}
         </button>
