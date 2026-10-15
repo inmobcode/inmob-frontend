@@ -258,7 +258,7 @@ function ServiceLine({
           <Controller
             control={control}
             name={`services.${index}.date`}
-            render={({ field }) => <DatePicker id={`services-${index}-date`} value={field.value} onChange={field.onChange} />}
+            render={({ field }) => <DatePicker id={`services-${index}-date`} surface="card" value={field.value} onChange={field.onChange} />}
           />
         </label>
       </div>

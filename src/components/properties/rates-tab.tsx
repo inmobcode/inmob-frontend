@@ -5,6 +5,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { DateRangePicker } from "@/components/ui/date-picker";
 import { Input } from "@/components/ui/input";
 import { ApiError } from "@/lib/api/client";
 import {
@@ -86,16 +87,16 @@ export function RatesTab({ propertyId }: { propertyId: string }) {
             onChange={(e) => setForm({ ...form, label: e.target.value })}
             className="col-span-2"
           />
-          <Input
-            type="date"
-            value={form.startDate}
-            onChange={(e) => setForm({ ...form, startDate: e.target.value })}
-          />
-          <Input
-            type="date"
-            value={form.endDate}
-            onChange={(e) => setForm({ ...form, endDate: e.target.value })}
-          />
+          <div className="col-span-2">
+            <DateRangePicker
+              start={form.startDate}
+              end={form.endDate}
+              countAs="days"
+              placeholder="Desde y hasta qué día rige"
+              hints={{ first: "Elegí el primer día", second: "Ahora elegí el último día" }}
+              onChange={(startDate, endDate) => setForm({ ...form, startDate, endDate })}
+            />
+          </div>
           <Input
             placeholder="Precio oficial/noche"
             inputMode="decimal"

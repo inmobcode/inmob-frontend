@@ -25,6 +25,7 @@ import { useId, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { Checkbox } from "@/components/ui/checkbox";
+import { DatePicker } from "@/components/ui/date-picker";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -643,14 +644,12 @@ function BlockFields({
             />
           </Field>
           <Field label="Válido hasta (opcional)" htmlFor={`${id}-ends`}>
-            <Input
+            <DatePicker
               id={`${id}-ends`}
-              type="date"
+              size="sm"
               value={section.endsAt ?? ""}
-              onChange={(event) =>
-                onChange({ endsAt: event.target.value || null })
-              }
-              className="h-10 px-3.5"
+              onChange={(endsAt) => onChange({ endsAt: endsAt || null })}
+              placeholder="Sin fecha"
             />
           </Field>
         </div>

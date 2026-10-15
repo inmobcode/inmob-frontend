@@ -8,7 +8,7 @@ import { AvailabilityLegend } from "@/components/availability/availability-legen
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Combobox } from "@/components/ui/combobox";
-import { DateRangePicker } from "@/components/ui/date-range-picker";
+import { DateRangePicker } from "@/components/ui/date-picker";
 import { isFreeFor } from "@/lib/availability-range";
 import { placeMatches, uniquePlaces } from "@/lib/places";
 

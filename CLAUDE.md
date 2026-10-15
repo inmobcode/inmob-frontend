@@ -68,6 +68,7 @@ Frontend de una plataforma inmobiliaria (propiedades, ofertas, clientes, reserva
 - Catálogos y etiquetas de propiedades en `lib/property-catalogs.ts` y `lib/properties-labels.ts`; compresión de imágenes antes de subir en `lib/image-compression.ts`.
 
 **UI**
+- Fechas: un solo selector propio, `DatePicker` (un día) y `DateRangePicker` (rango, en noches o en días) de `components/ui/date-picker.tsx`. Nunca `<input type="date">` (ESLint lo prohíbe).
 - shadcn/ui (estilo `radix-nova`, icon library lucide) en `src/components/ui`; añadir componentes con la CLI de `shadcn`. Alias `@/components`, `@/lib`, `@/hooks`.
 - Imágenes en tarjetas y miniaturas: pasar la URL por `sizedImage(url, IMAGE_WIDTH.*)` (`lib/image-url.ts`), que pide a Supabase una copia reducida; el original (hasta 2048 px) solo para portadas, galería y lightbox.
 - GSAP: importar desde `@/lib/gsap` (solo el núcleo); cada plugin en su módulo (`@/lib/gsap-flip`) para no cargarlo en todas las páginas. El editor de texto (Tiptap) se carga bajo demanda desde `components/rich-text/rich-text-editor.tsx`.

@@ -10,6 +10,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
+import { DatePicker } from "@/components/ui/date-picker";
 import { Input } from "@/components/ui/input";
 import { ApiError } from "@/lib/api/client";
 import { createTask, deleteTask, listTasks, updateTask, type Task, type TaskFilters } from "@/lib/api/tasks";
@@ -180,13 +181,9 @@ export function TaskList({
           maxLength={200}
           className="h-10 min-w-48 flex-1 rounded-full bg-foreground/[0.05] px-4"
         />
-        <Input
-          type="date"
-          value={dueDate}
-          onChange={(event) => setDueDate(event.target.value)}
-          aria-label="Fecha límite"
-          className="h-10 w-auto rounded-full bg-foreground/[0.05] px-3"
-        />
+        <div className="w-44">
+          <DatePicker value={dueDate} onChange={setDueDate} placeholder="Fecha límite" size="sm" />
+        </div>
         <Button type="submit" size="icon-lg" className="rounded-full" disabled={!canAdd} aria-label="Agregar tarea">
           <Plus />
         </Button>

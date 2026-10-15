@@ -4,7 +4,7 @@ import { Minus, Plus, Search, Users } from "lucide-react";
 import { useState } from "react";
 
 import { DestinationField } from "@/components/marketplace/destination-field";
-import { DateRangePicker } from "@/components/ui/date-range-picker";
+import { DateRangePicker } from "@/components/ui/date-picker";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import type { MarketplaceFacets, MarketplaceQuery } from "@/lib/api/marketplace";
