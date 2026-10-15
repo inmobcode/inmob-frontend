@@ -9,10 +9,12 @@ export function ErrorScreen({
   error,
   reset,
   homeHref = "/",
+  compact = false,
 }: {
   error: Error & { digest?: string };
   reset: () => void;
   homeHref?: string;
+  compact?: boolean;
 }) {
   useEffect(() => {
     console.error(error);
@@ -20,8 +22,10 @@ export function ErrorScreen({
 
   return (
     <StatusScreen
-      title="Algo salió mal"
-      description="Ocurrió un error inesperado al cargar esta pantalla. Podés reintentar o volver al inicio."
+      code="500"
+      compact={compact}
+      title="Algo salió mal de nuestro lado."
+      tail="Probá de nuevo; si sigue igual, escribinos."
       actions={
         <>
           <StatusAction onClick={reset}>Reintentar</StatusAction>

@@ -275,3 +275,20 @@
   color: var(--muted-foreground);
   pointer-events: none;
 }
+
+/*
+ * 404/500: the isotipo wanders inside the 0, looking for the page. The only
+ * unprompted motion on those screens; it stays put for reduced motion.
+ */
+@keyframes status-roam {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  20% { transform: translate(-0.07em, 0.05em) rotate(-10deg); }
+  45% { transform: translate(0.06em, 0.07em) rotate(7deg); }
+  70% { transform: translate(0.08em, -0.06em) rotate(-5deg); }
+  88% { transform: translate(-0.05em, -0.07em) rotate(9deg); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .status-roam {
+    animation: status-roam 9s ease-in-out infinite;
+  }
+}
