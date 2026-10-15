@@ -44,12 +44,15 @@ export function LegalDocument({
   summary,
   sections,
   related,
+  action,
 }: {
   title: string;
   intro: React.ReactNode;
   summary: string[];
   sections: LegalSection[];
   related: { href: string; label: string };
+  /** The one thing a reader may want to do right now (e.g. exercise a right). */
+  action?: { href: string; label: string; hint: string };
 }) {
   return (
     <main className="flex-1">
@@ -81,6 +84,17 @@ export function LegalDocument({
                 </dd>
               </div>
             </dl>
+            {action && (
+              <div className="mt-8 flex flex-col items-start gap-3 print:hidden">
+                <a
+                  href={action.href}
+                  className="inline-flex h-12 items-center rounded-lg bg-lime px-6 text-base font-semibold text-forest-deep outline-none transition-[filter] hover:brightness-95 focus-visible:ring-2 focus-visible:ring-paper focus-visible:ring-offset-2 focus-visible:ring-offset-forest"
+                >
+                  {action.label}
+                </a>
+                <p className="text-sm text-paper/55">{action.hint}</p>
+              </div>
+            )}
           </div>
 
           <section aria-labelledby="resumen" className="lg:col-span-5 lg:col-start-8">

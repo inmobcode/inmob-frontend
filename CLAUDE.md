@@ -26,7 +26,7 @@ Frontend de una plataforma inmobiliaria (propiedades, ofertas, clientes, reserva
 - `(dashboard)/[agencySlug]/…` — área protegida, **con el slug de la agencia en la URL**: `properties`, `offers`, `clients`, `inquiries`, `bookings`, `services`, `team`, `settings`, `profile` (con rutas `[id]` y `trash` donde aplica). Su layout monta `DashboardSidebar`, `ActionBar` y `Shortcuts`.
 - `(editor)/[agencySlug]/portal` — editor del sitio, pantalla completa sin sidebar.
 - `(docs)/docs` — documentación del panel (requiere sesión); capturas en `public/docs-media`.
-- `(legal)` — `/terminos`, `/privacidad`.
+- `(legal)` — `/terms`, `/privacy` y `/help`. Términos y privacidad usan `components/legal/legal-document.tsx` (cabecera en bloque bosque, índice con sección activa, `brief` «En corto» opcional por sección, `action` opcional) y `legal-table.tsx` para tablas (plazos, proveedores, cookies, derechos). Datos de la empresa en `lib/legal.ts`.
 - `(public)` — el sitio de cada agencia en `/page/[agencySlug]` y `/page/[agencySlug]/properties/[propertySlug]`, más `/offer/[token]`, `/owner/[token]` y `/booking/[token]` (la reserva vista por el cliente: sin comisión; el backend le manda el link por email al crear, confirmar o cancelar).
 - `/` es la landing de marketing (maqueta de concepto) y `/landing-test` el marketplace en prueba. Además: `robots.ts`, `sitemap.ts`, `llms.txt`, `opengraph-image.tsx`, `lib/seo.ts`.
 - `error.tsx` / `not-found.tsx` / `global-error.tsx` en la raíz, y `error.tsx` + `loading.tsx` en `(dashboard)` y `(public)`; comparten `components/shared/{status-screen,error-screen}.tsx`.
