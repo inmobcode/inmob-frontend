@@ -8,10 +8,13 @@ import { AvailabilityLegend } from "@/components/availability/availability-legen
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Combobox } from "@/components/ui/combobox";
+import { DateRangePicker } from "@/components/ui/date-range-picker";
+import { isFreeFor } from "@/lib/availability-range";
 import { placeMatches, uniquePlaces } from "@/lib/places";
 
 const PAGE_SIZE = 25;
 const ALL_PLACES = "__all__";
+
 
 function normalize(text: string) {
   return text
@@ -40,6 +43,9 @@ export function AvailabilityCalendarView({
 }) {
   const [search, setSearch] = useState("");
   const [place, setPlace] = useState(ALL_PLACES);
+  const [range, setRange] = useState({ start: "", end: "" });
+  const [onlyFree, setOnlyFree] = useState(true);
+  const hasRange = !!range.start && !!range.end;
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   // Every place a listing is in (area, region or country), each spelled once.
@@ -51,7 +57,9 @@ export function AvailabilityCalendarView({
   const term = normalize(search);
   const filtered = properties.filter(
     (property) =>
-      (place === ALL_PLACES || placeMatches(property, place)) && (!term || normalize(property.title).includes(term)),
+      (place === ALL_PLACES || placeMatches(property, place)) &&
+      (!term || normalize(property.title).includes(term)) &&
+      (!hasRange || !onlyFree || isFreeFor(property.blockedDates, range.start, range.end)),
   );
   const shown = filtered.slice(0, visibleCount);
   const hasMore = filtered.length > shown.length;
@@ -86,10 +94,41 @@ export function AvailabilityCalendarView({
               className="w-full sm:w-56"
             />
           )}
+          <div className="w-full sm:w-72">
+            <DateRangePicker
+              start={range.start}
+              end={range.end}
+              onChange={(start, end) => {
+                setRange({ start, end });
+                setVisibleCount(PAGE_SIZE);
+              }}
+              placeholder="Elegí las fechas"
+              minDate={new Date(`${from}T00:00:00`)}
+            />
+          </div>
+          {hasRange && (
+            <>
+              <label className="flex cursor-pointer items-center gap-2 text-sm">
+                <input
+                  type="checkbox"
+                  checked={onlyFree}
+                  onChange={(event) => {
+                    setOnlyFree(event.target.checked);
+                    setVisibleCount(PAGE_SIZE);
+                  }}
+                  className="size-4 accent-[var(--primary)]"
+                />
+                Solo libres
+              </label>
+              <Button variant="ghost" size="sm" onClick={() => setRange({ start: "", end: "" })}>
+                Quitar fechas
+              </Button>
+            </>
+          )}
         </div>
         <p className="text-sm text-muted-foreground">
           Mostrando {shown.length} de {filtered.length} {filtered.length === 1 ? "propiedad" : "propiedades"}
-          {!search.trim() && place === ALL_PLACES && " · próximos 90 días"}
+          {!search.trim() && place === ALL_PLACES && !hasRange && " · próximos 90 días"}
         </p>
       </div>
 
@@ -99,14 +138,22 @@ export function AvailabilityCalendarView({
         <div className="flex flex-col items-center gap-2 rounded-2xl bg-card px-6 py-12 text-center ring-1 ring-foreground/5">
           <SearchX className="size-6 text-muted-foreground" />
           <p className="text-sm text-muted-foreground">
-            {search.trim()
-              ? `Ninguna propiedad coincide con "${search.trim()}".`
-              : "Ninguna propiedad está en esa ubicación."}
+            {hasRange && onlyFree
+              ? "Ninguna propiedad está libre en esas fechas."
+              : search.trim()
+                ? `Ninguna propiedad coincide con "${search.trim()}".`
+                : "Ninguna propiedad está en esa ubicación."}
           </p>
         </div>
       ) : (
         <>
-          <AvailabilityGrid from={from} to={to} properties={shown} openLinksInNewTab={openLinksInNewTab} />
+          <AvailabilityGrid
+            from={from}
+            to={to}
+            properties={shown}
+            openLinksInNewTab={openLinksInNewTab}
+            highlight={hasRange ? { start: range.start, end: range.end } : null}
+          />
           {hasMore && (
             <Button variant="outline" className="self-center" onClick={() => setVisibleCount((v) => v + PAGE_SIZE)}>
               Ver más

@@ -26,6 +26,9 @@ function regionOf(property: AvailabilityCalendarProperty): string {
   return property.region || property.area || property.country || "Otra ubicación";
 }
 
+// The sticky header is opaque, so the mark is mixed into the card color instead of laid over it.
+const MARKED_HEAD = "bg-[color-mix(in_oklch,var(--card),var(--highlight)_45%)]";
+
 export type AvailabilityRow = AvailabilityCalendarProperty & {
   /** Where the property name links to. Resolved up front by the caller
    * (editor path, or public listing path) instead of a function prop, which
@@ -42,12 +45,15 @@ export function AvailabilityGrid({
   to,
   properties,
   openLinksInNewTab = false,
+  highlight = null,
 }: {
   from: string;
   to: string;
   properties: AvailabilityRow[];
   /** The public calendar opens a listing beside itself: the visitor was reading dates. */
   openLinksInNewTab?: boolean;
+  /** Days (inclusive, yyyy-MM-dd) to mark, e.g. the stay someone is looking for. */
+  highlight?: { start: string; end: string } | null;
 }) {
   const startDate = new Date(`${from}T00:00:00`);
   const endDate = new Date(`${to}T00:00:00`);
@@ -86,6 +92,7 @@ export function AvailabilityGrid({
               const dateStr = toDateStr(date);
               const isToday = dateStr === todayStr;
               const isMonthStart = i === 0 || date.getDate() === 1;
+              const marked = !!highlight && dateStr >= highlight.start && dateStr <= highlight.end;
               return (
                 <th
                   key={dateStr}
@@ -94,6 +101,7 @@ export function AvailabilityGrid({
                     "sticky top-0 z-20 h-16 w-10 min-w-10 border-b border-foreground/5 bg-card p-1 text-center align-middle sm:w-11 sm:min-w-11",
                     isMonthStart && i !== 0 && "border-l border-foreground/10",
                     isToday && "bg-primary/10",
+                    marked && MARKED_HEAD,
                   )}
                 >
                   <div className="text-[10px] tracking-wide text-muted-foreground uppercase">
@@ -150,12 +158,14 @@ export function AvailabilityGrid({
                       const isPast = date < today;
                       const isToday = dateStr === todayStr;
                       const isMonthStart = i === 0 || date.getDate() === 1;
+                      const marked = !!highlight && dateStr >= highlight.start && dateStr <= highlight.end;
                       const isBlocked = blocked.has(dateStr);
                       const dayLabel = format(date, "EEE d MMM", { locale: es });
                       const tdClass = cn(
                         "border-b border-foreground/5 p-1 text-center",
                         isMonthStart && i !== 0 && "border-l border-foreground/10",
                         isToday && "bg-primary/10",
+                        marked && "bg-highlight/35",
                       );
 
                       if (isPast) {
