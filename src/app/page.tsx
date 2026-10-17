@@ -2,6 +2,9 @@ import { LandingFooter } from "@/components/landing/footer";
 import type { Metadata } from "next";
 
 import { Hero } from "@/components/landing/hero";
+import { Availability } from "@/components/landing/availability";
+import { More } from "@/components/landing/more";
+import { SiteEditor } from "@/components/landing/site-editor";
 import { LandingNav } from "@/components/landing/nav";
 import { FAQ, PLANS } from "@/components/landing/plans-faq-data";
 import {
@@ -98,11 +101,14 @@ export default function Home() {
       <LandingNav />
       <main className="flex-1 overflow-x-clip">
         <Hero />
-        <Problem />
         <Flow />
+        <SiteEditor />
+        <Availability />
         <TeamSection />
         <Portals />
+        <More />
         <Migration />
+        <Problem />
         <PlansAndFaq />
         <DemoForm />
       </main>

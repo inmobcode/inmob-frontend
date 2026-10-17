@@ -26,8 +26,8 @@ export const PLANS: Plan[] = [
     features: [
       "Hasta 5 propiedades",
       "1 usuario",
-      "Clientes y ofertas",
-      "Sitio con subdominio Tivvo",
+      "Clientes, consultas y ofertas",
+      "Sitio con subdominio Tivvo, plantilla Portada y tu color",
     ],
     cta: "Empezar gratis",
     href: "/register",
@@ -40,8 +40,10 @@ export const PLANS: Plan[] = [
     tagline: "Para agencias que venden y alquilan todos los días.",
     features: [
       "Propiedades y equipo ilimitados",
-      "Reservas, tarifas y cobros",
-      "Portal del propietario",
+      "Reservas, disponibilidad y tarifas por temporada",
+      "Cobros y estado de cuenta del propietario",
+      "Editor completo del sitio: 5 plantillas, 8 tipografías y 6 tipos de bloque",
+      "Tareas, notificaciones y roles por equipo",
     ],
     cta: "Pedir una demo",
     href: "#demo",
@@ -83,5 +85,17 @@ export const FAQ = [
   {
     q: "¿Cuántos usuarios puedo tener?",
     a: "En el plan Free, uno. En Pro y Enterprise no hay límite: suma a todo tu equipo.",
+  },
+  {
+    q: "¿Puedo personalizar el sitio de mi agencia?",
+    a: "Sí. Elegís una plantilla, los colores y las tipografías, y sumás bloques propios como ubicación, promociones, propiedades destacadas, destinos, texto y llamados a la acción. Ves el resultado en pantalla de computadora, tableta y celular antes de publicar.",
+  },
+  {
+    q: "¿Qué ve cada persona de mi equipo?",
+    a: "Los agentes ven sus propiedades, sus clientes, sus ofertas y sus reservas, además de las consultas sin asignar. Propietarios y administradores ven todo y pueden reasignar.",
+  },
+  {
+    q: "¿Qué ve el propietario en su portal?",
+    a: "Sus propiedades, reservas y pagos, con lo cobrado, las liquidaciones y el saldo. La comisión de la agencia queda oculta salvo que decidas mostrarla.",
   },
 ];

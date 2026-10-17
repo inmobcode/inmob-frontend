@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 
 const LINKS = [
   { href: "#flujo", label: "Cómo funciona" },
+  { href: "#sitio", label: "Sitio web" },
   { href: "#portales", label: "Portales" },
   { href: "#migracion", label: "Migración" },
   { href: "#planes", label: "Planes" },

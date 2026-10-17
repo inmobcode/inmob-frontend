@@ -28,9 +28,10 @@ const MODULES = [
   "Clientes",
   "Ofertas",
   "Reservas",
+  "Disponibilidad",
   "Cobros",
   "Sitio web",
-  "Portal del propietario",
+  "Propietarios",
 ];
 
 export function Hero() {
@@ -81,9 +82,9 @@ export function Hero() {
             <span className="text-paper/45">al último cobro.</span>
           </h1>
           <p className="max-w-xl text-lg leading-relaxed text-pretty text-paper/75">
-            Propiedades, clientes, ofertas, reservas y cobros de tu agencia
-            en un solo sistema. Con tu propio sitio web y un portal para cada
-            propietario.
+            Propiedades, clientes, ofertas, reservas, disponibilidad y cobros
+            de tu agencia en un solo sistema. Con tu propio sitio web, tareas
+            de seguimiento y un portal para cada propietario.
           </p>
           <div className="flex flex-wrap items-center gap-3">
             <a
@@ -140,12 +141,12 @@ export function Hero() {
         {/* The 1px gaps over a lighter background draw the dividers between modules. */}
         <ul
           aria-label="Qué incluye"
-          className="mx-auto grid max-w-[1440px] grid-cols-2 gap-px bg-paper/10 sm:grid-cols-4 lg:grid-cols-7"
+          className="mx-auto grid max-w-[1440px] grid-cols-2 gap-px bg-paper/10 sm:grid-cols-4 lg:grid-cols-8"
         >
           {MODULES.map((module) => (
             <li
               key={module}
-              className="bg-forest px-5 py-5 text-sm text-paper/70 sm:px-8 last:col-span-2 lg:last:col-span-1"
+              className="bg-forest px-5 py-5 text-sm text-paper/70 sm:px-8"
             >
               {module}
             </li>
