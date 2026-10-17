@@ -15,7 +15,13 @@ export const metadata: Metadata = {
   alternates: { canonical: absoluteUrl("/help") },
 };
 
-export default function HelpPage() {
+export default async function HelpPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string | string[] }>;
+}) {
+  const { q } = await searchParams;
+  const initialQuery = (Array.isArray(q) ? q[0] : q)?.slice(0, 80) ?? "";
   return (
     <main className="flex-1">
       <JsonLd
@@ -32,7 +38,7 @@ export default function HelpPage() {
         }}
       />
 
-      <HelpCenter />
+      <HelpCenter initialQuery={initialQuery} />
 
       <section
         id="contacto"

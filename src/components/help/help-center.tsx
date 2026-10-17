@@ -34,8 +34,8 @@ function filterTopics(query: string): HelpTopic[] {
  * as an index that follows the reading, and the answers as ruled rows.
  * Nothing here is a card; the structure is lines, like the rest of the site.
  */
-export function HelpCenter() {
-  const [query, setQuery] = useState("");
+export function HelpCenter({ initialQuery = "" }: { initialQuery?: string }) {
+  const [query, setQuery] = useState(initialQuery);
   const inputId = useId();
   const topics = useMemo(() => filterTopics(query), [query]);
   const searching = query.trim().length > 0;
