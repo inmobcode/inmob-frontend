@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { LegalDocument, LegalLink, type LegalSection } from "@/components/legal/legal-document";
+import { LegalTable } from "@/components/legal/legal-table";
 import { LEGAL_ENTITY } from "@/lib/legal";
 import { absoluteUrl } from "@/lib/seo";
 
@@ -26,6 +27,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "responsable",
     title: "Quién es responsable de tus datos",
+    brief:
+      "Con los datos de tu agencia y de quienes nos visitan somos responsables nosotros; con los de sus clientes, lo es la agencia y nosotros los tratamos por su cuenta.",
     content: (
       <>
         <p>
@@ -61,6 +64,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "datos-que-tratamos",
     title: "Qué datos tratamos",
+    brief:
+      "Cuenta, ingreso, datos técnicos y comunicaciones; y, por cuenta de cada agencia, los datos de sus clientes. No pedimos datos sensibles.",
     content: (
       <>
         <h3>Si usás Tivvo en una agencia</h3>
@@ -104,6 +109,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "finalidades",
     title: "Para qué los usamos",
+    brief:
+      "Para darte el servicio, cobrarlo, mantenerlo seguro y avisarte lo importante. No vendemos datos ni hacemos publicidad de terceros.",
     content: (
       <>
         <p>Usamos los datos de los que somos responsables para:</p>
@@ -134,6 +141,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "bases",
     title: "Por qué podemos tratarlos",
+    brief:
+      "Contrato, tu consentimiento o una obligación legal. Los datos obligatorios de cada formulario son los que el servicio necesita.",
     content: (
       <>
         <p>
@@ -157,6 +166,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "proveedores",
     title: "Con quién los compartimos",
+    brief:
+      "Solo con los proveedores que necesitamos para operar, bajo contratos que protegen tus datos.",
     content: (
       <>
         <p>
@@ -164,23 +175,15 @@ const SECTIONS: LegalSection[] = [
           contratos que les exigen confidencialidad, seguridad y usarlos solo para prestarnos el
           servicio:
         </p>
-        <ul>
-          <li>
-            <strong>Supabase</strong> (sobre infraestructura de Amazon Web Services): base de
-            datos y almacenamiento de fotos y archivos.
-          </li>
-          <li>
-            <strong>Resend</strong>: envío de los emails del sistema (avisos, confirmaciones,
-            recuperación de contraseña).
-          </li>
-          <li>
-            <strong>Proveedores de alojamiento de la aplicación web</strong>, que reciben los
-            datos técnicos de cada visita (dirección IP, navegador) para servir las páginas.
-          </li>
-          <li>
-            <strong>Google y Apple</strong>, solo si elegís ingresar con su cuenta.
-          </li>
-        </ul>
+        <LegalTable
+          columns={["Proveedor", "Para qué lo usamos"]}
+          rows={[
+            ["Supabase (sobre infraestructura de Amazon Web Services)", "Base de datos y almacenamiento de fotos y archivos."],
+            ["Resend", "Envío de los emails del sistema: avisos, confirmaciones y recuperación de contraseña."],
+            ["Proveedores de alojamiento de la aplicación web", "Sirven las páginas y reciben los datos técnicos de cada visita (dirección IP, navegador)."],
+            ["Google y Apple", "Solo si elegís ingresar con su cuenta."],
+          ]}
+        />
         <p>
           Además, los datos se muestran a quien corresponda según cómo uses el Servicio: el equipo
           de tu agencia ve los datos de la agencia, y quien recibe un link de oferta, reserva o
@@ -197,6 +200,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "transferencias",
     title: "Transferencias internacionales",
+    brief:
+      "Algunos proveedores están fuera de Argentina; las transferencias se hacen con garantías equivalentes a las de la ley.",
     content: (
       <>
         <p>
@@ -218,35 +223,26 @@ const SECTIONS: LegalSection[] = [
   {
     id: "conservacion",
     title: "Cuánto tiempo los guardamos",
+    brief:
+      "Cada dato tiene su plazo: de 30 días en la papelera a 10 años en facturación.",
     content: (
-      <ul>
-        <li>
-          <strong>Datos de la cuenta y de la agencia:</strong> mientras la cuenta esté activa.
-          Si se cierra, quedan 30 días disponibles para exportar y luego se eliminan; las copias
-          de seguridad se sobrescriben en un plazo que no supera los 90 días.
-        </li>
-        <li>
-          <strong>Elementos eliminados dentro del sistema:</strong> 30 días en la papelera, donde
-          se pueden recuperar; después se borran definitivamente.
-        </li>
-        <li>
-          <strong>Datos de facturación:</strong> 10 años, como exige el artículo 328 del Código
-          Civil y Comercial para la documentación contable.
-        </li>
-        <li>
-          <strong>Registros técnicos y de seguridad:</strong> el tiempo necesario para investigar
-          incidentes, en general no más de 12 meses.
-        </li>
-        <li>
-          <strong>Pedidos de demo y consultas:</strong> hasta 2 años desde el último contacto, o
-          antes si nos pedís que los borremos.
-        </li>
-      </ul>
+      <LegalTable
+        columns={["Qué datos", "Cuánto los guardamos"]}
+        rows={[
+          ["Datos de la cuenta y de la agencia", "Mientras la cuenta esté activa. Si se cierra, quedan 30 días disponibles para exportar y luego se eliminan; las copias de seguridad se sobrescriben en un plazo que no supera los 90 días."],
+          ["Elementos eliminados dentro del sistema", "30 días en la papelera, donde se pueden recuperar; después se borran definitivamente."],
+          ["Datos de facturación", "10 años, como exige el artículo 328 del Código Civil y Comercial para la documentación contable."],
+          ["Registros técnicos y de seguridad", "El tiempo necesario para investigar incidentes, en general no más de 12 meses."],
+          ["Pedidos de demo y consultas", "Hasta 2 años desde el último contacto, o antes si nos pedís que los borremos."],
+        ]}
+      />
     ),
   },
   {
     id: "seguridad",
     title: "Cómo los protegemos",
+    brief:
+      "Cifrado, contraseñas con hash, datos separados por agencia y permisos por rol. Si hay un incidente, avisamos.",
     content: (
       <>
         <p>
@@ -273,28 +269,38 @@ const SECTIONS: LegalSection[] = [
   {
     id: "cookies",
     title: "Cookies y almacenamiento en tu navegador",
+    brief:
+      "Solo las necesarias para que el servicio funcione: sin publicidad ni seguimiento de terceros.",
     content: (
       <>
         <p>
           Tivvo usa solo cookies y almacenamiento local necesarios para que el Servicio funcione.
           No usamos cookies de publicidad ni de seguimiento de terceros.
         </p>
-        <ul>
-          <li>
-            <strong>Sesión</strong> (<code>access_token</code>, <code>refresh_token</code>,{" "}
-            <code>tivvo_user</code>): mantienen tu sesión iniciada hasta 180 días o hasta que
-            cierres sesión.
-          </li>
-          <li>
-            <strong>Preferencias</strong> (<code>sidebar_collapsed</code> y almacenamiento local):
-            recuerdan si el menú está contraído, la vista elegida en cada listado y el tema claro
-            u oscuro.
-          </li>
-          <li>
-            <strong>Ingreso con Google o Apple:</strong> durante el inicio de sesión guardamos en
-            la pestaña la página a la que volver; se borra al terminar.
-          </li>
-        </ul>
+        <LegalTable
+          columns={["Qué guarda", "Para qué sirve", "Cuánto dura"]}
+          rows={[
+            [
+              <>
+                Sesión (<code>access_token</code>, <code>refresh_token</code>, <code>tivvo_user</code>)
+              </>,
+              "Mantienen tu sesión iniciada.",
+              "Hasta 180 días o hasta que cierres sesión.",
+            ],
+            [
+              <>
+                Preferencias (<code>sidebar_collapsed</code> y almacenamiento local)
+              </>,
+              "Recuerdan si el menú está contraído, la vista elegida en cada listado y el tema claro u oscuro.",
+              "La cookie del menú, hasta 1 año; el resto, hasta que lo borres de tu navegador.",
+            ],
+            [
+              "Ingreso con Google o Apple",
+              "Durante el inicio de sesión guardamos en la pestaña la página a la que volver.",
+              "Se borra al terminar.",
+            ],
+          ]}
+        />
         <p>
           Podés borrar o bloquear las cookies desde tu navegador. Si bloqueás las de sesión, no
           vas a poder ingresar al sistema. Los sitios públicos de las agencias no instalan cookies
@@ -306,30 +312,20 @@ const SECTIONS: LegalSection[] = [
   {
     id: "derechos",
     title: "Tus derechos y cómo ejercerlos",
+    brief:
+      "Podés pedir acceso, corrección, eliminación o que dejemos de escribirte; te respondemos dentro de los plazos de la tabla.",
     content: (
       <>
         <p>Como titular de los datos tenés derecho a:</p>
-        <ul>
-          <li>
-            <strong>Acceso:</strong> saber qué datos tuyos tenemos, de dónde salieron y para qué
-            los usamos. Es gratuito si lo pedís con intervalos de al menos seis meses, salvo que
-            acredites un interés legítimo para hacerlo antes (artículo 14 de la Ley 25.326).
-            Respondemos dentro de los 10 días corridos.
-          </li>
-          <li>
-            <strong>Rectificación, actualización y supresión:</strong> que corrijamos datos
-            inexactos o borremos los que no corresponda conservar. Lo resolvemos dentro de los 5
-            días hábiles (artículo 16).
-          </li>
-          <li>
-            <strong>Oposición a comunicaciones comerciales:</strong> pedir que dejemos de enviarte
-            novedades, en cualquier momento (artículo 27).
-          </li>
-          <li>
-            <strong>Revocar tu consentimiento</strong> cuando el tratamiento se base en él, sin
-            efecto retroactivo.
-          </li>
-        </ul>
+        <LegalTable
+          columns={["Derecho", "Qué podés pedir", "Plazo de respuesta"]}
+          rows={[
+            ["Acceso", "Saber qué datos tuyos tenemos, de dónde salieron y para qué los usamos. Es gratuito si lo pedís con intervalos de al menos seis meses, salvo que acredites un interés legítimo para hacerlo antes (artículo 14 de la Ley 25.326).", "10 días corridos"],
+            ["Rectificación, actualización y supresión", "Que corrijamos datos inexactos o borremos los que no corresponda conservar (artículo 16).", "5 días hábiles"],
+            ["Oposición a comunicaciones comerciales", "Pedir que dejemos de enviarte novedades, en cualquier momento (artículo 27).", "En cualquier momento"],
+            ["Revocar tu consentimiento", "Cuando el tratamiento se base en él, sin efecto retroactivo.", "En cualquier momento"],
+          ]}
+        />
         <p>
           Para ejercerlos, escribí a{" "}
           <LegalLink href={`mailto:${privacyEmail}`}>{privacyEmail}</LegalLink> desde el email
@@ -356,6 +352,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "menores",
     title: "Menores de edad",
+    brief:
+      "Tivvo es una herramienta para mayores de 18 años.",
     content: (
       <p>
         Tivvo es una herramienta profesional para mayores de 18 años y no está dirigida a menores.
@@ -366,6 +364,8 @@ const SECTIONS: LegalSection[] = [
   {
     id: "cambios",
     title: "Cambios en esta Política",
+    brief:
+      "Avisamos los cambios relevantes con 30 días de anticipación.",
     content: (
       <p>
         Podemos actualizar esta Política para reflejar cambios en el Servicio o en la ley. Si el
@@ -408,6 +408,11 @@ export default function PrivacyPage() {
       summary={SUMMARY}
       sections={SECTIONS}
       related={{ href: "/terms", label: "Términos y condiciones" }}
+      action={{
+        href: `mailto:${privacyEmail}?subject=${encodeURIComponent("Pedido sobre mis datos personales")}`,
+        label: "Ejercer mis derechos",
+        hint: `Escribinos a ${privacyEmail}: acceso, corrección o eliminación.`,
+      }}
     />
   );
 }

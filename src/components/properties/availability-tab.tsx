@@ -7,6 +7,7 @@ import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { DateRangePicker } from "@/components/ui/date-picker";
 import { Input } from "@/components/ui/input";
 import { PropertiesPagination } from "@/components/properties/properties-pagination";
 import {
@@ -98,8 +99,19 @@ export function AvailabilityTab({ property }: { property: Property }) {
       <div className="space-y-2">
         <h3 className="text-sm font-medium">Bloquear fechas manualmente</h3>
         <div className="flex flex-wrap items-end gap-2">
-          <Input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
-          <Input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+          <div className="w-full sm:w-72">
+            <DateRangePicker
+              start={startDate}
+              end={endDate}
+              countAs="days"
+              placeholder="Desde y hasta qué día"
+              hints={{ first: "Elegí el primer día", second: "Ahora elegí el último día" }}
+              onChange={(from, to) => {
+                setStartDate(from);
+                setEndDate(to);
+              }}
+            />
+          </div>
           <Input
             placeholder="Nota (opcional)"
             value={note}

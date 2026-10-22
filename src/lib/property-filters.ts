@@ -1,3 +1,4 @@
+import { placeMatches } from "@/lib/places";
 import type {
   ListingType,
   Property,
@@ -53,7 +54,7 @@ export function applyFilters(properties: Property[], filters: PropertyFilters) {
       return false;
     if (filters.category !== "ALL" && property.category !== filters.category)
       return false;
-    if (filters.region !== "ALL" && property.region !== filters.region)
+    if (filters.region !== "ALL" && !placeMatches(property, filters.region))
       return false;
     if (filters.owner !== "ALL" && property.owner?.id !== filters.owner)
       return false;

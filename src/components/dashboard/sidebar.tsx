@@ -20,11 +20,12 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 
 import { TOGGLE_SIDEBAR_EVENT } from "@/components/dashboard/shortcuts";
 import { getUnreadInquiries } from "@/lib/api/inquiries";
 import { getAccessToken } from "@/lib/auth/session";
+import { NotificationBell } from "@/components/dashboard/notification-bell";
 import { UserMenu } from "@/components/dashboard/user-menu";
 import { Button } from "@/components/ui/button";
 import { useSessionUser } from "@/lib/auth/session";
@@ -53,6 +54,8 @@ interface NavItem {
   href: string;
   label: string;
   icon: LucideIcon;
+  /** Leaves a little extra room above it: the start of the administration links. */
+  startsGroup?: boolean;
 }
 
 const EXPANDED_WIDTH = 255;
@@ -75,23 +78,25 @@ function useAgencySlug() {
  * shared items show, so an agent never sees admin links flash by.
  */
 function navItemsFor(agencySlug: string, role: string | undefined): NavItem[] {
+  // In the order the business runs: a question comes in, becomes a client, gets
+  // properties offered, turns into a booking. Agency administration goes last.
   const items: NavItem[] = [
+    { href: `/${agencySlug}/inquiries`, label: "Consultas", icon: Inbox },
+    { href: `/${agencySlug}/clients`, label: "Clientes", icon: Users },
     {
       href: `/${agencySlug}/properties`,
       label: "Propiedades",
       icon: Building2,
     },
     { href: `/${agencySlug}/offers`, label: "Ofertas", icon: Tag },
-    { href: `/${agencySlug}/clients`, label: "Clientes", icon: Users },
-    { href: `/${agencySlug}/inquiries`, label: "Consultas", icon: Inbox },
     { href: `/${agencySlug}/bookings`, label: "Reservas", icon: CalendarDays },
-    { href: `/${agencySlug}/services`, label: "Servicios", icon: Sparkles },
     { href: `/${agencySlug}/availability`, label: "Disponibilidad", icon: CalendarCheck },
+    { href: `/${agencySlug}/services`, label: "Servicios", icon: Sparkles },
   ];
   if (role && role !== "AGENT") {
     items.push(
+      { href: `/${agencySlug}/portal`, label: "Portal", icon: Globe, startsGroup: true },
       { href: `/${agencySlug}/team`, label: "Equipo", icon: UsersRound },
-      { href: `/${agencySlug}/portal`, label: "Portal", icon: Globe },
       {
         href: `/${agencySlug}/settings`,
         label: "Configuración",
@@ -144,7 +149,6 @@ function NavLink({
   // starts; a genuine hover re-opens the right one once it settles.
   useEffect(() => {
     const root = document.documentElement;
-    if (root.hasAttribute(SIDEBAR_ANIMATING_ATTR)) setHovering(false);
     const observer = new MutationObserver(() => {
       if (root.hasAttribute(SIDEBAR_ANIMATING_ATTR)) setHovering(false);
     });
@@ -309,21 +313,23 @@ function SidebarNav({
   );
 
   return (
-    <nav ref={navRef} className="relative flex flex-col gap-3">
+    <nav ref={navRef} className="relative flex flex-col gap-2">
       <span
         ref={indicatorRef}
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 rounded-lg bg-sidebar-primary opacity-0"
       />
       {navItems.map((item) => (
-        <NavLink
-          key={item.href}
-          item={item}
-          active={item.href === activeHref}
-          collapsed={collapsed}
-          onNavigate={onNavigate}
-          badge={item.href.endsWith("/inquiries") ? (unread?.count ?? 0) : 0}
-        />
+        <Fragment key={item.href}>
+          {item.startsGroup && <span aria-hidden className="h-2" />}
+          <NavLink
+            item={item}
+            active={item.href === activeHref}
+            collapsed={collapsed}
+            onNavigate={onNavigate}
+            badge={item.href.endsWith("/inquiries") ? (unread?.count ?? 0) : 0}
+          />
+        </Fragment>
       ))}
     </nav>
   );
@@ -343,7 +349,7 @@ function SidebarBody({
   const [tipOpen, setTipOpen] = useState(false);
 
   return (
-    <div className="flex h-full flex-col gap-8 overflow-hidden p-4">
+    <div className="flex h-full flex-col gap-6 overflow-hidden p-4">
       <div className="relative flex min-h-10 items-center justify-end pt-2">
         <span
           aria-hidden={collapsed}
@@ -380,18 +386,25 @@ function SidebarBody({
           </Tooltip>
         )}
       </div>
-      <div className="flex-1">
+      {/* On short screens the links scroll instead of pushing the bell and the user menu out of view. */}
+      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
         <SidebarNav collapsed={collapsed} onNavigate={onNavigate} />
       </div>
       <div
         className={cn(
-          "rounded-3xl p-1.5 ring-1 backdrop-blur transition-[background-color,box-shadow,padding] duration-300",
+          "flex rounded-3xl p-1.5 ring-1 backdrop-blur transition-[background-color,box-shadow,padding] duration-300",
           collapsed
-            ? "bg-transparent p-0 ring-transparent"
-            : "bg-card/60 ring-foreground/5",
+            ? "flex-col items-center gap-1 bg-transparent p-0 ring-transparent"
+            : "items-center bg-card/60 ring-foreground/5",
         )}
       >
-        <UserMenu collapsed={collapsed} />
+        {/* The bell lives with the profile: it's about you, and it fits in the collapsed rail too. */}
+        <div className={cn("min-w-0", !collapsed && "order-2 pr-1", collapsed && "order-1")}>
+          <NotificationBell onNavigate={onNavigate} />
+        </div>
+        <div className={cn("min-w-0", collapsed ? "order-2 w-full" : "order-1 flex-1")}>
+          <UserMenu collapsed={collapsed} />
+        </div>
       </div>
     </div>
   );

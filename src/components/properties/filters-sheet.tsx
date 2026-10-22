@@ -26,6 +26,8 @@ import {
 import type { Property } from "@/lib/api/properties";
 import { gsap } from "@/lib/gsap";
 import { media } from "@/lib/motion";
+import { Combobox } from "@/components/ui/combobox";
+import { uniquePlaces } from "@/lib/places";
 import {
   applyFilters,
   countActiveFilters,
@@ -111,7 +113,11 @@ export function FiltersSheet({
   const [draft, setDraft] = useState(value);
 
   const categories = useMemo(() => unique(properties.map((p) => p.category)), [properties]);
-  const regions = useMemo(() => unique(properties.map((p) => p.region)), [properties]);
+  // Any place a property is in (area, region or country), each spelled once.
+  const places = useMemo(
+    () => uniquePlaces(properties.flatMap((p) => [p.area, p.region, p.country])),
+    [properties],
+  );
   const currencies = useMemo(() => unique(properties.map((p) => p.currency)), [properties]);
   const owners = useMemo(() => {
     const byId = new Map<string, string>();
@@ -219,31 +225,33 @@ export function FiltersSheet({
             />
           </Section>
 
-          {(categories.length > 0 || regions.length > 0) && (
-            <div className="grid grid-cols-2 gap-4">
-              {categories.length > 0 && (
-                <Section title="Categoría">
-                  <SelectFilter
-                    id="filter-category"
-                    value={draft.category}
-                    onChange={(category) => update({ category })}
-                    allLabel="Todas"
-                    options={categories.map((category) => ({ value: category, label: categoryLabel(category) }))}
-                  />
-                </Section>
-              )}
-              {regions.length > 0 && (
-                <Section title="Región">
-                  <SelectFilter
-                    id="filter-region"
-                    value={draft.region}
-                    onChange={(region) => update({ region })}
-                    allLabel="Todas"
-                    options={regions.map((region) => ({ value: region, label: region }))}
-                  />
-                </Section>
-              )}
-            </div>
+          {categories.length > 0 && (
+            <Section title="Categoría">
+              <SelectFilter
+                id="filter-category"
+                value={draft.category}
+                onChange={(category) => update({ category })}
+                allLabel="Todas"
+                options={categories.map((category) => ({ value: category, label: categoryLabel(category) }))}
+              />
+            </Section>
+          )}
+
+          {places.length > 0 && (
+            <Section title="Ubicación">
+              <Combobox
+                id="filter-location"
+                ariaLabel="Ubicación"
+                value={draft.region}
+                onChange={(region) => update({ region })}
+                allValue="ALL"
+                allLabel="Todas"
+                searchPlaceholder="Buscar ubicación…"
+                emptyText="Ninguna ubicación coincide."
+                options={places.map((place) => ({ value: place, label: place }))}
+                className="rounded-xl"
+              />
+            </Section>
           )}
 
           {owners.length > 0 && (

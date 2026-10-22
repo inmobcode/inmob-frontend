@@ -15,6 +15,7 @@ import { es } from "date-fns/locale";
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import Link from "next/link";
 
+import { OwnerStatementView } from "@/components/owners/owner-statement";
 import { PhotoPlaceholder, formatPrice, placeOf } from "@/components/public/property-card";
 import { SITE_WRAP, SiteFooter, SiteHeader, SiteRoot } from "@/components/public/site-chrome";
 import type { BookingStatus, PaymentType } from "@/lib/api/bookings";
@@ -373,6 +374,10 @@ export function OwnerPortalView({ portal }: { portal: OwnerPortal }) {
     ),
   );
 
+  // Without the gross figures in the statement, the commission is hidden.
+  const netOnly = portal.statement.totals.some((total) => total.collected === undefined);
+  const due = sumByCurrency(portal.statement.totals.map((total) => ({ currency: total.currency, amount: total.due })));
+
   const hasRentals = properties.some((property) => property.listingType === "RENT");
   const figures = [
     {
@@ -392,11 +397,19 @@ export function OwnerPortalView({ portal }: { portal: OwnerPortal }) {
             value: next ? format(next.stay!.start, "d 'de' MMMM", { locale: es }) : "Ninguna",
             detail: next ? next.property.title : "No hay reservas por delante",
           }),
-    allBookings.length > 0 && {
-      label: "Cobrado",
-      value: collected.length > 0 ? collected.map(([currency, amount]) => money(currency, amount)).join(" + ") : "—",
-      detail: collected.length > 0 ? "en pagos de tus reservas" : "Todavía no hay pagos",
-    },
+    allBookings.length > 0 &&
+      (netOnly
+        ? {
+            // The commission is hidden, so the gross collected would give it away next to what's due.
+            label: "Te corresponde",
+            value: due.length > 0 ? due.map(([currency, amount]) => money(currency, amount)).join(" + ") : "—",
+            detail: due.length > 0 ? "de lo cobrado de tus reservas" : "Todavía no hay pagos",
+          }
+        : {
+            label: "Cobrado",
+            value: collected.length > 0 ? collected.map(([currency, amount]) => money(currency, amount)).join(" + ") : "—",
+            detail: collected.length > 0 ? "en pagos de tus reservas" : "Todavía no hay pagos",
+          }),
   ].filter(Boolean) as { label: string; value: string; detail: string }[];
 
   const contacts = [
@@ -445,6 +458,18 @@ export function OwnerPortalView({ portal }: { portal: OwnerPortal }) {
         </section>
 
         <div className={cn(SITE_WRAP, "flex flex-col gap-14 py-12 sm:py-16")}>
+          {(portal.statement.totals.length > 0 || portal.statement.payouts.length > 0) && (
+            <section aria-labelledby="estado-de-cuenta" className="flex flex-col gap-5">
+              <div className="flex flex-col gap-1">
+                <h2 id="estado-de-cuenta" className="s-heading text-2xl">
+                  Estado de cuenta
+                </h2>
+                <p className="max-w-xl text-site-quiet">Lo que se cobró de tus reservas, lo que te corresponde y lo que {agency.name} ya te liquidó.</p>
+              </div>
+              <OwnerStatementView statement={portal.statement} tone="site" />
+            </section>
+          )}
+
           {properties.length === 0 ? (
             <p className="max-w-xl text-lg text-site-quiet">
               Todavía no tenés propiedades asignadas. Cuando {agency.name} te asigne una, aparece acá.

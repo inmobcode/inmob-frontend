@@ -242,7 +242,7 @@ function Lightbox({
             <img
               key={photo.id}
               src={photo.url}
-              alt=""
+              alt={`${title}: ${photoLabel(photo)}`}
               className="max-h-full max-w-full rounded-md object-contain"
             />
           )}

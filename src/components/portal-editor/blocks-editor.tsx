@@ -25,6 +25,7 @@ import { useId, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { Checkbox } from "@/components/ui/checkbox";
+import { DatePicker } from "@/components/ui/date-picker";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -44,6 +45,7 @@ import { ApiError } from "@/lib/api/client";
 import type { Property } from "@/lib/api/properties";
 import { getAccessToken } from "@/lib/auth/session";
 import { compressToWebp } from "@/lib/image-compression";
+import { placeLabel, samePlace, uniquePlaces } from "@/lib/places";
 import {
   BUTTON_TARGETS,
   SECTION_TYPES,
@@ -363,6 +365,13 @@ function PropertyPicker({
   );
 }
 
+const NO_ZONE = "__none__";
+
+/**
+ * Picks one of the places the agency's listings are in. A zone saved earlier
+ * that isn't in the list any more (or was typed by hand) stays selectable, so
+ * opening the block never silently changes it.
+ */
 function ZoneInput({
   id,
   value,
@@ -376,23 +385,25 @@ function ZoneInput({
   zones: string[];
   placeholder?: string;
 }) {
+  const known = zones.some((zone) => samePlace(zone, value));
+  const options = value && !known ? [value, ...zones] : zones;
+  // Compare ignoring case so "islas baleares" shows "Islas Baleares" as chosen.
+  const selected = value ? (options.find((zone) => samePlace(zone, value)) ?? value) : NO_ZONE;
+
   return (
-    <>
-      <Input
-        id={id}
-        list={`${id}-zones`}
-        value={value}
-        maxLength={120}
-        placeholder={placeholder ?? zones[0] ?? "Ibiza"}
-        onChange={(event) => onChange(event.target.value)}
-        className="h-10 px-3.5"
-      />
-      <datalist id={`${id}-zones`}>
-        {zones.map((zone) => (
-          <option key={zone} value={zone} />
+    <Select value={selected} onValueChange={(next) => onChange(next === NO_ZONE ? "" : next)}>
+      <SelectTrigger id={id} className="h-10 w-full px-3.5">
+        <SelectValue placeholder={placeholder ?? "Elegí una ubicación"} />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value={NO_ZONE}>{placeholder ?? "Sin ubicación"}</SelectItem>
+        {options.map((zone) => (
+          <SelectItem key={zone} value={zone}>
+            {placeLabel(zone)}
+          </SelectItem>
         ))}
-      </datalist>
-    </>
+      </SelectContent>
+    </Select>
   );
 }
 
@@ -633,14 +644,12 @@ function BlockFields({
             />
           </Field>
           <Field label="Válido hasta (opcional)" htmlFor={`${id}-ends`}>
-            <Input
+            <DatePicker
               id={`${id}-ends`}
-              type="date"
+              size="sm"
               value={section.endsAt ?? ""}
-              onChange={(event) =>
-                onChange({ endsAt: event.target.value || null })
-              }
-              className="h-10 px-3.5"
+              onChange={(endsAt) => onChange({ endsAt: endsAt || null })}
+              placeholder="Sin fecha"
             />
           </Field>
         </div>
@@ -763,13 +772,7 @@ export function BlocksEditor({
 }) {
   const [open, setOpen] = useState<string | null>(null);
   const [adding, setAdding] = useState(sections.length === 0);
-  const zones = [
-    ...new Set(
-      properties
-        .flatMap((p) => [p.area, p.region, p.country])
-        .filter(Boolean) as string[],
-    ),
-  ];
+  const zones = uniquePlaces(properties.flatMap((p) => [p.area, p.region, p.country]));
 
   function patch(id: string, next: Partial<SiteSection>) {
     onChange(

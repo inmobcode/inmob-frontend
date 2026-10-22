@@ -21,9 +21,11 @@ function makeQueryClient() {
       // next page that mounts reloads, just as it did before staleTime. Each
       // mutation still refreshes what's on screen itself. The agency's public
       // site is cached on the server too: expire it, so the change shows there.
-      onSettled: () => {
+      // A mutation that can't change the public site (client stage, inquiry
+      // read state…) opts out with `meta: { affectsSite: false }`.
+      onSettled: (_data, _error, _variables, _context, mutation) => {
         client.invalidateQueries({ refetchType: "none" });
-        if (getAccessToken()) refreshSiteCache();
+        if (mutation.meta?.affectsSite !== false && getAccessToken()) refreshSiteCache();
       },
     }),
   });

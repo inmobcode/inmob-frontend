@@ -20,13 +20,19 @@ export default async function DashboardLayout({ children }: { children: React.Re
   // own and its rounded left corners are painted by <PanelCorners />.
   return (
     <div className="flex h-svh bg-sidebar">
+      <a
+        href="#contenido"
+        className="sr-only z-50 rounded-md bg-background px-3 py-2 text-sm font-medium focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:ring-2 focus:ring-ring"
+      >
+        Saltar al contenido
+      </a>
       <SessionWatcher />
       <DashboardSidebar initialCollapsed={initialCollapsed} />
       <div className="relative flex min-w-0 flex-1">
         <ScrollPanel className="flex min-w-0 flex-1 flex-col overflow-y-auto bg-background">
           <MobileTopbar />
           <ActionBar />
-          <main className="flex-1 p-4 sm:p-6 md:py-8 lg:pr-12">{children}</main>
+          <main id="contenido" tabIndex={-1} className="flex-1 outline-none p-4 sm:p-6 md:py-8 lg:pr-12">{children}</main>
         </ScrollPanel>
         <PanelCorners />
       </div>

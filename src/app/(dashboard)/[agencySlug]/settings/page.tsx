@@ -20,6 +20,7 @@ import { z } from "zod";
 
 import { docsHref } from "@/components/docs/docs-sections";
 import { FormSection } from "@/components/properties/form-section";
+import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -187,6 +188,17 @@ export default function SettingsPage() {
     },
     onError: (err) =>
       toast.error(err instanceof ApiError ? err.message : "No se pudo guardar"),
+  });
+
+  // Saved on its own as soon as it's flipped, apart from the form's Save button.
+  const ownerPortalMutation = useMutation({
+    mutationFn: (ownerPortalShowsCommission: boolean) =>
+      updateAgency(requireToken(), { ownerPortalShowsCommission }),
+    onSuccess: (updated) => {
+      queryClient.setQueryData(["agency"], updated);
+      toast.success(updated.ownerPortalShowsCommission ? "El propietario ve la comisión" : "La comisión queda oculta");
+    },
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo guardar"),
   });
 
   const logoMutation = useMutation({
@@ -405,6 +417,28 @@ export default function SettingsPage() {
             )}
           </div>
         </div>
+      </FormSection>
+
+      <FormSection
+        title="Portal del propietario"
+        description="Qué ven tus propietarios en su link de acceso. Siempre ven lo cobrado, lo que les corresponde y lo liquidado."
+        shown={false}
+      >
+        <label className="flex cursor-pointer items-start gap-3">
+          <Switch
+            checked={Boolean(agency?.ownerPortalShowsCommission)}
+            disabled={ownerPortalMutation.isPending}
+            onCheckedChange={(checked) => ownerPortalMutation.mutate(checked)}
+            aria-label="Mostrar la comisión en el portal del propietario"
+            className="mt-0.5"
+          />
+          <span className="flex flex-col gap-0.5">
+            <span className="text-sm font-medium">Mostrar la comisión de la agencia</span>
+            <span className="text-sm text-muted-foreground">
+              Apagado, el propietario ve cuánto le corresponde pero no cuánto se descontó. Se guarda al cambiarlo.
+            </span>
+          </span>
+        </label>
       </FormSection>
 
       <FormSection

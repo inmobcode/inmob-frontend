@@ -10,7 +10,7 @@
 // NEXT_PUBLIC_IMAGE_TRANSFORMS=true once the project has the feature, and
 // until then the original is served (heavier, but it always loads).
 
-const TRANSFORMS_ENABLED = process.env.NEXT_PUBLIC_IMAGE_TRANSFORMS === "true";
+const transformsEnabled = () => process.env.NEXT_PUBLIC_IMAGE_TRANSFORMS === "true";
 
 const OBJECT_PATH = "/storage/v1/object/public/";
 const RENDER_PATH = "/storage/v1/render/image/public/";
@@ -27,6 +27,6 @@ export function sizedImage(url: string, width: number): string;
 export function sizedImage(url: string | null | undefined, width: number): string | undefined;
 export function sizedImage(url: string | null | undefined, width: number) {
   if (!url) return url ?? undefined;
-  if (!TRANSFORMS_ENABLED || !url.includes(OBJECT_PATH) || url.includes("?")) return url;
+  if (!transformsEnabled() || !url.includes(OBJECT_PATH) || url.includes("?")) return url;
   return `${url.replace(OBJECT_PATH, RENDER_PATH)}?width=${width}&quality=75`;
 }

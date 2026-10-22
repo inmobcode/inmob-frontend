@@ -1,9 +1,9 @@
 import Image from "next/image";
 import {
   CalendarDays,
+  Bell,
   Check,
   Eye,
-  Globe,
   Mail,
   Phone,
   Search,
@@ -402,20 +402,47 @@ export function SaleBookingFragment() {
   );
 }
 
+const PAYMENTS = {
+  // Same listing as the sale booking fragment: USD 276.450 with 3 % commission.
+  sale: {
+    title: "Cobros de la venta",
+    rows: [
+      ["Anticipo", "Al reservar", "USD 27.645", true],
+      ["Saldo", "En la escritura", "USD 248.805", false],
+    ],
+    summary: [
+      ["Precio", "USD 276.450"],
+      ["Comisión (3 %)", "USD 8.294"],
+      ["Cobrado", "USD 27.645"],
+      ["Por cobrar", "USD 248.805"],
+    ],
+  },
+  rent: {
+    title: "Pagos de la reserva",
+    rows: [
+      ["Anticipo", "9 oct", "USD 1.260", true],
+      ["Saldo", "Al check-in", "USD 2.940", false],
+    ],
+    summary: [
+      ["Noches", "7"],
+      ["Total", "USD 4.200"],
+      ["Cobrado", "USD 1.260"],
+      ["Por cobrar", "USD 2.940"],
+    ],
+  },
+} as const;
+
 export function PaymentsFragment({
-  commission = true,
+  variant = "rent",
 }: {
-  commission?: boolean;
+  variant?: keyof typeof PAYMENTS;
 }) {
-  const rows = [
-    ["Anticipo", "9 oct", "USD 1.260", true],
-    ["Saldo", "Al check-in", "USD 2.940", false],
-  ] as const;
+  const { title, rows, summary } = PAYMENTS[variant];
   return (
     <div className={cn(FRAGMENT, "grid sm:grid-cols-[1fr_14rem]")}>
       <div className="flex flex-col p-5">
         <p className="mb-3 font-logo text-lg font-semibold leading-tight">
-          Pagos de la reserva
+          {title}
         </p>
         {rows.map(([label, when, amount, paid]) => (
           <div
@@ -438,12 +465,7 @@ export function PaymentsFragment({
         ))}
       </div>
       <div className="flex flex-col gap-2 border-t border-line bg-mist/50 p-5 text-xs sm:border-t-0 sm:border-l">
-        {[
-          ["Total", "USD 4.200"],
-          ...(commission ? [["Comisión", "USD 420"]] : []),
-          ["Cobrado", "USD 1.260"],
-          ["Por cobrar", "USD 2.940"],
-        ].map(([label, value]) => (
+        {summary.map(([label, value]) => (
           <div key={label} className="flex justify-between gap-2">
             <span className="text-quiet">{label}</span>
             <span className="font-medium tabular-nums">{value}</span>
@@ -508,88 +530,79 @@ export function CalendarFragment() {
 
 /* ── Portals ────────────────────────────────────────────── */
 
-const SITE_PHOTOS: PhotoName[] = ["laBarra", "palermo"];
-
-export function AgencySiteFragment() {
-  const items = [
-    ["Casa frente al mar", "La Barra, Maldonado", "USD 485.000"],
-    ["Departamento con vista", "Palermo, Buenos Aires", "USD 1.250 / mes"],
-  ];
+export function OwnerStatementFragment() {
   return (
-    <div className={cn(FRAGMENT, "overflow-hidden")}>
-      <div className="flex items-center justify-between border-b border-line px-5 py-3">
-        <p className="font-logo text-base font-semibold">Cabrera Propiedades</p>
-        <p className="flex items-center gap-1.5 text-xs text-quiet">
-          <Globe className="size-3.5" /> cabrerapropiedades.com
-        </p>
+    <div className={cn(FRAGMENT, "flex flex-col")}>
+      <div className="border-b border-line px-5 py-4">
+        <p className="text-xs text-quiet">Estado de cuenta</p>
+        <p className="font-logo text-lg font-semibold">Casa frente al mar</p>
       </div>
-      <div className="relative flex flex-col gap-3 px-5 pt-16 pb-5">
-        <PropertyPhoto
-          photo="coast"
-          sizes="(min-width: 1024px) 560px, 90vw"
-          className="absolute! inset-0"
-        />
-        <span
-          aria-hidden
-          className="absolute inset-0 bg-gradient-to-t from-black/45 to-black/0"
-        />
-        <p className="relative font-logo text-2xl leading-none font-semibold text-white">
-          Encontrá tu lugar.
-        </p>
-        <div className="relative flex h-10 max-w-sm items-center gap-2 rounded-lg bg-white px-3 text-xs text-quiet">
-          <Search className="size-3.5" /> Zona, tipo de propiedad o precio
-        </div>
-      </div>
-      <div className="grid grid-cols-2 gap-4 p-5">
-        {items.map(([title, place, price], index) => (
-          <div key={title} className="flex flex-col gap-2">
-            <PropertyPhoto
-              photo={SITE_PHOTOS[index]}
-              sizes="(min-width: 1024px) 280px, 45vw"
-              className="aspect-[4/3] rounded-lg"
-            />
-            <div>
-              <p className="text-sm font-semibold leading-tight">{title}</p>
-              <p className="text-xs text-quiet">{place}</p>
-              <p className="mt-1 text-sm tabular-nums">{price}</p>
-            </div>
+      <div className="grid grid-cols-3 gap-3 px-5 py-4 text-xs">
+        {[
+          ["Cobrado", "USD 8.400"],
+          ["Liquidado", "USD 5.600"],
+          ["Saldo", "USD 2.800"],
+        ].map(([label, value]) => (
+          <div key={label} className="flex flex-col gap-0.5">
+            <span className="text-quiet">{label}</span>
+            <span className="text-sm font-semibold tabular-nums">{value}</span>
           </div>
         ))}
       </div>
+      {[
+        ["Liquidación", "2 oct", "USD 3.000"],
+        ["Liquidación", "18 sep", "USD 2.600"],
+      ].map(([label, when, amount]) => (
+        <div
+          key={when}
+          className="flex items-center gap-3 border-t border-line px-5 py-3 text-sm"
+        >
+          <span className="flex-1">
+            {label} <span className="text-quiet">· {when}</span>
+          </span>
+          <span className="tabular-nums">{amount}</span>
+          <Tag tone="forest">
+            <Check className="size-3" /> Pagada
+          </Tag>
+        </div>
+      ))}
     </div>
   );
 }
 
-export function OwnerFragment() {
+export function TasksFragment() {
+  const tasks = [
+    ["Llamar a Valeria para cerrar la oferta", "Hoy", true],
+    ["Mandar fotos del jardín", "Mañana", false],
+  ] as const;
   return (
     <div className={cn(FRAGMENT, "flex flex-col")}>
-      <div className="border-b border-line px-5 py-4">
-        <p className="text-xs text-quiet">Hola, Roberto</p>
-        <p className="font-logo text-lg font-semibold">Tus propiedades</p>
-      </div>
-      <div className="flex items-center gap-3 px-5 py-4">
-        <PropertyPhoto
-          photo="laBarra"
-          className="size-14 shrink-0 rounded-lg"
-        />
+      <div className="flex items-center gap-3 border-b border-line bg-mist/50 px-5 py-3">
+        <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-forest text-paper">
+          <Bell className="size-3.5" aria-hidden />
+        </span>
         <div className="min-w-0 flex-1">
-          <p className="text-sm font-semibold">
-            Casa frente al mar en La Barra
+          <p className="truncate text-sm font-semibold">
+            Valeria abrió la oferta
           </p>
-          <p className="text-xs text-quiet">2 reservas este mes</p>
+          <p className="text-xs text-quiet">Hace 2 minutos</p>
         </div>
+        <Tag tone="lime">Nueva</Tag>
       </div>
-      {[
-        ["24 – 31 oct", "USD 4.200", "Confirmada", "forest"],
-        ["12 – 15 nov", "USD 1.800", "Pendiente", "amber"],
-      ].map(([dates, amount, status, tone]) => (
+      <p className="px-5 pt-4 pb-1 font-logo text-base font-semibold">
+        Tareas de seguimiento
+      </p>
+      {tasks.map(([title, when, urgent]) => (
         <div
-          key={dates}
-          className="flex items-center gap-3 border-t border-line px-5 py-3 text-sm"
+          key={title}
+          className="flex items-center gap-3 border-t border-line px-5 py-3 first:border-t-0"
         >
-          <span className="flex-1 tabular-nums">Reserva {dates}</span>
-          <span className="text-quiet tabular-nums">{amount}</span>
-          <Tag tone={tone as "forest" | "amber"}>{status}</Tag>
+          <span
+            aria-hidden
+            className="size-4 shrink-0 rounded border border-quiet/50"
+          />
+          <span className="min-w-0 flex-1 truncate text-sm">{title}</span>
+          <Tag tone={urgent ? "amber" : "mist"}>{when}</Tag>
         </div>
       ))}
     </div>

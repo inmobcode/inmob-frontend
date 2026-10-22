@@ -36,9 +36,11 @@ import {
   type BookingStatus,
 } from "@/lib/api/bookings";
 import { ApiError } from "@/lib/api/client";
+import { listProperties } from "@/lib/api/properties";
 import { getAccessToken } from "@/lib/auth/session";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { distance, duration, ease, media, rowStagger } from "@/lib/motion";
+import { placeMatches, uniquePlaces } from "@/lib/places";
 
 const STATUS_LABELS: Record<BookingStatus, string> = {
   PENDING: "Pendientes",
@@ -60,6 +62,7 @@ export default function BookingsPage() {
   const queryClient = useQueryClient();
   const gridRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<BookingStatus[]>([]);
+  const [locations, setLocations] = useState<string[]>([]);
   const [search, setSearch] = useState("");
   const [view, setView] = useState<ViewMode>("grid");
   const [cancelling, setCancelling] = useState<string | null>(null);
@@ -87,6 +90,14 @@ export default function BookingsPage() {
     queryFn: () => listBookings(requireToken()),
   });
 
+  // A booking has no place of its own: it is where its property is.
+  const { data: properties } = useQuery({
+    queryKey: ["properties"],
+    queryFn: () => listProperties(requireToken()),
+    staleTime: 60_000,
+  });
+  const propertyById = useMemo(() => new Map((properties ?? []).map((property) => [property.id, property])), [properties]);
+
   const sorted = useMemo(
     () => [...(data ?? [])].sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()),
     [data],
@@ -98,14 +109,38 @@ export default function BookingsPage() {
     return result;
   }, [sorted]);
 
+  // The places of the properties that have bookings, each spelled once.
+  const places = useMemo(() => {
+    const found = sorted.flatMap((booking) => {
+      const property = propertyById.get(booking.propertyId);
+      return property ? [property.area, property.region, property.country] : [];
+    });
+    return uniquePlaces(found).map((place) => ({ value: place, label: place }));
+  }, [sorted, propertyById]);
+
+  const placeCounts = useMemo(() => {
+    const result: Record<string, number> = { ALL: sorted.length };
+    for (const { value } of places) {
+      result[value] = sorted.filter((booking) => {
+        const property = propertyById.get(booking.propertyId);
+        return !!property && placeMatches(property, value);
+      }).length;
+    }
+    return result;
+  }, [sorted, places, propertyById]);
+
   const filtered = useMemo(() => {
     const term = search.trim().toLowerCase();
     return sorted.filter((booking) => {
       if (status.length > 0 && !status.includes(booking.status)) return false;
+      if (locations.length > 0) {
+        const property = propertyById.get(booking.propertyId);
+        if (!property || !locations.some((place) => placeMatches(property, place))) return false;
+      }
       if (!term) return true;
       return [booking.propertyTitle, booking.clientName].filter(Boolean).join(" ").toLowerCase().includes(term);
     });
-  }, [sorted, status, search]);
+  }, [sorted, status, locations, propertyById, search]);
 
   function action(done: string, fn: (token: string, id: string) => Promise<unknown>) {
     return {
@@ -148,7 +183,7 @@ export default function BookingsPage() {
 
   const total = sorted.length;
   const visibleKey = filtered.map((booking) => booking.id).join(",");
-  const hasFilters = status.length > 0 || search.trim() !== "";
+  const hasFilters = status.length > 0 || locations.length > 0 || search.trim() !== "";
 
   // Cards settle in one after another whenever the visible set changes.
   useGSAP(
@@ -198,6 +233,16 @@ export default function BookingsPage() {
                   onChange={setStatus}
                   counts={counts}
                 />
+                {places.length > 0 && (
+                  <FilterMenu
+                    name="Ubicación"
+                    plural="ubicaciones"
+                    options={places}
+                    value={locations}
+                    onChange={setLocations}
+                    counts={placeCounts}
+                  />
+                )}
                 <ViewSwitch value={view} onChange={changeView} />
               </>
             )}
@@ -264,6 +309,7 @@ export default function BookingsPage() {
               variant="outline"
               onClick={() => {
                 setStatus([]);
+                setLocations([]);
                 setSearch("");
               }}
             >

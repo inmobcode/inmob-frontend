@@ -14,7 +14,7 @@ import {
   Source_Sans_3,
   Syne,
 } from "next/font/google";
-import { ThemeProvider } from "next-themes";
+import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryProvider } from "@/lib/query-provider";
@@ -130,19 +130,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${dmSans.variable} ${dmSerifDisplay.variable} ${sora.variable} ${geistMono.variable} ${portalFonts} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-sidebar">
-        {/*
-          next-themes renders an inline <script> that sets the theme before paint.
-          It runs from the server HTML; if React ever has to create it again in
-          the browser (e.g. after a hydration mismatch), React 19 warns about a
-          script it won't execute. Marking it as data on the client avoids that
-          without changing anything: the theme is already applied by then.
-        */}
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
           enableSystem
           disableTransitionOnChange
-          scriptProps={{ type: typeof window === "undefined" ? undefined : "text/plain" }}
         >
           <QueryProvider>
             <TooltipProvider>

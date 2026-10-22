@@ -8,27 +8,27 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 import {
-  AgencySiteFragment,
   BookingFragment,
   CalendarFragment,
   ClientsFragment,
   OfferFragment,
-  OwnerFragment,
+  OwnerStatementFragment,
   PaymentsFragment,
   SaleBookingFragment,
+  TasksFragment,
   TimelineFragment,
 } from "@/components/landing/fragments";
+import { SECTION, WRAP } from "@/components/landing/layout";
 import { FAQ, PLANS, type Plan } from "@/components/landing/plans-faq-data";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { requestDemo } from "@/lib/api/demo";
 import { ApiError } from "@/lib/api/client";
-import { gsap } from "@/lib/gsap";
+import { gsap, useGSAP } from "@/lib/gsap";
+import "@/lib/gsap-scroll-trigger";
 import { ease, media } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
-const WRAP = "mx-auto w-full max-w-[1440px] px-5 sm:px-8";
-const SECTION = "py-20 md:py-28";
 const CTA =
   "inline-flex h-12 items-center justify-center rounded-lg bg-lime px-6 text-base font-semibold text-forest-deep outline-none transition-[filter] hover:brightness-95 focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2 disabled:opacity-60";
 
@@ -36,7 +36,13 @@ const CTA =
  * Section headings read as one sentence in two weights: the claim in ink, the
  * explanation right after it in a quieter tone.
  */
-function Heading({
+/** Color each word of a heading's second half is painted to, and from. */
+const PAINT = {
+  ink: { to: "#2f7a55", from: "rgba(47, 122, 85, 0.07)" },
+  paper: { to: "#b6f077", from: "rgba(182, 240, 119, 0.07)" },
+} as const;
+
+export function Heading({
   claim,
   rest,
   className,
@@ -49,8 +55,42 @@ function Heading({
   tone?: "ink" | "paper";
   id?: string;
 }) {
+  const ref = useRef<HTMLHeadingElement>(null);
+
+  // The green half is painted in word by word as the heading scrolls into
+  // view, tied to the scroll position (scrubbed, so it also un-paints on the
+  // way back). Without motion the words just sit in their final color.
+  useGSAP(
+    () => {
+      if (!rest) return;
+      const mm = gsap.matchMedia();
+      mm.add(media.allowMotion, () => {
+        const words = gsap.utils.toArray<HTMLElement>("[data-word]");
+        gsap.fromTo(
+          words,
+          { color: PAINT[tone].from },
+          {
+            color: PAINT[tone].to,
+            ease: "none",
+            stagger: 0.35,
+            duration: 1,
+            scrollTrigger: {
+              trigger: ref.current,
+              start: "top 88%",
+              end: "top 38%",
+              scrub: 0.9,
+            },
+          },
+        );
+      });
+      return () => mm.revert();
+    },
+    { scope: ref, dependencies: [rest, tone] },
+  );
+
   return (
     <h2
+      ref={ref}
       id={id}
       className={cn(
         "font-logo text-[clamp(2rem,3.6vw,3.25rem)] leading-[1.04] font-semibold tracking-[-0.03em] text-balance",
@@ -59,9 +99,13 @@ function Heading({
     >
       {claim}
       {rest && (
-        <span className={tone === "ink" ? "text-quiet" : "text-paper/50"}>
-          {" "}
-          {rest}
+        <span style={{ color: PAINT[tone].to }}>
+          {rest.split(" ").map((word, index) => (
+            <span key={index}>
+              {" "}
+              <span data-word>{word}</span>
+            </span>
+          ))}
         </span>
       )}
     </h2>
@@ -75,7 +119,13 @@ const PROBLEMS = [
     today:
       "Las consultas llegan por todos lados y nadie sabe quién las atendió.",
     tivvo:
-      "Cada consulta de tu sitio entra como cliente, con un responsable y su historial.",
+      "Cada consulta de tu sitio entra a una bandeja como cliente, con un responsable y su historial.",
+  },
+  {
+    today:
+      "Un cliente quedó sin respuesta y te enterás cuando ya compró en otra.",
+    tivvo:
+      "Tareas de seguimiento con fecha y responsable, y una campana que avisa lo que necesita tu atención.",
   },
   {
     today:
@@ -83,45 +133,69 @@ const PROBLEMS = [
     tivvo: "Mandás un link y ves cuándo la abrieron y cuándo vence.",
   },
   {
+    today:
+      "El calendario de alquileres está en una planilla y se pisan las reservas.",
+    tivvo:
+      "Disponibilidad de 90 días: las fechas reservadas se bloquean solas y vos bloqueás el resto arrastrando.",
+  },
+  {
     today: "Los cobros viven en una planilla que solo entiende una persona.",
     tivvo:
       "Anticipo, saldo y comisión de cada reserva, a la vista de quien corresponde.",
+  },
+  {
+    today: "Los propietarios llaman cada semana para saber cómo viene lo suyo.",
+    tivvo:
+      "Un link privado con su estado de cuenta: lo cobrado, las liquidaciones y el saldo.",
   },
 ];
 
 export function Problem() {
   return (
     <section aria-labelledby="problema" className="border-b border-line">
-      <div
-        className={cn(WRAP, SECTION, "grid gap-12 lg:grid-cols-12 lg:gap-8")}
-      >
+      <div className={cn(WRAP, SECTION, "flex flex-col gap-12 md:gap-14")}>
         <Heading
           id="problema"
           claim="Cuando el negocio crece, se desordena."
           rest="Tivvo lo ordena."
-          className="lg:col-span-5"
+          className="max-w-3xl"
         />
-        <div className="lg:col-span-7">
-          <div className="hidden grid-cols-2 gap-8 pb-3 text-sm text-quiet sm:grid">
-            <span>Hoy</span>
-            <span>Con Tivvo</span>
+        {/* Two columns read across: the problem in grey, its answer marked in forest green. */}
+        <div>
+          <div
+            aria-hidden
+            className="hidden text-sm font-semibold sm:grid sm:grid-cols-2"
+          >
+            <span className="pb-3 text-quiet">Problema</span>
+            <span className="border-b-2 border-forest pb-3 pl-8 text-forest">
+              Solución
+            </span>
           </div>
           <ul>
             {PROBLEMS.map((item) => (
-              <li
-                key={item.today}
-                className="grid gap-3 border-t border-line py-6 sm:grid-cols-2 sm:gap-8"
-              >
-                <p className="text-lg leading-snug text-pretty text-quiet">
-                  {item.today}
-                </p>
-                <p className="flex gap-3 text-lg leading-snug text-pretty">
-                  <Check
-                    className="mt-1 size-4 shrink-0 text-forest"
-                    aria-hidden
-                  />
-                  {item.tivvo}
-                </p>
+              <li key={item.today} className="grid sm:grid-cols-2">
+                <div className="flex flex-col gap-2 border-t border-line pt-6 pb-4 sm:py-7 sm:pr-8">
+                  <span className="text-sm font-semibold text-quiet sm:hidden">
+                    Problema
+                  </span>
+                  <p className="text-lg leading-snug text-pretty text-quiet">
+                    {item.today}
+                  </p>
+                </div>
+                <div className="flex flex-col gap-2 border-t border-forest/20 pt-2 pb-6 sm:py-7 sm:pl-8">
+                  <span className="text-sm font-semibold text-forest sm:hidden">
+                    Solución
+                  </span>
+                  <p className="flex gap-3 text-lg leading-snug text-pretty">
+                    <span
+                      aria-hidden
+                      className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-forest text-lime"
+                    >
+                      <Check className="size-3" strokeWidth={3} />
+                    </span>
+                    {item.tivvo}
+                  </p>
+                </div>
               </li>
             ))}
           </ul>
@@ -156,6 +230,11 @@ const FLOWS: Record<
       shot: <OfferFragment />,
     },
     {
+      title: "Tareas y alertas",
+      text: "Programás el llamado de seguimiento con fecha y responsable. La campana te avisa cuando abren la oferta.",
+      shot: <TasksFragment />,
+    },
+    {
       title: "Reserva",
       text: "Creás la reserva con el cliente, la propiedad y el precio de la oferta ya cargados.",
       shot: <SaleBookingFragment />,
@@ -163,7 +242,7 @@ const FLOWS: Record<
     {
       title: "Cobro y comisión",
       text: "Anticipo, saldo y comisión, con lo cobrado y lo que falta.",
-      shot: <PaymentsFragment />,
+      shot: <PaymentsFragment variant="sale" />,
     },
   ],
   rent: [
@@ -183,6 +262,11 @@ const FLOWS: Record<
       shot: <OfferFragment />,
     },
     {
+      title: "Tareas y alertas",
+      text: "Dejás una tarea para retomar el contacto y la campana avisa cuando abren la propuesta, para llamar en el momento justo.",
+      shot: <TasksFragment />,
+    },
+    {
       title: "Reserva con fechas",
       text: "Check-in, check-out, noches y total calculados. Las fechas quedan bloqueadas.",
       shot: <BookingFragment className="mx-auto max-w-md" />,
@@ -190,7 +274,7 @@ const FLOWS: Record<
     {
       title: "Pagos",
       text: "Anticipo y saldo con su estado. El propietario lo ve desde su portal.",
-      shot: <PaymentsFragment commission={false} />,
+      shot: <PaymentsFragment variant="rent" />,
     },
   ],
 };
@@ -411,13 +495,16 @@ export function Flow() {
 const ROLES = [
   {
     name: "Propietario",
-    text: "Ve y controla todo, incluida la configuración de la agencia.",
+    text: "Ve y controla todo, incluida la configuración de la agencia, y reasigna clientes y propiedades.",
   },
   {
     name: "Administrador",
-    text: "Gestiona el equipo, las propiedades, las ofertas y las reservas.",
+    text: "Gestiona el equipo, las propiedades, las ofertas y las reservas de toda la agencia, y reasigna responsables.",
   },
-  { name: "Agente", text: "Trabaja con sus propiedades, clientes y reservas." },
+  {
+    name: "Agente",
+    text: "Ve sus propiedades, ofertas y reservas, sus clientes y las consultas que todavía nadie tomó. Lo demás no aparece.",
+  },
 ];
 
 export function TeamSection() {
@@ -433,7 +520,7 @@ export function TeamSection() {
         <Heading
           id="equipo-titulo"
           claim="Cada persona ve lo que le corresponde."
-          rest="Sin compartir contraseñas."
+          rest="Cada agente con su acceso, y vos con el control."
           className="lg:col-span-5"
         />
         <dl className="lg:col-span-6 lg:col-start-7">
@@ -467,7 +554,7 @@ export function Portals() {
         <Heading
           id="portales-titulo"
           claim="Lo que ven los de afuera."
-          rest="Un sitio para tus clientes y un portal para cada propietario."
+          rest="Un link privado para cada propietario y para cada cliente, sin contraseñas."
           className="max-w-4xl"
         />
       </div>
@@ -476,14 +563,14 @@ export function Portals() {
         <div className="grid gap-px bg-line lg:grid-cols-2">
           {[
             {
-              title: "Tu sitio web",
-              text: "Cada propiedad que publicás aparece en tu sitio, con buscador, fichas y formulario de consulta. Las consultas caen directo en tus clientes, sin pagar por aparecer en un portal ajeno.",
-              shot: <AgencySiteFragment />,
+              title: "Portal del propietario",
+              text: "Cada propietario ve sus propiedades, reservas y pagos, y su estado de cuenta: lo cobrado, las liquidaciones y el saldo. La comisión queda oculta salvo que decidas mostrarla. Menos llamadas preguntando cómo viene lo suyo.",
+              shot: <OwnerStatementFragment />,
             },
             {
-              title: "Portal del propietario",
-              text: "Cada propietario recibe un link privado para ver sus propiedades, reservas y pagos. Menos llamadas preguntando cómo viene lo suyo.",
-              shot: <OwnerFragment />,
+              title: "Reserva para el cliente",
+              text: "Al crear, confirmar o cancelar una reserva, el cliente recibe por email un link con sus fechas, el total y el estado de los pagos. Sin comisión a la vista y sin que tengas que reenviar nada.",
+              shot: <BookingFragment className="mx-auto max-w-md" />,
             },
           ].map((item) => (
             <article
@@ -514,15 +601,15 @@ export function Portals() {
 const MIGRATION = [
   {
     title: "Nos pasás tus datos",
-    text: "Planillas, exportaciones o lo que tengas hoy. No hace falta que esté prolijo.",
+    text: "Planillas, exportaciones o lo que uses hoy, aunque no esté prolijo.",
   },
   {
     title: "Los cargamos y revisamos juntos",
-    text: "Propiedades y clientes entran al sistema y los validamos con vos.",
+    text: "Cargamos tus propiedades, propietarios y clientes, y los validamos con vos antes de seguir.",
   },
   {
     title: "Empezás a usarlo",
-    text: "Tu equipo entra con su propio acceso y sigue trabajando como siempre.",
+    text: "Tu equipo entra con su propio acceso y el rol que le corresponde, y tu sitio queda listo para publicar.",
   },
 ];
 
@@ -533,29 +620,44 @@ export function Migration() {
       aria-labelledby="migracion-titulo"
       className="scroll-mt-16 border-b border-line bg-mist"
     >
-      <div className={cn(WRAP, SECTION, "flex flex-col gap-14")}>
+      <div className={cn(WRAP, SECTION, "flex flex-col gap-12 md:gap-14")}>
         <Heading
           id="migracion-titulo"
           claim="No arrancás de cero."
           rest="Traemos tus datos por vos."
           className="max-w-4xl"
         />
-        <ol className="grid gap-10 md:grid-cols-3 md:gap-8">
+        <ol className="grid gap-x-8 md:grid-cols-3 lg:gap-x-10">
           {MIGRATION.map((item, index) => (
             <li
               key={item.title}
-              className="flex flex-col gap-3 border-t-2 border-forest pt-5"
+              className="flex flex-col gap-3 border-t border-ink/15 py-6"
             >
-              <span className="font-logo text-sm font-semibold text-forest tabular-nums">
-                Paso {index + 1}
+              <span
+                aria-hidden
+                className="font-logo text-5xl leading-none font-semibold text-forest tabular-nums"
+              >
+                {String(index + 1).padStart(2, "0")}
               </span>
-              <p className="font-logo text-xl leading-tight font-semibold">
+              <p className="mt-3 font-logo text-xl leading-tight font-semibold">
+                <span className="sr-only">Paso {index + 1}: </span>
                 {item.title}
               </p>
-              <p className="text-pretty text-quiet">{item.text}</p>
+              <p className="text-lg leading-snug text-pretty text-quiet">
+                {item.text}
+              </p>
             </li>
           ))}
         </ol>
+        <div className="flex flex-col gap-4 border-t border-ink/15 pt-8 sm:flex-row sm:items-center sm:justify-between">
+          <p className="max-w-xl text-lg leading-snug text-pretty">
+            ¿Tenés los datos en otro sistema? Lo vemos en la demo y te damos una
+            fecha concreta.
+          </p>
+          <a href="#demo" className={CTA}>
+            Pedir una demo
+          </a>
+        </div>
       </div>
     </section>
   );

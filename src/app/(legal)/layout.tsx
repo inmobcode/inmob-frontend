@@ -10,7 +10,7 @@ export default function LegalLayout({
 }) {
   return (
     <div className="landing flex flex-1 flex-col">
-      <header className="sticky top-0 z-50 border-b border-line bg-paper/90 backdrop-blur-md">
+      <header className="sticky top-0 z-50 border-b border-line bg-paper/90 backdrop-blur-md print:hidden">
         <nav
           aria-label="Principal"
           className="mx-auto flex h-16 max-w-[1440px] items-center justify-between gap-6 px-5 sm:px-8"

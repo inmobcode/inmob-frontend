@@ -5,6 +5,7 @@ import { RotateCcw, Search, SearchX, Users } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
+import { ClientBoard } from "@/components/clients/client-board";
 import { ClientCard, ClientCardSkeleton, ClientRow, ClientsTable } from "@/components/clients/client-views";
 import { STAGES, type ClientActions } from "@/components/clients/client-parts";
 import { CreateClientDialog } from "@/components/clients/create-client-dialog";
@@ -28,6 +29,8 @@ const STAGE_PLURALS: Record<ClientStage, string> = {
   LOST: "Perdidos",
 };
 
+const CLIENT_VIEWS: ViewMode[] = ["table", "list", "grid", "board"];
+
 const STAGE_OPTIONS = STAGES.map((value) => ({ value, label: STAGE_PLURALS[value] }));
 
 function requireToken() {
@@ -47,7 +50,7 @@ export default function ClientsPage() {
   useEffect(() => {
     try {
       const saved = window.localStorage.getItem("clients-view");
-      if (saved === "list" || saved === "table") {
+      if (saved === "list" || saved === "table" || saved === "board") {
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setView(saved);
       }
@@ -87,14 +90,20 @@ export default function ClientsPage() {
   }, [sorted, stage, search]);
 
   const stageMutation = useMutation({
+    meta: { affectsSite: false },
     mutationFn: ({ id, next }: { id: string; next: ClientStage }) => updateClient(requireToken(), id, { stage: next }),
     onMutate: ({ id, next }) => {
+      const previous = queryClient.getQueryData<Client[]>(["clients"]);
       queryClient.setQueryData<Client[]>(["clients"], (prev) =>
         prev?.map((client) => (client.id === id ? { ...client, stage: next } : client)),
       );
+      return { previous };
     },
     onSuccess: (_, { next }) => toast.success(`Pasó a ${CLIENT_STAGE_LABELS[next].toLowerCase()}`),
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo cambiar la etapa"),
+    onError: (err, _vars, context) => {
+      if (context?.previous) queryClient.setQueryData(["clients"], context.previous);
+      toast.error(err instanceof ApiError ? err.message : "No se pudo cambiar la etapa");
+    },
     onSettled: () => queryClient.invalidateQueries({ queryKey: ["clients"] }),
   });
 
@@ -154,7 +163,7 @@ export default function ClientsPage() {
                   onChange={setStage}
                   counts={counts}
                 />
-                <ViewSwitch value={view} onChange={changeView} />
+                <ViewSwitch value={view} onChange={changeView} views={CLIENT_VIEWS} />
               </>
             )}
             <HelpLink section="clientes" label="Ayuda con clientes" />
@@ -224,6 +233,8 @@ export default function ClientsPage() {
           )}
         </div>
       )}
+
+      {filtered.length > 0 && view === "board" && <ClientBoard clients={filtered} actions={actions} />}
 
       {filtered.length > 0 && view === "grid" && (
         <div ref={gridRef} className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,300px),1fr))] gap-6">

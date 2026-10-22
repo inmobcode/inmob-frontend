@@ -92,6 +92,8 @@ export interface Property {
   agencyId: string;
   agencySlug?: string | null;
   ownerId?: string | null;
+  /** Who looks after it: an agent only works with the ones assigned to them. */
+  assignedAgentId?: string | null;
   parentPropertyId?: string | null;
   title: string;
   slug: string;
