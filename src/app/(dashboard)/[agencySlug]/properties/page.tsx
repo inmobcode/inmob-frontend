@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import { toast } from "sonner";
 import { useEffect, useMemo, useRef, useState } from "react";
 
+import { ImportLink } from "@/components/import/import-link";
 import { CreatePropertyDialog } from "@/components/properties/create-property-dialog";
 import { HelpHint, HelpLink } from "@/components/docs/help-link";
 import { TrashLink } from "@/components/trash/trash-link";
@@ -373,6 +374,7 @@ export default function PropertiesPage() {
             )}
             <HelpLink section="propiedades" label="Ayuda con propiedades" />
             {trashLink}
+            <ImportLink />
             <CreatePropertyDialog />
           </div>
         </div>
@@ -427,6 +429,7 @@ export default function PropertiesPage() {
           </div>
           <div className="flex flex-wrap justify-center gap-3">
             <CreatePropertyDialog />
+            <ImportLink />
             {trashLink}
           </div>
           <HelpHint section="propiedades">Cómo cargar y publicar una propiedad</HelpHint>
