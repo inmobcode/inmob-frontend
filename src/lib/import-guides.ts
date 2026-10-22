@@ -25,8 +25,8 @@ export interface GenericOrigin {
 export const GENERIC_ORIGINS: GenericOrigin[] = [
   {
     slug: "xml",
-    name: "Otra plataforma (XML)",
-    description: "Cualquier CRM que pueda dar un feed XML en formato Kyero, por URL o por archivo.",
+    name: "XML de Kyero",
+    description: "El feed en formato Kyero (versión 3) que exportan Casafari, Estatebud y la mayoría de los CRM, por URL o por archivo.",
     format: "kyero",
   },
   {
@@ -305,7 +305,7 @@ export function genericGuide(origin: GenericOrigin): Guide {
     return {
       format: "kyero",
       source: origin.slug,
-      title: "Migrar desde otra plataforma con un feed XML",
+      title: "Migrar desde un XML de Kyero",
       steps: [
         "Conseguí en tu CRM el feed XML de tus propiedades en formato Kyero (versión 3): la mayoría de los CRM lo generan para publicar en portales.",
         PROVIDE_FEED,

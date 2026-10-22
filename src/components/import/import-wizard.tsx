@@ -25,6 +25,7 @@ import { useParams } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
+import { PropertiesPagination } from "@/components/properties/properties-pagination";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -72,6 +73,7 @@ import { IMPORT_PLATFORMS, type ImportPlatform, type PlatformType } from "@/lib/
 type Step = "source" | "mapping" | "review" | "done";
 
 const NONE = "__none__";
+const ROWS_PER_PAGE = 20;
 
 const FORMAT_ICON: Record<ImportFormat, typeof FileSpreadsheet> = {
   table: FileSpreadsheet,
@@ -412,6 +414,7 @@ export function ImportWizard() {
   const [archiveMissing, setArchiveMissing] = useState(false);
   const [publish, setPublish] = useState(false);
   const [onlyProblems, setOnlyProblems] = useState(false);
+  const [rowsPage, setRowsPage] = useState(1);
   const [preview, setPreview] = useState<ImportPreview | null>(null);
   const [result, setResult] = useState<ImportResult | null>(null);
 
@@ -494,6 +497,7 @@ export function ImportWizard() {
     previewMutation.mutate(buildInput({ mapping: undefined, archiveMissing: false }), {
       onSuccess: (data) => {
         setPreview(data);
+        setRowsPage(1);
         setArchiveMissing(false);
         if (format === "table" && data.table) {
           setMapping(data.table.mapping);
@@ -509,6 +513,7 @@ export function ImportWizard() {
     previewMutation.mutate(buildInput(overrides), {
       onSuccess: (data) => {
         setPreview(data);
+        setRowsPage(1);
         setStep("review");
       },
     });
@@ -537,6 +542,12 @@ export function ImportWizard() {
   const busy = previewMutation.isPending || applyMutation.isPending;
   const mappedCount = Object.values(mapping).filter(Boolean).length;
   const importable = preview ? preview.counts.create + preview.counts.update : 0;
+  const shownRows = preview
+    ? preview.rows.filter((row) => !onlyProblems || row.warnings.length > 0 || row.errors.length > 0)
+    : [];
+  const rowsPageCount = Math.max(1, Math.ceil(shownRows.length / ROWS_PER_PAGE));
+  const safeRowsPage = Math.min(rowsPage, rowsPageCount);
+  const pagedRows = shownRows.slice((safeRowsPage - 1) * ROWS_PER_PAGE, safeRowsPage * ROWS_PER_PAGE);
 
   return (
     <div className="flex flex-col gap-8">
@@ -615,7 +626,7 @@ export function ImportWizard() {
 
             {platforms.length === 0 && (
               <p className="text-sm text-muted-foreground">
-                No encontramos esa plataforma. Elegí «Otra plataforma (XML)» arriba: sirve para cualquier sistema que pueda dar un feed XML.
+                No encontramos esa plataforma. Elegí «XML de Kyero» arriba: sirve para cualquier sistema que pueda dar un feed XML en ese formato.
               </p>
             )}
             {([1, 2] as const).map((tier) => {
@@ -895,7 +906,14 @@ export function ImportWizard() {
             <h2 className="font-display text-xl">Detalle por fila</h2>
             <label className="flex items-center gap-2 text-sm text-muted-foreground">
               Solo avisos y errores
-              <Switch size="sm" checked={onlyProblems} onCheckedChange={setOnlyProblems} />
+              <Switch
+                size="sm"
+                checked={onlyProblems}
+                onCheckedChange={(checked) => {
+                  setOnlyProblems(checked);
+                  setRowsPage(1);
+                }}
+              />
             </label>
           </div>
           <div className="overflow-x-auto rounded-2xl bg-card ring-1 ring-foreground/5">
@@ -909,9 +927,7 @@ export function ImportWizard() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {preview.rows
-                  .filter((row) => !onlyProblems || row.warnings.length > 0 || row.errors.length > 0)
-                  .map((row) => (
+                {pagedRows.map((row) => (
                     <TableRow key={row.row}>
                       <TableCell className="text-muted-foreground">{row.row}</TableCell>
                       <TableCell>
@@ -939,6 +955,10 @@ export function ImportWizard() {
               </TableBody>
             </Table>
           </div>
+          <PropertiesPagination page={safeRowsPage} pageCount={rowsPageCount} onChange={setRowsPage} />
+          {shownRows.length === 0 && (
+            <p className="text-sm text-muted-foreground">No hay filas con avisos ni errores.</p>
+          )}
           {preview.rows.length < Object.values(preview.counts).slice(0, 5).reduce((sum, value) => sum + value, 0) && (
             <p className="text-xs text-muted-foreground">
               La vista previa muestra las primeras {preview.rows.length} filas; la importación procesa todas.
