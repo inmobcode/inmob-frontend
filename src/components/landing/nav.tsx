@@ -93,10 +93,6 @@ export function LandingNav() {
           </li>
         </ul>
         <div className="ml-auto flex items-center gap-2">
-          <LanguageSwitcher
-            compact
-            className={onDark ? "hover:bg-paper/10" : "hover:bg-mist"}
-          />
           {/* The panel lives on the app host: ?lang carries the language over. */}
           <NextLink
             href={`/login?lang=${locale}`}
@@ -113,6 +109,14 @@ export function LandingNav() {
           >
             {t("demo")}
           </a>
+          <LanguageSwitcher
+            compact
+            variant="landing"
+            className={cn(
+              "rounded-lg",
+              onDark ? "hover:bg-paper/10" : "hover:bg-mist",
+            )}
+          />
         </div>
       </nav>
     </header>
