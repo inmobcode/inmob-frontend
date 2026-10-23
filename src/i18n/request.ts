@@ -1,17 +1,17 @@
 import { getRequestConfig } from "next-intl/server";
 import { cookies, headers } from "next/headers";
 
-import { DEFAULT_LOCALE, isLocale, LOCALE_COOKIE, matchAcceptLanguage, type Locale } from "./config";
+import { detectLocale, isLocale, LOCALE_COOKIE, type Locale } from "./config";
 import { loadMessages } from "./messages";
 
 /**
  * The public site gets its language from the URL (app/intl/[locale]); the
- * dashboard, which has no prefix, from the person's choice or their browser.
+ * dashboard, which has no prefix, from the person's choice, else their country (IP) or browser.
  */
 async function preferredLocale(): Promise<Locale> {
   const chosen = (await cookies()).get(LOCALE_COOKIE)?.value;
   if (isLocale(chosen)) return chosen;
-  return matchAcceptLanguage((await headers()).get("accept-language")) ?? DEFAULT_LOCALE;
+  return detectLocale(await headers());
 }
 
 export default getRequestConfig(async ({ requestLocale }) => {

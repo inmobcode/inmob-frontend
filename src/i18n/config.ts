@@ -82,3 +82,51 @@ export function matchAcceptLanguage(header: string | null | undefined): Locale |
   }
   return null;
 }
+
+/**
+ * Countries whose people read one of our languages. Switzerland and Belgium are
+ * left out on purpose: several languages are spoken there, so the browser decides.
+ */
+const COUNTRY_LOCALES: Record<Locale, readonly string[]> = {
+  es: ["AR", "BO", "CL", "CO", "CR", "CU", "DO", "EC", "ES", "GT", "HN", "MX", "NI", "PA", "PE", "PR", "PY", "SV", "UY", "VE"],
+  en: [],
+  pt: ["AO", "BR", "CV", "MZ", "PT"],
+  fr: ["FR", "LU", "MC"],
+  de: ["AT", "DE", "LI"],
+  it: ["IT", "SM", "VA"],
+  el: ["CY", "GR"],
+  hr: ["HR"],
+};
+
+const LOCALE_BY_COUNTRY = new Map<string, Locale>(
+  (Object.entries(COUNTRY_LOCALES) as [Locale, readonly string[]][]).flatMap(([locale, countries]) =>
+    countries.map((country) => [country, locale] as const),
+  ),
+);
+
+/** Headers that hosts and CDNs fill with the visitor's country, from their IP. */
+const COUNTRY_HEADERS = ["x-vercel-ip-country", "cf-ipcountry", "cloudfront-viewer-country", "x-country-code"];
+
+/** The ISO country the request comes from, or null when the host doesn't say (local dev, unknown IPs). */
+export function countryOf(headers: { get(name: string): string | null }): string | null {
+  for (const name of COUNTRY_HEADERS) {
+    const value = headers.get(name)?.trim().toUpperCase();
+    // Cloudflare sends XX (unknown) and T1 (Tor) instead of a country.
+    if (value && /^[A-Z]{2}$/.test(value) && value !== "XX" && value !== "T1") return value;
+  }
+  return null;
+}
+
+/**
+ * The language to show someone who hasn't picked one: their country first
+ * (from their IP), then their browser. A known country with no language of
+ * ours gets English; with no country at all (local dev) it's Spanish.
+ */
+export function detectLocale(headers: { get(name: string): string | null }): Locale {
+  const country = countryOf(headers);
+  const fromCountry = country ? LOCALE_BY_COUNTRY.get(country) : undefined;
+  if (fromCountry) return fromCountry;
+  const fromBrowser = matchAcceptLanguage(headers.get("accept-language"));
+  if (fromBrowser) return fromBrowser;
+  return country ? "en" : DEFAULT_LOCALE;
+}

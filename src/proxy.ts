@@ -1,14 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-import {
-  DEFAULT_LOCALE,
-  INTL_SEGMENT,
-  isLocale,
-  LOCALE_COOKIE,
-  matchAcceptLanguage,
-  type Locale,
-} from "@/i18n/config";
+import { DEFAULT_LOCALE, detectLocale, INTL_SEGMENT, isLocale, LOCALE_COOKIE, type Locale } from "@/i18n/config";
 import { agencySlugFromToken } from "@/lib/auth/token-claims";
 
 // Agency-scoped sections, reached as /:agencySlug/<section>/...
@@ -80,11 +73,11 @@ function servePublic(request: NextRequest, locale: Locale, path: string, isAppHo
   return response;
 }
 
-/** The language someone reading "/" most likely wants: the one they picked before, else their browser's. */
+/** The language someone reading "/" most likely wants: the one they picked before, else their country (from their IP), else their browser's. */
 function preferredLocale(request: NextRequest): Locale {
   const chosen = request.cookies.get(LOCALE_COOKIE)?.value;
   if (isLocale(chosen)) return chosen;
-  return matchAcceptLanguage(request.headers.get("accept-language")) ?? DEFAULT_LOCALE;
+  return detectLocale(request.headers);
 }
 
 /**
