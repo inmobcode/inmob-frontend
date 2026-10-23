@@ -1,38 +1,41 @@
 "use client";
 
-import { format, formatDistanceToNow } from "date-fns";
-import { es } from "date-fns/locale";
 import { CalendarClock, UserRound } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 
 import { Collage, coversOf, OfferMenu, propertiesOf, type OfferActions } from "@/components/offers/offer-card";
 import { OfferStatusPill } from "@/components/offers/offer-status-pill";
 import { ControlsZone } from "@/components/properties/property-controls";
+import { useFormat } from "@/i18n/format";
 import type { Offer } from "@/lib/api/offers";
-import { OFFER_OPERATION_LABELS } from "@/lib/properties-labels";
+import { parseApiDate } from "@/lib/dates";
+import { useLabels } from "@/lib/labels";
 import { cn } from "@/lib/utils";
 
-const number = (value: number) => value.toLocaleString("es-AR");
-
 function Total({ offer, className }: { offer: Offer; className?: string }) {
+  const t = useTranslations("offers.card");
+  const { number } = useFormat();
   return offer.total ? (
     <span className={cn("tabular-nums", className)}>
       <span className="mr-1 text-xs font-medium text-muted-foreground">{offer.currency}</span>
       <span className="font-semibold">{number(offer.total)}</span>
     </span>
   ) : (
-    <span className={cn("text-muted-foreground", className)}>Sin total</span>
+    <span className={cn("text-muted-foreground", className)}>{t("noTotal")}</span>
   );
 }
 
 function Expiry({ offer }: { offer: Offer }) {
+  const t = useTranslations("offers.card");
+  const { date } = useFormat();
   if (!offer.expiresAt) return null;
   const expired = offer.status === "EXPIRED";
   return (
     <span className={cn("inline-flex items-center gap-1.5", expired ? "text-destructive" : "text-muted-foreground")}>
       <CalendarClock className="size-4" />
-      {expired ? "Venció" : "Vence"} el {format(new Date(offer.expiresAt), "d 'de' MMMM", { locale: es })}
+      {t(expired ? "expired" : "expires", { date: date(parseApiDate(offer.expiresAt), "dayMonth") })}
     </span>
   );
 }
@@ -42,9 +45,12 @@ const ROW_CLASS =
 
 /** One offer as a wide row: collage on the left, details in the middle, total and status on the right. */
 export function OfferRow({ offer, actions }: { offer: Offer; actions: OfferActions }) {
+  const t = useTranslations("offers.card");
+  const labels = useLabels();
+  const { ago } = useFormat();
   const { agencySlug } = useParams<{ agencySlug: string }>();
   const items = propertiesOf(offer);
-  const updated = formatDistanceToNow(new Date(offer.updatedAt), { addSuffix: true, locale: es });
+  const updated = ago(parseApiDate(offer.updatedAt));
   const expired = offer.status === "EXPIRED";
 
   return (
@@ -54,23 +60,23 @@ export function OfferRow({ offer, actions }: { offer: Offer; actions: OfferActio
           <Collage urls={coversOf(offer)} />
         </div>
         <span className="absolute bottom-2 left-2 inline-flex items-center rounded-full bg-foreground/55 px-2 py-0.5 text-xs font-medium text-background backdrop-blur">
-          {items.length} {items.length === 1 ? "propiedad" : "propiedades"}
+          {t("properties", { count: items.length })}
         </span>
       </div>
 
       <div className="flex min-w-0 flex-1 flex-col gap-1.5 sm:py-1">
-        <p className="text-xs font-medium text-primary">{OFFER_OPERATION_LABELS[offer.operation]}</p>
+        <p className="text-xs font-medium text-primary">{labels.offerOperation(offer.operation)}</p>
         <h3 className="font-display text-xl leading-tight text-balance line-clamp-2" title={offer.title}>
           {offer.title}
         </h3>
         {offer.referenceCode && (
           <p className="truncate text-xs font-medium text-muted-foreground" title={offer.referenceCode}>
-            Ref: {offer.referenceCode}
+            {t("reference", { code: offer.referenceCode })}
           </p>
         )}
         <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
           <UserRound className="size-3.5 shrink-0" />
-          <span className="truncate">{offer.clientName?.trim() || "Sin cliente asignado"}</span>
+          <span className="truncate">{offer.clientName?.trim() || t("noClient")}</span>
         </p>
         <div className="mt-auto pt-2 text-sm">
           <Expiry offer={offer} />
@@ -95,6 +101,10 @@ const HEAD = "px-4 py-3 text-left text-xs font-medium text-muted-foreground";
 
 /** One offer per line, for scanning many at once. */
 export function OffersTable({ offers, actions }: { offers: Offer[]; actions: OfferActions }) {
+  const t = useTranslations("offers.table");
+  const card = useTranslations("offers.card");
+  const labels = useLabels();
+  const { ago, date } = useFormat();
   const router = useRouter();
   const { agencySlug } = useParams<{ agencySlug: string }>();
 
@@ -103,15 +113,15 @@ export function OffersTable({ offers, actions }: { offers: Offer[]; actions: Off
       <table className="w-full min-w-[820px] border-collapse text-sm">
         <thead>
           <tr>
-            <th className={cn(HEAD, "pl-4")}>Oferta</th>
-            <th className={HEAD}>Reference code</th>
-            <th className={HEAD}>Estado</th>
-            <th className={cn(HEAD, "text-right")}>Propiedades</th>
-            <th className={cn(HEAD, "text-right")}>Total</th>
-            <th className={HEAD}>Vencimiento</th>
-            <th className={HEAD}>Actualizada</th>
+            <th className={cn(HEAD, "pl-4")}>{t("offer")}</th>
+            <th className={HEAD}>{t("reference")}</th>
+            <th className={HEAD}>{t("status")}</th>
+            <th className={cn(HEAD, "text-right")}>{t("properties")}</th>
+            <th className={cn(HEAD, "text-right")}>{t("total")}</th>
+            <th className={HEAD}>{t("expiry")}</th>
+            <th className={HEAD}>{t("updated")}</th>
             <th className={cn(HEAD, "w-14")}>
-              <span className="sr-only">Acciones</span>
+              <span className="sr-only">{t("actions")}</span>
             </th>
           </tr>
         </thead>
@@ -139,7 +149,7 @@ export function OffersTable({ offers, actions }: { offers: Offer[]; actions: Off
                         {offer.title}
                       </Link>
                       <span className="truncate text-xs text-muted-foreground">
-                        {OFFER_OPERATION_LABELS[offer.operation]} · {offer.clientName?.trim() || "Sin cliente asignado"}
+                        {labels.offerOperation(offer.operation)} · {offer.clientName?.trim() || card("noClient")}
                       </span>
                     </div>
                   </div>
@@ -157,14 +167,14 @@ export function OffersTable({ offers, actions }: { offers: Offer[]; actions: Off
                 <td className="px-4 py-3 whitespace-nowrap">
                   {offer.expiresAt ? (
                     <span className={expired ? "text-destructive" : "text-muted-foreground"}>
-                      {format(new Date(offer.expiresAt), "d MMM yyyy", { locale: es })}
+                      {date(parseApiDate(offer.expiresAt), "medium")}
                     </span>
                   ) : (
                     <span className="text-muted-foreground">—</span>
                   )}
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap text-muted-foreground">
-                  {formatDistanceToNow(new Date(offer.updatedAt), { addSuffix: true, locale: es })}
+                  {ago(parseApiDate(offer.updatedAt))}
                 </td>
                 <td className="w-14 py-3 pr-4" onClick={(event) => event.stopPropagation()}>
                   <OfferMenu offer={offer} actions={actions} className="bg-foreground/[0.06] hover:bg-foreground/10" />

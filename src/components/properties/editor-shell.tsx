@@ -11,6 +11,8 @@ import { cn } from "@/lib/utils";
 export interface SectionTab {
   value: string;
   label: string;
+  /** A few words under the label in the menu. */
+  hint?: string;
   icon: React.ComponentType<{ className?: string }>;
 }
 
@@ -18,21 +20,6 @@ export interface SectionGroup {
   label: string;
   tabs: SectionTab[];
 }
-
-const SHORT_DESCRIPTIONS: Record<string, string> = {
-  basico: "Título, tipo y métricas",
-  ubicacion: "Dirección, mapa y entorno",
-  amenities: "Comodidades y distribución",
-  content: "Textos para clientes",
-  precios: "Precio y moneda",
-  fotos: "Galería y videos",
-  disponibilidad: "Bloqueos y calendario iCal",
-  rates: "Tarifas por temporada",
-  essentials: "Management y licencia",
-  recomendaciones: "Mejoras sugeridas",
-  rooms: "Habitaciones del hotel",
-  propietario: "Propietario asociado",
-};
 
 /**
  * The popover card for one group. It animates in on mount (it is only
@@ -128,9 +115,7 @@ function GroupPanel({
                     <span className={cn("truncate text-sm", isActive ? "font-semibold" : "font-medium")}>
                       {tab.label}
                     </span>
-                    <span className="truncate text-xs text-muted-foreground">
-                      {SHORT_DESCRIPTIONS[tab.value]}
-                    </span>
+                    {tab.hint && <span className="truncate text-xs text-muted-foreground">{tab.hint}</span>}
                   </span>
                   {isActive && <Check className="size-4 shrink-0 text-primary" />}
                 </button>

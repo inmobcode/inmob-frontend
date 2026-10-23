@@ -1,9 +1,11 @@
 import { ArrowUpRight } from "lucide-react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import NextLink from "next/link";
 
 import { LogoIcon } from "@/components/logo-icon";
+import { Link } from "@/i18n/navigation";
 import type { MarketplaceFacets } from "@/lib/api/marketplace";
-import { categoryLabel } from "@/lib/properties-labels";
+import { useLabels } from "@/lib/labels";
 import { cn } from "@/lib/utils";
 
 const PATH = "/landing-test";
@@ -18,41 +20,44 @@ const LINK = "text-paper/70 underline-offset-4 transition-colors hover:text-pape
 
 /** The end of the landing: the ways around (rent, buy, for agencies) and the legal line. */
 export function SiteFooter({ facets }: { facets: MarketplaceFacets }) {
+  const t = useTranslations("marketplace.footer");
+  const labels = useLabels();
   const types = facets.categories.slice(0, 6);
 
-  const columns: { title: string; links: { label: string; href: string; external?: boolean }[] }[] = [
+  // `app` links go to the dashboard host, which has no language prefix.
+  const columns: { title: string; links: { label: string; href: string; app?: boolean }[] }[] = [
     {
-      title: "Alquilar",
+      title: t("rent.title"),
       links: [
-        { label: "Alquiler temporario", href: searchHref({ op: "RENT" }) },
+        { label: t("rent.all"), href: searchHref({ op: "RENT" }) },
         ...facets.zones
           .slice(0, 3)
-          .map((zone) => ({ label: `Alquileres en ${zone.name}`, href: searchHref({ op: "RENT", zone: zone.name }) })),
+          .map((zone) => ({ label: t("rent.in", { zone: zone.name }), href: searchHref({ op: "RENT", zone: zone.name }) })),
       ],
     },
     {
-      title: "Comprar",
+      title: t("buy.title"),
       links: [
-        { label: "Propiedades en venta", href: searchHref({ op: "SALE" }) },
+        { label: t("buy.all"), href: searchHref({ op: "SALE" }) },
         ...types.slice(0, 4).map((type) => ({
-          label: categoryLabel(type.value),
+          label: labels.category(type.value),
           href: searchHref({ op: "SALE", type: type.value }),
         })),
       ],
     },
     {
-      title: "Para inmobiliarias",
+      title: t("agencies.title"),
       links: [
-        { label: "Conocé Tivvo", href: "/" },
-        { label: "Crear una cuenta", href: "/register" },
-        { label: "Ingresar", href: "/login" },
+        { label: t("agencies.about"), href: "/" },
+        { label: t("agencies.register"), href: "/register", app: true },
+        { label: t("agencies.login"), href: "/login", app: true },
       ],
     },
     {
       title: "Tivvo",
       links: [
-        { label: "Cómo funciona", href: `${PATH}#como-funciona` },
-        { label: "Ver todas las propiedades", href: `${PATH}#resultados` },
+        { label: t("tivvo.how"), href: `${PATH}#como-funciona` },
+        { label: t("tivvo.all"), href: `${PATH}#resultados` },
       ],
     },
   ];
@@ -66,34 +71,37 @@ export function SiteFooter({ facets }: { facets: MarketplaceFacets }) {
             Tivvo
           </Link>
           <p className="max-w-sm text-paper/70">
-            Alquileres temporarios y propiedades en venta de inmobiliarias reales. Cada consulta le llega a quien
-            publica.
+            {t("blurb")}
           </p>
           <div className="mt-2 flex flex-col gap-3 rounded-2xl border border-paper/10 p-5">
-            <p className="font-display text-lg leading-snug">¿Tenés una inmobiliaria?</p>
-            <p className="text-sm text-paper/65">
-              Publicá tus propiedades acá y manejá consultas, ofertas y reservas desde un solo lugar.
-            </p>
+            <p className="font-display text-lg leading-snug">{t("pitch.title")}</p>
+            <p className="text-sm text-paper/65">{t("pitch.body")}</p>
             <Link
               href="/"
               className="inline-flex h-11 w-fit items-center gap-2 rounded-full bg-lime px-5 text-sm font-medium text-forest-deep transition-[filter] hover:brightness-95"
             >
-              Conocé Tivvo para inmobiliarias
+              {t("pitch.cta")}
               <ArrowUpRight className="size-4" />
             </Link>
           </div>
         </div>
 
-        <nav aria-label="Pie de página" className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4">
+        <nav aria-label={t("label")} className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4">
           {columns.map((column) => (
             <div key={column.title} className="flex flex-col gap-3">
               <h3 className="text-sm font-medium text-paper">{column.title}</h3>
               <ul className="flex flex-col gap-2.5 text-sm">
                 {column.links.map((link) => (
                   <li key={link.label}>
-                    <Link href={link.href} className={LINK}>
-                      {link.label}
-                    </Link>
+                    {link.app ? (
+                      <NextLink href={link.href} className={LINK}>
+                        {link.label}
+                      </NextLink>
+                    ) : (
+                      <Link href={link.href} className={LINK}>
+                        {link.label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -105,7 +113,7 @@ export function SiteFooter({ facets }: { facets: MarketplaceFacets }) {
       <div className="border-t border-paper/10">
         <div className={cn(WRAP, "flex flex-col gap-2 py-6 text-sm text-paper/55 sm:flex-row sm:items-center sm:justify-between")}>
           <span>© {new Date().getFullYear()} Tivvo</span>
-          <span>Cada propiedad la publica y la gestiona su inmobiliaria.</span>
+          <span>{t("legal")}</span>
         </div>
       </div>
     </footer>

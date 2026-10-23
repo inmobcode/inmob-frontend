@@ -1,23 +1,27 @@
 "use client";
 
-import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
+import NextLink from "next/link";
 import { useEffect, useState } from "react";
 
+import { LanguageSwitcher } from "@/components/language-switcher";
 import { LogoIcon } from "@/components/logo-icon";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 const LINKS = [
-  { href: "#flujo", label: "Cómo funciona" },
-  { href: "#sitio", label: "Sitio web" },
-  { href: "#portales", label: "Portales" },
-  { href: "#migracion", label: "Migración" },
-  { href: "#planes", label: "Planes" },
-  { href: "/help", label: "Ayuda" },
-];
+  { href: "#flujo", key: "how" },
+  { href: "#sitio", key: "site" },
+  { href: "#portales", key: "portals" },
+  { href: "#migracion", key: "migration" },
+  { href: "#planes", key: "plans" },
+] as const;
 
 export function LandingNav() {
   // Over the green blocks (hero, demo, footer) the bar is see-through green with
   // light text; over paper sections it turns into a paper bar with a hairline.
+  const t = useTranslations("landing.nav");
+  const locale = useLocale();
   const [onDark, setOnDark] = useState(true);
 
   useEffect(() => {
@@ -50,7 +54,7 @@ export function LandingNav() {
       )}
     >
       <nav
-        aria-label="Principal"
+        aria-label={t("label")}
         className="mx-auto flex h-16 max-w-[1440px] items-center gap-8 px-5 sm:px-8"
       >
         <Link
@@ -72,26 +76,42 @@ export function LandingNav() {
                     : "text-quiet hover:text-ink",
                 )}
               >
-                {link.label}
+                {t(link.key)}
               </a>
             </li>
           ))}
+          <li>
+            <Link
+              href="/help"
+              className={cn(
+                "rounded-sm text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-lime",
+                onDark ? "text-paper/70 hover:text-paper" : "text-quiet hover:text-ink",
+              )}
+            >
+              {t("help")}
+            </Link>
+          </li>
         </ul>
         <div className="ml-auto flex items-center gap-2">
-          <Link
-            href="/login"
+          <LanguageSwitcher
+            compact
+            className={onDark ? "hover:bg-paper/10" : "hover:bg-mist"}
+          />
+          {/* The panel lives on the app host: ?lang carries the language over. */}
+          <NextLink
+            href={`/login?lang=${locale}`}
             className={cn(
               "hidden h-10 items-center rounded-lg px-4 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-lime sm:inline-flex",
               onDark ? "hover:bg-paper/10" : "hover:bg-mist",
             )}
           >
-            Ingresar
-          </Link>
+            {t("login")}
+          </NextLink>
           <a
             href="#demo"
             className="inline-flex h-10 items-center rounded-lg bg-lime px-4 text-sm font-semibold text-forest-deep outline-none transition-[filter] hover:brightness-95 focus-visible:ring-2 focus-visible:ring-paper focus-visible:ring-offset-2 focus-visible:ring-offset-forest"
           >
-            Pedir una demo
+            {t("demo")}
           </a>
         </div>
       </nav>

@@ -1,0 +1,283 @@
+{
+  "labels": {
+    "listingType": {
+      "SALE": "Vente",
+      "RENT": "Location"
+    },
+    "propertyStatus": {
+      "DRAFT": "Brouillon",
+      "PUBLISHED": "Publié",
+      "ARCHIVED": "Archivé"
+    },
+    "offerOperation": {
+      "SALE": "Vente",
+      "RENT": "Location",
+      "BOTH": "Vente et location"
+    },
+    "offerStatus": {
+      "DRAFT": "Brouillon",
+      "SENT": "Envoyée",
+      "VIEWED": "Consultée",
+      "EXPIRED": "Expirée"
+    },
+    "discountType": {
+      "NONE": "Sans remise",
+      "PERCENT": "Pourcentage",
+      "FIXED": "Montant fixe"
+    },
+    "clientStage": {
+      "LEAD": "Prospect",
+      "CONTACTED": "Contacté",
+      "NEGOTIATING": "En négociation",
+      "CLIENT": "Client",
+      "LOST": "Perdu"
+    },
+    "bookingStatus": {
+      "PENDING": "En attente",
+      "CONFIRMED": "Confirmée",
+      "CANCELLED": "Annulée",
+      "COMPLETED": "Terminée"
+    },
+    "paymentType": {
+      "DEPOSIT": "Acompte",
+      "BALANCE": "Solde",
+      "COMMISSION": "Commission"
+    },
+    "category": {
+      "HOUSE": "Maison",
+      "APARTMENT": "Appartement",
+      "PENTHOUSE": "Penthouse",
+      "VILLA": "Villa",
+      "CHALET": "Chalet",
+      "SEASONAL_PROPERTY": "Location saisonnière",
+      "MAISONETTE": "Duplex",
+      "DETACHED_VILLA": "Villa individuelle",
+      "SEMI_DETACHED_VILLA": "Villa jumelée",
+      "HOTEL": "Hôtel",
+      "TOWNHOUSE": "Maison mitoyenne",
+      "CONDO": "Copropriété",
+      "BUILDING": "Immeuble",
+      "LAND": "Terrain",
+      "COMMERCIAL": "Local commercial",
+      "OFFICE": "Bureau"
+    },
+    "locationCategory": {
+      "PRIVATE": "Privée",
+      "PART_OF_COMPLEX": "Dans une résidence",
+      "PART_OF_HOTEL": "Dans un hôtel",
+      "PART_OF_RESORT": "Dans un resort"
+    },
+    "locationFeature": {
+      "Waterfront": "Bord de l’eau",
+      "Prime Waterfront": "Pieds dans l’eau",
+      "Beachfront": "Front de mer",
+      "Resort Access": "Accès à un resort",
+      "Walking distance to a village": "Village à pied",
+      "Private": "Privée",
+      "City": "Ville",
+      "Downtown": "Centre-ville",
+      "Seaside": "Bord de mer",
+      "Mountain": "Montagne",
+      "Private beach/sea access": "Accès privé à la plage ou à la mer",
+      "Walking distance to the beach": "Plage à pied",
+      "Walking distance to town": "Centre à pied",
+      "Ski in/Ski out": "Ski aux pieds",
+      "Sea Access": "Accès à la mer",
+      "Beach Access": "Accès à la plage"
+    },
+    "view": {
+      "Sea View": "Vue mer",
+      "Direct Sea View": "Vue mer directe",
+      "City View": "Vue sur la ville",
+      "Nature View": "Vue sur la nature",
+      "Panoramic View": "Vue panoramique",
+      "Lake View": "Vue sur le lac",
+      "Forest View": "Vue sur la forêt",
+      "Sunset View": "Vue sur le coucher du soleil",
+      "Sunrise View": "Vue sur le lever du soleil",
+      "Mountain View": "Vue sur la montagne",
+      "Town View": "Vue sur le village",
+      "Ocean View": "Vue sur l’océan",
+      "Water View": "Vue sur l’eau"
+    },
+    "outdoorAmenity": {
+      "Pool": "Piscine",
+      "Rooftop Pool": "Piscine sur le toit",
+      "Plunge Pool": "Bassin de plongée",
+      "Pool Bar": "Bar de piscine",
+      "Heated pool": "Piscine chauffée",
+      "Jacuzzi": "Jacuzzi",
+      "Outdoor kitchen": "Cuisine d’été",
+      "Outdoor Gym": "Salle de sport extérieure",
+      "Dining & Lounge Area": "Espace repas et lounge",
+      "Cinema": "Cinéma",
+      "Ice plunge": "Bain glacé",
+      "Sauna": "Sauna",
+      "Playground": "Aire de jeux",
+      "Helipad": "Héliport",
+      "Private Dock": "Ponton privé",
+      "Access to a dock": "Accès à un ponton",
+      "Private Parking": "Parking privé",
+      "BBQ": "Barbecue",
+      "Tennis Court": "Court de tennis",
+      "Basketball Court": "Terrain de basket",
+      "Ski in/out": "Ski aux pieds",
+      "Sun Deck": "Solarium",
+      "Fire Pit": "Brasero",
+      "Outdoor Fireplace": "Cheminée extérieure",
+      "Roof Terrace": "Toit-terrasse",
+      "Yoga Shala": "Espace yoga",
+      "Landscaped Gardens": "Jardins paysagers",
+      "Boxing Ring": "Ring de boxe",
+      "Golf": "Golf",
+      "Beach Volleyball Court": "Terrain de beach-volley",
+      "Children's Play Area": "Espace enfants",
+      "Outdoor Shower": "Douche extérieure",
+      "Sound System": "Système audio",
+      "Gated Property": "Propriété clôturée",
+      "Table tennis": "Ping-pong",
+      "CCTV Camera": "Vidéosurveillance"
+    },
+    "indoorAmenity": {
+      "Indoor Pool": "Piscine intérieure",
+      "Gym": "Salle de sport",
+      "Fitness room": "Salle de fitness",
+      "Hammam": "Hammam",
+      "Sauna": "Sauna",
+      "Massage room": "Salle de massage",
+      "Home Cinema": "Home cinéma",
+      "Club": "Club",
+      "Elevator": "Ascenseur",
+      "Spa Area": "Espace spa",
+      "Professional Kitchen": "Cuisine professionnelle",
+      "Wine Cellar": "Cave à vin",
+      "Fireplace": "Cheminée",
+      "Ski Room": "Local à skis",
+      "Cigar Lounge": "Fumoir à cigares",
+      "Laundry Facilities": "Buanderie",
+      "Spa and Wellness Centre": "Centre de spa et bien-être",
+      "Game Room": "Salle de jeux",
+      "Billiard": "Billard",
+      "Playroom": "Salle de jeux pour enfants",
+      "Music/Recording Studio": "Studio de musique ou d’enregistrement",
+      "Staff quarters": "Logement du personnel",
+      "Smart Home Technology": "Domotique",
+      "Office/Workspace": "Bureau ou espace de travail",
+      "Children's Play Area": "Espace enfants",
+      "Alarm System": "Système d’alarme",
+      "Safe Boxes": "Coffres-forts",
+      "Fully equipped kitchen": "Cuisine entièrement équipée",
+      "Airconditioning": "Climatisation",
+      "Underfloor heating": "Chauffage au sol",
+      "Solar panels": "Panneaux solaires",
+      "Security cameras": "Caméras de sécurité",
+      "Central heating": "Chauffage central",
+      "Double glazed windows": "Double vitrage",
+      "Security system": "Système de sécurité",
+      "Wood flooring": "Parquet",
+      "Internal staircase": "Escalier intérieur"
+    },
+    "propertyCondition": {
+      "Fully staffed": "Personnel complet",
+      "Semi staffed": "Personnel partiel",
+      "Housekeeping & Daily cleaning": "Ménage quotidien",
+      "Suitable for children": "Adapté aux enfants",
+      "Suitable for events": "Adapté aux événements",
+      "Suitable for the disabled": "Accessible aux personnes handicapées",
+      "Pet friendly": "Animaux acceptés",
+      "For Sale": "À vendre",
+      "Under Contract": "Sous compromis",
+      "Sold": "Vendu",
+      "New Construction": "Neuf",
+      "Renovated": "Rénové",
+      "Investment Property": "Bien d’investissement",
+      "Luxury Property": "Bien de prestige"
+    },
+    "includedService": {
+      "Housekeeping": "Ménage",
+      "Daily housekeeping": "Ménage quotidien",
+      "Pool Maintenance": "Entretien de la piscine",
+      "Change of linen": "Changement des draps",
+      "Change of towels": "Changement des serviettes",
+      "24/7 Reception": "Réception 24 h/24",
+      "Airport transfer": "Transfert aéroport",
+      "Concierge service": "Service de conciergerie",
+      "Security": "Sécurité",
+      "Gardener": "Jardinier",
+      "Babysitting": "Baby-sitting",
+      "Laundry service": "Service de blanchisserie",
+      "Daily breakfast": "Petit-déjeuner quotidien",
+      "Car rental arrangement": "Organisation de location de voiture",
+      "Grocery pre-stocking": "Courses avant l’arrivée"
+    },
+    "photoSection": {
+      "GENERAL": "Général",
+      "BEDROOMS": "Chambres",
+      "INDOOR_LIVING": "Pièces de vie",
+      "POOL": "Piscine",
+      "OUTDOOR": "Extérieur",
+      "ADDED_FACILITIES": "Équipements supplémentaires",
+      "VIEWS": "Vues"
+    },
+    "poolType": {
+      "Private": "Privée",
+      "Shared": "Partagée",
+      "Infinity": "À débordement",
+      "Heated": "Chauffée",
+      "Plunge Pool": "Bassin de plongée",
+      "Indoor Pool": "Piscine intérieure",
+      "Child-Friendly Pool": "Adaptée aux enfants"
+    },
+    "jacuzziType": {
+      "Portable Hot Tub": "Spa portable",
+      "In-Ground Jacuzzi": "Jacuzzi encastré",
+      "Portable Jacuzzi": "Jacuzzi portable",
+      "Custom-Built Jacuzzi": "Jacuzzi sur mesure",
+      "Outdoor Jacuzzi": "Jacuzzi extérieur",
+      "Indoor Jacuzzi": "Jacuzzi intérieur",
+      "Jacuzzi with Waterfall": "Jacuzzi avec cascade",
+      "Jacuzzi with LED Lighting": "Jacuzzi avec éclairage LED"
+    },
+    "energyCertificate": {
+      "under_publication": "En cours"
+    },
+    "serviceType": {
+      "BUTLER": "Majordome",
+      "CHEF": "Chef privé",
+      "YACHT": "Yachts et bateaux",
+      "TRANSFER": "Transferts",
+      "CAR": "Location de voiture",
+      "EXCURSION": "Excursions",
+      "SPA": "Spa et bien-être",
+      "BABYSITTER": "Baby-sitter",
+      "HOUSEKEEPING": "Ménage supplémentaire",
+      "EVENT": "Événements",
+      "OTHER": "Autre"
+    },
+    "serviceUnit": {
+      "SERVICE": "Par prestation",
+      "PERSON": "Par personne",
+      "DAY": "Par jour",
+      "NIGHT": "Par nuit",
+      "HOUR": "Par heure"
+    },
+    "serviceUnitPer": {
+      "PERSON": "par personne",
+      "DAY": "par jour",
+      "NIGHT": "par nuit",
+      "HOUR": "par heure"
+    },
+    "serviceUnitCount": {
+      "SERVICE": "{count, plural, one {# fois} other {# fois}}",
+      "PERSON": "{count, plural, one {# personne} other {# personnes}}",
+      "DAY": "{count, plural, one {# jour} other {# jours}}",
+      "NIGHT": "{count, plural, one {# nuit} other {# nuits}}",
+      "HOUR": "{count, plural, one {# heure} other {# heures}}"
+    },
+    "clientSource": {
+      "WEBSITE": "Site",
+      "MANUAL": "Saisie manuelle",
+      "OFFER": "Offre"
+    }
+  }
+}

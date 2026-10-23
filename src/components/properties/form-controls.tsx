@@ -1,10 +1,18 @@
 "use client";
 
 import { Minus, Plus, Search, X } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 
 import { Input } from "@/components/ui/input";
+import { useFormat } from "@/i18n/format";
 import { cn } from "@/lib/utils";
+
+/** A field name inside a sentence: "disminuir dormitorios", but German keeps its capitals. */
+function useInSentence() {
+  const locale = useLocale();
+  return (label: string) => (locale === "de" ? label : label.toLowerCase());
+}
 
 function parse(value: string | undefined) {
   const text = value ?? "";
@@ -30,6 +38,8 @@ export function Stepper({
   step?: number;
   label: string;
 }) {
+  const t = useTranslations("properties.controls");
+  const inSentence = useInSentence();
   const current = parse(value);
 
   function bump(direction: 1 | -1) {
@@ -42,7 +52,7 @@ export function Stepper({
     <div className="flex items-center gap-1.5">
       <button
         type="button"
-        aria-label={`Disminuir ${label.toLowerCase()}`}
+        aria-label={t("decrease", { label: inSentence(label) })}
         onClick={() => bump(-1)}
         disabled={current !== null && current <= min}
         className="flex size-10 shrink-0 items-center justify-center rounded-full bg-foreground/[0.07] text-muted-foreground transition-colors outline-none hover:bg-foreground/10 hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-40"
@@ -59,7 +69,7 @@ export function Stepper({
       />
       <button
         type="button"
-        aria-label={`Aumentar ${label.toLowerCase()}`}
+        aria-label={t("increase", { label: inSentence(label) })}
         onClick={() => bump(1)}
         disabled={current !== null && current >= max}
         className="flex size-10 shrink-0 items-center justify-center rounded-full bg-foreground/[0.07] text-muted-foreground transition-colors outline-none hover:bg-foreground/10 hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-40"
@@ -107,8 +117,9 @@ export function PriceInput({
   placeholder?: string;
   className?: string;
 }) {
+  const { number } = useFormat();
   const digits = (value ?? "").replace(/\D/g, "");
-  const display = digits ? Number(digits).toLocaleString("es-AR") : "";
+  const display = digits ? number(Number(digits)) : "";
 
   const input = (
     <Input
@@ -152,6 +163,7 @@ export function TagsInput({
   validate?: (tag: string) => boolean;
   label: string;
 }) {
+  const t = useTranslations("properties.controls");
   const [draft, setDraft] = useState("");
   const tags = value
     .split(",")
@@ -181,7 +193,7 @@ export function TagsInput({
           {tag}
           <button
             type="button"
-            aria-label={`Quitar ${tag}`}
+            aria-label={t("removeTag", { tag })}
             onClick={() => remove(tag)}
             className="flex size-4 items-center justify-center rounded-full outline-none hover:bg-primary-foreground/20 focus-visible:ring-2 focus-visible:ring-primary-foreground/60"
           >
@@ -214,19 +226,19 @@ export function TagsInput({
   );
 }
 
-/** Multi-select as toggleable chips. `labels` translates option values for display only. */
+/** Multi-select as toggleable chips. `labelOf` translates option values for display only. */
 export function ChipToggleGroup({
   options,
   value,
   onChange,
-  labels = {},
+  labelOf = (option) => option,
   label,
   counts,
 }: {
   options: string[];
   value: string[];
   onChange: (value: string[]) => void;
-  labels?: Record<string, string>;
+  labelOf?: (option: string) => string;
   label: string;
   /** Optional number shown after each option. */
   counts?: Record<string, number>;
@@ -252,7 +264,7 @@ export function ChipToggleGroup({
                 : "bg-foreground/[0.06] text-muted-foreground hover:bg-foreground/10 hover:text-foreground",
             )}
           >
-            {labels[option] ?? option}
+            {labelOf(option)}
             {counts && (
               <span className={cn("text-xs tabular-nums", active ? "text-primary-foreground/70" : "text-muted-foreground/70")}>
                 {counts[option] ?? 0}
@@ -273,24 +285,26 @@ export function ChipPicker({
   options,
   value,
   onChange,
-  labels = {},
+  labelOf = (option) => option,
   label,
   limit = 14,
 }: {
   options: string[];
   value: string[];
   onChange: (value: string[]) => void;
-  labels?: Record<string, string>;
+  labelOf?: (option: string) => string;
   label: string;
   limit?: number;
 }) {
+  const t = useTranslations("properties.controls");
+  const inSentence = useInSentence();
   const [query, setQuery] = useState("");
   const [expanded, setExpanded] = useState(false);
 
   const term = query.trim().toLowerCase();
   const matches = options.filter(
     (option) =>
-      !term || (labels[option] ?? option).toLowerCase().includes(term) || option.toLowerCase().includes(term),
+      !term || labelOf(option).toLowerCase().includes(term) || option.toLowerCase().includes(term),
   );
   const collapsed = !term && !expanded;
   const visible = collapsed ? matches.filter((option, index) => value.includes(option) || index < limit) : matches;
@@ -304,13 +318,13 @@ export function ChipPicker({
           <Input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Buscar"
-            aria-label={`Buscar en ${label.toLowerCase()}`}
+            placeholder={t("search")}
+            aria-label={t("searchIn", { label: inSentence(label) })}
             className="rounded-full pl-10"
           />
         </div>
         <p className="text-sm text-muted-foreground tabular-nums">
-          {value.length === 0 ? "Ninguna seleccionada" : `${value.length} seleccionada${value.length === 1 ? "" : "s"}`}
+          {t("selected", { count: value.length })}
         </p>
         {value.length > 0 && (
           <button
@@ -318,15 +332,15 @@ export function ChipPicker({
             onClick={() => onChange([])}
             className="text-sm font-medium text-primary underline-offset-4 outline-none hover:underline focus-visible:underline"
           >
-            Limpiar
+            {t("clear")}
           </button>
         )}
       </div>
 
       {visible.length > 0 ? (
-        <ChipToggleGroup label={label} options={visible} value={value} onChange={onChange} labels={labels} />
+        <ChipToggleGroup label={label} options={visible} value={value} onChange={onChange} labelOf={labelOf} />
       ) : (
-        <p className="text-sm text-muted-foreground">Nada coincide con «{query}».</p>
+        <p className="text-sm text-muted-foreground">{t("noMatch", { query })}</p>
       )}
 
       {!term && matches.length > limit && (
@@ -335,7 +349,7 @@ export function ChipPicker({
           onClick={() => setExpanded((open) => !open)}
           className="w-fit text-sm font-medium text-primary underline-offset-4 outline-none hover:underline focus-visible:underline"
         >
-          {expanded ? "Ver menos" : `Ver ${hidden} más`}
+          {expanded ? t("showLess") : t("showMore", { count: hidden })}
         </button>
       )}
     </div>

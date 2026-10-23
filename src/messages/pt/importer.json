@@ -1,0 +1,309 @@
+{
+  "importer": {
+    "formats": {
+      "table": "CSV ou Excel",
+      "kyero": "Feed Kyero (XML)",
+      "tivvo_xml": "XML da Tivvo"
+    },
+    "generic": {
+      "xml": {
+        "name": "XML da Kyero",
+        "description": "O feed no formato Kyero (versão 3) exportado pela Casafari, Estatebud e a maioria dos CRM, por URL ou por ficheiro."
+      },
+      "tivvo": {
+        "name": "O meu próprio sistema (XML da Tivvo)",
+        "description": "Se o seu sistema tem API própria, gere o XML da Tivvo e lemos esse feed por URL ou por ficheiro."
+      }
+    },
+    "guides": {
+      "shared": {
+        "tableTips": "Inclua, se puder: uma coluna de referência (ID) única por imóvel (assim, ao voltar a importar, atualiza em vez de duplicar), título, tipo, operação, preço, localização, descrição e fotos (links).",
+        "review": "Reveja a pré-visualização: nada é guardado até confirmar.",
+        "provideTable": "Cole o URL do ficheiro (CSV ou Excel) na caixa ao lado, ou carregue o ficheiro. Sugerimos o mapeamento de colunas automaticamente.",
+        "provideFeed": "Cole o URL do feed na caixa ao lado, ou carregue o XML."
+      },
+      "help": {
+        "greeting": "Olá, equipa da Tivvo:",
+        "body": "Quero migrar os meus imóveis de {origin} para a Tivvo e não sei como obter os dados nem como importá-los. Podem ajudar-me?",
+        "agency": "A minha agência na Tivvo: {slug}",
+        "thanks": "Obrigado."
+      },
+      "overrides": {
+        "casafari-crm": {
+          "steps": {
+            "s1": "A Casafari oferece um feed de imóveis por URL (em formato Kyero, XML2U ou ACME-CRM) que se atualiza a cada 20 minutos, mas é o suporte que o ativa: peça-o com o botão abaixo (help@casafaricrm.com) e escolha o formato Kyero.",
+            "s2": "Na exportação para Kyero, os imóveis sem preço, distrito, cidade ou tipo não saem: complete-os antes."
+          },
+          "note": "O menu Properties › Export › Portals Catalogue da Casafari serve para publicar em portais como a Kyero, não para obter o seu feed.",
+          "sources": {
+            "s1": "Ajuda da Casafari: integração com sistemas externos"
+          }
+        },
+        "estatebud": {
+          "steps": {
+            "s1": "Entre em c.estatebud.com, vá a Admin › Plugins, instale o plugin Kyero e confirme a instalação.",
+            "s2": "Em Admin › Plugins › Kyero copie o «XML Feed URL».",
+            "s3": "Marque que imóveis vão para o feed: em cada um, Actions Menu › Listings › Kyero › Save; ou em bloco, selecione vários e use Bulk Edit › «Add listings on» › Kyero. Se faltar um campo obrigatório, a Estatebud diz-lhe qual."
+          },
+          "note": "Estes passos vêm de um guia do INDEX.cy (um portal), não da ajuda da Estatebud: se algum menu mudou, consulte o suporte.",
+          "sources": {
+            "s1": "Guia do INDEX.cy para a Estatebud"
+          }
+        },
+        "kyero": {
+          "steps": {
+            "s1": "A Kyero não entrega o seu feed: recebe-o do seu CRM. Peça ao seu CRM ou fornecedor o URL do feed Kyero (XML versão 3) que já envia para a Kyero."
+          },
+          "note": "Cada feed da Kyero é uma fotografia completa de uma só agência: o que não está no feed considera-se retirado.",
+          "sources": {
+            "s1": "Especificação do feed da Kyero"
+          }
+        }
+      },
+      "titles": {
+        "platform": "Migrar de {name}",
+        "own": "Migrar do seu próprio sistema",
+        "kyero": "Migrar de um XML da Kyero",
+        "table": "Migrar de um CSV ou Excel",
+        "routeKyero": "Migrar de {name} com um feed Kyero",
+        "routeTable": "Migrar de {name} com um CSV ou Excel"
+      },
+      "support": "Suporte de {name}",
+      "site": "Site de {name}",
+      "alternatives": {
+        "table": "Prefiro um CSV ou Excel de {name}",
+        "kyero": "Tenho um feed Kyero (XML) de {name}",
+        "tableGeneric": "Prefiro um CSV ou Excel",
+        "kyeroGeneric": "Tenho um feed Kyero (XML)"
+      },
+      "platformSteps": {
+        "portal": {
+          "s1": "{name} é um portal de publicação: os seus dados costumam estar no CRM a partir do qual publica, e o mais completo é migrar desse CRM (volte e escolha-o na lista).",
+          "s2": "Se quiser trazer os anúncios publicados em {name}, peça ao suporte o feed XML (idealmente em formato Kyero): tem a mensagem pronta abaixo."
+        },
+        "aggregator": {
+          "s1": "{name} agrega e converte feeds de outros sistemas: o mais completo é migrar do CRM que lhe envia os dados (volte e escolha-o na lista).",
+          "s2": "Se tiver um feed XML de {name} (idealmente em formato Kyero), use-o; se não, peça-o ao suporte com a mensagem abaixo."
+        },
+        "crm": {
+          "s1": "Obtenha em {name} o feed XML dos seus imóveis, idealmente em formato Kyero (versão 3). Se não sabe onde está, peça-o ao suporte: tem a mensagem pronta para enviar abaixo."
+        }
+      },
+      "ownSteps": {
+        "s1": "Gere a partir da sua API um XML com o formato da Tivvo (exemplo abaixo): um '<listing>' por imóvel.",
+        "s2": "Use sempre o mesmo '<external_id>' para o mesmo imóvel: assim, ao voltar a importar, atualiza em vez de duplicar.",
+        "s3": "Publique o XML num URL público e cole-o na caixa ao lado, ou carregue o ficheiro."
+      },
+      "kyeroSteps": {
+        "s1": "Obtenha no seu CRM o feed XML dos seus imóveis em formato Kyero (versão 3): a maioria dos CRM gera-o para publicar em portais."
+      },
+      "tableSteps": {
+        "s1": "Obtenha os seus imóveis num CSV ou Excel (.xlsx). Se está a começar do zero, descarregue o modelo abaixo."
+      },
+      "routeSteps": {
+        "kyero": "Se {name} lhe puder dar um feed em formato Kyero (XML), copie o URL público ou descarregue o ficheiro.",
+        "table": "Obtenha os seus imóveis de {name} num CSV ou Excel (.xlsx)."
+      }
+    },
+    "wizard": {
+      "readFailed": "Não foi possível ler o ficheiro",
+      "importFailed": "Não foi possível importar",
+      "back": "Imóveis",
+      "otherPlatform": "Escolher outra plataforma",
+      "title": "Importar imóveis"
+    },
+    "picker": {
+      "title": "De onde está a migrar?",
+      "searchPlaceholder": "Pesquise a sua plataforma por nome ou país",
+      "search": "Pesquisar plataforma",
+      "type": "Tipo de plataforma",
+      "types": {
+        "all": "Todas",
+        "crm": "CRM",
+        "portal": "Portais",
+        "aggregator": "Agregadores"
+      },
+      "notFound": "Não encontrámos essa plataforma. Mais abaixo pode usar um ficheiro CSV ou Excel, ou um feed XML.",
+      "popular": "Mais usadas",
+      "others": "Outras plataformas",
+      "showLess": "Ver menos",
+      "showOthers": "Ver as outras {count} plataformas",
+      "genericLeadEmpty": "A sua plataforma não está? Carregue o que tiver:",
+      "genericLead": "O seu sistema não aparece? Funciona com qualquer CSV, Excel ou feed XML:"
+    },
+    "actions": {
+      "create": "Novo",
+      "update": "Atualiza",
+      "unchanged": "Sem alterações",
+      "skip": "Omitido",
+      "error": "Com erro"
+    },
+    "changes": {
+      "title": "título",
+      "listing_type": "operação",
+      "category": "tipo",
+      "price": "preço",
+      "currency": "moeda",
+      "country": "país",
+      "region": "região",
+      "area": "zona",
+      "address": "endereço",
+      "lat": "coordenadas",
+      "bedrooms": "quartos",
+      "bathrooms": "casas de banho",
+      "area_sqm": "m² construídos",
+      "plot_area": "m² de terreno",
+      "construction_year": "ano",
+      "energy_certificate": "certificado energético",
+      "website_url": "link original",
+      "summary": "resumo",
+      "description": "descrição",
+      "parking_spaces": "estacionamento",
+      "features": "características",
+      "photos": "fotos",
+      "owner": "proprietário"
+    },
+    "problems": {
+      "notTable": "O ficheiro tem de ser CSV ou Excel (.xlsx).",
+      "notXml": "O ficheiro tem de ser um XML.",
+      "tooBig": "O ficheiro tem mais de 10 MB.",
+      "notHttps": "O URL tem de começar por https://",
+      "incomplete": "Verifique o endereço: parece incompleto.",
+      "badUrl": "Verifique o endereço: tem de começar por https://"
+    },
+    "failuresCsv": {
+      "row": "Linha",
+      "reference": "Referência",
+      "error": "Erro",
+      "filename": "erros-importacao.csv"
+    },
+    "source": {
+      "urlHint": "Cole o URL para continuar.",
+      "fileHint": "Escolha um ficheiro para continuar.",
+      "template": "Descarregar modelo CSV",
+      "recommended": "Voltar ao guia recomendado",
+      "xmlExample": "Ver um exemplo de XML",
+      "title": "Traga os seus dados",
+      "upload": "Carregar ficheiro",
+      "useUrl": "Usar um URL",
+      "urlNote": "O URL tem de ser público. Lemo-lo uma só vez; não fica sincronizado.",
+      "drop": "Largue-o aqui",
+      "drag": "Arraste o ficheiro ou clique para o escolher",
+      "tableLimits": "CSV ou Excel (.xlsx), até 10 MB e 3.000 linhas",
+      "xmlLimits": "XML, até 10 MB",
+      "removeFile": "Retirar ficheiro",
+      "reading": "A ler o ficheiro…",
+      "continue": "Continuar"
+    },
+    "mapping": {
+      "fieldFor": "Campo da Tivvo para a coluna {header}",
+      "skip": "Não importar",
+      "title": "O que é cada coluna",
+      "lead": "Detetámos {rows} linhas e reconhecemos {detected} de {total} colunas. As que não reconhecemos aparecem primeiro; as que ficarem sem atribuir são ignoradas. Uma célula vazia nunca apaga o que já está registado.",
+      "status": "{mapped} importam-se · {unassigned} sem atribuir",
+      "column": "Coluna do seu ficheiro",
+      "examples": "Exemplos",
+      "field": "Campo na Tivvo",
+      "noReference": "Sem uma coluna de referência (ID), voltar a importar o ficheiro duplicará os imóveis em vez de os atualizar.",
+      "back": "Voltar",
+      "preview": "Ver pré-visualização",
+      "atLeastOne": "Atribua pelo menos uma coluna."
+    },
+    "review": {
+      "cards": {
+        "create": "Novos",
+        "update": "Atualizam-se",
+        "unchanged": "Sem alterações",
+        "skip": "Omitidos",
+        "error": "Com erro",
+        "trash": "Para o lixo"
+      },
+      "publish": "Publicar os novos ao importar",
+      "publishHint": "Se não, ficam como rascunho para os rever antes de os mostrar no seu site.",
+      "archive": "Mandar para o lixo o que já não está no ficheiro",
+      "archiveHint": "Só afeta imóveis que trouxe antes de {origin}. Podem ser restaurados durante 30 dias.",
+      "refreshing": "A atualizar",
+      "goingToTrash": "{more, plural, =0 {Vão para o lixo: {titles}.} other {Vão para o lixo: {titles} e mais #.}}",
+      "rows": "Detalhe por linha",
+      "problems": "Com avisos ou erros",
+      "all": "Ver todos",
+      "columns": {
+        "row": "Linha",
+        "status": "Estado",
+        "property": "Imóvel",
+        "detail": "Detalhe"
+      },
+      "row": "Linha {row}",
+      "untitled": "Sem título",
+      "noProblems": "Não há linhas com avisos nem erros.",
+      "noRows": "Não há linhas nesta categoria.",
+      "partial": "A pré-visualização mostra as primeiras {count} linhas; a importação processa todas.",
+      "back": "Voltar",
+      "importing": "A importar…",
+      "import": "{count, plural, one {Importar # imóvel} other {Importar # imóveis}}",
+      "apply": "Aplicar",
+      "savingTable": "Estamos a guardar os imóveis e as suas fotos.",
+      "savingFeed": "Estamos a guardar os imóveis e a descarregar as suas fotos.",
+      "savingWait": "Pode demorar alguns minutos se forem muitos. Não feche este separador.",
+      "confirm": {
+        "title": "{count, plural, one {Mandar # imóvel para o lixo?} other {Mandar # imóveis para o lixo?}}",
+        "body": "São os que já não estão no ficheiro. Deixam de aparecer no seu site e pode restaurá-los durante 30 dias.",
+        "action": "Importar e mandar para o lixo"
+      },
+      "changes": "Muda: {fields}"
+    },
+    "done": {
+      "title": "Importação concluída",
+      "summary": "{created} criados, {updated} atualizados{trashed, plural, =0 {} other {, # enviados para o lixo}}{failed, plural, =0 {} other {, # com erro}}.",
+      "drafts": "Os novos ficaram como rascunho: reveja-os e publique-os quando quiser.",
+      "failure": "Linha {row}: {error}",
+      "showLess": "Ver menos",
+      "showAll": "Ver os {count} erros",
+      "download": "Descarregar erros (CSV)",
+      "reviewDrafts": "Rever os rascunhos",
+      "viewProperties": "Ver imóveis",
+      "viewAll": "Ver todos",
+      "viewSite": "Ver o meu site",
+      "again": "Importar outro ficheiro"
+    },
+    "link": "Importar",
+    "leave": {
+      "title": "Sair da importação?",
+      "body": "Ainda não foi guardado nada. Se sair agora, terá de começar de novo.",
+      "stay": "Continuar a importar",
+      "leave": "Sair"
+    },
+    "help": {
+      "mailOpened": "O seu email abriu com a mensagem escrita: só tem de a enviar.",
+      "copiedFor": "Copiámos a mensagem. Cole-a no contacto de {platform} e envie.",
+      "copyManually": "Copie a mensagem e cole-a no contacto da plataforma.",
+      "askTitle": "Peça o feed a {platform}",
+      "askEmail": "Abrimos o seu email com o destinatário, o assunto e a mensagem já escritos: só tem de enviar.",
+      "askPage": "Levamo-lo à página de contacto com a mensagem já copiada: só tem de a colar e enviar.",
+      "sendEmail": "Enviar pedido por email",
+      "goToContact": "Ir ao contacto com a mensagem copiada",
+      "gmail": "Abrir no Gmail",
+      "viewMessage": "Ver mensagem",
+      "messageFor": "Mensagem para {platform}",
+      "sentTo": "Envia-se para {email}. Copie-a se preferir enviá-la a partir do site.",
+      "pasteIt": "Copie-a e cole-a na página de contacto.",
+      "messageLabel": "Mensagem para a plataforma",
+      "copied": "Copiado",
+      "copy": "Copiar mensagem",
+      "goToSite": "Ir ao site",
+      "goesTo": "Envia-se para {email}.",
+      "sendFailed": "Não foi possível enviar a mensagem. Tente de novo dentro de alguns minutos.",
+      "withUs": "Quer que o façamos consigo?",
+      "withUsText": "Escreva-nos e ajudamo-lo a migrar de {origin}. Deixamos a mensagem pronta: só tem de a enviar.",
+      "ask": "Pedir ajuda",
+      "sentTitle": "Mensagem enviada",
+      "sentText": "Respondemos por email com a maior brevidade.",
+      "close": "Fechar",
+      "dialogDescription": "Reveja a mensagem, altere-a se quiser e envie.",
+      "name": "O seu nome",
+      "message": "Mensagem",
+      "send": "Enviar",
+      "summary": "Ficou preso? Nós ajudamos"
+    }
+  }
+}

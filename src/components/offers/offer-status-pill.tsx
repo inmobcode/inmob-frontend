@@ -1,5 +1,5 @@
 import type { OfferStatus } from "@/lib/api/offers";
-import { OFFER_STATUS_LABELS } from "@/lib/properties-labels";
+import { useLabels } from "@/lib/labels";
 import { cn } from "@/lib/utils";
 
 const STYLES: Record<OfferStatus, string> = {
@@ -10,6 +10,7 @@ const STYLES: Record<OfferStatus, string> = {
 };
 
 export function OfferStatusPill({ status, className }: { status: OfferStatus; className?: string }) {
+  const labels = useLabels();
   return (
     <span
       className={cn(
@@ -18,7 +19,7 @@ export function OfferStatusPill({ status, className }: { status: OfferStatus; cl
         className,
       )}
     >
-      {OFFER_STATUS_LABELS[status]}
+      {labels.offerStatus(status)}
     </span>
   );
 }

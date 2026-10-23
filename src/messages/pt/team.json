@@ -1,0 +1,83 @@
+{
+  "team": {
+    "active": "Ativo",
+    "inactive": "Inativo",
+    "member": "Membro",
+    "role": "Função",
+    "status": "Estado",
+    "actionsColumn": "Ações",
+    "memberSince": "Na equipa desde {date}",
+    "since": "Desde {date}",
+    "memberSinceColumn": "Na equipa desde",
+    "roles": {
+      "OWNER": "Titular",
+      "ADMIN": "Administrador",
+      "AGENT": "Agente"
+    },
+    "rolePlurals": {
+      "OWNER": "Titulares",
+      "ADMIN": "Administradores",
+      "AGENT": "Agentes"
+    },
+    "roleHints": {
+      "OWNER": "Dono da conta",
+      "ADMIN": "Gere equipa, imóveis e ofertas",
+      "AGENT": "Trabalha com imóveis, clientes e reservas"
+    },
+    "menu": {
+      "actions": "Ações de {name}",
+      "sendEmail": "Enviar email",
+      "copyEmail": "Copiar email",
+      "changeRole": "Mudar função",
+      "deactivate": "Desativar acesso",
+      "reactivate": "Reativar acesso",
+      "remove": "Retirar da equipa"
+    },
+    "invite": {
+      "linked": "Já tinha conta na Tivvo: juntámo-lo à sua equipa",
+      "sent": "Enviámos-lhe o acesso por email",
+      "title": "Convidar membro",
+      "description": "Se já tiver conta na Tivvo juntamo-lo à sua equipa; se não, enviamos-lhe o acesso por email.",
+      "name": "Nome",
+      "namePlaceholder": "Ex.: Rodrigo Sosa",
+      "emailPlaceholder": "nome@email.com",
+      "role": "Função",
+      "submitting": "A convidar…",
+      "submit": "Convidar"
+    },
+    "page": {
+      "updateFailed": "Não foi possível guardar a alteração",
+      "removed": "Retirado da equipa",
+      "removeFailed": "Não foi possível retirar da equipa",
+      "roleChanged": "Nova função: {role}",
+      "reactivated": "Acesso reativado",
+      "deactivated": "Acesso desativado",
+      "title": "Equipa",
+      "searchPlaceholder": "Pesquisar por nome ou email",
+      "search": "Pesquisar na equipa",
+      "role": "Função",
+      "roles": "funções",
+      "help": "Ajuda com a equipa",
+      "loadFailed": "Não conseguimos carregar a equipa",
+      "empty": {
+        "title": "Monte a sua equipa",
+        "body": "Junte administradores e agentes para trabalharem juntos.",
+        "help": "O que pode fazer cada função"
+      },
+      "noMatch": {
+        "title": "Ninguém corresponde",
+        "body": "Tente outro nome ou retire o filtro de função."
+      },
+      "deactivate": {
+        "title": "Desativar o acesso?",
+        "body": "{name} não poderá entrar na conta. Os seus imóveis e clientes mantêm-se e pode reativá-lo quando quiser.",
+        "confirm": "Desativar"
+      },
+      "remove": {
+        "title": "Retirar da equipa?",
+        "body": "{name} deixa de ter acesso a esta agência. A conta não é apagada: se pertencer a outra agência, continua a entrar lá normalmente.",
+        "confirm": "Retirar"
+      }
+    }
+  }
+}

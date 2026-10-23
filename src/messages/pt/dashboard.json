@@ -1,0 +1,152 @@
+{
+  "dashboard": {
+    "actionBar": {
+      "unsaved": "Alterações por guardar",
+      "save": "Guardar",
+      "publish": "Publicar",
+      "cancel": "Cancelar"
+    },
+    "help": {
+      "label": "Ajuda",
+      "newTab": "{label} (abre noutro separador)"
+    },
+    "filter": {
+      "by": "Filtrar por {name}",
+      "showAll": "Mostrar todos"
+    },
+    "views": {
+      "change": "Mudar a vista",
+      "table": "Tabela",
+      "list": "Lista",
+      "grid": "Grelha",
+      "board": "Quadro"
+    },
+    "nav": {
+      "inquiries": "Pedidos",
+      "clients": "Clientes",
+      "properties": "Imóveis",
+      "offers": "Ofertas",
+      "bookings": "Reservas",
+      "availability": "Disponibilidade",
+      "services": "Serviços",
+      "portal": "Site",
+      "team": "Equipa",
+      "settings": "Definições",
+      "unread": "{name}, {count} por ler",
+      "expandMenu": "Expandir menu",
+      "collapseMenu": "Recolher menu",
+      "expand": "Expandir",
+      "collapse": "Recolher",
+      "openMenu": "Abrir menu",
+      "menu": "Menu",
+      "mainNav": "Navegação principal"
+    },
+    "assignee": {
+      "label": "Responsável",
+      "nobody": "Sem responsável",
+      "you": "Você"
+    },
+    "userMenu": {
+      "appearance": "Aspeto",
+      "theme": {
+        "light": "Claro",
+        "dark": "Escuro",
+        "system": "Automático"
+      },
+      "language": "Idioma",
+      "switchFailed": "Não foi possível mudar de agência",
+      "switchAgency": "Mudar de agência",
+      "portalLinkCopied": "Link do site copiado",
+      "linkCopyFailed": "Não foi possível copiar o link",
+      "nameFallback": "O seu nome",
+      "profile": "O meu perfil",
+      "settings": "Definições",
+      "viewPortal": "Ver o meu site",
+      "copyPortalLink": "Copiar link do site",
+      "docs": "Documentação",
+      "search": "Pesquisar e comandos",
+      "shortcuts": "Atalhos de teclado",
+      "help": "Ajuda e suporte",
+      "logout": "Terminar sessão"
+    },
+    "shortcuts": {
+      "go": {
+        "properties": "Imóveis",
+        "offers": "Ofertas",
+        "clients": "Clientes",
+        "inquiries": "Pedidos",
+        "bookings": "Reservas",
+        "availability": "Disponibilidade",
+        "team": "Equipa",
+        "portal": "Site",
+        "settings": "Definições",
+        "profile": "O meu perfil"
+      },
+      "help": {
+        "general": "Geral",
+        "goTo": "Ir para",
+        "lists": "Nas listas",
+        "palette": "Pesquisar e executar comandos",
+        "sidebar": "Recolher ou expandir o menu lateral",
+        "save": "Guardar as alterações do formulário",
+        "help": "Ver os atalhos de teclado",
+        "new": "Criar um novo",
+        "search": "Ir para a pesquisa",
+        "filter": "Abrir o filtro",
+        "views": "Vista em grelha, lista ou tabela",
+        "move": "Descer e subir entre elementos",
+        "open": "Abrir o elemento selecionado",
+        "clear": "Limpar a seleção"
+      },
+      "groups": {
+        "go": "Ir para",
+        "create": "Criar",
+        "actions": "Ações",
+        "properties": "Imóveis",
+        "offers": "Ofertas",
+        "clients": "Clientes"
+      },
+      "commands": {
+        "docs": "Documentação",
+        "newProperty": "Novo imóvel",
+        "newOffer": "Nova oferta",
+        "newClient": "Novo cliente",
+        "newBooking": "Nova reserva",
+        "newMember": "Convidar membro",
+        "light": "Modo claro",
+        "dark": "Modo escuro",
+        "system": "Modo automático",
+        "sidebar": "Recolher ou expandir o menu",
+        "logout": "Terminar sessão"
+      },
+      "paletteTitle": "Pesquisar e executar comandos",
+      "paletteDescription": "Escreva para pesquisar páginas, imóveis, ofertas ou clientes.",
+      "palettePlaceholder": "Pesquisar uma página, imóvel, oferta ou cliente…",
+      "paletteSearch": "Pesquisar comandos",
+      "nothingFor": "Não encontrámos nada para “{query}”.",
+      "helpTitle": "Atalhos de teclado",
+      "helpDescription": "Para se mover mais depressa sem largar o teclado.",
+      "then": "depois",
+      "nothingToSave": "Não há alterações para guardar"
+    },
+    "notifications": {
+      "deleteFailed": "Não foi possível eliminar a notificação",
+      "label": "Notificações",
+      "labelUnread": "Notificações, {count} por ler",
+      "markAll": "Marcar todas",
+      "empty": "Ainda não há novidades. Aqui vão aparecer os pedidos, as ofertas abertas e os pagamentos.",
+      "unread": "Por ler",
+      "delete": "Eliminar «{title}»",
+      "deleteShort": "Eliminar",
+      "types": {
+        "inquiry": "Novo pedido de {name}",
+        "inquiryNoMessage": "Deixou os seus contactos.",
+        "offerViewed": "{who} abriu a oferta",
+        "offerViewedAnon": "O seu cliente abriu a oferta",
+        "payment": "Pagamento registado: {amount}",
+        "task": "Foi-lhe atribuída uma tarefa",
+        "taskDue": "{title} · até {date}"
+      }
+    }
+  }
+}

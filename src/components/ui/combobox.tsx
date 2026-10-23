@@ -1,6 +1,7 @@
 "use client";
 
 import { Check, ChevronDown, Search } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useId, useMemo, useRef, useState } from "react";
 
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -24,8 +25,8 @@ export function Combobox({
   options,
   allValue,
   allLabel,
-  searchPlaceholder = "Buscar…",
-  emptyText = "Nada coincide.",
+  searchPlaceholder,
+  emptyText,
   ariaLabel,
   className,
 }: {
@@ -40,6 +41,7 @@ export function Combobox({
   ariaLabel?: string;
   className?: string;
 }) {
+  const t = useTranslations("common.combobox");
   const listId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
   const [open, setOpen] = useState(false);
@@ -121,7 +123,7 @@ export function Combobox({
               setActive(0);
             }}
             onKeyDown={onKeyDown}
-            placeholder={searchPlaceholder}
+            placeholder={searchPlaceholder ?? t("search")}
             aria-label={searchPlaceholder}
             aria-controls={listId}
             autoComplete="off"
@@ -129,7 +131,7 @@ export function Combobox({
           />
         </div>
         <ul id={listId} role="listbox" className="max-h-60 overflow-y-auto overscroll-contain">
-          {entries.length === 0 && <li className="px-3 py-3 text-sm text-muted-foreground">{emptyText}</li>}
+          {entries.length === 0 && <li className="px-3 py-3 text-sm text-muted-foreground">{emptyText ?? t("empty")}</li>}
           {entries.map((entry, index) => (
             <li key={entry.value} role="option" aria-selected={entry.value === value}>
               <button

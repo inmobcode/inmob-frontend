@@ -1,9 +1,10 @@
 import { eachDayOfInterval, format } from "date-fns";
-import { es } from "date-fns/locale";
+import { useTranslations } from "next-intl";
 import { Fragment } from "react";
 
 import type { AvailabilityCalendarProperty } from "@/lib/api/availability";
 import { formatPrice, placeOf } from "@/components/public/property-card";
+import { useFormat } from "@/i18n/format";
 import { dayKind } from "@/lib/availability-range";
 import { placeKey, placeLabel } from "@/lib/places";
 import { cn } from "@/lib/utils";
@@ -23,8 +24,8 @@ function addDays(date: Date, days: number): Date {
   return next;
 }
 
-function regionOf(property: AvailabilityCalendarProperty): string {
-  return property.region || property.area || property.country || "Otra ubicación";
+function regionOf(property: AvailabilityCalendarProperty, other: string): string {
+  return property.region || property.area || property.country || other;
 }
 
 // The sticky header is opaque, so the mark is mixed into the card color instead of laid over it.
@@ -56,6 +57,8 @@ export function AvailabilityGrid({
   /** Days (inclusive, yyyy-MM-dd) to mark, e.g. the stay someone is looking for. */
   highlight?: { start: string; end: string } | null;
 }) {
+  const t = useTranslations("availability.grid");
+  const { tag, dateLocale } = useFormat();
   const startDate = new Date(`${from}T00:00:00`);
   const endDate = new Date(`${to}T00:00:00`);
   const dateRange = startDate <= endDate ? eachDayOfInterval({ start: startDate, end: endDate }) : [];
@@ -67,7 +70,7 @@ export function AvailabilityGrid({
   // Group by place however it was spelled ("Islas Baleares" and "islas baleares" are one group).
   const regions = new Map<string, { label: string; rows: AvailabilityRow[] }>();
   for (const property of properties) {
-    const name = regionOf(property);
+    const name = regionOf(property, t("otherLocation"));
     const key = placeKey(name);
     if (!regions.has(key)) regions.set(key, { label: placeLabel(name), rows: [] });
     regions.get(key)!.rows.push(property);
@@ -75,7 +78,7 @@ export function AvailabilityGrid({
   const regionGroups = Array.from(regions.entries()).sort(([, a], [, b]) => a.label.localeCompare(b.label, "es"));
 
   if (dateRange.length === 0 || properties.length === 0) {
-    return <p className="text-sm text-muted-foreground">No hay propiedades para mostrar.</p>;
+    return <p className="text-sm text-muted-foreground">{t("nothing")}</p>;
   }
 
   return (
@@ -87,7 +90,7 @@ export function AvailabilityGrid({
               scope="col"
               className="sticky top-0 left-0 z-30 h-16 w-[160px] min-w-[160px] border-r border-b border-foreground/5 bg-card p-3 text-left align-middle text-xs font-medium text-muted-foreground sm:w-[260px] sm:min-w-[260px]"
             >
-              Propiedad
+              {t("property")}
             </th>
             {dateRange.map((date, i) => {
               const dateStr = toDateStr(date);
@@ -106,13 +109,13 @@ export function AvailabilityGrid({
                   )}
                 >
                   <div className="text-[10px] tracking-wide text-muted-foreground uppercase">
-                    {format(date, "EEE", { locale: es })}
+                    {format(date, "EEE", { locale: dateLocale })}
                   </div>
                   <div className={cn("font-display text-sm leading-none", isToday && "text-primary")}>
                     {format(date, "d")}
                   </div>
                   <div className="h-2.5 text-[9px] text-muted-foreground uppercase">
-                    {isMonthStart ? format(date, "MMM", { locale: es }) : ""}
+                    {isMonthStart ? format(date, "MMM", { locale: dateLocale }) : ""}
                   </div>
                 </th>
               );
@@ -130,7 +133,7 @@ export function AvailabilityGrid({
               </tr>
               {group.map((property) => {
                 const href = property.href;
-                const price = formatPrice(property);
+                const price = formatPrice(property, tag);
                 const place = placeOf(property);
                 const blocked = new Set(property.blockedDates);
                 const pending = new Set(property.pendingDates ?? []);
@@ -152,7 +155,7 @@ export function AvailabilityGrid({
                       )}
                       <p className="mt-1 truncate text-xs text-muted-foreground">
                         {place}
-                        {price ? ` · ${price}/noche` : ""}
+                        {price ? ` · ${t("perNight", { price })}` : ""}
                       </p>
                     </td>
                     {dateRange.map((date, i) => {
@@ -162,7 +165,7 @@ export function AvailabilityGrid({
                       const isMonthStart = i === 0 || date.getDate() === 1;
                       const marked = !!highlight && dateStr >= highlight.start && dateStr <= highlight.end;
                       const isBlocked = blocked.has(dateStr);
-                      const dayLabel = format(date, "EEE d MMM", { locale: es });
+                      const dayLabel = format(date, "EEE d MMM", { locale: dateLocale });
                       const tdClass = cn(
                         "border-b border-foreground/5 p-1 text-center",
                         isMonthStart && i !== 0 && "border-l border-foreground/10",
@@ -172,7 +175,7 @@ export function AvailabilityGrid({
 
                       if (isPast) {
                         return (
-                          <td key={dateStr} title={`${dayLabel} — Pasado`} className={tdClass}>
+                          <td key={dateStr} title={`${dayLabel} — ${t("past")}`} className={tdClass}>
                             <div className={cn(CELL, "mx-auto bg-muted")} />
                           </td>
                         );
@@ -181,7 +184,8 @@ export function AvailabilityGrid({
                       // A pending booking holds no dates yet, so it only paints days nobody else has.
                       const pendingKind = isBlocked ? "free" : dayKind(pending, dateStr);
                       if (pendingKind === "busy" || pendingKind === "in" || pendingKind === "out") {
-                        const label = pendingKind === "busy" ? "Reserva pendiente" : `Reserva pendiente (${pendingKind === "in" ? "check-in" : "check-out"})`;
+                        const label =
+                          pendingKind === "busy" ? t("pending") : t(pendingKind === "in" ? "pendingIn" : "pendingOut");
                         return (
                           <td key={dateStr} title={`${dayLabel} — ${label}`} className={tdClass}>
                             <div className={cn(CELL, "relative mx-auto overflow-hidden")}>
@@ -204,7 +208,7 @@ export function AvailabilityGrid({
 
                       if (!isBlocked) {
                         return (
-                          <td key={dateStr} title={`${dayLabel} — Disponible`} className={tdClass}>
+                          <td key={dateStr} title={`${dayLabel} — ${t("available")}`} className={tdClass}>
                             <div className={cn(CELL, "mx-auto bg-primary")} />
                           </td>
                         );
@@ -217,13 +221,13 @@ export function AvailabilityGrid({
 
                       if (!isCheckIn && !isCheckOut) {
                         return (
-                          <td key={dateStr} title={`${dayLabel} — Reservado`} className={tdClass}>
+                          <td key={dateStr} title={`${dayLabel} — ${t("booked")}`} className={tdClass}>
                             <div className={cn(CELL, "mx-auto bg-destructive")} />
                           </td>
                         );
                       }
 
-                      const label = isCheckIn && isCheckOut ? "Check-in / check-out" : isCheckIn ? "Check-in" : "Check-out";
+                      const label = isCheckIn && isCheckOut ? t("turnover") : isCheckIn ? t("checkIn") : t("checkOut");
                       return (
                         <td key={dateStr} title={`${dayLabel} — ${label}`} className={tdClass}>
                           <div className={cn(CELL, "relative mx-auto overflow-hidden")}>

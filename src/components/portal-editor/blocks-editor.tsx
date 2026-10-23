@@ -21,6 +21,7 @@ import {
   Trash2,
   X,
 } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import { useId, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -38,6 +39,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { RichTextEditor } from "@/components/rich-text/rich-text-editor";
 import {
   type Destination,
+  type SectionLayout,
   type SiteSection,
   uploadSiteImage,
 } from "@/lib/api/agency";
@@ -143,6 +145,7 @@ function ImageUpload({
   onChange: (url: string | null) => void;
   compact?: boolean;
 }) {
+  const t = useTranslations("portalEditor.blocks");
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
 
@@ -156,7 +159,7 @@ function ImageUpload({
       onChange(url);
     } catch (err) {
       toast.error(
-        err instanceof ApiError ? err.message : "No se pudo subir la imagen",
+        err instanceof ApiError ? err.message : t("imageFailed"),
       );
     } finally {
       setUploading(false);
@@ -169,7 +172,7 @@ function ImageUpload({
         type="button"
         disabled={uploading}
         onClick={() => inputRef.current?.click()}
-        aria-label={value ? "Cambiar imagen" : "Subir imagen"}
+        aria-label={value ? t("changeImage") : t("uploadImage")}
         className={cn(
           "relative flex shrink-0 items-center justify-center overflow-hidden rounded-lg bg-foreground/[0.06] text-muted-foreground outline-none hover:bg-foreground/10 focus-visible:ring-3 focus-visible:ring-ring/50",
           compact ? "size-14" : "h-20 w-32",
@@ -195,7 +198,7 @@ function ImageUpload({
             onClick={() => inputRef.current?.click()}
             className="h-9 rounded-full bg-foreground/[0.06] px-3.5 text-sm font-medium outline-none hover:bg-foreground/10 focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-60"
           >
-            {value ? "Cambiar" : "Subir imagen"}
+            {value ? t("change") : t("uploadImage")}
           </button>
           {value && (
             <button
@@ -203,7 +206,7 @@ function ImageUpload({
               onClick={() => onChange(null)}
               className="h-9 rounded-full px-3.5 text-sm text-muted-foreground outline-none hover:bg-foreground/[0.06] hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
             >
-              Quitar
+              {t("remove")}
             </button>
           )}
         </div>
@@ -235,6 +238,8 @@ function PropertyPicker({
   onChange: (ids: string[]) => void;
   properties: Property[];
 }) {
+  const t = useTranslations("portalEditor.blocks");
+  const locale = useLocale();
   const full = selected.length >= MAX_PROPERTIES;
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(0);
@@ -263,12 +268,12 @@ function PropertyPicker({
       <legend className="mb-2 text-sm font-medium">
         {label}{" "}
         <span className="font-normal text-muted-foreground">
-          ({selected.length} de {MAX_PROPERTIES} como máximo)
+          {t("picker.count", { count: selected.length, max: MAX_PROPERTIES })}
         </span>
       </legend>
       {properties.length === 0 ? (
         <p className="text-sm text-muted-foreground">
-          Todavía no tenés propiedades publicadas.
+          {t("picker.empty")}
         </p>
       ) : (
         <>
@@ -280,14 +285,14 @@ function PropertyPicker({
                 setQuery(event.target.value);
                 setPage(0);
               }}
-              placeholder="Buscar por título o zona"
-              aria-label={`Buscar en ${label.toLowerCase()}`}
+              placeholder={t("picker.searchPlaceholder")}
+              aria-label={t("picker.searchIn", { label: locale === "de" ? label : label.toLowerCase() })}
               className="h-9 pl-9"
             />
           </div>
           {filtered.length === 0 ? (
             <p className="px-1 text-sm text-muted-foreground">
-              Nada coincide con esa búsqueda.
+              {t("picker.noMatch")}
             </p>
           ) : (
             <ul className="flex flex-col overflow-hidden rounded-lg border border-border">
@@ -339,19 +344,19 @@ function PropertyPicker({
               <button
                 type="button"
                 className={cn(ICON_BUTTON, "size-7")}
-                aria-label="Página anterior"
+                aria-label={t("picker.previous")}
                 disabled={clampedPage === 0}
                 onClick={() => setPage(clampedPage - 1)}
               >
                 <ChevronLeft className="size-4" />
               </button>
               <span>
-                Página {clampedPage + 1} de {pageCount}
+                {t("picker.page", { page: clampedPage + 1, total: pageCount })}
               </span>
               <button
                 type="button"
                 className={cn(ICON_BUTTON, "size-7")}
-                aria-label="Página siguiente"
+                aria-label={t("picker.next")}
                 disabled={clampedPage === pageCount - 1}
                 onClick={() => setPage(clampedPage + 1)}
               >
@@ -385,6 +390,7 @@ function ZoneInput({
   zones: string[];
   placeholder?: string;
 }) {
+  const t = useTranslations("portalEditor.blocks");
   const known = zones.some((zone) => samePlace(zone, value));
   const options = value && !known ? [value, ...zones] : zones;
   // Compare ignoring case so "islas baleares" shows "Islas Baleares" as chosen.
@@ -393,10 +399,10 @@ function ZoneInput({
   return (
     <Select value={selected} onValueChange={(next) => onChange(next === NO_ZONE ? "" : next)}>
       <SelectTrigger id={id} className="h-10 w-full px-3.5">
-        <SelectValue placeholder={placeholder ?? "Elegí una ubicación"} />
+        <SelectValue placeholder={placeholder ?? t("zonePicker.pick")} />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value={NO_ZONE}>{placeholder ?? "Sin ubicación"}</SelectItem>
+        <SelectItem value={NO_ZONE}>{placeholder ?? t("zonePicker.none")}</SelectItem>
         {options.map((zone) => (
           <SelectItem key={zone} value={zone}>
             {placeLabel(zone)}
@@ -417,6 +423,7 @@ function DestinationsList({
   onChange: (destinations: Destination[]) => void;
   zones: string[];
 }) {
+  const t = useTranslations("portalEditor.blocks");
   const id = useId();
   const patch = (destinationId: string, next: Partial<Destination>) =>
     onChange(
@@ -427,7 +434,7 @@ function DestinationsList({
 
   return (
     <fieldset className="flex flex-col gap-3">
-      <legend className="mb-2 text-sm font-medium">Destinos</legend>
+      <legend className="mb-2 text-sm font-medium">{t("destinations.title")}</legend>
       <ul className="flex flex-col gap-2">
         {destinations.map((destination, index) => (
           <li
@@ -441,7 +448,7 @@ function DestinationsList({
             />
             <div className="grid min-w-0 flex-1 gap-2">
               <Input
-                aria-label={`Nombre del destino ${index + 1}`}
+                aria-label={t("destinations.name", { number: index + 1 })}
                 value={destination.name ?? ""}
                 maxLength={80}
                 placeholder="Mykonos"
@@ -455,13 +462,13 @@ function DestinationsList({
                 value={destination.zone ?? ""}
                 onChange={(zone) => patch(destination.id, { zone })}
                 zones={zones}
-                placeholder="Zona (si es distinta del nombre)"
+                placeholder={t("destinations.zone")}
               />
             </div>
             <button
               type="button"
               className={ICON_BUTTON}
-              aria-label={`Quitar ${destination.name || "destino"}`}
+              aria-label={t("destinations.remove", { name: destination.name || t("destinations.fallback") })}
               onClick={() =>
                 onChange(
                   destinations.filter((item) => item.id !== destination.id),
@@ -485,7 +492,7 @@ function DestinationsList({
           className="inline-flex h-9 w-fit items-center gap-1.5 rounded-full bg-foreground/[0.06] px-3.5 text-sm font-medium outline-none hover:bg-foreground/10 focus-visible:ring-3 focus-visible:ring-ring/50"
         >
           <Plus className="size-4" />
-          Agregar destino
+          {t("destinations.add")}
         </button>
       )}
     </fieldset>
@@ -499,24 +506,25 @@ function ButtonFields({
   section: SiteSection;
   onChange: (next: Partial<SiteSection>) => void;
 }) {
+  const t = useTranslations("portalEditor");
   const id = useId();
   return (
     <div className="grid gap-4 sm:grid-cols-2">
       <Field
-        label="Texto del botón"
+        label={t("blocks.button.label")}
         htmlFor={`${id}-label`}
-        hint="Vacío: sin botón."
+        hint={t("blocks.button.hint")}
       >
         <Input
           id={`${id}-label`}
           value={section.buttonLabel ?? ""}
           maxLength={40}
-          placeholder="Escribinos"
+          placeholder={t("blocks.button.placeholder")}
           onChange={(event) => onChange({ buttonLabel: event.target.value })}
           className="h-10 px-3.5"
         />
       </Field>
-      <Field label="Lleva a" htmlFor={`${id}-target`}>
+      <Field label={t("blocks.button.target")} htmlFor={`${id}-target`}>
         <Select
           value={section.buttonTarget ?? "contact"}
           onValueChange={(value) =>
@@ -528,8 +536,8 @@ function ButtonFields({
           </SelectTrigger>
           <SelectContent>
             {BUTTON_TARGETS.map((target) => (
-              <SelectItem key={target.value} value={target.value}>
-                {target.label}
+              <SelectItem key={target} value={target}>
+                {t(`buttonTargets.${target}`)}
               </SelectItem>
             ))}
           </SelectContent>
@@ -539,32 +547,12 @@ function ButtonFields({
   );
 }
 
-const PLACEHOLDERS: Record<
-  SiteSection["type"],
-  { title: string; text: string }
-> = {
-  location: {
-    title: "Ibiza",
-    text: "Calas de agua turquesa, pueblos blancos y atardeceres. Tenemos villas y departamentos en toda la isla.",
-  },
-  promo: {
-    title: "Verano en la costa",
-    text: "Reservando antes del 30 de noviembre, 15% de descuento en estadías de una semana o más.",
-  },
-  featured: {
-    title: "Recién llegadas",
-    text: "Las últimas propiedades que sumamos.",
-  },
-  destinations: { title: "Dónde tenemos propiedades", text: "" },
-  text: {
-    title: "Tasamos tu propiedad sin costo",
-    text: "Te decimos cuánto vale en el mercado de hoy y cómo venderla más rápido.",
-  },
-  cta: {
-    title: "¿Querés vender tu propiedad?",
-    text: "Te acompañamos desde la tasación hasta la escritura.",
-  },
-};
+type EditorTranslator = ReturnType<typeof useTranslations<"portalEditor">>;
+
+/** "Banner", "Carrusel"…: a layout's name in its block type. */
+function layoutName(t: EditorTranslator, type: SiteSection["type"], layout: SectionLayout) {
+  return t(`sections.${type}.layouts.${layout}` as never);
+}
 
 function BlockFields({
   section,
@@ -577,10 +565,14 @@ function BlockFields({
   properties: Property[];
   zones: string[];
 }) {
+  const t = useTranslations("portalEditor");
   const id = useId();
   const type = SECTION_TYPES.find((option) => option.value === section.type);
   const layout = sectionLayout(section);
-  const placeholders = PLACEHOLDERS[section.type];
+  const placeholders = {
+    title: t(`placeholders.${section.type}.title`),
+    text: section.type === "destinations" ? "" : t(`placeholders.${section.type}.text`),
+  };
   // A location shows its zone's listings unless the agency picks them; picking starts with an empty list.
   const [pickListings, setPickListings] = useState(
     (section.propertyIds ?? []).length > 0,
@@ -595,17 +587,17 @@ function BlockFields({
   return (
     <div className="flex flex-col gap-5 border-t border-border px-4 pt-5 pb-5">
       {type && type.layouts.length > 1 && (
-        <Field label="Diseño">
+        <Field label={t("blocks.layout")}>
           <Pills
-            label="Diseño del bloque"
+            label={t("blocks.layoutLabel")}
             value={layout}
-            options={type.layouts}
+            options={type.layouts.map((value) => ({ value, label: layoutName(t, type.value, value) }))}
             onChange={(next) => onChange({ layout: next })}
           />
         </Field>
       )}
 
-      <Field label="Título" htmlFor={`${id}-title`}>
+      <Field label={t("blocks.title")} htmlFor={`${id}-title`}>
         <Input
           id={`${id}-title`}
           value={section.title ?? ""}
@@ -618,9 +610,9 @@ function BlockFields({
 
       {section.type === "location" && (
         <Field
-          label="Zona"
+          label={t("blocks.zone")}
           htmlFor={`${id}-zone`}
-          hint="Se cuentan las propiedades cuyo barrio, región o país coincide con esta zona."
+          hint={t("blocks.zoneHint")}
         >
           <ZoneInput
             id={`${id}-zone`}
@@ -633,7 +625,7 @@ function BlockFields({
 
       {section.type === "promo" && (
         <div className="grid gap-4 sm:grid-cols-2">
-          <Field label="Etiqueta" htmlFor={`${id}-badge`}>
+          <Field label={t("blocks.badge")} htmlFor={`${id}-badge`}>
             <Input
               id={`${id}-badge`}
               value={section.badge ?? ""}
@@ -643,19 +635,19 @@ function BlockFields({
               className="h-10 px-3.5"
             />
           </Field>
-          <Field label="Válido hasta (opcional)" htmlFor={`${id}-ends`}>
+          <Field label={t("blocks.endsAt")} htmlFor={`${id}-ends`}>
             <DatePicker
               id={`${id}-ends`}
               size="sm"
               value={section.endsAt ?? ""}
               onChange={(endsAt) => onChange({ endsAt: endsAt || null })}
-              placeholder="Sin fecha"
+              placeholder={t("blocks.noDate")}
             />
           </Field>
         </div>
       )}
 
-      <Field label="Texto" htmlFor={`${id}-text`}>
+      <Field label={t("blocks.text")} htmlFor={`${id}-text`}>
         {/* The free text block takes formatting; in the rest the text is a short line. */}
         {section.type === "text" ? (
           <RichTextEditor
@@ -679,7 +671,7 @@ function BlockFields({
 
       {usesImage && (
         <Field
-          label={section.type === "location" ? "Foto de la zona" : "Imagen"}
+          label={section.type === "location" ? t("blocks.zonePhoto") : t("blocks.image")}
         >
           <ImageUpload
             value={section.imageUrl}
@@ -702,13 +694,13 @@ function BlockFields({
 
       {section.type === "location" && (
         <div className="flex flex-col gap-3">
-          <Field label="Propiedades del bloque">
+          <Field label={t("blocks.listings")}>
             <Pills
-              label="Qué propiedades mostrar"
+              label={t("blocks.listingsLabel")}
               value={pickListings ? "pick" : "zone"}
               options={[
-                { value: "zone", label: "Las de la zona" },
-                { value: "pick", label: "Elegirlas" },
+                { value: "zone", label: t("blocks.fromZone") },
+                { value: "pick", label: t("blocks.pick") },
               ]}
               onChange={(mode) => {
                 setPickListings(mode === "pick");
@@ -718,7 +710,7 @@ function BlockFields({
           </Field>
           {pickListings && (
             <PropertyPicker
-              label="Propiedades elegidas"
+              label={t("blocks.picked")}
               selected={section.propertyIds ?? []}
               onChange={(propertyIds) => onChange({ propertyIds })}
               properties={properties}
@@ -730,7 +722,7 @@ function BlockFields({
       {(section.type === "promo" || section.type === "featured") && (
         <PropertyPicker
           label={
-            section.type === "promo" ? "Propiedades incluidas" : "Propiedades"
+            section.type === "promo" ? t("blocks.included") : t("blocks.properties")
           }
           selected={section.propertyIds ?? []}
           onChange={(propertyIds) => onChange({ propertyIds })}
@@ -742,7 +734,7 @@ function BlockFields({
 }
 
 /** What a block shows as its name in the list: its title, or something that identifies it. */
-function blockName(section: SiteSection) {
+function blockName(section: SiteSection, untitled: string) {
   return (
     section.title?.trim() ||
     (section.type === "location" ? section.zone?.trim() : null) ||
@@ -752,7 +744,7 @@ function blockName(section: SiteSection) {
           .filter(Boolean)
           .join(", ")
       : null) ||
-    "Sin título"
+    untitled
   );
 }
 
@@ -770,6 +762,7 @@ export function BlocksEditor({
   onChange: (sections: SiteSection[]) => void;
   properties: Property[];
 }) {
+  const t = useTranslations("portalEditor");
   const [open, setOpen] = useState<string | null>(null);
   const [adding, setAdding] = useState(sections.length === 0);
   const zones = uniquePlaces(properties.flatMap((p) => [p.area, p.region, p.country]));
@@ -805,12 +798,10 @@ export function BlocksEditor({
             const type = SECTION_TYPES.find(
               (option) => option.value === section.type,
             );
-            const layoutLabel = type?.layouts.find(
-              (layout) => layout.value === sectionLayout(section),
-            )?.label;
+            const layoutLabel = type ? layoutName(t, type.value, sectionLayout(section)) : null;
             const expanded = open === section.id;
             const hidden = section.visible === false;
-            const name = blockName(section);
+            const name = blockName(section, t("blocks.untitled"));
             return (
               <li
                 key={section.id}
@@ -834,12 +825,12 @@ export function BlocksEditor({
                         {name}
                       </span>
                       <span className="block truncate text-xs text-muted-foreground">
-                        {type?.label}
+                        {type && t(`sections.${type.value}.label`)}
                         {layoutLabel &&
                           type &&
                           type.layouts.length > 1 &&
                           ` · ${layoutLabel}`}
-                        {hidden && " · oculto"}
+                        {hidden && ` · ${t("blocks.hidden")}`}
                       </span>
                     </span>
                     <ChevronDown
@@ -852,10 +843,8 @@ export function BlocksEditor({
                   <button
                     type="button"
                     className={ICON_BUTTON}
-                    aria-label={hidden ? `Mostrar ${name}` : `Ocultar ${name}`}
-                    title={
-                      hidden ? "Mostrar en el portal" : "Ocultar del portal"
-                    }
+                    aria-label={hidden ? t("blocks.showNamed", { name }) : t("blocks.hideNamed", { name })}
+                    title={hidden ? t("blocks.show") : t("blocks.hide")}
                     onClick={() => patch(section.id, { visible: hidden })}
                   >
                     {hidden ? (
@@ -867,7 +856,7 @@ export function BlocksEditor({
                   <button
                     type="button"
                     className={ICON_BUTTON}
-                    aria-label={`Subir ${name}`}
+                    aria-label={t("blocks.moveUp", { name })}
                     disabled={index === 0}
                     onClick={() => move(index, -1)}
                   >
@@ -876,7 +865,7 @@ export function BlocksEditor({
                   <button
                     type="button"
                     className={ICON_BUTTON}
-                    aria-label={`Bajar ${name}`}
+                    aria-label={t("blocks.moveDown", { name })}
                     disabled={index === sections.length - 1}
                     onClick={() => move(index, 1)}
                   >
@@ -885,7 +874,7 @@ export function BlocksEditor({
                   <button
                     type="button"
                     className={cn(ICON_BUTTON, "hover:text-destructive")}
-                    aria-label={`Borrar ${name}`}
+                    aria-label={t("blocks.delete", { name })}
                     onClick={() =>
                       onChange(
                         sections.filter((item) => item.id !== section.id),
@@ -911,17 +900,17 @@ export function BlocksEditor({
 
       {sections.length >= MAX_SECTIONS ? (
         <p className="text-sm text-muted-foreground">
-          Llegaste al máximo de {MAX_SECTIONS} bloques.
+          {t("blocks.max", { max: MAX_SECTIONS })}
         </p>
       ) : adding ? (
         <div className="flex flex-col gap-2 rounded-xl border border-dashed border-border p-2">
           <div className="flex items-center justify-between px-2 pt-1">
-            <p className="text-sm font-medium">¿Qué bloque querés agregar?</p>
+            <p className="text-sm font-medium">{t("blocks.addTitle")}</p>
             {sections.length > 0 && (
               <button
                 type="button"
                 className={ICON_BUTTON}
-                aria-label="Cerrar"
+                aria-label={t("blocks.close")}
                 onClick={() => setAdding(false)}
               >
                 <X className="size-4" />
@@ -942,9 +931,9 @@ export function BlocksEditor({
                     <Icon className="size-4" />
                   </span>
                   <span className="flex flex-col gap-0.5">
-                    <span className="text-sm font-medium">{type.label}</span>
+                    <span className="text-sm font-medium">{t(`sections.${type.value}.label`)}</span>
                     <span className="text-xs text-pretty text-muted-foreground">
-                      {type.description}
+                      {t(`sections.${type.value}.description`)}
                     </span>
                   </span>
                 </button>
@@ -959,7 +948,7 @@ export function BlocksEditor({
           className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-dashed border-border text-sm font-medium outline-none transition-colors hover:border-foreground/30 hover:bg-foreground/[0.03] focus-visible:ring-3 focus-visible:ring-ring/50"
         >
           <Plus className="size-4" />
-          Agregar bloque
+          {t("blocks.add")}
         </button>
       )}
     </div>

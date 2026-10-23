@@ -1,7 +1,8 @@
+import type { LooseTranslator } from "@/i18n/loose";
 import type { PublicProperty } from "@/lib/api/offers";
 import { compact } from "@/components/seo/json-ld";
 import { coverPhoto, placeOf } from "@/components/public/property-card";
-import { CATEGORY_LABELS, LISTING_TYPE_LABELS, categoryLabel } from "@/lib/properties-labels";
+import type { Labels } from "@/lib/properties-labels";
 
 /** Roughly what Google and WhatsApp show before cutting a description off. */
 const DESCRIPTION_LIMIT = 165;
@@ -18,26 +19,31 @@ function clamp(text: string) {
  * own summary when it wrote one, otherwise the facts it did fill in — never an
  * empty "Casa en venta." for a listing that has bedrooms, size and a price.
  */
-export function listingDescription(property: PublicProperty) {
+export function listingDescription(
+  property: PublicProperty,
+  /** Scoped to "site.seo". */
+  t: LooseTranslator,
+  labels: Labels,
+  tag: string,
+) {
   if (property.content?.summary) return clamp(property.content.summary);
 
   const place = placeOf(property);
-  const operation = LISTING_TYPE_LABELS[property.listingType].toLowerCase();
-  const opening = [`${categoryLabel(property.category)} en ${operation}`, place].filter(Boolean).join(" en ");
+  const words = {
+    category: labels.category(property.category),
+    operation: labels.listingType(property.listingType).toLowerCase(),
+  };
+  const opening = place ? t("openingIn", { ...words, place }) : t("opening", words);
 
   const facts = [
-    property.bedrooms != null && `${property.bedrooms} dorm.`,
-    property.bathrooms != null && `${property.bathrooms} ${property.bathrooms === 1 ? "baño" : "baños"}`,
-    property.areaSqm != null && `${property.areaSqm.toLocaleString("es-AR")} m²`,
-    property.guests && `${property.guests} huéspedes`,
+    property.bedrooms != null && t("bedrooms", { count: property.bedrooms }),
+    property.bathrooms != null && t("bathrooms", { count: property.bathrooms }),
+    property.areaSqm != null && `${property.areaSqm.toLocaleString(tag)} m²`,
+    property.guests && t("guests", { count: property.guests }),
   ].filter(Boolean) as string[];
 
-  const price =
-    property.price != null
-      ? `${property.currency} ${property.price.toLocaleString("es-AR")}${
-          property.listingType === "RENT" ? " por noche" : ""
-        }`
-      : null;
+  const amount = property.price != null ? `${property.currency} ${property.price.toLocaleString(tag)}` : null;
+  const price = amount && property.listingType === "RENT" ? t("perNight", { price: amount }) : amount;
 
   const sentences = [opening, facts.join(" · "), price].filter(Boolean);
   return clamp(`${sentences.join(". ")}.`);
@@ -113,7 +119,7 @@ export function listingJsonLd({
     about: compact({
       "@type": schemaType(property.category),
       name: property.title,
-      additionalType: CATEGORY_LABELS[property.category] ? undefined : property.category,
+      additionalType: SCHEMA_TYPES[property.category] ? undefined : property.category,
       numberOfBedrooms: property.bedrooms ?? undefined,
       numberOfBathroomsTotal: property.bathrooms ?? undefined,
       floorSize:

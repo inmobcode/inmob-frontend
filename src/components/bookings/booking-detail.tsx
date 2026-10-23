@@ -1,24 +1,24 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
 import { ArrowLeft, Check, CircleCheck, Copy, ExternalLink, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
+import { BackLink } from "@/components/shared/back-link";
 import { AddPaymentDialog } from "@/components/bookings/add-payment-dialog";
 import {
   BookingStatusPill,
   DateTile,
   PaidBar,
   clientLinkPath,
-  copyClientLink,
   datesOf,
-  money,
   paymentsOf,
+  useCopyClientLink,
+  useMoney,
 } from "@/components/bookings/booking-parts";
 import { FormSection } from "@/components/properties/form-section";
 import {
@@ -39,9 +39,11 @@ import {
   getBooking,
   markPaymentPaid,
 } from "@/lib/api/bookings";
+import { useFormat } from "@/i18n/format";
 import { ApiError } from "@/lib/api/client";
 import { getAccessToken } from "@/lib/auth/session";
-import { PAYMENT_TYPE_LABELS } from "@/lib/properties-labels";
+import { parseApiDate } from "@/lib/dates";
+import { useLabels } from "@/lib/labels";
 import { cn } from "@/lib/utils";
 
 function requireToken() {
@@ -76,27 +78,25 @@ function Stat({ label, value, strong }: { label: string; value: string; strong?:
 
 /** The client's read-only page for this booking, to copy and send or to preview. */
 function ClientLink({ token, hasClient }: { token: string; hasClient: boolean }) {
+  const t = useTranslations("bookings.detail");
+  const copyClientLink = useCopyClientLink();
   const path = clientLinkPath({ token });
 
   return (
     <div className="flex flex-col gap-3 border-t border-foreground/5 pt-5">
       <div className="flex flex-col gap-1">
-        <h2 className="text-sm font-medium">Página del cliente</h2>
-        <p className="text-xs text-muted-foreground">
-          {hasClient
-            ? "El cliente la recibe por email al crear, confirmar o cancelar la reserva."
-            : "Asigná un cliente para que la reciba por email, o mandale el link."}
-        </p>
+        <h2 className="text-sm font-medium">{t("clientPage")}</h2>
+        <p className="text-xs text-muted-foreground">{hasClient ? t("clientPageEmailed") : t("clientPageManual")}</p>
       </div>
       <div className="flex gap-2">
         <Button variant="outline" size="sm" className="flex-1 rounded-full" onClick={() => copyClientLink({ token })}>
           <Copy />
-          Copiar link
+          {t("copyLink")}
         </Button>
         <Button variant="ghost" size="sm" className="rounded-full" asChild>
           <a href={path} target="_blank" rel="noreferrer">
             <ExternalLink />
-            Ver
+            {t("view")}
           </a>
         </Button>
       </div>
@@ -105,6 +105,11 @@ function ClientLink({ token, hasClient }: { token: string; hasClient: boolean })
 }
 
 export function BookingDetail({ bookingId }: { bookingId: string }) {
+  const t = useTranslations("bookings.detail");
+  const common = useTranslations("common");
+  const labels = useLabels();
+  const money = useMoney();
+  const { date } = useFormat();
   const { agencySlug } = useParams<{ agencySlug: string }>();
   const queryClient = useQueryClient();
   const [confirmingCancel, setConfirmingCancel] = useState(false);
@@ -126,35 +131,35 @@ export function BookingDetail({ bookingId }: { bookingId: string }) {
         toast.success(done);
         invalidate();
       },
-      onError: (err: unknown) => toast.error(err instanceof ApiError ? err.message : "No se pudo completar la acción"),
+      onError: (err: unknown) => toast.error(err instanceof ApiError ? err.message : common("actionFailed")),
     };
   }
-  const confirmMutation = useMutation(transition("Reserva confirmada", confirmBooking));
-  const completeMutation = useMutation(transition("Reserva completada", completeBooking));
-  const cancelMutation = useMutation(transition("Reserva cancelada", cancelBooking));
+  const confirmMutation = useMutation(transition(t("confirmed"), confirmBooking));
+  const completeMutation = useMutation(transition(t("completed"), completeBooking));
+  const cancelMutation = useMutation(transition(t("cancelled"), cancelBooking));
 
   const markPaidMutation = useMutation({
     mutationFn: (paymentId: string) => markPaymentPaid(requireToken(), bookingId, paymentId),
     onSuccess: () => {
-      toast.success("Pago marcado como cobrado");
+      toast.success(t("paymentMarked"));
       invalidate();
     },
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo marcar el pago"),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : t("paymentMarkFailed")),
   });
 
   if (error) {
     return (
       <div className="flex flex-col items-start gap-4 rounded-2xl bg-card p-6 ring-1 ring-foreground/5">
         <div>
-          <p className="font-display text-xl">No encontramos la reserva</p>
+          <p className="font-display text-xl">{t("notFound")}</p>
           <p className="text-sm text-muted-foreground">
-            {error instanceof ApiError ? error.message : "Revisá tu conexión e intentá de nuevo."}
+            {error instanceof ApiError ? error.message : common("checkConnection")}
           </p>
         </div>
         <Button variant="outline" asChild>
           <Link href={`/${agencySlug}/bookings`}>
             <ArrowLeft />
-            Volver a reservas
+            {t("backToList")}
           </Link>
         </Button>
       </div>
@@ -170,13 +175,7 @@ export function BookingDetail({ bookingId }: { bookingId: string }) {
 
   return (
     <div className="flex flex-col gap-8">
-      <Link
-        href={`/${agencySlug}/bookings`}
-        className="inline-flex w-fit items-center gap-1.5 rounded-full text-sm text-muted-foreground transition-colors outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
-      >
-        <ArrowLeft className="size-4" />
-        Reservas
-      </Link>
+      <BackLink href={`/${agencySlug}/bookings`}>{t("list")}</BackLink>
 
       <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_20rem]">
         <div className="flex min-w-0 flex-col gap-12">
@@ -184,7 +183,7 @@ export function BookingDetail({ bookingId }: { bookingId: string }) {
             <DateTile booking={booking} className="size-20 rounded-3xl [&_.font-display]:text-4xl" />
             <div className="flex min-w-0 flex-col gap-2">
               <h1 className="font-display text-4xl leading-none tracking-tight text-balance">
-                {booking.propertyTitle ?? "Reserva"}
+                {booking.propertyTitle ?? t("booking")}
               </h1>
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-sm text-muted-foreground">
                 <BookingStatusPill status={booking.status} />
@@ -193,41 +192,41 @@ export function BookingDetail({ bookingId }: { bookingId: string }) {
                     {booking.clientName}
                   </Link>
                 ) : (
-                  <span>Sin cliente asignado</span>
+                  <span>{t("noClient")}</span>
                 )}
               </div>
             </div>
           </header>
 
           <FormSection
-            title="Estadía"
-            description={dates ? "Fechas del alquiler. El cliente las ve en su página." : "Es una operación de venta, no tiene fechas."}
+            title={t("stay")}
+            description={dates ? t("stayDescription") : t("saleDescription")}
             shown={null}
           >
             {dates ? (
               <div className="grid max-w-md grid-cols-2 gap-3">
                 {[
-                  { label: "Check-in", date: dates.start },
-                  { label: "Check-out", date: dates.end },
+                  { label: t("checkIn"), date: dates.start },
+                  { label: t("checkOut"), date: dates.end },
                 ].map((item) => (
                   <div key={item.label} className="flex flex-col gap-1 rounded-2xl bg-card p-4 ring-1 ring-foreground/5">
                     <span className="text-xs text-muted-foreground">{item.label}</span>
                     <span className="font-display text-xl first-letter:uppercase">
-                      {format(item.date, "EEE d 'de' MMM", { locale: es })}
+                      {date(item.date, "weekdayDayMonthShort")}
                     </span>
-                    <span className="text-xs text-muted-foreground">{format(item.date, "yyyy")}</span>
+                    <span className="text-xs text-muted-foreground">{item.date.getFullYear()}</span>
                   </div>
                 ))}
                 <p className="col-span-2 text-sm text-muted-foreground">
-                  {dates.nights} {dates.nights === 1 ? "noche" : "noches"}
+                  {t("nights", { count: dates.nights })}
                 </p>
               </div>
             ) : null}
           </FormSection>
 
           <FormSection
-            title="Pagos"
-            description="Anticipos, saldo y comisión, con lo que ya se cobró. El cliente ve anticipos y saldo, nunca la comisión."
+            title={t("payments")}
+            description={t("paymentsDescription")}
             shown={null}
           >
             <div className="flex flex-col gap-4">
@@ -246,11 +245,11 @@ export function BookingDetail({ bookingId }: { bookingId: string }) {
                       <div className="flex min-w-0 flex-1 flex-col">
                         <span className="font-medium tabular-nums">{money(payment.currency, payment.amount)}</span>
                         <span className="text-xs text-muted-foreground">
-                          {PAYMENT_TYPE_LABELS[payment.type]}
+                          {labels.paymentType(payment.type)}
                           {payment.status === "PAID" && payment.paidAt && (
                             <>
                               {" · "}
-                              {format(new Date(payment.paidAt), "d MMM", { locale: es })}
+                              {date(parseApiDate(payment.paidAt), "dayMonthShort")}
                               {payment.method && ` · ${payment.method}`}
                             </>
                           )}
@@ -259,7 +258,7 @@ export function BookingDetail({ bookingId }: { bookingId: string }) {
                       {payment.status === "PAID" ? (
                         <span className="inline-flex h-6 items-center gap-1 rounded-full bg-primary/10 px-2.5 text-xs font-medium text-primary">
                           <Check className="size-3" />
-                          Cobrado
+                          {t("paid")}
                         </span>
                       ) : (
                         <Button
@@ -269,14 +268,14 @@ export function BookingDetail({ bookingId }: { bookingId: string }) {
                           disabled={markPaidMutation.isPending}
                           onClick={() => markPaidMutation.mutate(payment.id)}
                         >
-                          Marcar como cobrado
+                          {t("markPaid")}
                         </Button>
                       )}
                     </li>
                   ))}
                 </ul>
               ) : (
-                <p className="text-sm text-muted-foreground">Todavía no hay pagos registrados.</p>
+                <p className="text-sm text-muted-foreground">{t("noPayments")}</p>
               )}
             </div>
           </FormSection>
@@ -284,12 +283,12 @@ export function BookingDetail({ bookingId }: { bookingId: string }) {
 
         <aside className="flex flex-col gap-6 rounded-3xl bg-card p-6 shadow-[0_1px_2px_oklch(0.3_0.05_160/0.04),0_12px_32px_-12px_oklch(0.3_0.05_160/0.14)] ring-1 ring-foreground/5 lg:sticky lg:top-24">
           <div className="flex flex-col gap-3">
-            <h2 className="font-display text-xl leading-tight">Resumen</h2>
+            <h2 className="font-display text-xl leading-tight">{t("summary")}</h2>
             <div className="flex flex-col gap-2">
-              <Stat label="Precio total" value={booking.totalPrice ? money(booking.currency, booking.totalPrice) : "—"} strong />
-              <Stat label="Comisión" value={booking.commissionAmount ? money(booking.currency, booking.commissionAmount) : "—"} />
-              <Stat label="Cobrado" value={money(booking.currency, paid)} />
-              <Stat label="Por cobrar" value={money(booking.currency, Math.max(base - paid, 0))} />
+              <Stat label={t("totalPrice")} value={booking.totalPrice ? money(booking.currency, booking.totalPrice) : "—"} strong />
+              <Stat label={t("commission")} value={booking.commissionAmount ? money(booking.currency, booking.commissionAmount) : "—"} />
+              <Stat label={t("collected")} value={money(booking.currency, paid)} />
+              <Stat label={t("toCollect")} value={money(booking.currency, Math.max(base - paid, 0))} />
             </div>
           </div>
 
@@ -300,13 +299,13 @@ export function BookingDetail({ bookingId }: { bookingId: string }) {
               {booking.status === "PENDING" && (
                 <Button className="h-10 rounded-full" disabled={busy} onClick={() => confirmMutation.mutate()}>
                   <Check />
-                  Confirmar reserva
+                  {t("confirm")}
                 </Button>
               )}
               {booking.status === "CONFIRMED" && (
                 <Button className="h-10 rounded-full" disabled={busy} onClick={() => completeMutation.mutate()}>
                   <CircleCheck />
-                  Marcar como completada
+                  {t("complete")}
                 </Button>
               )}
               <Button
@@ -316,7 +315,7 @@ export function BookingDetail({ bookingId }: { bookingId: string }) {
                 onClick={() => setConfirmingCancel(true)}
               >
                 <X />
-                Cancelar reserva
+                {t("cancel")}
               </Button>
             </div>
           )}
@@ -326,13 +325,11 @@ export function BookingDetail({ bookingId }: { bookingId: string }) {
       <AlertDialog open={confirmingCancel} onOpenChange={setConfirmingCancel}>
         <AlertDialogContent className="rounded-3xl">
           <AlertDialogHeader>
-            <AlertDialogTitle className="font-display text-2xl">¿Cancelar esta reserva?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Las fechas se liberan y la reserva queda como cancelada. Los pagos ya registrados no se borran.
-            </AlertDialogDescription>
+            <AlertDialogTitle className="font-display text-2xl">{t("cancelTitle")}</AlertDialogTitle>
+            <AlertDialogDescription>{t("cancelBody")}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Volver</AlertDialogCancel>
+            <AlertDialogCancel>{common("back")}</AlertDialogCancel>
             <AlertDialogAction
               variant="destructive"
               onClick={() => {
@@ -340,7 +337,7 @@ export function BookingDetail({ bookingId }: { bookingId: string }) {
                 setConfirmingCancel(false);
               }}
             >
-              Cancelar reserva
+              {t("cancel")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

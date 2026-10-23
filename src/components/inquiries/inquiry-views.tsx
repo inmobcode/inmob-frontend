@@ -1,14 +1,8 @@
 "use client";
 
-import {
-  differenceInCalendarDays,
-  format,
-  formatDistanceToNow,
-  isToday,
-  isYesterday,
-} from "date-fns";
-import { es } from "date-fns/locale";
+import { differenceInCalendarDays, isToday, isYesterday } from "date-fns";
 import { Building2, ChevronLeft, Copy, Globe, Mail, MailOpen, MessageCircle, Phone, Tag, UserRound } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
@@ -18,7 +12,9 @@ import { Button } from "@/components/ui/button";
 import type { ClientStage } from "@/lib/api/clients";
 import type { Inquiry } from "@/lib/api/inquiries";
 
-import { CLIENT_STAGE_LABELS } from "@/lib/properties-labels";
+import { useFormat } from "@/i18n/format";
+import { parseApiDate } from "@/lib/dates";
+import { useLabels } from "@/lib/labels";
 import { whatsappLink } from "@/lib/site-theme";
 import { cn } from "@/lib/utils";
 import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
@@ -36,29 +32,33 @@ function initials(name: string) {
 }
 
 /** What it was about, as a short line: the listing, the offer, or a general question. */
-function about(inquiry: Inquiry) {
-  return inquiry.property?.title ?? inquiry.offer?.title ?? "Consulta general";
+function about(inquiry: Inquiry, general: string) {
+  return inquiry.property?.title ?? inquiry.offer?.title ?? general;
 }
 
 /** "12 min", "14:35", "Ayer", "lun", "3 oct": short enough for the list. */
-function shortTime(iso: string) {
-  const date = new Date(iso);
-  const minutes = Math.round((Date.now() - date.getTime()) / 60_000);
-  if (minutes < 1) return "Ahora";
-  if (minutes < 60) return `${minutes} min`;
-  if (isToday(date)) return format(date, "HH:mm");
-  if (isYesterday(date)) return "Ayer";
-  if (differenceInCalendarDays(new Date(), date) < 7)
-    return format(date, "EEE", { locale: es });
-  return format(date, "d MMM", { locale: es });
+function useShortTime() {
+  const t = useTranslations("inquiries.time");
+  const { date: formatDate } = useFormat();
+  return (iso: string) => {
+    const date = parseApiDate(iso);
+    const minutes = Math.round((Date.now() - date.getTime()) / 60_000);
+    if (minutes < 1) return t("now");
+    if (minutes < 60) return t("minutes", { count: minutes });
+    if (isToday(date)) return formatDate(date, "time");
+    if (isYesterday(date)) return t("yesterday");
+    if (differenceInCalendarDays(new Date(), date) < 7) return formatDate(date, "weekdayShort");
+    return formatDate(date, "dayMonthShort");
+  };
 }
 
+/** The list's groups, as keys of "inquiries.groups". */
 export function groupOf(iso: string) {
-  const date = new Date(iso);
-  if (isToday(date)) return "Hoy";
-  if (isYesterday(date)) return "Ayer";
-  if (differenceInCalendarDays(new Date(), date) < 7) return "Esta semana";
-  return "Anteriores";
+  const date = parseApiDate(iso);
+  if (isToday(date)) return "today" as const;
+  if (isYesterday(date)) return "yesterday" as const;
+  if (differenceInCalendarDays(new Date(), date) < 7) return "week" as const;
+  return "older" as const;
 }
 
 const SECONDARY =
@@ -73,6 +73,8 @@ export function InquiryRow({
   selected: boolean;
   onSelect: () => void;
 }) {
+  const t = useTranslations("inquiries");
+  const shortTime = useShortTime();
   const unread = !inquiry.readAt;
   return (
     <li>
@@ -89,7 +91,7 @@ export function InquiryRow({
           {initials(inquiry.name)}
           {unread && (
             <span className="absolute -top-0.5 -right-0.5 size-2.5 rounded-full bg-primary ring-2 ring-card">
-              <span className="sr-only">Nueva</span>
+              <span className="sr-only">{t("new")}</span>
             </span>
           )}
         </span>
@@ -120,7 +122,7 @@ export function InquiryRow({
               unread ? "text-foreground" : "text-muted-foreground",
             )}
           >
-            {about(inquiry)}
+            {about(inquiry, t("general"))}
           </span>
           {inquiry.message && (
             <span className="truncate text-xs text-muted-foreground">
@@ -142,19 +144,24 @@ export function InquiryDetail({
   onBack: () => void;
   onMark: (read: boolean) => void;
 }) {
+  const t = useTranslations("inquiries");
+  const common = useTranslations("common");
+  const labels = useLabels();
+  const { date, ago } = useFormat();
   const { agencySlug } = useParams<{ agencySlug: string }>();
-  const created = new Date(inquiry.createdAt);
+  const created = parseApiDate(inquiry.createdAt);
   const stage = inquiry.client?.stage as ClientStage | undefined;
-  const replySubject = encodeURIComponent(`Re: ${about(inquiry)}`);
+  const subject = about(inquiry, t("general"));
+  const replySubject = encodeURIComponent(`Re: ${subject}`);
   const firstName = inquiry.name.split(" ")[0];
-  const replyBody = encodeURIComponent(`Hola ${firstName},\n\n`);
+  const replyBody = encodeURIComponent(`${t("replyGreeting", { name: firstName })}\n\n`);
 
   async function copyEmail() {
     try {
       await navigator.clipboard.writeText(inquiry.email);
-      toast.success("Email copiado");
+      toast.success(common("emailCopied"));
     } catch {
-      toast.error("No se pudo copiar el email");
+      toast.error(common("emailCopyFailed"));
     }
   }
 
@@ -164,7 +171,7 @@ export function InquiryDetail({
         <button
           type="button"
           onClick={onBack}
-          aria-label="Volver a la lista"
+          aria-label={t("backToList")}
           className="-ml-2 flex size-9 shrink-0 items-center justify-center rounded-full text-muted-foreground outline-none hover:bg-foreground/[0.06] focus-visible:ring-3 focus-visible:ring-ring/50 lg:hidden"
         >
           <ChevronLeft className="size-5" />
@@ -177,26 +184,21 @@ export function InquiryDetail({
             <h2 className="font-display text-2xl leading-tight">
               {inquiry.name}
             </h2>
-            {stage && CLIENT_STAGE_LABELS[stage] && (
+            {stage && (
               <span className="rounded-full bg-foreground/[0.06] px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
-                {CLIENT_STAGE_LABELS[stage]}
+                {labels.clientStage(stage)}
               </span>
             )}
           </div>
           <p className="text-sm text-muted-foreground">
-            <time dateTime={inquiry.createdAt}>
-              {format(created, "d 'de' MMMM, HH:mm", { locale: es })}
-            </time>{" "}
-            · {formatDistanceToNow(created, { addSuffix: true, locale: es })}
+            <time dateTime={inquiry.createdAt}>{date(created, "dayMonthTime")}</time> · {ago(created)}
           </p>
         </div>
         <button
           type="button"
           onClick={() => onMark(!inquiry.readAt)}
-          title={inquiry.readAt ? "Marcar como nueva" : "Marcar como leída"}
-          aria-label={
-            inquiry.readAt ? "Marcar como nueva" : "Marcar como leída"
-          }
+          title={inquiry.readAt ? t("markNew") : t("markRead")}
+          aria-label={inquiry.readAt ? t("markNew") : t("markRead")}
           className="flex size-9 shrink-0 items-center justify-center rounded-full text-muted-foreground outline-none hover:bg-foreground/[0.06] hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
         >
           {inquiry.readAt ? (
@@ -226,9 +228,7 @@ export function InquiryDetail({
               )}
             </span>
             <span className="flex min-w-0 flex-col">
-              <span className="text-xs text-muted-foreground">
-                Consultó por
-              </span>
+              <span className="text-xs text-muted-foreground">{t("askedAbout")}</span>
               <span className="truncate font-medium group-hover:underline">
                 {inquiry.property.title}
               </span>
@@ -243,9 +243,7 @@ export function InquiryDetail({
               <Tag className="size-6" strokeWidth={1.5} />
             </span>
             <span className="flex min-w-0 flex-col">
-              <span className="text-xs text-muted-foreground">
-                Respondió a la oferta
-              </span>
+              <span className="text-xs text-muted-foreground">{t("repliedOffer")}</span>
               <span className="truncate font-medium group-hover:underline">
                 {inquiry.offer.title}
               </span>
@@ -254,7 +252,7 @@ export function InquiryDetail({
         ) : (
           <p className="flex items-center gap-2 text-sm text-muted-foreground">
             <Globe className="size-4" />
-            Consulta general desde tu portal
+            {t("generalFromPortal")}
           </p>
         )}
 
@@ -263,11 +261,11 @@ export function InquiryDetail({
             {inquiry.message}
           </blockquote>
         ) : (
-          <p className="text-sm text-muted-foreground">No dejó mensaje.</p>
+          <p className="text-sm text-muted-foreground">{t("noMessage")}</p>
         )}
 
         <dl className="grid max-w-prose gap-x-6 gap-y-3 text-sm sm:grid-cols-[6rem_1fr]">
-          <dt className="text-muted-foreground">Email</dt>
+          <dt className="text-muted-foreground">{t("email")}</dt>
           <dd className="flex min-w-0 items-center gap-2">
             <a
               href={`mailto:${inquiry.email}`}
@@ -278,7 +276,7 @@ export function InquiryDetail({
             <button
               type="button"
               onClick={copyEmail}
-              aria-label="Copiar email"
+              aria-label={t("copyEmail")}
               className="flex size-7 shrink-0 items-center justify-center rounded-md text-muted-foreground outline-none hover:bg-foreground/[0.06] hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
             >
               <Copy className="size-3.5" />
@@ -286,7 +284,7 @@ export function InquiryDetail({
           </dd>
           {inquiry.phone && (
             <>
-              <dt className="text-muted-foreground">Teléfono</dt>
+              <dt className="text-muted-foreground">{t("phone")}</dt>
               <dd className="tabular-nums">{inquiry.phone}</dd>
             </>
           )}
@@ -298,7 +296,7 @@ export function InquiryDetail({
               href={`mailto:${inquiry.email}?subject=${replySubject}&body=${replyBody}`}
             >
               <Mail />
-              Responder por email
+              {t("replyEmail")}
             </a>
           </Button>
           {inquiry.phone && (
@@ -306,7 +304,7 @@ export function InquiryDetail({
               <a
                 href={whatsappLink(
                   inquiry.phone,
-                  `Hola ${firstName}, te escribo por tu consulta sobre ${about(inquiry)}.`,
+                  t("whatsappMessage", { name: firstName, subject }),
                 )}
                 target="_blank"
                 rel="noreferrer"
@@ -320,7 +318,7 @@ export function InquiryDetail({
                 className={SECONDARY}
               >
                 <Phone className="size-4" />
-                Llamar
+                {t("call")}
               </a>
             </>
           )}
@@ -330,7 +328,7 @@ export function InquiryDetail({
               className={cn(SECONDARY, "sm:ml-auto")}
             >
               <UserRound className="size-4" />
-              Ver cliente
+              {t("seeClient")}
             </Link>
           )}
         </div>

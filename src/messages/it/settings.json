@@ -1,0 +1,46 @@
+{
+  "settings": {
+    "errors": {
+      "slugRequired": "Inserisci un indirizzo",
+      "slugFormat": "Solo minuscole, numeri e trattini"
+    },
+    "commissionShown": "Il proprietario vede la commissione",
+    "commissionHidden": "La commissione resta nascosta",
+    "logoUpdated": "Logo aggiornato",
+    "logoFailed": "Impossibile caricare il logo",
+    "help": "Assistenza sulle impostazioni",
+    "copyPortalLink": "Copia il link del sito",
+    "copyLink": "Copia link",
+    "viewPortal": "Vedi sito",
+    "customize": "Personalizza sito",
+    "agency": {
+      "title": "La tua agenzia",
+      "description": "Il nome e il logo con cui ti vedono i tuoi clienti.",
+      "changeLogo": "Cambia il logo",
+      "change": "Cambia",
+      "name": "Nome dell’agenzia"
+    },
+    "portal": {
+      "title": "Sito pubblico",
+      "description": "La pagina dove i tuoi clienti vedono i tuoi immobili.",
+      "slug": "Indirizzo del sito",
+      "slugWarning": "Cambiare l’indirizzo rompe i link già condivisi.",
+      "contactEmail": "Email di contatto",
+      "contactEmailPlaceholder": "info@tuaagenzia.com"
+    },
+    "owner": {
+      "title": "Portale del proprietario",
+      "description": "Cosa vedono i tuoi proprietari nel loro link di accesso. Vedono sempre l’incassato, la loro quota e quanto è stato liquidato.",
+      "switchLabel": "Mostra la commissione nel portale del proprietario",
+      "showCommission": "Mostra la commissione dell’agenzia",
+      "showCommissionHint": "Se disattivato, il proprietario vede la sua quota ma non quanto è stato trattenuto. Si salva al cambio."
+    },
+    "preferences": {
+      "title": "Preferenze",
+      "description": "Come vengono mostrati testi e prezzi per impostazione predefinita.",
+      "language": "Lingua del sito",
+      "languageHint": "I link che condividi (sito, offerte, prenotazioni, proprietari) si aprono in questa lingua. I tuoi clienti possono cambiarla dalla pagina.",
+      "currency": "Valuta predefinita"
+    }
+  }
+}

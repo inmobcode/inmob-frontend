@@ -1,0 +1,198 @@
+{
+  "help": {
+    "topics": {
+      "primeros-pasos": {
+        "title": "Prvi koraci",
+        "summary": "Vaš račun, vaš tim i prijava.",
+        "questions": {
+          "q1": {
+            "q": "Kako izraditi račun i agenciju?",
+            "a": "Putem «Registracija» izradite korisnika i naziv agencije te ulazite u nadzornu ploču. Adresa vaše ploče sadrži naziv vaše agencije."
+          },
+          "q2": {
+            "q": "Kako dodati svoj tim?",
+            "a": "U odjeljku Tim dodajete osobe i dodjeljujete im ulogu: vlasnik, administrator ili agent. Taj odjeljak vide samo vlasnici i administratori."
+          },
+          "q3": {
+            "q": "Zaboravio/la sam lozinku. Što sad?",
+            "a": "Na zaslonu za prijavu upotrijebite opciju za oporavak lozinke. Poslat ćemo vam poveznicu e-poštom za izradu nove."
+          },
+          "q4": {
+            "q": "Zašto sam odjavljen/a?",
+            "a": "Zbog sigurnosti sesija nakon nekog vremena istječe i potrebno se ponovno prijaviti. Ništa od spremljenog se ne gubi."
+          }
+        }
+      },
+      "propiedades": {
+        "title": "Nekretnine",
+        "summary": "Unos, objava i dodjela.",
+        "questions": {
+          "q1": {
+            "q": "Kako unijeti nekretninu?",
+            "a": "U odjeljku Nekretnine izradite novu, ispunite podatke, učitate fotografije (automatski se smanjuju prije učitavanja) i objavite je kad je spremna."
+          },
+          "q2": {
+            "q": "Kako dodijeliti nekretninu agentu?",
+            "a": "Vlasnici i administratori mogu odabrati odgovornu osobu za svaku nekretninu. Agenti vide samo one koje su im dodijeljene."
+          },
+          "q3": {
+            "q": "Vidi li se na mojoj stranici sve što unesem?",
+            "a": "Prikazuju se nekretnine koje objavite. Ono što ostavite neobjavljeno ostaje samo na nadzornoj ploči."
+          }
+        }
+      },
+      "clientes-consultas": {
+        "title": "Klijenti i upiti",
+        "summary": "Od prvog upita do praćenja.",
+        "questions": {
+          "q1": {
+            "q": "Gdje stižu upiti s moje stranice?",
+            "a": "U pristigle Upite. Svaki stvara klijenta (ili ponovno koristi onog s tom e-poštom), ostavlja bilješku s nekretninom koju je gledao i povećava brojač u izborniku."
+          },
+          "q2": {
+            "q": "Kako me obavještavate o novom upitu?",
+            "a": "E-poštom agenciji (na kontaktnu adresu ili, ako je nema, vlasnicima i administratorima) i zvonom na nadzornoj ploči. Klijent dobiva potvrdu."
+          },
+          "q3": {
+            "q": "Kako pratiti klijenta?",
+            "a": "Unutar svakog klijenta možete izraditi zadatke s datumom i odgovornom osobom. Sve klijente možete vidjeti i na ploči te ih povlačiti iz jedne faze u drugu."
+          }
+        }
+      },
+      "ofertas": {
+        "title": "Ponude",
+        "summary": "Izrada, dijeljenje i uvid jesu li otvorene.",
+        "questions": {
+          "q1": {
+            "q": "Kako poslati ponudu klijentu?",
+            "a": "Složite ponudu s jednom ili više nekretnina, popustima i uslugama te podijelite poveznicu. Klijent je vidi bez izrade računa."
+          },
+          "q2": {
+            "q": "Kako znam je li moja ponuda otvorena?",
+            "a": "Zvono vas obavijesti čim se otvori. U ponudi vidite i kada je pregledana i kada istječe."
+          }
+        }
+      },
+      "reservas-cobros": {
+        "title": "Rezervacije i naplate",
+        "summary": "Datumi, plaćanja i što vidi klijent.",
+        "questions": {
+          "q1": {
+            "q": "Što klijent vidi o svojoj rezervaciji?",
+            "a": "Poveznicu e-poštom, koja stiže kad se rezervacija izradi, potvrdi ili otkaže, s datumima, ukupnim iznosom i stanjem plaćanja. Provizija se ne prikazuje."
+          },
+          "q2": {
+            "q": "Kako evidentirati plaćanje?",
+            "a": "U rezervaciji unosite predujam i ostatak sa statusom. Vidite naplaćeno, preostalo i proviziju."
+          },
+          "q3": {
+            "q": "Što je rezervacija na čekanju?",
+            "a": "Nepotvrđena rezervacija. Pojavljuje se u kalendaru da je vidite unaprijed, ali još ne blokira datume."
+          }
+        }
+      },
+      "disponibilidad": {
+        "title": "Dostupnost i cijene",
+        "summary": "Kalendar vašeg kratkoročnog najma.",
+        "questions": {
+          "q1": {
+            "q": "Kako blokirati datume?",
+            "a": "U Dostupnosti, mjesečni prikaz: odaberite nekretninu i povucite preko slobodnih noćenja. Rezervirana noćenja ne mogu se mijenjati."
+          },
+          "q2": {
+            "q": "Kako unijeti sezonske cijene?",
+            "a": "U svakoj nekretnini definirate razdoblja s cijenom po noćenju. Ukupan iznos rezervacije računa se iz tih vrijednosti."
+          },
+          "q3": {
+            "q": "Mogu li vidjeti samo nekretnine slobodne na određene datume?",
+            "a": "Da. U Dostupnosti odaberete raspon datuma i lokaciju, a prikazuju se samo slobodne."
+          }
+        }
+      },
+      "sitio-portales": {
+        "title": "Web-stranica i portali",
+        "summary": "Vaša javna stranica i poveznice za vlasnike.",
+        "questions": {
+          "q1": {
+            "q": "Kako prilagoditi stranicu svoje agencije?",
+            "a": "U odjeljku Web-stranica odaberete predložak, boje, fontove i blokove te vidite kako izgleda na računalu, tabletu i mobitelu prije objave."
+          },
+          "q2": {
+            "q": "Mogu li koristiti vlastitu domenu?",
+            "a": "Zasad ne. Vaša stranica nalazi se na Tivvo poddomeni s nazivom vaše agencije."
+          },
+          "q3": {
+            "q": "Što vlasnik vidi na svom portalu?",
+            "a": "Svoje nekretnine, rezervacije i plaćanja, s naplaćenim, isplatama i saldom. Provizija ostaje skrivena osim ako je prikažete u Postavkama."
+          }
+        }
+      },
+      "cuenta-datos": {
+        "title": "Račun i podaci",
+        "summary": "Tko što vidi i kako čuvamo vaše podatke.",
+        "questions": {
+          "q1": {
+            "q": "Miješaju li se moji podaci s podacima drugih agencija?",
+            "a": "Ne. Svaka agencija radi u svom prostoru i samo njezin tim vidi njezine nekretnine, klijente i rezervacije."
+          },
+          "q2": {
+            "q": "Što vidi svaka osoba u mom timu?",
+            "a": "Agenti vide svoje nekretnine, ponude i rezervacije, svoje klijente i nedodijeljene upite. Vlasnici i administratori vide sve i ponovno dodjeljuju."
+          },
+          "q3": {
+            "q": "Kako ostvariti svoja prava nad podacima?",
+            "a": "Objašnjeno je u Pravilima o privatnosti, zajedno s adresom e-pošte na koju nam možete pisati."
+          }
+        }
+      }
+    },
+    "title": "Kako vam možemo pomoći?",
+    "titleTail": "Pretražite ili odaberite temu.",
+    "searchLabel": "Pretraži pomoć",
+    "searchPlaceholder": "Pokušajte s «rezervacija», «ponuda» ili «portal za vlasnike»",
+    "clearSearch": "Očisti pretragu",
+    "popularLabel": "Najčešće traženo:",
+    "popular": {
+      "p1": "upiti",
+      "p2": "ponuda",
+      "p3": "rezervacija",
+      "p4": "cijene",
+      "p5": "portal za vlasnike",
+      "p6": "tim"
+    },
+    "faqLabel": "Česta pitanja",
+    "noResults": "Nema rezultata",
+    "results": "{count, plural, one {# odgovor za «{query}»} few {# odgovora za «{query}»} other {# odgovora za «{query}»}}",
+    "nothingFor": "Nismo ništa pronašli za «{query}».",
+    "tryAnother": "Pokušajte s drugom riječi ili nam pišite pa ćemo odgovoriti e-poštom.",
+    "toContact": "Idi na obrazac za kontakt",
+    "docsLead": "Već imate račun? Cijeli vodič za nadzornu ploču nalazi se u dokumentaciji.",
+    "docs": "Otvori dokumentaciju",
+    "contact": {
+      "errors": {
+        "name": "Unesite svoje ime",
+        "email": "Provjerite e-poštu: nedostaje @ ili domena",
+        "message": "Recite nam nešto više"
+      },
+      "failed": "Poruku nije moguće poslati. Pokušajte ponovno za nekoliko minuta.",
+      "sentTitle": "Poruka je poslana",
+      "sentText": "Uskoro ćemo vam odgovoriti e-poštom.",
+      "name": "Vaše ime",
+      "message": "Kako vam možemo pomoći",
+      "sending": "Slanje…",
+      "submit": "Pošalji poruku"
+    },
+    "page": {
+      "metaTitle": "Pomoć i kontakt",
+      "metaDescription": "Odgovori o nekretninama, ponudama, rezervacijama, dostupnosti i vašoj web-stranici. Ako ne pronađete što tražite, pišite nam.",
+      "contactTitle": "Niste pronašli što ste tražili?",
+      "contactTitleTail": "Pišite nam.",
+      "contactLead": "Recite nam svoje pitanje, problem ili ideju. Odgovaramo e-poštom.",
+      "byEmail": "E-poštom",
+      "personalData": "Osobni podaci",
+      "rules": "Pravila",
+      "terms": "Uvjeti",
+      "privacy": "Privatnost"
+    }
+  }
+}

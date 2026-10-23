@@ -1,17 +1,20 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRef } from "react";
 
 import { LogoIcon } from "@/components/logo-icon";
+import { localePath } from "@/i18n/config";
 import { LEGAL_ENTITY } from "@/lib/legal";
 
+// Words in "notFound.links.<key>"; the help and home pages exist in every language.
 const LINKS = [
-  { href: "/", label: "Inicio", hint: "Qué es Tivvo y cómo funciona" },
-  { href: "/help", label: "Ayuda", hint: "Respuestas y contacto" },
-  { href: "/login", label: "Ingresar", hint: "Entrá al panel de tu agencia" },
-];
+  { key: "home", href: "/", localized: true },
+  { key: "help", href: "/help", localized: true },
+  { key: "login", href: "/login", localized: false },
+] as const;
 
 /**
  * The 404, "Plano": the lost page as a spot missing from a floor plan. Paper
@@ -20,6 +23,8 @@ const LINKS = [
  * visitor's). The way out is a search that hands the words to the help center.
  */
 export function Plan404() {
+  const t = useTranslations("notFound");
+  const locale = useLocale();
   const stage = useRef<HTMLDivElement>(null);
   const readout = useRef<HTMLSpanElement>(null);
 
@@ -37,13 +42,13 @@ export function Plan404() {
       <header className="border-b border-line">
         <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-5 sm:px-8">
           <Link
-            href="/"
+            href={localePath(locale, "/")}
             className="flex items-center gap-2 rounded-sm font-logo text-xl leading-none font-semibold tracking-tight outline-none focus-visible:ring-2 focus-visible:ring-forest"
           >
             <LogoIcon className="h-[0.95em] text-forest" />
             Tivvo
           </Link>
-          <span className="text-sm text-quiet">Error 404</span>
+          <span className="text-sm text-quiet">{t("code")}</span>
         </div>
       </header>
 
@@ -111,27 +116,25 @@ export function Plan404() {
           </p>
 
           <h1 className="max-w-2xl font-logo text-2xl leading-snug font-medium tracking-tight sm:text-3xl">
-            <span className="sr-only">Error 404. </span>
-            Esta dirección no figura en el plano.{" "}
-            <span className="text-quiet">
-              Puede que se haya movido o que ya no esté publicada.
-            </span>
+            <span className="sr-only">{t("code")}. </span>
+            {t("title")}{" "}
+            <span className="text-quiet">{t("tail")}</span>
           </h1>
 
           <form
-            action="/help"
+            action={localePath(locale, "/help")}
             method="get"
             role="search"
             className="flex w-full max-w-lg flex-col gap-2 sm:flex-row"
           >
             <label htmlFor="plan-q" className="sr-only">
-              Buscar en la ayuda
+              {t("searchLabel")}
             </label>
             <input
               id="plan-q"
               name="q"
               type="search"
-              placeholder="¿Qué buscabas? Probá con «reserva»"
+              placeholder={t("searchPlaceholder")}
               autoComplete="off"
               className="h-12 flex-1 rounded-lg border border-line bg-white px-4 text-base outline-none placeholder:text-quiet focus-visible:ring-2 focus-visible:ring-forest"
             />
@@ -139,28 +142,28 @@ export function Plan404() {
               type="submit"
               className="inline-flex h-12 items-center justify-center rounded-lg bg-lime px-6 text-base font-semibold text-forest-deep outline-none transition-[filter] hover:brightness-95 focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2"
             >
-              Buscar
+              {t("search")}
             </button>
           </form>
         </div>
 
         <nav
-          aria-label="Otros lugares"
+          aria-label={t("otherPlaces")}
           className="relative border-t border-line bg-paper"
         >
           <ul className="mx-auto grid max-w-[1440px] sm:grid-cols-3 sm:divide-x sm:divide-line">
             {LINKS.map((link) => (
               <li
-                key={link.href}
+                key={link.key}
                 className="border-b border-line last:border-b-0 sm:border-b-0"
               >
                 <Link
-                  href={link.href}
+                  href={link.localized ? localePath(locale, link.href) : `${link.href}?lang=${locale}`}
                   className="group flex items-center justify-between gap-4 px-5 py-5 outline-none transition-colors hover:bg-mist focus-visible:bg-mist sm:px-8"
                 >
                   <span className="flex flex-col gap-0.5 text-left">
-                    <span className="font-medium">{link.label}</span>
-                    <span className="text-sm text-quiet">{link.hint}</span>
+                    <span className="font-medium">{t(`links.${link.key}.label`)}</span>
+                    <span className="text-sm text-quiet">{t(`links.${link.key}.hint`)}</span>
                   </span>
                   <ArrowRight
                     aria-hidden
@@ -171,7 +174,7 @@ export function Plan404() {
             ))}
           </ul>
           <p className="border-t border-line px-5 py-3 text-center text-xs text-quiet sm:px-8">
-            ¿Seguís perdido? Escribinos a{" "}
+            {t("stillLost")}{" "}
             <a
               className="underline underline-offset-4"
               href={`mailto:${LEGAL_ENTITY.contactEmail}`}

@@ -1,0 +1,83 @@
+{
+  "team": {
+    "active": "Activo",
+    "inactive": "Inactivo",
+    "member": "Miembro",
+    "role": "Rol",
+    "status": "Estado",
+    "actionsColumn": "Acciones",
+    "memberSince": "En el equipo desde {date}",
+    "since": "Desde {date}",
+    "memberSinceColumn": "En el equipo desde",
+    "roles": {
+      "OWNER": "Propietario",
+      "ADMIN": "Administrador",
+      "AGENT": "Agente"
+    },
+    "rolePlurals": {
+      "OWNER": "Propietarios",
+      "ADMIN": "Administradores",
+      "AGENT": "Agentes"
+    },
+    "roleHints": {
+      "OWNER": "Dueño de la cuenta",
+      "ADMIN": "Gestiona equipo, propiedades y ofertas",
+      "AGENT": "Trabaja con propiedades, clientes y reservas"
+    },
+    "menu": {
+      "actions": "Acciones de {name}",
+      "sendEmail": "Enviar email",
+      "copyEmail": "Copiar email",
+      "changeRole": "Cambiar rol",
+      "deactivate": "Desactivar acceso",
+      "reactivate": "Reactivar acceso",
+      "remove": "Quitar del equipo"
+    },
+    "invite": {
+      "linked": "Ya tenía cuenta en Tivvo: lo sumamos a tu equipo",
+      "sent": "Le enviamos el acceso por email",
+      "title": "Invitar miembro",
+      "description": "Si ya tiene cuenta en Tivvo lo sumamos a tu equipo; si no, le mandamos el acceso por email.",
+      "name": "Nombre",
+      "namePlaceholder": "Ej: Rodrigo Sosa",
+      "emailPlaceholder": "nombre@correo.com",
+      "role": "Rol",
+      "submitting": "Invitando…",
+      "submit": "Invitar"
+    },
+    "page": {
+      "updateFailed": "No se pudo guardar el cambio",
+      "removed": "Lo quitamos del equipo",
+      "removeFailed": "No se pudo quitar del equipo",
+      "roleChanged": "Nuevo rol: {role}",
+      "reactivated": "Acceso reactivado",
+      "deactivated": "Acceso desactivado",
+      "title": "Equipo",
+      "searchPlaceholder": "Buscar por nombre o email",
+      "search": "Buscar en el equipo",
+      "role": "Rol",
+      "roles": "roles",
+      "help": "Ayuda con el equipo",
+      "loadFailed": "No pudimos cargar el equipo",
+      "empty": {
+        "title": "Armá tu equipo",
+        "body": "Sumá administradores y agentes para trabajar juntos.",
+        "help": "Qué puede hacer cada rol"
+      },
+      "noMatch": {
+        "title": "Nadie coincide con eso",
+        "body": "Probá con otro nombre o quitá el filtro de rol."
+      },
+      "deactivate": {
+        "title": "¿Desactivar el acceso?",
+        "body": "{name} no va a poder entrar a la cuenta. Sus propiedades y clientes se mantienen y podés reactivarlo cuando quieras.",
+        "confirm": "Desactivar"
+      },
+      "remove": {
+        "title": "¿Quitar del equipo?",
+        "body": "{name} deja de tener acceso a esta agencia. Su cuenta no se borra: si pertenece a otra agencia, sigue entrando ahí sin problema.",
+        "confirm": "Quitar"
+      }
+    }
+  }
+}

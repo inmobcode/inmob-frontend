@@ -11,18 +11,19 @@ import {
   startOfDay,
   startOfMonth,
 } from "date-fns";
-import { es } from "date-fns/locale";
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 import { OwnerStatementView } from "@/components/owners/owner-statement";
 import { PhotoPlaceholder, formatPrice, placeOf } from "@/components/public/property-card";
 import { SITE_WRAP, SiteFooter, SiteHeader, SiteRoot } from "@/components/public/site-chrome";
-import type { BookingStatus, PaymentType } from "@/lib/api/bookings";
+import { useFormat } from "@/i18n/format";
+import { Link } from "@/i18n/navigation";
+import type { BookingStatus } from "@/lib/api/bookings";
 import type { OwnerPortal, OwnerPortalBooking, OwnerPortalProperty, OwnerPortalRecommendation } from "@/lib/api/owner-portal";
 import type { PropertyStatus } from "@/lib/api/properties";
-import type { RecommendationPriority, RecommendationStatus } from "@/lib/api/recommendations";
-import { LISTING_TYPE_LABELS, categoryLabel } from "@/lib/properties-labels";
+import type { RecommendationPriority } from "@/lib/api/recommendations";
+import { useLabels } from "@/lib/labels";
 import { resolveSite, whatsappLink } from "@/lib/site-theme";
 import { cn } from "@/lib/utils";
 import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
@@ -30,37 +31,24 @@ import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 /** How far ahead the occupancy strip looks. */
 const STRIP_MONTHS = 6;
 
-const money = (currency: string, value: number) => `${currency} ${value.toLocaleString("es-AR")}`;
-
-const BOOKING_PILL: Record<BookingStatus, { label: string; className: string }> = {
-  PENDING: { label: "Pendiente", className: "bg-amber-100 text-amber-900" },
-  CONFIRMED: { label: "Confirmada", className: "bg-site-accent text-site-accent-ink" },
-  COMPLETED: { label: "Completada", className: "bg-site-surface text-site-ink" },
-  CANCELLED: { label: "Cancelada", className: "bg-red-100 text-red-900" },
+// The words for each status live in "site.owner" (bookingStatus, propertyStatus, payment, priority, recommendation).
+const BOOKING_PILL: Record<BookingStatus, string> = {
+  PENDING: "bg-amber-100 text-amber-900",
+  CONFIRMED: "bg-site-accent text-site-accent-ink",
+  COMPLETED: "bg-site-surface text-site-ink",
+  CANCELLED: "bg-red-100 text-red-900",
 };
 
-const PROPERTY_PILL: Record<PropertyStatus, { label: string; className: string }> = {
-  PUBLISHED: { label: "Publicada", className: "bg-site-accent text-site-accent-ink" },
-  DRAFT: { label: "Sin publicar", className: "bg-site-surface text-site-ink" },
-  ARCHIVED: { label: "Archivada", className: "bg-site-surface text-site-quiet" },
+const PROPERTY_PILL: Record<PropertyStatus, string> = {
+  PUBLISHED: "bg-site-accent text-site-accent-ink",
+  DRAFT: "bg-site-surface text-site-ink",
+  ARCHIVED: "bg-site-surface text-site-quiet",
 };
 
-const OWNER_PAYMENT_LABELS: Record<PaymentType, string> = {
-  DEPOSIT: "Seña",
-  BALANCE: "Saldo",
-  COMMISSION: "Comisión",
-};
-
-const RECOMMENDATION_PRIORITY_PILL: Record<RecommendationPriority, { label: string; className: string }> = {
-  LOW: { label: "Prioridad baja", className: "bg-site-surface text-site-quiet" },
-  MEDIUM: { label: "Prioridad media", className: "bg-site-surface text-site-ink" },
-  HIGH: { label: "Prioridad alta", className: "bg-site-accent text-site-accent-ink" },
-};
-
-const RECOMMENDATION_STATUS_LABELS: Record<RecommendationStatus, string> = {
-  PROPOSED: "Propuesta",
-  APPROVED: "Aprobada",
-  DONE: "Hecha",
+const RECOMMENDATION_PRIORITY_PILL: Record<RecommendationPriority, string> = {
+  LOW: "bg-site-surface text-site-quiet",
+  MEDIUM: "bg-site-surface text-site-ink",
+  HIGH: "bg-site-accent text-site-accent-ink",
 };
 
 function Pill({ className, children }: { className: string; children: React.ReactNode }) {
@@ -95,6 +83,9 @@ function sumByCurrency(entries: { currency: string; amount: number }[]) {
  * confirmed ones solid and pending ones outlined, with a mark on today.
  */
 function OccupancyStrip({ bookings, today }: { bookings: OwnerPortalBooking[]; today: Date }) {
+  const t = useTranslations("site.owner");
+  const labels = useLabels();
+  const { dateLocale, date } = useFormat();
   const from = startOfMonth(today);
   const to = addMonths(from, STRIP_MONTHS);
   const span = differenceInCalendarDays(to, from);
@@ -118,17 +109,17 @@ function OccupancyStrip({ bookings, today }: { bookings: OwnerPortalBooking[]; t
       <figcaption className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
         <span className="s-heading text-lg">
           {bookedNights > 0
-            ? `${bookedNights} ${bookedNights === 1 ? "noche reservada" : "noches reservadas"} de acá a ${format(addMonths(from, STRIP_MONTHS - 1), "MMMM", { locale: es })}`
-            : `Sin estadías de acá a ${format(addMonths(from, STRIP_MONTHS - 1), "MMMM", { locale: es })}`}
+            ? t("nightsUntil", { count: bookedNights, month: format(addMonths(from, STRIP_MONTHS - 1), "LLLL", { locale: dateLocale }) })
+            : t("noStaysUntil", { month: format(addMonths(from, STRIP_MONTHS - 1), "LLLL", { locale: dateLocale }) })}
         </span>
         <span className="flex items-center gap-4 text-sm text-site-quiet">
           <span className="flex items-center gap-1.5">
             <span aria-hidden className="size-2.5 rounded-sm bg-site-accent" />
-            Confirmada
+            {labels.bookingStatus("CONFIRMED")}
           </span>
           <span className="flex items-center gap-1.5">
             <span aria-hidden className="size-2.5 rounded-sm border border-site-ink/50" />
-            Pendiente
+            {labels.bookingStatus("PENDING")}
           </span>
         </span>
       </figcaption>
@@ -139,7 +130,7 @@ function OccupancyStrip({ bookings, today }: { bookings: OwnerPortalBooking[]; t
           {months.map((month) => (
             <div key={month.toISOString()} className="flex flex-col gap-2 border-l border-site-line first:border-l-0">
               <div className="h-10" />
-              <span className="pl-2 text-xs text-site-quiet capitalize">{format(month, "MMM", { locale: es })}</span>
+              <span className="pl-2 text-xs text-site-quiet capitalize">{format(month, "LLL", { locale: dateLocale })}</span>
             </div>
           ))}
         </div>
@@ -150,7 +141,7 @@ function OccupancyStrip({ bookings, today }: { bookings: OwnerPortalBooking[]; t
           return (
             <span
               key={index}
-              title={`${format(stay.start, "d MMM", { locale: es })} – ${format(stay.end, "d MMM", { locale: es })} · ${BOOKING_PILL[booking.status].label}`}
+              title={`${date(stay.start, "dayMonthShort")} – ${date(stay.end, "dayMonthShort")} · ${labels.bookingStatus(booking.status)}`}
               className={cn(
                 "absolute top-1.5 h-7 rounded-[5px]",
                 booking.status === "PENDING" ? "border-2 border-site-ink/50 bg-site-bg" : "bg-site-accent",
@@ -166,14 +157,20 @@ function OccupancyStrip({ bookings, today }: { bookings: OwnerPortalBooking[]; t
           style={{ left: `${at(startOfDay(today))}%` }}
         >
           <span className="h-10 w-0.5 rounded-full bg-site-ink" />
-          <span className="mt-1 text-[11px] font-medium leading-none">Hoy</span>
+          <span className="mt-1 text-[11px] font-medium leading-none">{t("today")}</span>
         </span>
       </div>
       <p className="sr-only">
         {stays.length === 0
-          ? "No hay estadías en los próximos meses."
+          ? t("noStays")
           : stays
-              .map(({ booking, stay }) => `${format(stay.start, "d 'de' MMMM", { locale: es })} al ${format(stay.end, "d 'de' MMMM", { locale: es })}, ${BOOKING_PILL[booking.status].label.toLowerCase()}`)
+              .map(({ booking, stay }) =>
+                t("stayRange", {
+                  from: date(stay.start, "dayMonth"),
+                  to: date(stay.end, "dayMonth"),
+                  status: labels.bookingStatus(booking.status).toLowerCase(),
+                }),
+              )
               .join("; ")}
       </p>
     </figure>
@@ -181,6 +178,10 @@ function OccupancyStrip({ bookings, today }: { bookings: OwnerPortalBooking[]; t
 }
 
 function BookingRow({ booking, today }: { booking: OwnerPortalBooking; today: Date }) {
+  const t = useTranslations("site.owner");
+  const labels = useLabels();
+  const { date, money: formatMoney } = useFormat();
+  const money = (currency: string, value: number) => formatMoney(currency, value, {});
   const stay = stayOf(booking);
   const pill = BOOKING_PILL[booking.status];
   const paid = paidOf(booking);
@@ -195,16 +196,20 @@ function BookingRow({ booking, today }: { booking: OwnerPortalBooking; today: Da
         <div className="flex flex-wrap items-center gap-2.5">
           <span className="s-heading text-lg first-letter:uppercase">
             {stay
-              ? `${format(stay.start, "EEE d 'de' MMM", { locale: es })} – ${format(stay.end, "EEE d 'de' MMM", { locale: es })}`
-              : "Sin fechas"}
+              ? `${date(stay.start, "weekdayDayMonthShort")} – ${date(stay.end, "weekdayDayMonthShort")}`
+              : t("noDates")}
           </span>
-          <Pill className={pill.className}>{pill.label}</Pill>
+          <Pill className={pill}>{labels.bookingStatus(booking.status)}</Pill>
         </div>
         <span className="text-sm text-site-quiet">
-          {stay ? `${stay.nights} ${stay.nights === 1 ? "noche" : "noches"}` : "Venta"}
+          {stay ? t("nights", { count: stay.nights }) : t("sale")}
           {ownerPayments.length > 0 &&
             ` · ${ownerPayments
-              .map((payment) => `${OWNER_PAYMENT_LABELS[payment.type]} ${payment.status === "PAID" ? "pagada" : "pendiente"}`)
+              .map((payment) =>
+                t(payment.status === "PAID" ? "paymentPaid" : "paymentPending", {
+                  payment: t(`payment.${payment.type === "DEPOSIT" ? "DEPOSIT" : "BALANCE"}`),
+                }),
+              )
               .join(", ")}`}
         </span>
       </div>
@@ -212,12 +217,12 @@ function BookingRow({ booking, today }: { booking: OwnerPortalBooking; today: Da
         <div className="flex flex-col gap-2 sm:items-end">
           <span className="text-sm tabular-nums">
             <span className="font-medium">{money(booking.currency, paid)}</span>
-            <span className="text-site-quiet"> de {money(booking.currency, total)}</span>
+            <span className="text-site-quiet"> {t("ofTotal", { total: money(booking.currency, total) })}</span>
           </span>
           <div
             className="h-1.5 w-full overflow-hidden rounded-full bg-site-surface"
             role="progressbar"
-            aria-label="Cobrado"
+            aria-label={t("collected")}
             aria-valuemin={0}
             aria-valuemax={100}
             aria-valuenow={Math.round(ratio * 100)}
@@ -231,6 +236,9 @@ function BookingRow({ booking, today }: { booking: OwnerPortalBooking; today: Da
 }
 
 function RecommendationRow({ recommendation, currency }: { recommendation: OwnerPortalRecommendation; currency: string }) {
+  const t = useTranslations("site.owner");
+  const { money: formatMoney } = useFormat();
+  const money = (code: string, value: number) => formatMoney(code, value, {});
   const priority = RECOMMENDATION_PRIORITY_PILL[recommendation.priority];
   const done = recommendation.status === "DONE";
 
@@ -238,12 +246,12 @@ function RecommendationRow({ recommendation, currency }: { recommendation: Owner
     <li className={cn("flex flex-col gap-1.5 py-5", done && "opacity-70")}>
       <div className="flex flex-wrap items-center gap-2.5">
         <span className="s-heading text-lg">{recommendation.title}</span>
-        <Pill className={priority.className}>{priority.label}</Pill>
-        <span className="text-sm text-site-quiet">{RECOMMENDATION_STATUS_LABELS[recommendation.status]}</span>
+        <Pill className={priority}>{t(`priority.${recommendation.priority}`)}</Pill>
+        <span className="text-sm text-site-quiet">{t(`recommendation.${recommendation.status}`)}</span>
       </div>
       {recommendation.details && <p className="text-sm text-site-quiet">{recommendation.details}</p>}
       <div className="flex flex-wrap items-center gap-4 text-sm text-site-quiet">
-        {recommendation.estCost != null && <span>Costo estimado: {money(currency, recommendation.estCost)}</span>}
+        {recommendation.estCost != null && <span>{t("estimatedCost", { amount: money(currency, recommendation.estCost) })}</span>}
         {recommendation.pdfUrl && (
           <a
             href={recommendation.pdfUrl}
@@ -251,7 +259,7 @@ function RecommendationRow({ recommendation, currency }: { recommendation: Owner
             rel="noreferrer"
             className="font-medium text-site-ink underline underline-offset-2 hover:no-underline"
           >
-            Ver propuesta
+            {t("seeProposal")}
           </a>
         )}
       </div>
@@ -270,10 +278,13 @@ function PropertySection({
   agencyName: string;
   today: Date;
 }) {
+  const t = useTranslations("site.owner");
+  const labels = useLabels();
+  const { tag } = useFormat();
   const photos = [...property.photos].sort((a, b) => a.position - b.position);
   const cover = photos.find((photo) => photo.isCover) ?? photos[0];
   const place = placeOf(property);
-  const price = formatPrice(property);
+  const price = formatPrice(property, tag);
   const status = PROPERTY_PILL[property.status];
   const isRent = property.listingType === "RENT";
 
@@ -290,9 +301,9 @@ function PropertySection({
         </div>
         <div className="flex min-w-0 flex-col gap-3">
           <div className="flex flex-wrap items-center gap-2.5">
-            <Pill className={status.className}>{status.label}</Pill>
+            <Pill className={status}>{t(`propertyStatus.${property.status}`)}</Pill>
             <span className="text-sm text-site-quiet">
-              {LISTING_TYPE_LABELS[property.listingType]} · {categoryLabel(property.category)}
+              {labels.listingType(property.listingType)} · {labels.category(property.category)}
             </span>
           </div>
           <h2 className="s-heading text-[clamp(1.6rem,3vw,2.25rem)] leading-tight text-balance">{property.title}</h2>
@@ -304,18 +315,18 @@ function PropertySection({
           )}
           <div className="mt-auto flex flex-wrap items-end justify-between gap-4 pt-2">
             <p className="tabular-nums">
-              <span className="block text-sm text-site-quiet">{isRent ? "Precio por noche" : "Precio publicado"}</span>
-              <span className="s-heading text-2xl">{price ?? "Sin precio cargado"}</span>
+              <span className="block text-sm text-site-quiet">{isRent ? t("pricePerNight") : t("listedPrice")}</span>
+              <span className="s-heading text-2xl">{price ?? t("noPrice")}</span>
             </p>
             {property.published ? (
               <Link
                 href={`/page/${agencySlug}/properties/${property.slug}`}
                 className="inline-flex h-10 items-center rounded-lg border border-site-line px-4 text-sm font-medium outline-none hover:bg-site-surface focus-visible:ring-2 focus-visible:ring-site-accent"
               >
-                Ver en el sitio de {agencyName}
+                {t("seeOnSite", { agency: agencyName })}
               </Link>
             ) : (
-              <span className="text-sm text-site-quiet">Todavía no está en el sitio de {agencyName}.</span>
+              <span className="text-sm text-site-quiet">{t("notOnSite", { agency: agencyName })}</span>
             )}
           </div>
         </div>
@@ -324,12 +335,10 @@ function PropertySection({
       {isRent && <OccupancyStrip bookings={property.bookings} today={today} />}
 
       {(isRent || property.bookings.length > 0) && (
-        <section aria-label={`Reservas de ${property.title}`} className="flex flex-col">
-          <h3 className="s-heading text-xl">Reservas</h3>
+        <section aria-label={t("bookingsOf", { title: property.title })} className="flex flex-col">
+          <h3 className="s-heading text-xl">{t("bookings")}</h3>
           {property.bookings.length === 0 ? (
-            <p className="pt-2 text-site-quiet">
-              Todavía no hay reservas. Cuando {agencyName} cargue una, la vas a ver acá con sus fechas y pagos.
-            </p>
+            <p className="pt-2 text-site-quiet">{t("noBookings", { agency: agencyName })}</p>
           ) : (
             <ul className="divide-y divide-site-line">
               {property.bookings.map((booking, index) => (
@@ -341,8 +350,8 @@ function PropertySection({
       )}
 
       {property.recommendations.length > 0 && (
-        <section aria-label={`Mejoras sugeridas para ${property.title}`} className="flex flex-col">
-          <h3 className="s-heading text-xl">Mejoras sugeridas</h3>
+        <section aria-label={t("improvementsFor", { title: property.title })} className="flex flex-col">
+          <h3 className="s-heading text-xl">{t("improvements")}</h3>
           <ul className="divide-y divide-site-line">
             {property.recommendations.map((recommendation) => (
               <RecommendationRow key={recommendation.id} recommendation={recommendation} currency={property.currency} />
@@ -355,6 +364,9 @@ function PropertySection({
 }
 
 export function OwnerPortalView({ portal }: { portal: OwnerPortal }) {
+  const t = useTranslations("site.owner");
+  const { date, money: formatMoney } = useFormat();
+  const money = (currency: string, value: number) => formatMoney(currency, value, {});
   const { agency, properties } = portal;
   const site = resolveSite(agency.site);
   const today = startOfDay(new Date());
@@ -381,34 +393,34 @@ export function OwnerPortalView({ portal }: { portal: OwnerPortal }) {
   const hasRentals = properties.some((property) => property.listingType === "RENT");
   const figures = [
     {
-      label: "En el sitio",
-      value: properties.length === 0 ? "—" : `${published} de ${properties.length}`,
-      detail: properties.length === 1 ? "propiedad publicada" : "propiedades publicadas",
+      label: t("onSite"),
+      value: properties.length === 0 ? "—" : t("publishedOf", { published, total: properties.length }),
+      detail: t("publishedDetail", { count: properties.length }),
     },
     hasRentals &&
       (next && !isAfter(next.stay!.start, today)
         ? {
-            label: "Estadía en curso",
-            value: `Hasta el ${format(next.stay!.end, "d 'de' MMMM", { locale: es })}`,
+            label: t("currentStay"),
+            value: t("until", { date: date(next.stay!.end, "dayMonth") }),
             detail: next.property.title,
           }
         : {
-            label: "Próxima estadía",
-            value: next ? format(next.stay!.start, "d 'de' MMMM", { locale: es }) : "Ninguna",
-            detail: next ? next.property.title : "No hay reservas por delante",
+            label: t("nextStay"),
+            value: next ? date(next.stay!.start, "dayMonth") : t("none"),
+            detail: next ? next.property.title : t("nothingAhead"),
           }),
     allBookings.length > 0 &&
       (netOnly
         ? {
             // The commission is hidden, so the gross collected would give it away next to what's due.
-            label: "Te corresponde",
+            label: t("yourShare"),
             value: due.length > 0 ? due.map(([currency, amount]) => money(currency, amount)).join(" + ") : "—",
-            detail: due.length > 0 ? "de lo cobrado de tus reservas" : "Todavía no hay pagos",
+            detail: due.length > 0 ? t("yourShareDetail") : t("noPayments"),
           }
         : {
-            label: "Cobrado",
+            label: t("collected"),
             value: collected.length > 0 ? collected.map(([currency, amount]) => money(currency, amount)).join(" + ") : "—",
-            detail: collected.length > 0 ? "en pagos de tus reservas" : "Todavía no hay pagos",
+            detail: collected.length > 0 ? t("collectedDetail") : t("noPayments"),
           }),
   ].filter(Boolean) as { label: string; value: string; detail: string }[];
 
@@ -416,7 +428,7 @@ export function OwnerPortalView({ portal }: { portal: OwnerPortal }) {
     site.whatsapp && {
       icon: MessageCircle,
       label: "WhatsApp",
-      href: whatsappLink(site.whatsapp, "Hola, soy propietario y tengo una consulta sobre mis propiedades."),
+      href: whatsappLink(site.whatsapp, t("whatsappMessage")),
     },
     agency.contactEmail && { icon: Mail, label: agency.contactEmail, href: `mailto:${agency.contactEmail}` },
     site.phone && { icon: Phone, label: site.phone, href: `tel:${site.phone.replace(/[^\d+]/g, "")}` },
@@ -431,12 +443,10 @@ export function OwnerPortalView({ portal }: { portal: OwnerPortal }) {
           <div className={cn(SITE_WRAP, "flex flex-col gap-10 py-12 sm:py-16")}>
             <div className="flex max-w-2xl flex-col gap-3">
               <h1 className="s-heading text-[clamp(2.25rem,5vw,3.5rem)] leading-[1.05] text-balance">
-                Hola, {portal.ownerName}
+                {t("hello", { name: portal.ownerName })}
               </h1>
               <p className="text-lg text-site-quiet">
-                {hasRentals
-                  ? `Así están hoy tus propiedades con ${agency.name}: si están publicadas, cuándo hay huéspedes y qué se cobró.`
-                  : `Así están hoy tus propiedades con ${agency.name}: si están publicadas y a qué precio.`}
+                {t(hasRentals ? "introRentals" : "introSales", { agency: agency.name })}
               </p>
             </div>
             <dl
@@ -462,9 +472,9 @@ export function OwnerPortalView({ portal }: { portal: OwnerPortal }) {
             <section aria-labelledby="estado-de-cuenta" className="flex flex-col gap-5">
               <div className="flex flex-col gap-1">
                 <h2 id="estado-de-cuenta" className="s-heading text-2xl">
-                  Estado de cuenta
+                  {t("statementTitle")}
                 </h2>
-                <p className="max-w-xl text-site-quiet">Lo que se cobró de tus reservas, lo que te corresponde y lo que {agency.name} ya te liquidó.</p>
+                <p className="max-w-xl text-site-quiet">{t("statementBody", { agency: agency.name })}</p>
               </div>
               <OwnerStatementView statement={portal.statement} tone="site" />
             </section>
@@ -472,7 +482,7 @@ export function OwnerPortalView({ portal }: { portal: OwnerPortal }) {
 
           {properties.length === 0 ? (
             <p className="max-w-xl text-lg text-site-quiet">
-              Todavía no tenés propiedades asignadas. Cuando {agency.name} te asigne una, aparece acá.
+              {t("noProperties", { agency: agency.name })}
             </p>
           ) : (
             properties.map((property) => (
@@ -488,10 +498,8 @@ export function OwnerPortalView({ portal }: { portal: OwnerPortal }) {
 
           {contacts.length > 0 && (
             <section className="flex flex-col gap-4 border-t border-site-line pt-10">
-              <h2 className="s-heading text-xl">¿Querés cambiar algo?</h2>
-              <p className="-mt-2 max-w-xl text-site-quiet">
-                Precio, fechas bloqueadas o fotos: escribile a {agency.name} y lo actualizan.
-              </p>
+              <h2 className="s-heading text-xl">{t("changeTitle")}</h2>
+              <p className="-mt-2 max-w-xl text-site-quiet">{t("changeBody", { agency: agency.name })}</p>
               <div className="flex flex-wrap gap-2">
                 {contacts.map((contact, index) => (
                   <a

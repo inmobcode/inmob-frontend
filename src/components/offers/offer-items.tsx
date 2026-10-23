@@ -1,6 +1,7 @@
 "use client";
 
 import { Building2, ChevronDown, Plus, Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Controller, useFieldArray, useWatch, type Control } from "react-hook-form";
 
@@ -21,7 +22,9 @@ import {
 import type { DiscountType, OfferOperation } from "@/lib/api/offers";
 import type { Property } from "@/lib/api/properties";
 import type { ServiceType, ServiceUnit } from "@/lib/api/services";
-import { DISCOUNT_TYPE_LABELS } from "@/lib/properties-labels";
+import { useFormat } from "@/i18n/format";
+import { useLabels } from "@/lib/labels";
+import { DISCOUNT_TYPES } from "@/lib/properties-labels";
 import { cn } from "@/lib/utils";
 import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 
@@ -106,8 +109,6 @@ export function linePrice(
   return { base, final: Math.max(0, final) };
 }
 
-const money = (value: number) => value.toLocaleString("es-AR", { maximumFractionDigits: 0 });
-
 function coverOf(property: Property | undefined) {
   if (!property) return null;
   const photos = [...property.photos].sort((a, b) => a.position - b.position);
@@ -143,6 +144,10 @@ function OfferLine({
   currency: string;
   onRemove: () => void;
 }) {
+  const t = useTranslations("offers.items");
+  const labels = useLabels();
+  const { number } = useFormat();
+  const money = (value: number) => number(value, { maximumFractionDigits: 0 });
   const name = `sections.${sectionIndex}.properties.${index}` as const;
   const item = useWatch({ control, name });
   const property = properties.find((entry) => entry.id === item?.propertyId);
@@ -186,12 +191,12 @@ function OfferLine({
               </span>
             </div>
           ) : (
-            <span className="text-sm text-muted-foreground">{property ? "Sin precio" : ""}</span>
+            <span className="text-sm text-muted-foreground">{property ? t("noPrice") : ""}</span>
           )}
           <button
             type="button"
             aria-expanded={open}
-            aria-label={open ? "Ocultar ajustes" : "Mostrar ajustes"}
+            aria-label={open ? t("hideAdjustments") : t("showAdjustments")}
             onClick={() => setOpen((value) => !value)}
             className="flex size-8 items-center justify-center rounded-full text-muted-foreground transition-colors outline-none hover:bg-foreground/5 hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
           >
@@ -199,7 +204,7 @@ function OfferLine({
           </button>
           <button
             type="button"
-            aria-label="Quitar propiedad"
+            aria-label={t("removeProperty")}
             onClick={onRemove}
             className="flex size-8 items-center justify-center rounded-full text-muted-foreground transition-colors outline-none hover:bg-destructive/10 hover:text-destructive focus-visible:ring-3 focus-visible:ring-ring/50"
           >
@@ -210,8 +215,10 @@ function OfferLine({
 
       {misfit && (
         <p className="text-sm text-destructive">
-          Es una propiedad en {property.listingType === "SALE" ? "venta" : "alquiler"} y la oferta es de{" "}
-          {operation === "SALE" ? "venta" : "alquiler"}. Cambiala o quitala para poder guardar.
+          {t("misfit", {
+            listing: labels.listingType(property.listingType).toLowerCase(),
+            offer: labels.listingType(operation === "SALE" ? "SALE" : "RENT").toLowerCase(),
+          })}
         </p>
       )}
 
@@ -219,29 +226,29 @@ function OfferLine({
         <div className="flex flex-col gap-4 animate-in fade-in slide-in-from-top-1 duration-300">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Field>
-              <FieldLabel>Precio para esta oferta</FieldLabel>
+              <FieldLabel>{t("price")}</FieldLabel>
               <Controller
                 control={control}
                 name={`${name}.priceOverride`}
                 render={({ field }) => (
                   <UnitInput
                     unit={currency}
-                    placeholder={property?.price ? money(property.price) : "Precio de la propiedad"}
+                    placeholder={property?.price ? money(property.price) : t("pricePlaceholder")}
                     {...field}
                   />
                 )}
               />
             </Field>
             <Field>
-              <FieldLabel>Depósito de seguridad</FieldLabel>
+              <FieldLabel>{t("deposit")}</FieldLabel>
               <Controller
                 control={control}
                 name={`${name}.securityDeposit`}
-                render={({ field }) => <UnitInput unit={currency} placeholder="Opcional" {...field} />}
+                render={({ field }) => <UnitInput unit={currency} placeholder={t("optional")} {...field} />}
               />
             </Field>
             <Field>
-              <FieldLabel>Descuento</FieldLabel>
+              <FieldLabel>{t("discount")}</FieldLabel>
               <Controller
                 control={control}
                 name={`${name}.discountType`}
@@ -251,9 +258,9 @@ function OfferLine({
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      {Object.entries(DISCOUNT_TYPE_LABELS).map(([value, label]) => (
+                      {DISCOUNT_TYPES.map((value) => (
                         <SelectItem key={value} value={value}>
-                          {label}
+                          {labels.discountType(value)}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -263,7 +270,7 @@ function OfferLine({
             </Field>
             {item?.discountType !== "NONE" && (
               <Field>
-                <FieldLabel>Valor del descuento</FieldLabel>
+                <FieldLabel>{t("discountValue")}</FieldLabel>
                 <Controller
                   control={control}
                   name={`${name}.discountValue`}
@@ -275,11 +282,11 @@ function OfferLine({
             )}
           </div>
           <Field>
-            <FieldLabel>Texto corto (opcional)</FieldLabel>
+            <FieldLabel>{t("shortText")}</FieldLabel>
             <Controller
               control={control}
               name={`${name}.bottomText`}
-              render={({ field }) => <Input placeholder="Ej: Incluye limpieza final" {...field} />}
+              render={({ field }) => <Input placeholder={t("shortTextPlaceholder")} {...field} />}
             />
           </Field>
         </div>
@@ -302,6 +309,7 @@ export function OfferSectionBlock({
   currency: string;
   onRemoveSection: () => void;
 }) {
+  const t = useTranslations("offers.items");
   const { fields, append, remove } = useFieldArray({
     control,
     name: `sections.${sectionIndex}.properties`,
@@ -316,8 +324,8 @@ export function OfferSectionBlock({
             name={`sections.${sectionIndex}.title`}
             render={({ field }) => (
               <Input
-                aria-label="Título de la sección"
-                placeholder="Título de la sección (opcional)"
+                aria-label={t("sectionTitle")}
+                placeholder={t("sectionTitlePlaceholder")}
                 className="h-11 bg-card text-base font-medium"
                 {...field}
               />
@@ -329,8 +337,8 @@ export function OfferSectionBlock({
             render={({ field }) => (
               <RichTextEditor
                 variant="inline"
-                ariaLabel="Texto de la sección"
-                placeholder="Una línea para presentar estas propiedades (opcional)"
+                ariaLabel={t("sectionText")}
+                placeholder={t("sectionTextPlaceholder")}
                 value={field.value}
                 onChange={field.onChange}
                 className="bg-card"
@@ -340,8 +348,8 @@ export function OfferSectionBlock({
         </div>
         <button
           type="button"
-          aria-label="Eliminar sección"
-          title="Eliminar sección"
+          aria-label={t("deleteSection")}
+          title={t("deleteSection")}
           onClick={onRemoveSection}
           className="flex size-9 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors outline-none hover:bg-destructive/10 hover:text-destructive focus-visible:ring-3 focus-visible:ring-ring/50"
         >
@@ -364,7 +372,7 @@ export function OfferSectionBlock({
         <div>
           <Button type="button" variant="outline" className="h-10 gap-2 px-5" onClick={() => append(emptyOfferProperty())}>
             <Plus />
-            Agregar propiedad
+            {t("addProperty")}
           </Button>
         </div>
       </div>

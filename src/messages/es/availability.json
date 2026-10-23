@@ -1,0 +1,91 @@
+{
+  "availability": {
+    "legend": {
+      "available": "Disponible",
+      "booked": "Reservado",
+      "turnover": "Check-in / check-out",
+      "past": "Pasado",
+      "pending": "Reserva pendiente"
+    },
+    "grid": {
+      "searchPlaceholder": "Buscar propiedad…",
+      "search": "Buscar propiedad",
+      "location": "Ubicación",
+      "allLocations": "Todas las ubicaciones",
+      "searchLocation": "Buscar ubicación…",
+      "noLocation": "Ninguna ubicación coincide.",
+      "onlyFree": "Solo libres",
+      "clearDates": "Quitar fechas",
+      "pickDates": "Elegí las fechas",
+      "noneFree": "Ninguna propiedad está libre en esas fechas.",
+      "noneMatch": "Ninguna propiedad coincide con \"{search}\".",
+      "noneInLocation": "Ninguna propiedad está en esa ubicación.",
+      "seeMore": "Ver más",
+      "otherLocation": "Otra ubicación",
+      "nothing": "No hay propiedades para mostrar.",
+      "property": "Propiedad",
+      "perNight": "{price}/noche",
+      "past": "Pasado",
+      "pending": "Reserva pendiente",
+      "pendingIn": "Reserva pendiente (check-in)",
+      "pendingOut": "Reserva pendiente (check-out)",
+      "available": "Disponible",
+      "booked": "Reservado",
+      "turnover": "Check-in / check-out",
+      "checkIn": "Check-in",
+      "checkOut": "Check-out"
+    },
+    "month": {
+      "blocked": "Fechas bloqueadas",
+      "blockFailed": "No se pudieron bloquear las fechas",
+      "rangeTaken": "Ese rango incluye noches ocupadas o ya pasadas.",
+      "previous": "Mes anterior",
+      "next": "Mes siguiente",
+      "today": "Hoy",
+      "property": "Propiedad",
+      "allProperties": "Todas las propiedades",
+      "searchProperty": "Buscar propiedad…",
+      "noProperty": "Ninguna propiedad coincide.",
+      "hintSelected": "Arrastrá sobre las noches libres para bloquearlas. Con el teclado: Enter en el primer día y Enter en el último.",
+      "hintAll": "Cada día muestra cuántas propiedades están ocupadas esa noche. Elegí una propiedad para ver sus reservas y bloquear fechas.",
+      "pendingHint": "Reserva pendiente: todavía no bloquea las fechas, pero está pedida.",
+      "loadFailed": "No pudimos cargar el calendario.",
+      "noRentals": "Todavía no tenés propiedades en alquiler.",
+      "dayLabel": "{day}: {occupied} de {total} ocupadas",
+      "more": "+{count} más",
+      "checkIn": "Entra",
+      "checkOut": "Sale",
+      "turnover": "Sale y entra",
+      "occupiedOf": "{occupied}/{total} ocupadas",
+      "pending": "Pendiente",
+      "blockSummary": "{count, plural, one {Bloquear <strong>{title}</strong>: # noche, del {from} al {to}.} other {Bloquear <strong>{title}</strong>: # noches, del {from} al {to}.}}",
+      "note": "Nota (opcional)",
+      "noteLabel": "Nota del bloqueo",
+      "block": "Bloquear",
+      "lists": {
+        "taken": "Ocupadas ({count})",
+        "waiting": "Pendientes ({count})",
+        "free": "Libres ({count})",
+        "none": "Ninguna.",
+        "viewMonth": "Ver mes"
+      }
+    },
+    "page": {
+      "view": "Vista",
+      "views": {
+        "grid": "Próximos 90 días",
+        "month": "Mensual"
+      },
+      "title": "Disponibilidad",
+      "gridLead": "Los próximos 90 días de tus propiedades en alquiler, todas juntas.",
+      "monthLead": "Un mes a la vez: cuántas propiedades están ocupadas cada día, y bloqueo de fechas.",
+      "help": "Ayuda con disponibilidad",
+      "copyLink": "Copiar link para compartir",
+      "loadFailed": "No pudimos cargar la disponibilidad",
+      "empty": {
+        "title": "Todavía no tenés propiedades en alquiler",
+        "body": "En cuanto cargues una, su disponibilidad aparece acá."
+      }
+    }
+  }
+}

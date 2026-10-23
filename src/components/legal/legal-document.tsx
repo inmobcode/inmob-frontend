@@ -1,6 +1,8 @@
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 import { LegalIndex } from "@/components/legal/legal-index";
+import { useFormat } from "@/i18n/format";
+import { Link } from "@/i18n/navigation";
 import { LEGAL_UPDATED_AT } from "@/lib/legal";
 
 export interface LegalSection {
@@ -13,6 +15,18 @@ export interface LegalSection {
 
 const LINK =
   "rounded-sm font-medium text-ink underline decoration-line underline-offset-4 outline-none transition-colors hover:decoration-ink focus-visible:ring-2 focus-visible:ring-forest";
+
+/** One legal document in one language (src/content/legal). */
+export interface LegalContent {
+  metaTitle: string;
+  metaDescription: string;
+  title: string;
+  intro: React.ReactNode;
+  summary: string[];
+  sections: LegalSection[];
+  related: { href: string; label: string };
+  action?: { href: string; label: string; hint: string };
+}
 
 /** Inline link styled for the legal body copy. */
 export function LegalLink({ href, children }: { href: string; children: React.ReactNode }) {
@@ -54,6 +68,8 @@ export function LegalDocument({
   /** The one thing a reader may want to do right now (e.g. exercise a right). */
   action?: { href: string; label: string; hint: string };
 }) {
+  const t = useTranslations("legal");
+  const { date } = useFormat();
   return (
     <main className="flex-1">
       <header className="bg-forest text-paper print:bg-transparent print:text-ink">
@@ -65,15 +81,15 @@ export function LegalDocument({
             <div className="mt-6 max-w-xl text-lg text-pretty text-paper/60 print:text-quiet">{intro}</div>
             <dl className="mt-10 flex flex-wrap gap-x-10 gap-y-4 border-t border-paper/15 pt-6 text-sm print:border-line">
               <div>
-                <dt className="text-paper/55 print:text-quiet">Vigente desde</dt>
-                <dd className="mt-1 font-medium">{LEGAL_UPDATED_AT}</dd>
+                <dt className="text-paper/55 print:text-quiet">{t("effective")}</dt>
+                <dd className="mt-1 font-medium">{date(new Date(`${LEGAL_UPDATED_AT}T12:00:00`), "long")}</dd>
               </div>
               <div>
-                <dt className="text-paper/55 print:text-quiet">Secciones</dt>
+                <dt className="text-paper/55 print:text-quiet">{t("sections")}</dt>
                 <dd className="mt-1 font-medium">{sections.length}</dd>
               </div>
               <div>
-                <dt className="text-paper/55 print:text-quiet">Ver también</dt>
+                <dt className="text-paper/55 print:text-quiet">{t("seeAlso")}</dt>
                 <dd className="mt-1 font-medium">
                   <Link
                     href={related.href}
@@ -99,7 +115,7 @@ export function LegalDocument({
 
           <section aria-labelledby="resumen" className="lg:col-span-5 lg:col-start-8">
             <h2 id="resumen" className="font-logo text-xl font-semibold tracking-tight">
-              En pocas palabras
+              {t("summary")}
             </h2>
             <ol className="mt-5 flex flex-col border-t border-paper/15 print:border-line">
               {summary.map((item, index) => (
@@ -113,7 +129,7 @@ export function LegalDocument({
               ))}
             </ol>
             <p className="mt-4 text-sm text-paper/55 print:text-quiet">
-              Este resumen ayuda a leer el documento, pero no lo reemplaza: rige el texto completo.
+              {t("summaryNote")}
             </p>
           </section>
         </div>
@@ -143,7 +159,7 @@ export function LegalDocument({
               </h2>
               {section.brief && (
                 <p className="mt-5 border-l-2 border-forest py-0.5 pl-4 text-pretty font-medium text-ink sm:ml-11">
-                  <span className="text-quiet">En corto: </span>
+                  <span className="text-quiet">{t("brief")} </span>
                   {section.brief}
                 </p>
               )}

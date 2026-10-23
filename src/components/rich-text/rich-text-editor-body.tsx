@@ -4,6 +4,7 @@ import { EditorContent, useEditor, useEditorState, type Editor } from "@tiptap/r
 import { Placeholder } from "@tiptap/extensions";
 import StarterKit from "@tiptap/starter-kit";
 import { Bold, Italic, Link2, List, ListOrdered, Unlink } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -38,11 +39,7 @@ function buildExtensions(variant: RichTextVariant, placeholder?: string) {
   ];
 }
 
-const BLOCKS = [
-  { value: "p", label: "Texto" },
-  { value: "h2", label: "Título" },
-  { value: "h3", label: "Subtítulo" },
-] as const;
+const BLOCKS = [{ value: "p" }, { value: "h2" }, { value: "h3" }] as const;
 
 function ToolButton({
   label,
@@ -75,6 +72,7 @@ function ToolButton({
 }
 
 function LinkButton({ editor, active }: { editor: Editor; active: boolean }) {
+  const t = useTranslations("common.richText");
   const [open, setOpen] = useState(false);
   const [url, setUrl] = useState("");
 
@@ -97,8 +95,8 @@ function LinkButton({ editor, active }: { editor: Editor; active: boolean }) {
       <PopoverTrigger asChild>
         <button
           type="button"
-          aria-label="Link"
-          title="Link"
+          aria-label={t("link")}
+          title={t("link")}
           aria-pressed={active}
           onMouseDown={(event) => event.preventDefault()}
           className={cn(
@@ -122,10 +120,10 @@ function LinkButton({ editor, active }: { editor: Editor; active: boolean }) {
             value={url}
             onChange={(event) => setUrl(event.target.value)}
             placeholder="https://..."
-            aria-label="Dirección del link"
+            aria-label={t("linkUrl")}
           />
           <Button type="submit" className="h-10">
-            Listo
+            {t("done")}
           </Button>
         </form>
         {active && (
@@ -138,7 +136,7 @@ function LinkButton({ editor, active }: { editor: Editor; active: boolean }) {
             className="inline-flex items-center gap-1.5 self-start text-sm text-muted-foreground hover:text-foreground"
           >
             <Unlink className="size-3.5" />
-            Quitar link
+            {t("removeLink")}
           </button>
         )}
       </PopoverContent>
@@ -147,6 +145,7 @@ function LinkButton({ editor, active }: { editor: Editor; active: boolean }) {
 }
 
 function Toolbar({ editor, variant, sticky }: { editor: Editor; variant: RichTextVariant; sticky: boolean }) {
+  const t = useTranslations("common.richText");
   const state = useEditorState({
     editor,
     selector: ({ editor: current }) => ({
@@ -176,7 +175,7 @@ function Toolbar({ editor, variant, sticky }: { editor: Editor; variant: RichTex
     >
       {variant === "full" && (
         <>
-          <div role="group" aria-label="Tipo de texto" className="flex gap-0.5 rounded-lg bg-foreground/[0.05] p-0.5">
+          <div role="group" aria-label={t("blockType")} className="flex gap-0.5 rounded-lg bg-foreground/[0.05] p-0.5">
             {BLOCKS.map((block) => (
               <button
                 key={block.value}
@@ -191,30 +190,30 @@ function Toolbar({ editor, variant, sticky }: { editor: Editor; variant: RichTex
                     : "text-muted-foreground hover:text-foreground",
                 )}
               >
-                {block.label}
+                {t(`blocks.${block.value}`)}
               </button>
             ))}
           </div>
           <span aria-hidden className="mx-1 h-5 w-px bg-foreground/10" />
         </>
       )}
-      <ToolButton label="Negrita" active={state.bold} onClick={() => editor.chain().focus().toggleBold().run()}>
+      <ToolButton label={t("bold")} active={state.bold} onClick={() => editor.chain().focus().toggleBold().run()}>
         <Bold className="size-4" />
       </ToolButton>
-      <ToolButton label="Cursiva" active={state.italic} onClick={() => editor.chain().focus().toggleItalic().run()}>
+      <ToolButton label={t("italic")} active={state.italic} onClick={() => editor.chain().focus().toggleItalic().run()}>
         <Italic className="size-4" />
       </ToolButton>
       {variant === "full" && (
         <>
           <ToolButton
-            label="Lista con viñetas"
+            label={t("bulletList")}
             active={state.bulletList}
             onClick={() => editor.chain().focus().toggleBulletList().run()}
           >
             <List className="size-4" />
           </ToolButton>
           <ToolButton
-            label="Lista numerada"
+            label={t("orderedList")}
             active={state.orderedList}
             onClick={() => editor.chain().focus().toggleOrderedList().run()}
           >

@@ -17,7 +17,8 @@ import {
   User,
 } from "lucide-react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -53,10 +54,12 @@ import { gsap, useGSAP } from "@/lib/gsap";
 import { distance, duration, ease, media } from "@/lib/motion";
 import { useActionBarStore } from "@/lib/store/action-bar-store";
 
-const schema = z.object({
-  title: z.string().min(2, "Ingresá un título"),
+type EditorTranslator = ReturnType<typeof useTranslations<"properties.editor">>;
+
+const makeSchema = (t: EditorTranslator) => z.object({
+  title: z.string().min(2, t("titleRequired")),
   listingType: z.enum(["SALE", "RENT"]),
-  category: z.string().min(1, "Elegí una categoría"),
+  category: z.string().min(1, t("categoryRequired")),
   price: z.string(),
   currency: z.string(),
   bedrooms: z.string(),
@@ -135,11 +138,12 @@ const schema = z.object({
   ourNote: z.string(),
 });
 
-export type FormValues = z.infer<typeof schema>;
+export type FormValues = z.infer<ReturnType<typeof makeSchema>>;
 
 interface TabDef {
   value: string;
   label: string;
+  hint: string;
   icon: React.ComponentType<{ className?: string }>;
 }
 
@@ -148,43 +152,57 @@ interface TabGroup {
   tabs: TabDef[];
 }
 
-function buildGroups(listingType: "SALE" | "RENT", category: string): TabGroup[] {
+type TabKey =
+  | "basico"
+  | "ubicacion"
+  | "amenities"
+  | "content"
+  | "precios"
+  | "fotos"
+  | "disponibilidad"
+  | "rates"
+  | "essentials"
+  | "recomendaciones"
+  | "rooms"
+  | "propietario";
+
+function buildGroups(listingType: "SALE" | "RENT", category: string, t: EditorTranslator): TabGroup[] {
+  const tab = (value: TabKey, icon: TabDef["icon"]): TabDef => ({
+    value,
+    label: t(`tabs.${value}.label`),
+    hint: t(`tabs.${value}.hint`),
+    icon,
+  });
   const general: TabGroup = {
-    label: "Información general",
+    label: t("groups.general"),
     tabs: [
-      { value: "basico", label: "Básico", icon: Building2 },
-      { value: "ubicacion", label: "Ubicación", icon: MapPin },
-      { value: "amenities", label: "Amenities & Facilities", icon: ListChecks },
-      { value: "content", label: "Content & Services", icon: FileText },
-      { value: "precios", label: "Precios", icon: Percent },
+      tab("basico", Building2),
+      tab("ubicacion", MapPin),
+      tab("amenities", ListChecks),
+      tab("content", FileText),
+      tab("precios", Percent),
     ],
   };
   const media: TabGroup = {
-    label: "Multimedia",
-    tabs: [{ value: "fotos", label: "Fotos", icon: Images }],
+    label: t("groups.media"),
+    tabs: [tab("fotos", Images)],
   };
   const management: TabGroup = {
-    label: "Gestión",
-    tabs: [
-      { value: "essentials", label: "Essentials", icon: Settings },
-      { value: "recomendaciones", label: "Recomendaciones", icon: Lightbulb },
-    ],
+    label: t("groups.management"),
+    tabs: [tab("essentials", Settings), tab("recomendaciones", Lightbulb)],
   };
   const contact: TabGroup = {
-    label: "Contacto",
-    tabs: [{ value: "propietario", label: "Propietario", icon: User }],
+    label: t("groups.contact"),
+    tabs: [tab("propietario", User)],
   };
 
   if (listingType === "RENT") {
     const rental: TabGroup = {
-      label: "Alquiler",
-      tabs: [
-        { value: "disponibilidad", label: "Disponibilidad", icon: Calendar },
-        { value: "rates", label: "Rates", icon: Percent },
-      ],
+      label: t("groups.rental"),
+      tabs: [tab("disponibilidad", Calendar), tab("rates", Percent)],
     };
     if (category === "HOTEL") {
-      management.tabs.push({ value: "rooms", label: "Rooms", icon: DoorOpen });
+      management.tabs.push(tab("rooms", DoorOpen));
     }
     return [general, media, rental, management, contact];
   }
@@ -427,6 +445,9 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
     },
   });
 
+  const t = useTranslations("properties.editor");
+  const tc = useTranslations("common");
+  const schema = useMemo(() => makeSchema(t), [t]);
   const form = useForm<FormValues>({ resolver: zodResolver(schema) });
   const listingType = useWatch({ control: form.control, name: "listingType" });
   const category = useWatch({ control: form.control, name: "category" });
@@ -452,9 +473,9 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
     },
     onSuccess: (updated) => {
       queryClient.setQueryData(["property", propertyId], updated);
-      toast.success("Cambios guardados");
+      toast.success(tc("changesSaved"));
     },
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo guardar"),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : t("saveFailed")),
   });
 
   const publishMutation = useMutation({
@@ -466,9 +487,9 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
     },
     onSuccess: (updated) => {
       queryClient.setQueryData(["property", propertyId], updated);
-      toast.success("Propiedad publicada");
+      toast.success(t("published"));
     },
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo publicar"),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : t("publishFailed")),
   });
 
   const unpublishMutation = useMutation({
@@ -479,18 +500,18 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
     },
     onSuccess: (updated) => {
       queryClient.setQueryData(["property", propertyId], updated);
-      toast.success("Propiedad despublicada");
+      toast.success(t("unpublished"));
     },
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo despublicar"),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : t("unpublishFailed")),
   });
 
   const isPublished = property?.status === "PUBLISHED";
 
   useEffect(() => {
-    const navGroups = property ? buildGroups(property.listingType, property.category) : [];
+    const navGroups = property ? buildGroups(property.listingType, property.category, t) : [];
     setActions({
-      title: findTabMeta(navGroups, activeTab)?.label ?? "Propiedad",
-      back: { href: `/${agencySlug}/properties`, label: "Propiedades" },
+      title: findTabMeta(navGroups, activeTab)?.label ?? t("fallbackTitle"),
+      back: { href: `/${agencySlug}/properties`, label: t("back") },
       navigation: property ? (
         <SectionNavbar groups={navGroups} active={activeTab} onChange={setTab} />
       ) : null,
@@ -498,7 +519,7 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
       isDirty,
       canSubmit: true,
       onSave: form.handleSubmit((values) => saveMutation.mutate(values)),
-      publishLabel: isPublished ? "Despublicar" : "Publicar",
+      publishLabel: isPublished ? t("unpublish") : t("publish"),
       onPublish: isPublished
         ? () => unpublishMutation.mutate()
         : form.handleSubmit((values) => publishMutation.mutate(values)),
@@ -506,9 +527,9 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
       extra: (
         <div className="flex items-center gap-1 sm:mr-2">
           <Button type="button" variant="ghost" className="gap-1.5" asChild>
-            <a href={docsHref("propiedades")} target="_blank" rel="noreferrer" title="Ayuda con propiedades">
+            <a href={docsHref("propiedades")} target="_blank" rel="noreferrer" title={t("help")}>
               <CircleQuestionMark />
-              <span className="hidden lg:inline">Ayuda</span>
+              <span className="hidden lg:inline">{tc("help")}</span>
             </a>
           </Button>
         </div>

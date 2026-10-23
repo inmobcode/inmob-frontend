@@ -1,7 +1,6 @@
-import { differenceInCalendarDays, format, parseISO } from "date-fns";
-import { es } from "date-fns/locale";
+import { differenceInCalendarDays, parseISO } from "date-fns";
 import { Check, Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 import {
   PhotoPlaceholder,
@@ -14,56 +13,35 @@ import {
   SiteHeader,
   SiteRoot,
 } from "@/components/public/site-chrome";
+import { useFormat } from "@/i18n/format";
+import { Link } from "@/i18n/navigation";
 import type { BookingStatus, PublicBooking } from "@/lib/api/bookings";
 import { parseApiDate } from "@/lib/dates";
-import {
-  LISTING_TYPE_LABELS,
-  PAYMENT_TYPE_LABELS,
-  categoryLabel,
-} from "@/lib/properties-labels";
+import { useLabels } from "@/lib/labels";
 import { resolveSite, whatsappLink } from "@/lib/site-theme";
 import { cn } from "@/lib/utils";
 import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 
-/** The headline and the line under it, written to the client, per status. */
-const STATUS_COPY: Record<BookingStatus, { title: string; detail: string }> = {
-  PENDING: {
-    title: "Tu reserva está pendiente",
-    detail:
-      "La agencia todavía tiene que confirmarla. Te avisamos por email cuando esté confirmada.",
-  },
-  CONFIRMED: {
-    title: "Tu reserva está confirmada",
-    detail: "Las fechas son tuyas. Guardá este link para volver a ver los detalles.",
-  },
-  COMPLETED: {
-    title: "Tu estadía terminó",
-    detail: "Gracias por elegirnos. Acá quedan los detalles de la reserva.",
-  },
-  CANCELLED: {
-    title: "Esta reserva fue cancelada",
-    detail: "Si no esperabas este cambio, escribinos y lo revisamos.",
-  },
+// The headline and the line under it, written to the client, live in
+// "site.booking.status.<STATUS>" (title, titleNamed, detail).
+const STATUS_PILL: Record<BookingStatus, string> = {
+  PENDING: "bg-amber-100 text-amber-900",
+  CONFIRMED: "bg-site-accent text-site-accent-ink",
+  COMPLETED: "bg-site-surface text-site-ink",
+  CANCELLED: "bg-red-100 text-red-900",
 };
-
-const STATUS_PILL: Record<BookingStatus, { label: string; className: string }> = {
-  PENDING: { label: "Pendiente", className: "bg-amber-100 text-amber-900" },
-  CONFIRMED: { label: "Confirmada", className: "bg-site-accent text-site-accent-ink" },
-  COMPLETED: { label: "Completada", className: "bg-site-surface text-site-ink" },
-  CANCELLED: { label: "Cancelada", className: "bg-red-100 text-red-900" },
-};
-
-const money = (currency: string, value: number) =>
-  `${currency} ${value.toLocaleString("es-AR")}`;
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return <h2 className="s-heading text-xl">{children}</h2>;
 }
 
 export function BookingView({ booking }: { booking: PublicBooking }) {
+  const t = useTranslations("site.booking");
+  const labels = useLabels();
+  const { date, money: formatMoney } = useFormat();
+  const money = (currency: string, value: number) => formatMoney(currency, value, {});
   const { agency, property } = booking;
   const site = resolveSite(agency.site);
-  const copy = STATUS_COPY[booking.status];
   const pill = STATUS_PILL[booking.status];
   const cover = coverPhoto(property);
   const place = placeOf(property);
@@ -88,7 +66,7 @@ export function BookingView({ booking }: { booking: PublicBooking }) {
       label: "WhatsApp",
       href: whatsappLink(
         site.whatsapp,
-        `Hola, tengo una consulta sobre mi reserva en "${property.title}".`,
+        t("whatsappMessage", { title: property.title }),
       ),
     },
     agency.contactEmail && {
@@ -112,7 +90,7 @@ export function BookingView({ booking }: { booking: PublicBooking }) {
           <span
             className={cn(
               "inline-flex h-7 w-fit items-center gap-1.5 rounded-full px-3 text-sm font-medium",
-              pill.className,
+              pill,
             )}
           >
             {booking.status === "CONFIRMED" ? (
@@ -120,12 +98,14 @@ export function BookingView({ booking }: { booking: PublicBooking }) {
             ) : booking.status === "PENDING" ? (
               <Clock className="size-3.5" aria-hidden />
             ) : null}
-            {pill.label}
+            {labels.bookingStatus(booking.status)}
           </span>
           <h1 className="s-heading text-4xl text-balance sm:text-5xl">
-            {firstName ? `${firstName}, ${copy.title.charAt(0).toLowerCase()}${copy.title.slice(1)}` : copy.title}
+            {firstName
+              ? t(`status.${booking.status}.titleNamed`, { name: firstName })
+              : t(`status.${booking.status}.title`)}
           </h1>
-          <p className="max-w-xl text-site-quiet">{copy.detail}</p>
+          <p className="max-w-xl text-site-quiet">{t(`status.${booking.status}.detail`)}</p>
         </header>
 
         <article className="grid overflow-hidden rounded-xl border border-site-line sm:grid-cols-[16rem_minmax(0,1fr)]">
@@ -139,7 +119,7 @@ export function BookingView({ booking }: { booking: PublicBooking }) {
           </div>
           <div className="flex flex-col gap-2 p-5 sm:p-6">
             <p className="text-sm text-site-quiet">
-              {LISTING_TYPE_LABELS[property.listingType]} · {categoryLabel(property.category)}
+              {labels.listingType(property.listingType)} · {labels.category(property.category)}
             </p>
             <p className="s-heading text-2xl text-balance">{property.title}</p>
             {place && (
@@ -153,7 +133,7 @@ export function BookingView({ booking }: { booking: PublicBooking }) {
                 href={`/page/${agency.slug}/properties/${property.slug}`}
                 className="mt-auto w-fit pt-2 text-sm font-medium underline decoration-site-line underline-offset-4 outline-none hover:decoration-site-ink focus-visible:ring-2 focus-visible:ring-site-accent"
               >
-                Ver la propiedad
+                {t("seeProperty")}
               </Link>
             )}
           </div>
@@ -161,12 +141,12 @@ export function BookingView({ booking }: { booking: PublicBooking }) {
 
         {start && end && nights && (
           <section className="flex flex-col gap-4">
-            <SectionTitle>Tu estadía</SectionTitle>
+            <SectionTitle>{t("stay")}</SectionTitle>
             <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-site-line bg-site-line sm:grid-cols-3">
               {[
-                { label: "Check-in", value: format(start, "EEE d 'de' MMMM", { locale: es }), sub: format(start, "yyyy") },
-                { label: "Check-out", value: format(end, "EEE d 'de' MMMM", { locale: es }), sub: format(end, "yyyy") },
-                { label: "Duración", value: `${nights} ${nights === 1 ? "noche" : "noches"}`, sub: null },
+                { label: t("checkIn"), value: date(start, "weekdayDayMonth"), sub: String(start.getFullYear()) },
+                { label: t("checkOut"), value: date(end, "weekdayDayMonth"), sub: String(end.getFullYear()) },
+                { label: t("duration"), value: t("nights", { count: nights }), sub: null },
               ].map((item) => (
                 <div
                   key={item.label}
@@ -183,22 +163,22 @@ export function BookingView({ booking }: { booking: PublicBooking }) {
 
         {total > 0 && (
           <section className="flex flex-col gap-4">
-            <SectionTitle>Pagos</SectionTitle>
+            <SectionTitle>{t("payments")}</SectionTitle>
             <div className="flex flex-col gap-5 rounded-xl border border-site-line p-5 sm:p-6">
               <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
                 <div className="flex flex-col gap-1">
-                  <span className="text-sm text-site-quiet">Total</span>
+                  <span className="text-sm text-site-quiet">{t("total")}</span>
                   <span className="s-heading text-3xl tabular-nums">
                     {money(booking.currency, total)}
                   </span>
                 </div>
                 <div className="flex gap-6 text-sm tabular-nums">
                   <div className="flex flex-col gap-0.5">
-                    <span className="text-site-quiet">Pagado</span>
+                    <span className="text-site-quiet">{t("paid")}</span>
                     <span className="font-medium">{money(booking.currency, paid)}</span>
                   </div>
                   <div className="flex flex-col gap-0.5">
-                    <span className="text-site-quiet">Falta pagar</span>
+                    <span className="text-site-quiet">{t("due")}</span>
                     <span className="font-medium">{money(booking.currency, due)}</span>
                   </div>
                 </div>
@@ -206,7 +186,7 @@ export function BookingView({ booking }: { booking: PublicBooking }) {
               <div
                 className="h-2 overflow-hidden rounded-full bg-site-surface"
                 role="progressbar"
-                aria-label="Pagado"
+                aria-label={t("paid")}
                 aria-valuemin={0}
                 aria-valuemax={100}
                 aria-valuenow={Math.round(ratio * 100)}
@@ -219,13 +199,13 @@ export function BookingView({ booking }: { booking: PublicBooking }) {
                   {booking.payments.map((payment, index) => (
                     <li key={index} className="flex items-center justify-between gap-4 py-3 last:pb-0">
                       <div className="flex flex-col">
-                        <span className="font-medium">{PAYMENT_TYPE_LABELS[payment.type]}</span>
+                        <span className="font-medium">{labels.paymentType(payment.type)}</span>
                         <span className="text-sm text-site-quiet">
                           {payment.status === "PAID"
                             ? payment.paidAt
-                              ? `Pagado el ${format(parseApiDate(payment.paidAt), "d 'de' MMMM", { locale: es })}`
-                              : "Pagado"
-                            : "Pendiente"}
+                              ? t("paidOn", { date: date(parseApiDate(payment.paidAt), "dayMonth") })
+                              : t("paid")
+                            : t("pending")}
                         </span>
                       </div>
                       <span className={cn("tabular-nums", payment.status === "PAID" ? "font-medium" : "text-site-quiet")}>
@@ -241,8 +221,8 @@ export function BookingView({ booking }: { booking: PublicBooking }) {
 
         {contacts.length > 0 && (
           <section className="flex flex-col gap-4">
-            <SectionTitle>¿Necesitás cambiar algo?</SectionTitle>
-            <p className="-mt-2 text-site-quiet">Escribile a {agency.name} y te ayudan con tu reserva.</p>
+            <SectionTitle>{t("changeTitle")}</SectionTitle>
+            <p className="-mt-2 text-site-quiet">{t("changeBody", { agency: agency.name })}</p>
             <div className="flex flex-wrap gap-2">
               {contacts.map((contact, index) => (
                 <a

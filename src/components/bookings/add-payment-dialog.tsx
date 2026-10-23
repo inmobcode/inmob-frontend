@@ -2,6 +2,7 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { LoaderCircle, Plus } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -11,10 +12,14 @@ import { Label } from "@/components/ui/label";
 import { addPayment, type PaymentType } from "@/lib/api/bookings";
 import { ApiError } from "@/lib/api/client";
 import { getAccessToken } from "@/lib/auth/session";
-import { PAYMENT_TYPE_LABELS } from "@/lib/properties-labels";
+import { useLabels } from "@/lib/labels";
+import { PAYMENT_TYPES } from "@/lib/properties-labels";
 import { cn } from "@/lib/utils";
 
 export function AddPaymentDialog({ bookingId, currency }: { bookingId: string; currency: string }) {
+  const t = useTranslations("bookings.payment");
+  const common = useTranslations("common");
+  const labels = useLabels();
   const [open, setOpen] = useState(false);
   const [amount, setAmount] = useState("");
   const [type, setType] = useState<PaymentType>("DEPOSIT");
@@ -32,7 +37,7 @@ export function AddPaymentDialog({ bookingId, currency }: { bookingId: string; c
       queryClient.invalidateQueries({ queryKey: ["bookings"] });
       handleOpenChange(false);
     },
-    onError: (err) => setServerError(err instanceof ApiError ? err.message : "Error inesperado"),
+    onError: (err) => setServerError(err instanceof ApiError ? err.message : common("unexpectedError")),
   });
 
   function handleOpenChange(next: boolean) {
@@ -51,7 +56,7 @@ export function AddPaymentDialog({ bookingId, currency }: { bookingId: string; c
       <DialogTrigger asChild>
         <Button size="sm" variant="outline" className="h-9 gap-1.5 rounded-full px-4">
           <Plus />
-          Agregar pago
+          {t("add")}
         </Button>
       </DialogTrigger>
       <DialogContent className="gap-0 rounded-3xl p-0 sm:max-w-md" showCloseButton>
@@ -65,15 +70,15 @@ export function AddPaymentDialog({ bookingId, currency }: { bookingId: string; c
           }}
         >
           <div className="flex flex-col gap-1.5 px-7 pt-7 pb-5">
-            <DialogTitle className="font-display text-3xl leading-none tracking-tight">Agregar pago</DialogTitle>
-            <DialogDescription>Queda pendiente hasta que lo marques como cobrado.</DialogDescription>
+            <DialogTitle className="font-display text-3xl leading-none tracking-tight">{t("add")}</DialogTitle>
+            <DialogDescription>{t("description")}</DialogDescription>
           </div>
 
           <div className="flex flex-col gap-5 px-7 pb-2">
             <div className="flex flex-col gap-2.5">
-              <Label>Tipo</Label>
-              <div role="group" aria-label="Tipo de pago" className="flex flex-wrap gap-1.5">
-                {(Object.keys(PAYMENT_TYPE_LABELS) as PaymentType[]).map((value) => (
+              <Label>{t("type")}</Label>
+              <div role="group" aria-label={t("typeLabel")} className="flex flex-wrap gap-1.5">
+                {PAYMENT_TYPES.map((value: PaymentType) => (
                   <button
                     key={value}
                     type="button"
@@ -86,13 +91,13 @@ export function AddPaymentDialog({ bookingId, currency }: { bookingId: string; c
                         : "bg-foreground/[0.06] text-muted-foreground hover:bg-foreground/10 hover:text-foreground",
                     )}
                   >
-                    {PAYMENT_TYPE_LABELS[value]}
+                    {labels.paymentType(value)}
                   </button>
                 ))}
               </div>
             </div>
             <div className="flex flex-col gap-2.5">
-              <Label htmlFor="amount">Monto</Label>
+              <Label htmlFor="amount">{t("amount")}</Label>
               <div className="relative">
                 <span className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-sm font-medium text-muted-foreground">
                   {currency}
@@ -113,16 +118,16 @@ export function AddPaymentDialog({ bookingId, currency }: { bookingId: string; c
 
           <div className="flex items-center justify-end gap-2 px-7 pt-5 pb-7">
             <Button type="button" variant="ghost" className="h-10 px-5" onClick={() => handleOpenChange(false)}>
-              Cancelar
+              {common("cancel")}
             </Button>
             <Button type="submit" variant="highlight" className="h-10 gap-2 px-6" disabled={!valid || mutation.isPending}>
               {mutation.isPending ? (
                 <>
                   <LoaderCircle className="animate-spin" />
-                  Guardando…
+                  {common("saving")}
                 </>
               ) : (
-                "Guardar pago"
+                t("save")
               )}
             </Button>
           </div>

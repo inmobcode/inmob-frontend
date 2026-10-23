@@ -1,9 +1,11 @@
 "use client";
 
 import { Building2, Check, ChevronDown, Search } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useMemo, useRef, useState } from "react";
 
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { useFormat } from "@/i18n/format";
 import type { OfferOperation } from "@/lib/api/offers";
 import type { ListingType, Property } from "@/lib/api/properties";
 import { cn } from "@/lib/utils";
@@ -11,11 +13,7 @@ import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 
 type Tab = "ALL" | ListingType;
 
-const TABS: { value: Tab; label: string }[] = [
-  { value: "ALL", label: "Todas" },
-  { value: "SALE", label: "Venta" },
-  { value: "RENT", label: "Alquiler" },
-];
+const TABS: Tab[] = ["ALL", "SALE", "RENT"];
 
 /** Lowercase and without accents, so "pileta" finds "Píleta" and "bariloche" finds "Bariloche". */
 const fold = (text: string) =>
@@ -24,8 +22,6 @@ const fold = (text: string) =>
     .replace(/[̀-ͯ]/g, "")
     .toLowerCase();
 
-const money = (value: number) => value.toLocaleString("es-AR", { maximumFractionDigits: 0 });
-
 function coverOf(property: Property) {
   const photos = [...property.photos].sort((a, b) => a.position - b.position);
   return (photos.find((photo) => photo.isCover) ?? photos[0])?.url ?? null;
@@ -33,6 +29,7 @@ function coverOf(property: Property) {
 
 /** Sale and rent in two different colors, so they're told apart at a glance. */
 export function ListingBadge({ listingType }: { listingType: ListingType }) {
+  const t = useTranslations("properties.picker");
   return (
     <span
       className={cn(
@@ -42,7 +39,7 @@ export function ListingBadge({ listingType }: { listingType: ListingType }) {
           : "bg-amber-500/15 text-amber-800 dark:text-amber-300",
       )}
     >
-      {listingType === "SALE" ? "Venta" : "Alquiler"}
+      {t(`tabs.${listingType}`)}
     </span>
   );
 }
@@ -83,6 +80,8 @@ export function PropertyPicker({
   /** For the trigger, e.g. its height. */
   className?: string;
 }) {
+  const t = useTranslations("properties.picker");
+  const { money } = useFormat();
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<Tab>("ALL");
   const [query, setQuery] = useState("");
@@ -141,11 +140,11 @@ export function PropertyPicker({
   const empty =
     fitting.length === 0
       ? operation === "BOTH"
-        ? "Todavía no tenés propiedades."
-        : `No tenés propiedades en ${operation === "SALE" ? "venta" : "alquiler"}.`
+        ? t("emptyAll")
+        : t(`emptyOperation.${operation}`)
       : query.trim()
-        ? `Ninguna propiedad coincide con «${query.trim()}».`
-        : "No hay propiedades en esta pestaña.";
+        ? t("noMatch", { query: query.trim() })
+        : t("emptyTab");
 
   return (
     <Popover open={open} onOpenChange={handleOpenChange}>
@@ -153,7 +152,7 @@ export function PropertyPicker({
         <button
           type="button"
           id={id}
-          aria-label={id ? undefined : "Propiedad"}
+          aria-label={id ? undefined : t("label")}
           className={cn(
             "flex h-10 w-full items-center justify-between gap-2 rounded-xl border border-transparent bg-foreground/[0.07] pr-3 pl-3.5 text-left text-sm transition-[background-color,box-shadow,border-color] duration-300 ease-out outline-none hover:bg-foreground/10 focus-visible:border-primary/20 focus-visible:bg-card focus-visible:shadow-[0_8px_24px_-12px_oklch(0.3_0.05_160/0.3)] data-[state=open]:bg-card dark:bg-foreground/10",
             className,
@@ -165,7 +164,7 @@ export function PropertyPicker({
               <ListingBadge listingType={selected.listingType} />
             </span>
           ) : (
-            <span className="text-muted-foreground">Elegir propiedad</span>
+            <span className="text-muted-foreground">{t("placeholder")}</span>
           )}
           <ChevronDown className="size-4 shrink-0 text-muted-foreground" />
         </button>
@@ -182,20 +181,20 @@ export function PropertyPicker({
         }}
       >
         <div className="flex flex-col gap-2 border-b border-foreground/5 p-2">
-          <div role="tablist" aria-label="Operación" className="flex gap-0.5 rounded-full bg-foreground/[0.06] p-1">
+          <div role="tablist" aria-label={t("operation")} className="flex gap-0.5 rounded-full bg-foreground/[0.06] p-1">
               {TABS.map((item) => {
-                const current = item.value === tab;
-                const off = !fitsTab(item.value);
+                const current = item === tab;
+                const off = !fitsTab(item);
                 return (
                   <button
-                    key={item.value}
+                    key={item}
                     type="button"
                     role="tab"
                     aria-selected={current}
                     disabled={off}
-                    title={off ? `Solo propiedades en ${operation === "SALE" ? "venta" : "alquiler"}` : undefined}
+                    title={off && operation !== "BOTH" ? t(`only.${operation}`) : undefined}
                     onClick={() => {
-                      setTab(item.value);
+                      setTab(item);
                       setActive(0);
                     }}
                     className={cn(
@@ -204,9 +203,9 @@ export function PropertyPicker({
                       "disabled:pointer-events-none disabled:opacity-40",
                     )}
                   >
-                    {item.label}
+                    {t(`tabs.${item}`)}
                     <span className={cn("text-xs tabular-nums", current ? "text-muted-foreground" : "text-muted-foreground/70")}>
-                      {counts[item.value]}
+                      {counts[item]}
                     </span>
                   </button>
                 );
@@ -232,8 +231,8 @@ export function PropertyPicker({
                   if (results[active]) choose(results[active].id);
                 }
               }}
-              placeholder="Buscar por nombre o zona"
-              aria-label="Buscar propiedad"
+              placeholder={t("searchPlaceholder")}
+              aria-label={t("search")}
               aria-controls="offer-property-results"
               className="h-10 w-full rounded-xl bg-foreground/[0.05] pr-3 pl-9 text-sm outline-none placeholder:text-muted-foreground focus-visible:bg-foreground/[0.07]"
             />
@@ -241,14 +240,16 @@ export function PropertyPicker({
         </div>
 
         {/* Four results tall (56px each plus padding); the rest scroll. */}
-        <div ref={listRef} id="offer-property-results" role="listbox" aria-label="Propiedades" className="max-h-[14.75rem] overflow-y-auto p-1.5">
+        <div ref={listRef} id="offer-property-results" role="listbox" aria-label={t("list")} className="max-h-[14.75rem] overflow-y-auto p-1.5">
           {results.length === 0 ? (
             <p className="px-3 py-6 text-center text-sm text-muted-foreground">{empty}</p>
           ) : (
             results.map((entry, index) => {
               const place = [entry.area, entry.region].filter(Boolean).join(", ");
               const price = entry.price
-                ? `${entry.currency} ${money(entry.price)}${entry.listingType === "RENT" ? " /noche" : ""}`
+                ? entry.listingType === "RENT"
+                  ? t("perNight", { price: money(entry.currency, entry.price) })
+                  : money(entry.currency, entry.price)
                 : null;
               const isSelected = entry.id === value;
               return (

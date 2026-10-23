@@ -1,0 +1,198 @@
+{
+  "help": {
+    "topics": {
+      "primeros-pasos": {
+        "title": "Premiers pas",
+        "summary": "Votre compte, votre équipe et comment vous connecter.",
+        "questions": {
+          "q1": {
+            "q": "Comment créer mon compte et mon agence ?",
+            "a": "Depuis « S’inscrire », vous créez votre utilisateur et le nom de votre agence, puis vous accédez au tableau de bord. L’adresse de votre tableau de bord porte le nom de votre agence."
+          },
+          "q2": {
+            "q": "Comment ajouter mon équipe ?",
+            "a": "Dans Équipe, vous ajoutez des personnes et leur attribuez un rôle : propriétaire, administrateur ou agent. Seuls les propriétaires et administrateurs voient cette section."
+          },
+          "q3": {
+            "q": "J’ai oublié mon mot de passe, que faire ?",
+            "a": "Sur l’écran de connexion, utilisez l’option de récupération du mot de passe. Nous vous envoyons un lien par e-mail pour en créer un nouveau."
+          },
+          "q4": {
+            "q": "Pourquoi ma session s’est-elle fermée ?",
+            "a": "Par sécurité, la session expire au bout d’un certain temps et il faut se reconnecter. Rien de ce que vous avez enregistré n’est perdu."
+          }
+        }
+      },
+      "propiedades": {
+        "title": "Biens",
+        "summary": "Les ajouter, les publier et les attribuer.",
+        "questions": {
+          "q1": {
+            "q": "Comment ajouter un bien ?",
+            "a": "Dans Biens, vous en créez un nouveau, remplissez les informations, téléversez les photos (elles sont réduites automatiquement avant l’envoi) et le publiez quand il est prêt."
+          },
+          "q2": {
+            "q": "Comment attribuer un bien à un agent ?",
+            "a": "Les propriétaires et administrateurs peuvent choisir le responsable de chaque bien. Les agents ne voient que ceux qui leur sont attribués."
+          },
+          "q3": {
+            "q": "Tout ce que j’ajoute apparaît-il sur mon site ?",
+            "a": "Les biens que vous publiez sont affichés. Ce que vous laissez non publié reste uniquement dans le tableau de bord."
+          }
+        }
+      },
+      "clientes-consultas": {
+        "title": "Clients et demandes",
+        "summary": "De la première demande au suivi.",
+        "questions": {
+          "q1": {
+            "q": "Où arrivent les demandes de mon site ?",
+            "a": "Dans la boîte Demandes. Chacune crée un client (ou réutilise celui qui a cet e-mail), laisse une note avec le bien consulté et s’ajoute au compteur du menu."
+          },
+          "q2": {
+            "q": "Comment suis-je averti d’une nouvelle demande ?",
+            "a": "Par e-mail à l’agence (à l’e-mail de contact ou, à défaut, aux propriétaires et administrateurs) et par la cloche du tableau de bord. Le client reçoit une confirmation."
+          },
+          "q3": {
+            "q": "Comment assurer le suivi d’un client ?",
+            "a": "Dans chaque client, vous pouvez créer des tâches avec date et responsable. Vous pouvez aussi afficher tous les clients en tableau et les faire glisser d’une étape à l’autre."
+          }
+        }
+      },
+      "ofertas": {
+        "title": "Offres",
+        "summary": "Les composer, les partager et savoir si elles ont été ouvertes.",
+        "questions": {
+          "q1": {
+            "q": "Comment envoyer une offre à un client ?",
+            "a": "Vous composez l’offre avec un ou plusieurs biens, des remises et des services, puis partagez le lien. Le client la consulte sans créer de compte."
+          },
+          "q2": {
+            "q": "Comment savoir si mon offre a été ouverte ?",
+            "a": "La cloche vous prévient dès qu’elle est ouverte. Dans l’offre, vous voyez aussi quand elle a été consultée et quand elle expire."
+          }
+        }
+      },
+      "reservas-cobros": {
+        "title": "Réservations et encaissements",
+        "summary": "Dates, paiements et ce que voit le client.",
+        "questions": {
+          "q1": {
+            "q": "Que voit le client de sa réservation ?",
+            "a": "Un lien par e-mail, envoyé à la création, la confirmation ou l’annulation de la réservation, avec ses dates, le total et l’état des paiements. La commission n’apparaît pas."
+          },
+          "q2": {
+            "q": "Comment enregistrer un paiement ?",
+            "a": "Dans la réservation, vous saisissez l’acompte et le solde avec leur statut. Vous voyez ce qui est encaissé, ce qui reste et la commission."
+          },
+          "q3": {
+            "q": "Qu’est-ce qu’une réservation en attente ?",
+            "a": "Une réservation non confirmée. Elle apparaît dans le calendrier pour que vous la voyiez venir, mais ne bloque pas encore les dates."
+          }
+        }
+      },
+      "disponibilidad": {
+        "title": "Disponibilités et tarifs",
+        "summary": "Le calendrier de vos locations saisonnières.",
+        "questions": {
+          "q1": {
+            "q": "Comment bloquer des dates ?",
+            "a": "Dans Disponibilités, vue mensuelle : choisissez un bien et faites glisser sur les nuits libres. Les nuits réservées ne peuvent pas être modifiées."
+          },
+          "q2": {
+            "q": "Comment saisir les tarifs saisonniers ?",
+            "a": "Dans chaque bien, vous définissez des périodes avec leur prix par nuit. Le total de la réservation est calculé avec ces valeurs."
+          },
+          "q3": {
+            "q": "Puis-je voir uniquement les biens libres à certaines dates ?",
+            "a": "Oui. Dans Disponibilités, vous choisissez une plage de dates et un lieu, et seuls les biens libres s’affichent."
+          }
+        }
+      },
+      "sitio-portales": {
+        "title": "Site et portails",
+        "summary": "Votre site public et les liens pour les propriétaires.",
+        "questions": {
+          "q1": {
+            "q": "Comment personnaliser le site de mon agence ?",
+            "a": "Dans Site, vous choisissez le modèle, les couleurs, les typographies et les blocs, et voyez le rendu sur ordinateur, tablette et mobile avant de publier."
+          },
+          "q2": {
+            "q": "Puis-je utiliser mon propre domaine ?",
+            "a": "Pas pour l’instant. Votre site est hébergé sur un sous-domaine de Tivvo au nom de votre agence."
+          },
+          "q3": {
+            "q": "Que voit le propriétaire dans son portail ?",
+            "a": "Ses biens, réservations et paiements, avec les encaissements, les reversements et le solde. La commission reste masquée sauf si vous l’affichez depuis les Paramètres."
+          }
+        }
+      },
+      "cuenta-datos": {
+        "title": "Compte et données",
+        "summary": "Qui voit quoi et comment nous protégeons vos informations.",
+        "questions": {
+          "q1": {
+            "q": "Mes données sont-elles mélangées avec celles d’autres agences ?",
+            "a": "Non. Chaque agence travaille dans son propre espace et seule son équipe voit ses biens, clients et réservations."
+          },
+          "q2": {
+            "q": "Que voit chaque membre de mon équipe ?",
+            "a": "Les agents voient leurs biens, offres et réservations, leurs clients et les demandes non attribuées. Les propriétaires et administrateurs voient tout et réattribuent."
+          },
+          "q3": {
+            "q": "Comment exercer mes droits sur mes données ?",
+            "a": "C’est expliqué dans la Politique de confidentialité, avec l’adresse e-mail à laquelle nous écrire."
+          }
+        }
+      }
+    },
+    "title": "Comment pouvons-nous vous aider ?",
+    "titleTail": "Recherchez ou choisissez un thème.",
+    "searchLabel": "Rechercher dans l’aide",
+    "searchPlaceholder": "Essayez « réservation », « offre » ou « portail propriétaire »",
+    "clearSearch": "Effacer la recherche",
+    "popularLabel": "Les plus recherchés :",
+    "popular": {
+      "p1": "demandes",
+      "p2": "offre",
+      "p3": "réservation",
+      "p4": "tarifs",
+      "p5": "portail propriétaire",
+      "p6": "équipe"
+    },
+    "faqLabel": "Questions fréquentes",
+    "noResults": "Aucun résultat",
+    "results": "{count, plural, one {# réponse pour « {query} »} other {# réponses pour « {query} »}}",
+    "nothingFor": "Nous n’avons rien trouvé pour « {query} ».",
+    "tryAnother": "Essayez un autre mot, ou écrivez-nous et nous vous répondrons par e-mail.",
+    "toContact": "Aller au formulaire de contact",
+    "docsLead": "Vous avez déjà un compte ? Le guide complet du tableau de bord se trouve dans la documentation.",
+    "docs": "Ouvrir la documentation",
+    "contact": {
+      "errors": {
+        "name": "Saisissez votre nom",
+        "email": "Vérifiez l’e-mail : il manque le @ ou le domaine",
+        "message": "Dites-nous-en un peu plus"
+      },
+      "failed": "Impossible d’envoyer le message. Réessayez dans quelques minutes.",
+      "sentTitle": "Message envoyé",
+      "sentText": "Nous vous répondons rapidement par e-mail.",
+      "name": "Votre nom",
+      "message": "Comment pouvons-nous vous aider",
+      "sending": "Envoi…",
+      "submit": "Envoyer le message"
+    },
+    "page": {
+      "metaTitle": "Aide et contact",
+      "metaDescription": "Réponses sur les biens, offres, réservations, disponibilités et votre site. Si vous ne trouvez pas ce que vous cherchez, écrivez-nous.",
+      "contactTitle": "Vous n’avez pas trouvé ce que vous cherchiez ?",
+      "contactTitleTail": "Écrivez-nous.",
+      "contactLead": "Partagez votre question, un problème ou une idée. Nous répondons par e-mail.",
+      "byEmail": "Par e-mail",
+      "personalData": "Données personnelles",
+      "rules": "Règles",
+      "terms": "Conditions",
+      "privacy": "Confidentialité"
+    }
+  }
+}

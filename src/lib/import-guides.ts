@@ -1,4 +1,5 @@
 import type { ImportFormat } from "@/lib/api/imports";
+import type { LooseTranslator } from "@/i18n/loose";
 import type { ImportPlatform } from "@/lib/import-platforms";
 
 /** What the importer tags properties with when no specific platform was chosen. */
@@ -8,33 +9,17 @@ export const DEFAULT_SOURCE: Record<ImportFormat, string> = {
   tivvo_xml: "tivvo",
 };
 
-export const FORMAT_LABEL: Record<ImportFormat, string> = {
-  table: "CSV o Excel",
-  kyero: "Feed Kyero (XML)",
-  tivvo_xml: "XML de Tivvo",
-};
+/** The formats' names are in the "import.formats" messages. */
 
-/** Not a platform: the two ways in for anyone whose system isn't listed. */
+/** Not a platform: the two ways in for anyone whose system isn't listed. Their words: "import.generic". */
 export interface GenericOrigin {
-  slug: string;
-  name: string;
-  description: string;
+  slug: "xml" | "tivvo";
   format: ImportFormat;
 }
 
 export const GENERIC_ORIGINS: GenericOrigin[] = [
-  {
-    slug: "xml",
-    name: "XML de Kyero",
-    description: "El feed en formato Kyero (versión 3) que exportan Casafari, Estatebud y la mayoría de los CRM, por URL o por archivo.",
-    format: "kyero",
-  },
-  {
-    slug: "tivvo",
-    name: "Mi propio sistema (XML de Tivvo)",
-    description: "Si tu sistema tiene API propia, generá el XML de Tivvo y leemos ese feed por URL o por archivo.",
-    format: "tivvo_xml",
-  },
+  { slug: "xml", format: "kyero" },
+  { slug: "tivvo", format: "tivvo_xml" },
 ];
 
 export interface GuideLink {
@@ -71,13 +56,8 @@ export interface Guide {
   alternative?: { format: ImportFormat; label: string };
 }
 
-const TABLE_TIPS =
-  "Incluí, si podés: una columna de referencia (ID) única por propiedad —así al volver a importar se actualiza en lugar de duplicar—, título, tipo, operación, precio, ubicación, descripción y fotos (links).";
-
-const REVIEW = "Revisá la vista previa: no se guarda nada hasta que confirmes.";
-
-const PROVIDE_TABLE = "Pegá la URL del archivo (CSV o Excel) en el recuadro de al lado, o subí el archivo. Sugerimos el mapeo de columnas automáticamente.";
-const PROVIDE_FEED = "Pegá la URL del feed en el recuadro de al lado, o subí el XML.";
+/** The importer's step texts: a translator scoped to "import.guides". */
+export type GuideTranslator = LooseTranslator;
 
 // ---------------------------------------------------------------- asking the platform for the feed
 
@@ -85,16 +65,16 @@ type Language = "es" | "pt" | "en";
 type RequestKind = "export" | "kyero-feed";
 
 /** Spanish for Spain-based platforms, Portuguese for Portugal-only ones, English for the rest. */
-function languageFor(market: string): Language {
-  if (market.includes("España")) return "es";
-  if (market.includes("Portugal")) return "pt";
+function languageFor(markets: string[]): Language {
+  if (markets.includes("ES")) return "es";
+  if (markets.includes("PT")) return "pt";
   return "en";
 }
 
 /** The message to send to a platform's support, in the language of its market. */
 export function supportMessage(platform: ImportPlatform, kind: RequestKind = "export"): string {
   const { name } = platform;
-  const language = languageFor(platform.market);
+  const language = languageFor(platform.markets);
 
   if (kind === "kyero-feed") {
     if (language === "pt") {
@@ -117,7 +97,7 @@ export function supportMessage(platform: ImportPlatform, kind: RequestKind = "ex
 
 /** Email subject for the same request, in the same language. */
 export function supportSubject(platform: ImportPlatform, kind: RequestKind = "export"): string {
-  const language = languageFor(platform.market);
+  const language = languageFor(platform.markets);
   if (kind === "kyero-feed") {
     if (language === "pt") return "Pedido de ativação do feed de imóveis (Kyero)";
     if (language === "es") return "Solicitud de activación del feed de propiedades (Kyero)";
@@ -131,20 +111,25 @@ export function supportSubject(platform: ImportPlatform, kind: RequestKind = "ex
 // ---------------------------------------------------------------- asking Tivvo for help
 
 /** The message prefilled in "Pedir ayuda": it goes to the Tivvo team, who help migrate from `originName`. */
-export function helpMessage(originName: string, agencySlug?: string | null): string {
+export function helpMessage(t: GuideTranslator, originName: string, agencySlug?: string | null): string {
   return [
-    "Hola, equipo de Tivvo:",
+    t("help.greeting"),
     "",
-    `Quiero migrar mis propiedades desde ${originName} a Tivvo y no sé cómo conseguir los datos ni cómo importarlos. ¿Me pueden ayudar?`,
-    ...(agencySlug ? ["", `Mi agencia en Tivvo: ${agencySlug}`] : []),
+    t("help.body", { origin: originName }),
+    ...(agencySlug ? ["", t("help.agency", { slug: agencySlug })] : []),
     "",
-    "Gracias.",
+    t("help.thanks"),
   ].join("\n");
 }
 
 // ---------------------------------------------------------------- per-platform guides
 
-type Override = Partial<Omit<Guide, "source" | "title">> & { steps: string[] };
+type Override = Partial<Omit<Guide, "source" | "title" | "steps">> & {
+  /** Keys under "overrides.<slug>.steps" in the messages, or the shared provide/review steps. */
+  steps: string[];
+  /** How many sources the platform's override lists, in the same order as `sourceUrls`. */
+  sourceUrls?: string[];
+};
 
 /**
  * Platforms whose steps are documented. Everything else gets the "ask their
@@ -153,38 +138,25 @@ type Override = Partial<Omit<Guide, "source" | "title">> & { steps: string[] };
 const OVERRIDES: Record<string, Override> = {
   "casafari-crm": {
     format: "kyero",
-    steps: [
-      "Casafari ofrece un feed de propiedades por URL (en formato Kyero, XML2U o ACME-CRM) que se actualiza cada 20 minutos, pero lo activa su soporte: pedíselo con el botón de abajo (help@casafaricrm.com) y elegí el formato Kyero.",
-      "En el export a Kyero, las propiedades sin precio, distrito, ciudad o tipo no salen: completalas antes.",
-      PROVIDE_FEED,
-      REVIEW,
-    ],
-    note: "El menú Properties › Export › Portals Catalogue de Casafari sirve para publicar en portales como Kyero, no para obtener tu feed.",
-    sources: [{ label: "Ayuda de Casafari: integración con sistemas externos", url: "https://helpcenter.casafari.com/en/crm/integracao-website-e-plataformas-externas" }],
+    steps: ["s1", "s2", "@provideFeed", "@review"],
+    sourceUrls: ["https://helpcenter.casafari.com/en/crm/integracao-website-e-plataformas-externas"],
   },
   estatebud: {
     format: "kyero",
-    steps: [
-      "Entrá a c.estatebud.com, andá a Admin › Plugins, instalá el plugin Kyero y confirmá la instalación.",
-      "En Admin › Plugins › Kyero copiá la «XML Feed URL».",
-      "Marcá qué propiedades van al feed: en cada una, Actions Menu › Listings › Kyero › Save; o en bloque, seleccioná varias y usá Bulk Edit › «Add listings on» › Kyero. Si falta un campo obligatorio, Estatebud te avisa cuál.",
-      PROVIDE_FEED,
-      REVIEW,
-    ],
-    note: "Estos pasos salen de una guía de INDEX.cy (un portal), no de la ayuda de Estatebud: si algún menú cambió, consultá a su soporte.",
-    sources: [{ label: "Guía de INDEX.cy para Estatebud", url: "https://index.cy/information/how-to-push-listings-from-estatebud-crm-to-index-cy/" }],
+    steps: ["s1", "s2", "s3", "@provideFeed", "@review"],
+    sourceUrls: ["https://index.cy/information/how-to-push-listings-from-estatebud-crm-to-index-cy/"],
   },
   kyero: {
     format: "kyero",
-    steps: [
-      "Kyero no entrega tu feed: lo recibe de tu CRM. Pedile a tu CRM o proveedor la URL del feed Kyero (XML versión 3) que ya le envía a Kyero.",
-      PROVIDE_FEED,
-      REVIEW,
-    ],
-    note: "Cada feed de Kyero es un snapshot completo de una sola agencia: lo que no está en el feed se considera dado de baja.",
-    sources: [{ label: "Especificación del feed de Kyero", url: "https://help.kyero.com/estate-agents/xml-import-specification" }],
+    steps: ["s1", "@provideFeed", "@review"],
+    sourceUrls: ["https://help.kyero.com/estate-agents/xml-import-specification"],
   },
 };
+
+/** A step of the messages: "@review" and the like are the shared ones, the rest belong to `slug`. */
+function overrideStep(t: GuideTranslator, slug: string, step: string) {
+  return step.startsWith("@") ? t(`shared.${step.slice(1)}`) : t(`overrides.${slug}.steps.${step}`);
+}
 
 /**
  * Support contacts read from each platform's own site. Only Casafari publishes
@@ -226,14 +198,14 @@ function siteHome(url: string): string {
 }
 
 /** The step-by-step for a platform: documented steps where they exist, a ready-to-send support message where they don't. */
-export function platformGuide(platform: ImportPlatform): Guide {
+export function platformGuide(t: GuideTranslator, platform: ImportPlatform): Guide {
   const { name } = platform;
-  const base = { source: platform.slug, title: `Migrar desde ${name}` };
+  const base = { source: platform.slug, title: t("titles.platform", { name }) };
   const override = OVERRIDES[platform.slug];
   const known = SUPPORT_CONTACTS[platform.slug];
   const contact: SupportContact = known
-    ? { label: `Soporte de ${name}`, url: known.url, email: known.email }
-    : { label: `Sitio de ${name}`, url: siteHome(platform.siteUrl) };
+    ? { label: t("support", { name }), url: known.url, email: known.email }
+    : { label: t("site", { name }), url: siteHome(platform.siteUrl) };
   const requestKind: RequestKind = platform.slug === "casafari-crm" ? "kyero-feed" : "export";
   const support: SupportRequest = {
     platform: name,
@@ -244,109 +216,81 @@ export function platformGuide(platform: ImportPlatform): Guide {
 
   if (override) {
     const format = override.format ?? platform.format;
+    const { sourceUrls = [], steps, ...rest } = override;
     return {
       ...base,
-      ...override,
+      ...rest,
       format,
+      steps: steps.map((step) => overrideStep(t, platform.slug, step)),
+      note: t(`overrides.${platform.slug}.note`),
+      sources: sourceUrls.map((url, index) => ({ label: t(`overrides.${platform.slug}.sources.s${index + 1}`), url })),
       // Kyero receives feeds from CRMs, it doesn't hand them out: its users ask their CRM, not Kyero.
       support: platform.slug === "kyero" ? undefined : support,
       alternative:
         format === "kyero"
-          ? { format: "table", label: `Prefiero un CSV o Excel de ${name}` }
-          : { format: "kyero", label: `Tengo un feed Kyero (XML) de ${name}` },
+          ? { format: "table", label: t("alternatives.table", { name }) }
+          : { format: "kyero", label: t("alternatives.kyero", { name }) },
     };
   }
 
-  const steps =
-    platform.type === "portal"
-      ? [
-          `${name} es un portal de publicación: tus datos suelen vivir en el CRM desde el que publicás, y lo más completo es migrar desde ese CRM (volvé y elegilo en la lista).`,
-          `Si querés traer tus anuncios publicados en ${name}, pedile a su soporte el feed XML (idealmente en formato Kyero): abajo tenés el mensaje listo.`,
-          PROVIDE_FEED,
-          REVIEW,
-        ]
-      : platform.type === "aggregator"
-        ? [
-            `${name} agrega y convierte feeds de otros sistemas: lo más completo es migrar desde el CRM que le envía los datos (volvé y elegilo en la lista).`,
-            `Si tenés un feed XML de ${name} (idealmente en formato Kyero), usalo; si no, pedíselo a su soporte con el mensaje de abajo.`,
-            PROVIDE_FEED,
-            REVIEW,
-          ]
-        : [
-            `Conseguí en ${name} el feed XML de tus propiedades, idealmente en formato Kyero (versión 3). Si no sabés dónde está, pedíselo a su soporte: abajo tenés el mensaje listo para enviar.`,
-            PROVIDE_FEED,
-            REVIEW,
-          ];
+  const kind = platform.type === "portal" ? "portal" : platform.type === "aggregator" ? "aggregator" : "crm";
+  const steps = [
+    ...(kind === "crm" ? [t("platformSteps.crm.s1", { name })] : [t(`platformSteps.${kind}.s1`, { name }), t(`platformSteps.${kind}.s2`, { name })]),
+    t("shared.provideFeed"),
+    t("shared.review"),
+  ];
 
   return {
     ...base,
     format: "kyero",
     steps,
     support,
-    alternative: { format: "table", label: `Prefiero un CSV o Excel de ${name}` },
+    alternative: { format: "table", label: t("alternatives.table", { name }) },
   };
 }
 
-export function genericGuide(origin: GenericOrigin): Guide {
+export function genericGuide(t: GuideTranslator, origin: GenericOrigin): Guide {
   if (origin.format === "tivvo_xml") {
     return {
       format: "tivvo_xml",
       source: origin.slug,
-      title: "Migrar desde tu propio sistema",
-      steps: [
-        "Generá desde tu API un XML con el formato de Tivvo (ejemplo abajo): un <listing> por propiedad.",
-        "Usá siempre la misma <external_id> para la misma propiedad: así al volver a importar se actualiza en lugar de duplicar.",
-        "Publicá el XML en una URL pública y pegala en el recuadro de al lado, o subí el archivo.",
-        REVIEW,
-      ],
+      title: t("titles.own"),
+      steps: [t("ownSteps.s1"), t("ownSteps.s2"), t("ownSteps.s3"), t("shared.review")],
     };
   }
   if (origin.format === "kyero") {
     return {
       format: "kyero",
       source: origin.slug,
-      title: "Migrar desde un XML de Kyero",
-      steps: [
-        "Conseguí en tu CRM el feed XML de tus propiedades en formato Kyero (versión 3): la mayoría de los CRM lo generan para publicar en portales.",
-        PROVIDE_FEED,
-        REVIEW,
-      ],
-      alternative: { format: "table", label: "Prefiero un CSV o Excel" },
+      title: t("titles.kyero"),
+      steps: [t("kyeroSteps.s1"), t("shared.provideFeed"), t("shared.review")],
+      alternative: { format: "table", label: t("alternatives.tableGeneric") },
     };
   }
   return {
     format: "table",
     source: origin.slug,
-    title: "Migrar desde un CSV o Excel",
-    steps: [
-      "Conseguí tus propiedades en un CSV o Excel (.xlsx). Si empezás de cero, descargá la plantilla de abajo.",
-      TABLE_TIPS,
-      PROVIDE_TABLE,
-      REVIEW,
-    ],
-    alternative: { format: "kyero", label: "Tengo un feed Kyero (XML)" },
+    title: t("titles.table"),
+    steps: [t("tableSteps.s1"), t("shared.tableTips"), t("shared.provideTable"), t("shared.review")],
+    alternative: { format: "kyero", label: t("alternatives.kyeroGeneric") },
   };
 }
 
 /** Guide for a route other than the platform's recommended one. */
-export function routeGuide(format: ImportFormat, source: string, name: string): Guide {
+export function routeGuide(t: GuideTranslator, format: ImportFormat, source: string, name: string): Guide {
   if (format === "kyero") {
     return {
       format,
       source,
-      title: `Migrar desde ${name} con un feed Kyero`,
-      steps: [
-        `Si ${name} puede darte un feed en formato Kyero (XML), copiá su URL pública o descargá el archivo.`,
-        PROVIDE_FEED,
-        REVIEW,
-      ],
+      title: t("titles.routeKyero", { name }),
+      steps: [t("routeSteps.kyero", { name }), t("shared.provideFeed"), t("shared.review")],
     };
   }
   return {
     format,
     source,
-    title: `Migrar desde ${name} con un CSV o Excel`,
-    steps: [`Conseguí tus propiedades de ${name} en un CSV o Excel (.xlsx).`, TABLE_TIPS, PROVIDE_TABLE, REVIEW],
+    title: t("titles.routeTable", { name }),
+    steps: [t("routeSteps.table", { name }), t("shared.tableTips"), t("shared.provideTable"), t("shared.review")],
   };
 }
 

@@ -2,6 +2,7 @@
 
 import { ArrowRight } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -24,6 +25,8 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:5000";
 const BLOCKS_PAGE_SIZE = 10;
 
 export function AvailabilityTab({ property }: { property: Property }) {
+  const t = useTranslations("properties.availability");
+  const tc = useTranslations("common");
   const queryClient = useQueryClient();
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -56,7 +59,7 @@ export function AvailabilityTab({ property }: { property: Property }) {
       setNote("");
       invalidate();
     },
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo bloquear la fecha"),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : t("blockFailed")),
   });
 
   const deleteMutation = useMutation({
@@ -66,7 +69,7 @@ export function AvailabilityTab({ property }: { property: Property }) {
       return deleteAvailabilityBlock(token, property.id, blockId);
     },
     onSuccess: invalidate,
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo quitar el bloqueo"),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : t("unblockFailed")),
   });
 
   const syncMutation = useMutation({
@@ -76,10 +79,10 @@ export function AvailabilityTab({ property }: { property: Property }) {
       return syncIcal(token, property.id, icalUrl);
     },
     onSuccess: (result) => {
-      toast.success(`Se sincronizaron ${result.importedCount} eventos`);
+      toast.success(t("synced", { count: result.importedCount }));
       invalidate();
     },
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo sincronizar"),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : t("syncFailed")),
   });
 
   const blocksPageCount = Math.max(1, Math.ceil((blocks?.length ?? 0) / BLOCKS_PAGE_SIZE));
@@ -97,15 +100,15 @@ export function AvailabilityTab({ property }: { property: Property }) {
   return (
     <div className="space-y-6">
       <div className="space-y-2">
-        <h3 className="text-sm font-medium">Bloquear fechas manualmente</h3>
+        <h3 className="text-sm font-medium">{t("manual")}</h3>
         <div className="flex flex-wrap items-end gap-2">
           <div className="w-full sm:w-72">
             <DateRangePicker
               start={startDate}
               end={endDate}
               countAs="days"
-              placeholder="Desde y hasta qué día"
-              hints={{ first: "Elegí el primer día", second: "Ahora elegí el último día" }}
+              placeholder={t("dates")}
+              hints={{ first: t("firstDay"), second: t("lastDay") }}
               onChange={(from, to) => {
                 setStartDate(from);
                 setEndDate(to);
@@ -113,7 +116,7 @@ export function AvailabilityTab({ property }: { property: Property }) {
             />
           </div>
           <Input
-            placeholder="Nota (opcional)"
+            placeholder={t("note")}
             value={note}
             onChange={(e) => setNote(e.target.value)}
             className="w-48"
@@ -123,16 +126,16 @@ export function AvailabilityTab({ property }: { property: Property }) {
             disabled={!startDate || !endDate || createMutation.isPending}
             onClick={() => createMutation.mutate()}
           >
-            Bloquear
+            {t("block")}
           </Button>
         </div>
       </div>
 
       <div className="space-y-2">
-        <h3 className="text-sm font-medium">Fechas bloqueadas</h3>
-        {isLoading && <p className="text-sm text-zinc-500">Cargando...</p>}
+        <h3 className="text-sm font-medium">{t("blocked")}</h3>
+        {isLoading && <p className="text-sm text-zinc-500">{t("loading")}</p>}
         {blocks && blocks.length === 0 && (
-          <p className="text-sm text-zinc-500">No hay fechas bloqueadas.</p>
+          <p className="text-sm text-zinc-500">{t("noBlocks")}</p>
         )}
         {blocks && blocks.length > 0 && (
           <>
@@ -156,7 +159,7 @@ export function AvailabilityTab({ property }: { property: Property }) {
                       size="sm"
                       onClick={() => deleteMutation.mutate(block.id)}
                     >
-                      Quitar
+                      {t("remove")}
                     </Button>
                   )}
                 </li>
@@ -168,7 +171,7 @@ export function AvailabilityTab({ property }: { property: Property }) {
       </div>
 
       <div className="space-y-2">
-        <h3 className="text-sm font-medium">Sincronizar con Airbnb/Booking (iCal)</h3>
+        <h3 className="text-sm font-medium">{t("sync")}</h3>
         <div className="flex gap-2">
           <Input
             placeholder="https://www.airbnb.com/calendar/ical/..."
@@ -181,18 +184,15 @@ export function AvailabilityTab({ property }: { property: Property }) {
             disabled={!icalUrl || syncMutation.isPending}
             onClick={() => syncMutation.mutate()}
           >
-            {syncMutation.isPending ? "Sincronizando..." : "Sincronizar ahora"}
+            {syncMutation.isPending ? t("syncing") : t("syncNow")}
           </Button>
         </div>
       </div>
 
       {exportUrl && (
         <div className="space-y-2">
-          <h3 className="text-sm font-medium">Exportar tu disponibilidad</h3>
-          <p className="text-xs text-zinc-500">
-            Pegá este link en Airbnb/Booking como calendario externo para que vean tus fechas
-            bloqueadas.
-          </p>
+          <h3 className="text-sm font-medium">{t("export")}</h3>
+          <p className="text-xs text-zinc-500">{t("exportHint")}</p>
           <div className="flex gap-2">
             <Input readOnly value={exportUrl} />
             <Button
@@ -201,10 +201,10 @@ export function AvailabilityTab({ property }: { property: Property }) {
               size="sm"
               onClick={() => {
                 navigator.clipboard.writeText(exportUrl);
-                toast.success("Link copiado");
+                toast.success(tc("linkCopied"));
               }}
             >
-              Copiar
+              {t("copy")}
             </Button>
           </div>
         </div>

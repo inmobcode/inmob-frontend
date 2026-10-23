@@ -1,6 +1,8 @@
 import { MapPin, Menu, Search } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { PropertyPhoto } from "@/components/landing/fragments";
+import { useFormat } from "@/i18n/format";
 import type { FONT_PAIRS } from "@/lib/site-theme";
 import { cn } from "@/lib/utils";
 
@@ -17,30 +19,12 @@ export interface PreviewState {
 }
 
 const LISTINGS = [
-  {
-    photo: "laBarra",
-    title: "Casa frente al mar",
-    place: "La Barra, Maldonado",
-    price: "USD 485.000",
-    kind: "Venta",
-  },
-  {
-    photo: "palermo",
-    title: "Departamento con vista",
-    place: "Palermo, Buenos Aires",
-    price: "USD 1.250 / mes",
-    kind: "Alquiler",
-  },
-  {
-    photo: "olivos",
-    title: "Casa con jardín",
-    place: "Olivos, Buenos Aires",
-    price: "USD 320.000",
-    kind: "Venta",
-  },
+  { photo: "laBarra", key: "beach", place: "La Barra, Maldonado", price: 485000, kind: "sale" },
+  { photo: "palermo", key: "view", place: "Palermo, Buenos Aires", price: 1250, kind: "rent" },
+  { photo: "olivos", key: "garden", place: "Olivos, Buenos Aires", price: 320000, kind: "sale" },
 ] as const;
 
-const NAV = ["Propiedades", "Nosotros", "Contacto"];
+const NAV = ["properties", "about", "contact"] as const;
 const TRANSITION = "transition-colors duration-300";
 
 /**
@@ -49,6 +33,8 @@ const TRANSITION = "transition-colors duration-300";
  * same way the real site stacks on a small screen.
  */
 export function SitePreview({ state }: { state: PreviewState }) {
+  const t = useTranslations("landing.preview");
+  const { number } = useFormat();
   const { template, accent, pair, promo, location, featured } = state;
   const title = {
     fontFamily: pair.heading,
@@ -61,7 +47,7 @@ export function SitePreview({ state }: { state: PreviewState }) {
     <div className="flex w-full max-w-lg flex-col gap-2 rounded-xl bg-white p-2 text-ink shadow-sm @md:flex-row @md:items-center">
       <span className="flex h-9 flex-1 items-center gap-2 px-2 text-xs text-quiet">
         <Search className="size-3.5 shrink-0" aria-hidden />
-        Zona, tipo de propiedad o precio
+        {t("searchLong")}
       </span>
       <span
         className={cn(
@@ -70,7 +56,7 @@ export function SitePreview({ state }: { state: PreviewState }) {
         )}
         style={button}
       >
-        Buscar
+        {t("search")}
       </span>
     </div>
   );
@@ -81,10 +67,10 @@ export function SitePreview({ state }: { state: PreviewState }) {
         className="text-[1.65rem] leading-[1.05] text-balance @2xl:text-4xl"
         style={title}
       >
-        Encontrá tu lugar.
+        {t("title")}
       </p>
       <p className="max-w-sm text-xs leading-relaxed opacity-80 @md:text-sm">
-        Casas y departamentos en venta y en alquiler temporario.
+        {t("subtitle")}
       </p>
     </>
   );
@@ -115,7 +101,7 @@ export function SitePreview({ state }: { state: PreviewState }) {
           className="hidden items-center gap-6 text-xs text-quiet @2xl:flex"
         >
           {NAV.map((item) => (
-            <span key={item}>{item}</span>
+            <span key={item}>{t(`nav.${item}`)}</span>
           ))}
         </nav>
         <span
@@ -125,7 +111,7 @@ export function SitePreview({ state }: { state: PreviewState }) {
           )}
           style={button}
         >
-          Contactar
+          {t("contact")}
         </span>
         <Menu className="size-5 text-quiet @2xl:hidden" aria-hidden />
       </header>
@@ -151,7 +137,7 @@ export function SitePreview({ state }: { state: PreviewState }) {
               <div className="flex w-full max-w-lg flex-col gap-2 rounded-xl border border-line p-2 @md:flex-row @md:items-center">
                 <span className="flex h-9 flex-1 items-center gap-2 px-2 text-xs text-quiet">
                   <Search className="size-3.5 shrink-0" aria-hidden />
-                  Zona, tipo o precio
+                  {t("searchShort")}
                 </span>
                 <span
                   className={cn(
@@ -160,7 +146,7 @@ export function SitePreview({ state }: { state: PreviewState }) {
                   )}
                   style={button}
                 >
-                  Buscar
+                  {t("search")}
                 </span>
               </div>
             </div>
@@ -177,14 +163,14 @@ export function SitePreview({ state }: { state: PreviewState }) {
         <div className="flex flex-col gap-3 border-b border-line px-4 py-5 @2xl:px-6">
           <div className="flex items-baseline justify-between gap-3">
             <p className="text-lg" style={title}>
-              Propiedades
+              {t("nav.properties")}
             </p>
-            <p className="text-xs text-quiet">24 resultados</p>
+            <p className="text-xs text-quiet">{t("results", { count: 24 })}</p>
           </div>
           <div className="flex w-full max-w-xl flex-col gap-2 rounded-xl border border-line p-2 @md:flex-row @md:items-center">
             <span className="flex h-9 flex-1 items-center gap-2 px-2 text-xs text-quiet">
               <Search className="size-3.5 shrink-0" aria-hidden />
-              Zona, tipo o precio
+              {t("searchShort")}
             </span>
             <span
               className={cn(
@@ -193,7 +179,7 @@ export function SitePreview({ state }: { state: PreviewState }) {
               )}
               style={button}
             >
-              Buscar
+              {t("search")}
             </span>
           </div>
         </div>
@@ -243,7 +229,7 @@ export function SitePreview({ state }: { state: PreviewState }) {
             <div className="flex w-full max-w-lg flex-col gap-2 rounded-xl border border-line p-2 @md:flex-row @md:items-center">
               <span className="flex h-9 flex-1 items-center gap-2 px-2 text-xs text-quiet">
                 <Search className="size-3.5 shrink-0" aria-hidden />
-                Zona, tipo o precio
+                {t("searchShort")}
               </span>
               <span
                 className={cn(
@@ -252,7 +238,7 @@ export function SitePreview({ state }: { state: PreviewState }) {
                 )}
                 style={button}
               >
-                Buscar
+                {t("search")}
               </span>
             </div>
           </div>
@@ -270,7 +256,7 @@ export function SitePreview({ state }: { state: PreviewState }) {
           <span className="rounded bg-white/20 px-1.5 py-0.5 text-[11px] font-semibold">
             15% OFF
           </span>
-          Estadías de octubre en La Barra
+          {t("promo")}
         </div>
       )}
 
@@ -281,14 +267,13 @@ export function SitePreview({ state }: { state: PreviewState }) {
               className={cn("text-xs font-semibold", TRANSITION)}
               style={{ color: accent }}
             >
-              Destino
+              {t("destination")}
             </span>
             <p className="text-xl leading-tight" style={title}>
               La Barra
             </p>
             <p className="text-xs leading-relaxed text-quiet @md:text-sm">
-              Mar, bosque y atardeceres. Las mejores casas de la zona, a pasos
-              de la playa.
+              {t("destinationText")}
             </p>
             <span
               className={cn(
@@ -297,7 +282,7 @@ export function SitePreview({ state }: { state: PreviewState }) {
               )}
               style={{ borderColor: accent, color: accent }}
             >
-              Ver propiedades en La Barra
+              {t("destinationCta")}
             </span>
           </div>
           <PropertyPhoto
@@ -312,18 +297,18 @@ export function SitePreview({ state }: { state: PreviewState }) {
         <div className="flex flex-col gap-4 p-4 @2xl:p-6">
           <div className="flex items-baseline justify-between gap-3">
             <p className="text-base @md:text-lg" style={title}>
-              Propiedades destacadas
+              {t("featured")}
             </p>
             <span
               className={cn("text-xs font-semibold", TRANSITION)}
               style={{ color: accent }}
             >
-              Ver todas
+              {t("viewAll")}
             </span>
           </div>
           <div className="grid gap-4 @xl:grid-cols-3">
             {LISTINGS.map((item) => (
-              <div key={item.title} className="flex flex-col gap-2">
+              <div key={item.key} className="flex flex-col gap-2">
                 <div className="relative">
                   <PropertyPhoto
                     photo={item.photo}
@@ -331,11 +316,11 @@ export function SitePreview({ state }: { state: PreviewState }) {
                     className="aspect-[4/3] rounded-lg"
                   />
                   <span className="absolute top-2 left-2 rounded bg-white/95 px-1.5 py-0.5 text-[11px] font-semibold">
-                    {item.kind}
+                    {t(`kinds.${item.kind}`)}
                   </span>
                 </div>
                 <div className="flex flex-col gap-0.5">
-                  <p className="text-sm font-semibold">{item.title}</p>
+                  <p className="text-sm font-semibold">{t(`listings.${item.key}`)}</p>
                   <p className="flex items-center gap-1 text-xs text-quiet">
                     <MapPin className="size-3 shrink-0" aria-hidden />
                     {item.place}
@@ -347,7 +332,9 @@ export function SitePreview({ state }: { state: PreviewState }) {
                     )}
                     style={{ color: accent }}
                   >
-                    {item.price}
+                    {item.kind === "rent"
+                      ? t("perMonth", { price: `USD ${number(item.price)}` })
+                      : `USD ${number(item.price)}`}
                   </p>
                 </div>
               </div>

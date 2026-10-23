@@ -1,6 +1,7 @@
 "use client";
 
 import { Eye, EyeOff, Monitor, Smartphone } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 import { SECTION, WRAP } from "@/components/landing/layout";
@@ -9,13 +10,9 @@ import { SitePreview } from "@/components/landing/site-preview";
 import { ACCENT_PRESETS, FONT_PAIRS, SITE_TEMPLATES } from "@/lib/site-theme";
 import { cn } from "@/lib/utils";
 
-const BLOCKS = [
-  { id: "promo", name: "Promoción" },
-  { id: "location", name: "Ubicación" },
-  { id: "featured", name: "Destacadas" },
-] as const;
+const BLOCKS = ["promo", "location", "featured"] as const;
 
-type BlockId = (typeof BLOCKS)[number]["id"];
+type BlockId = (typeof BLOCKS)[number];
 
 function PanelLabel({ children }: { children: React.ReactNode }) {
   return <p className="text-xs text-quiet">{children}</p>;
@@ -23,6 +20,8 @@ function PanelLabel({ children }: { children: React.ReactNode }) {
 
 /** The editor drawn wide: controls on the left, the agency's site reacting on the right. */
 function EditorFragment() {
+  const t = useTranslations("landing.siteEditor");
+  const tEditor = useTranslations("portalEditor");
   const [template, setTemplate] = useState(0);
   const [accent, setAccent] = useState(ACCENT_PRESETS[1].value);
   const [fonts, setFonts] = useState(0);
@@ -39,11 +38,11 @@ function EditorFragment() {
     <div className="grid overflow-hidden rounded-2xl border border-paper/15 lg:grid-cols-[17rem_1fr]">
       <div className="flex flex-col gap-6 border-b border-line bg-white p-5 text-ink lg:border-r lg:border-b-0">
         <div className="flex flex-col gap-2">
-          <PanelLabel>Plantilla</PanelLabel>
+          <PanelLabel>{t("template")}</PanelLabel>
           <div className="flex flex-wrap gap-1.5">
             {SITE_TEMPLATES.map((item, index) => (
               <button
-                key={item.value}
+                key={item}
                 type="button"
                 aria-pressed={template === index}
                 onClick={() => setTemplate(index)}
@@ -54,23 +53,23 @@ function EditorFragment() {
                     : "border-line text-quiet hover:text-ink",
                 )}
               >
-                {item.label}
+                {tEditor(`templates.${item}.label`)}
               </button>
             ))}
           </div>
           <p className="text-xs leading-snug text-quiet/80">
-            {SITE_TEMPLATES[template].description}
+            {tEditor(`templates.${SITE_TEMPLATES[template]}.description`)}
           </p>
         </div>
 
         <div className="flex flex-col gap-2">
-          <PanelLabel>Color</PanelLabel>
+          <PanelLabel>{t("color")}</PanelLabel>
           <div className="flex flex-wrap gap-2">
             {ACCENT_PRESETS.map((preset) => (
               <button
                 key={preset.value}
                 type="button"
-                aria-label={preset.label}
+                aria-label={tEditor(`accents.${preset.name}`)}
                 aria-pressed={accent === preset.value}
                 onClick={() => setAccent(preset.value)}
                 style={{ backgroundColor: preset.value }}
@@ -84,7 +83,7 @@ function EditorFragment() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <PanelLabel>Tipografía</PanelLabel>
+          <PanelLabel>{t("fonts")}</PanelLabel>
           <div className="flex flex-wrap gap-1.5">
             {FONT_PAIRS.map((item, index) => (
               <button
@@ -99,35 +98,35 @@ function EditorFragment() {
                     : "border-line text-quiet hover:text-ink",
                 )}
               >
-                {item.label}
+                {tEditor(`fonts.${item.value}.label`)}
               </button>
             ))}
           </div>
           <p className="text-xs leading-snug text-quiet/80">
-            {pair.description}
+            {tEditor(`fonts.${pair.value}.description`)}
           </p>
         </div>
 
         <div className="flex flex-col gap-1">
-          <PanelLabel>Bloques</PanelLabel>
+          <PanelLabel>{t("blocks")}</PanelLabel>
           <ul>
             {BLOCKS.map((block) => (
-              <li key={block.id} className="border-t border-line">
+              <li key={block} className="border-t border-line">
                 <button
                   type="button"
-                  aria-pressed={shown[block.id]}
+                  aria-pressed={shown[block]}
                   onClick={() =>
                     setShown((current) => ({
                       ...current,
-                      [block.id]: !current[block.id],
+                      [block]: !current[block],
                     }))
                   }
                   className="flex w-full items-center justify-between py-2.5 text-sm outline-none focus-visible:ring-2 focus-visible:ring-forest"
                 >
-                  <span className={cn(!shown[block.id] && "text-quiet")}>
-                    {block.name}
+                  <span className={cn(!shown[block] && "text-quiet")}>
+                    {t(`blockNames.${block}`)}
                   </span>
-                  {shown[block.id] ? (
+                  {shown[block] ? (
                     <Eye className="size-4 text-forest" aria-hidden />
                   ) : (
                     <EyeOff className="size-4 text-quiet/50" aria-hidden />
@@ -142,17 +141,17 @@ function EditorFragment() {
       <div className="flex min-w-0 flex-col gap-4 bg-paper p-4 text-ink sm:p-6 lg:p-8">
         <div className="flex items-center justify-between gap-3">
           <p className="text-xs text-quiet">
-            Probalo: cambiá la plantilla, el color, la tipografía y los bloques.
+            {t("tryIt")}
           </p>
           <div
             role="group"
-            aria-label="Tamaño de pantalla"
+            aria-label={t("screen")}
             className="flex shrink-0 rounded-lg border border-line bg-white p-0.5"
           >
             {(
               [
-                [false, Monitor, "Computadora"],
-                [true, Smartphone, "Celular"],
+                [false, Monitor, t("desktop")],
+                [true, Smartphone, t("mobile")],
               ] as const
             ).map(([value, Icon, label]) => (
               <button
@@ -185,7 +184,7 @@ function EditorFragment() {
           <div
             tabIndex={0}
             role="region"
-            aria-label="Vista previa del sitio, con scroll"
+            aria-label={t("previewLabel")}
             className="h-full overflow-y-auto overscroll-contain outline-none focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-inset [scrollbar-width:thin]"
           >
             <SitePreview
@@ -206,6 +205,7 @@ function EditorFragment() {
 }
 
 export function SiteEditor() {
+  const t = useTranslations("landing.siteEditor");
   return (
     <section
       id="sitio"
@@ -218,14 +218,12 @@ export function SiteEditor() {
           <Heading
             id="sitio-titulo"
             tone="paper"
-            claim="Un sitio que parece tuyo."
-            rest="Armalo a tu manera, sin pedirle nada a un diseñador."
+            claim={t("claim")}
+            rest={t("rest")}
             className="lg:col-span-7"
           />
           <p className="text-lg leading-relaxed text-pretty text-paper/75 lg:col-span-4 lg:col-start-9">
-            Es el portal público de tu agencia, con tu marca y tus propiedades,
-            y lo personalizás vos: plantilla, colores, tipografías y bloques.
-            Ves cómo queda en computadora, tableta y celular antes de publicar.
+            {t("lead")}
           </p>
         </div>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { Check, ImagePlus, LoaderCircle, Monitor, Smartphone, Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRef } from "react";
 
 import { BlocksEditor } from "@/components/portal-editor/blocks-editor";
@@ -18,7 +19,6 @@ import { RichTextEditor } from "@/components/rich-text/rich-text-editor";
 import type { Property } from "@/lib/api/properties";
 import {
   ACCENT_PRESETS,
-  DEFAULT_HERO_TITLE,
   FONT_PAIRS,
   SITE_TEMPLATES,
   accentInk,
@@ -171,6 +171,7 @@ export function DesignPanel({
   viewport: Viewport;
   onViewportChange: (viewport: Viewport) => void;
 }) {
+  const t = useTranslations("portalEditor");
   const customColor = !ACCENT_PRESETS.some(
     (preset) => preset.value.toLowerCase() === draft.accent.toLowerCase(),
   );
@@ -178,7 +179,6 @@ export function DesignPanel({
   const sameOnMobile = !draft.templateMobile || draft.templateMobile === draft.template;
   // The layout this screen shows: on phones, the desktop one until another is picked.
   const shown = onMobile && !sameOnMobile ? draft.templateMobile : draft.template;
-  const template = SITE_TEMPLATES.find((option) => option.value === shown);
 
   function pick(value: Draft["template"]) {
     if (!onMobile) set("template", value);
@@ -188,18 +188,18 @@ export function DesignPanel({
   return (
     <>
       <Group
-        title="Diseño"
-        description="La forma general de la página de inicio. Podés usar uno en computadoras y otro en celulares."
+        title={t("design.title")}
+        description={t("design.description")}
       >
         <div
           role="radiogroup"
-          aria-label="Pantalla"
+          aria-label={t("design.screen")}
           className="flex gap-1 self-start rounded-lg bg-foreground/[0.06] p-1"
         >
           {(
             [
-              { value: "desktop", label: "Computadora", icon: Monitor },
-              { value: "mobile", label: "Celular", icon: Smartphone },
+              { value: "desktop", label: t("design.desktop"), icon: Monitor },
+              { value: "mobile", label: t("design.mobile"), icon: Smartphone },
             ] as const
           ).map((option) => (
             <button
@@ -223,10 +223,8 @@ export function DesignPanel({
         {onMobile && (
           <label className="flex items-center justify-between gap-4 rounded-xl bg-foreground/[0.04] px-4 py-3.5">
             <span className="flex flex-col gap-0.5">
-              <span className="text-sm font-medium">Igual que en computadora</span>
-              <span className="text-xs text-muted-foreground">
-                Apagalo para elegir otro diseño solo para celulares.
-              </span>
+              <span className="text-sm font-medium">{t("design.sameAsDesktop")}</span>
+              <span className="text-xs text-muted-foreground">{t("design.sameAsDesktopHint")}</span>
             </span>
             <Switch
               checked={sameOnMobile}
@@ -246,42 +244,38 @@ export function DesignPanel({
         )}
         <div
           role="radiogroup"
-          aria-label={onMobile ? "Diseño en celulares" : "Diseño en computadoras"}
+          aria-label={onMobile ? t("design.onMobile") : t("design.onDesktop")}
           className={cn("grid grid-cols-3 gap-3", onMobile && sameOnMobile && "pointer-events-none opacity-50")}
           aria-disabled={onMobile && sameOnMobile}
         >
           {SITE_TEMPLATES.map((option) => {
-            const active = shown === option.value;
+            const active = shown === option;
             return (
               <button
-                key={option.value}
+                key={option}
                 type="button"
                 role="radio"
                 aria-checked={active}
                 tabIndex={onMobile && sameOnMobile ? -1 : undefined}
-                onClick={() => pick(option.value)}
+                onClick={() => pick(option)}
                 className={cn(CHOICE, active ? CHOICE_ON : CHOICE_OFF)}
               >
-                <TemplateSketch template={option.value} />
-                <span className="text-sm font-medium">{option.label}</span>
+                <TemplateSketch template={option} />
+                <span className="text-sm font-medium">{t(`templates.${option}.label`)}</span>
               </button>
             );
           })}
         </div>
-        {template && (
-          <p className="text-sm text-muted-foreground">
-            {template.description}
-          </p>
-        )}
+        {shown && <p className="text-sm text-muted-foreground">{t(`templates.${shown}.description`)}</p>}
       </Group>
 
       <Group
-        title="Color"
-        description="Para botones, enlaces y detalles. El resto del portal queda en blanco y gris."
+        title={t("color.title")}
+        description={t("color.description")}
       >
         <div
           role="radiogroup"
-          aria-label="Color"
+          aria-label={t("color.title")}
           className="grid grid-cols-8 gap-2"
         >
           {ACCENT_PRESETS.map((preset) => {
@@ -293,8 +287,8 @@ export function DesignPanel({
                 type="button"
                 role="radio"
                 aria-checked={active}
-                aria-label={preset.label}
-                title={preset.label}
+                aria-label={t(`accents.${preset.name}`)}
+                title={t(`accents.${preset.name}`)}
                 onClick={() => set("accent", preset.value)}
                 className={cn(
                   "flex aspect-square items-center justify-center rounded-full outline-none transition-transform focus-visible:ring-3 focus-visible:ring-ring/50",
@@ -324,9 +318,9 @@ export function DesignPanel({
                 ? draft.accent
                 : undefined,
             }}
-            title="Elegir otro color"
+            title={t("color.custom")}
           >
-            <span className="sr-only">Elegir otro color</span>
+            <span className="sr-only">{t("color.custom")}</span>
             <input
               type="color"
               value={HEX.test(draft.accent) ? draft.accent : "#000000"}
@@ -337,7 +331,7 @@ export function DesignPanel({
             />
           </label>
           <Input
-            aria-label="Código del color"
+            aria-label={t("color.code")}
             value={draft.accent}
             maxLength={7}
             onChange={(event) =>
@@ -353,18 +347,18 @@ export function DesignPanel({
           />
           <span className="text-sm text-muted-foreground">
             {HEX.test(draft.accent) ? (
-              "U otro, con el selector"
+              t("color.picker")
             ) : (
-              <span className="text-destructive">Usá el formato #1F5F4A</span>
+              <span className="text-destructive">{t("color.format")}</span>
             )}
           </span>
         </div>
       </Group>
 
-      <Group title="Tipografía">
+      <Group title={t("fontsTitle")}>
         <div
           role="radiogroup"
-          aria-label="Tipografía"
+          aria-label={t("fontsTitle")}
           className="grid grid-cols-3 gap-3"
         >
           {FONT_PAIRS.map((pair) => {
@@ -394,9 +388,9 @@ export function DesignPanel({
                   Aa
                 </span>
                 <span className="flex flex-col gap-0.5">
-                  <span className="text-sm font-medium">{pair.label}</span>
+                  <span className="text-sm font-medium">{t(`fonts.${pair.value}.label`)}</span>
                   <span className="text-xs leading-snug text-muted-foreground">
-                    {pair.description}
+                    {t(`fonts.${pair.value}.description`)}
                   </span>
                 </span>
               </button>
@@ -421,6 +415,9 @@ export function CoverPanel({
   onUpload: (file: File) => void;
   properties: Property[];
 }) {
+  const t = useTranslations("portalEditor.cover");
+  const tc = useTranslations("common");
+  const tSite = useTranslations("site.portal");
   const inputRef = useRef<HTMLInputElement>(null);
   const usesMosaic = draft.template === "mosaico" || draft.templateMobile === "mosaico";
 
@@ -428,8 +425,8 @@ export function CoverPanel({
     <>
       {usesMosaic && (
         <Group
-          title="Fotos del mosaico"
-          description="Las cuatro fotos de la portada, en este orden; la primera va en grande. Si no elegís ninguna, se usan las fotos de tus propiedades."
+          title={t("mosaicTitle")}
+          description={t("mosaicDescription")}
         >
           <MosaicPicker
             value={draft.mosaicPhotos}
@@ -440,21 +437,21 @@ export function CoverPanel({
       )}
 
       <Group
-        title="Foto de portada"
-        description="La imagen principal de tu página. Mejor horizontal y de al menos 1920 px de ancho."
+        title={t("photoTitle")}
+        description={t("photoDescription")}
       >
         <div className="relative aspect-[16/9] overflow-hidden rounded-xl bg-foreground/[0.05]">
           {draft.coverUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={draft.coverUrl}
-              alt="Portada actual"
+              alt={t("current")}
               className="size-full object-cover"
             />
           ) : (
             <div className="flex size-full flex-col items-center justify-center gap-2 text-sm text-muted-foreground">
               <ImagePlus className="size-6" strokeWidth={1.5} />
-              Sin portada: se usa tu color.
+              {t("none")}
             </div>
           )}
           {uploading && (
@@ -471,7 +468,7 @@ export function CoverPanel({
             className="inline-flex h-10 items-center gap-2 rounded-full bg-foreground/[0.06] px-4 text-sm font-medium outline-none hover:bg-foreground/10 focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-60"
           >
             <ImagePlus className="size-4" />
-            {draft.coverUrl ? "Cambiar foto" : "Subir foto"}
+            {draft.coverUrl ? t("change") : t("upload")}
           </button>
           {draft.coverUrl && (
             <button
@@ -480,7 +477,7 @@ export function CoverPanel({
               className="inline-flex h-10 items-center gap-2 rounded-full px-4 text-sm font-medium text-muted-foreground outline-none hover:bg-foreground/[0.06] hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
             >
               <Trash2 className="size-4" />
-              Quitar
+              {t("remove")}
             </button>
           )}
         </div>
@@ -497,21 +494,21 @@ export function CoverPanel({
         />
       </Group>
 
-      <Group title="Textos">
+      <Group title={t("texts")}>
         <TextField
           id="heroTitle"
-          label="Titular"
+          label={t("heroTitle")}
           value={draft.heroTitle}
           onChange={(value) => set("heroTitle", value)}
-          placeholder={DEFAULT_HERO_TITLE}
+          placeholder={tSite("defaultHeroTitle")}
           maxLength={120}
-          hint="Si lo dejás vacío, se usa el de ejemplo."
+          hint={t("heroTitleHint")}
         />
         <div className="flex flex-col gap-2">
           <label htmlFor="heroSubtitle" className="text-sm font-medium">
-            Bajada{" "}
+            {t("heroSubtitle")}{" "}
             <span className="font-normal text-muted-foreground">
-              (opcional)
+              {tc("optional")}
             </span>
           </label>
           <Textarea
@@ -519,7 +516,7 @@ export function CoverPanel({
             rows={3}
             maxLength={240}
             value={draft.heroSubtitle}
-            placeholder="Casas y departamentos en venta y alquiler en la costa atlántica."
+            placeholder={t("heroSubtitlePlaceholder")}
             onChange={(event) => set("heroSubtitle", event.target.value)}
             className="px-4 py-3"
           />
@@ -538,10 +535,11 @@ export function BlocksPanel({
   set: SetDraft;
   properties: Property[];
 }) {
+  const t = useTranslations("portalEditor.blocksPanel");
   return (
     <Group
-      title="Bloques"
-      description="Secciones propias entre la portada y el listado: destinos como Ibiza o Grecia, o promociones con propiedades destacadas."
+      title={t("title")}
+      description={t("description")}
     >
       <BlocksEditor
         sections={draft.sections}
@@ -553,15 +551,16 @@ export function BlocksPanel({
 }
 
 export function AgencyPanel({ draft, set }: { draft: Draft; set: SetDraft }) {
+  const t = useTranslations("portalEditor.agency");
   return (
     <>
       <Group
-        title="Sobre tu agencia"
-        description="Un párrafo sobre quiénes son y cómo trabajan."
+        title={t("aboutTitle")}
+        description={t("aboutDescription")}
       >
         <label className="flex items-center justify-between gap-4 rounded-xl bg-foreground/[0.04] px-4 py-3.5">
           <span className="text-sm font-medium">
-            Mostrar la sección en el portal
+            {t("showAbout")}
           </span>
           <Switch
             checked={draft.showAbout}
@@ -569,17 +568,17 @@ export function AgencyPanel({ draft, set }: { draft: Draft; set: SetDraft }) {
           />
         </label>
         <RichTextEditor
-          ariaLabel="Texto sobre tu agencia"
+          ariaLabel={t("aboutLabel")}
           value={draft.about}
-          placeholder="Somos una inmobiliaria familiar con 20 años en la zona…"
+          placeholder={t("aboutPlaceholder")}
           onChange={(html) => set("about", html)}
           contentClassName="min-h-36"
         />
       </Group>
 
       <Group
-        title="Contacto"
-        description="Aparece en el pie y en la sección de contacto. El email se cambia en Configuración."
+        title={t("contactTitle")}
+        description={t("contactDescription")}
       >
         <TextField
           id="whatsapp"
@@ -588,12 +587,12 @@ export function AgencyPanel({ draft, set }: { draft: Draft; set: SetDraft }) {
           value={draft.whatsapp}
           onChange={(value) => set("whatsapp", value)}
           placeholder="+54 9 11 5555-1234"
-          hint="Con código de país. Activa el botón “Escribinos por WhatsApp”."
+          hint={t("whatsappHint")}
           maxLength={40}
         />
         <TextField
           id="phone"
-          label="Teléfono"
+          label={t("phone")}
           type="tel"
           value={draft.phone}
           onChange={(value) => set("phone", value)}
@@ -601,7 +600,7 @@ export function AgencyPanel({ draft, set }: { draft: Draft; set: SetDraft }) {
         />
         <TextField
           id="address"
-          label="Dirección de la oficina"
+          label={t("address")}
           value={draft.address}
           onChange={(value) => set("address", value)}
           maxLength={200}
@@ -611,7 +610,7 @@ export function AgencyPanel({ draft, set }: { draft: Draft; set: SetDraft }) {
           label="Instagram"
           value={draft.instagram}
           onChange={(value) => set("instagram", value)}
-          placeholder="@tuagencia"
+          placeholder={t("instagramPlaceholder")}
           maxLength={100}
         />
       </Group>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 import { LoaderCircle } from "lucide-react";
@@ -36,6 +37,8 @@ export function CreateBookingDialog({
   defaultOfferId?: string;
   defaultTotalPrice?: number;
 }) {
+  const t = useTranslations("bookings.create");
+  const common = useTranslations("common");
   const [open, setOpen] = useState(false);
   const [propertyId, setPropertyId] = useState(defaultPropertyId ?? "");
   const [clientId, setClientId] = useState(defaultClientId ?? "");
@@ -82,7 +85,7 @@ export function CreateBookingDialog({
       queryClient.invalidateQueries({ queryKey: ["bookings"] });
       handleOpenChange(false);
     },
-    onError: (err) => setServerError(err instanceof ApiError ? err.message : "Error inesperado"),
+    onError: (err) => setServerError(err instanceof ApiError ? err.message : common("unexpectedError")),
   });
 
   function handleOpenChange(next: boolean) {
@@ -103,7 +106,7 @@ export function CreateBookingDialog({
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <NewItemButton label="Nueva reserva" />
+        <NewItemButton label={t("new")} />
       </DialogTrigger>
       <DialogContent className="gap-0 rounded-3xl p-0 sm:max-w-lg" showCloseButton>
         <form
@@ -116,13 +119,13 @@ export function CreateBookingDialog({
           }}
         >
           <div className="flex flex-col gap-1.5 px-7 pt-7 pb-5">
-            <DialogTitle className="font-display text-3xl leading-none tracking-tight">Nueva reserva</DialogTitle>
-            <DialogDescription>Elegí la propiedad. Las fechas son para alquileres; una venta va sin ellas.</DialogDescription>
+            <DialogTitle className="font-display text-3xl leading-none tracking-tight">{t("new")}</DialogTitle>
+            <DialogDescription>{t("description")}</DialogDescription>
           </div>
 
           <div className="flex flex-col gap-5 px-7 pb-2">
             <div className="flex flex-col gap-2.5">
-              <Label htmlFor="property">Propiedad</Label>
+              <Label htmlFor="property">{t("property")}</Label>
               <PropertyPicker
                 id="property"
                 properties={properties ?? []}
@@ -133,11 +136,11 @@ export function CreateBookingDialog({
             </div>
             <div className="flex flex-col gap-2.5">
               <Label htmlFor="client">
-                Cliente <span className="font-normal text-muted-foreground">(opcional)</span>
+                {t("client")} <span className="font-normal text-muted-foreground">{common("optional")}</span>
               </Label>
               <Select value={clientId} onValueChange={setClientId}>
                 <SelectTrigger id="client" className="h-11 w-full">
-                  <SelectValue placeholder="Sin cliente asignado" />
+                  <SelectValue placeholder={t("noClient")} />
                 </SelectTrigger>
                 <SelectContent>
                   {clients?.map((c) => (
@@ -150,7 +153,7 @@ export function CreateBookingDialog({
             </div>
             <div className="flex flex-col gap-2.5">
               <Label htmlFor="dates">
-                Fechas <span className="font-normal text-muted-foreground">(solo alquileres)</span>
+                {t("dates")} <span className="font-normal text-muted-foreground">{t("rentalsOnly")}</span>
               </Label>
               <DateRangePicker
                 id="dates"
@@ -165,7 +168,7 @@ export function CreateBookingDialog({
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div className="flex flex-col gap-2.5">
-                <Label htmlFor="totalPrice">Precio total</Label>
+                <Label htmlFor="totalPrice">{t("totalPrice")}</Label>
                 <Input
                   id="totalPrice"
                   inputMode="decimal"
@@ -176,7 +179,7 @@ export function CreateBookingDialog({
                 />
               </div>
               <div className="flex flex-col gap-2.5">
-                <Label htmlFor="commission">Comisión</Label>
+                <Label htmlFor="commission">{t("commission")}</Label>
                 <Input
                   id="commission"
                   inputMode="decimal"
@@ -192,16 +195,16 @@ export function CreateBookingDialog({
 
           <div className="flex items-center justify-end gap-2 px-7 pt-5 pb-7">
             <Button type="button" variant="ghost" className="h-10 px-5" onClick={() => handleOpenChange(false)}>
-              Cancelar
+              {common("cancel")}
             </Button>
             <Button type="submit" variant="highlight" className="h-10 gap-2 px-6" disabled={!propertyId || mutation.isPending}>
               {mutation.isPending ? (
                 <>
                   <LoaderCircle className="animate-spin" />
-                  Creando…
+                  {common("creating")}
                 </>
               ) : (
-                "Crear reserva"
+                t("submit")
               )}
             </Button>
           </div>

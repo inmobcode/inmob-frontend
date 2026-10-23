@@ -30,6 +30,7 @@ import {
   Trash2,
   X,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -61,6 +62,7 @@ import { gsap, useGSAP } from "@/lib/gsap";
 import { compressManySmart } from "@/lib/image-compression";
 import { distance, duration, ease, media, stagger } from "@/lib/motion";
 import { PHOTO_SECTIONS } from "@/lib/property-catalogs";
+import { useLabels } from "@/lib/labels";
 import { cn } from "@/lib/utils";
 import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 
@@ -90,6 +92,7 @@ function PhotoTile({
   onMove: (section: PhotoSection) => void;
   onRemove: () => void;
 }) {
+  const t = useTranslations("properties.photos");
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: photo.id });
   const [confirming, setConfirming] = useState(false);
 
@@ -120,7 +123,7 @@ function PhotoTile({
       {photo.isCover && (
         <span className="absolute top-2.5 left-2.5 inline-flex items-center gap-1 rounded-full bg-card/90 px-2.5 py-1 text-xs font-medium backdrop-blur">
           <Star className="size-3 fill-amber-400 text-amber-400" />
-          Portada
+          {t("cover")}
         </span>
       )}
 
@@ -131,8 +134,8 @@ function PhotoTile({
         {!photo.isCover && (
           <button
             type="button"
-            aria-label="Hacer portada"
-            title="Hacer portada"
+            aria-label={t("makeCover")}
+            title={t("makeCover")}
             onClick={onCover}
             className="flex size-8 items-center justify-center rounded-full bg-card/90 text-foreground backdrop-blur transition-colors outline-none hover:bg-card focus-visible:ring-3 focus-visible:ring-ring/50"
           >
@@ -143,8 +146,8 @@ function PhotoTile({
           <DropdownMenuTrigger asChild>
             <button
               type="button"
-              aria-label="Mover a otra sección"
-              title="Mover a otra sección"
+              aria-label={t("move")}
+              title={t("move")}
               className="flex size-8 items-center justify-center rounded-full bg-card/90 text-foreground backdrop-blur transition-colors outline-none hover:bg-card focus-visible:ring-3 focus-visible:ring-ring/50"
             >
               <ArrowRightLeft className="size-4" />
@@ -166,8 +169,8 @@ function PhotoTile({
         </DropdownMenu>
         <button
           type="button"
-          aria-label={confirming ? "Confirmar: quitar foto" : "Quitar foto"}
-          title={confirming ? "Hacé clic de nuevo para quitarla" : "Quitar foto"}
+          aria-label={confirming ? t("confirmRemove") : t("remove")}
+          title={confirming ? t("clickAgain") : t("remove")}
           onClick={() => {
             if (!confirming) {
               setConfirming(true);
@@ -182,7 +185,7 @@ function PhotoTile({
           )}
         >
           <Trash2 className="size-4" />
-          {confirming && "¿Quitar?"}
+          {confirming && t("removeShort")}
         </button>
       </div>
     </div>
@@ -190,6 +193,8 @@ function PhotoTile({
 }
 
 export function PhotosTab({ property }: { property: Property }) {
+  const t = useTranslations("properties.photos");
+  const labels = useLabels();
   const queryClient = useQueryClient();
   const queryKey = ["property", property.id];
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -208,7 +213,7 @@ export function PhotosTab({ property }: { property: Property }) {
 
   const isRealEstate = property.listingType === "SALE";
   const ordered = [...property.photos].sort((a, b) => a.position - b.position);
-  const known = new Set(PHOTO_SECTIONS.map((section) => section.value));
+  const known = new Set(PHOTO_SECTIONS);
   // Any section value already in use that isn't one of the fixed ones is a
   // custom section the agent created — each gets its own named group, not a
   // shared "Otras" bucket.
@@ -216,7 +221,7 @@ export function PhotosTab({ property }: { property: Property }) {
   for (const value of pendingSections) if (!customValues.includes(value)) customValues.push(value);
 
   const sections = [
-    ...PHOTO_SECTIONS,
+    ...PHOTO_SECTIONS.map((value) => ({ value, label: labels.photoSection(value) })),
     ...customValues.map((value) => ({ value, label: value })),
   ];
   const sectionLabel = (value: string) => sections.find((section) => section.value === value)?.label ?? value;
@@ -256,7 +261,7 @@ export function PhotosTab({ property }: { property: Property }) {
       }
     },
     onSuccess: () => setUploadError(null),
-    onError: (err) => setUploadError(err instanceof ApiError ? err.message : "No se pudieron subir las fotos"),
+    onError: (err) => setUploadError(err instanceof ApiError ? err.message : t("uploadFailed")),
     onSettled: () => {
       setStage("idle");
       refresh();
@@ -266,14 +271,14 @@ export function PhotosTab({ property }: { property: Property }) {
   const removeMutation = useMutation({
     mutationFn: (photoId: string) => removePropertyPhoto(requireToken(), property.id, photoId),
     onMutate: (photoId) => patchCache((photos) => photos.filter((photo) => photo.id !== photoId)),
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo quitar la foto"),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : t("removeFailed")),
     onSettled: refresh,
   });
 
   const coverMutation = useMutation({
     mutationFn: (photoId: string) => updatePropertyPhoto(requireToken(), property.id, photoId, { isCover: true }),
     onMutate: (photoId) => patchCache((photos) => photos.map((photo) => ({ ...photo, isCover: photo.id === photoId }))),
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo cambiar la portada"),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : t("coverFailed")),
     onSettled: refresh,
   });
 
@@ -282,8 +287,8 @@ export function PhotosTab({ property }: { property: Property }) {
       updatePropertyPhoto(requireToken(), property.id, photoId, { section }),
     onMutate: ({ photoId, section }) =>
       patchCache((photos) => photos.map((photo) => (photo.id === photoId ? { ...photo, section } : photo))),
-    onSuccess: (_, { section }) => toast.success(`Movida a ${sectionLabel(section)}`),
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo mover la foto"),
+    onSuccess: (_, { section }) => toast.success(t("moved", { section: sectionLabel(section) })),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : t("moveFailed")),
     onSettled: refresh,
   });
 
@@ -293,20 +298,20 @@ export function PhotosTab({ property }: { property: Property }) {
       patchCache((photos) =>
         photos.map((photo) => ({ ...photo, position: ids.indexOf(photo.id) })),
       ),
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo guardar el orden"),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : t("orderFailed")),
     onSettled: refresh,
   });
 
   const watermarkMutation = useMutation({
     mutationFn: (watermarkPhotos: boolean) => updateProperty(requireToken(), property.id, { watermarkPhotos }),
     onSuccess: refresh,
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo guardar"),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : t("saveFailed")),
   });
 
   const videosMutation = useMutation({
     mutationFn: (videoUrls: { url: string }[]) => updateProperty(requireToken(), property.id, { videoUrls }),
     onSuccess: refresh,
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo guardar"),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : t("saveFailed")),
   });
 
   function addCustomSection() {
@@ -324,7 +329,7 @@ export function PhotosTab({ property }: { property: Property }) {
     if (!list || list.length === 0) return;
     const images = Array.from(list).filter((file) => file.type.startsWith("image/") || /\.hei[cf]$/i.test(file.name));
     if (images.length === 0) {
-      setUploadError("Solo se pueden subir imágenes (JPG, PNG, WebP o HEIC).");
+      setUploadError(t("onlyImages"));
       return;
     }
     setUploadError(null);
@@ -355,11 +360,11 @@ export function PhotosTab({ property }: { property: Property }) {
       const parsed = new URL(value);
       if (!/^https?:$/.test(parsed.protocol)) throw new Error("protocol");
     } catch {
-      setVideoError("Pegá un link válido, por ejemplo de YouTube o Vimeo.");
+      setVideoError(t("videoInvalid"));
       return;
     }
     if (property.videoUrls.some((video) => video.url === value)) {
-      setVideoError("Ese video ya está en la lista.");
+      setVideoError(t("videoDuplicate"));
       return;
     }
     setVideoError(null);
@@ -394,20 +399,20 @@ export function PhotosTab({ property }: { property: Property }) {
   return (
     <div className="flex max-w-5xl min-w-0 flex-col gap-12">
       <Section
-        title="Galería"
-        description="Arrastrá las fotos para ordenarlas dentro de su sección. Los cambios de esta pestaña se guardan al momento."
+        title={t("gallery.title")}
+        description={t("gallery.description")}
         shown
       >
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-3">
-            <p className="text-sm font-medium">Subir a la sección</p>
+            <p className="text-sm font-medium">{t("gallery.uploadTo")}</p>
             <div className="flex flex-wrap items-center gap-1.5">
-              <Segmented label="Sección de destino" value={uploadSection} options={sections} onChange={setUploadSection} />
+              <Segmented label={t("gallery.target")} value={uploadSection} options={sections} onChange={setUploadSection} />
               {addingSection ? (
                 <Input
                   autoFocus
-                  placeholder="Nombre"
-                  aria-label="Nombre de la nueva sección"
+                  placeholder={t("gallery.newName")}
+                  aria-label={t("gallery.newNameLabel")}
                   value={newSectionName}
                   onChange={(event) => setNewSectionName(event.target.value)}
                   onKeyDown={(event) => {
@@ -430,7 +435,7 @@ export function PhotosTab({ property }: { property: Property }) {
                   className="inline-flex h-9 items-center gap-1.5 rounded-full bg-foreground/[0.07] px-4 text-sm font-medium text-muted-foreground outline-none transition-colors hover:bg-foreground/10 hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-foreground/10 dark:hover:bg-foreground/15"
                 >
                   <Plus className="size-3.5" />
-                  Agregar
+                  {t("add")}
                 </button>
               )}
             </div>
@@ -448,7 +453,7 @@ export function PhotosTab({ property }: { property: Property }) {
           <div
             role="button"
             tabIndex={0}
-            aria-label="Subir fotos"
+            aria-label={t("gallery.upload")}
             onClick={() => !busy && fileInputRef.current?.click()}
             onKeyDown={(event) => {
               if ((event.key === "Enter" || event.key === " ") && !busy) {
@@ -484,8 +489,8 @@ export function PhotosTab({ property }: { property: Property }) {
               <div className="flex w-full max-w-xs flex-col items-center gap-2">
                 <p className="text-sm font-medium">
                   {stage === "compressing"
-                    ? "Optimizando fotos…"
-                    : `Subiendo ${Math.min(progress.done + 1, progress.total)} de ${progress.total}…`}
+                    ? t("gallery.optimizing")
+                    : t("gallery.uploading", { current: Math.min(progress.done + 1, progress.total), total: progress.total })}
                 </p>
                 <div className="h-1.5 w-full overflow-hidden rounded-full bg-foreground/10">
                   <div
@@ -497,10 +502,10 @@ export function PhotosTab({ property }: { property: Property }) {
             ) : (
               <div className="flex flex-col gap-1">
                 <p className="text-sm font-medium">
-                  {dragOver ? "Soltalas para subirlas" : "Arrastrá tus fotos acá o hacé clic para elegirlas"}
+                  {dragOver ? t("gallery.drop") : t("gallery.drag")}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  JPG, PNG, WebP o HEIC. Se optimizan solas antes de subir.
+                  {t("gallery.formats")}
                 </p>
               </div>
             )}
@@ -509,7 +514,7 @@ export function PhotosTab({ property }: { property: Property }) {
 
           <div ref={galleryRef} className="flex flex-col gap-10">
             {groups.length === 0 ? (
-              <p className="text-sm text-muted-foreground">Todavía no agregaste fotos. La primera será la portada.</p>
+              <p className="text-sm text-muted-foreground">{t("gallery.empty")}</p>
             ) : (
               groups.map((group) => (
                 <div key={group.section.value} className="flex flex-col gap-4">
@@ -545,10 +550,10 @@ export function PhotosTab({ property }: { property: Property }) {
         </div>
       </Section>
 
-      <Section title="Marca de agua" description="Agrega el logo de tu agencia sobre las fotos publicadas." shown={null}>
+      <Section title={t("watermark.title")} description={t("watermark.description")} shown={null}>
         <div className="flex items-center justify-between gap-4 rounded-2xl bg-foreground/[0.04] p-4">
           <label htmlFor="watermark" className="text-sm font-medium">
-            Poner marca de agua en las fotos
+            {t("watermark.label")}
           </label>
           <Switch
             id="watermark"
@@ -558,13 +563,13 @@ export function PhotosTab({ property }: { property: Property }) {
         </div>
       </Section>
 
-      <Section title="Videos" description="Links de YouTube, Vimeo u otras plataformas." shown={null}>
+      <Section title={t("videos.title")} description={t("videos.description")} shown={null}>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <div className="flex max-w-xl gap-2">
               <Input
                 placeholder="https://youtube.com/watch?v=…"
-                aria-label="Link del video"
+                aria-label={t("videos.link")}
                 aria-invalid={Boolean(videoError)}
                 value={newVideoUrl}
                 onChange={(event) => {
@@ -579,7 +584,7 @@ export function PhotosTab({ property }: { property: Property }) {
                 }}
               />
               <Button type="button" variant="outline" className="h-10 px-5" onClick={addVideo} disabled={!newVideoUrl.trim()}>
-                Agregar
+                {t("add")}
               </Button>
             </div>
             {videoError && <p className="text-sm text-destructive">{videoError}</p>}
@@ -613,7 +618,7 @@ export function PhotosTab({ property }: { property: Property }) {
                       <span className="truncate text-sm text-muted-foreground">{host}</span>
                       <button
                         type="button"
-                        aria-label="Quitar video"
+                        aria-label={t("videos.remove")}
                         onClick={() => videosMutation.mutate(property.videoUrls.filter((item) => item.url !== video.url))}
                         className="flex size-8 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors outline-none hover:bg-foreground/5 hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
                       >
@@ -638,7 +643,7 @@ export function PhotosTab({ property }: { property: Property }) {
             if (event.key === "ArrowLeft") setLightbox((lightbox - 1 + flat.length) % flat.length);
           }}
         >
-          <DialogTitle className="sr-only">Foto de la propiedad</DialogTitle>
+          <DialogTitle className="sr-only">{t("lightbox.title")}</DialogTitle>
           {current && (
             <div className="relative flex flex-col gap-3">
               <div className="flex max-h-[75vh] min-h-64 items-center justify-center overflow-hidden rounded-2xl bg-secondary">
@@ -647,12 +652,12 @@ export function PhotosTab({ property }: { property: Property }) {
               </div>
               <div className="flex items-center justify-between gap-3 px-1 text-sm">
                 <span className="text-muted-foreground">
-                  {sectionLabel(current.section)} · {(lightbox ?? 0) + 1} de {flat.length}
+                  {sectionLabel(current.section)} · {t("lightbox.position", { current: (lightbox ?? 0) + 1, total: flat.length })}
                 </span>
                 {current.isCover && (
                   <span className="inline-flex items-center gap-1 font-medium">
                     <Star className="size-3.5 fill-amber-400 text-amber-400" />
-                    Portada
+                    {t("cover")}
                   </span>
                 )}
               </div>
@@ -660,7 +665,7 @@ export function PhotosTab({ property }: { property: Property }) {
                 <>
                   <button
                     type="button"
-                    aria-label="Foto anterior"
+                    aria-label={t("lightbox.previous")}
                     onClick={() => setLightbox(((lightbox ?? 0) - 1 + flat.length) % flat.length)}
                     className="absolute top-1/2 left-3 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-card/90 shadow-md backdrop-blur transition-colors outline-none hover:bg-card focus-visible:ring-3 focus-visible:ring-ring/50"
                   >
@@ -668,7 +673,7 @@ export function PhotosTab({ property }: { property: Property }) {
                   </button>
                   <button
                     type="button"
-                    aria-label="Foto siguiente"
+                    aria-label={t("lightbox.next")}
                     onClick={() => setLightbox(((lightbox ?? 0) + 1) % flat.length)}
                     className="absolute top-1/2 right-3 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-card/90 shadow-md backdrop-blur transition-colors outline-none hover:bg-card focus-visible:ring-3 focus-visible:ring-ring/50"
                   >

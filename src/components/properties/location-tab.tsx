@@ -1,6 +1,7 @@
 "use client";
 
 import { LoaderCircle, MapPin, Search } from "lucide-react";
+import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import { useWatch, Controller, type UseFormReturn } from "react-hook-form";
@@ -12,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { formatCoordinate, geocode, parseGoogleMapsCoords } from "@/lib/geo";
-import { LOCATION_FEATURE_LABELS, VIEW_LABELS } from "@/lib/properties-labels";
+import { useLabels } from "@/lib/labels";
 import { LOCATION_FEATURES, VIEW_OPTIONS } from "@/lib/property-catalogs";
 
 const LocationMap = dynamic(() => import("@/components/properties/location-map"), {
@@ -47,6 +48,8 @@ function Section({
 }
 
 export function LocationTab({ form }: { form: UseFormReturn<FormValues> }) {
+  const t = useTranslations("properties.location");
+  const labels = useLabels();
   const values = useWatch({ control: form.control });
   const [searching, setSearching] = useState(false);
   const [linkNote, setLinkNote] = useState<string | null>(null);
@@ -68,13 +71,13 @@ export function LocationTab({ form }: { form: UseFormReturn<FormValues> }) {
     try {
       const found = await geocode(addressQuery);
       if (!found) {
-        toast.error("No encontramos esa dirección. Probá con más datos o poné el pin a mano.");
+        toast.error(t("notFound"));
         return;
       }
       setCoordinates(found.lat, found.lng);
-      toast.success("Ubicamos la dirección en el mapa");
+      toast.success(t("found"));
     } catch {
-      toast.error("No pudimos buscar la dirección. Intentá de nuevo.");
+      toast.error(t("searchFailed"));
     } finally {
       setSearching(false);
     }
@@ -86,9 +89,9 @@ export function LocationTab({ form }: { form: UseFormReturn<FormValues> }) {
     const found = parseGoogleMapsCoords(trimmed);
     if (found) {
       setCoordinates(found.lat, found.lng);
-      setLinkNote("Tomamos las coordenadas del link.");
+      setLinkNote(t("linkTaken"));
     } else if (/goo\\.gl|maps\\.app/.test(trimmed)) {
-      setLinkNote("Los links cortos no traen coordenadas. Abrilo y pegá el link completo.");
+      setLinkNote(t("linkShort"));
     } else {
       setLinkNote(null);
     }
@@ -97,45 +100,45 @@ export function LocationTab({ form }: { form: UseFormReturn<FormValues> }) {
   return (
     <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-12">
       <div className="flex max-w-2xl min-w-0 flex-col gap-10">
-        <Section title="Cómo se muestra" description="El texto que ven tus clientes en la ficha.">
+        <Section title={t("shown.title")} description={t("shown.description")}>
           <FieldGroup>
             <Field>
-              <FieldLabel htmlFor="visibleLocation">Ubicación visible</FieldLabel>
+              <FieldLabel htmlFor="visibleLocation">{t("shown.label")}</FieldLabel>
               <Input id="visibleLocation" {...form.register("visibleLocation")} />
               <FieldDescription>
-                Por ejemplo «La Barra, Punta del Este». No hace falta que coincida con la dirección exacta.
+                {t("shown.hint")}
               </FieldDescription>
             </Field>
             <div className="inline-flex w-fit max-w-full items-center gap-2 rounded-full bg-secondary px-4 py-2 text-sm">
               <MapPin className="size-4 shrink-0 text-primary" />
               <span className="truncate">
                 {values.visibleLocation?.trim() || (
-                  <span className="text-muted-foreground">Sin ubicación visible</span>
+                  <span className="text-muted-foreground">{t("shown.empty")}</span>
                 )}
               </span>
             </div>
           </FieldGroup>
         </Section>
 
-        <Section title="Dónde está" description="Dirección y coordenadas exactas, que solo ve tu equipo.">
+        <Section title={t("where.title")} description={t("where.description")}>
           <FieldGroup>
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <Field>
-                <FieldLabel htmlFor="country">País</FieldLabel>
+                <FieldLabel htmlFor="country">{t("where.country")}</FieldLabel>
                 <Input id="country" {...form.register("country")} />
               </Field>
               <Field>
-                <FieldLabel htmlFor="region">Región</FieldLabel>
+                <FieldLabel htmlFor="region">{t("where.region")}</FieldLabel>
                 <Input id="region" {...form.register("region")} />
               </Field>
             </div>
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <Field>
-                <FieldLabel htmlFor="area">Zona</FieldLabel>
+                <FieldLabel htmlFor="area">{t("where.area")}</FieldLabel>
                 <Input id="area" {...form.register("area")} />
               </Field>
               <Field>
-                <FieldLabel htmlFor="address">Dirección</FieldLabel>
+                <FieldLabel htmlFor="address">{t("where.address")}</FieldLabel>
                 <Input id="address" {...form.register("address")} />
               </Field>
             </div>
@@ -148,45 +151,45 @@ export function LocationTab({ form }: { form: UseFormReturn<FormValues> }) {
                 disabled={searching || addressQuery === ""}
               >
                 {searching ? <LoaderCircle className="animate-spin" /> : <Search />}
-                Buscar en el mapa
+                {t("where.search")}
               </Button>
             </div>
             <Field>
-              <FieldLabel htmlFor="googleMapUrl">Link de Google Maps</FieldLabel>
+              <FieldLabel htmlFor="googleMapUrl">{t("where.mapsLink")}</FieldLabel>
               <Input
                 id="googleMapUrl"
-                placeholder="Pegá el link completo de Google Maps"
+                placeholder={t("where.mapsPlaceholder")}
                 {...form.register("googleMapUrl", { onChange: (event) => handleMapsLink(event.target.value) })}
               />
               <FieldDescription>
-                {linkNote ?? "Si lo pegás, tomamos las coordenadas de ahí."}
+                {linkNote ?? t("where.mapsHint")}
               </FieldDescription>
             </Field>
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <Field>
-                <FieldLabel htmlFor="lat">Latitud</FieldLabel>
+                <FieldLabel htmlFor="lat">{t("where.lat")}</FieldLabel>
                 <Input id="lat" inputMode="decimal" placeholder="-34.9011" {...form.register("lat")} />
               </Field>
               <Field>
-                <FieldLabel htmlFor="lng">Longitud</FieldLabel>
+                <FieldLabel htmlFor="lng">{t("where.lng")}</FieldLabel>
                 <Input id="lng" inputMode="decimal" placeholder="-56.1645" {...form.register("lng")} />
               </Field>
             </div>
           </FieldGroup>
         </Section>
 
-        <Section title="Entorno" description="Características de la zona y vistas de la propiedad.">
+        <Section title={t("surroundings.title")} description={t("surroundings.description")}>
           <FieldGroup>
             <Field>
-              <FieldLabel>Características de la ubicación</FieldLabel>
+              <FieldLabel>{t("surroundings.features")}</FieldLabel>
               <Controller
                 control={form.control}
                 name="locationFeatures"
                 render={({ field }) => (
                   <ChipToggleGroup
-                    label="Características de la ubicación"
+                    label={t("surroundings.features")}
                     options={LOCATION_FEATURES}
-                    labels={LOCATION_FEATURE_LABELS}
+                    labelOf={labels.locationFeature}
                     value={field.value}
                     onChange={field.onChange}
                   />
@@ -194,15 +197,15 @@ export function LocationTab({ form }: { form: UseFormReturn<FormValues> }) {
               />
             </Field>
             <Field>
-              <FieldLabel>Vistas</FieldLabel>
+              <FieldLabel>{t("surroundings.views")}</FieldLabel>
               <Controller
                 control={form.control}
                 name="view"
                 render={({ field }) => (
                   <ChipToggleGroup
-                    label="Vistas"
+                    label={t("surroundings.views")}
                     options={VIEW_OPTIONS}
-                    labels={VIEW_LABELS}
+                    labelOf={labels.view}
                     value={field.value}
                     onChange={field.onChange}
                   />
@@ -212,15 +215,15 @@ export function LocationTab({ form }: { form: UseFormReturn<FormValues> }) {
           </FieldGroup>
         </Section>
 
-        <Section title="Enlaces" description="Material de apoyo para tus clientes.">
+        <Section title={t("links.title")} description={t("links.description")}>
           <FieldGroup>
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <Field>
-                <FieldLabel htmlFor="brochureUrl">Folleto (PDF)</FieldLabel>
+                <FieldLabel htmlFor="brochureUrl">{t("links.brochure")}</FieldLabel>
                 <Input id="brochureUrl" placeholder="https://" {...form.register("brochureUrl")} />
               </Field>
               <Field>
-                <FieldLabel htmlFor="websiteUrl">Sitio web</FieldLabel>
+                <FieldLabel htmlFor="websiteUrl">{t("links.website")}</FieldLabel>
                 <Input id="websiteUrl" placeholder="https://" {...form.register("websiteUrl")} />
               </Field>
             </div>
@@ -230,7 +233,7 @@ export function LocationTab({ form }: { form: UseFormReturn<FormValues> }) {
 
       <aside className="order-first lg:order-none">
         <div className="sticky top-28 flex flex-col gap-3">
-          <p className="text-sm font-medium text-muted-foreground">Ubicación en el mapa</p>
+          <p className="text-sm font-medium text-muted-foreground">{t("map.title")}</p>
           <div className="h-72 overflow-hidden rounded-2xl bg-secondary ring-1 ring-foreground/5 lg:h-[420px]">
             <LocationMap
               lat={lat}
@@ -240,8 +243,8 @@ export function LocationTab({ form }: { form: UseFormReturn<FormValues> }) {
           </div>
           <p className="text-sm text-muted-foreground">
             {lat != null && lng != null
-              ? "Arrastrá el pin o hacé clic en el mapa para afinar la posición."
-              : "Hacé clic en el mapa para poner el pin, o buscá la dirección."}
+              ? t("map.hintPinned")
+              : t("map.hintEmpty")}
           </p>
         </div>
       </aside>

@@ -7,10 +7,24 @@ export interface AppNotification {
   type: NotificationType;
   title: string;
   body: string | null;
+  /** The values `type` is rendered with in the viewer's language; null on older rows (use title/body). */
+  params: NotificationParams | null;
   /** Path inside the dashboard, without the agency slug (e.g. "/offers/abc"). */
   link: string | null;
   createdAt: string;
   readAt: string | null;
+}
+
+export interface NotificationParams {
+  name?: string;
+  message?: string | null;
+  who?: string | null;
+  offer?: string;
+  amount?: string;
+  property?: string | null;
+  title?: string;
+  /** ISO date (YYYY-MM-DD). */
+  due?: string | null;
 }
 
 export interface NotificationFeed {
@@ -28,6 +42,10 @@ export function markNotification(token: string, id: string, read: boolean) {
     token,
     body: JSON.stringify({ read }),
   });
+}
+
+export function deleteNotification(token: string, id: string) {
+  return apiFetch<void>(`/api/notifications/${id}`, { method: "DELETE", token });
 }
 
 export function markAllNotificationsRead(token: string) {

@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronLeft, ChevronRight, MapPin } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import {
@@ -8,6 +9,7 @@ import {
   PublicPropertyCard,
 } from "@/components/public/property-card";
 import { SITE_WRAP } from "@/components/public/site-chrome";
+import { useFormat } from "@/i18n/format";
 import type {
   ButtonTarget,
   Destination,
@@ -55,6 +57,7 @@ function Carousel({
   label: string;
   children: React.ReactNode[];
 }) {
+  const t = useTranslations("site.blocks");
   const trackRef = useRef<HTMLDivElement>(null);
   const [edges, setEdges] = useState({ start: true, end: false });
 
@@ -112,7 +115,7 @@ function Carousel({
             className={arrow}
             onClick={() => scroll(-1)}
             disabled={edges.start}
-            aria-label="Anteriores"
+            aria-label={t("previous")}
           >
             <ChevronLeft className="size-5" />
           </button>
@@ -121,7 +124,7 @@ function Carousel({
             className={arrow}
             onClick={() => scroll(1)}
             disabled={edges.end}
-            aria-label="Siguientes"
+            aria-label={t("next")}
           >
             <ChevronRight className="size-5" />
           </button>
@@ -247,6 +250,7 @@ function LocationBlock({
   template,
   onShowZone,
 }: BlockProps) {
+  const t = useTranslations("site.blocks");
   const layout = sectionLayout(section);
   const zone = section.zone?.trim() || null;
   const chosen = pick(properties, section.propertyIds);
@@ -259,7 +263,7 @@ function LocationBlock({
   const zoneCount = zone
     ? properties.filter((property) => inZone(property, zone)).length
     : 0;
-  const title = section.title?.trim() || zone || "Destino";
+  const title = section.title?.trim() || zone || t("destination");
   const id = `bloque-${section.id}`;
 
   const showAll = zone && zoneCount > 0 && (
@@ -271,14 +275,13 @@ function LocationBlock({
         "bg-site-accent text-site-accent-ink focus-visible:ring-site-accent",
       )}
     >
-      Ver {zoneCount === 1 ? "la propiedad" : `las ${zoneCount} propiedades`} en{" "}
-      {zone}
+      {t("seeInZone", { count: zoneCount, zone })}
     </button>
   );
   const count = zone && zoneCount > 0 && (
     <p className="inline-flex items-center gap-1.5 text-sm opacity-75">
       <MapPin className="size-4" aria-hidden />
-      {zoneCount === 1 ? "1 propiedad" : `${zoneCount} propiedades`} en {zone}
+      {t("countInZone", { count: zoneCount, zone })}
     </p>
   );
   const text = section.text && (
@@ -388,14 +391,16 @@ function LocationBlock({
 }
 
 function PromoBlock({ section, properties, agencySlug, template }: BlockProps) {
+  const t = useTranslations("site.blocks");
+  const { tag } = useFormat();
   const layout = sectionLayout(section);
   const listings = pick(properties, section.propertyIds);
   const badge = section.badge?.trim() || null;
-  const title = section.title?.trim() || "Promoción";
+  const title = section.title?.trim() || t("promo");
   const id = `bloque-${section.id}`;
   const ends = section.endsAt && (
     <p className="text-sm opacity-75">
-      Válido hasta el {formatEndDate(section.endsAt)}
+      {t("validUntil", { date: formatEndDate(section.endsAt, tag) })}
     </p>
   );
   const text = section.text && (
@@ -517,8 +522,9 @@ function FeaturedBlock({
   agencySlug,
   template,
 }: BlockProps) {
+  const t = useTranslations("site.blocks");
   const listings = pick(properties, section.propertyIds);
-  const title = section.title?.trim() || "Propiedades destacadas";
+  const title = section.title?.trim() || t("featured");
   const id = `bloque-${section.id}`;
   if (listings.length === 0) return null;
   return (
@@ -554,8 +560,9 @@ function DestinationTile({
   properties: Property[];
   onShowZone: (zone: string) => void;
 }) {
+  const t = useTranslations("site.blocks");
   const name =
-    destination.name?.trim() || destination.zone?.trim() || "Destino";
+    destination.name?.trim() || destination.zone?.trim() || t("destination");
   const zone = destination.zone?.trim() || destination.name?.trim() || null;
   const count = zone
     ? properties.filter((property) => inZone(property, zone)).length
@@ -585,11 +592,7 @@ function DestinationTile({
       <div className="flex flex-col gap-1 p-5">
         <span className="s-heading text-2xl leading-tight">{name}</span>
         <span className="text-sm opacity-85">
-          {count === 0
-            ? "Próximamente"
-            : count === 1
-              ? "1 propiedad"
-              : `${count} propiedades`}
+          {count === 0 ? t("comingSoon") : t("count", { count })}
         </span>
       </div>
     </button>
@@ -597,8 +600,9 @@ function DestinationTile({
 }
 
 function DestinationsBlock({ section, properties, onShowZone }: BlockProps) {
+  const t = useTranslations("site.blocks");
   const destinations = section.destinations ?? [];
-  const title = section.title?.trim() || "Destinos";
+  const title = section.title?.trim() || t("destinations");
   const id = `bloque-${section.id}`;
   if (destinations.length === 0) return null;
   const tiles = destinations.map((destination) => (
@@ -696,7 +700,8 @@ function TextBlock({ section, site }: BlockProps) {
 
 function CtaBlock({ section, site }: BlockProps) {
   const photo = sectionLayout(section) === "photo" && Boolean(section.imageUrl);
-  const title = section.title?.trim() || "¿Querés vender tu propiedad?";
+  const t = useTranslations("site.blocks");
+  const title = section.title?.trim() || t("ctaTitle");
   const id = `bloque-${section.id}`;
   return (
     <section aria-labelledby={id} className={cn(SITE_WRAP, "py-10 lg:py-14")}>

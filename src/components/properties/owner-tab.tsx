@@ -2,6 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Check, Copy, LoaderCircle, Mail, Phone, Plus, RefreshCw, Search, UserRound, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -14,6 +15,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ApiError } from "@/lib/api/client";
 import { OwnerAccount } from "@/components/owners/owner-account";
 import { createOwner, listOwners, regenerateOwnerToken, type PropertyOwner } from "@/lib/api/properties";
+import { useAgencySitePath } from "@/lib/agency-site";
 import { getAccessToken } from "@/lib/auth/session";
 import { getPublicOrigin } from "@/lib/public-origin";
 import { cn } from "@/lib/utils";
@@ -49,6 +51,9 @@ export function OwnerTab({
   /** The owner already linked to the property, shown even before the list loads. */
   currentOwner?: PropertyOwner | null;
 }) {
+  const t = useTranslations("properties.owner");
+  const tc = useTranslations("common");
+  const sitePath = useAgencySitePath();
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
   const [creating, setCreating] = useState(false);
@@ -79,9 +84,9 @@ export function OwnerTab({
       onChange(owner.id);
       setCreating(false);
       setDraft({ name: "", email: "", phone: "", notes: "" });
-      toast.success("Propietario creado y asignado");
+      toast.success(t("created"));
     },
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo crear el propietario"),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : t("createFailed")),
   });
 
   const regenerateMutation = useMutation({
@@ -92,11 +97,12 @@ export function OwnerTab({
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["owners"] });
-      toast.success("Link regenerado. El anterior ya no funciona.");
+      toast.success(t("regenerated"));
     },
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo regenerar el link"),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : t("regenerateFailed")),
   });
 
+  const ownerLink = (token: string) => `${getPublicOrigin()}${sitePath(`/owner/${token}`)}`;
   const selected = owners?.find((owner) => owner.id === ownerId) ?? (ownerId ? currentOwner : null) ?? null;
   const term = search.trim().toLowerCase();
   const visible = (owners ?? []).filter(
@@ -107,8 +113,8 @@ export function OwnerTab({
   return (
     <div className="flex max-w-2xl min-w-0 flex-col gap-12">
       <Section
-        title="Propietario asignado"
-        description="Quién es el dueño de esta propiedad. Un mismo propietario puede tener varias."
+        title={t("assigned.title")}
+        description={t("assigned.description")}
         shown={false}
       >
         {selected ? (
@@ -129,13 +135,13 @@ export function OwnerTab({
                     {selected.phone}
                   </a>
                 )}
-                {!selected.email && !selected.phone && <span>Sin datos de contacto.</span>}
+                {!selected.email && !selected.phone && <span>{t("noContact")}</span>}
               </div>
               {selected.notes && <p className="mt-1 text-sm whitespace-pre-line">{selected.notes}</p>}
             </div>
             <Button type="button" variant="ghost" className="h-9 gap-1.5 px-4" onClick={() => onChange("")}>
               <X />
-              Quitar
+              {t("remove")}
             </Button>
           </div>
         ) : (
@@ -143,22 +149,22 @@ export function OwnerTab({
             <span className="flex size-12 items-center justify-center rounded-full bg-foreground/[0.06]">
               <UserRound className="size-5" />
             </span>
-            <p className="text-sm">Todavía no hay un propietario asignado. Elegí uno de la lista o creá uno nuevo.</p>
+            <p className="text-sm">{t("assigned.empty")}</p>
           </div>
         )}
       </Section>
 
       {selected?.accessToken && (
         <Section
-          title="Acceso del propietario"
-          description={`Un link de solo lectura para que ${selected.name} vea el estado de sus propiedades (disponibilidad, reservas y pagos), sin contraseña.`}
+          title={t("access.title")}
+          description={t("access.description", { name: selected.name })}
           shown={false}
         >
           <div className="flex flex-wrap items-center gap-2">
             <Input
               readOnly
-              aria-label="Link de acceso del propietario"
-              value={typeof window !== "undefined" ? `${getPublicOrigin()}/owner/${selected.accessToken}` : ""}
+              aria-label={t("access.link")}
+              value={typeof window !== "undefined" ? ownerLink(selected.accessToken) : ""}
               onFocus={(event) => event.currentTarget.select()}
               className="min-w-64 flex-1"
             />
@@ -168,15 +174,15 @@ export function OwnerTab({
               className="h-10 gap-2 px-5"
               onClick={async () => {
                 try {
-                  await navigator.clipboard.writeText(`${getPublicOrigin()}/owner/${selected.accessToken}`);
-                  toast.success("Link copiado");
+                  await navigator.clipboard.writeText(ownerLink(selected.accessToken!));
+                  toast.success(tc("linkCopied"));
                 } catch {
-                  toast.error("No se pudo copiar. Seleccioná el link y copialo a mano.");
+                  toast.error(t("access.copyFailed"));
                 }
               }}
             >
               <Copy />
-              Copiar link
+              {t("access.copy")}
             </Button>
             <Button
               type="button"
@@ -186,7 +192,7 @@ export function OwnerTab({
               onClick={() => regenerateMutation.mutate(selected)}
             >
               {regenerateMutation.isPending ? <LoaderCircle className="animate-spin" /> : <RefreshCw />}
-              Regenerar
+              {t("access.regenerate")}
             </Button>
           </div>
         </Section>
@@ -195,8 +201,8 @@ export function OwnerTab({
       {selected && <OwnerAccount owner={selected} />}
 
       <Section
-        title="Elegir propietario"
-        description="Buscá entre tus propietarios o sumá uno nuevo."
+        title={t("pick.title")}
+        description={t("pick.description")}
         shown={false}
       >
         <div className="flex flex-col gap-4">
@@ -206,15 +212,15 @@ export function OwnerTab({
               <Input
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
-                placeholder="Buscar por nombre, email o teléfono"
-                aria-label="Buscar propietarios"
+                placeholder={t("pick.searchPlaceholder")}
+                aria-label={t("pick.search")}
                 className="rounded-full pl-10"
               />
             </div>
             {!creating && (
               <Button type="button" variant="outline" className="h-10 gap-2 px-5" onClick={() => setCreating(true)}>
                 <Plus />
-                Nuevo propietario
+                {t("new.title")}
               </Button>
             )}
           </div>
@@ -227,9 +233,9 @@ export function OwnerTab({
                 if (draft.name.trim() && !createMutation.isPending) createMutation.mutate();
               }}
             >
-              <p className="font-display text-lg">Nuevo propietario</p>
+              <p className="font-display text-lg">{t("new.title")}</p>
               <Field>
-                <FieldLabel htmlFor="owner-name">Nombre</FieldLabel>
+                <FieldLabel htmlFor="owner-name">{t("new.name")}</FieldLabel>
                 <Input
                   id="owner-name"
                   autoFocus
@@ -239,7 +245,7 @@ export function OwnerTab({
               </Field>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <Field>
-                  <FieldLabel htmlFor="owner-email">Email (opcional)</FieldLabel>
+                  <FieldLabel htmlFor="owner-email">{t("new.email")}</FieldLabel>
                   <Input
                     id="owner-email"
                     type="email"
@@ -248,7 +254,7 @@ export function OwnerTab({
                   />
                 </Field>
                 <Field>
-                  <FieldLabel htmlFor="owner-phone">Teléfono (opcional)</FieldLabel>
+                  <FieldLabel htmlFor="owner-phone">{t("new.phone")}</FieldLabel>
                   <Input
                     id="owner-phone"
                     type="tel"
@@ -258,7 +264,7 @@ export function OwnerTab({
                 </Field>
               </div>
               <Field>
-                <FieldLabel htmlFor="owner-notes">Notas (opcional)</FieldLabel>
+                <FieldLabel htmlFor="owner-notes">{t("new.notes")}</FieldLabel>
                 <Textarea
                   id="owner-notes"
                   rows={2}
@@ -268,21 +274,21 @@ export function OwnerTab({
               </Field>
               <div className="flex justify-end gap-2">
                 <Button type="button" variant="ghost" className="h-10 px-5" onClick={() => setCreating(false)}>
-                  Cancelar
+                  {tc("cancel")}
                 </Button>
                 <Button type="submit" className="h-10 gap-2 px-5" disabled={!draft.name.trim() || createMutation.isPending}>
                   {createMutation.isPending && <LoaderCircle className="animate-spin" />}
-                  Crear y asignar
+                  {t("new.submit")}
                 </Button>
               </div>
             </form>
           )}
 
-          <div role="radiogroup" aria-label="Propietarios" className="flex max-h-96 flex-col gap-1.5 overflow-y-auto">
-            {isLoading && <p className="py-4 text-sm text-muted-foreground">Cargando propietarios…</p>}
+          <div role="radiogroup" aria-label={t("pick.list")} className="flex max-h-96 flex-col gap-1.5 overflow-y-auto">
+            {isLoading && <p className="py-4 text-sm text-muted-foreground">{t("pick.loading")}</p>}
             {!isLoading && visible.length === 0 && (
               <p className="py-4 text-sm text-muted-foreground">
-                {term ? `Nadie coincide con «${search}».` : "Todavía no cargaste propietarios."}
+                {term ? t("pick.noMatch", { query: search }) : t("pick.empty")}
               </p>
             )}
             {visible.map((owner) => {
@@ -303,7 +309,7 @@ export function OwnerTab({
                   <span className="flex min-w-0 flex-1 flex-col">
                     <span className={cn("truncate text-sm", active ? "font-semibold" : "font-medium")}>{owner.name}</span>
                     <span className="truncate text-xs text-muted-foreground">
-                      {[owner.email, owner.phone].filter(Boolean).join(" · ") || "Sin datos de contacto"}
+                      {[owner.email, owner.phone].filter(Boolean).join(" · ") || t("noContactShort")}
                     </span>
                   </span>
                   {active && <Check className="size-4 shrink-0 text-primary" />}

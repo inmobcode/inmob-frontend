@@ -1,0 +1,152 @@
+{
+  "dashboard": {
+    "actionBar": {
+      "unsaved": "Modifications non enregistrées",
+      "save": "Enregistrer",
+      "publish": "Publier",
+      "cancel": "Annuler"
+    },
+    "help": {
+      "label": "Aide",
+      "newTab": "{label} (s’ouvre dans un nouvel onglet)"
+    },
+    "filter": {
+      "by": "Filtrer par {name}",
+      "showAll": "Tout afficher"
+    },
+    "views": {
+      "change": "Changer de vue",
+      "table": "Tableau",
+      "list": "Liste",
+      "grid": "Grille",
+      "board": "Kanban"
+    },
+    "nav": {
+      "inquiries": "Demandes",
+      "clients": "Clients",
+      "properties": "Biens",
+      "offers": "Offres",
+      "bookings": "Réservations",
+      "availability": "Disponibilités",
+      "services": "Services",
+      "portal": "Site",
+      "team": "Équipe",
+      "settings": "Paramètres",
+      "unread": "{name}, {count} non lues",
+      "expandMenu": "Déplier le menu",
+      "collapseMenu": "Replier le menu",
+      "expand": "Déplier",
+      "collapse": "Replier",
+      "openMenu": "Ouvrir le menu",
+      "menu": "Menu",
+      "mainNav": "Navigation principale"
+    },
+    "assignee": {
+      "label": "Responsable",
+      "nobody": "Non attribué",
+      "you": "Vous"
+    },
+    "userMenu": {
+      "appearance": "Apparence",
+      "theme": {
+        "light": "Clair",
+        "dark": "Sombre",
+        "system": "Automatique"
+      },
+      "language": "Langue",
+      "switchFailed": "Impossible de changer d’agence",
+      "switchAgency": "Changer d’agence",
+      "portalLinkCopied": "Lien du site copié",
+      "linkCopyFailed": "Impossible de copier le lien",
+      "nameFallback": "Votre nom",
+      "profile": "Mon profil",
+      "settings": "Paramètres",
+      "viewPortal": "Voir mon site",
+      "copyPortalLink": "Copier le lien du site",
+      "docs": "Documentation",
+      "search": "Recherche et commandes",
+      "shortcuts": "Raccourcis clavier",
+      "help": "Aide et support",
+      "logout": "Se déconnecter"
+    },
+    "shortcuts": {
+      "go": {
+        "properties": "Biens",
+        "offers": "Offres",
+        "clients": "Clients",
+        "inquiries": "Demandes",
+        "bookings": "Réservations",
+        "availability": "Disponibilités",
+        "team": "Équipe",
+        "portal": "Site",
+        "settings": "Paramètres",
+        "profile": "Mon profil"
+      },
+      "help": {
+        "general": "Général",
+        "goTo": "Aller à",
+        "lists": "Dans les listes",
+        "palette": "Rechercher et lancer des commandes",
+        "sidebar": "Replier ou déplier le menu latéral",
+        "save": "Enregistrer les modifications du formulaire",
+        "help": "Voir les raccourcis clavier",
+        "new": "Créer un nouvel élément",
+        "search": "Aller à la recherche",
+        "filter": "Ouvrir le filtre",
+        "views": "Vue grille, liste ou tableau",
+        "move": "Descendre et monter entre les éléments",
+        "open": "Ouvrir l’élément sélectionné",
+        "clear": "Effacer la sélection"
+      },
+      "groups": {
+        "go": "Aller à",
+        "create": "Créer",
+        "actions": "Actions",
+        "properties": "Biens",
+        "offers": "Offres",
+        "clients": "Clients"
+      },
+      "commands": {
+        "docs": "Documentation",
+        "newProperty": "Nouveau bien",
+        "newOffer": "Nouvelle offre",
+        "newClient": "Nouveau client",
+        "newBooking": "Nouvelle réservation",
+        "newMember": "Inviter un membre",
+        "light": "Mode clair",
+        "dark": "Mode sombre",
+        "system": "Mode automatique",
+        "sidebar": "Replier ou déplier le menu",
+        "logout": "Se déconnecter"
+      },
+      "paletteTitle": "Rechercher et lancer des commandes",
+      "paletteDescription": "Tapez pour rechercher des pages, biens, offres ou clients.",
+      "palettePlaceholder": "Rechercher une page, un bien, une offre ou un client…",
+      "paletteSearch": "Rechercher des commandes",
+      "nothingFor": "Aucun résultat pour « {query} ».",
+      "helpTitle": "Raccourcis clavier",
+      "helpDescription": "Pour aller plus vite sans lâcher le clavier.",
+      "then": "puis",
+      "nothingToSave": "Aucune modification à enregistrer"
+    },
+    "notifications": {
+      "deleteFailed": "Impossible de supprimer la notification",
+      "label": "Notifications",
+      "labelUnread": "Notifications, {count} non lues",
+      "markAll": "Tout marquer comme lu",
+      "empty": "Rien de nouveau pour l’instant. Les demandes, offres ouvertes et paiements apparaîtront ici.",
+      "unread": "Non lue",
+      "delete": "Supprimer « {title} »",
+      "deleteShort": "Supprimer",
+      "types": {
+        "inquiry": "Nouvelle demande de {name}",
+        "inquiryNoMessage": "A laissé ses coordonnées.",
+        "offerViewed": "{who} a ouvert l’offre",
+        "offerViewedAnon": "Votre client a ouvert l’offre",
+        "payment": "Paiement enregistré : {amount}",
+        "task": "Une tâche vous a été attribuée",
+        "taskDue": "{title} · pour le {date}"
+      }
+    }
+  }
+}

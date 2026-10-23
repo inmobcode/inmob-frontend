@@ -1,0 +1,114 @@
+{
+  "clients": {
+    "menu": {
+      "actionsOf": "Radnje za {name}",
+      "view": "Pogledaj karticu",
+      "changeStage": "Promijeni fazu",
+      "email": "Pošalji e-poštu",
+      "call": "Nazovi",
+      "copyEmail": "Kopiraj e-poštu"
+    },
+    "views": {
+      "noPhone": "Bez telefona",
+      "noInteractions": "Još nema interakcija.",
+      "lastTouch": "Zadnja aktivnost {ago}",
+      "client": "Klijent",
+      "stage": "Faza",
+      "phone": "Telefon",
+      "source": "Izvor",
+      "lastMove": "Zadnja aktivnost",
+      "actions": "Radnje"
+    },
+    "detail": {
+      "logFailed": "Nije moguće evidentirati",
+      "notFound": "Klijent nije pronađen",
+      "backToList": "Natrag na klijente",
+      "list": "Klijenti",
+      "clientSince": "klijent od {date}",
+      "notes": "Bilješke",
+      "notesDescription": "Što vrijedi zapamtiti: što traži, budžet, preferencije.",
+      "notesLabel": "Bilješke o klijentu",
+      "notesPlaceholder": "Još nema bilježaka.",
+      "saveNotes": "Spremi bilješke",
+      "tasks": "Zadaci",
+      "tasksDescription": "Što treba učiniti s ovim klijentom: nazvati, poslati fotografije, dogovoriti razgledavanje.",
+      "noTasks": "Nema zadataka na čekanju s ovim klijentom.",
+      "history": "Povijest",
+      "historyDescription": "Pozivi, e-pošta i sastanci, od najnovijeg prema najstarijem.",
+      "interactionType": "Vrsta interakcije",
+      "interaction": {
+        "NOTE": "Bilješka",
+        "CALL": "Poziv",
+        "EMAIL": "E-pošta",
+        "MEETING": "Sastanak"
+      },
+      "interactionDetail": "Detalji interakcije",
+      "interactionPlaceholder": "Što se dogodilo? Npr. Dogovorili smo razgledavanje kuće u subotu.",
+      "log": "Evidentiraj",
+      "noInteractions": "Još nema evidentiranih interakcija.",
+      "stage": "Faza",
+      "stageLabel": "Faza klijenta",
+      "owner": "Odgovorna osoba",
+      "yours": "Ovo je vaš klijent.",
+      "takeIt": "Preuzmi",
+      "ownerGone": "Dodijeljen nekome tko više nije u timu.",
+      "contact": "Kontakt",
+      "noPhone": "Bez telefona",
+      "updated": "Ažurirano {ago}"
+    },
+    "create": {
+      "new": "Novi klijent",
+      "description": "Unesite osnovno. Bilješke i povijest kontakta dodajete poslije.",
+      "name": "Ime",
+      "namePlaceholder": "Npr. Valentina Ríos",
+      "email": "E-pošta",
+      "emailPlaceholder": "ime@email.com",
+      "phone": "Telefon",
+      "phonePlaceholder": "+385 91 234 5678",
+      "submit": "Izradi klijenta"
+    },
+    "list": {
+      "stagePlural": {
+        "LEAD": "Potencijalni",
+        "CONTACTED": "Kontaktirani",
+        "NEGOTIATING": "U pregovorima",
+        "CLIENT": "Klijenti",
+        "LOST": "Izgubljeni"
+      },
+      "movedTo": "Premješteno u {stage}",
+      "stageFailed": "Fazu nije moguće promijeniti",
+      "title": "Klijenti",
+      "searchPlaceholder": "Pretraži po imenu, e-pošti ili telefonu",
+      "search": "Pretraži klijente",
+      "stage": "Faza",
+      "stages": "faze",
+      "help": "Pomoć za klijente",
+      "loadFailed": "Klijente nije moguće učitati",
+      "emptyTitle": "Još nemate klijenata",
+      "emptyBody": "Upiti sa stranice i iz ponuda pojavljuju se ovdje sami. Možete ga dodati i ručno.",
+      "emptyHelp": "Kako pratiti klijenta kroz faze",
+      "noMatchBody": "Pokušajte s drugim imenom ili uklonite filtar faze."
+    }
+  },
+  "tasks": {
+    "due": {
+      "overdue": "{count, plural, one {Kasni # dan} few {Kasni # dana} other {Kasni # dana}}",
+      "yesterday": "Rok je bio jučer",
+      "today": "Danas",
+      "tomorrow": "Sutra"
+    },
+    "reopen": "Ponovno otvori «{title}»",
+    "complete": "Dovrši «{title}»",
+    "delete": "Izbriši «{title}»",
+    "createFailed": "Zadatak nije moguće izraditi",
+    "updateFailed": "Zadatak nije moguće ažurirati",
+    "deleteFailed": "Zadatak nije moguće izbrisati",
+    "placeholder": "Novi zadatak: nazvati, poslati fotografije, razgledati…",
+    "titleLabel": "Naslov zadatka",
+    "dueDate": "Rok",
+    "add": "Dodaj zadatak",
+    "loadFailed": "Zadatke nije moguće učitati.",
+    "loading": "Učitavanje…",
+    "empty": "Ništa na čekanju."
+  }
+}

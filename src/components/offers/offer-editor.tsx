@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { CircleQuestionMark, Copy, Hand, Home, Link2, Plus, Settings2, Sparkles, UserRound } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -30,6 +31,8 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
+import { useFormat } from "@/i18n/format";
+import { useAgencySitePath } from "@/lib/agency-site";
 import { ApiError } from "@/lib/api/client";
 import { listClients } from "@/lib/api/clients";
 import { listProperties } from "@/lib/api/properties";
@@ -40,8 +43,10 @@ import { distance, duration, ease, media } from "@/lib/motion";
 import { getPublicOrigin } from "@/lib/public-origin";
 import { useActionBarStore } from "@/lib/store/action-bar-store";
 
-const offerPropertySchema = z.object({
-  propertyId: z.string().min(1, "Elegí una propiedad"),
+type SchemaText = (key: "pickProperty" | "titleRequired" | "currencyCode") => string;
+
+const offerPropertySchema = (t: SchemaText) => z.object({
+  propertyId: z.string().min(1, t("pickProperty")),
   priceOverride: z.string(),
   discountType: z.enum(["NONE", "PERCENT", "FIXED"]),
   discountValue: z.string(),
@@ -49,17 +54,17 @@ const offerPropertySchema = z.object({
   bottomText: z.string(),
 });
 
-const offerSectionSchema = z.object({
+const offerSectionSchema = (t: SchemaText) => z.object({
   title: z.string(),
   text: z.string(),
-  properties: z.array(offerPropertySchema),
+  properties: z.array(offerPropertySchema(t)),
 });
 
-const schema = z.object({
-  title: z.string().min(2, "Ingresá un título"),
+const makeSchema = (t: SchemaText) => z.object({
+  title: z.string().min(2, t("titleRequired")),
   referenceCode: z.string(),
   operation: z.enum(["SALE", "RENT", "BOTH"]),
-  currency: z.string().length(3, "3 letras, ej. USD"),
+  currency: z.string().length(3, t("currencyCode")),
   showPrice: z.boolean(),
   branded: z.boolean(),
   welcomeTitle: z.string(),
@@ -92,7 +97,7 @@ const schema = z.object({
       note: z.string(),
     }),
   ),
-  sections: z.array(offerSectionSchema),
+  sections: z.array(offerSectionSchema(t)),
 });
 
 type FormValues = OfferFormValues;
@@ -181,12 +186,14 @@ const CURRENCIES = ["USD", "EUR"];
 const NO_CLIENT = "none";
 
 // One section per group, so the action bar shows them as plain pills.
-const TAB_GROUPS: SectionGroup[] = [
-  { label: "General", tabs: [{ value: "general", label: "General", icon: Settings2 }] },
-  { label: "Bienvenida", tabs: [{ value: "bienvenida", label: "Bienvenida", icon: Hand }] },
-  { label: "Propiedades", tabs: [{ value: "propiedades", label: "Propiedades", icon: Home }] },
-  { label: "Servicios", tabs: [{ value: "servicios", label: "Servicios", icon: Sparkles }] },
-];
+function tabGroups(t: (key: "general" | "welcome" | "properties" | "services") => string): SectionGroup[] {
+  return [
+    { label: t("general"), tabs: [{ value: "general", label: t("general"), icon: Settings2 }] },
+    { label: t("welcome"), tabs: [{ value: "bienvenida", label: t("welcome"), icon: Hand }] },
+    { label: t("properties"), tabs: [{ value: "propiedades", label: t("properties"), icon: Home }] },
+    { label: t("services"), tabs: [{ value: "servicios", label: t("services"), icon: Sparkles }] },
+  ];
+}
 
 /** The tab holding the first invalid field, so a failed save shows the error. */
 function tabWithError(errors: FieldErrors<FormValues>): string | null {
@@ -223,6 +230,12 @@ function ToggleRow({
 }
 
 export function OfferEditor({ offerId }: { offerId: string }) {
+  const t = useTranslations("offers.editor");
+  const common = useTranslations("common");
+  const tabs = useTranslations("offers.editor.tabs");
+  const { number } = useFormat();
+  const sitePath = useAgencySitePath();
+  const schema = useMemo(() => makeSchema(t), [t]);
   const router = useRouter();
   const searchParams = useSearchParams();
   const { agencySlug } = useParams<{ agencySlug: string }>();
@@ -297,9 +310,9 @@ export function OfferEditor({ offerId }: { offerId: string }) {
       // Changing only the sections doesn't touch the offer row, so `updatedAt`
       // may not move and the effect above won't re-sync: reset here.
       form.reset(toFormValues(updated));
-      toast.success("Cambios guardados");
+      toast.success(common("changesSaved"));
     },
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo guardar"),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : common("saveFailed")),
   });
 
   const sendMutation = useMutation({
@@ -312,9 +325,9 @@ export function OfferEditor({ offerId }: { offerId: string }) {
     onSuccess: (updated) => {
       queryClient.setQueryData(["offer", offerId], updated);
       form.reset(toFormValues(updated));
-      toast.success(updated.clientEmail ? `Oferta enviada a ${updated.clientEmail}` : "Link publicado");
+      toast.success(updated.clientEmail ? t("sentTo", { email: updated.clientEmail }) : t("published"));
     },
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo enviar"),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : t("sendFailed")),
   });
 
   const isDraft = offer?.status === "DRAFT";
@@ -329,21 +342,21 @@ export function OfferEditor({ offerId }: { offerId: string }) {
   function showInvalid(errors: FieldErrors<FormValues>) {
     const tab = tabWithError(errors);
     if (tab && tab !== activeTab) setTab(tab);
-    toast.error("Revisá los campos marcados");
+    toast.error(common("checkFields"));
   }
 
   useEffect(() => {
     setActions({
-      title: offer?.title ?? "Oferta",
-      back: { href: `/${agencySlug}/offers`, label: "Ofertas" },
-      navigation: offer ? <SectionNavbar groups={TAB_GROUPS} active={activeTab} onChange={setTab} /> : null,
+      title: offer?.title ?? t("offer"),
+      back: { href: `/${agencySlug}/offers`, label: t("offers") },
+      navigation: offer ? <SectionNavbar groups={tabGroups(tabs)} active={activeTab} onChange={setTab} /> : null,
       isSubmitting: saveMutation.isPending || sendMutation.isPending,
       isDirty,
       canSubmit: true,
-      saveLabel: "Guardar",
+      saveLabel: common("save"),
       // Without a client there's nobody to email: sending only turns the link on.
       // Once out, it can only be sent again to a client.
-      publishLabel: isDraft ? (clientId ? "Enviar oferta" : "Publicar link") : "Reenviar oferta",
+      publishLabel: isDraft ? (clientId ? t("send") : t("publishLink")) : t("resend"),
       onSave: form.handleSubmit((values) => saveMutation.mutate(values), showInvalid),
       onPublish:
         isDraft || (canResend && clientId)
@@ -353,9 +366,9 @@ export function OfferEditor({ offerId }: { offerId: string }) {
       extra: (
         <div className="flex items-center gap-1 sm:mr-2">
           <Button type="button" variant="ghost" className="gap-1.5" asChild>
-            <a href={docsHref("ofertas")} target="_blank" rel="noreferrer" title="Ayuda con ofertas">
+            <a href={docsHref("ofertas")} target="_blank" rel="noreferrer" title={t("help")}>
               <CircleQuestionMark />
-              <span className="hidden lg:inline">Ayuda</span>
+              <span className="hidden lg:inline">{common("help")}</span>
             </a>
           </Button>
         </div>
@@ -363,7 +376,7 @@ export function OfferEditor({ offerId }: { offerId: string }) {
     });
     return resetActions;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [offer, activeTab, clientId, isDirty, saveMutation.isPending, sendMutation.isPending]);
+  }, [offer, activeTab, clientId, isDirty, saveMutation.isPending, sendMutation.isPending, t]);
 
   const contentRef = useRef<HTMLDivElement>(null);
   const shownTab = useRef(activeTab);
@@ -406,18 +419,23 @@ export function OfferEditor({ offerId }: { offerId: string }) {
     );
   }
 
-  const publicUrl = typeof window !== "undefined" ? `${getPublicOrigin()}/offer/${offer.token}` : "";
+  const publicUrl = typeof window !== "undefined" ? `${getPublicOrigin()}${sitePath(`/offer/${offer.token}`)}` : "";
 
   async function copyLink() {
     try {
       await navigator.clipboard.writeText(publicUrl);
       setCopied(true);
-      toast.success("Link copiado");
+      toast.success(common("linkCopied"));
       window.setTimeout(() => setCopied(false), 2000);
     } catch {
-      toast.error("No se pudo copiar. Seleccioná el link y copialo a mano.");
+      toast.error(t("copyManually"));
     }
   }
+
+  const summary = t("summary", {
+    properties: t("propertiesCount", { count: lines.length }),
+    sections: t("sectionsCount", { count: sectionFields.length }),
+  });
 
   const currencyOptions = (CURRENCIES.includes(currency) ? CURRENCIES : [...CURRENCIES, currency]).map((code) => ({
     value: code,
@@ -430,24 +448,24 @@ export function OfferEditor({ offerId }: { offerId: string }) {
         <div ref={contentRef}>
           <TabsContent value="general" className="mt-0">
             <Section
-              title="General"
-              description="Cómo se llama la oferta y qué ve el cliente al abrirla."
+              title={tabs("general")}
+              description={t("generalDescription")}
               shown={false}
             >
               <FieldGroup>
                 <Field>
-                  <FieldLabel htmlFor="title">Título</FieldLabel>
+                  <FieldLabel htmlFor="title">{t("title")}</FieldLabel>
                   <Input id="title" className="h-12 text-base" {...form.register("title")} />
                   <FieldError errors={[form.formState.errors.title]} />
                 </Field>
                 <Field>
                   <FieldLabel htmlFor="referenceCode">
-                    Reference code <span className="font-normal text-muted-foreground">(opcional)</span>
+                    {t("reference")} <span className="font-normal text-muted-foreground">{common("optional")}</span>
                   </FieldLabel>
-                  <Input id="referenceCode" placeholder="Ej: REF-1042" {...form.register("referenceCode")} />
+                  <Input id="referenceCode" placeholder={t("referencePlaceholder")} {...form.register("referenceCode")} />
                 </Field>
                 <Field>
-                  <FieldLabel htmlFor="client">Cliente</FieldLabel>
+                  <FieldLabel htmlFor="client">{t("client")}</FieldLabel>
                   <Controller
                     control={form.control}
                     name="clientId"
@@ -460,7 +478,7 @@ export function OfferEditor({ offerId }: { offerId: string }) {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value={NO_CLIENT}>Sin cliente</SelectItem>
+                          <SelectItem value={NO_CLIENT}>{t("noClient")}</SelectItem>
                           {clients?.map((entry) => (
                             <SelectItem key={entry.id} value={entry.id}>
                               {entry.name}
@@ -474,24 +492,24 @@ export function OfferEditor({ offerId }: { offerId: string }) {
                   <FieldDescription>
                     {offer.status !== "DRAFT"
                       ? clientId
-                        ? "Con «Reenviar oferta» le llega el link por email."
-                        : "La oferta ya está publicada. Elegí un cliente para mandarle el link por email."
+                        ? t("clientHintResend")
+                        : t("clientHintPublished")
                       : clientId
-                        ? "Al enviar la oferta le llega el link por email."
-                        : "Sin cliente, la oferta solo publica el link y lo compartís vos."}
+                        ? t("clientHintSend")
+                        : t("clientHintNone")}
                   </FieldDescription>
                 </Field>
                 <Field>
-                  <FieldLabel>Operación</FieldLabel>
+                  <FieldLabel>{t("operation")}</FieldLabel>
                   <Controller
                     control={form.control}
                     name="operation"
                     render={({ field }) => <OperationPicker value={field.value} onChange={field.onChange} />}
                   />
-                  <FieldDescription>Define qué propiedades podés sumar a la oferta.</FieldDescription>
+                  <FieldDescription>{t("operationHint")}</FieldDescription>
                 </Field>
                 <Field>
-                  <FieldLabel>Moneda</FieldLabel>
+                  <FieldLabel>{t("currency")}</FieldLabel>
                   <Controller
                     control={form.control}
                     name="currency"
@@ -499,7 +517,7 @@ export function OfferEditor({ offerId }: { offerId: string }) {
                       <div className="flex">
                         <Segmented
                           contained
-                          label="Moneda"
+                          label={t("currency")}
                           value={field.value || "USD"}
                           options={currencyOptions}
                           onChange={field.onChange}
@@ -515,8 +533,8 @@ export function OfferEditor({ offerId }: { offerId: string }) {
                     render={({ field }) => (
                       <ToggleRow
                         id="showPrice"
-                        title="Mostrar precios al cliente"
-                        description="Si lo apagás, el cliente ve las propiedades sin montos ni total."
+                        title={t("showPrice")}
+                        description={t("showPriceHint")}
                         checked={field.value}
                         onChange={field.onChange}
                       />
@@ -528,8 +546,8 @@ export function OfferEditor({ offerId }: { offerId: string }) {
                     render={({ field }) => (
                       <ToggleRow
                         id="branded"
-                        title="Mostrar la identidad de tu agencia"
-                        description="Encabezado, pie y datos de contacto de la agencia en la oferta."
+                        title={t("branded")}
+                        description={t("brandedHint")}
                         checked={field.value}
                         onChange={field.onChange}
                       />
@@ -541,20 +559,20 @@ export function OfferEditor({ offerId }: { offerId: string }) {
           </TabsContent>
 
           <TabsContent value="bienvenida" className="mt-0">
-            <Section title="Bienvenida" description="El saludo con el que arranca la oferta." shown>
+            <Section title={tabs("welcome")} description={t("welcomeDescription")} shown>
               <FieldGroup>
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   <Field>
-                    <FieldLabel htmlFor="welcomeTitle">Título</FieldLabel>
-                    <Input id="welcomeTitle" placeholder="Ej: Bienvenidos" {...form.register("welcomeTitle")} />
+                    <FieldLabel htmlFor="welcomeTitle">{t("title")}</FieldLabel>
+                    <Input id="welcomeTitle" placeholder={t("welcomeTitlePlaceholder")} {...form.register("welcomeTitle")} />
                   </Field>
                   <Field>
-                    <FieldLabel htmlFor="welcomeDateLabel">Fecha o temporada</FieldLabel>
-                    <Input id="welcomeDateLabel" placeholder="Ej: Verano 2026" {...form.register("welcomeDateLabel")} />
+                    <FieldLabel htmlFor="welcomeDateLabel">{t("welcomeDate")}</FieldLabel>
+                    <Input id="welcomeDateLabel" placeholder={t("welcomeDatePlaceholder")} {...form.register("welcomeDateLabel")} />
                   </Field>
                 </div>
                 <Field>
-                  <FieldLabel htmlFor="welcomeContent">Mensaje</FieldLabel>
+                  <FieldLabel htmlFor="welcomeContent">{t("welcomeMessage")}</FieldLabel>
                   <Controller
                     control={form.control}
                     name="welcomeContent"
@@ -562,7 +580,7 @@ export function OfferEditor({ offerId }: { offerId: string }) {
                       <RichTextEditor id="welcomeContent" value={field.value} onChange={field.onChange} stickyToolbar />
                     )}
                   />
-                  <FieldDescription>Usá títulos, negrita y listas para ordenar el mensaje.</FieldDescription>
+                  <FieldDescription>{t("welcomeMessageHint")}</FieldDescription>
                 </Field>
               </FieldGroup>
             </Section>
@@ -570,17 +588,15 @@ export function OfferEditor({ offerId }: { offerId: string }) {
 
           <TabsContent value="propiedades" className="mt-0">
             <Section
-              title="Propiedades"
-              description="Agrupalas en secciones y ajustá el precio de cada una para esta oferta."
+              title={tabs("properties")}
+              description={t("propertiesDescription")}
               shown
             >
               <div className="flex flex-col gap-5">
                 {sectionFields.length === 0 && (
                   <div className="flex flex-col items-center gap-3 rounded-3xl bg-foreground/[0.04] px-6 py-10 text-center">
-                    <p className="font-display text-xl">Todavía no hay propiedades</p>
-                    <p className="max-w-sm text-sm text-muted-foreground">
-                      Creá una sección y sumale las propiedades que querés mostrarle a tu cliente.
-                    </p>
+                    <p className="font-display text-xl">{t("noPropertiesTitle")}</p>
+                    <p className="max-w-sm text-sm text-muted-foreground">{t("noPropertiesBody")}</p>
                   </div>
                 )}
                 {sectionFields.map((field, sectionIndex) => (
@@ -601,7 +617,7 @@ export function OfferEditor({ offerId }: { offerId: string }) {
                     onClick={() => appendSection({ title: "", text: "", properties: [emptyOfferProperty()] })}
                   >
                     <Plus />
-                    Agregar sección
+                    {t("addSection")}
                   </Button>
                 </div>
               </div>
@@ -610,8 +626,8 @@ export function OfferEditor({ offerId }: { offerId: string }) {
 
           <TabsContent value="servicios" className="mt-0">
             <Section
-              title="Servicios"
-              description="Experiencias y servicios de tu librería, con el precio, la cantidad y la fecha para este cliente."
+              title={tabs("services")}
+              description={t("servicesDescription")}
               shown
             >
               <OfferServicesSection control={form.control} currency={currency} />
@@ -630,7 +646,7 @@ export function OfferEditor({ offerId }: { offerId: string }) {
                 className="inline-flex items-center gap-1.5 text-sm font-medium text-primary underline-offset-4 hover:underline"
               >
                 <UserRound className="size-4" />
-                Ver cliente
+                {t("seeClient")}
               </Link>
             )}
           </div>
@@ -638,43 +654,34 @@ export function OfferEditor({ offerId }: { offerId: string }) {
           {/* Rentals are options to choose from, priced per night: adding them up says nothing. */}
           {operation === "RENT" ? (
             <div className="flex flex-col gap-1">
-              <p className="text-sm text-muted-foreground">
-                {lines.length} {lines.length === 1 ? "propiedad" : "propiedades"} en {sectionFields.length}{" "}
-                {sectionFields.length === 1 ? "sección" : "secciones"}
-              </p>
+              <p className="text-sm text-muted-foreground">{summary}</p>
               {offerServices.length > 0 && (
                 <p className="text-sm text-muted-foreground">
-                  {offerServices.length} {offerServices.length === 1 ? "servicio" : "servicios"}
-                  {servicesTotal > 0 && (
-                    <>
-                      {" "}
-                      por{" "}
-                      <span className="font-medium text-foreground tabular-nums">
-                        {currency} {servicesTotal.toLocaleString("es-AR", { maximumFractionDigits: 0 })}
-                      </span>
-                    </>
-                  )}
+                  {t.rich(servicesTotal > 0 ? "servicesFor" : "servicesOnly", {
+                    count: offerServices.length,
+                    amount: `${currency} ${number(servicesTotal, { maximumFractionDigits: 0 })}`,
+                    strong: (chunks) => <span className="font-medium text-foreground tabular-nums">{chunks}</span>,
+                  })}
                 </p>
               )}
             </div>
           ) : (
             <div className="flex flex-col gap-1">
-              <p className="text-sm text-muted-foreground">Total de la oferta</p>
+              <p className="text-sm text-muted-foreground">{t("total")}</p>
               {total + servicesTotal > 0 ? (
                 <p className="tabular-nums">
                   <span className="mr-1.5 text-sm font-medium text-muted-foreground">{currency}</span>
                   <span className="text-4xl font-semibold tracking-tight">
-                    {(total + servicesTotal).toLocaleString("es-AR", { maximumFractionDigits: 0 })}
+                    {number(total + servicesTotal, { maximumFractionDigits: 0 })}
                   </span>
                 </p>
               ) : (
-                <p className="text-2xl font-medium text-muted-foreground">Sin total todavía</p>
+                <p className="text-2xl font-medium text-muted-foreground">{t("noTotal")}</p>
               )}
               <p className="text-sm text-muted-foreground">
-                {lines.length} {lines.length === 1 ? "propiedad" : "propiedades"} en {sectionFields.length}{" "}
-                {sectionFields.length === 1 ? "sección" : "secciones"}
-                {offerServices.length > 0 &&
-                  ` y ${offerServices.length} ${offerServices.length === 1 ? "servicio" : "servicios"}`}
+                {offerServices.length > 0
+                  ? t("summaryWithServices", { summary, services: t("servicesCount", { count: offerServices.length }) })
+                  : summary}
               </p>
             </div>
           )}
@@ -682,24 +689,24 @@ export function OfferEditor({ offerId }: { offerId: string }) {
           <div className="flex flex-col gap-2">
             <p className="flex items-center gap-1.5 text-sm font-medium">
               <Link2 className="size-4" />
-              Link para el cliente
+              {t("clientLink")}
             </p>
             {offer.status === "DRAFT" ? (
               <p className="text-sm text-muted-foreground">
-                {clientId ? "Se activa cuando envíes la oferta." : "Se activa cuando publiques el link."}
+                {clientId ? t("linkOnSend") : t("linkOnPublish")}
               </p>
             ) : (
               <>
                 <Input
                   readOnly
-                  aria-label="Link público de la oferta"
+                  aria-label={t("publicLink")}
                   value={publicUrl}
                   onFocus={(event) => event.currentTarget.select()}
                   className="bg-card text-sm"
                 />
                 <Button type="button" variant="outline" className="h-10 gap-2" onClick={copyLink}>
                   <Copy />
-                  {copied ? "Copiado" : "Copiar link"}
+                  {copied ? t("copied") : t("copyLink")}
                 </Button>
               </>
             )}

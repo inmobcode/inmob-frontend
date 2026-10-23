@@ -1,0 +1,83 @@
+{
+  "team": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "member": "Member",
+    "role": "Role",
+    "status": "Status",
+    "actionsColumn": "Actions",
+    "memberSince": "On the team since {date}",
+    "since": "Since {date}",
+    "memberSinceColumn": "On the team since",
+    "roles": {
+      "OWNER": "Owner",
+      "ADMIN": "Administrator",
+      "AGENT": "Agent"
+    },
+    "rolePlurals": {
+      "OWNER": "Owners",
+      "ADMIN": "Administrators",
+      "AGENT": "Agents"
+    },
+    "roleHints": {
+      "OWNER": "Owns the account",
+      "ADMIN": "Manages the team, properties and offers",
+      "AGENT": "Works with properties, clients and bookings"
+    },
+    "menu": {
+      "actions": "Actions for {name}",
+      "sendEmail": "Send email",
+      "copyEmail": "Copy email",
+      "changeRole": "Change role",
+      "deactivate": "Deactivate access",
+      "reactivate": "Reactivate access",
+      "remove": "Remove from team"
+    },
+    "invite": {
+      "linked": "They already had a Tivvo account: we've added them to your team",
+      "sent": "We've emailed them their access",
+      "title": "Invite member",
+      "description": "If they already have a Tivvo account we add them to your team; if not, we email them their access.",
+      "name": "Name",
+      "namePlaceholder": "E.g. Rodrigo Sosa",
+      "emailPlaceholder": "name@email.com",
+      "role": "Role",
+      "submitting": "Inviting…",
+      "submit": "Invite"
+    },
+    "page": {
+      "updateFailed": "Couldn't save the change",
+      "removed": "Removed from the team",
+      "removeFailed": "Couldn't remove them from the team",
+      "roleChanged": "New role: {role}",
+      "reactivated": "Access reactivated",
+      "deactivated": "Access deactivated",
+      "title": "Team",
+      "searchPlaceholder": "Search by name or email",
+      "search": "Search the team",
+      "role": "Role",
+      "roles": "roles",
+      "help": "Help with the team",
+      "loadFailed": "We couldn't load the team",
+      "empty": {
+        "title": "Build your team",
+        "body": "Add administrators and agents to work together.",
+        "help": "What each role can do"
+      },
+      "noMatch": {
+        "title": "Nobody matches that",
+        "body": "Try another name or clear the role filter."
+      },
+      "deactivate": {
+        "title": "Deactivate access?",
+        "body": "{name} won't be able to sign in to the account. Their properties and clients are kept and you can reactivate them whenever you like.",
+        "confirm": "Deactivate"
+      },
+      "remove": {
+        "title": "Remove from the team?",
+        "body": "{name} loses access to this agency. Their account isn't deleted: if they belong to another agency, they keep signing in there as usual.",
+        "confirm": "Remove"
+      }
+    }
+  }
+}

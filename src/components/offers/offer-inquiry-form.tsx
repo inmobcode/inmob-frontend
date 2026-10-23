@@ -2,7 +2,8 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -14,14 +15,16 @@ import { ApiError } from "@/lib/api/client";
 import { submitOfferInquiry } from "@/lib/api/offers";
 import { cn } from "@/lib/utils";
 
-const schema = z.object({
-  name: z.string().min(2, "Ingresá tu nombre"),
-  email: z.string().email("Email inválido"),
-  phone: z.string(),
-  message: z.string(),
-});
+function makeSchema(t: (key: "nameRequired" | "emailInvalid") => string) {
+  return z.object({
+    name: z.string().min(2, t("nameRequired")),
+    email: z.string().email(t("emailInvalid")),
+    phone: z.string(),
+    message: z.string(),
+  });
+}
 
-type FormValues = z.infer<typeof schema>;
+type FormValues = z.infer<ReturnType<typeof makeSchema>>;
 
 export function OfferInquiryForm({
   offerToken,
@@ -34,6 +37,9 @@ export function OfferInquiryForm({
   /** false: no box or heading of its own, for a page that already titles it. */
   framed?: boolean;
 }) {
+  const t = useTranslations("site.inquiry");
+  const common = useTranslations("common");
+  const schema = useMemo(() => makeSchema(t), [t]);
   const [sent, setSent] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const form = useForm<FormValues>({
@@ -50,13 +56,13 @@ export function OfferInquiryForm({
         message: values.message || undefined,
       }),
     onSuccess: () => setSent(true),
-    onError: (err) => setServerError(err instanceof ApiError ? err.message : "Error inesperado"),
+    onError: (err) => setServerError(err instanceof ApiError ? err.message : common("unexpectedError")),
   });
 
   if (sent) {
     return (
       <p className="rounded-md border bg-zinc-50 p-4 text-sm text-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
-        ¡Gracias! Te vamos a contactar a la brevedad.
+        {t("thanks")}
       </p>
     );
   }
@@ -69,30 +75,30 @@ export function OfferInquiryForm({
         mutation.mutate(values);
       })}
     >
-      {framed && <h3 className="font-medium">Contactanos</h3>}
+      {framed && <h3 className="font-medium">{t("contactUs")}</h3>}
       <FieldGroup>
         <Field>
-          <FieldLabel htmlFor="name">Nombre</FieldLabel>
+          <FieldLabel htmlFor="name">{t("name")}</FieldLabel>
           <Input id="name" {...form.register("name")} />
           <FieldError errors={[form.formState.errors.name]} />
         </Field>
         <Field>
-          <FieldLabel htmlFor="email">Email</FieldLabel>
+          <FieldLabel htmlFor="email">{t("email")}</FieldLabel>
           <Input id="email" type="email" {...form.register("email")} />
           <FieldError errors={[form.formState.errors.email]} />
         </Field>
         <Field>
-          <FieldLabel htmlFor="phone">Teléfono (opcional)</FieldLabel>
+          <FieldLabel htmlFor="phone">{t("phone")}</FieldLabel>
           <Input id="phone" {...form.register("phone")} />
         </Field>
         <Field>
-          <FieldLabel htmlFor="message">Mensaje (opcional)</FieldLabel>
+          <FieldLabel htmlFor="message">{t("message")}</FieldLabel>
           <Textarea id="message" rows={3} {...form.register("message")} />
         </Field>
       </FieldGroup>
       {serverError && <p className="text-sm text-destructive">{serverError}</p>}
       <Button type="submit" disabled={mutation.isPending}>
-        {mutation.isPending ? "Enviando..." : "Enviar consulta"}
+        {mutation.isPending ? t("sending") : t("submit")}
       </Button>
     </form>
   );

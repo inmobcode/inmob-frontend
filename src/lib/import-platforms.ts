@@ -10,7 +10,12 @@ export type PlatformType = "crm" | "portal" | "aggregator";
 export interface ImportPlatform {
   slug: string;
   name: string;
-  market: string;
+  /**
+   * Where it's used: ISO 3166 country codes, or UN M49 areas for regions
+   * ("150" Europe, "039" Southern Europe, "001" the whole world). Each language
+   * names them with Intl.DisplayNames.
+   */
+  markets: string[];
   type: PlatformType;
   /** 1 = high priority for Tivvo's markets, 3 = low. */
   priority: 1 | 2 | 3;
@@ -22,7 +27,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "bazaraki",
     "name": "Bazaraki",
-    "market": "Chipre",
+    "markets": ["CY"],
     "type": "portal",
     "priority": 1,
     "format": "kyero",
@@ -31,7 +36,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "casafari-crm",
     "name": "CASAFARI CRM",
-    "market": "Portugal, España",
+    "markets": ["PT", "ES"],
     "type": "crm",
     "priority": 1,
     "format": "kyero",
@@ -40,7 +45,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "ego-real-estate",
     "name": "eGO Real Estate (Janela Digital)",
-    "market": "Portugal, España",
+    "markets": ["PT", "ES"],
     "type": "crm",
     "priority": 1,
     "format": "kyero",
@@ -49,7 +54,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "estatebud",
     "name": "Estatebud",
-    "market": "Chipre (y UK)",
+    "markets": ["CY", "GB"],
     "type": "crm",
     "priority": 1,
     "format": "kyero",
@@ -58,7 +63,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "green-acres-vizzit",
     "name": "Green-Acres / Vizzit",
-    "market": "Europa (15 países)",
+    "markets": ["150"],
     "type": "portal",
     "priority": 1,
     "format": "kyero",
@@ -67,7 +72,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "idealista",
     "name": "Idealista",
-    "market": "España, Portugal, Italia",
+    "markets": ["ES", "PT", "IT"],
     "type": "portal",
     "priority": 1,
     "format": "kyero",
@@ -76,7 +81,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "ilistcrm",
     "name": "ilistCRM (e-agents, Fortunet Hellas)",
-    "market": "Grecia, Chipre",
+    "markets": ["GR", "CY"],
     "type": "crm",
     "priority": 1,
     "format": "kyero",
@@ -85,7 +90,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "imovirtual",
     "name": "Imovirtual (OLX Group)",
-    "market": "Portugal",
+    "markets": ["PT"],
     "type": "portal",
     "priority": 1,
     "format": "kyero",
@@ -94,7 +99,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "inmovilla",
     "name": "Inmovilla",
-    "market": "España",
+    "markets": ["ES"],
     "type": "crm",
     "priority": 1,
     "format": "kyero",
@@ -103,7 +108,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "irealone",
     "name": "iRealOne",
-    "market": "Croacia, Serbia, Eslovenia",
+    "markets": ["HR", "RS", "SI"],
     "type": "crm",
     "priority": 1,
     "format": "kyero",
@@ -112,7 +117,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "kyero",
     "name": "Kyero",
-    "market": "Sur de Europa",
+    "markets": ["039"],
     "type": "portal",
     "priority": 1,
     "format": "kyero",
@@ -121,7 +126,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "qobrix",
     "name": "Qobrix",
-    "market": "Chipre, Grecia, UAE, España",
+    "markets": ["CY", "GR", "AE", "ES"],
     "type": "crm",
     "priority": 1,
     "format": "kyero",
@@ -130,7 +135,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "resales-online",
     "name": "Resales Online",
-    "market": "España (Costa del Sol)",
+    "markets": ["ES"],
     "type": "crm",
     "priority": 1,
     "format": "kyero",
@@ -139,7 +144,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "spitogatos",
     "name": "Spitogatos",
-    "market": "Grecia, Chipre",
+    "markets": ["GR", "CY"],
     "type": "portal",
     "priority": 1,
     "format": "kyero",
@@ -148,7 +153,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "xe-gr",
     "name": "xe.gr",
-    "market": "Grecia",
+    "markets": ["GR"],
     "type": "portal",
     "priority": 1,
     "format": "kyero",
@@ -157,7 +162,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "xml2u",
     "name": "XML2U",
-    "market": "Global",
+    "markets": ["001"],
     "type": "aggregator",
     "priority": 1,
     "format": "kyero",
@@ -166,7 +171,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "acquaint-crm",
     "name": "Acquaint CRM",
-    "market": "Irlanda, UK",
+    "markets": ["IE", "GB"],
     "type": "crm",
     "priority": 2,
     "format": "kyero",
@@ -175,7 +180,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "agentiz",
     "name": "Agentiz",
-    "market": "Malta, Montenegro, Croacia, Bulgaria, Grecia",
+    "markets": ["MT", "ME", "HR", "BG", "GR"],
     "type": "aggregator",
     "priority": 2,
     "format": "kyero",
@@ -184,7 +189,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "apimo",
     "name": "Apimo",
-    "market": "Francia y sur de Europa",
+    "markets": ["FR", "039"],
     "type": "crm",
     "priority": 2,
     "format": "kyero",
@@ -193,7 +198,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "daft-ie",
     "name": "Daft.ie",
-    "market": "Irlanda",
+    "markets": ["IE"],
     "type": "portal",
     "priority": 2,
     "format": "kyero",
@@ -202,7 +207,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "domaza",
     "name": "Domaza",
-    "market": "Europa",
+    "markets": ["150"],
     "type": "aggregator",
     "priority": 2,
     "format": "kyero",
@@ -211,7 +216,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "epic-agent-crm",
     "name": "EPIC Agent CRM (ISB Technologies)",
-    "market": "Malta",
+    "markets": ["MT"],
     "type": "crm",
     "priority": 2,
     "format": "kyero",
@@ -220,7 +225,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "estate",
     "name": "Estate+ (Global Concept)",
-    "market": "Grecia",
+    "markets": ["GR"],
     "type": "crm",
     "priority": 2,
     "format": "kyero",
@@ -229,7 +234,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "fotocasa",
     "name": "Fotocasa Pro / habitaclia / Milanuncios",
-    "market": "España",
+    "markets": ["ES"],
     "type": "portal",
     "priority": 2,
     "format": "kyero",
@@ -238,7 +243,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "imodigi",
     "name": "Imodigi",
-    "market": "Portugal",
+    "markets": ["PT"],
     "type": "crm",
     "priority": 2,
     "format": "kyero",
@@ -247,7 +252,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "imot-bg",
     "name": "Imot.bg",
-    "market": "Bulgaria",
+    "markets": ["BG"],
     "type": "portal",
     "priority": 2,
     "format": "kyero",
@@ -256,7 +261,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "mobilia",
     "name": "Mobilia",
-    "market": "España",
+    "markets": ["ES"],
     "type": "crm",
     "priority": 2,
     "format": "kyero",
@@ -265,7 +270,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "nekretnine1",
     "name": "Nekretnine1 (RealCRM1)",
-    "market": "Croacia",
+    "markets": ["HR"],
     "type": "crm",
     "priority": 2,
     "format": "kyero",
@@ -274,7 +279,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "njuskalo",
     "name": "Njuškalo",
-    "market": "Croacia",
+    "markets": ["HR"],
     "type": "portal",
     "priority": 2,
     "format": "kyero",
@@ -283,7 +288,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "properstar",
     "name": "Properstar",
-    "market": "Global",
+    "markets": ["001"],
     "type": "aggregator",
     "priority": 2,
     "format": "kyero",
@@ -292,7 +297,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "propertybase",
     "name": "Propertybase",
-    "market": "Global",
+    "markets": ["001"],
     "type": "crm",
     "priority": 2,
     "format": "kyero",
@@ -301,7 +306,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "real-status",
     "name": "Real Status",
-    "market": "Grecia",
+    "markets": ["GR"],
     "type": "crm",
     "priority": 2,
     "format": "kyero",
@@ -310,7 +315,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "reapit",
     "name": "Reapit",
-    "market": "UK, Irlanda",
+    "markets": ["GB", "IE"],
     "type": "crm",
     "priority": 2,
     "format": "kyero",
@@ -319,7 +324,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "sooprema",
     "name": "Sooprema",
-    "market": "España",
+    "markets": ["ES"],
     "type": "crm",
     "priority": 2,
     "format": "kyero",
@@ -328,7 +333,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "witei",
     "name": "Witei",
-    "market": "España",
+    "markets": ["ES"],
     "type": "crm",
     "priority": 2,
     "format": "kyero",
@@ -337,7 +342,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "alto",
     "name": "Alto (Zoopla)",
-    "market": "UK",
+    "markets": ["GB"],
     "type": "crm",
     "priority": 3,
     "format": "kyero",
@@ -346,7 +351,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "dezrez",
     "name": "Dezrez (Rezi)",
-    "market": "UK",
+    "markets": ["GB"],
     "type": "crm",
     "priority": 3,
     "format": "kyero",
@@ -355,7 +360,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "dimedia-nekretnine",
     "name": "Dimedia nekretnine",
-    "market": "Croacia",
+    "markets": ["HR"],
     "type": "crm",
     "priority": 3,
     "format": "kyero",
@@ -364,7 +369,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "estate-assistant-estates-maxprogress",
     "name": "Estate Assistant / Estates Maxprogress",
-    "market": "Bulgaria",
+    "markets": ["BG"],
     "type": "crm",
     "priority": 3,
     "format": "kyero",
@@ -373,7 +378,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "estate-crm",
     "name": "Estate CRM",
-    "market": "Grecia, Chipre",
+    "markets": ["GR", "CY"],
     "type": "crm",
     "priority": 3,
     "format": "kyero",
@@ -382,7 +387,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "jupix",
     "name": "Jupix",
-    "market": "UK",
+    "markets": ["GB"],
     "type": "crm",
     "priority": 3,
     "format": "kyero",
@@ -391,7 +396,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "myhome-ie",
     "name": "MyHome.ie",
-    "market": "Irlanda",
+    "markets": ["IE"],
     "type": "portal",
     "priority": 3,
     "format": "kyero",
@@ -400,7 +405,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "optima-crm",
     "name": "Optima-CRM",
-    "market": "España",
+    "markets": ["ES"],
     "type": "crm",
     "priority": 3,
     "format": "kyero",
@@ -409,7 +414,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "relper-volvox",
     "name": "Relper / Volvox",
-    "market": "Serbia, Montenegro",
+    "markets": ["RS", "ME"],
     "type": "crm",
     "priority": 3,
     "format": "kyero",
@@ -418,7 +423,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "rex",
     "name": "Rex",
-    "market": "Australia, UK",
+    "markets": ["AU", "GB"],
     "type": "crm",
     "priority": 3,
     "format": "kyero",
@@ -427,7 +432,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "rightmove",
     "name": "Rightmove",
-    "market": "UK",
+    "markets": ["GB"],
     "type": "portal",
     "priority": 3,
     "format": "kyero",
@@ -436,7 +441,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "ubiflow",
     "name": "Ubiflow",
-    "market": "Francia",
+    "markets": ["FR"],
     "type": "aggregator",
     "priority": 3,
     "format": "kyero",
@@ -445,7 +450,7 @@ export const IMPORT_PLATFORMS: ImportPlatform[] = [
   {
     "slug": "zoopla",
     "name": "Zoopla",
-    "market": "UK",
+    "markets": ["GB"],
     "type": "portal",
     "priority": 3,
     "format": "kyero",

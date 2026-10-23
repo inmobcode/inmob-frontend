@@ -1,13 +1,15 @@
 "use client";
 
 import { KeyRound, Tag } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import type { ListingType } from "@/lib/api/properties";
 import { cn } from "@/lib/utils";
 
-const OPTIONS: { value: ListingType; label: string; hint: string; icon: typeof Tag }[] = [
-  { value: "SALE", label: "Venta", hint: "Vendé una propiedad", icon: Tag },
-  { value: "RENT", label: "Alquiler", hint: "Alquilá o dá en temporada", icon: KeyRound },
+// Words in "properties.listingType.<value>" (label, hint).
+const OPTIONS: { value: ListingType; icon: typeof Tag }[] = [
+  { value: "SALE", icon: Tag },
+  { value: "RENT", icon: KeyRound },
 ];
 
 /** Two large selectable cards for the Venta / Alquiler decision. */
@@ -18,8 +20,9 @@ export function ListingTypeCards({
   value: ListingType;
   onChange: (value: ListingType) => void;
 }) {
+  const t = useTranslations("properties.listingType");
   return (
-    <div role="radiogroup" aria-label="Tipo de operación" className="grid grid-cols-2 gap-3">
+    <div role="radiogroup" aria-label={t("label")} className="grid grid-cols-2 gap-3">
       {OPTIONS.map((option) => {
         const active = value === option.value;
         return (
@@ -38,11 +41,11 @@ export function ListingTypeCards({
           >
             <option.icon className="size-5" />
             <span className="flex flex-col gap-0.5">
-              <span className="text-lg leading-none font-semibold">{option.label}</span>
+              <span className="text-lg leading-none font-semibold">{t(`${option.value}.label`)}</span>
               <span
                 className={cn("text-xs", active ? "text-primary-foreground/70" : "text-muted-foreground")}
               >
-                {option.hint}
+                {t(`${option.value}.hint`)}
               </span>
             </span>
           </button>

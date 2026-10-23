@@ -1,0 +1,171 @@
+{
+  "meta": {
+    "description": "Software gestionale per agenzie immobiliari: immobili, offerte, prenotazioni e il sito della tua agenzia.",
+    "ogAlt": "Tivvo · Gestionale per agenzie immobiliari",
+    "ogTitle": "Un unico posto per immobili, offerte e prenotazioni",
+    "ogSubtitle": "Gestionale per agenzie di vendita e affitti brevi."
+  },
+  "notFound": {
+    "metaTitle": "Pagina non trovata",
+    "code": "Errore 404",
+    "title": "Questo indirizzo non è sulla piantina.",
+    "tail": "Potrebbe essere stato spostato o non essere più pubblicato.",
+    "searchLabel": "Cerca nell’assistenza",
+    "searchPlaceholder": "Cosa cercavi? Prova con «prenotazione»",
+    "search": "Cerca",
+    "otherPlaces": "Altre pagine",
+    "stillLost": "Ancora perso? Scrivici a",
+    "links": {
+      "home": {
+        "label": "Home",
+        "hint": "Cos’è Tivvo e come funziona"
+      },
+      "help": {
+        "label": "Assistenza",
+        "hint": "Risposte e contatti"
+      },
+      "login": {
+        "label": "Accedi",
+        "hint": "Entra nel pannello della tua agenzia"
+      }
+    }
+  },
+  "language": {
+    "label": "Lingua",
+    "change": "Cambia lingua"
+  },
+  "common": {
+    "unexpectedError": "Errore imprevisto",
+    "linkCopied": "Link copiato",
+    "linkCopyFailed": "Impossibile copiare il link",
+    "actionFailed": "Impossibile completare l’azione",
+    "checkConnection": "Controlla la connessione e riprova.",
+    "back": "Indietro",
+    "cancel": "Annulla",
+    "saving": "Salvataggio…",
+    "creating": "Creazione…",
+    "optional": "(facoltativo)",
+    "undo": "Annulla",
+    "retry": "Riprova",
+    "noMatchTitle": "Nessun risultato",
+    "clearFilters": "Rimuovi filtri",
+    "emailCopied": "Email copiata",
+    "emailCopyFailed": "Impossibile copiare l’email",
+    "changesSaved": "Modifiche salvate",
+    "saveFailed": "Impossibile salvare le modifiche",
+    "nameRequired": "Inserisci un nome",
+    "emailInvalid": "Email non valida",
+    "checkFields": "Controlla i campi evidenziati",
+    "save": "Salva",
+    "help": "Assistenza",
+    "datePicker": {
+      "previousMonth": "Mese precedente",
+      "nextMonth": "Mese successivo",
+      "pickDate": "Scegli una data",
+      "pickDates": "Scegli le date",
+      "pickCheckIn": "Scegli il check-in",
+      "pickCheckOut": "Ora scegli il check-out",
+      "days": "{count, plural, one {# giorno} other {# giorni}}",
+      "nights": "{count, plural, one {# notte} other {# notti}}",
+      "clear": "Cancella",
+      "search": "Cerca…"
+    },
+    "combobox": {
+      "search": "Cerca…",
+      "empty": "Nessun risultato."
+    },
+    "richText": {
+      "link": "Link",
+      "linkUrl": "Indirizzo del link",
+      "done": "Fatto",
+      "removeLink": "Rimuovi link",
+      "blockType": "Tipo di testo",
+      "blocks": {
+        "p": "Testo",
+        "h2": "Titolo",
+        "h3": "Sottotitolo"
+      },
+      "bold": "Grassetto",
+      "italic": "Corsivo",
+      "bulletList": "Elenco puntato",
+      "orderedList": "Elenco numerato"
+    }
+  },
+  "errors": {
+    "code": "Errore {code}",
+    "otherPlaces": "Altre pagine",
+    "server": {
+      "title": "Qualcosa è andato storto da parte nostra.",
+      "tail": "Riprova; se continua, scrivici.",
+      "retry": "Riprova",
+      "home": "Vai alla home"
+    }
+  },
+  "trash": {
+    "restoreFailed": "Impossibile ripristinare",
+    "deleted": "Eliminato definitivamente",
+    "deleteFailed": "Impossibile eliminare",
+    "intro": "Ciò che elimini resta qui per {days} giorni, nel caso cambiassi idea. Poi viene eliminato definitivamente.",
+    "loadFailed": "Non siamo riusciti a caricare il cestino.",
+    "emptyTitle": "Il cestino è vuoto",
+    "emptyBody": "Quando elimini qualcosa, comparirà qui.",
+    "deletedAgo": "Eliminato {ago}",
+    "goesToday": "viene eliminato oggi",
+    "goesIn": "{count, plural, one {viene eliminato definitivamente tra # giorno} other {viene eliminato definitivamente tra # giorni}}",
+    "restore": "Ripristina",
+    "deleteForever": "Elimina definitivamente",
+    "confirmTitle": "Eliminare definitivamente?",
+    "confirmBody": "«{title}» verrà eliminato per sempre e non potrà essere recuperato.",
+    "link": "Cestino",
+    "linkCount": "{count, plural, one {Cestino, # elemento} other {Cestino, # elementi}}",
+    "pages": {
+      "properties": {
+        "title": "Cestino degli immobili",
+        "restored": "Hai ripristinato l’immobile",
+        "back": "Immobili",
+        "untitled": "Immobile"
+      },
+      "offers": {
+        "title": "Cestino delle offerte",
+        "restored": "Hai ripristinato l’offerta",
+        "back": "Offerte",
+        "untitled": "Offerta"
+      },
+      "bookings": {
+        "title": "Cestino delle prenotazioni",
+        "restored": "Hai ripristinato la prenotazione",
+        "back": "Prenotazioni",
+        "untitled": "Prenotazione"
+      }
+    }
+  },
+  "pageTitles": {
+    "forgotPassword": "Recupera la password",
+    "register": "Crea il tuo account",
+    "login": "Accedi",
+    "clients": "Clienti",
+    "settings": "Impostazioni",
+    "offers": "Offerte",
+    "bookings": "Prenotazioni",
+    "inquiries": "Richieste",
+    "profile": "Il mio profilo",
+    "properties": "Immobili",
+    "import": "Importa immobili",
+    "team": "Team",
+    "services": "Servizi",
+    "portal": "Sito",
+    "docs": "Documentazione",
+    "authCallback": "Accesso in corso",
+    "resetPassword": "Reimposta la password"
+  },
+  "legal": {
+    "effective": "In vigore dal",
+    "sections": "Sezioni",
+    "seeAlso": "Vedi anche",
+    "summary": "In poche parole",
+    "summaryNote": "Questo riepilogo aiuta a leggere il documento ma non lo sostituisce: fa fede il testo completo.",
+    "brief": "In breve:",
+    "nav": "Principale",
+    "home": "Torna alla home"
+  }
+}

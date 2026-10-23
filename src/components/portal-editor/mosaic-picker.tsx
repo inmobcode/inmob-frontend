@@ -1,6 +1,7 @@
 "use client";
 
 import { Check, ImagePlus, LoaderCircle, Plus, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -46,6 +47,7 @@ export function MosaicPicker({
   onChange: (urls: string[]) => void;
   properties: Property[];
 }) {
+  const t = useTranslations("portalEditor.mosaic");
   const [slot, setSlot] = useState<number | null>(null);
   const [uploading, setUploading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -74,7 +76,7 @@ export function MosaicPicker({
       const { url } = await uploadSiteImage(token, compressed);
       put(slot, url);
     } catch (err) {
-      toast.error(err instanceof ApiError ? err.message : "No se pudo subir la imagen");
+      toast.error(err instanceof ApiError ? err.message : t("uploadFailed"));
     } finally {
       setUploading(false);
     }
@@ -97,7 +99,7 @@ export function MosaicPicker({
               <button
                 type="button"
                 onClick={() => setSlot(index)}
-                aria-label={url ? `Cambiar la foto ${index + 1}` : `Elegir la foto ${index + 1}`}
+                aria-label={url ? t("change", { number: index + 1 }) : t("pick", { number: index + 1 })}
                 className="flex size-full items-center justify-center text-muted-foreground outline-none hover:bg-foreground/[0.04] focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:ring-inset"
               >
                 {url ? (
@@ -111,7 +113,7 @@ export function MosaicPicker({
                 <button
                   type="button"
                   onClick={() => remove(index)}
-                  aria-label={`Quitar la foto ${index + 1}`}
+                  aria-label={t("remove", { number: index + 1 })}
                   className="absolute top-1.5 right-1.5 flex size-7 items-center justify-center rounded-full bg-background/90 text-foreground shadow-sm outline-none hover:bg-background focus-visible:ring-3 focus-visible:ring-ring/50"
                 >
                   <X className="size-3.5" />
@@ -126,9 +128,9 @@ export function MosaicPicker({
         <DialogContent className="max-h-[85svh] gap-5 overflow-y-auto rounded-3xl sm:max-w-2xl" showCloseButton>
           <div className="flex flex-col gap-1.5">
             <DialogTitle className="font-display text-2xl">
-              Foto {slot != null ? slot + 1 : ""} del mosaico
+              {t("dialogTitle", { number: slot != null ? slot + 1 : "" })}
             </DialogTitle>
-            <DialogDescription>Elegí una foto de tus propiedades o subí una imagen.</DialogDescription>
+            <DialogDescription>{t("dialogDescription")}</DialogDescription>
           </div>
 
           <button
@@ -138,7 +140,7 @@ export function MosaicPicker({
             className="inline-flex h-10 w-fit items-center gap-2 rounded-full bg-foreground/[0.06] px-4 text-sm font-medium outline-none hover:bg-foreground/10 focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-60"
           >
             {uploading ? <LoaderCircle className="size-4 animate-spin" /> : <ImagePlus className="size-4" />}
-            {uploading ? "Subiendo…" : "Subir una imagen"}
+            {uploading ? t("uploading") : t("upload")}
           </button>
           <input
             ref={inputRef}
@@ -153,7 +155,7 @@ export function MosaicPicker({
           />
 
           {photos.length === 0 ? (
-            <p className="text-sm text-muted-foreground">Tus propiedades todavía no tienen fotos.</p>
+            <p className="text-sm text-muted-foreground">{t("empty")}</p>
           ) : (
             <ul className="grid grid-cols-3 gap-2 sm:grid-cols-4">
               {photos.map((photo) => {
@@ -164,7 +166,7 @@ export function MosaicPicker({
                       type="button"
                       onClick={() => slot != null && put(slot, photo.url)}
                       title={photo.title}
-                      aria-label={`${photo.title}${used ? " (ya está en el mosaico)" : ""}`}
+                      aria-label={used ? t("used", { title: photo.title }) : photo.title}
                       className={cn(
                         "relative block aspect-[4/3] w-full overflow-hidden rounded-lg outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
                         used && "ring-2 ring-primary",

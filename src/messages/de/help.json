@@ -1,0 +1,198 @@
+{
+  "help": {
+    "topics": {
+      "primeros-pasos": {
+        "title": "Erste Schritte",
+        "summary": "Ihr Konto, Ihr Team und die Anmeldung.",
+        "questions": {
+          "q1": {
+            "q": "Wie erstelle ich mein Konto und meine Agentur?",
+            "a": "Über „Registrieren“ legen Sie Ihren Benutzer und den Namen Ihrer Agentur an und gelangen ins Dashboard. Die Adresse Ihres Dashboards enthält den Namen Ihrer Agentur."
+          },
+          "q2": {
+            "q": "Wie füge ich mein Team hinzu?",
+            "a": "Unter Team fügen Sie Personen hinzu und weisen ihnen eine Rolle zu: Inhaber, Administrator oder Makler. Nur Inhaber und Administratoren sehen diesen Bereich."
+          },
+          "q3": {
+            "q": "Ich habe mein Passwort vergessen. Was tun?",
+            "a": "Nutzen Sie auf der Anmeldeseite die Option zur Passwortwiederherstellung. Wir schicken Ihnen per E-Mail einen Link, um ein neues zu erstellen."
+          },
+          "q4": {
+            "q": "Warum wurde ich abgemeldet?",
+            "a": "Aus Sicherheitsgründen läuft die Sitzung nach einiger Zeit ab, und Sie müssen sich erneut anmelden. Nichts von dem, was Sie gespeichert haben, geht verloren."
+          }
+        }
+      },
+      "propiedades": {
+        "title": "Objekte",
+        "summary": "Erfassen, veröffentlichen und zuweisen.",
+        "questions": {
+          "q1": {
+            "q": "Wie erfasse ich ein Objekt?",
+            "a": "Unter Objekte legen Sie ein neues an, füllen die Angaben aus, laden die Fotos hoch (sie werden vorher automatisch verkleinert) und veröffentlichen es, wenn es fertig ist."
+          },
+          "q2": {
+            "q": "Wie weise ich ein Objekt einem Makler zu?",
+            "a": "Inhaber und Administratoren können für jedes Objekt den Zuständigen wählen. Makler sehen nur die ihnen zugewiesenen Objekte."
+          },
+          "q3": {
+            "q": "Erscheint alles, was ich erfasse, auf meiner Website?",
+            "a": "Angezeigt werden die Objekte, die Sie veröffentlichen. Was unveröffentlicht bleibt, bleibt nur im Dashboard."
+          }
+        }
+      },
+      "clientes-consultas": {
+        "title": "Kunden und Anfragen",
+        "summary": "Von der ersten Anfrage bis zum Nachfassen.",
+        "questions": {
+          "q1": {
+            "q": "Wo landen die Anfragen meiner Website?",
+            "a": "Im Posteingang Anfragen. Jede erstellt einen Kunden (oder nutzt den mit dieser E-Mail wieder), hinterlässt eine Notiz mit dem angesehenen Objekt und erhöht den Zähler im Menü."
+          },
+          "q2": {
+            "q": "Wie werde ich über eine neue Anfrage informiert?",
+            "a": "Per E-Mail an die Agentur (an die Kontakt-E-Mail oder, falls keine hinterlegt ist, an Inhaber und Administratoren) und über die Glocke im Dashboard. Der Kunde erhält eine Bestätigung."
+          },
+          "q3": {
+            "q": "Wie fasse ich bei einem Kunden nach?",
+            "a": "In jedem Kunden können Sie Aufgaben mit Datum und Zuständigem anlegen. Sie können auch alle als Board sehen und von einer Phase in die nächste ziehen."
+          }
+        }
+      },
+      "ofertas": {
+        "title": "Angebote",
+        "summary": "Erstellen, teilen und sehen, ob sie geöffnet wurden.",
+        "questions": {
+          "q1": {
+            "q": "Wie schicke ich einem Kunden ein Angebot?",
+            "a": "Sie stellen das Angebot mit einem oder mehreren Objekten, Rabatten und Leistungen zusammen und teilen den Link. Der Kunde sieht es, ohne ein Konto anzulegen."
+          },
+          "q2": {
+            "q": "Woran erkenne ich, ob mein Angebot geöffnet wurde?",
+            "a": "Die Glocke meldet es, sobald es geöffnet wird. Im Angebot sehen Sie auch, wann es angesehen wurde und wann es abläuft."
+          }
+        }
+      },
+      "reservas-cobros": {
+        "title": "Buchungen und Zahlungen",
+        "summary": "Daten, Zahlungen und was der Kunde sieht.",
+        "questions": {
+          "q1": {
+            "q": "Was sieht der Kunde von seiner Buchung?",
+            "a": "Einen Link per E-Mail, der beim Erstellen, Bestätigen oder Stornieren der Buchung kommt, mit seinen Daten, dem Gesamtbetrag und dem Zahlungsstatus. Die Provision wird nicht angezeigt."
+          },
+          "q2": {
+            "q": "Wie erfasse ich eine Zahlung?",
+            "a": "In der Buchung tragen Sie Anzahlung und Restbetrag mit Status ein. Sie sehen Eingänge, offene Beträge und die Provision."
+          },
+          "q3": {
+            "q": "Was ist eine ausstehende Buchung?",
+            "a": "Eine unbestätigte Buchung. Sie erscheint im Kalender, damit Sie sie kommen sehen, blockiert die Daten aber noch nicht."
+          }
+        }
+      },
+      "disponibilidad": {
+        "title": "Verfügbarkeit und Preise",
+        "summary": "Der Kalender Ihrer Ferienvermietung.",
+        "questions": {
+          "q1": {
+            "q": "Wie blockiere ich Daten?",
+            "a": "Unter Verfügbarkeit, Monatsansicht: Wählen Sie ein Objekt und ziehen Sie über die freien Nächte. Gebuchte Nächte lassen sich nicht ändern."
+          },
+          "q2": {
+            "q": "Wie lege ich Saisonpreise fest?",
+            "a": "In jedem Objekt definieren Sie Zeiträume mit ihrem Preis pro Nacht. Der Buchungsbetrag wird aus diesen Werten berechnet."
+          },
+          "q3": {
+            "q": "Kann ich nur die an bestimmten Daten freien Objekte sehen?",
+            "a": "Ja. Unter Verfügbarkeit wählen Sie einen Zeitraum und einen Ort, und es werden nur freie Objekte angezeigt."
+          }
+        }
+      },
+      "sitio-portales": {
+        "title": "Website und Portale",
+        "summary": "Ihre öffentliche Website und die Links für Eigentümer.",
+        "questions": {
+          "q1": {
+            "q": "Wie passe ich die Website meiner Agentur an?",
+            "a": "Unter Website wählen Sie Vorlage, Farben, Schriften und Blöcke und sehen vor dem Veröffentlichen, wie sie auf Computer, Tablet und Handy aussieht."
+          },
+          "q2": {
+            "q": "Kann ich eine eigene Domain verwenden?",
+            "a": "Noch nicht. Ihre Website liegt auf einer Tivvo-Subdomain mit dem Namen Ihrer Agentur."
+          },
+          "q3": {
+            "q": "Was sieht der Eigentümer in seinem Portal?",
+            "a": "Seine Objekte, Buchungen und Zahlungen mit Eingängen, Auszahlungen und Saldo. Die Provision bleibt verborgen, außer Sie zeigen sie in den Einstellungen an."
+          }
+        }
+      },
+      "cuenta-datos": {
+        "title": "Konto und Daten",
+        "summary": "Wer was sieht und wie wir Ihre Daten schützen.",
+        "questions": {
+          "q1": {
+            "q": "Werden meine Daten mit denen anderer Agenturen vermischt?",
+            "a": "Nein. Jede Agentur arbeitet in ihrem eigenen Bereich, und nur ihr Team sieht ihre Objekte, Kunden und Buchungen."
+          },
+          "q2": {
+            "q": "Was sieht jede Person in meinem Team?",
+            "a": "Makler sehen ihre Objekte, Angebote und Buchungen, ihre Kunden und nicht zugewiesene Anfragen. Inhaber und Administratoren sehen alles und weisen neu zu."
+          },
+          "q3": {
+            "q": "Wie mache ich meine Rechte an meinen Daten geltend?",
+            "a": "Das steht in der Datenschutzerklärung, zusammen mit der E-Mail-Adresse, an die Sie schreiben können."
+          }
+        }
+      }
+    },
+    "title": "Wie können wir helfen?",
+    "titleTail": "Suchen Sie oder wählen Sie ein Thema.",
+    "searchLabel": "In der Hilfe suchen",
+    "searchPlaceholder": "Versuchen Sie „Buchung“, „Angebot“ oder „Eigentümerportal“",
+    "clearSearch": "Suche löschen",
+    "popularLabel": "Häufig gesucht:",
+    "popular": {
+      "p1": "Anfragen",
+      "p2": "Angebot",
+      "p3": "Buchung",
+      "p4": "Preise",
+      "p5": "Eigentümerportal",
+      "p6": "Team"
+    },
+    "faqLabel": "Häufige Fragen",
+    "noResults": "Keine Ergebnisse",
+    "results": "{count, plural, one {# Antwort für „{query}“} other {# Antworten für „{query}“}}",
+    "nothingFor": "Zu „{query}“ haben wir nichts gefunden.",
+    "tryAnother": "Versuchen Sie ein anderes Wort, oder schreiben Sie uns, und wir antworten per E-Mail.",
+    "toContact": "Zum Kontaktformular",
+    "docsLead": "Sie haben schon ein Konto? Die vollständige Anleitung zum Dashboard steht in der Dokumentation.",
+    "docs": "Dokumentation öffnen",
+    "contact": {
+      "errors": {
+        "name": "Geben Sie Ihren Namen ein",
+        "email": "Prüfen Sie die E-Mail: Das @ oder die Domain fehlt",
+        "message": "Erzählen Sie uns etwas mehr"
+      },
+      "failed": "Die Nachricht konnte nicht gesendet werden. Versuchen Sie es in ein paar Minuten erneut.",
+      "sentTitle": "Nachricht gesendet",
+      "sentText": "Wir antworten Ihnen in Kürze per E-Mail.",
+      "name": "Ihr Name",
+      "message": "Wobei können wir helfen?",
+      "sending": "Wird gesendet…",
+      "submit": "Nachricht senden"
+    },
+    "page": {
+      "metaTitle": "Hilfe und Kontakt",
+      "metaDescription": "Antworten zu Objekten, Angeboten, Buchungen, Verfügbarkeit und Ihrer Website. Wenn Sie nicht finden, was Sie suchen, schreiben Sie uns.",
+      "contactTitle": "Nicht gefunden, was Sie suchen?",
+      "contactTitleTail": "Schreiben Sie uns.",
+      "contactLead": "Erzählen Sie uns Ihre Frage, ein Problem oder eine Idee. Wir antworten per E-Mail.",
+      "byEmail": "Per E-Mail",
+      "personalData": "Personenbezogene Daten",
+      "rules": "Regeln",
+      "terms": "AGB",
+      "privacy": "Datenschutz"
+    }
+  }
+}

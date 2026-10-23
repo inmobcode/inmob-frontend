@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 
 import { StatusAction, StatusButton, StatusScreen } from "./status-screen";
@@ -16,6 +17,7 @@ export function ErrorScreen({
   homeHref?: string;
   compact?: boolean;
 }) {
+  const t = useTranslations("errors.server");
   useEffect(() => {
     console.error(error);
   }, [error]);
@@ -24,12 +26,12 @@ export function ErrorScreen({
     <StatusScreen
       code="500"
       compact={compact}
-      title="Algo salió mal de nuestro lado."
-      tail="Probá de nuevo; si sigue igual, escribinos."
+      title={t("title")}
+      tail={t("tail")}
       actions={
         <>
-          <StatusAction onClick={reset}>Reintentar</StatusAction>
-          <StatusButton href={homeHref}>Ir al inicio</StatusButton>
+          <StatusAction onClick={reset}>{t("retry")}</StatusAction>
+          <StatusButton href={homeHref}>{t("home")}</StatusButton>
         </>
       }
     />

@@ -23,6 +23,12 @@ interface ApiFetchOptions extends RequestInit {
   token?: string | null;
 }
 
+/** The page's language, so the API answers errors in it and remembers the user's (see backend app/i18n). */
+function pageLocale(): string | null {
+  if (typeof document === "undefined") return null;
+  return document.documentElement.lang?.slice(0, 2) || null;
+}
+
 export async function apiFetch<T>(
   path: string,
   { token, headers, ...rest }: ApiFetchOptions = {},
@@ -32,9 +38,11 @@ export async function apiFetch<T>(
   const isFormData =
     typeof FormData !== "undefined" && rest.body instanceof FormData;
 
+  const locale = pageLocale();
   const res = await fetch(`${API_URL}${path}`, {
     ...rest,
     headers: {
+      ...(locale ? { "X-Locale": locale } : {}),
       ...(isFormData ? {} : { "Content-Type": "application/json" }),
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...headers,

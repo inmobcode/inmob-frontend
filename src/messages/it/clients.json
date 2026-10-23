@@ -1,0 +1,114 @@
+{
+  "clients": {
+    "menu": {
+      "actionsOf": "Azioni per {name}",
+      "view": "Vedi scheda",
+      "changeStage": "Cambia fase",
+      "email": "Invia email",
+      "call": "Chiama",
+      "copyEmail": "Copia email"
+    },
+    "views": {
+      "noPhone": "Senza telefono",
+      "noInteractions": "Ancora nessuna interazione.",
+      "lastTouch": "Ultima attività {ago}",
+      "client": "Cliente",
+      "stage": "Fase",
+      "phone": "Telefono",
+      "source": "Origine",
+      "lastMove": "Ultima attività",
+      "actions": "Azioni"
+    },
+    "detail": {
+      "logFailed": "Impossibile registrare",
+      "notFound": "Cliente non trovato",
+      "backToList": "Torna ai clienti",
+      "list": "Clienti",
+      "clientSince": "cliente dal {date}",
+      "notes": "Note",
+      "notesDescription": "Cosa conviene ricordare: cosa cerca, budget, preferenze.",
+      "notesLabel": "Note sul cliente",
+      "notesPlaceholder": "Ancora nessuna nota.",
+      "saveNotes": "Salva note",
+      "tasks": "Attività",
+      "tasksDescription": "Cosa fare con questo cliente: chiamare, inviare foto, organizzare una visita.",
+      "noTasks": "Nessuna attività in sospeso con questo cliente.",
+      "history": "Cronologia",
+      "historyDescription": "Chiamate, email e incontri, dal più recente al più vecchio.",
+      "interactionType": "Tipo di interazione",
+      "interaction": {
+        "NOTE": "Nota",
+        "CALL": "Chiamata",
+        "EMAIL": "Email",
+        "MEETING": "Incontro"
+      },
+      "interactionDetail": "Dettaglio dell’interazione",
+      "interactionPlaceholder": "Cos’è successo? Es.: Abbiamo fissato la visita della casa sabato.",
+      "log": "Registra",
+      "noInteractions": "Ancora nessuna interazione registrata.",
+      "stage": "Fase",
+      "stageLabel": "Fase del cliente",
+      "owner": "Responsabile",
+      "yours": "È un tuo cliente.",
+      "takeIt": "Prendilo tu",
+      "ownerGone": "Assegnato a qualcuno che non è più nel team.",
+      "contact": "Contatto",
+      "noPhone": "Senza telefono",
+      "updated": "Aggiornato {ago}"
+    },
+    "create": {
+      "new": "Nuovo cliente",
+      "description": "Inserisci l’essenziale. Poi aggiungi note e cronologia dei contatti.",
+      "name": "Nome",
+      "namePlaceholder": "Es.: Valentina Ríos",
+      "email": "Email",
+      "emailPlaceholder": "nome@email.com",
+      "phone": "Telefono",
+      "phonePlaceholder": "+39 312 345 6789",
+      "submit": "Crea cliente"
+    },
+    "list": {
+      "stagePlural": {
+        "LEAD": "Lead",
+        "CONTACTED": "Contattati",
+        "NEGOTIATING": "In trattativa",
+        "CLIENT": "Clienti",
+        "LOST": "Persi"
+      },
+      "movedTo": "Passato a {stage}",
+      "stageFailed": "Impossibile cambiare la fase",
+      "title": "Clienti",
+      "searchPlaceholder": "Cerca per nome, email o telefono",
+      "search": "Cerca clienti",
+      "stage": "Fase",
+      "stages": "fasi",
+      "help": "Assistenza sui clienti",
+      "loadFailed": "Non siamo riusciti a caricare i clienti",
+      "emptyTitle": "Non hai ancora clienti",
+      "emptyBody": "Le richieste dal sito e dalle offerte compaiono qui da sole. Puoi anche inserirne uno a mano.",
+      "emptyHelp": "Come seguire un cliente per fasi",
+      "noMatchBody": "Prova un altro nome o togli il filtro di fase."
+    }
+  },
+  "tasks": {
+    "due": {
+      "overdue": "{count, plural, one {Scaduta da # giorno} other {Scaduta da # giorni}}",
+      "yesterday": "Scaduta ieri",
+      "today": "Oggi",
+      "tomorrow": "Domani"
+    },
+    "reopen": "Riapri «{title}»",
+    "complete": "Completa «{title}»",
+    "delete": "Elimina «{title}»",
+    "createFailed": "Impossibile creare l’attività",
+    "updateFailed": "Impossibile aggiornare l’attività",
+    "deleteFailed": "Impossibile eliminare l’attività",
+    "placeholder": "Nuova attività: chiamare, inviare foto, visitare…",
+    "titleLabel": "Titolo dell’attività",
+    "dueDate": "Scadenza",
+    "add": "Aggiungi attività",
+    "loadFailed": "Non siamo riusciti a caricare le attività.",
+    "loading": "Caricamento…",
+    "empty": "Niente in sospeso."
+  }
+}

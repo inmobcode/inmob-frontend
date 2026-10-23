@@ -1,6 +1,8 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useLabels } from "@/lib/labels";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,6 +13,8 @@ import { getAccessToken } from "@/lib/auth/session";
 import { JACUZZI_TYPES, POOL_TYPES } from "@/lib/property-catalogs";
 
 function PoolSection({ propertyId, type }: { propertyId: string; type: PoolEntityType }) {
+  const t = useTranslations("properties.pools");
+  const labels = useLabels();
   const queryClient = useQueryClient();
   const catalog = type === "POOL" ? POOL_TYPES : JACUZZI_TYPES;
 
@@ -59,15 +63,15 @@ function PoolSection({ propertyId, type }: { propertyId: string; type: PoolEntit
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <h4 className="text-sm font-medium">{type === "POOL" ? "Piletas" : "Jacuzzis"}</h4>
+        <h4 className="text-sm font-medium">{type === "POOL" ? t("pools") : t("jacuzzis")}</h4>
         <Button type="button" size="sm" variant="outline" onClick={() => addMutation.mutate()}>
-          Agregar {type === "POOL" ? "pileta" : "jacuzzi"}
+          {type === "POOL" ? t("addPool") : t("addJacuzzi")}
         </Button>
       </div>
       {items.map((pool) => (
         <div key={pool.id} className="space-y-2 rounded-md border p-3">
           <div className="flex items-center gap-2">
-            <span className="text-sm text-zinc-500">Cantidad</span>
+            <span className="text-sm text-zinc-500">{t("quantity")}</span>
             <Input
               type="number"
               className="w-24"
@@ -81,11 +85,12 @@ function PoolSection({ propertyId, type }: { propertyId: string; type: PoolEntit
               className="ml-auto"
               onClick={() => removeMutation.mutate(pool.id)}
             >
-              Quitar
+              {t("remove")}
             </Button>
           </div>
           <CheckboxGroup
             options={catalog}
+            labelOf={type === "POOL" ? labels.poolType : labels.jacuzziType}
             value={pool.poolType}
             onChange={(value) => updateMutation.mutate({ poolId: pool.id, poolType: value })}
           />

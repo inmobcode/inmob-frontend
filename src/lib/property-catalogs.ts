@@ -225,12 +225,5 @@ export const ENERGY_CERTIFICATE_OPTIONS = [
   "under_publication",
 ];
 
-export const PHOTO_SECTIONS = [
-  { value: "GENERAL", label: "General" },
-  { value: "BEDROOMS", label: "Dormitorios" },
-  { value: "INDOOR_LIVING", label: "Living interior" },
-  { value: "POOL", label: "Pileta" },
-  { value: "OUTDOOR", label: "Exterior" },
-  { value: "ADDED_FACILITIES", label: "Instalaciones adicionales" },
-  { value: "VIEWS", label: "Vistas" },
-];
+/** The gallery's built-in sections; their names live in the "labels.photoSection" messages. */
+export const PHOTO_SECTIONS = ["GENERAL", "BEDROOMS", "INDOOR_LIVING", "POOL", "OUTDOOR", "ADDED_FACILITIES", "VIEWS"];

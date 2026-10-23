@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowUpRight, CircleQuestionMark } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { docsHref, type DocSectionId } from "@/components/docs/docs-sections";
@@ -12,7 +13,7 @@ const NEW_TAB = { target: "_blank", rel: "noreferrer" } as const;
 /** Round "?" for a list's toolbar, next to the trash and the new-item button. */
 export function HelpLink({
   section,
-  label = "Ayuda",
+  label,
   className,
 }: {
   section: DocSectionId;
@@ -20,13 +21,15 @@ export function HelpLink({
   label?: string;
   className?: string;
 }) {
+  const t = useTranslations("dashboard.help");
+  const text = label ?? t("label");
   return (
     <Tooltip>
       <TooltipTrigger asChild>
         <a
           href={docsHref(section)}
           {...NEW_TAB}
-          aria-label={`${label} (se abre en otra pestaña)`}
+          aria-label={t("newTab", { label: text })}
           className={cn(
             "inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-foreground/[0.07] text-muted-foreground outline-none transition-colors hover:bg-foreground/10 hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-foreground/10 dark:hover:bg-foreground/15",
             className,
@@ -36,7 +39,7 @@ export function HelpLink({
         </a>
       </TooltipTrigger>
       <TooltipContent side="bottom" sideOffset={10}>
-        {label}
+        {text}
       </TooltipContent>
     </Tooltip>
   );

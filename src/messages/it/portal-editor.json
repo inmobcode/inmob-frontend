@@ -1,0 +1,319 @@
+{
+  "portalEditor": {
+    "templates": {
+      "portada": {
+        "label": "Copertina",
+        "description": "Una grande foto di copertina con la ricerca sopra."
+      },
+      "editorial": {
+        "label": "Editoriale",
+        "description": "Titolo grande accanto alla foto e schede più ampie, con descrizione."
+      },
+      "compacto": {
+        "label": "Compatto",
+        "description": "Senza foto di copertina. Mostra molti immobili a colpo d’occhio."
+      },
+      "dividido": {
+        "label": "Diviso",
+        "description": "Metà nel tuo colore con titolo e ricerca, metà con la foto di copertina."
+      },
+      "mosaico": {
+        "label": "Mosaico",
+        "description": "Un collage di foto in alto, che scegli in Copertina, e il primo immobile in evidenza in grande."
+      }
+    },
+    "accents": {
+      "charcoal": "Carbone",
+      "forest": "Bosco",
+      "petrol": "Petrolio",
+      "blue": "Blu",
+      "indigo": "Indaco",
+      "brick": "Mattone",
+      "ochre": "Ocra",
+      "wood": "Legno"
+    },
+    "fonts": {
+      "moderna": {
+        "label": "Moderna",
+        "description": "Titoli geometrici, puliti."
+      },
+      "clasica": {
+        "label": "Classica",
+        "description": "Titoli con grazie, elegante."
+      },
+      "sobria": {
+        "label": "Sobria",
+        "description": "Un’unica famiglia, discreta."
+      },
+      "elegante": {
+        "label": "Elegante",
+        "description": "Serif sottile, per immobili di lusso."
+      },
+      "editorial": {
+        "label": "Editoriale",
+        "description": "Serif con carattere, come una rivista."
+      },
+      "calida": {
+        "label": "Calda",
+        "description": "Serif morbida e testo arrotondato."
+      },
+      "urbana": {
+        "label": "Urbana",
+        "description": "Sans attuale, chiara e cordiale."
+      },
+      "arquitectonica": {
+        "label": "Architettonica",
+        "description": "Titoli larghi e d’impatto."
+      }
+    },
+    "sections": {
+      "location": {
+        "label": "Località",
+        "description": "Una zona con foto, testo e i suoi immobili. Ideale per Ibiza, la Grecia o il tuo quartiere.",
+        "layouts": {
+          "split": "In evidenza",
+          "banner": "Banner",
+          "carousel": "Carosello"
+        }
+      },
+      "promo": {
+        "label": "Promozione",
+        "description": "Immobili con un’etichetta come “-15%” o “Offerta di stagione”.",
+        "layouts": {
+          "band": "Fascia colorata",
+          "banner": "Banner con foto",
+          "carousel": "Carosello"
+        }
+      },
+      "featured": {
+        "label": "Immobili in evidenza",
+        "description": "Una tua selezione: le novità, fronte mare, i più richiesti.",
+        "layouts": {
+          "grid": "Griglia",
+          "carousel": "Carosello"
+        }
+      },
+      "destinations": {
+        "label": "Destinazioni",
+        "description": "Più zone insieme, ciascuna con la sua foto. Toccandone una, l’elenco si filtra.",
+        "layouts": {
+          "tiles": "Mosaico",
+          "carousel": "Carosello"
+        }
+      },
+      "text": {
+        "label": "Testo e immagine",
+        "description": "Racconta qualcosa di tuo: i tuoi servizi, le valutazioni, come lavorate.",
+        "layouts": {
+          "image-left": "Immagine a sinistra",
+          "image-right": "Immagine a destra",
+          "centered": "Solo testo"
+        }
+      },
+      "cta": {
+        "label": "Invito all’azione",
+        "description": "Un invito con un pulsante, come “Vuoi vendere il tuo immobile?”.",
+        "layouts": {
+          "color": "Colore",
+          "photo": "Con foto"
+        }
+      }
+    },
+    "buttonTargets": {
+      "contact": "Modulo di contatto",
+      "whatsapp": "WhatsApp",
+      "properties": "Elenco immobili"
+    },
+    "design": {
+      "title": "Layout",
+      "description": "La forma generale della home page. Puoi usarne uno su computer e un altro su smartphone.",
+      "screen": "Schermo",
+      "desktop": "Computer",
+      "mobile": "Smartphone",
+      "sameAsDesktop": "Come su computer",
+      "sameAsDesktopHint": "Disattivalo per scegliere un altro layout solo per smartphone.",
+      "onMobile": "Layout su smartphone",
+      "onDesktop": "Layout su computer"
+    },
+    "color": {
+      "title": "Colore",
+      "description": "Per pulsanti, link e dettagli. Il resto del sito resta bianco e grigio.",
+      "custom": "Scegli un altro colore",
+      "code": "Codice colore",
+      "picker": "Oppure un altro, con il selettore",
+      "format": "Usa il formato #1F5F4A"
+    },
+    "fontsTitle": "Tipografia",
+    "cover": {
+      "mosaicTitle": "Foto del mosaico",
+      "mosaicDescription": "Le quattro foto di copertina, in quest’ordine; la prima è grande. Se non ne scegli nessuna, si usano le foto dei tuoi immobili.",
+      "photoTitle": "Foto di copertina",
+      "photoDescription": "L’immagine principale della tua pagina. Meglio orizzontale e larga almeno 1920 px.",
+      "current": "Copertina attuale",
+      "none": "Senza copertina: si usa il tuo colore.",
+      "change": "Cambia foto",
+      "upload": "Carica foto",
+      "remove": "Rimuovi",
+      "texts": "Testi",
+      "heroTitle": "Titolo",
+      "heroTitleHint": "Se lo lasci vuoto, si usa quello di esempio.",
+      "heroSubtitle": "Sottotitolo",
+      "heroSubtitlePlaceholder": "Case e appartamenti in vendita e in affitto sulla costa."
+    },
+    "blocksPanel": {
+      "title": "Blocchi",
+      "description": "Sezioni tue tra la copertina e l’elenco: destinazioni come Ibiza o la Grecia, o promozioni con immobili in evidenza."
+    },
+    "agency": {
+      "aboutTitle": "La tua agenzia",
+      "aboutDescription": "Un paragrafo su chi siete e come lavorate.",
+      "showAbout": "Mostra la sezione sul sito",
+      "aboutLabel": "Testo sulla tua agenzia",
+      "aboutPlaceholder": "Siamo un’agenzia immobiliare familiare, da 20 anni in zona…",
+      "contactTitle": "Contatti",
+      "contactDescription": "Compare nel piè di pagina e nella sezione contatti. L’email si cambia in Impostazioni.",
+      "whatsappHint": "Con prefisso internazionale. Attiva il pulsante “Scrivici su WhatsApp”.",
+      "phone": "Telefono",
+      "address": "Indirizzo dell’ufficio",
+      "instagramPlaceholder": "@tuaagenzia"
+    },
+    "placeholders": {
+      "location": {
+        "title": "Ibiza",
+        "text": "Calette turchesi, paesini bianchi e tramonti. Abbiamo ville e appartamenti in tutta l’isola."
+      },
+      "promo": {
+        "title": "Estate sulla costa",
+        "text": "Prenotando entro il 30 novembre, 15% di sconto sui soggiorni di una settimana o più."
+      },
+      "featured": {
+        "title": "Nuovi arrivi",
+        "text": "Gli ultimi immobili che abbiamo aggiunto."
+      },
+      "destinations": {
+        "title": "Dove abbiamo immobili"
+      },
+      "text": {
+        "title": "Valutiamo il tuo immobile gratis",
+        "text": "Ti diciamo quanto vale sul mercato di oggi e come venderlo più in fretta."
+      },
+      "cta": {
+        "title": "Vuoi vendere il tuo immobile?",
+        "text": "Ti accompagniamo dalla valutazione al rogito."
+      }
+    },
+    "blocks": {
+      "imageFailed": "Impossibile caricare l’immagine",
+      "changeImage": "Cambia immagine",
+      "uploadImage": "Carica immagine",
+      "change": "Cambia",
+      "remove": "Rimuovi",
+      "picker": {
+        "count": "({count} su {max} al massimo)",
+        "empty": "Non hai ancora immobili pubblicati.",
+        "searchPlaceholder": "Cerca per titolo o zona",
+        "searchIn": "Cerca in {label}",
+        "noMatch": "Niente corrisponde a quella ricerca.",
+        "previous": "Pagina precedente",
+        "next": "Pagina successiva",
+        "page": "Pagina {page} di {total}"
+      },
+      "zone": "Zona",
+      "destinations": {
+        "title": "Destinazioni",
+        "name": "Nome della destinazione {number}",
+        "zone": "Zona (se diversa dal nome)",
+        "remove": "Rimuovi {name}",
+        "fallback": "destinazione",
+        "add": "Aggiungi destinazione"
+      },
+      "button": {
+        "label": "Testo del pulsante",
+        "hint": "Vuoto: nessun pulsante.",
+        "placeholder": "Scrivici",
+        "target": "Porta a"
+      },
+      "layout": "Layout",
+      "layoutLabel": "Layout del blocco",
+      "title": "Titolo",
+      "zoneHint": "Si contano gli immobili il cui quartiere, regione o paese corrisponde a questa zona.",
+      "badge": "Etichetta",
+      "endsAt": "Valido fino al (facoltativo)",
+      "noDate": "Senza data",
+      "text": "Testo",
+      "zonePhoto": "Foto della zona",
+      "image": "Immagine",
+      "listings": "Immobili del blocco",
+      "listingsLabel": "Quali immobili mostrare",
+      "fromZone": "Quelli della zona",
+      "pick": "Sceglierli",
+      "picked": "Immobili scelti",
+      "included": "Immobili inclusi",
+      "properties": "Immobili",
+      "untitled": "Senza titolo",
+      "hidden": "nascosto",
+      "showNamed": "Mostra {name}",
+      "hideNamed": "Nascondi {name}",
+      "show": "Mostra sul sito",
+      "hide": "Nascondi dal sito",
+      "moveUp": "Sposta su {name}",
+      "moveDown": "Sposta giù {name}",
+      "delete": "Elimina {name}",
+      "max": "Hai raggiunto il massimo di {max} blocchi.",
+      "addTitle": "Quale blocco vuoi aggiungere?",
+      "close": "Chiudi",
+      "add": "Aggiungi blocco",
+      "zonePicker": {
+        "pick": "Scegli una località",
+        "none": "Nessuna località"
+      }
+    },
+    "preview": {
+      "title": "Anteprima del sito"
+    },
+    "mosaic": {
+      "uploadFailed": "Impossibile caricare l’immagine",
+      "change": "Cambia la foto {number}",
+      "pick": "Scegli la foto {number}",
+      "remove": "Rimuovi la foto {number}",
+      "dialogTitle": "Foto {number} del mosaico",
+      "dialogDescription": "Scegli una foto dei tuoi immobili o carica un’immagine.",
+      "uploading": "Caricamento…",
+      "upload": "Carica un’immagine",
+      "empty": "I tuoi immobili non hanno ancora foto.",
+      "used": "{title} (già nel mosaico)"
+    },
+    "page": {
+      "saved": "Sito aggiornato",
+      "saveFailed": "Impossibile salvare il sito",
+      "coverSaved": "Copertina aggiornata",
+      "coverFailed": "Impossibile caricare la copertina",
+      "title": "Il tuo sito",
+      "unsaved": "Modifiche non salvate",
+      "previewSize": "Dimensione dell’anteprima",
+      "viewports": {
+        "desktop": "Desktop",
+        "mobile": "Smartphone"
+      },
+      "edit": "Modifica",
+      "preview": "Anteprima",
+      "help": "Assistenza sul sito",
+      "viewPublishedTitle": "Vedi sito pubblicato",
+      "viewPublished": "Vedi pubblicato",
+      "save": "Salva modifiche",
+      "sections": "Sezioni dell’editor",
+      "tabs": {
+        "design": "Layout",
+        "cover": "Copertina",
+        "blocks": "Blocchi",
+        "agency": "Agenzia e contatti"
+      },
+      "exit": {
+        "title": "Hai modifiche non salvate",
+        "body": "Se esci ora, le modifiche non ancora salvate sul tuo sito andranno perse.",
+        "stay": "Continua a modificare",
+        "leave": "Esci senza salvare"
+      }
+    }
+  }
+}

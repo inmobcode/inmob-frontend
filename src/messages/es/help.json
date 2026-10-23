@@ -1,0 +1,198 @@
+{
+  "help": {
+    "topics": {
+      "primeros-pasos": {
+        "title": "Primeros pasos",
+        "summary": "Tu cuenta, tu equipo y cómo entrar.",
+        "questions": {
+          "q1": {
+            "q": "¿Cómo creo mi cuenta y mi agencia?",
+            "a": "Desde «Registrarte» creás tu usuario y el nombre de tu agencia, y entrás al panel. La dirección de tu panel lleva el nombre de tu agencia."
+          },
+          "q2": {
+            "q": "¿Cómo sumo a mi equipo?",
+            "a": "En Equipo agregás personas y les asignás un rol: propietario, administrador o agente. Solo propietarios y administradores ven esa sección."
+          },
+          "q3": {
+            "q": "Olvidé mi contraseña, ¿qué hago?",
+            "a": "Desde la pantalla de ingreso usá la opción para recuperar la contraseña. Te enviamos un link por email para crear una nueva."
+          },
+          "q4": {
+            "q": "¿Por qué se cerró mi sesión?",
+            "a": "Por seguridad, la sesión vence pasado un tiempo y hay que volver a ingresar. No se pierde nada de lo que ya guardaste."
+          }
+        }
+      },
+      "propiedades": {
+        "title": "Propiedades",
+        "summary": "Cargarlas, publicarlas y asignarlas.",
+        "questions": {
+          "q1": {
+            "q": "¿Cómo cargo una propiedad?",
+            "a": "En Propiedades creás una nueva, completás los datos, subís las fotos (se reducen solas antes de subir) y la publicás cuando esté lista."
+          },
+          "q2": {
+            "q": "¿Cómo asigno una propiedad a un agente?",
+            "a": "Propietarios y administradores pueden elegir el responsable de cada propiedad. Los agentes ven solo las que tienen asignadas."
+          },
+          "q3": {
+            "q": "¿Se ve en mi sitio todo lo que cargo?",
+            "a": "Se muestran las propiedades que publicás. Lo que dejás sin publicar queda solo en el panel."
+          }
+        }
+      },
+      "clientes-consultas": {
+        "title": "Clientes y consultas",
+        "summary": "De la primera consulta al seguimiento.",
+        "questions": {
+          "q1": {
+            "q": "¿Dónde llegan las consultas de mi sitio?",
+            "a": "A la bandeja de Consultas. Cada una crea un cliente (o reutiliza el que tenga ese email), deja una nota con la propiedad que miró y suma al contador del menú."
+          },
+          "q2": {
+            "q": "¿Cómo me avisan de una consulta nueva?",
+            "a": "Por email a la agencia (al email de contacto o, si no hay, a propietarios y administradores) y con la campana del panel. El cliente recibe una confirmación."
+          },
+          "q3": {
+            "q": "¿Cómo hago el seguimiento de un cliente?",
+            "a": "Dentro de cada cliente podés crear tareas con fecha y responsable. También podés ver a todos como tablero y arrastrarlos de una etapa a otra."
+          }
+        }
+      },
+      "ofertas": {
+        "title": "Ofertas",
+        "summary": "Armarlas, compartirlas y saber si las abrieron.",
+        "questions": {
+          "q1": {
+            "q": "¿Cómo le mando una oferta a un cliente?",
+            "a": "Armás la oferta con una o varias propiedades, descuentos y servicios, y compartís el link. El cliente la ve sin necesidad de crear una cuenta."
+          },
+          "q2": {
+            "q": "¿Cómo sé si abrieron mi oferta?",
+            "a": "La campana te avisa en cuanto la abren. En la oferta también ves cuándo la vieron y cuándo vence."
+          }
+        }
+      },
+      "reservas-cobros": {
+        "title": "Reservas y cobros",
+        "summary": "Fechas, pagos y lo que ve el cliente.",
+        "questions": {
+          "q1": {
+            "q": "¿Qué ve el cliente de su reserva?",
+            "a": "Un link por email, que le llega al crear, confirmar o cancelar la reserva, con sus fechas, el total y el estado de los pagos. No muestra la comisión."
+          },
+          "q2": {
+            "q": "¿Cómo registro un pago?",
+            "a": "En la reserva cargás el anticipo y el saldo con su estado. Ves lo cobrado, lo que falta y la comisión."
+          },
+          "q3": {
+            "q": "¿Qué es una reserva pendiente?",
+            "a": "Una reserva sin confirmar. Aparece en el calendario para que la veas venir, pero todavía no bloquea las fechas."
+          }
+        }
+      },
+      "disponibilidad": {
+        "title": "Disponibilidad y tarifas",
+        "summary": "El calendario de tus alquileres temporarios.",
+        "questions": {
+          "q1": {
+            "q": "¿Cómo bloqueo fechas?",
+            "a": "En Disponibilidad, vista mensual: elegí una propiedad y arrastrá sobre las noches libres. Las noches reservadas no se pueden tocar."
+          },
+          "q2": {
+            "q": "¿Cómo cargo las tarifas por temporada?",
+            "a": "En cada propiedad definís períodos con su precio por noche. El total de la reserva se calcula con esos valores."
+          },
+          "q3": {
+            "q": "¿Puedo ver solo las propiedades libres en unas fechas?",
+            "a": "Sí. En Disponibilidad elegís un rango de fechas y una ubicación, y te muestra solo las que están libres."
+          }
+        }
+      },
+      "sitio-portales": {
+        "title": "Sitio web y portales",
+        "summary": "Tu sitio público y los links para propietarios.",
+        "questions": {
+          "q1": {
+            "q": "¿Cómo personalizo el sitio de mi agencia?",
+            "a": "En Portal elegís la plantilla, los colores, las tipografías y los bloques, y ves cómo queda en computadora, tableta y celular antes de publicar."
+          },
+          "q2": {
+            "q": "¿Puedo usar mi propio dominio?",
+            "a": "Por ahora no. Tu sitio vive en un subdominio de Tivvo con el nombre de tu agencia."
+          },
+          "q3": {
+            "q": "¿Qué ve el propietario en su portal?",
+            "a": "Sus propiedades, reservas y pagos, con lo cobrado, las liquidaciones y el saldo. La comisión queda oculta salvo que la muestres desde Configuración."
+          }
+        }
+      },
+      "cuenta-datos": {
+        "title": "Cuenta y datos",
+        "summary": "Quién ve qué y cómo cuidamos tu información.",
+        "questions": {
+          "q1": {
+            "q": "¿Mis datos se mezclan con los de otras agencias?",
+            "a": "No. Cada agencia trabaja en su propio espacio y solo su equipo ve sus propiedades, clientes y reservas."
+          },
+          "q2": {
+            "q": "¿Qué ve cada persona de mi equipo?",
+            "a": "Los agentes ven sus propiedades, ofertas y reservas, sus clientes y las consultas sin asignar. Propietarios y administradores ven todo y reasignan."
+          },
+          "q3": {
+            "q": "¿Cómo ejerzo mis derechos sobre mis datos?",
+            "a": "Está explicado en la Política de privacidad, junto con el email al que escribirnos."
+          }
+        }
+      }
+    },
+    "title": "¿En qué podemos ayudarte?",
+    "titleTail": "Buscá o elegí un tema.",
+    "searchLabel": "Buscar en la ayuda",
+    "searchPlaceholder": "Probá con «reserva», «oferta» o «portal del propietario»",
+    "clearSearch": "Borrar la búsqueda",
+    "popularLabel": "Lo que más buscan:",
+    "popular": {
+      "p1": "consultas",
+      "p2": "oferta",
+      "p3": "reserva",
+      "p4": "tarifas",
+      "p5": "portal del propietario",
+      "p6": "equipo"
+    },
+    "faqLabel": "Preguntas frecuentes",
+    "noResults": "Sin resultados",
+    "results": "{count, plural, one {# respuesta para «{query}»} other {# respuestas para «{query}»}}",
+    "nothingFor": "No encontramos nada para «{query}».",
+    "tryAnother": "Probá con otra palabra, o escribinos y te respondemos por email.",
+    "toContact": "Ir al formulario de contacto",
+    "docsLead": "¿Ya tenés cuenta? La guía completa del panel está en la documentación.",
+    "docs": "Abrir la documentación",
+    "contact": {
+      "errors": {
+        "name": "Ingresá tu nombre",
+        "email": "Revisá el email: falta la @ o el dominio",
+        "message": "Contanos un poco más"
+      },
+      "failed": "No se pudo enviar el mensaje. Probá de nuevo en unos minutos.",
+      "sentTitle": "Mensaje enviado",
+      "sentText": "Te respondemos por email a la brevedad.",
+      "name": "Tu nombre",
+      "message": "En qué te podemos ayudar",
+      "sending": "Enviando…",
+      "submit": "Enviar mensaje"
+    },
+    "page": {
+      "metaTitle": "Ayuda y contacto",
+      "metaDescription": "Respuestas sobre propiedades, ofertas, reservas, disponibilidad y tu sitio web. Si no encontrás lo que buscás, escribinos.",
+      "contactTitle": "¿No encontraste lo que buscabas?",
+      "contactTitleTail": "Escribinos.",
+      "contactLead": "Contanos tu duda, un problema o una idea. Te respondemos por email.",
+      "byEmail": "Por email",
+      "personalData": "Datos personales",
+      "rules": "Reglas",
+      "terms": "Términos",
+      "privacy": "Privacidad"
+    }
+  }
+}

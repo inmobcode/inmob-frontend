@@ -1,5 +1,5 @@
 import type { PropertyStatus } from "@/lib/api/properties";
-import { STATUS_LABELS } from "@/lib/properties-labels";
+import { useLabels } from "@/lib/labels";
 import { cn } from "@/lib/utils";
 
 const STATUS_PILL: Record<PropertyStatus, string> = {
@@ -10,6 +10,7 @@ const STATUS_PILL: Record<PropertyStatus, string> = {
 
 /** Publicada / Borrador / Archivada as a small tinted pill. */
 export function StatusPill({ status, className }: { status: PropertyStatus; className?: string }) {
+  const labels = useLabels();
   return (
     <span
       className={cn(
@@ -18,7 +19,7 @@ export function StatusPill({ status, className }: { status: PropertyStatus; clas
         className,
       )}
     >
-      {STATUS_LABELS[status]}
+      {labels.propertyStatus(status)}
     </span>
   );
 }

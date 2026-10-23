@@ -1,6 +1,7 @@
 "use client";
 
 import { Archive, Globe, Trash2, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRef } from "react";
 
 import type { PropertyActions } from "@/components/properties/property-controls";
@@ -22,6 +23,7 @@ export function BulkBar({
   onSelectAll: () => void;
   onClear: () => void;
 }) {
+  const t = useTranslations("properties.bulk");
   const ref = useRef<HTMLDivElement>(null);
 
   useGSAP(
@@ -44,11 +46,11 @@ export function BulkBar({
       <div
         ref={ref}
         role="toolbar"
-        aria-label="Acciones sobre las propiedades seleccionadas"
+        aria-label={t("label")}
         className="pointer-events-auto flex flex-wrap items-center gap-1.5 rounded-full bg-primary p-2 pl-5 text-primary-foreground shadow-[0_20px_50px_-12px_oklch(0.2_0.04_160/0.55)]"
       >
         <span className="mr-2 text-sm font-medium tabular-nums">
-          {ids.length} {ids.length === 1 ? "seleccionada" : "seleccionadas"}
+          {t("selected", { count: ids.length })}
         </span>
         {!allSelected && (
           <Button
@@ -57,7 +59,7 @@ export function BulkBar({
             className="h-9 px-3 text-primary-foreground hover:bg-sidebar/20 hover:text-sidebar focus-visible:bg-sidebar/20 focus-visible:text-sidebar"
             onClick={onSelectAll}
           >
-            Seleccionar las {total}
+            {t("selectAll", { count: total })}
           </Button>
         )}
         <Button
@@ -67,7 +69,7 @@ export function BulkBar({
           onClick={() => actions.publish(ids)}
         >
           <Globe />
-          Publicar
+          {t("publish")}
         </Button>
         <Button
           type="button"
@@ -76,7 +78,7 @@ export function BulkBar({
           onClick={() => actions.archive(ids)}
         >
           <Archive />
-          Archivar
+          {t("archive")}
         </Button>
         <Button
           type="button"
@@ -85,13 +87,13 @@ export function BulkBar({
           onClick={() => actions.requestDelete(ids)}
         >
           <Trash2 />
-          Eliminar
+          {t("delete")}
         </Button>
         <Button
           type="button"
           variant="ghost"
           size="icon"
-          aria-label="Quitar la selección"
+          aria-label={t("clear")}
           className="size-9 text-primary-foreground hover:bg-sidebar/20 hover:text-sidebar focus-visible:bg-sidebar/20 focus-visible:text-sidebar"
           onClick={onClear}
         >

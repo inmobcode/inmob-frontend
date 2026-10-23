@@ -1,0 +1,309 @@
+{
+  "importer": {
+    "formats": {
+      "table": "CSV ou Excel",
+      "kyero": "Flux Kyero (XML)",
+      "tivvo_xml": "XML Tivvo"
+    },
+    "generic": {
+      "xml": {
+        "name": "XML Kyero",
+        "description": "Le flux au format Kyero (version 3) exporté par Casafari, Estatebud et la plupart des CRM, par URL ou par fichier."
+      },
+      "tivvo": {
+        "name": "Mon propre système (XML Tivvo)",
+        "description": "Si votre système a sa propre API, générez le XML Tivvo et nous lisons ce flux par URL ou par fichier."
+      }
+    },
+    "guides": {
+      "shared": {
+        "tableTips": "Si possible, incluez : une colonne de référence (ID) unique par bien (ainsi, une nouvelle importation met à jour au lieu de dupliquer), titre, type, transaction, prix, emplacement, description et photos (liens).",
+        "review": "Vérifiez l’aperçu : rien n’est enregistré avant votre confirmation.",
+        "provideTable": "Collez l’URL du fichier (CSV ou Excel) dans le champ à côté, ou téléversez le fichier. Nous proposons automatiquement la correspondance des colonnes.",
+        "provideFeed": "Collez l’URL du flux dans le champ à côté, ou téléversez le XML."
+      },
+      "help": {
+        "greeting": "Bonjour l’équipe Tivvo,",
+        "body": "Je veux migrer mes biens depuis {origin} vers Tivvo et je ne sais ni comment obtenir les données ni comment les importer. Pouvez-vous m’aider ?",
+        "agency": "Mon agence sur Tivvo : {slug}",
+        "thanks": "Merci."
+      },
+      "overrides": {
+        "casafari-crm": {
+          "steps": {
+            "s1": "Casafari propose un flux de biens par URL (au format Kyero, XML2U ou ACME-CRM) mis à jour toutes les 20 minutes, mais c’est leur support qui l’active : demandez-le avec le bouton ci-dessous (help@casafaricrm.com) et choisissez le format Kyero.",
+            "s2": "Dans l’export Kyero, les biens sans prix, district, ville ou type ne sortent pas : complétez-les d’abord."
+          },
+          "note": "Le menu Properties › Export › Portals Catalogue de Casafari sert à publier sur des portails comme Kyero, pas à obtenir votre flux.",
+          "sources": {
+            "s1": "Aide Casafari : intégration avec des systèmes externes"
+          }
+        },
+        "estatebud": {
+          "steps": {
+            "s1": "Allez sur c.estatebud.com, ouvrez Admin › Plugins, installez le plugin Kyero et confirmez l’installation.",
+            "s2": "Dans Admin › Plugins › Kyero, copiez l’« XML Feed URL ».",
+            "s3": "Indiquez quels biens vont dans le flux : sur chacun, Actions Menu › Listings › Kyero › Save ; ou en masse, sélectionnez-en plusieurs et utilisez Bulk Edit › « Add listings on » › Kyero. S’il manque un champ obligatoire, Estatebud vous dit lequel."
+          },
+          "note": "Ces étapes viennent d’un guide d’INDEX.cy (un portail), pas de l’aide d’Estatebud : si un menu a changé, contactez leur support.",
+          "sources": {
+            "s1": "Guide INDEX.cy pour Estatebud"
+          }
+        },
+        "kyero": {
+          "steps": {
+            "s1": "Kyero ne fournit pas votre flux : il le reçoit de votre CRM. Demandez à votre CRM ou prestataire l’URL du flux Kyero (XML version 3) qu’il envoie déjà à Kyero."
+          },
+          "note": "Chaque flux Kyero est un instantané complet d’une seule agence : ce qui n’est pas dans le flux est considéré comme retiré.",
+          "sources": {
+            "s1": "Spécification du flux Kyero"
+          }
+        }
+      },
+      "titles": {
+        "platform": "Migrer depuis {name}",
+        "own": "Migrer depuis votre propre système",
+        "kyero": "Migrer depuis un XML Kyero",
+        "table": "Migrer depuis un CSV ou Excel",
+        "routeKyero": "Migrer depuis {name} avec un flux Kyero",
+        "routeTable": "Migrer depuis {name} avec un CSV ou Excel"
+      },
+      "support": "Support de {name}",
+      "site": "Site de {name}",
+      "alternatives": {
+        "table": "Je préfère un CSV ou Excel de {name}",
+        "kyero": "J’ai un flux Kyero (XML) de {name}",
+        "tableGeneric": "Je préfère un CSV ou Excel",
+        "kyeroGeneric": "J’ai un flux Kyero (XML)"
+      },
+      "platformSteps": {
+        "portal": {
+          "s1": "{name} est un portail d’annonces : vos données se trouvent généralement dans le CRM depuis lequel vous publiez, et le plus complet est de migrer depuis ce CRM (revenez en arrière et choisissez-le dans la liste).",
+          "s2": "Si vous voulez récupérer vos annonces publiées sur {name}, demandez le flux XML à leur support (idéalement au format Kyero) : le message est prêt ci-dessous."
+        },
+        "aggregator": {
+          "s1": "{name} agrège et convertit les flux d’autres systèmes : le plus complet est de migrer depuis le CRM qui lui envoie les données (revenez en arrière et choisissez-le dans la liste).",
+          "s2": "Si vous avez un flux XML de {name} (idéalement au format Kyero), utilisez-le ; sinon, demandez-le à leur support avec le message ci-dessous."
+        },
+        "crm": {
+          "s1": "Récupérez dans {name} le flux XML de vos biens, idéalement au format Kyero (version 3). Si vous ne savez pas où il se trouve, demandez-le à leur support : le message ci-dessous est prêt à envoyer."
+        }
+      },
+      "ownSteps": {
+        "s1": "Générez depuis votre API un XML au format Tivvo (exemple ci-dessous) : un '<listing>' par bien.",
+        "s2": "Utilisez toujours le même '<external_id>' pour le même bien : ainsi, une nouvelle importation met à jour au lieu de dupliquer.",
+        "s3": "Publiez le XML à une URL publique et collez-la dans le champ à côté, ou téléversez le fichier."
+      },
+      "kyeroSteps": {
+        "s1": "Récupérez dans votre CRM le flux XML de vos biens au format Kyero (version 3) : la plupart des CRM le génèrent pour publier sur les portails."
+      },
+      "tableSteps": {
+        "s1": "Récupérez vos biens dans un CSV ou Excel (.xlsx). Si vous partez de zéro, téléchargez le modèle ci-dessous."
+      },
+      "routeSteps": {
+        "kyero": "Si {name} peut vous fournir un flux au format Kyero (XML), copiez son URL publique ou téléchargez le fichier.",
+        "table": "Récupérez vos biens de {name} dans un CSV ou Excel (.xlsx)."
+      }
+    },
+    "wizard": {
+      "readFailed": "Impossible de lire le fichier",
+      "importFailed": "Importation impossible",
+      "back": "Biens",
+      "otherPlatform": "Choisir une autre plateforme",
+      "title": "Importer des biens"
+    },
+    "picker": {
+      "title": "Depuis où migrez-vous ?",
+      "searchPlaceholder": "Cherchez votre plateforme par nom ou pays",
+      "search": "Rechercher une plateforme",
+      "type": "Type de plateforme",
+      "types": {
+        "all": "Toutes",
+        "crm": "CRM",
+        "portal": "Portails",
+        "aggregator": "Agrégateurs"
+      },
+      "notFound": "Plateforme introuvable. Plus bas, vous pouvez utiliser un fichier CSV ou Excel, ou un flux XML.",
+      "popular": "Les plus utilisées",
+      "others": "Autres plateformes",
+      "showLess": "Voir moins",
+      "showOthers": "Voir les {count} autres plateformes",
+      "genericLeadEmpty": "Votre plateforme n’y est pas ? Téléversez ce que vous avez :",
+      "genericLead": "Votre système n’apparaît pas ? Cela fonctionne avec n’importe quel CSV, Excel ou flux XML :"
+    },
+    "actions": {
+      "create": "Nouveau",
+      "update": "Mise à jour",
+      "unchanged": "Inchangé",
+      "skip": "Ignoré",
+      "error": "En erreur"
+    },
+    "changes": {
+      "title": "titre",
+      "listing_type": "transaction",
+      "category": "type",
+      "price": "prix",
+      "currency": "devise",
+      "country": "pays",
+      "region": "région",
+      "area": "zone",
+      "address": "adresse",
+      "lat": "coordonnées",
+      "bedrooms": "chambres",
+      "bathrooms": "salles de bain",
+      "area_sqm": "m² habitables",
+      "plot_area": "m² de terrain",
+      "construction_year": "année",
+      "energy_certificate": "diagnostic énergétique",
+      "website_url": "lien d’origine",
+      "summary": "résumé",
+      "description": "description",
+      "parking_spaces": "parking",
+      "features": "caractéristiques",
+      "photos": "photos",
+      "owner": "propriétaire"
+    },
+    "problems": {
+      "notTable": "Le fichier doit être un CSV ou un Excel (.xlsx).",
+      "notXml": "Le fichier doit être un XML.",
+      "tooBig": "Le fichier dépasse 10 Mo.",
+      "notHttps": "L’URL doit commencer par https://",
+      "incomplete": "Vérifiez l’adresse : elle semble incomplète.",
+      "badUrl": "Vérifiez l’adresse : elle doit commencer par https://"
+    },
+    "failuresCsv": {
+      "row": "Ligne",
+      "reference": "Référence",
+      "error": "Erreur",
+      "filename": "erreurs-importation.csv"
+    },
+    "source": {
+      "urlHint": "Collez l’URL pour continuer.",
+      "fileHint": "Choisissez un fichier pour continuer.",
+      "template": "Télécharger le modèle CSV",
+      "recommended": "Revenir au guide recommandé",
+      "xmlExample": "Voir un exemple de XML",
+      "title": "Apportez vos données",
+      "upload": "Téléverser un fichier",
+      "useUrl": "Utiliser une URL",
+      "urlNote": "L’URL doit être publique. Nous la lisons une seule fois ; elle ne reste pas synchronisée.",
+      "drop": "Déposez-le ici",
+      "drag": "Faites glisser le fichier ou cliquez pour le choisir",
+      "tableLimits": "CSV ou Excel (.xlsx), jusqu’à 10 Mo et 3 000 lignes",
+      "xmlLimits": "XML, jusqu’à 10 Mo",
+      "removeFile": "Retirer le fichier",
+      "reading": "Lecture du fichier…",
+      "continue": "Continuer"
+    },
+    "mapping": {
+      "fieldFor": "Champ Tivvo pour la colonne {header}",
+      "skip": "Ne pas importer",
+      "title": "À quoi correspond chaque colonne",
+      "lead": "Nous avons détecté {rows} lignes et reconnu {detected} colonnes sur {total}. Celles non reconnues apparaissent en premier ; celles sans correspondance sont ignorées. Une cellule vide n’efface jamais ce qui est déjà saisi.",
+      "status": "{mapped} importées · {unassigned} sans correspondance",
+      "column": "Colonne de votre fichier",
+      "examples": "Exemples",
+      "field": "Champ dans Tivvo",
+      "noReference": "Sans colonne de référence (ID), une nouvelle importation du fichier dupliquera les biens au lieu de les mettre à jour.",
+      "back": "Retour",
+      "preview": "Voir l’aperçu",
+      "atLeastOne": "Associez au moins une colonne."
+    },
+    "review": {
+      "cards": {
+        "create": "Nouveaux",
+        "update": "Mis à jour",
+        "unchanged": "Inchangés",
+        "skip": "Ignorés",
+        "error": "En erreur",
+        "trash": "À la corbeille"
+      },
+      "publish": "Publier les nouveaux à l’importation",
+      "publishHint": "Sinon, ils restent en brouillon pour que vous les vérifiiez avant de les afficher sur votre site.",
+      "archive": "Mettre à la corbeille ce qui n’est plus dans le fichier",
+      "archiveHint": "Ne concerne que les biens importés précédemment depuis {origin}. Ils peuvent être restaurés pendant 30 jours.",
+      "refreshing": "Mise à jour",
+      "goingToTrash": "{more, plural, =0 {Vont à la corbeille : {titles}.} other {Vont à la corbeille : {titles} et # de plus.}}",
+      "rows": "Détail par ligne",
+      "problems": "Avec avertissements ou erreurs",
+      "all": "Tout voir",
+      "columns": {
+        "row": "Ligne",
+        "status": "Statut",
+        "property": "Bien",
+        "detail": "Détail"
+      },
+      "row": "Ligne {row}",
+      "untitled": "Sans titre",
+      "noProblems": "Aucune ligne avec avertissement ou erreur.",
+      "noRows": "Aucune ligne dans cette catégorie.",
+      "partial": "L’aperçu montre les {count} premières lignes ; l’importation les traite toutes.",
+      "back": "Retour",
+      "importing": "Importation…",
+      "import": "{count, plural, one {Importer # bien} other {Importer # biens}}",
+      "apply": "Appliquer",
+      "savingTable": "Nous enregistrons les biens et leurs photos.",
+      "savingFeed": "Nous enregistrons les biens et téléchargeons leurs photos.",
+      "savingWait": "Cela peut prendre quelques minutes s’ils sont nombreux. Ne fermez pas cet onglet.",
+      "confirm": {
+        "title": "{count, plural, one {Mettre # bien à la corbeille ?} other {Mettre # biens à la corbeille ?}}",
+        "body": "Ce sont ceux qui ne sont plus dans le fichier. Ils ne s’affichent plus sur votre site et vous pouvez les restaurer pendant 30 jours.",
+        "action": "Importer et mettre à la corbeille"
+      },
+      "changes": "Modifie : {fields}"
+    },
+    "done": {
+      "title": "Importation terminée",
+      "summary": "{created} créés, {updated} mis à jour{trashed, plural, =0 {} other {, # mis à la corbeille}}{failed, plural, =0 {} other {, # en erreur}}.",
+      "drafts": "Les nouveaux sont en brouillon : vérifiez-les et publiez-les quand vous voulez.",
+      "failure": "Ligne {row} : {error}",
+      "showLess": "Voir moins",
+      "showAll": "Voir les {count} erreurs",
+      "download": "Télécharger les erreurs (CSV)",
+      "reviewDrafts": "Vérifier les brouillons",
+      "viewProperties": "Voir les biens",
+      "viewAll": "Tout voir",
+      "viewSite": "Voir mon site",
+      "again": "Importer un autre fichier"
+    },
+    "link": "Importer",
+    "leave": {
+      "title": "Quitter l’importation ?",
+      "body": "Rien n’a encore été enregistré. Si vous partez maintenant, il faudra tout recommencer.",
+      "stay": "Continuer l’importation",
+      "leave": "Quitter"
+    },
+    "help": {
+      "mailOpened": "Votre messagerie s’est ouverte avec le message rédigé : il ne reste qu’à l’envoyer.",
+      "copiedFor": "Message copié. Collez-le dans le formulaire de contact de {platform} et envoyez.",
+      "copyManually": "Copiez le message et collez-le dans le formulaire de contact de la plateforme.",
+      "askTitle": "Demandez le flux à {platform}",
+      "askEmail": "Nous ouvrons votre messagerie avec le destinataire, l’objet et le message déjà rédigés : il ne reste qu’à envoyer.",
+      "askPage": "Nous vous emmenons sur leur page de contact avec le message déjà copié : il ne reste qu’à le coller et envoyer.",
+      "sendEmail": "Envoyer la demande par e-mail",
+      "goToContact": "Aller au contact avec le message copié",
+      "gmail": "Ouvrir dans Gmail",
+      "viewMessage": "Voir le message",
+      "messageFor": "Message pour {platform}",
+      "sentTo": "Envoyé à {email}. Copiez-le si vous préférez l’envoyer depuis leur site.",
+      "pasteIt": "Copiez-le et collez-le sur leur page de contact.",
+      "messageLabel": "Message pour la plateforme",
+      "copied": "Copié",
+      "copy": "Copier le message",
+      "goToSite": "Aller sur le site",
+      "goesTo": "Envoyé à {email}.",
+      "sendFailed": "Impossible d’envoyer le message. Réessayez dans quelques minutes.",
+      "withUs": "Vous voulez qu’on le fasse avec vous ?",
+      "withUsText": "Écrivez-nous et nous vous aidons à migrer depuis {origin}. Le message est prêt : il ne reste qu’à l’envoyer.",
+      "ask": "Demander de l’aide",
+      "sentTitle": "Message envoyé",
+      "sentText": "Nous vous répondons par e-mail rapidement.",
+      "close": "Fermer",
+      "dialogDescription": "Vérifiez le message, modifiez-le si vous voulez et envoyez.",
+      "name": "Votre nom",
+      "message": "Message",
+      "send": "Envoyer",
+      "summary": "Bloqué ? On vous aide"
+    }
+  }
+}

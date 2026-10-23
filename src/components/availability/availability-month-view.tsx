@@ -12,10 +12,10 @@ import {
   startOfMonth,
   startOfWeek,
 } from "date-fns";
-import { es } from "date-fns/locale";
 import { ChevronLeft, ChevronRight, Lock, RotateCcw } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
@@ -23,6 +23,7 @@ import { Button } from "@/components/ui/button";
 import { Combobox } from "@/components/ui/combobox";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { Input } from "@/components/ui/input";
+import { useFormat } from "@/i18n/format";
 import { createAvailabilityBlock, getAvailabilityCalendar } from "@/lib/api/availability";
 import { ApiError } from "@/lib/api/client";
 import { getAccessToken } from "@/lib/auth/session";
@@ -53,7 +54,6 @@ function tintOf(id: string) {
   return PROPERTY_TINTS[indexOf(id)];
 }
 const ALL = "__all__";
-const WEEKDAYS = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
 const key = (date: Date) => format(date, "yyyy-MM-dd");
 
 function requireToken() {
@@ -84,6 +84,11 @@ const KIND_BACKGROUND: Partial<Record<DayKind, string>> = {
  * bookings and blocks, and dragging across free nights blocks them.
  */
 export function AvailabilityMonthView({ viewControl }: { viewControl?: React.ReactNode }) {
+  const t = useTranslations("availability.month");
+  const tc = useTranslations("common");
+  const { date: formatDate } = useFormat();
+  const longDay = (value: Date) => formatDate(value, "weekdayLong");
+  const shortDay = (iso: string) => formatDate(parseISO(iso), "dayMonthShort");
   const { agencySlug } = useParams<{ agencySlug: string }>();
   const queryClient = useQueryClient();
   const [month, setMonth] = useState(() => startOfMonth(new Date()));
@@ -124,14 +129,14 @@ export function AvailabilityMonthView({ viewControl }: { viewControl?: React.Rea
     mutationFn: ({ first, checkOut }: { first: string; checkOut: string }) =>
       createAvailabilityBlock(requireToken(), selected!.id, { startDate: first, endDate: checkOut, note: note.trim() || undefined }),
     onSuccess: () => {
-      toast.success("Fechas bloqueadas");
+      toast.success(t("blocked"));
       setPending(null);
       setNote("");
       queryClient.invalidateQueries({ queryKey: ["availability-calendar-month"] });
       queryClient.invalidateQueries({ queryKey: ["availability-calendar"] });
       queryClient.invalidateQueries({ queryKey: ["availability", selected?.id] });
     },
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudieron bloquear las fechas"),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : t("blockFailed")),
   });
 
   function changeProperty(next: string) {
@@ -149,7 +154,7 @@ export function AvailabilityMonthView({ viewControl }: { viewControl?: React.Rea
   function settle(first: string, last: string) {
     const stay = stayFromDrag(first, last);
     if (!selectedBlocked || stay.first < todayKey || !isFreeFor([...selectedBlocked], stay.first, stay.checkOut)) {
-      toast.error("Ese rango incluye noches ocupadas o ya pasadas.");
+      toast.error(t("rangeTaken"));
       setPending(null);
       return;
     }
@@ -205,28 +210,28 @@ export function AvailabilityMonthView({ viewControl }: { viewControl?: React.Rea
     <div className="flex flex-col gap-4">
       <div className="flex flex-wrap items-center gap-3">
         <div className="flex items-center gap-1">
-          <Button variant="outline" size="icon" aria-label="Mes anterior" onClick={() => setMonth(addMonths(month, -1))}>
+          <Button variant="outline" size="icon" aria-label={t("previous")} onClick={() => setMonth(addMonths(month, -1))}>
             <ChevronLeft />
           </Button>
-          <Button variant="outline" size="icon" aria-label="Mes siguiente" onClick={() => setMonth(addMonths(month, 1))}>
+          <Button variant="outline" size="icon" aria-label={t("next")} onClick={() => setMonth(addMonths(month, 1))}>
             <ChevronRight />
           </Button>
         </div>
         <h2 className="min-w-40 font-display text-2xl capitalize" aria-live="polite">
-          {format(month, "MMMM yyyy", { locale: es })}
+          {formatDate(month, "monthYear")}
         </h2>
         <Button variant="ghost" size="sm" onClick={() => setMonth(startOfMonth(new Date()))}>
-          Hoy
+          {t("today")}
         </Button>
         <div className="w-full sm:ml-auto sm:w-72">
           <Combobox
-            ariaLabel="Propiedad"
+            ariaLabel={t("property")}
             value={propertyId}
             onChange={changeProperty}
             allValue={ALL}
-            allLabel="Todas las propiedades"
-            searchPlaceholder="Buscar propiedad…"
-            emptyText="Ninguna propiedad coincide."
+            allLabel={t("allProperties")}
+            searchPlaceholder={t("searchProperty")}
+            emptyText={t("noProperty")}
             options={properties.map((property) => ({ value: property.id, label: property.title }))}
           />
         </div>
@@ -235,25 +240,25 @@ export function AvailabilityMonthView({ viewControl }: { viewControl?: React.Rea
 
       <p className="text-sm text-muted-foreground">
         {selected
-          ? "Arrastrá sobre las noches libres para bloquearlas. Con el teclado: Enter en el primer día y Enter en el último."
-          : "Cada día muestra cuántas propiedades están ocupadas esa noche. Elegí una propiedad para ver sus reservas y bloquear fechas."}
+          ? t("hintSelected")
+          : t("hintAll")}
       </p>
 
       {hasPending && (
         <p className="flex items-center gap-2 text-xs text-muted-foreground">
           <span aria-hidden className="inline-block size-3 shrink-0 rounded-sm bg-amber-400" />
-          Reserva pendiente: todavía no bloquea las fechas, pero está pedida.
+          {t("pendingHint")}
         </p>
       )}
 
       {error && (
         <div className="flex flex-col items-start gap-3 rounded-2xl bg-card p-6 ring-1 ring-foreground/5">
           <p className="text-sm text-muted-foreground">
-            {error instanceof ApiError ? error.message : "No pudimos cargar el calendario."}
+            {error instanceof ApiError ? error.message : t("loadFailed")}
           </p>
           <Button variant="outline" onClick={() => refetch()} disabled={isFetching}>
             <RotateCcw />
-            Reintentar
+            {tc("retry")}
           </Button>
         </div>
       )}
@@ -262,14 +267,14 @@ export function AvailabilityMonthView({ viewControl }: { viewControl?: React.Rea
 
       {data && properties.length === 0 && (
         <p className="rounded-2xl bg-card px-6 py-12 text-center text-sm text-muted-foreground ring-1 ring-foreground/5">
-          Todavía no tenés propiedades en alquiler.
+          {t("noRentals")}
         </p>
       )}
 
       {data && properties.length > 0 && (
         <div className="overflow-hidden rounded-2xl bg-card ring-1 ring-foreground/5">
           <div className="grid grid-cols-7 border-b border-foreground/5 text-center text-xs text-muted-foreground">
-            {WEEKDAYS.map((weekday) => (
+            {days.slice(0, 7).map((day) => formatDate(day, "weekdayShort")).map((weekday) => (
               <span key={weekday} className="py-2.5">
                 {weekday}
               </span>
@@ -301,7 +306,7 @@ export function AvailabilityMonthView({ viewControl }: { viewControl?: React.Rea
                   data-day={day}
                   onPointerDown={(event) => onPointerDown(event, day)}
                   onClick={(event) => onDayClick(event, day)}
-                  aria-label={`${format(date, "EEEE d 'de' MMMM", { locale: es })}${selected ? "" : `: ${occupied} de ${properties.length} ocupadas`}`}
+                  aria-label={selected ? longDay(date) : t("dayLabel", { day: longDay(date), occupied, total: properties.length })}
                   aria-pressed={marked || day === focusDay}
                   className={cn(
                     "relative flex min-h-28 flex-col items-start gap-1 border-r border-b border-foreground/5 p-2 text-left outline-none transition-colors focus-visible:z-10 focus-visible:ring-3 focus-visible:ring-ring/50 [&:nth-child(7n)]:border-r-0",
@@ -352,7 +357,7 @@ export function AvailabilityMonthView({ viewControl }: { viewControl?: React.Rea
                           </span>
                         ))}
                         {listed.length > SHOWN_PER_DAY && (
-                          <span className="px-1.5 text-[11px] text-muted-foreground">+{listed.length - SHOWN_PER_DAY} más</span>
+                          <span className="px-1.5 text-[11px] text-muted-foreground">{t("more", { count: listed.length - SHOWN_PER_DAY })}</span>
                         )}
                       </span>
                     </>
@@ -360,7 +365,7 @@ export function AvailabilityMonthView({ viewControl }: { viewControl?: React.Rea
 
                   {selected && (kind === "in" || kind === "out" || kind === "turnover") && (
                     <span className="relative mt-auto w-full text-[10px] leading-none font-medium text-foreground/70">
-                      {kind === "in" ? "Entra" : kind === "out" ? "Sale" : "Sale y entra"}
+                      {kind === "in" ? t("checkIn") : kind === "out" ? t("checkOut") : t("turnover")}
                     </span>
                   )}
                 </button>
@@ -373,17 +378,15 @@ export function AvailabilityMonthView({ viewControl }: { viewControl?: React.Rea
                   <HoverCardTrigger asChild>{cell}</HoverCardTrigger>
                   <HoverCardContent>
                     <p className="flex items-baseline justify-between gap-3 text-xs text-muted-foreground">
-                      <span className="first-letter:uppercase">{format(date, "EEEE d 'de' MMMM", { locale: es })}</span>
-                      <span className="tabular-nums">
-                        {occupied}/{properties.length} ocupadas
-                      </span>
+                      <span className="first-letter:uppercase">{longDay(date)}</span>
+                      <span className="tabular-nums">{t("occupiedOf", { occupied, total: properties.length })}</span>
                     </p>
                     <ul className="mt-2 flex flex-col gap-1.5">
                       {listed.map(({ property, pending }) => (
                         <li key={property.id} className="flex items-center gap-2">
                           <span aria-hidden className={cn("size-2 shrink-0 rounded-full", pending ? "bg-amber-400" : dotOf(property.id))} />
                           <span className="min-w-0 flex-1 truncate">{property.title}</span>
-                          {pending && <span className="shrink-0 text-xs text-amber-700 dark:text-amber-300">Pendiente</span>}
+                          {pending && <span className="shrink-0 text-xs text-amber-700 dark:text-amber-300">{t("pending")}</span>}
                         </li>
                       ))}
                     </ul>
@@ -405,35 +408,40 @@ export function AvailabilityMonthView({ viewControl }: { viewControl?: React.Rea
         >
           <Lock className="size-4 text-muted-foreground" aria-hidden />
           <p className="text-sm">
-            Bloquear <strong>{selected.title}</strong>: {range.nights} {range.nights === 1 ? "noche" : "noches"}, del{" "}
-            {format(parseISO(range.first), "d MMM", { locale: es })} al {format(parseISO(range.checkOut), "d MMM", { locale: es })}.
+            {t.rich("blockSummary", {
+              title: selected.title,
+              count: range.nights,
+              from: shortDay(range.first),
+              to: shortDay(range.checkOut),
+              strong: (chunks) => <strong>{chunks}</strong>,
+            })}
           </p>
           <Input
             value={note}
             onChange={(event) => setNote(event.target.value)}
-            placeholder="Nota (opcional)"
-            aria-label="Nota del bloqueo"
+            placeholder={t("note")}
+            aria-label={t("noteLabel")}
             maxLength={255}
             className="h-10 min-w-48 flex-1"
           />
           <Button type="button" variant="ghost" onClick={() => setPending(null)}>
-            Cancelar
+            {tc("cancel")}
           </Button>
           <Button type="submit" disabled={blockMutation.isPending}>
-            Bloquear
+            {t("block")}
           </Button>
         </form>
       )}
 
       {!selected && focusDay && data && (
         <section className="flex flex-col gap-3 rounded-2xl bg-card p-5 ring-1 ring-foreground/5" aria-live="polite">
-          <h3 className="font-display text-lg first-letter:uppercase">{format(parseISO(focusDay), "EEEE d 'de' MMMM", { locale: es })}</h3>
+          <h3 className="font-display text-lg first-letter:uppercase">{longDay(parseISO(focusDay))}</h3>
           <div className={cn("grid gap-4", focusWaiting.length > 0 ? "sm:grid-cols-3" : "sm:grid-cols-2")}>
-            <PropertyList title={`Ocupadas (${focusTaken.length})`} items={focusTaken} agencySlug={agencySlug} onPick={changeProperty} />
+            <PropertyList title={t("lists.taken", { count: focusTaken.length })} items={focusTaken} agencySlug={agencySlug} onPick={changeProperty} />
             {focusWaiting.length > 0 && (
-              <PropertyList title={`Pendientes (${focusWaiting.length})`} items={focusWaiting} agencySlug={agencySlug} onPick={changeProperty} />
+              <PropertyList title={t("lists.waiting", { count: focusWaiting.length })} items={focusWaiting} agencySlug={agencySlug} onPick={changeProperty} />
             )}
-            <PropertyList title={`Libres (${focusFree.length})`} items={focusFree} agencySlug={agencySlug} onPick={changeProperty} />
+            <PropertyList title={t("lists.free", { count: focusFree.length })} items={focusFree} agencySlug={agencySlug} onPick={changeProperty} />
           </div>
         </section>
       )}
@@ -452,11 +460,12 @@ function PropertyList({
   agencySlug: string;
   onPick: (id: string) => void;
 }) {
+  const t = useTranslations("availability.month");
   return (
     <div>
       <h4 className="mb-1.5 text-sm font-medium">{title}</h4>
       {items.length === 0 ? (
-        <p className="text-sm text-muted-foreground">Ninguna.</p>
+        <p className="text-sm text-muted-foreground">{t("lists.none")}</p>
       ) : (
         <ul className="flex flex-col">
           {items.map((property) => (
@@ -469,7 +478,7 @@ function PropertyList({
                 onClick={() => onPick(property.id)}
                 className="shrink-0 rounded-full px-2 py-0.5 text-xs text-muted-foreground outline-none hover:bg-foreground/[0.06] hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
               >
-                Ver mes
+                {t("lists.viewMonth")}
               </button>
             </li>
           ))}

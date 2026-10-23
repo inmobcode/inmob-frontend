@@ -1,0 +1,133 @@
+{
+  "marketplace": {
+    "metaTitle": "Tivvo · Arrendamento de curta duração e imóveis à venda",
+    "byDestination": "Por destino",
+    "nav": {
+      "rentals": "Arrendamentos",
+      "agency": "Sou imobiliária"
+    },
+    "hero": {
+      "title": "Um lugar para uns dias.",
+      "titleTail": "Ou para ficar.",
+      "lead": "Moradias, apartamentos e villas de imobiliárias reais. Escolha datas, veja o que está livre e pergunte diretamente a quem anuncia."
+    },
+    "card": {
+      "rent": "Arrendamento de curta duração",
+      "sale": "Venda",
+      "categoryIn": "{category} em {place}",
+      "bedrooms": "{value} quartos",
+      "bathrooms": "{count, plural, one {{value} casa de banho} other {{value} casas de banho}}",
+      "perNight": "por noite",
+      "stayTotal": "{count, plural, one {{amount} por # noite} other {{amount} por # noites}}",
+      "onRequest": "Preço sob consulta",
+      "onRequestShort": "Consultar",
+      "publishedBy": "Anunciado por <strong>{agency}</strong>"
+    },
+    "destination": {
+      "typed": "Pesquisar com o que escreveu",
+      "label": "Onde",
+      "placeholder": "Cidade, zona ou país",
+      "withListings": "Com imóveis",
+      "destinations": "Destinos com imóveis",
+      "elsewhere": "Outros lugares"
+    },
+    "search": {
+      "guestsCount": "{count, plural, one {# hóspede} other {# hóspedes}}",
+      "guestsPlaceholder": "Quantos são?",
+      "guests": "Hóspedes",
+      "guestsHint": "Incluindo crianças",
+      "oneLess": "Menos um",
+      "oneMore": "Mais um",
+      "buy": "Comprar",
+      "looking": "Procuro",
+      "lookingLabel": "O que procura",
+      "where": "Onde",
+      "when": "Quando",
+      "dates": "Entrada e saída",
+      "who": "Quem",
+      "what": "O quê",
+      "type": "Tipo de imóvel",
+      "anyType": "Qualquer tipo",
+      "upTo": "Até",
+      "maxPrice": "Preço máximo",
+      "noCap": "Sem limite",
+      "submit": "Pesquisar"
+    },
+    "empty": {
+      "zoneTitle": "Ainda não há imóveis em {zone}.",
+      "zoneDates": "Pelo menos não para essas datas.",
+      "zoneSoon": "Em breve pode haver.",
+      "title": "Não há nada com tudo isso junto.",
+      "titleTail": "Experimente aliviar algum filtro.",
+      "zoneBody": "As imobiliárias que anunciam na Tivvo ainda não têm nada aí. Entretanto, veja os destinos onde há.",
+      "body": "Retire algum filtro ou mude as datas e verá mais opções.",
+      "everywhere": "Pesquisar em todos os destinos",
+      "noDates": "Experimentar sem datas",
+      "all": "Ver todos os imóveis",
+      "destinations": "Destinos com imóveis"
+    },
+    "results": {
+      "upTo": "Até {amount}",
+      "title": "Resultados",
+      "latest": "Acabados de publicar",
+      "free": "Só os que estão livres nessas datas.",
+      "chosen": "Com o que escolheu.",
+      "latestHint": "O mais recente das imobiliárias.",
+      "sort": "Ordenar",
+      "sorts": {
+        "recent": "Mais recentes",
+        "price_asc": "Preço mais baixo",
+        "price_desc": "Preço mais alto"
+      },
+      "list": "Ver só a lista",
+      "map": "Ver no mapa",
+      "remove": "Remover",
+      "clearAll": "Limpar tudo"
+    },
+    "how": {
+      "title": "Sem intermediários a mais.",
+      "titleTail": "Fala com a imobiliária.",
+      "search": {
+        "title": "Pesquisa",
+        "text": "Zona, datas e quantos são. Com datas, só vê o que está livre."
+      },
+      "ask": {
+        "title": "Pergunta",
+        "text": "A sua mensagem chega à imobiliária que o anuncia, não a um call center."
+      },
+      "arrange": {
+        "title": "Combina",
+        "text": "Confirmam disponibilidade e preço final, e combinam a reserva ou a visita."
+      }
+    },
+    "footer": {
+      "label": "Rodapé",
+      "blurb": "Arrendamento de curta duração e imóveis à venda de imobiliárias reais. Cada pedido chega a quem anuncia.",
+      "legal": "Cada imóvel é anunciado e gerido pela sua imobiliária.",
+      "pitch": {
+        "title": "Tem uma imobiliária?",
+        "body": "Anuncie aqui os seus imóveis e gira pedidos, ofertas e reservas num só lugar.",
+        "cta": "Conheça a Tivvo para imobiliárias"
+      },
+      "rent": {
+        "title": "Arrendar",
+        "all": "Arrendamento de curta duração",
+        "in": "Arrendamentos em {zone}"
+      },
+      "buy": {
+        "title": "Comprar",
+        "all": "Imóveis à venda"
+      },
+      "agencies": {
+        "title": "Para imobiliárias",
+        "about": "Conheça a Tivvo",
+        "register": "Criar uma conta",
+        "login": "Entrar"
+      },
+      "tivvo": {
+        "how": "Como funciona",
+        "all": "Ver todos os imóveis"
+      }
+    }
+  }
+}

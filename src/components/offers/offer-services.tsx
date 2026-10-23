@@ -2,6 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { Minus, Plus, Search, Sparkles, Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useMemo, useState } from "react";
@@ -16,7 +17,8 @@ import { Input } from "@/components/ui/input";
 import { ApiError } from "@/lib/api/client";
 import { listServices, type Service } from "@/lib/api/services";
 import { getAccessToken } from "@/lib/auth/session";
-import { SERVICE_TYPE_LABELS, formatMoney, unitCount, unitPer } from "@/lib/service-labels";
+import { useFormat } from "@/i18n/format";
+import { useLabels } from "@/lib/labels";
 import { cn } from "@/lib/utils";
 import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 
@@ -57,6 +59,9 @@ function ServicePicker({
   onPick: (service: Service) => void;
   chosen: string[];
 }) {
+  const t = useTranslations("offers.services");
+  const labels = useLabels();
+  const { money: formatMoney } = useFormat();
   const { agencySlug } = useParams<{ agencySlug: string }>();
   const [query, setQuery] = useState("");
   const { data, isLoading } = useQuery({
@@ -76,16 +81,16 @@ function ServicePicker({
       .filter(
         (service) =>
           !term ||
-          [service.name, SERVICE_TYPE_LABELS[service.type], ...service.zones].join(" ").toLowerCase().includes(term),
+          [service.name, labels.serviceType(service.type), ...service.zones].join(" ").toLowerCase().includes(term),
       );
-  }, [data, query]);
+  }, [data, query, labels]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[85svh] gap-4 overflow-hidden rounded-3xl p-0 sm:max-w-xl" showCloseButton>
         <div className="flex flex-col gap-1.5 px-6 pt-6">
-          <DialogTitle className="font-display text-2xl tracking-tight">Sumar un servicio</DialogTitle>
-          <DialogDescription>De tu librería. Después podés ajustar precio, cantidad y fecha para esta oferta.</DialogDescription>
+          <DialogTitle className="font-display text-2xl tracking-tight">{t("pickTitle")}</DialogTitle>
+          <DialogDescription>{t("pickDescription")}</DialogDescription>
         </div>
         <div className="relative px-6">
           <Search className="pointer-events-none absolute top-1/2 left-9.5 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -93,8 +98,8 @@ function ServicePicker({
             autoFocus
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Buscar por nombre, tipo o zona"
-            aria-label="Buscar servicios"
+            placeholder={t("searchPlaceholder")}
+            aria-label={t("search")}
             className="h-11 pl-10"
           />
         </div>
@@ -107,19 +112,19 @@ function ServicePicker({
             </div>
           ) : (data ?? []).length === 0 ? (
             <div className="flex flex-col items-center gap-3 px-6 py-10 text-center">
-              <p className="font-display text-xl">Tu librería está vacía</p>
-              <p className="max-w-xs text-sm text-muted-foreground">Cargá tus servicios una vez y sumalos a cualquier oferta.</p>
+              <p className="font-display text-xl">{t("emptyLibraryTitle")}</p>
+              <p className="max-w-xs text-sm text-muted-foreground">{t("emptyLibraryBody")}</p>
               <Button asChild variant="outline">
-                <Link href={`/${agencySlug}/services`}>Ir a Servicios</Link>
+                <Link href={`/${agencySlug}/services`}>{t("goToServices")}</Link>
               </Button>
             </div>
           ) : results.length === 0 ? (
-            <p className="px-6 py-10 text-center text-sm text-muted-foreground">Ningún servicio disponible coincide.</p>
+            <p className="px-6 py-10 text-center text-sm text-muted-foreground">{t("noMatch")}</p>
           ) : (
             <ul className="flex flex-col">
               {results.map((service) => {
                 const added = chosen.includes(service.id);
-                const per = unitPer(service.unit);
+                const per = labels.serviceUnitPer(service.unit);
                 return (
                   <li key={service.id}>
                     <button
@@ -138,7 +143,7 @@ function ServicePicker({
                       <span className="flex min-w-0 flex-1 flex-col">
                         <span className="truncate font-medium">{service.name}</span>
                         <span className="truncate text-sm text-muted-foreground">
-                          {SERVICE_TYPE_LABELS[service.type]}
+                          {labels.serviceType(service.type)}
                           {service.zones.length > 0 && ` · ${service.zones.join(", ")}`}
                         </span>
                       </span>
@@ -149,9 +154,9 @@ function ServicePicker({
                             {per && <span className="block text-xs text-muted-foreground">{per}</span>}
                           </>
                         ) : (
-                          <span className="text-muted-foreground">A consultar</span>
+                          <span className="text-muted-foreground">{t("onRequest")}</span>
                         )}
-                        {added && <span className="block text-xs font-medium text-primary">Ya está en la oferta</span>}
+                        {added && <span className="block text-xs font-medium text-primary">{t("alreadyAdded")}</span>}
                       </span>
                     </button>
                   </li>
@@ -176,10 +181,13 @@ function ServiceLine({
   currency: string;
   onRemove: () => void;
 }) {
+  const t = useTranslations("offers.services");
+  const labels = useLabels();
+  const { money: formatMoney } = useFormat();
   const item = useWatch({ control, name: `services.${index}` });
   if (!item) return null;
   const total = serviceLineTotal(item);
-  const per = unitPer(item.unit);
+  const per = labels.serviceUnitPer(item.unit);
 
   return (
     <li className="flex flex-col gap-4 rounded-3xl bg-foreground/[0.04] p-4 sm:p-5">
@@ -195,15 +203,15 @@ function ServiceLine({
         <div className="flex min-w-0 flex-1 flex-col gap-0.5">
           <span className="inline-flex items-center gap-1.5 text-sm text-muted-foreground">
             <ServiceTypeIcon type={item.type} className="size-3.5" />
-            {SERVICE_TYPE_LABELS[item.type]}
+            {labels.serviceType(item.type)}
           </span>
           <span className="font-display text-lg leading-snug">{item.name}</span>
           {item.description && <p className="line-clamp-2 text-sm text-muted-foreground">{item.description}</p>}
         </div>
         <button
           type="button"
-          aria-label={`Quitar ${item.name}`}
-          title="Quitar de la oferta"
+          aria-label={t("removeOf", { name: item.name })}
+          title={t("remove")}
           onClick={onRemove}
           className="flex size-9 shrink-0 items-center justify-center rounded-full text-muted-foreground outline-none hover:bg-foreground/[0.06] hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
         >
@@ -214,7 +222,7 @@ function ServiceLine({
       <div className="grid gap-3 sm:grid-cols-[1.1fr_1fr_1fr]">
         <label className="flex flex-col gap-1.5">
           <span className="text-xs font-medium text-muted-foreground">
-            Precio{per && ` ${per}`} ({currency})
+            {per ? t("pricePer", { per, currency }) : t("price", { currency })}
           </span>
           <Controller
             control={control}
@@ -223,7 +231,7 @@ function ServiceLine({
               <Input
                 inputMode="decimal"
                 value={field.value}
-                placeholder="A consultar"
+                placeholder={t("onRequest")}
                 onChange={(event) => field.onChange(event.target.value.replace(/[^\d.]/g, ""))}
                 className="bg-card"
               />
@@ -231,7 +239,7 @@ function ServiceLine({
           />
         </label>
         <label className="flex flex-col gap-1.5">
-          <span className="text-xs font-medium text-muted-foreground">Cantidad</span>
+          <span className="text-xs font-medium text-muted-foreground">{t("quantity")}</span>
           <Controller
             control={control}
             name={`services.${index}.quantity`}
@@ -241,11 +249,11 @@ function ServiceLine({
                 "flex size-9 shrink-0 items-center justify-center rounded-full outline-none hover:bg-foreground/[0.06] disabled:opacity-30 focus-visible:ring-3 focus-visible:ring-ring/50";
               return (
                 <div className="flex h-11 items-center justify-between rounded-xl bg-card px-1">
-                  <button type="button" aria-label="Uno menos" className={stepper} disabled={value <= 1} onClick={() => field.onChange(String(value - 1))}>
+                  <button type="button" aria-label={t("less")} className={stepper} disabled={value <= 1} onClick={() => field.onChange(String(value - 1))}>
                     <Minus className="size-4" />
                   </button>
-                  <span className="text-sm tabular-nums">{unitCount(item.unit, value)}</span>
-                  <button type="button" aria-label="Uno más" className={stepper} onClick={() => field.onChange(String(value + 1))}>
+                  <span className="text-sm tabular-nums">{labels.serviceUnitCount(item.unit, value)}</span>
+                  <button type="button" aria-label={t("more")} className={stepper} onClick={() => field.onChange(String(value + 1))}>
                     <Plus className="size-4" />
                   </button>
                 </div>
@@ -254,7 +262,7 @@ function ServiceLine({
           />
         </label>
         <label className="flex flex-col gap-1.5">
-          <span className="text-xs font-medium text-muted-foreground">Fecha (opcional)</span>
+          <span className="text-xs font-medium text-muted-foreground">{t("date")}</span>
           <Controller
             control={control}
             name={`services.${index}.date`}
@@ -265,19 +273,19 @@ function ServiceLine({
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
         <label className="flex flex-1 flex-col gap-1.5">
-          <span className="text-xs font-medium text-muted-foreground">Nota para el cliente (opcional)</span>
+          <span className="text-xs font-medium text-muted-foreground">{t("note")}</span>
           <Controller
             control={control}
             name={`services.${index}.note`}
             render={({ field }) => (
-              <Input {...field} maxLength={500} placeholder="Ej: incluye bebidas a bordo" className="bg-card" />
+              <Input {...field} maxLength={500} placeholder={t("notePlaceholder")} className="bg-card" />
             )}
           />
         </label>
         <p className="shrink-0 text-right tabular-nums sm:min-w-32">
-          <span className="block text-xs text-muted-foreground">Subtotal</span>
+          <span className="block text-xs text-muted-foreground">{t("subtotal")}</span>
           <span className={cn("font-semibold", total == null && "font-normal text-muted-foreground")}>
-            {total == null ? "A consultar" : formatMoney(currency, total)}
+            {total == null ? t("onRequest") : formatMoney(currency, total)}
           </span>
         </p>
       </div>
@@ -287,6 +295,7 @@ function ServiceLine({
 
 /** The offer's services: picked from the library, then priced and dated for this client. */
 export function OfferServicesSection({ control, currency }: { control: Control<OfferFormValues>; currency: string }) {
+  const t = useTranslations("offers.services");
   const { fields, append, remove } = useFieldArray({ control, name: "services" });
   const services = useWatch({ control, name: "services" }) ?? [];
   const [picking, setPicking] = useState(false);
@@ -298,10 +307,8 @@ export function OfferServicesSection({ control, currency }: { control: Control<O
           <span className="flex size-12 items-center justify-center rounded-full bg-card text-primary">
             <Sparkles className="size-5" />
           </span>
-          <p className="font-display text-xl">Sin servicios todavía</p>
-          <p className="max-w-sm text-sm text-muted-foreground">
-            Sumá mayordomo, chef, yate, traslados o excursiones para que el cliente reciba todo en una sola oferta.
-          </p>
+          <p className="font-display text-xl">{t("emptyTitle")}</p>
+          <p className="max-w-sm text-sm text-muted-foreground">{t("emptyBody")}</p>
         </div>
       ) : (
         <ul className="flex flex-col gap-3">
@@ -313,7 +320,7 @@ export function OfferServicesSection({ control, currency }: { control: Control<O
       <div>
         <Button type="button" variant="outline" className="h-10 gap-2 px-5" onClick={() => setPicking(true)}>
           <Plus />
-          Sumar servicio
+          {t("add")}
         </Button>
       </div>
       <ServicePicker

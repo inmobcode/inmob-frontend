@@ -10,13 +10,14 @@ export type SortValue =
 
 export const DEFAULT_SORT: SortValue = "updatedAt_desc";
 
-export const SORT_OPTIONS: { value: SortValue; label: string }[] = [
-  { value: "updatedAt_desc", label: "Más recientes" },
-  { value: "updatedAt_asc", label: "Más antiguas" },
-  { value: "price_desc", label: "Precio: mayor a menor" },
-  { value: "price_asc", label: "Precio: menor a mayor" },
-  { value: "title_asc", label: "Título: A-Z" },
-  { value: "title_desc", label: "Título: Z-A" },
+/** In menu order; their names live in "properties.sort.<value>". */
+export const SORT_OPTIONS: SortValue[] = [
+  "updatedAt_desc",
+  "updatedAt_asc",
+  "price_desc",
+  "price_asc",
+  "title_asc",
+  "title_desc",
 ];
 
 /** Properties without a price always sort last, in either direction. */

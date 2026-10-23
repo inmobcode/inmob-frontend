@@ -1,26 +1,23 @@
 "use client";
 
 import { ArrowUpRight, Search, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useId, useMemo, useState } from "react";
 
 import { LegalIndex } from "@/components/legal/legal-index";
-import {
-  HELP_TOPICS,
-  POPULAR_SEARCHES,
-  normalize,
-  type HelpTopic,
-} from "@/lib/help-content";
+import type { LooseTranslator } from "@/i18n/loose";
+import { helpTopicsIn, normalize, POPULAR_SEARCH_COUNT, type HelpTopic } from "@/lib/help-content";
 import { cn } from "@/lib/utils";
 
 const CONTACT_LINK =
   "rounded-sm font-medium text-ink underline decoration-line underline-offset-4 outline-none transition-colors hover:decoration-ink focus-visible:ring-2 focus-visible:ring-forest";
 
 /** Topics narrowed to the questions that mention every word typed. */
-function filterTopics(query: string): HelpTopic[] {
+function filterTopics(all: HelpTopic[], query: string): HelpTopic[] {
   const words = normalize(query).split(/\s+/).filter(Boolean);
-  if (words.length === 0) return HELP_TOPICS;
-  return HELP_TOPICS.map((topic) => ({
+  if (words.length === 0) return all;
+  return all.map((topic) => ({
     ...topic,
     questions: topic.questions.filter((item) => {
       const haystack = normalize(`${topic.title} ${item.q} ${item.a}`);
@@ -35,9 +32,13 @@ function filterTopics(query: string): HelpTopic[] {
  * Nothing here is a card; the structure is lines, like the rest of the site.
  */
 export function HelpCenter({ initialQuery = "" }: { initialQuery?: string }) {
+  const t = useTranslations("help");
+  const tTopics = useTranslations("help.topics");
+  const all = useMemo(() => helpTopicsIn(tTopics as unknown as LooseTranslator), [tTopics]);
+  const popular = Array.from({ length: POPULAR_SEARCH_COUNT }, (_, index) => t(`popular.p${index + 1}` as never));
   const [query, setQuery] = useState(initialQuery);
   const inputId = useId();
-  const topics = useMemo(() => filterTopics(query), [query]);
+  const topics = useMemo(() => filterTopics(all, query), [all, query]);
   const searching = query.trim().length > 0;
   const total = topics.reduce((sum, topic) => sum + topic.questions.length, 0);
 
@@ -49,17 +50,13 @@ export function HelpCenter({ initialQuery = "" }: { initialQuery?: string }) {
             id="ayuda-titulo"
             className="text-center font-logo text-[clamp(1.75rem,5.2vw,4.5rem)] leading-[1.05] font-semibold tracking-[-0.035em]"
           >
-            <span className="block sm:whitespace-nowrap">
-              ¿En qué podemos ayudarte?
-            </span>
-            <span className="block text-balance text-paper/45">
-              Buscá o elegí un tema.
-            </span>
+            <span className="block sm:whitespace-nowrap">{t("title")}</span>
+            <span className="block text-balance text-paper/45">{t("titleTail")}</span>
           </h1>
 
           <div className="flex w-full max-w-3xl flex-col gap-4">
             <label htmlFor={inputId} className="sr-only">
-              Buscar en la ayuda
+              {t("searchLabel")}
             </label>
             <div className="relative">
               <Search
@@ -71,14 +68,14 @@ export function HelpCenter({ initialQuery = "" }: { initialQuery?: string }) {
                 type="search"
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Probá con «reserva», «oferta» o «portal del propietario»"
+                placeholder={t("searchPlaceholder")}
                 autoComplete="off"
                 className="h-14 w-full rounded-xl bg-paper pr-12 pl-13 text-base text-ink outline-none placeholder:text-quiet focus-visible:ring-2 focus-visible:ring-lime sm:text-lg [&::-webkit-search-cancel-button]:hidden"
               />
               {searching && (
                 <button
                   type="button"
-                  aria-label="Borrar la búsqueda"
+                  aria-label={t("clearSearch")}
                   onClick={() => setQuery("")}
                   className="absolute top-1/2 right-3 flex size-8 -translate-y-1/2 items-center justify-center rounded-md text-quiet outline-none hover:text-ink focus-visible:ring-2 focus-visible:ring-forest"
                 >
@@ -87,8 +84,8 @@ export function HelpCenter({ initialQuery = "" }: { initialQuery?: string }) {
               )}
             </div>
             <p className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-center text-sm text-paper/60">
-              <span>Lo que más buscan:</span>
-              {POPULAR_SEARCHES.map((term) => (
+              <span>{t("popularLabel")}</span>
+              {popular.map((term) => (
                 <button
                   key={term}
                   type="button"
@@ -103,7 +100,7 @@ export function HelpCenter({ initialQuery = "" }: { initialQuery?: string }) {
         </div>
       </section>
 
-      <section aria-label="Preguntas frecuentes">
+      <section aria-label={t("faqLabel")}>
         <div className="mx-auto grid w-full max-w-[1440px] gap-10 px-5 py-14 sm:px-8 md:py-20 lg:grid-cols-12 lg:gap-8">
           <aside className="lg:sticky lg:top-24 lg:col-span-3 lg:self-start">
             {topics.length > 0 ? (
@@ -119,22 +116,17 @@ export function HelpCenter({ initialQuery = "" }: { initialQuery?: string }) {
               aria-live="polite"
               className={cn("text-sm text-quiet", !searching && "sr-only")}
             >
-              {total === 0
-                ? "Sin resultados"
-                : `${total} ${total === 1 ? "respuesta" : "respuestas"} para «${query.trim()}»`}
+              {total === 0 ? t("noResults") : t("results", { count: total, query: query.trim() })}
             </p>
 
             {topics.length === 0 ? (
               <div className="flex flex-col items-start gap-4 border-t border-line py-10">
                 <p className="font-logo text-2xl font-semibold">
-                  No encontramos nada para «{query.trim()}».
+                  {t("nothingFor", { query: query.trim() })}
                 </p>
-                <p className="max-w-md text-lg text-pretty text-quiet">
-                  Probá con otra palabra, o escribinos y te respondemos por
-                  email.
-                </p>
+                <p className="max-w-md text-lg text-pretty text-quiet">{t("tryAnother")}</p>
                 <a href="#contacto" className={CONTACT_LINK}>
-                  Ir al formulario de contacto
+                  {t("toContact")}
                 </a>
               </div>
             ) : (
@@ -195,14 +187,13 @@ export function HelpCenter({ initialQuery = "" }: { initialQuery?: string }) {
 
             <div className="mt-14 flex flex-col gap-3 border-t border-line pt-8 text-lg sm:flex-row sm:items-center sm:justify-between">
               <p className="text-pretty text-quiet">
-                ¿Ya tenés cuenta? La guía completa del panel está en la
-                documentación.
+                {t("docsLead")}
               </p>
               <Link
                 href="/docs"
                 className="inline-flex items-center gap-1.5 rounded-sm font-medium text-ink underline decoration-line underline-offset-4 outline-none hover:decoration-ink focus-visible:ring-2 focus-visible:ring-forest"
               >
-                Abrir la documentación
+                {t("docs")}
                 <ArrowUpRight className="size-4" aria-hidden />
               </Link>
             </div>

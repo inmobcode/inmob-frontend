@@ -1,0 +1,91 @@
+{
+  "availability": {
+    "legend": {
+      "available": "Disponível",
+      "booked": "Reservado",
+      "turnover": "Check-in / check-out",
+      "past": "Passado",
+      "pending": "Reserva pendente"
+    },
+    "grid": {
+      "searchPlaceholder": "Pesquisar imóvel…",
+      "search": "Pesquisar imóvel",
+      "location": "Localização",
+      "allLocations": "Todas as localizações",
+      "searchLocation": "Pesquisar localização…",
+      "noLocation": "Nenhuma localização corresponde.",
+      "onlyFree": "Só livres",
+      "clearDates": "Limpar datas",
+      "pickDates": "Escolha as datas",
+      "noneFree": "Nenhum imóvel está livre nessas datas.",
+      "noneMatch": "Nenhum imóvel corresponde a \"{search}\".",
+      "noneInLocation": "Nenhum imóvel está nessa localização.",
+      "seeMore": "Ver mais",
+      "otherLocation": "Outra localização",
+      "nothing": "Não há imóveis para mostrar.",
+      "property": "Imóvel",
+      "perNight": "{price}/noite",
+      "past": "Passado",
+      "pending": "Reserva pendente",
+      "pendingIn": "Reserva pendente (check-in)",
+      "pendingOut": "Reserva pendente (check-out)",
+      "available": "Disponível",
+      "booked": "Reservado",
+      "turnover": "Check-in / check-out",
+      "checkIn": "Check-in",
+      "checkOut": "Check-out"
+    },
+    "month": {
+      "blocked": "Datas bloqueadas",
+      "blockFailed": "Não foi possível bloquear as datas",
+      "rangeTaken": "Esse intervalo inclui noites ocupadas ou já passadas.",
+      "previous": "Mês anterior",
+      "next": "Mês seguinte",
+      "today": "Hoje",
+      "property": "Imóvel",
+      "allProperties": "Todos os imóveis",
+      "searchProperty": "Pesquisar imóvel…",
+      "noProperty": "Nenhum imóvel corresponde.",
+      "hintSelected": "Arraste sobre as noites livres para as bloquear. Com o teclado: Enter no primeiro dia e Enter no último.",
+      "hintAll": "Cada dia mostra quantos imóveis estão ocupados nessa noite. Escolha um imóvel para ver as reservas e bloquear datas.",
+      "pendingHint": "Reserva pendente: ainda não bloqueia as datas, mas foi pedida.",
+      "loadFailed": "Não conseguimos carregar o calendário.",
+      "noRentals": "Ainda não tem imóveis para arrendamento.",
+      "dayLabel": "{day}: {occupied} de {total} ocupados",
+      "more": "+{count} mais",
+      "checkIn": "Entra",
+      "checkOut": "Sai",
+      "turnover": "Sai e entra",
+      "occupiedOf": "{occupied}/{total} ocupados",
+      "pending": "Pendente",
+      "blockSummary": "{count, plural, one {Bloquear <strong>{title}</strong>: # noite, de {from} a {to}.} other {Bloquear <strong>{title}</strong>: # noites, de {from} a {to}.}}",
+      "note": "Nota (opcional)",
+      "noteLabel": "Nota do bloqueio",
+      "block": "Bloquear",
+      "lists": {
+        "taken": "Ocupados ({count})",
+        "waiting": "Pendentes ({count})",
+        "free": "Livres ({count})",
+        "none": "Nenhum.",
+        "viewMonth": "Ver mês"
+      }
+    },
+    "page": {
+      "view": "Vista",
+      "views": {
+        "grid": "Próximos 90 dias",
+        "month": "Mensal"
+      },
+      "title": "Disponibilidade",
+      "gridLead": "Os próximos 90 dias dos seus imóveis para arrendamento, todos juntos.",
+      "monthLead": "Um mês de cada vez: quantos imóveis estão ocupados por dia, e bloqueio de datas.",
+      "help": "Ajuda com disponibilidade",
+      "copyLink": "Copiar link para partilhar",
+      "loadFailed": "Não conseguimos carregar a disponibilidade",
+      "empty": {
+        "title": "Ainda não tem imóveis para arrendamento",
+        "body": "Assim que registar um, a sua disponibilidade aparece aqui."
+      }
+    }
+  }
+}

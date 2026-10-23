@@ -3,19 +3,21 @@
 import "maplibre-gl/dist/maplibre-gl.css";
 
 import { LngLatBounds, Map as MapLibreMap, Marker, NavigationControl, setWorkerUrl } from "maplibre-gl";
+import { useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
 
 import { shortPrice } from "@/components/marketplace/listing-card";
+import { useFormat } from "@/i18n/format";
 import type { MarketplaceProperty } from "@/lib/api/marketplace";
 
 // Same key-less tiles as the property editor's map.
 const STYLE_URL = "https://tiles.openfreemap.org/styles/positron";
 setWorkerUrl("/maplibre/maplibre-gl-worker.js");
 
-function priceTag(property: MarketplaceProperty) {
+function priceTag(property: MarketplaceProperty, locale: string, onRequest: string) {
   const tag = document.createElement("button");
   tag.type = "button";
-  tag.textContent = shortPrice(property)?.replace(/\s/, " ") ?? "Consultar";
+  tag.textContent = shortPrice(property, locale)?.replace(/\s/, " ") ?? onRequest;
   tag.setAttribute("aria-label", `${property.title}, ${tag.textContent}`);
   tag.style.cssText =
     "padding:6px 10px;border-radius:9999px;font:600 13px/1 var(--font-dm-sans),sans-serif;white-space:nowrap;cursor:pointer;transition:transform .15s ease,background .15s ease,color .15s ease;box-shadow:0 6px 16px -6px rgba(15,53,36,.45)";
@@ -42,6 +44,9 @@ export default function ResultsMap({
   activeId: string | null;
   onSelect: (id: string) => void;
 }) {
+  const t = useTranslations("marketplace.card");
+  const { tag: localeTag } = useFormat();
+  const onRequest = t("onRequestShort");
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
   const tagsRef = useRef<Map<string, HTMLElement>>(new Map());
@@ -87,7 +92,7 @@ export default function ResultsMap({
     if (!map) return;
     const located = properties.filter((property) => property.lat != null && property.lng != null);
     const markers = located.map((property) => {
-      const tag = priceTag(property);
+      const tag = priceTag(property, localeTag, onRequest);
       paint(tag, false);
       tag.addEventListener("click", () => onSelect(property.id));
       tagsRef.current.set(property.id, tag);
@@ -105,7 +110,7 @@ export default function ResultsMap({
       tags.clear();
     };
      
-  }, [properties, onSelect]);
+  }, [properties, onSelect, localeTag, onRequest]);
 
   useEffect(() => {
     for (const [id, tag] of tagsRef.current) paint(tag, id === activeId);

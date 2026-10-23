@@ -2,6 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 import { ApiError } from "@/lib/api/client";
@@ -18,6 +19,7 @@ export function TrashLink({
   queryKey: readonly unknown[];
   list: (token: string) => Promise<unknown[]>;
 }) {
+  const t = useTranslations("trash");
   const { data } = useQuery({
     queryKey,
     queryFn: () => {
@@ -33,7 +35,7 @@ export function TrashLink({
       <TooltipTrigger asChild>
         <Link
           href={href}
-          aria-label={count > 0 ? `Papelera, ${count} elementos` : "Papelera"}
+          aria-label={count > 0 ? t("linkCount", { count }) : t("link")}
           className="relative inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-foreground/[0.07] outline-none transition-colors hover:bg-foreground/10 focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-foreground/10 dark:hover:bg-foreground/15"
         >
           <Trash2 className="size-4" />
@@ -45,7 +47,7 @@ export function TrashLink({
         </Link>
       </TooltipTrigger>
       <TooltipContent side="bottom" sideOffset={10}>
-        Papelera
+        {t("link")}
       </TooltipContent>
     </Tooltip>
   );

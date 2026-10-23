@@ -1,0 +1,114 @@
+{
+  "clients": {
+    "menu": {
+      "actionsOf": "Actions for {name}",
+      "view": "View profile",
+      "changeStage": "Change stage",
+      "email": "Send email",
+      "call": "Call",
+      "copyEmail": "Copy email"
+    },
+    "views": {
+      "noPhone": "No phone",
+      "noInteractions": "No interactions yet.",
+      "lastTouch": "Last activity {ago}",
+      "client": "Client",
+      "stage": "Stage",
+      "phone": "Phone",
+      "source": "Source",
+      "lastMove": "Last activity",
+      "actions": "Actions"
+    },
+    "detail": {
+      "logFailed": "Couldn't log it",
+      "notFound": "We couldn't find the client",
+      "backToList": "Back to clients",
+      "list": "Clients",
+      "clientSince": "client since {date}",
+      "notes": "Notes",
+      "notesDescription": "What's worth remembering: what they're looking for, budget, preferences.",
+      "notesLabel": "Client notes",
+      "notesPlaceholder": "No notes yet.",
+      "saveNotes": "Save notes",
+      "tasks": "Tasks",
+      "tasksDescription": "What needs doing with this client: call, send photos, arrange a viewing.",
+      "noTasks": "No pending tasks with this client.",
+      "history": "History",
+      "historyDescription": "Calls, emails and meetings, newest first.",
+      "interactionType": "Interaction type",
+      "interaction": {
+        "NOTE": "Note",
+        "CALL": "Call",
+        "EMAIL": "Email",
+        "MEETING": "Meeting"
+      },
+      "interactionDetail": "Interaction details",
+      "interactionPlaceholder": "What happened? E.g. We agreed to view the house on Saturday.",
+      "log": "Log",
+      "noInteractions": "No interactions logged yet.",
+      "stage": "Stage",
+      "stageLabel": "Client stage",
+      "owner": "Owner",
+      "yours": "This is your client.",
+      "takeIt": "Take it",
+      "ownerGone": "Assigned to someone no longer on the team.",
+      "contact": "Contact",
+      "noPhone": "No phone",
+      "updated": "Updated {ago}"
+    },
+    "create": {
+      "new": "New client",
+      "description": "Add the basics. Notes and contact history come later.",
+      "name": "Name",
+      "namePlaceholder": "E.g. Valentina Ríos",
+      "email": "Email",
+      "emailPlaceholder": "name@email.com",
+      "phone": "Phone",
+      "phonePlaceholder": "+44 7700 900000",
+      "submit": "Create client"
+    },
+    "list": {
+      "stagePlural": {
+        "LEAD": "Leads",
+        "CONTACTED": "Contacted",
+        "NEGOTIATING": "Negotiating",
+        "CLIENT": "Clients",
+        "LOST": "Lost"
+      },
+      "movedTo": "Moved to {stage}",
+      "stageFailed": "Couldn't change the stage",
+      "title": "Clients",
+      "searchPlaceholder": "Search by name, email or phone",
+      "search": "Search clients",
+      "stage": "Stage",
+      "stages": "stages",
+      "help": "Help with clients",
+      "loadFailed": "We couldn't load the clients",
+      "emptyTitle": "You don't have any clients yet",
+      "emptyBody": "Inquiries from your site and offers show up here on their own. You can also add one by hand.",
+      "emptyHelp": "How to follow a client through stages",
+      "noMatchBody": "Try another name or clear the stage filter."
+    }
+  },
+  "tasks": {
+    "due": {
+      "overdue": "{count, plural, one {Overdue by # day} other {Overdue by # days}}",
+      "yesterday": "Was due yesterday",
+      "today": "Today",
+      "tomorrow": "Tomorrow"
+    },
+    "reopen": "Reopen “{title}”",
+    "complete": "Complete “{title}”",
+    "delete": "Delete “{title}”",
+    "createFailed": "Couldn't create the task",
+    "updateFailed": "Couldn't update the task",
+    "deleteFailed": "Couldn't delete the task",
+    "placeholder": "New task: call, send photos, visit…",
+    "titleLabel": "Task title",
+    "dueDate": "Due date",
+    "add": "Add task",
+    "loadFailed": "We couldn't load the tasks.",
+    "loading": "Loading…",
+    "empty": "Nothing pending."
+  }
+}

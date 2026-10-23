@@ -1,6 +1,7 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
@@ -10,6 +11,7 @@ import { createRoom, listProperties } from "@/lib/api/properties";
 import { getAccessToken } from "@/lib/auth/session";
 
 export function RoomsTab({ hotelPropertyId }: { hotelPropertyId: string }) {
+  const t = useTranslations("properties.rooms");
   const queryClient = useQueryClient();
   const { agencySlug } = useParams<{ agencySlug: string }>();
 
@@ -38,18 +40,18 @@ export function RoomsTab({ hotelPropertyId }: { hotelPropertyId: string }) {
   return (
     <div className="space-y-4">
       <Button type="button" onClick={() => addMutation.mutate()} disabled={addMutation.isPending}>
-        + Agregar habitación
+        {t("add")}
       </Button>
 
       {rooms.length === 0 ? (
-        <p className="text-sm text-zinc-500">Este hotel todavía no tiene habitaciones.</p>
+        <p className="text-sm text-zinc-500">{t("empty")}</p>
       ) : (
         <div className="space-y-2">
           {rooms.map((room) => (
             <div key={room.id} className="flex items-center justify-between rounded-md border p-3 text-sm">
               <span>{room.title}</span>
               <Link href={`/${agencySlug}/properties/${room.id}`} className="text-blue-600 hover:underline">
-                Editar
+                {t("edit")}
               </Link>
             </div>
           ))}

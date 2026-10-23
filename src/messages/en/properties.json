@@ -1,0 +1,654 @@
+{
+  "properties": {
+    "sort": {
+      "label": "Sort by",
+      "updatedAt_desc": "Newest",
+      "updatedAt_asc": "Oldest",
+      "price_desc": "Price: high to low",
+      "price_asc": "Price: low to high",
+      "title_asc": "Title: A-Z",
+      "title_desc": "Title: Z-A"
+    },
+    "menu": {
+      "viewOnSiteOf": "View {title} on the site",
+      "viewOnSite": "View on the site",
+      "actionsOf": "Actions for {title}",
+      "edit": "Edit",
+      "republish": "Publish again",
+      "publish": "Publish",
+      "unpublish": "Unpublish",
+      "archive": "Archive",
+      "delete": "Delete"
+    },
+    "listingType": {
+      "label": "Listing type",
+      "SALE": {
+        "label": "Sale",
+        "hint": "Sell a property"
+      },
+      "RENT": {
+        "label": "Rental",
+        "hint": "Let it long-term or by season"
+      }
+    },
+    "audience": {
+      "shown": "Shown on the site",
+      "internal": "Internal only"
+    },
+    "bulk": {
+      "label": "Actions on the selected properties",
+      "selected": "{count, plural, one {# selected} other {# selected}}",
+      "selectAll": "Select all {count}",
+      "publish": "Publish",
+      "archive": "Archive",
+      "delete": "Delete",
+      "clear": "Clear selection"
+    },
+    "activeFilters": {
+      "statusPlural": {
+        "PUBLISHED": "Published",
+        "DRAFT": "Drafts",
+        "ARCHIVED": "Archived"
+      },
+      "priceFrom": "From {price}",
+      "priceTo": "Up to {price}",
+      "owner": "Owner",
+      "bedsAtLeast": "{count}+ bedrooms",
+      "bathsAtLeast": "{count}+ bathrooms",
+      "label": "Filters:",
+      "remove": "Remove the {filter} filter",
+      "clearAll": "Clear all"
+    },
+    "create": {
+      "titleRequired": "Enter a title",
+      "new": "New property",
+      "description": "Start with the basics. Photos, price and features come later.",
+      "operation": "What will you do with it?",
+      "title": "Title",
+      "titlePlaceholder": "E.g. Beachfront house in La Barra",
+      "category": "Category",
+      "submit": "Create property"
+    },
+    "card": {
+      "unselect": "Remove {title} from the selection",
+      "select": "Select {title}",
+      "priceOnRequest": "Price on request",
+      "bedrooms": "{count, plural, one {{value} bedroom} other {{value} bedrooms}}",
+      "bathrooms": "{count, plural, one {{value} bathroom} other {{value} bathrooms}}",
+      "builtArea": "{value} square metres built",
+      "plotArea": "{value} square metres of land",
+      "owner": "Owner: {name}",
+      "updated": "Updated {ago}",
+      "onRequest": "On request",
+      "builtAreaTitle": "Built area",
+      "bedroomsShort": "{value} bd"
+    },
+    "table": {
+      "unselectAll": "Clear selection of all",
+      "selectAll": "Select all",
+      "property": "Property",
+      "status": "Status",
+      "price": "Price",
+      "bedrooms": "Beds",
+      "bathrooms": "Baths",
+      "area": "Area",
+      "owner": "Owner",
+      "updated": "Updated",
+      "actions": "Actions"
+    },
+    "controls": {
+      "decrease": "Decrease {label}",
+      "increase": "Increase {label}",
+      "removeTag": "Remove {tag}",
+      "search": "Search",
+      "searchIn": "Search in {label}",
+      "selected": "{count, plural, =0 {None selected} one {# selected} other {# selected}}",
+      "clear": "Clear",
+      "noMatch": "Nothing matches “{query}”.",
+      "showLess": "Show less",
+      "showMore": "Show {count} more"
+    },
+    "amenities": {
+      "general": {
+        "title": "General amenities",
+        "description": "The short list shown on the public listing. Type each one and press Enter.",
+        "label": "Amenities",
+        "placeholder": "E.g. Pool, Barbecue, Wi-Fi"
+      },
+      "outdoor": {
+        "title": "Outdoor features",
+        "description": "What's outside the house: pool, barbecue, courts and more."
+      },
+      "indoor": {
+        "title": "Indoor features",
+        "description": "Facilities and equipment inside the property.",
+        "other": "Other facilities",
+        "otherPlaceholder": "Something not on the list"
+      },
+      "conditions": {
+        "rentTitle": "Services and conditions",
+        "saleTitle": "Condition",
+        "rentDescription": "Staff, pets, events and other rental conditions.",
+        "saleDescription": "Commercial status and general features of the property."
+      },
+      "bedrooms": {
+        "title": "Bedrooms by type",
+        "description": "How many rooms of each kind there are.",
+        "masterBedroomQty": "Master",
+        "doubleBedroomQty": "Double",
+        "twinBedroomQty": "Twin",
+        "singleBedroomQty": "Single",
+        "bedroomWithBunkBedsQty": "Bunk beds",
+        "guestBedroomQty": "Guest"
+      },
+      "layout": {
+        "title": "Layout",
+        "description": "The rooms of the property, with optional details for each.",
+        "layoutKitchensCount": "Kitchens",
+        "layoutLivingRoomsCount": "Living rooms",
+        "layoutGuestWCCount": "Guest WC",
+        "layoutStaffQuartersCount": "Staff quarters",
+        "garden": "Garden",
+        "storage": "Storage",
+        "detailOf": "Details: {label}",
+        "detailPlaceholder": "Details (optional)"
+      },
+      "more": {
+        "title": "More details",
+        "description": "Description of the experience and outdoor showers.",
+        "enjoy": "What there is to enjoy",
+        "enjoyHint": "A short description of what it's like to stay at the property.",
+        "outdoorShower": "Outdoor showers"
+      },
+      "pools": {
+        "title": "Pools and hot tubs",
+        "description": "Each with its type and size."
+      }
+    },
+    "location": {
+      "notFound": "We couldn't find that address. Add more details or place the pin by hand.",
+      "found": "We placed the address on the map",
+      "searchFailed": "We couldn't search for the address. Try again.",
+      "linkTaken": "We took the coordinates from the link.",
+      "linkShort": "Short links don't include coordinates. Open it and paste the full link.",
+      "shown": {
+        "title": "How it's shown",
+        "description": "The text your clients see on the listing.",
+        "label": "Visible location",
+        "hint": "For example “La Barra, Punta del Este”. It doesn't have to match the exact address.",
+        "empty": "No visible location"
+      },
+      "where": {
+        "title": "Where it is",
+        "description": "Exact address and coordinates, visible only to your team.",
+        "country": "Country",
+        "region": "Region",
+        "area": "Area",
+        "address": "Address",
+        "search": "Search on the map",
+        "mapsLink": "Google Maps link",
+        "mapsPlaceholder": "Paste the full Google Maps link",
+        "mapsHint": "If you paste it, we take the coordinates from there.",
+        "lat": "Latitude",
+        "lng": "Longitude"
+      },
+      "surroundings": {
+        "title": "Surroundings",
+        "description": "Features of the area and the property's views.",
+        "features": "Location features",
+        "views": "Views"
+      },
+      "links": {
+        "title": "Links",
+        "description": "Supporting material for your clients.",
+        "brochure": "Brochure (PDF)",
+        "website": "Website"
+      },
+      "map": {
+        "title": "Location on the map",
+        "hintPinned": "Drag the pin or click the map to fine-tune the position.",
+        "hintEmpty": "Click the map to place the pin, or search for the address."
+      }
+    },
+    "content": {
+      "text": {
+        "title": "Listing text",
+        "description": "The first thing the client reads. The summary is highlighted at the top and the description goes below.",
+        "summary": "Summary",
+        "summaryHint": "One or two catchy sentences. Works best under {limit} characters.",
+        "descriptionLabel": "Description",
+        "descriptionHint": "Use headings and lists to organise rooms, amenities or what's included."
+      },
+      "included": {
+        "title": "Included services",
+        "description": "What's included in the rental price."
+      },
+      "policies": {
+        "title": "Policies and terms",
+        "description": "Booking, cancellation and house-use conditions."
+      }
+    },
+    "basic": {
+      "responsibleUpdated": "Person in charge updated",
+      "responsibleFailed": "Couldn't change the person in charge",
+      "responsible": "Person in charge",
+      "responsibleHint": "An agent only sees the properties assigned to them. Saved when you pick one.",
+      "untitled": "Untitled",
+      "example": "E.g. {value}",
+      "unspecified": "Not specified",
+      "preview": "How it looks in your portfolio",
+      "identity": {
+        "title": "Identity",
+        "description": "What it's called and what kind of property it is.",
+        "titleLabel": "Title",
+        "privateName": "Private name",
+        "privateNameHint": "Only you and your team see it. Useful to tell similar properties apart.",
+        "operation": "Listing type",
+        "operationHint": "Changing it shows or hides sections, such as the Rental ones.",
+        "category": "Category"
+      },
+      "features": {
+        "title": "Features",
+        "description": "What clients see on the listing.",
+        "bedrooms": "Bedrooms",
+        "bathrooms": "Bathrooms",
+        "areaSqm": "Built area",
+        "plotArea": "Plot area",
+        "parking": "Parking spaces",
+        "storage": "Storage rooms",
+        "staffRoom": "Staff rooms",
+        "floors": "Floors",
+        "floorsPlaceholder": "Type a floor and press Enter",
+        "floorsHint": "You can add several, like 1, 2 and 3."
+      },
+      "rent": {
+        "title": "Rental details",
+        "description": "Capacity and category of the accommodation.",
+        "guests": "Guests",
+        "stars": "Stars"
+      },
+      "sale": {
+        "title": "Sale details",
+        "description": "Age, energy efficiency and type of location.",
+        "constructionYear": "Year built",
+        "renovationYear": "Year renovated",
+        "energyCertificate": "Energy certificate",
+        "locationCategory": "Location type"
+      }
+    },
+    "filters": {
+      "title": "Filters",
+      "description": "Combine the filters you need and apply them together.",
+      "status": "Status",
+      "statusPlural": {
+        "PUBLISHED": "Published",
+        "DRAFT": "Drafts",
+        "ARCHIVED": "Archived"
+      },
+      "statusHint": "You can pick more than one. With none picked, all are shown.",
+      "type": "Type",
+      "allTypes": "All",
+      "any": "Any",
+      "category": "Category",
+      "allCategories": "All",
+      "location": "Location",
+      "allLocations": "All",
+      "searchLocation": "Search location…",
+      "noLocation": "No location matches.",
+      "owner": "Owner",
+      "allOwners": "All owners",
+      "price": "Price",
+      "allCurrencies": "All currencies",
+      "minPrice": "Minimum price",
+      "maxPrice": "Maximum price",
+      "min": "Minimum",
+      "max": "Maximum",
+      "bedrooms": "Bedrooms",
+      "minBedrooms": "Minimum bedrooms",
+      "bathrooms": "Bathrooms",
+      "minBathrooms": "Minimum bathrooms",
+      "clear": "Clear",
+      "show": "{count, plural, =0 {None match} one {Show 1 property} other {Show # properties}}"
+    },
+    "photos": {
+      "cover": "Cover",
+      "makeCover": "Make cover",
+      "move": "Move to another section",
+      "confirmRemove": "Confirm: remove photo",
+      "remove": "Remove photo",
+      "clickAgain": "Click again to remove it",
+      "removeShort": "Remove?",
+      "uploadFailed": "Couldn't upload the photos",
+      "removeFailed": "Couldn't remove the photo",
+      "coverFailed": "Couldn't change the cover",
+      "moved": "Moved to {section}",
+      "moveFailed": "Couldn't move the photo",
+      "orderFailed": "Couldn't save the order",
+      "saveFailed": "Couldn't save",
+      "onlyImages": "Only images can be uploaded (JPG, PNG, WebP or HEIC).",
+      "videoInvalid": "Paste a valid link, for example from YouTube or Vimeo.",
+      "videoDuplicate": "That video is already on the list.",
+      "add": "Add",
+      "gallery": {
+        "title": "Gallery",
+        "description": "Drag the photos to reorder them within their section. Changes on this tab are saved instantly.",
+        "uploadTo": "Upload to section",
+        "target": "Target section",
+        "newName": "Name",
+        "newNameLabel": "New section name",
+        "upload": "Upload photos",
+        "optimizing": "Optimising photos…",
+        "uploading": "Uploading {current} of {total}…",
+        "drop": "Drop them to upload",
+        "drag": "Drag your photos here or click to choose them",
+        "formats": "JPG, PNG, WebP or HEIC. They're optimised automatically before uploading.",
+        "empty": "You haven't added any photos yet. The first one will be the cover."
+      },
+      "watermark": {
+        "title": "Watermark",
+        "description": "Adds your agency's logo over the published photos.",
+        "label": "Watermark the photos"
+      },
+      "videos": {
+        "title": "Videos",
+        "description": "Links from YouTube, Vimeo or other platforms.",
+        "link": "Video link",
+        "remove": "Remove video"
+      },
+      "lightbox": {
+        "title": "Property photo",
+        "position": "{current} of {total}",
+        "previous": "Previous photo",
+        "next": "Next photo"
+      }
+    },
+    "owner": {
+      "created": "Owner created and assigned",
+      "createFailed": "Couldn't create the owner",
+      "regenerated": "Link regenerated. The old one no longer works.",
+      "regenerateFailed": "Couldn't regenerate the link",
+      "noContact": "No contact details.",
+      "noContactShort": "No contact details",
+      "remove": "Remove",
+      "assigned": {
+        "title": "Assigned owner",
+        "description": "Who owns this property. One owner can have several.",
+        "empty": "No owner assigned yet. Pick one from the list or create a new one."
+      },
+      "access": {
+        "title": "Owner access",
+        "description": "A read-only link so {name} can check the status of their properties (availability, bookings and payments), with no password.",
+        "link": "Owner access link",
+        "copyFailed": "Couldn't copy. Select the link and copy it by hand.",
+        "copy": "Copy link",
+        "regenerate": "Regenerate"
+      },
+      "pick": {
+        "title": "Choose owner",
+        "description": "Search your owners or add a new one.",
+        "searchPlaceholder": "Search by name, email or phone",
+        "search": "Search owners",
+        "list": "Owners",
+        "loading": "Loading owners…",
+        "noMatch": "Nobody matches “{query}”.",
+        "empty": "You haven't added any owners yet."
+      },
+      "new": {
+        "title": "New owner",
+        "name": "Name",
+        "email": "Email (optional)",
+        "phone": "Phone (optional)",
+        "notes": "Notes (optional)",
+        "submit": "Create and assign"
+      }
+    },
+    "rates": {
+      "createFailed": "Couldn't create the period",
+      "new": "New period",
+      "label": "Label (e.g. High season)",
+      "dates": "From and to which day it applies",
+      "firstDay": "Pick the first day",
+      "lastDay": "Now pick the last day",
+      "price": "Official price/night",
+      "minStay": "Minimum stay (nights)",
+      "managementFee": "Management fee (%)",
+      "commission": "Agency commission (%)",
+      "add": "Add period",
+      "noLabel": "No label",
+      "perNight": "{price}/night",
+      "minNights": "{count, plural, one {min. # night} other {min. # nights}}",
+      "remove": "Remove",
+      "empty": "No rate periods yet."
+    },
+    "availability": {
+      "blockFailed": "Couldn't block the date",
+      "unblockFailed": "Couldn't remove the block",
+      "synced": "{count, plural, one {# event synced} other {# events synced}}",
+      "syncFailed": "Couldn't sync",
+      "manual": "Block dates manually",
+      "dates": "From and to which day",
+      "firstDay": "Pick the first day",
+      "lastDay": "Now pick the last day",
+      "note": "Note (optional)",
+      "block": "Block",
+      "blocked": "Blocked dates",
+      "loading": "Loading…",
+      "noBlocks": "No blocked dates.",
+      "remove": "Remove",
+      "sync": "Sync with Airbnb/Booking (iCal)",
+      "syncing": "Syncing…",
+      "syncNow": "Sync now",
+      "export": "Export your availability",
+      "exportHint": "Paste this link into Airbnb/Booking as an external calendar so they see your blocked dates.",
+      "copy": "Copy"
+    },
+    "editor": {
+      "titleRequired": "Enter a title",
+      "categoryRequired": "Pick a category",
+      "saveFailed": "Couldn't save",
+      "published": "Property published",
+      "publishFailed": "Couldn't publish",
+      "unpublished": "Property unpublished",
+      "unpublishFailed": "Couldn't unpublish",
+      "fallbackTitle": "Property",
+      "back": "Properties",
+      "publish": "Publish",
+      "unpublish": "Unpublish",
+      "help": "Help with properties",
+      "groups": {
+        "general": "General information",
+        "media": "Media",
+        "management": "Management",
+        "contact": "Contact",
+        "rental": "Rental"
+      },
+      "tabs": {
+        "basico": {
+          "label": "Basics",
+          "hint": "Title, type and measurements"
+        },
+        "ubicacion": {
+          "label": "Location",
+          "hint": "Address, map and surroundings"
+        },
+        "amenities": {
+          "label": "Amenities & Facilities",
+          "hint": "Features and layout"
+        },
+        "content": {
+          "label": "Content & Services",
+          "hint": "Texts for clients"
+        },
+        "precios": {
+          "label": "Prices",
+          "hint": "Price and currency"
+        },
+        "fotos": {
+          "label": "Photos",
+          "hint": "Gallery and videos"
+        },
+        "disponibilidad": {
+          "label": "Availability",
+          "hint": "Blocks and iCal calendar"
+        },
+        "rates": {
+          "label": "Rates",
+          "hint": "Seasonal rates"
+        },
+        "essentials": {
+          "label": "Essentials",
+          "hint": "Management and licence"
+        },
+        "recomendaciones": {
+          "label": "Recommendations",
+          "hint": "Suggested improvements"
+        },
+        "rooms": {
+          "label": "Rooms",
+          "hint": "Hotel rooms"
+        },
+        "propietario": {
+          "label": "Owner",
+          "hint": "Linked owner"
+        }
+      }
+    },
+    "essentials": {
+      "management": {
+        "title": "Property management",
+        "description": "The person or company that runs it day to day.",
+        "name": "Name",
+        "phone": "Phone",
+        "emailPlaceholder": "name@company.com",
+        "company": "Company"
+      },
+      "vendor": {
+        "title": "Provider and licence",
+        "description": "Details of whoever markets the property and its permit.",
+        "name": "Property name for the provider",
+        "website": "Provider website",
+        "commission": "Commission",
+        "commissionPlaceholder": "E.g. 5%",
+        "license": "Licence number"
+      },
+      "permissions": {
+        "title": "Permissions",
+        "description": "What you can do with this property outside your site.",
+        "thirdParty": "Publish on third-party portals",
+        "thirdPartyHint": "You confirm you're authorised to share this property with external portals."
+      }
+    },
+    "prices": {
+      "rentTitle": "Base price per night",
+      "saleTitle": "Sale price",
+      "rentDescription": "The reference value per night. Offers use it when there's no seasonal rate.",
+      "saleDescription": "Shown on the listing and on the cards in your portfolio.",
+      "currency": "Currency",
+      "perNight": "Price per night",
+      "price": "Price",
+      "emptyHint": "Leave it empty if you'd rather show “Price on request”."
+    },
+    "pools": {
+      "pools": "Pools",
+      "jacuzzis": "Hot tubs",
+      "addPool": "Add pool",
+      "addJacuzzi": "Add hot tub",
+      "quantity": "Quantity",
+      "remove": "Remove"
+    },
+    "rooms": {
+      "add": "+ Add room",
+      "empty": "This hotel doesn't have any rooms yet.",
+      "edit": "Edit"
+    },
+    "recommendations": {
+      "new": "New improvement recommendation",
+      "title": "Title",
+      "details": "Details",
+      "priority": {
+        "LOW": "Low",
+        "MEDIUM": "Medium",
+        "HIGH": "High"
+      },
+      "status": {
+        "PROPOSED": "Proposed",
+        "APPROVED": "Approved",
+        "DONE": "Done"
+      },
+      "estCost": "Estimated cost",
+      "estCostValue": "Estimated cost: {value}",
+      "add": "Add",
+      "remove": "Remove",
+      "empty": "No recommendations yet."
+    },
+    "picker": {
+      "tabs": {
+        "ALL": "All",
+        "SALE": "Sale",
+        "RENT": "Rental"
+      },
+      "emptyAll": "You don't have any properties yet.",
+      "emptyOperation": {
+        "SALE": "You don't have any properties for sale.",
+        "RENT": "You don't have any rental properties."
+      },
+      "noMatch": "No property matches “{query}”.",
+      "emptyTab": "No properties on this tab.",
+      "label": "Property",
+      "placeholder": "Choose property",
+      "operation": "Listing type",
+      "only": {
+        "SALE": "Properties for sale only",
+        "RENT": "Rental properties only"
+      },
+      "searchPlaceholder": "Search by name or area",
+      "search": "Search property",
+      "list": "Properties",
+      "perNight": "{price} /night"
+    },
+    "ownerAccount": {
+      "added": "Payout recorded",
+      "addFailed": "Couldn't record the payout",
+      "deleted": "Payout deleted",
+      "deleteFailed": "Couldn't delete",
+      "title": "Account statement",
+      "description": "What was collected from {name}'s bookings, what they're owed (commission deducted) and what has already been paid out. They see it on their access link.",
+      "loading": "Loading…",
+      "loadFailed": "We couldn't load the account statement.",
+      "delete": "Delete payout",
+      "register": "Record payout",
+      "new": "New payout",
+      "amount": "Amount",
+      "currency": "Currency",
+      "date": "Payout date",
+      "methodPlaceholder": "Method (transfer, cash…)",
+      "method": "Method",
+      "notePlaceholder": "Note (optional)",
+      "note": "Note",
+      "submit": "Record"
+    },
+    "page": {
+      "title": "Properties",
+      "searchPlaceholder": "Search by title, area or owner",
+      "search": "Search properties",
+      "help": "Help with properties",
+      "loadFailed": "We couldn't load the properties",
+      "bulk": {
+        "delete": "{count, plural, one {# property moved to the bin} other {# properties moved to the bin}}",
+        "publish": "{count, plural, one {# property published} other {# properties published}}",
+        "unpublish": "{count, plural, one {# property unpublished} other {# properties unpublished}}",
+        "archive": "{count, plural, one {# property archived} other {# properties archived}}",
+        "failed": "{count} couldn't be processed. Try again."
+      },
+      "empty": {
+        "title": "Add your first property",
+        "body": "Add photos, price and features so it's ready whenever you want to publish it.",
+        "help": "How to add and publish a property"
+      },
+      "noMatch": {
+        "title": "Nothing matches those filters",
+        "body": "Try another area or remove a filter to see more properties."
+      }
+    }
+  }
+}

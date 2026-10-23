@@ -1,6 +1,14 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+import {
+  DEFAULT_LOCALE,
+  INTL_SEGMENT,
+  isLocale,
+  LOCALE_COOKIE,
+  matchAcceptLanguage,
+  type Locale,
+} from "@/i18n/config";
 import { agencySlugFromToken } from "@/lib/auth/token-claims";
 
 // Agency-scoped sections, reached as /:agencySlug/<section>/...
@@ -32,6 +40,10 @@ const APP_ONLY_PREFIXES = ["/login", "/register", "/forgot-password", "/reset-pa
 // the only paths allowed to stay on the apex domain unredirected.
 const PUBLIC_ONLY_PREFIXES = ["/landing-test", "/page", "/offer", "/booking", "/owner", "/terms", "/privacy", "/help"];
 
+function isPublicPath(pathname: string): boolean {
+  return pathname === "/" || PUBLIC_ONLY_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
+}
+
 function isAppOnlyPath(pathname: string): boolean {
   if (pathname === "/") return false;
   if (APP_ONLY_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`))) {
@@ -53,11 +65,92 @@ function pass(isAppHost: boolean) {
   return response;
 }
 
+/**
+ * Serves a public page (the landing, legal pages, an agency's site) from the
+ * localized tree: /en/terms and /terms both land on app/intl/[locale]/terms.
+ * The header lets next-intl know the language even where a page doesn't set it.
+ */
+function servePublic(request: NextRequest, locale: Locale, path: string, isAppHost: boolean) {
+  const url = new URL(request.nextUrl);
+  url.pathname = path === "/" ? `/${INTL_SEGMENT}/${locale}` : `/${INTL_SEGMENT}/${locale}${path}`;
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("X-NEXT-INTL-LOCALE", locale);
+  const response = NextResponse.rewrite(url, { request: { headers: requestHeaders } });
+  if (isAppHost) response.headers.set("X-Robots-Tag", "noindex, nofollow");
+  return response;
+}
+
+/** The language someone reading "/" most likely wants: the one they picked before, else their browser's. */
+function preferredLocale(request: NextRequest): Locale {
+  const chosen = request.cookies.get(LOCALE_COOKIE)?.value;
+  if (isLocale(chosen)) return chosen;
+  return matchAcceptLanguage(request.headers.get("accept-language")) ?? DEFAULT_LOCALE;
+}
+
+/**
+ * The language half of the proxy, for public pages only. Returns null when the
+ * path isn't one (the dashboard, sign-in), so the rest of the proxy handles it.
+ */
+function localize(request: NextRequest, isAppHost: boolean): NextResponse | null {
+  const { pathname } = request.nextUrl;
+  const [, first = ""] = pathname.split("/");
+
+  // The internal folder is never an address of its own.
+  if (first === INTL_SEGMENT) {
+    const url = new URL(request.nextUrl);
+    const [, , locale, ...rest] = pathname.split("/");
+    url.pathname = `${isLocale(locale) && locale !== DEFAULT_LOCALE ? `/${locale}` : ""}/${rest.join("/")}`.replace(/\/$/, "") || "/";
+    return NextResponse.redirect(url, 308);
+  }
+
+  if (isLocale(first)) {
+    const rest = pathname.slice(first.length + 1) || "/";
+    // "/de/properties" can be an agency called "de": only claim the paths the
+    // public site serves. A bare "/de" is the landing only on the apex domain.
+    if (!isPublicPath(rest) || (rest === "/" && isAppHost)) return null;
+    if (first === DEFAULT_LOCALE) {
+      const url = new URL(request.nextUrl);
+      url.pathname = rest;
+      return NextResponse.redirect(url, 308);
+    }
+    return servePublic(request, first, rest, isAppHost);
+  }
+
+  if (!isPublicPath(pathname) || (pathname === "/" && isAppHost)) return null;
+
+  // Only the landing guesses: someone arriving at "/" whose browser (or past
+  // choice) is in another language goes to that version. Agency sites and
+  // shared links keep the language they were sent in.
+  if (pathname === "/") {
+    const preferred = preferredLocale(request);
+    if (preferred !== DEFAULT_LOCALE) {
+      const url = new URL(request.nextUrl);
+      url.pathname = `/${preferred}`;
+      return NextResponse.redirect(url);
+    }
+  }
+  return servePublic(request, DEFAULT_LOCALE, pathname, isAppHost);
+}
+
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const host = request.headers.get("host") ?? "";
   const bareHost = host.replace(/^www\./, "");
   const isAppHost = bareHost.startsWith("app.");
+
+  // Cookies don't cross from the apex to `app.`, so links from the public site
+  // into the app carry ?lang=xx: remember it on this host and drop it.
+  const lang = request.nextUrl.searchParams.get("lang");
+  if (isLocale(lang)) {
+    const url = new URL(request.nextUrl);
+    url.searchParams.delete("lang");
+    const response = NextResponse.redirect(url);
+    response.cookies.set(LOCALE_COOKIE, lang, { path: "/", maxAge: 60 * 60 * 24 * 365, sameSite: "lax" });
+    return response;
+  }
+
+  const localized = localize(request, isAppHost);
+  if (localized) return localized;
 
   // Dashboard-only paths requested on the apex domain go to the app
   // subdomain instead; cookies are host-only, so running the auth checks

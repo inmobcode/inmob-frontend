@@ -1,8 +1,7 @@
 "use client";
 
-import { formatDistanceToNow } from "date-fns";
-import { es } from "date-fns/locale";
 import { CalendarDays, Clock, UserRound } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 
@@ -12,51 +11,62 @@ import {
   DateTile,
   PaidBar,
   datesOf,
-  money,
   RangeLabel,
+  useMoney,
   type BookingActions,
 } from "@/components/bookings/booking-parts";
 import { ControlsZone } from "@/components/properties/property-controls";
+import { useFormat } from "@/i18n/format";
 import type { Booking } from "@/lib/api/bookings";
+import { parseApiDate } from "@/lib/dates";
 import { cn } from "@/lib/utils";
 
 const SURFACE =
   "booking-card group rounded-2xl bg-card shadow-[0_1px_2px_oklch(0.3_0.05_160/0.04),0_12px_32px_-12px_oklch(0.3_0.05_160/0.14)] ring-1 ring-foreground/5 outline-none transition-[box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:shadow-[0_1px_2px_oklch(0.3_0.05_160/0.06),0_24px_44px_-12px_oklch(0.3_0.05_160/0.26)] focus-visible:ring-3 focus-visible:ring-ring/50";
 
-const ago = (iso: string) => formatDistanceToNow(new Date(iso), { addSuffix: true, locale: es });
+function useAgo() {
+  const { ago } = useFormat();
+  return (iso: string) => ago(parseApiDate(iso));
+}
 
 function Total({ booking, className }: { booking: Booking; className?: string }) {
+  const t = useTranslations("bookings.views");
+  const { number } = useFormat();
   return booking.totalPrice ? (
     <span className={cn("tabular-nums", className)}>
       <span className="mr-1 text-xs font-medium text-muted-foreground">{booking.currency}</span>
-      <span className="font-semibold">{booking.totalPrice.toLocaleString("es-AR")}</span>
+      <span className="font-semibold">{number(booking.totalPrice)}</span>
     </span>
   ) : (
-    <span className={cn("text-muted-foreground", className)}>Sin total</span>
+    <span className={cn("text-muted-foreground", className)}>{t("noTotal")}</span>
   );
 }
 
 function When({ booking }: { booking: Booking }) {
+  const t = useTranslations("bookings.views");
   const dates = datesOf(booking);
   return (
     <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
       <CalendarDays className="size-3.5 shrink-0" />
       <RangeLabel booking={booking} />
-      {dates && <span>· {dates.nights} {dates.nights === 1 ? "noche" : "noches"}</span>}
+      {dates && <span>· {t("nights", { count: dates.nights })}</span>}
     </span>
   );
 }
 
 function Client({ booking }: { booking: Booking }) {
+  const t = useTranslations("bookings.views");
   return (
     <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
       <UserRound className="size-3.5 shrink-0" />
-      <span className="truncate">{booking.clientName ?? "Sin cliente asignado"}</span>
+      <span className="truncate">{booking.clientName ?? t("noClient")}</span>
     </span>
   );
 }
 
 export function BookingCard({ booking, actions }: { booking: Booking; actions: BookingActions }) {
+  const t = useTranslations("bookings.views");
+  const ago = useAgo();
   const { agencySlug } = useParams<{ agencySlug: string }>();
   const cancelled = booking.status === "CANCELLED";
   return (
@@ -65,7 +75,7 @@ export function BookingCard({ booking, actions }: { booking: Booking; actions: B
         <DateTile booking={booking} />
         <div className="flex min-w-0 flex-1 flex-col gap-1 pt-0.5">
           <h3 className="font-display text-xl leading-tight text-balance line-clamp-2" title={booking.propertyTitle ?? undefined}>
-            {booking.propertyTitle ?? "Reserva"}
+            {booking.propertyTitle ?? t("booking")}
           </h3>
           <Client booking={booking} />
         </div>
@@ -92,6 +102,8 @@ export function BookingCard({ booking, actions }: { booking: Booking; actions: B
 }
 
 export function BookingRow({ booking, actions }: { booking: Booking; actions: BookingActions }) {
+  const t = useTranslations("bookings.views");
+  const ago = useAgo();
   const { agencySlug } = useParams<{ agencySlug: string }>();
   const cancelled = booking.status === "CANCELLED";
   return (
@@ -103,7 +115,7 @@ export function BookingRow({ booking, actions }: { booking: Booking; actions: Bo
         <DateTile booking={booking} />
         <div className="flex min-w-0 flex-col gap-1">
           <h3 className="truncate font-display text-lg leading-tight" title={booking.propertyTitle ?? undefined}>
-            {booking.propertyTitle ?? "Reserva"}
+            {booking.propertyTitle ?? t("booking")}
           </h3>
           <Client booking={booking} />
         </div>
@@ -130,6 +142,9 @@ export function BookingRow({ booking, actions }: { booking: Booking; actions: Bo
 const HEAD = "px-4 py-3 text-left text-xs font-medium text-muted-foreground";
 
 export function BookingsTable({ bookings, actions }: { bookings: Booking[]; actions: BookingActions }) {
+  const t = useTranslations("bookings.views");
+  const ago = useAgo();
+  const money = useMoney();
   const router = useRouter();
   const { agencySlug } = useParams<{ agencySlug: string }>();
   return (
@@ -137,14 +152,14 @@ export function BookingsTable({ bookings, actions }: { bookings: Booking[]; acti
       <table className="w-full min-w-[860px] border-collapse text-sm">
         <thead>
           <tr>
-            <th className={cn(HEAD, "pl-4")}>Reserva</th>
-            <th className={HEAD}>Estado</th>
-            <th className={HEAD}>Fechas</th>
-            <th className={cn(HEAD, "text-right")}>Total</th>
-            <th className={cn(HEAD, "text-right")}>Cobrado</th>
-            <th className={HEAD}>Actualizada</th>
+            <th className={cn(HEAD, "pl-4")}>{t("booking")}</th>
+            <th className={HEAD}>{t("status")}</th>
+            <th className={HEAD}>{t("dates")}</th>
+            <th className={cn(HEAD, "text-right")}>{t("total")}</th>
+            <th className={cn(HEAD, "text-right")}>{t("collected")}</th>
+            <th className={HEAD}>{t("updated")}</th>
             <th className={cn(HEAD, "w-14")}>
-              <span className="sr-only">Acciones</span>
+              <span className="sr-only">{t("actions")}</span>
             </th>
           </tr>
         </thead>
@@ -166,9 +181,9 @@ export function BookingsTable({ bookings, actions }: { bookings: Booking[]; acti
                         onClick={(event) => event.stopPropagation()}
                         className="truncate font-medium outline-none hover:underline focus-visible:underline"
                       >
-                        {booking.propertyTitle ?? "Reserva"}
+                        {booking.propertyTitle ?? t("booking")}
                       </Link>
-                      <span className="truncate text-xs text-muted-foreground">{booking.clientName ?? "Sin cliente asignado"}</span>
+                      <span className="truncate text-xs text-muted-foreground">{booking.clientName ?? t("noClient")}</span>
                     </div>
                   </div>
                 </td>

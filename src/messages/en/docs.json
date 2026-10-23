@@ -1,0 +1,15 @@
+{
+  "docs": {
+    "header": {
+      "docs": "Documentation",
+      "back": "Back to the dashboard"
+    },
+    "page": {
+      "title": "How Tivvo works",
+      "lead": "A guide to every tool in the dashboard: what it does, how to use it and what your clients see. Use the index to jump straight to what you need.",
+      "sections": "Documentation sections",
+      "index": "Index",
+      "adminOnly": "Owners and administrators"
+    }
+  }
+}

@@ -1,0 +1,152 @@
+{
+  "dashboard": {
+    "actionBar": {
+      "unsaved": "Unsaved changes",
+      "save": "Save",
+      "publish": "Publish",
+      "cancel": "Cancel"
+    },
+    "help": {
+      "label": "Help",
+      "newTab": "{label} (opens in a new tab)"
+    },
+    "filter": {
+      "by": "Filter by {name}",
+      "showAll": "Show all"
+    },
+    "views": {
+      "change": "Change view",
+      "table": "Table",
+      "list": "List",
+      "grid": "Grid",
+      "board": "Board"
+    },
+    "nav": {
+      "inquiries": "Inquiries",
+      "clients": "Clients",
+      "properties": "Properties",
+      "offers": "Offers",
+      "bookings": "Bookings",
+      "availability": "Availability",
+      "services": "Services",
+      "portal": "Website",
+      "team": "Team",
+      "settings": "Settings",
+      "unread": "{name}, {count} unread",
+      "expandMenu": "Expand menu",
+      "collapseMenu": "Collapse menu",
+      "expand": "Expand",
+      "collapse": "Collapse",
+      "openMenu": "Open menu",
+      "menu": "Menu",
+      "mainNav": "Main navigation"
+    },
+    "assignee": {
+      "label": "Assignee",
+      "nobody": "Unassigned",
+      "you": "You"
+    },
+    "userMenu": {
+      "appearance": "Appearance",
+      "theme": {
+        "light": "Light",
+        "dark": "Dark",
+        "system": "Automatic"
+      },
+      "language": "Language",
+      "switchFailed": "Couldn't switch agency",
+      "switchAgency": "Switch agency",
+      "portalLinkCopied": "Website link copied",
+      "linkCopyFailed": "Couldn't copy the link",
+      "nameFallback": "Your name",
+      "profile": "My profile",
+      "settings": "Settings",
+      "viewPortal": "View my website",
+      "copyPortalLink": "Copy website link",
+      "docs": "Documentation",
+      "search": "Search and commands",
+      "shortcuts": "Keyboard shortcuts",
+      "help": "Help and support",
+      "logout": "Log out"
+    },
+    "shortcuts": {
+      "go": {
+        "properties": "Properties",
+        "offers": "Offers",
+        "clients": "Clients",
+        "inquiries": "Inquiries",
+        "bookings": "Bookings",
+        "availability": "Availability",
+        "team": "Team",
+        "portal": "Website",
+        "settings": "Settings",
+        "profile": "My profile"
+      },
+      "help": {
+        "general": "General",
+        "goTo": "Go to",
+        "lists": "In lists",
+        "palette": "Search and run commands",
+        "sidebar": "Collapse or expand the sidebar",
+        "save": "Save the form's changes",
+        "help": "See keyboard shortcuts",
+        "new": "Create a new one",
+        "search": "Go to the search box",
+        "filter": "Open the filter",
+        "views": "Grid, list or table view",
+        "move": "Move down and up between items",
+        "open": "Open the selected item",
+        "clear": "Clear the selection"
+      },
+      "groups": {
+        "go": "Go to",
+        "create": "Create",
+        "actions": "Actions",
+        "properties": "Properties",
+        "offers": "Offers",
+        "clients": "Clients"
+      },
+      "commands": {
+        "docs": "Documentation",
+        "newProperty": "New property",
+        "newOffer": "New offer",
+        "newClient": "New client",
+        "newBooking": "New booking",
+        "newMember": "Invite member",
+        "light": "Light mode",
+        "dark": "Dark mode",
+        "system": "Automatic mode",
+        "sidebar": "Collapse or expand the menu",
+        "logout": "Log out"
+      },
+      "paletteTitle": "Search and run commands",
+      "paletteDescription": "Type to search pages, properties, offers or clients.",
+      "palettePlaceholder": "Search a page, property, offer or client…",
+      "paletteSearch": "Search commands",
+      "nothingFor": "Nothing found for “{query}”.",
+      "helpTitle": "Keyboard shortcuts",
+      "helpDescription": "To move faster without leaving the keyboard.",
+      "then": "then",
+      "nothingToSave": "No changes to save"
+    },
+    "notifications": {
+      "deleteFailed": "Couldn't delete the notification",
+      "label": "Notifications",
+      "labelUnread": "Notifications, {count} unread",
+      "markAll": "Mark all as read",
+      "empty": "Nothing new yet. Inquiries, opened offers and payments will show up here.",
+      "unread": "Unread",
+      "delete": "Delete “{title}”",
+      "deleteShort": "Delete",
+      "types": {
+        "inquiry": "New inquiry from {name}",
+        "inquiryNoMessage": "Left their contact details.",
+        "offerViewed": "{who} opened the offer",
+        "offerViewedAnon": "Your client opened the offer",
+        "payment": "Payment recorded: {amount}",
+        "task": "A task was assigned to you",
+        "taskDue": "{title} · due {date}"
+      }
+    }
+  }
+}

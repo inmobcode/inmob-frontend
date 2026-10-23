@@ -1,0 +1,283 @@
+{
+  "labels": {
+    "listingType": {
+      "SALE": "Prodaja",
+      "RENT": "Najam"
+    },
+    "propertyStatus": {
+      "DRAFT": "Skica",
+      "PUBLISHED": "Objavljeno",
+      "ARCHIVED": "Arhivirano"
+    },
+    "offerOperation": {
+      "SALE": "Prodaja",
+      "RENT": "Najam",
+      "BOTH": "Prodaja i najam"
+    },
+    "offerStatus": {
+      "DRAFT": "Skica",
+      "SENT": "Poslana",
+      "VIEWED": "Pregledana",
+      "EXPIRED": "Istekla"
+    },
+    "discountType": {
+      "NONE": "Bez popusta",
+      "PERCENT": "Postotak",
+      "FIXED": "Fiksni iznos"
+    },
+    "clientStage": {
+      "LEAD": "Potencijalni klijent",
+      "CONTACTED": "Kontaktiran",
+      "NEGOTIATING": "U pregovorima",
+      "CLIENT": "Klijent",
+      "LOST": "Izgubljen"
+    },
+    "bookingStatus": {
+      "PENDING": "Na čekanju",
+      "CONFIRMED": "Potvrđena",
+      "CANCELLED": "Otkazana",
+      "COMPLETED": "Završena"
+    },
+    "paymentType": {
+      "DEPOSIT": "Predujam",
+      "BALANCE": "Ostatak",
+      "COMMISSION": "Provizija"
+    },
+    "category": {
+      "HOUSE": "Kuća",
+      "APARTMENT": "Stan",
+      "PENTHOUSE": "Penthouse",
+      "VILLA": "Vila",
+      "CHALET": "Planinska kuća",
+      "SEASONAL_PROPERTY": "Sezonski smještaj",
+      "MAISONETTE": "Dvoetažni stan",
+      "DETACHED_VILLA": "Samostojeća vila",
+      "SEMI_DETACHED_VILLA": "Dvojna vila",
+      "HOTEL": "Hotel",
+      "TOWNHOUSE": "Kuća u nizu",
+      "CONDO": "Stambeni kompleks",
+      "BUILDING": "Zgrada",
+      "LAND": "Zemljište",
+      "COMMERCIAL": "Poslovni prostor",
+      "OFFICE": "Ured"
+    },
+    "locationCategory": {
+      "PRIVATE": "Privatna",
+      "PART_OF_COMPLEX": "Dio kompleksa",
+      "PART_OF_HOTEL": "Dio hotela",
+      "PART_OF_RESORT": "Dio resorta"
+    },
+    "locationFeature": {
+      "Waterfront": "Uz vodu",
+      "Prime Waterfront": "Prvi red do vode",
+      "Beachfront": "Uz plažu",
+      "Resort Access": "Pristup resortu",
+      "Walking distance to a village": "Pješice do mjesta",
+      "Private": "Privatna",
+      "City": "Grad",
+      "Downtown": "Centar",
+      "Seaside": "Uz more",
+      "Mountain": "Planina",
+      "Private beach/sea access": "Privatni pristup plaži ili moru",
+      "Walking distance to the beach": "Pješice do plaže",
+      "Walking distance to town": "Pješice do centra",
+      "Ski in/Ski out": "Ski in / ski out",
+      "Sea Access": "Pristup moru",
+      "Beach Access": "Pristup plaži"
+    },
+    "view": {
+      "Sea View": "Pogled na more",
+      "Direct Sea View": "Izravan pogled na more",
+      "City View": "Pogled na grad",
+      "Nature View": "Pogled na prirodu",
+      "Panoramic View": "Panoramski pogled",
+      "Lake View": "Pogled na jezero",
+      "Forest View": "Pogled na šumu",
+      "Sunset View": "Pogled na zalazak sunca",
+      "Sunrise View": "Pogled na izlazak sunca",
+      "Mountain View": "Pogled na planine",
+      "Town View": "Pogled na mjesto",
+      "Ocean View": "Pogled na ocean",
+      "Water View": "Pogled na vodu"
+    },
+    "outdoorAmenity": {
+      "Pool": "Bazen",
+      "Rooftop Pool": "Bazen na krovu",
+      "Plunge Pool": "Bazen za uranjanje",
+      "Pool Bar": "Bar uz bazen",
+      "Heated pool": "Grijani bazen",
+      "Jacuzzi": "Jacuzzi",
+      "Outdoor kitchen": "Vanjska kuhinja",
+      "Outdoor Gym": "Vanjska teretana",
+      "Dining & Lounge Area": "Prostor za objedovanje i odmor",
+      "Cinema": "Kino",
+      "Ice plunge": "Ledena kupka",
+      "Sauna": "Sauna",
+      "Playground": "Dječje igralište",
+      "Helipad": "Helidrom",
+      "Private Dock": "Privatni gat",
+      "Access to a dock": "Pristup gatu",
+      "Private Parking": "Privatni parking",
+      "BBQ": "Roštilj",
+      "Tennis Court": "Teniski teren",
+      "Basketball Court": "Košarkaški teren",
+      "Ski in/out": "Ski in / out",
+      "Sun Deck": "Sunčalište",
+      "Fire Pit": "Ognjište",
+      "Outdoor Fireplace": "Vanjski kamin",
+      "Roof Terrace": "Krovna terasa",
+      "Yoga Shala": "Prostor za jogu",
+      "Landscaped Gardens": "Uređeni vrtovi",
+      "Boxing Ring": "Boksački ring",
+      "Golf": "Golf",
+      "Beach Volleyball Court": "Teren za odbojku na pijesku",
+      "Children's Play Area": "Dječji kutak",
+      "Outdoor Shower": "Vanjski tuš",
+      "Sound System": "Ozvučenje",
+      "Gated Property": "Ograđeno imanje",
+      "Table tennis": "Stolni tenis",
+      "CCTV Camera": "Videonadzor"
+    },
+    "indoorAmenity": {
+      "Indoor Pool": "Unutarnji bazen",
+      "Gym": "Teretana",
+      "Fitness room": "Fitness prostor",
+      "Hammam": "Hamam",
+      "Sauna": "Sauna",
+      "Massage room": "Prostorija za masažu",
+      "Home Cinema": "Kućno kino",
+      "Club": "Klub",
+      "Elevator": "Dizalo",
+      "Spa Area": "Spa prostor",
+      "Professional Kitchen": "Profesionalna kuhinja",
+      "Wine Cellar": "Vinski podrum",
+      "Fireplace": "Kamin",
+      "Ski Room": "Prostorija za skije",
+      "Cigar Lounge": "Salon za cigare",
+      "Laundry Facilities": "Praonica rublja",
+      "Spa and Wellness Centre": "Spa i wellness centar",
+      "Game Room": "Igraonica",
+      "Billiard": "Biljar",
+      "Playroom": "Dječja igraonica",
+      "Music/Recording Studio": "Glazbeni ili snimateljski studio",
+      "Staff quarters": "Prostorije za osoblje",
+      "Smart Home Technology": "Pametna kuća",
+      "Office/Workspace": "Ured ili radni prostor",
+      "Children's Play Area": "Dječji kutak",
+      "Alarm System": "Alarmni sustav",
+      "Safe Boxes": "Sefovi",
+      "Fully equipped kitchen": "Potpuno opremljena kuhinja",
+      "Airconditioning": "Klima-uređaj",
+      "Underfloor heating": "Podno grijanje",
+      "Solar panels": "Solarni paneli",
+      "Security cameras": "Sigurnosne kamere",
+      "Central heating": "Centralno grijanje",
+      "Double glazed windows": "Dvostruka stakla",
+      "Security system": "Sigurnosni sustav",
+      "Wood flooring": "Drveni podovi",
+      "Internal staircase": "Unutarnje stubište"
+    },
+    "propertyCondition": {
+      "Fully staffed": "Puno osoblje",
+      "Semi staffed": "Djelomično osoblje",
+      "Housekeeping & Daily cleaning": "Svakodnevno čišćenje",
+      "Suitable for children": "Prikladno za djecu",
+      "Suitable for events": "Prikladno za događanja",
+      "Suitable for the disabled": "Pristupačno osobama s invaliditetom",
+      "Pet friendly": "Kućni ljubimci dopušteni",
+      "For Sale": "Na prodaju",
+      "Under Contract": "Pod ugovorom",
+      "Sold": "Prodano",
+      "New Construction": "Novogradnja",
+      "Renovated": "Renovirano",
+      "Investment Property": "Investicijska nekretnina",
+      "Luxury Property": "Luksuzna nekretnina"
+    },
+    "includedService": {
+      "Housekeeping": "Čišćenje",
+      "Daily housekeeping": "Svakodnevno čišćenje",
+      "Pool Maintenance": "Održavanje bazena",
+      "Change of linen": "Promjena posteljine",
+      "Change of towels": "Promjena ručnika",
+      "24/7 Reception": "Recepcija 0–24",
+      "Airport transfer": "Prijevoz do zračne luke",
+      "Concierge service": "Concierge usluga",
+      "Security": "Zaštitarska služba",
+      "Gardener": "Vrtlar",
+      "Babysitting": "Čuvanje djece",
+      "Laundry service": "Usluga pranja rublja",
+      "Daily breakfast": "Svakodnevni doručak",
+      "Car rental arrangement": "Organizacija najma automobila",
+      "Grocery pre-stocking": "Nabava namirnica prije dolaska"
+    },
+    "photoSection": {
+      "GENERAL": "Općenito",
+      "BEDROOMS": "Spavaće sobe",
+      "INDOOR_LIVING": "Dnevni prostori",
+      "POOL": "Bazen",
+      "OUTDOOR": "Vanjski prostor",
+      "ADDED_FACILITIES": "Dodatni sadržaji",
+      "VIEWS": "Pogledi"
+    },
+    "poolType": {
+      "Private": "Privatni",
+      "Shared": "Zajednički",
+      "Infinity": "Infinity",
+      "Heated": "Grijani",
+      "Plunge Pool": "Bazen za uranjanje",
+      "Indoor Pool": "Unutarnji bazen",
+      "Child-Friendly Pool": "Prikladan za djecu"
+    },
+    "jacuzziType": {
+      "Portable Hot Tub": "Prijenosna hidromasažna kada",
+      "In-Ground Jacuzzi": "Ugradbeni jacuzzi",
+      "Portable Jacuzzi": "Prijenosni jacuzzi",
+      "Custom-Built Jacuzzi": "Jacuzzi po mjeri",
+      "Outdoor Jacuzzi": "Vanjski jacuzzi",
+      "Indoor Jacuzzi": "Unutarnji jacuzzi",
+      "Jacuzzi with Waterfall": "Jacuzzi s vodopadom",
+      "Jacuzzi with LED Lighting": "Jacuzzi s LED rasvjetom"
+    },
+    "energyCertificate": {
+      "under_publication": "U izradi"
+    },
+    "serviceType": {
+      "BUTLER": "Batler",
+      "CHEF": "Privatni kuhar",
+      "YACHT": "Jahte i brodovi",
+      "TRANSFER": "Transferi",
+      "CAR": "Najam automobila",
+      "EXCURSION": "Izleti",
+      "SPA": "Spa i wellness",
+      "BABYSITTER": "Dadilja",
+      "HOUSEKEEPING": "Dodatno čišćenje",
+      "EVENT": "Događanja",
+      "OTHER": "Ostalo"
+    },
+    "serviceUnit": {
+      "SERVICE": "Po usluzi",
+      "PERSON": "Po osobi",
+      "DAY": "Po danu",
+      "NIGHT": "Po noćenju",
+      "HOUR": "Po satu"
+    },
+    "serviceUnitPer": {
+      "PERSON": "po osobi",
+      "DAY": "po danu",
+      "NIGHT": "po noćenju",
+      "HOUR": "po satu"
+    },
+    "serviceUnitCount": {
+      "SERVICE": "{count, plural, one {# put} few {# puta} other {# puta}}",
+      "PERSON": "{count, plural, one {# osoba} few {# osobe} other {# osoba}}",
+      "DAY": "{count, plural, one {# dan} few {# dana} other {# dana}}",
+      "NIGHT": "{count, plural, one {# noćenje} few {# noćenja} other {# noćenja}}",
+      "HOUR": "{count, plural, one {# sat} few {# sata} other {# sati}}"
+    },
+    "clientSource": {
+      "WEBSITE": "Web-stranica",
+      "MANUAL": "Ručni unos",
+      "OFFER": "Ponuda"
+    }
+  }
+}

@@ -1,7 +1,6 @@
 "use client";
 
-import { differenceInCalendarDays, format, parseISO } from "date-fns";
-import { es } from "date-fns/locale";
+import { differenceInCalendarDays, parseISO } from "date-fns";
 import {
   ArrowRight,
   Banknote,
@@ -14,6 +13,7 @@ import {
   Trash2,
   X,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -24,8 +24,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useFormat } from "@/i18n/format";
 import type { Booking, BookingStatus } from "@/lib/api/bookings";
-import { BOOKING_STATUS_LABELS } from "@/lib/properties-labels";
+import { useLabels } from "@/lib/labels";
 import { getPublicOrigin } from "@/lib/public-origin";
 import { cn } from "@/lib/utils";
 
@@ -47,6 +48,7 @@ const STATUS_STYLES: Record<BookingStatus, string> = {
 };
 
 export function BookingStatusPill({ status, className }: { status: BookingStatus; className?: string }) {
+  const labels = useLabels();
   return (
     <span
       className={cn(
@@ -55,12 +57,16 @@ export function BookingStatusPill({ status, className }: { status: BookingStatus
         className,
       )}
     >
-      {BOOKING_STATUS_LABELS[status]}
+      {labels.bookingStatus(status)}
     </span>
   );
 }
 
-export const money = (currency: string, value: number) => `${currency} ${value.toLocaleString("es-AR")}`;
+/** "EUR 4.200" in the page's language, with the booking's decimals if it has any. */
+export function useMoney() {
+  const { money } = useFormat();
+  return (currency: string, value: number) => money(currency, value, {});
+}
 
 export function datesOf(booking: Booking) {
   if (!booking.startDate || !booking.endDate) return null;
@@ -71,13 +77,15 @@ export function datesOf(booking: Booking) {
 
 /** "12 oct → 19 oct", with the arrow as an icon. */
 export function RangeLabel({ booking }: { booking: Booking }) {
+  const t = useTranslations("bookings.parts");
+  const { date } = useFormat();
   const dates = datesOf(booking);
-  if (!dates) return <>Operación de venta</>;
+  if (!dates) return <>{t("sale")}</>;
   return (
     <span className="inline-flex items-center gap-1.5">
-      {format(dates.start, "d MMM", { locale: es })}
+      {date(dates.start, "dayMonthShort")}
       <ArrowRight className="size-3.5 shrink-0" />
-      {format(dates.end, "d MMM", { locale: es })}
+      {date(dates.end, "dayMonthShort")}
     </span>
   );
 }
@@ -92,6 +100,7 @@ export function paymentsOf(booking: Booking) {
 
 /** Check-in day as a small calendar tile; sales (no dates) show a banknote. */
 export function DateTile({ booking, className }: { booking: Booking; className?: string }) {
+  const { tag } = useFormat();
   const dates = datesOf(booking);
   return (
     <span
@@ -103,8 +112,10 @@ export function DateTile({ booking, className }: { booking: Booking; className?:
     >
       {dates ? (
         <>
-          <span className="text-[11px] leading-none font-medium">{format(dates.start, "MMM", { locale: es })}</span>
-          <span className="mt-0.5 font-display text-2xl leading-none">{format(dates.start, "d")}</span>
+          <span className="text-[11px] leading-none font-medium">
+            {dates.start.toLocaleDateString(tag, { month: "short" })}
+          </span>
+          <span className="mt-0.5 font-display text-2xl leading-none">{dates.start.getDate()}</span>
         </>
       ) : (
         <Banknote className="size-6" />
@@ -114,15 +125,17 @@ export function DateTile({ booking, className }: { booking: Booking; className?:
 }
 
 export function PaidBar({ booking, className }: { booking: Booking; className?: string }) {
+  const t = useTranslations("bookings.parts");
+  const money = useMoney();
   const { paid, base, ratio } = paymentsOf(booking);
-  if (base <= 0) return <p className={cn("text-sm text-muted-foreground", className)}>Sin precio cargado</p>;
+  if (base <= 0) return <p className={cn("text-sm text-muted-foreground", className)}>{t("noPrice")}</p>;
   return (
     <div className={cn("flex flex-col gap-1.5", className)}>
       <div className="h-1.5 overflow-hidden rounded-full bg-foreground/[0.08]">
         <div className="h-full rounded-full bg-primary transition-[width] duration-500" style={{ width: `${ratio * 100}%` }} />
       </div>
       <p className="text-xs text-muted-foreground tabular-nums">
-        Cobrado {money(booking.currency, paid)} de {money(booking.currency, base)}
+        {t("collectedOf", { paid: money(booking.currency, paid), total: money(booking.currency, base) })}
       </p>
     </div>
   );
@@ -131,13 +144,17 @@ export function PaidBar({ booking, className }: { booking: Booking; className?: 
 /** The client's read-only page for a booking. */
 export const clientLinkPath = (booking: Pick<Booking, "token">) => `/booking/${booking.token}`;
 
-export async function copyClientLink(booking: Pick<Booking, "token">) {
-  try {
-    await navigator.clipboard.writeText(`${getPublicOrigin()}${clientLinkPath(booking)}`);
-    toast.success("Link copiado");
-  } catch {
-    toast.error("No se pudo copiar el link");
-  }
+/** Copies the client's page link, with a toast either way. */
+export function useCopyClientLink() {
+  const t = useTranslations("common");
+  return async (booking: Pick<Booking, "token">) => {
+    try {
+      await navigator.clipboard.writeText(`${getPublicOrigin()}${clientLinkPath(booking)}`);
+      toast.success(t("linkCopied"));
+    } catch {
+      toast.error(t("linkCopyFailed"));
+    }
+  };
 }
 
 export function BookingMenu({
@@ -149,6 +166,8 @@ export function BookingMenu({
   actions: BookingActions;
   className?: string;
 }) {
+  const t = useTranslations("bookings.menu");
+  const copyClientLink = useCopyClientLink();
   const router = useRouter();
   const { agencySlug } = useParams<{ agencySlug: string }>();
   const open = booking.status === "PENDING" || booking.status === "CONFIRMED";
@@ -158,7 +177,7 @@ export function BookingMenu({
       <DropdownMenuTrigger asChild>
         <button
           type="button"
-          aria-label={`Acciones de ${booking.propertyTitle ?? "la reserva"}`}
+          aria-label={booking.propertyTitle ? t("actionsOf", { title: booking.propertyTitle }) : t("actions")}
           className={cn(
             "flex size-8 shrink-0 items-center justify-center rounded-full bg-foreground/[0.06] text-foreground transition-colors outline-none hover:bg-foreground/10 focus-visible:ring-3 focus-visible:ring-ring/50 data-[state=open]:bg-foreground/10",
             className,
@@ -170,26 +189,26 @@ export function BookingMenu({
       <DropdownMenuContent align="end" className="w-56 rounded-2xl p-1.5">
         <DropdownMenuItem className="rounded-xl py-2" onSelect={() => router.push(`/${agencySlug}/bookings/${booking.id}`)}>
           <Pencil />
-          Ver reserva
+          {t("view")}
         </DropdownMenuItem>
         <DropdownMenuItem className="rounded-xl py-2" onSelect={() => copyClientLink(booking)}>
           <Copy />
-          Copiar link para el cliente
+          {t("copyLink")}
         </DropdownMenuItem>
         <DropdownMenuItem className="rounded-xl py-2" onSelect={() => window.open(clientLinkPath(booking), "_blank", "noopener")}>
           <ExternalLink />
-          Ver como cliente
+          {t("viewAsClient")}
         </DropdownMenuItem>
         {booking.status === "PENDING" && (
           <DropdownMenuItem className="rounded-xl py-2" onSelect={() => actions.confirm(booking.id)}>
             <Check />
-            Confirmar
+            {t("confirm")}
           </DropdownMenuItem>
         )}
         {booking.status === "CONFIRMED" && (
           <DropdownMenuItem className="rounded-xl py-2" onSelect={() => actions.complete(booking.id)}>
             <CircleCheck />
-            Marcar como completada
+            {t("complete")}
           </DropdownMenuItem>
         )}
         {open && (
@@ -197,14 +216,14 @@ export function BookingMenu({
             <DropdownMenuSeparator />
             <DropdownMenuItem variant="destructive" className="rounded-xl py-2" onSelect={() => actions.cancel(booking.id)}>
               <X />
-              Cancelar reserva
+              {t("cancel")}
             </DropdownMenuItem>
           </>
         )}
         {!open && <DropdownMenuSeparator />}
         <DropdownMenuItem variant="destructive" className="rounded-xl py-2" onSelect={() => actions.remove(booking.id)}>
           <Trash2 />
-          Eliminar
+          {t("delete")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

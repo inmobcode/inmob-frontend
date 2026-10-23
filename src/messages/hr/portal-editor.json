@@ -1,0 +1,319 @@
+{
+  "portalEditor": {
+    "templates": {
+      "portada": {
+        "label": "Naslovnica",
+        "description": "Velika naslovna fotografija s tražilicom iznad."
+      },
+      "editorial": {
+        "label": "Uredničko",
+        "description": "Veliki naslov uz fotografiju i šire kartice s opisom."
+      },
+      "compacto": {
+        "label": "Kompaktno",
+        "description": "Bez naslovne fotografije. Prikazuje mnogo nekretnina na prvi pogled."
+      },
+      "dividido": {
+        "label": "Podijeljeno",
+        "description": "Polovica u vašoj boji s naslovom i tražilicom, polovica s naslovnom fotografijom."
+      },
+      "mosaico": {
+        "label": "Mozaik",
+        "description": "Kolaž fotografija na vrhu, koje birate u Naslovnici, i prva nekretnina istaknuta u velikom."
+      }
+    },
+    "accents": {
+      "charcoal": "Ugljen",
+      "forest": "Šuma",
+      "petrol": "Petrolej",
+      "blue": "Plava",
+      "indigo": "Indigo",
+      "brick": "Cigla",
+      "ochre": "Oker",
+      "wood": "Drvo"
+    },
+    "fonts": {
+      "moderna": {
+        "label": "Moderna",
+        "description": "Geometrijski, čisti naslovi."
+      },
+      "clasica": {
+        "label": "Klasična",
+        "description": "Naslovi sa serifima, elegantno."
+      },
+      "sobria": {
+        "label": "Suzdržana",
+        "description": "Jedna obitelj, diskretna."
+      },
+      "elegante": {
+        "label": "Elegantna",
+        "description": "Tanki serif, za luksuzne nekretnine."
+      },
+      "editorial": {
+        "label": "Urednička",
+        "description": "Serif s karakterom, kao časopis."
+      },
+      "calida": {
+        "label": "Topla",
+        "description": "Mekani serif i zaobljen tekst."
+      },
+      "urbana": {
+        "label": "Urbana",
+        "description": "Suvremeni sans, jasan i prijateljski."
+      },
+      "arquitectonica": {
+        "label": "Arhitektonska",
+        "description": "Široki naslovi s prisutnošću."
+      }
+    },
+    "sections": {
+      "location": {
+        "label": "Lokacija",
+        "description": "Područje s fotografijom, tekstom i njegovim nekretninama. Idealno za Ibizu, Grčku ili vaš kvart.",
+        "layouts": {
+          "split": "Istaknuto",
+          "banner": "Banner",
+          "carousel": "Vrtuljak"
+        }
+      },
+      "promo": {
+        "label": "Promocija",
+        "description": "Nekretnine s oznakom poput „15 % popusta” ili „Sezonska ponuda”.",
+        "layouts": {
+          "band": "Traka u boji",
+          "banner": "Banner s fotografijom",
+          "carousel": "Vrtuljak"
+        }
+      },
+      "featured": {
+        "label": "Istaknute nekretnine",
+        "description": "Vaš izbor: najnovije, uz more, najtraženije.",
+        "layouts": {
+          "grid": "Mreža",
+          "carousel": "Vrtuljak"
+        }
+      },
+      "destinations": {
+        "label": "Odredišta",
+        "description": "Više područja odjednom, svako sa svojom fotografijom. Dodirom na jedno filtrira se popis.",
+        "layouts": {
+          "tiles": "Pločice",
+          "carousel": "Vrtuljak"
+        }
+      },
+      "text": {
+        "label": "Tekst i slika",
+        "description": "Ispričajte nešto svoje: usluge, procjene, kako radite.",
+        "layouts": {
+          "image-left": "Slika lijevo",
+          "image-right": "Slika desno",
+          "centered": "Samo tekst"
+        }
+      },
+      "cta": {
+        "label": "Poziv na akciju",
+        "description": "Poziv s gumbom, npr. „Želite prodati svoju nekretninu?”.",
+        "layouts": {
+          "color": "Boja",
+          "photo": "S fotografijom"
+        }
+      }
+    },
+    "buttonTargets": {
+      "contact": "Kontakt obrazac",
+      "whatsapp": "WhatsApp",
+      "properties": "Popis nekretnina"
+    },
+    "design": {
+      "title": "Izgled",
+      "description": "Opći oblik početne stranice. Možete koristiti jedan na računalima, a drugi na mobitelima.",
+      "screen": "Zaslon",
+      "desktop": "Računalo",
+      "mobile": "Mobitel",
+      "sameAsDesktop": "Isto kao na računalu",
+      "sameAsDesktopHint": "Isključite da odaberete drugi izgled samo za mobitele.",
+      "onMobile": "Izgled na mobitelima",
+      "onDesktop": "Izgled na računalima"
+    },
+    "color": {
+      "title": "Boja",
+      "description": "Za gumbe, poveznice i detalje. Ostatak stranice ostaje bijel i siv.",
+      "custom": "Odaberi drugu boju",
+      "code": "Kod boje",
+      "picker": "Ili drugu, pomoću birača",
+      "format": "Koristite format #1F5F4A"
+    },
+    "fontsTitle": "Tipografija",
+    "cover": {
+      "mosaicTitle": "Fotografije mozaika",
+      "mosaicDescription": "Četiri naslovne fotografije, ovim redoslijedom; prva je velika. Ako ne odaberete nijednu, koriste se fotografije vaših nekretnina.",
+      "photoTitle": "Naslovna fotografija",
+      "photoDescription": "Glavna slika vaše stranice. Najbolje vodoravna i široka najmanje 1920 px.",
+      "current": "Trenutačna naslovnica",
+      "none": "Bez naslovnice: koristi se vaša boja.",
+      "change": "Promijeni fotografiju",
+      "upload": "Učitaj fotografiju",
+      "remove": "Ukloni",
+      "texts": "Tekstovi",
+      "heroTitle": "Naslov",
+      "heroTitleHint": "Ako ostane prazno, koristi se primjer.",
+      "heroSubtitle": "Podnaslov",
+      "heroSubtitlePlaceholder": "Kuće i stanovi na prodaju i u najam na obali."
+    },
+    "blocksPanel": {
+      "title": "Blokovi",
+      "description": "Vlastiti odjeljci između naslovnice i popisa: odredišta poput Ibize ili Grčke, ili promocije s istaknutim nekretninama."
+    },
+    "agency": {
+      "aboutTitle": "O vašoj agenciji",
+      "aboutDescription": "Odlomak o tome tko ste i kako radite.",
+      "showAbout": "Prikaži odjeljak na stranici",
+      "aboutLabel": "Tekst o vašoj agenciji",
+      "aboutPlaceholder": "Mi smo obiteljska agencija za nekretnine s 20 godina iskustva u ovom kraju…",
+      "contactTitle": "Kontakt",
+      "contactDescription": "Prikazuje se u podnožju i u odjeljku za kontakt. E-pošta se mijenja u Postavkama.",
+      "whatsappHint": "S pozivnim brojem države. Uključuje gumb „Pišite nam na WhatsApp”.",
+      "phone": "Telefon",
+      "address": "Adresa ureda",
+      "instagramPlaceholder": "@vasaagencija"
+    },
+    "placeholders": {
+      "location": {
+        "title": "Ibiza",
+        "text": "Tirkizne uvale, bijela sela i zalasci sunca. Imamo vile i stanove po cijelom otoku."
+      },
+      "promo": {
+        "title": "Ljeto na obali",
+        "text": "Uz rezervaciju do 30. studenoga, 15 % popusta na boravke od tjedan dana ili dulje."
+      },
+      "featured": {
+        "title": "Tek pristiglo",
+        "text": "Najnovije nekretnine koje smo dodali."
+      },
+      "destinations": {
+        "title": "Gdje imamo nekretnine"
+      },
+      "text": {
+        "title": "Besplatna procjena vaše nekretnine",
+        "text": "Kažemo vam koliko vrijedi na današnjem tržištu i kako je brže prodati."
+      },
+      "cta": {
+        "title": "Želite prodati svoju nekretninu?",
+        "text": "Uz vas smo od procjene do potpisa ugovora."
+      }
+    },
+    "blocks": {
+      "imageFailed": "Sliku nije moguće učitati",
+      "changeImage": "Promijeni sliku",
+      "uploadImage": "Učitaj sliku",
+      "change": "Promijeni",
+      "remove": "Ukloni",
+      "picker": {
+        "count": "({count} od najviše {max})",
+        "empty": "Još nemate objavljenih nekretnina.",
+        "searchPlaceholder": "Pretraži po naslovu ili području",
+        "searchIn": "Pretraži u {label}",
+        "noMatch": "Ništa ne odgovara toj pretrazi.",
+        "previous": "Prethodna stranica",
+        "next": "Sljedeća stranica",
+        "page": "Stranica {page} od {total}"
+      },
+      "zone": "Područje",
+      "destinations": {
+        "title": "Odredišta",
+        "name": "Naziv odredišta {number}",
+        "zone": "Područje (ako se razlikuje od naziva)",
+        "remove": "Ukloni {name}",
+        "fallback": "odredište",
+        "add": "Dodaj odredište"
+      },
+      "button": {
+        "label": "Tekst gumba",
+        "hint": "Prazno: bez gumba.",
+        "placeholder": "Pišite nam",
+        "target": "Vodi na"
+      },
+      "layout": "Izgled",
+      "layoutLabel": "Izgled bloka",
+      "title": "Naslov",
+      "zoneHint": "Broje se nekretnine čiji kvart, regija ili država odgovara ovom području.",
+      "badge": "Oznaka",
+      "endsAt": "Vrijedi do (neobavezno)",
+      "noDate": "Bez datuma",
+      "text": "Tekst",
+      "zonePhoto": "Fotografija područja",
+      "image": "Slika",
+      "listings": "Nekretnine bloka",
+      "listingsLabel": "Koje nekretnine prikazati",
+      "fromZone": "One iz područja",
+      "pick": "Odabrati ih",
+      "picked": "Odabrane nekretnine",
+      "included": "Uključene nekretnine",
+      "properties": "Nekretnine",
+      "untitled": "Bez naslova",
+      "hidden": "skriveno",
+      "showNamed": "Prikaži {name}",
+      "hideNamed": "Sakrij {name}",
+      "show": "Prikaži na stranici",
+      "hide": "Sakrij sa stranice",
+      "moveUp": "Pomakni {name} gore",
+      "moveDown": "Pomakni {name} dolje",
+      "delete": "Izbriši {name}",
+      "max": "Dosegli ste najviše {max} blokova.",
+      "addTitle": "Koji blok želite dodati?",
+      "close": "Zatvori",
+      "add": "Dodaj blok",
+      "zonePicker": {
+        "pick": "Odaberite lokaciju",
+        "none": "Bez lokacije"
+      }
+    },
+    "preview": {
+      "title": "Pregled stranice"
+    },
+    "mosaic": {
+      "uploadFailed": "Sliku nije moguće učitati",
+      "change": "Promijeni fotografiju {number}",
+      "pick": "Odaberi fotografiju {number}",
+      "remove": "Ukloni fotografiju {number}",
+      "dialogTitle": "Fotografija {number} mozaika",
+      "dialogDescription": "Odaberite fotografiju svojih nekretnina ili učitajte sliku.",
+      "uploading": "Učitavanje…",
+      "upload": "Učitaj sliku",
+      "empty": "Vaše nekretnine još nemaju fotografije.",
+      "used": "{title} (već je u mozaiku)"
+    },
+    "page": {
+      "saved": "Stranica je ažurirana",
+      "saveFailed": "Stranicu nije moguće spremiti",
+      "coverSaved": "Naslovnica je ažurirana",
+      "coverFailed": "Naslovnicu nije moguće učitati",
+      "title": "Vaša stranica",
+      "unsaved": "Nespremljene promjene",
+      "previewSize": "Veličina pregleda",
+      "viewports": {
+        "desktop": "Računalo",
+        "mobile": "Mobitel"
+      },
+      "edit": "Uredi",
+      "preview": "Pregled",
+      "help": "Pomoć za stranicu",
+      "viewPublishedTitle": "Pogledaj objavljenu stranicu",
+      "viewPublished": "Pogledaj objavljeno",
+      "save": "Spremi promjene",
+      "sections": "Odjeljci uređivača",
+      "tabs": {
+        "design": "Izgled",
+        "cover": "Naslovnica",
+        "blocks": "Blokovi",
+        "agency": "Agencija i kontakt"
+      },
+      "exit": {
+        "title": "Imate nespremljenih promjena",
+        "body": "Ako sada izađete, izgubit će se promjene koje još niste spremili na stranici.",
+        "stay": "Nastavi uređivati",
+        "leave": "Izađi bez spremanja"
+      }
+    }
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "marketplace": {
+    "metaTitle": "Tivvo · Affitti brevi e immobili in vendita",
+    "byDestination": "Per destinazione",
+    "nav": {
+      "rentals": "Affitti",
+      "agency": "Sono un’agenzia"
+    },
+    "hero": {
+      "title": "Un posto per qualche giorno.",
+      "titleTail": "O per restare.",
+      "lead": "Case, appartamenti e ville di agenzie reali. Scegli le date, guarda cosa è libero e chiedi direttamente a chi lo pubblica."
+    },
+    "card": {
+      "rent": "Affitto breve",
+      "sale": "Vendita",
+      "categoryIn": "{category} a {place}",
+      "bedrooms": "{value} cam.",
+      "bathrooms": "{count, plural, one {{value} bagno} other {{value} bagni}}",
+      "perNight": "a notte",
+      "stayTotal": "{count, plural, one {{amount} per # notte} other {{amount} per # notti}}",
+      "onRequest": "Prezzo su richiesta",
+      "onRequestShort": "Chiedi",
+      "publishedBy": "Pubblicato da <strong>{agency}</strong>"
+    },
+    "destination": {
+      "typed": "Cerca con quello che hai scritto",
+      "label": "Dove",
+      "placeholder": "Città, zona o paese",
+      "withListings": "Con immobili",
+      "destinations": "Destinazioni con immobili",
+      "elsewhere": "Altri luoghi"
+    },
+    "search": {
+      "guestsCount": "{count, plural, one {# ospite} other {# ospiti}}",
+      "guestsPlaceholder": "Quanti siete?",
+      "guests": "Ospiti",
+      "guestsHint": "Bambini inclusi",
+      "oneLess": "Uno in meno",
+      "oneMore": "Uno in più",
+      "buy": "Comprare",
+      "looking": "Cerco",
+      "lookingLabel": "Cosa cerchi",
+      "where": "Dove",
+      "when": "Quando",
+      "dates": "Arrivo e partenza",
+      "who": "Chi",
+      "what": "Cosa",
+      "type": "Tipo di immobile",
+      "anyType": "Qualsiasi tipo",
+      "upTo": "Fino a",
+      "maxPrice": "Prezzo massimo",
+      "noCap": "Senza limite",
+      "submit": "Cerca"
+    },
+    "empty": {
+      "zoneTitle": "Non ci sono ancora immobili a {zone}.",
+      "zoneDates": "Almeno non per quelle date.",
+      "zoneSoon": "Presto potrebbero esserci.",
+      "title": "Niente corrisponde a tutto questo insieme.",
+      "titleTail": "Prova ad allentare un filtro.",
+      "zoneBody": "Le agenzie su Tivvo non hanno ancora nulla lì. Nel frattempo, guarda le destinazioni dove c’è qualcosa.",
+      "body": "Togli un filtro o cambia le date e vedrai più opzioni.",
+      "everywhere": "Cerca in tutte le destinazioni",
+      "noDates": "Prova senza date",
+      "all": "Vedi tutti gli immobili",
+      "destinations": "Destinazioni con immobili"
+    },
+    "results": {
+      "upTo": "Fino a {amount}",
+      "title": "Risultati",
+      "latest": "Appena pubblicati",
+      "free": "Solo quelli liberi in quelle date.",
+      "chosen": "In base alle tue scelte.",
+      "latestHint": "Le ultime novità dalle agenzie.",
+      "sort": "Ordina",
+      "sorts": {
+        "recent": "Più recenti",
+        "price_asc": "Prezzo più basso",
+        "price_desc": "Prezzo più alto"
+      },
+      "list": "Solo elenco",
+      "map": "Vedi sulla mappa",
+      "remove": "Rimuovi",
+      "clearAll": "Cancella tutto"
+    },
+    "how": {
+      "title": "Senza intermediari di troppo.",
+      "titleTail": "Parli con l’agenzia.",
+      "search": {
+        "title": "Cerchi",
+        "text": "Zona, date e quanti siete. Con le date vedi solo ciò che è libero."
+      },
+      "ask": {
+        "title": "Chiedi",
+        "text": "Il tuo messaggio arriva all’agenzia che lo pubblica, non a un call center."
+      },
+      "arrange": {
+        "title": "Ti accordi",
+        "text": "Ti confermano disponibilità e prezzo finale, e organizzate la prenotazione o la visita."
+      }
+    },
+    "footer": {
+      "label": "Piè di pagina",
+      "blurb": "Affitti brevi e immobili in vendita di agenzie reali. Ogni richiesta arriva a chi pubblica.",
+      "legal": "Ogni immobile è pubblicato e gestito dalla sua agenzia.",
+      "pitch": {
+        "title": "Hai un’agenzia immobiliare?",
+        "body": "Pubblica qui i tuoi immobili e gestisci richieste, offerte e prenotazioni da un unico posto.",
+        "cta": "Scopri Tivvo per le agenzie"
+      },
+      "rent": {
+        "title": "Affittare",
+        "all": "Affitti brevi",
+        "in": "Affitti a {zone}"
+      },
+      "buy": {
+        "title": "Comprare",
+        "all": "Immobili in vendita"
+      },
+      "agencies": {
+        "title": "Per le agenzie",
+        "about": "Scopri Tivvo",
+        "register": "Crea un account",
+        "login": "Accedi"
+      },
+      "tivvo": {
+        "how": "Come funziona",
+        "all": "Vedi tutti gli immobili"
+      }
+    }
+  }
+}

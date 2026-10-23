@@ -1,12 +1,11 @@
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
+import { useFormat } from "@/i18n/format";
+import { Link } from "@/i18n/navigation";
 import type { OfferPropertyItem } from "@/lib/api/offers";
-import { categoryLabel, LISTING_TYPE_LABELS } from "@/lib/properties-labels";
+import { useLabels } from "@/lib/labels";
 import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
-
-// A fixed locale: the page renders on the server and in the browser, and both must print the same.
-const money = (value: number) => value.toLocaleString("es-AR", { maximumFractionDigits: 0 });
 
 export function OfferPropertyCard({
   item,
@@ -17,10 +16,15 @@ export function OfferPropertyCard({
   currency: string;
   offerToken: string;
 }) {
+  const t = useTranslations("site.offer");
+  const labels = useLabels();
+  // The page's language, the same on the server and in the browser.
+  const { number } = useFormat();
+  const money = (value: number) => number(value, { maximumFractionDigits: 0 });
   const href = `/offer/${offerToken}/properties/${item.propertyId}`;
   const property = item.property;
   const cover = property.photos.find((p) => p.isCover) ?? property.photos[0];
-  const perNight = property.listingType === "RENT" ? " /noche" : "";
+  const perNight = property.listingType === "RENT" ? ` ${t("perNight")}` : "";
 
   return (
     <div className="overflow-hidden rounded-lg border bg-white dark:bg-zinc-950">
@@ -33,7 +37,7 @@ export function OfferPropertyCard({
       </Link>
       <div className="space-y-1 p-4">
         <p className="text-xs text-zinc-500">
-          {LISTING_TYPE_LABELS[property.listingType]} · {categoryLabel(property.category)}
+          {labels.listingType(property.listingType)} · {labels.category(property.category)}
         </p>
         <h3 className="font-medium break-words">
           <Link href={href} className="underline-offset-4 hover:underline">
@@ -58,20 +62,20 @@ export function OfferPropertyCard({
               </p>
             </>
           ) : (
-            <p className="font-semibold">Consultar precio</p>
+            <p className="font-semibold">{t("askPrice")}</p>
           )}
         </div>
 
         {item.securityDeposit != null && (
           <p className="text-xs text-zinc-500">
-            Depósito de seguridad: {currency} {money(item.securityDeposit)}
+            {t("deposit", { amount: `${currency} ${money(item.securityDeposit)}` })}
           </p>
         )}
 
         {item.bottomText && <p className="text-xs break-words text-zinc-500">{item.bottomText}</p>}
 
         <Link href={href} className="inline-block pt-1 text-sm font-medium underline-offset-4 hover:underline">
-          Ver propiedad
+          {t("seeProperty")}
         </Link>
 
         {(property.brochureUrl || property.websiteUrl) && (
@@ -79,14 +83,14 @@ export function OfferPropertyCard({
             {property.brochureUrl && (
               <Button asChild variant="outline" size="sm">
                 <a href={property.brochureUrl} target="_blank" rel="noopener noreferrer">
-                  Ver folleto
+                  {t("brochure")}
                 </a>
               </Button>
             )}
             {property.websiteUrl && (
               <Button asChild variant="outline" size="sm">
                 <a href={property.websiteUrl} target="_blank" rel="noopener noreferrer">
-                  Ver sitio
+                  {t("website")}
                 </a>
               </Button>
             )}

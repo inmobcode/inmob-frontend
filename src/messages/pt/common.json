@@ -1,0 +1,171 @@
+{
+  "meta": {
+    "description": "Software de gestão para imobiliárias: imóveis, ofertas, reservas e o site da sua agência.",
+    "ogAlt": "Tivvo · Sistema de gestão para imobiliárias",
+    "ogTitle": "Um só lugar para os seus imóveis, ofertas e reservas",
+    "ogSubtitle": "Sistema de gestão para imobiliárias de venda e arrendamento de curta duração."
+  },
+  "notFound": {
+    "metaTitle": "Página não encontrada",
+    "code": "Erro 404",
+    "title": "Este endereço não consta da planta.",
+    "tail": "Pode ter mudado de lugar ou já não estar publicado.",
+    "searchLabel": "Pesquisar na ajuda",
+    "searchPlaceholder": "O que procurava? Experimente «reserva»",
+    "search": "Pesquisar",
+    "otherPlaces": "Outros sítios",
+    "stillLost": "Continua perdido? Escreva-nos para",
+    "links": {
+      "home": {
+        "label": "Início",
+        "hint": "O que é a Tivvo e como funciona"
+      },
+      "help": {
+        "label": "Ajuda",
+        "hint": "Respostas e contacto"
+      },
+      "login": {
+        "label": "Entrar",
+        "hint": "Aceda ao painel da sua agência"
+      }
+    }
+  },
+  "language": {
+    "label": "Idioma",
+    "change": "Mudar de idioma"
+  },
+  "common": {
+    "unexpectedError": "Erro inesperado",
+    "linkCopied": "Link copiado",
+    "linkCopyFailed": "Não foi possível copiar o link",
+    "actionFailed": "Não foi possível concluir a ação",
+    "checkConnection": "Verifique a sua ligação e tente novamente.",
+    "back": "Voltar",
+    "cancel": "Cancelar",
+    "saving": "A guardar…",
+    "creating": "A criar…",
+    "optional": "(opcional)",
+    "undo": "Anular",
+    "retry": "Tentar novamente",
+    "noMatchTitle": "Nada corresponde a isso",
+    "clearFilters": "Limpar filtros",
+    "emailCopied": "Email copiado",
+    "emailCopyFailed": "Não foi possível copiar o email",
+    "changesSaved": "Alterações guardadas",
+    "saveFailed": "Não foi possível guardar as alterações",
+    "nameRequired": "Introduza um nome",
+    "emailInvalid": "Email inválido",
+    "checkFields": "Verifique os campos assinalados",
+    "save": "Guardar",
+    "help": "Ajuda",
+    "datePicker": {
+      "previousMonth": "Mês anterior",
+      "nextMonth": "Mês seguinte",
+      "pickDate": "Escolha uma data",
+      "pickDates": "Escolha as datas",
+      "pickCheckIn": "Escolha o check-in",
+      "pickCheckOut": "Agora escolha o check-out",
+      "days": "{count, plural, one {# dia} other {# dias}}",
+      "nights": "{count, plural, one {# noite} other {# noites}}",
+      "clear": "Limpar",
+      "search": "Pesquisar…"
+    },
+    "combobox": {
+      "search": "Pesquisar…",
+      "empty": "Nada corresponde."
+    },
+    "richText": {
+      "link": "Link",
+      "linkUrl": "Endereço do link",
+      "done": "Feito",
+      "removeLink": "Remover link",
+      "blockType": "Tipo de texto",
+      "blocks": {
+        "p": "Texto",
+        "h2": "Título",
+        "h3": "Subtítulo"
+      },
+      "bold": "Negrito",
+      "italic": "Itálico",
+      "bulletList": "Lista com marcadores",
+      "orderedList": "Lista numerada"
+    }
+  },
+  "errors": {
+    "code": "Erro {code}",
+    "otherPlaces": "Outros sítios",
+    "server": {
+      "title": "Algo correu mal do nosso lado.",
+      "tail": "Tente novamente; se continuar, escreva-nos.",
+      "retry": "Tentar novamente",
+      "home": "Ir para o início"
+    }
+  },
+  "trash": {
+    "restoreFailed": "Não foi possível restaurar",
+    "deleted": "Eliminado definitivamente",
+    "deleteFailed": "Não foi possível eliminar",
+    "intro": "O que elimina fica aqui durante {days} dias, caso se arrependa. Depois é eliminado definitivamente.",
+    "loadFailed": "Não conseguimos carregar o lixo.",
+    "emptyTitle": "O lixo está vazio",
+    "emptyBody": "Quando eliminar algo, aparecerá aqui.",
+    "deletedAgo": "Eliminado {ago}",
+    "goesToday": "é eliminado hoje",
+    "goesIn": "{count, plural, one {é eliminado definitivamente dentro de # dia} other {é eliminado definitivamente dentro de # dias}}",
+    "restore": "Restaurar",
+    "deleteForever": "Eliminar definitivamente",
+    "confirmTitle": "Eliminar definitivamente?",
+    "confirmBody": "«{title}» será eliminado para sempre e não poderá ser recuperado.",
+    "link": "Lixo",
+    "linkCount": "{count, plural, one {Lixo, # elemento} other {Lixo, # elementos}}",
+    "pages": {
+      "properties": {
+        "title": "Lixo de imóveis",
+        "restored": "Restaurou o imóvel",
+        "back": "Imóveis",
+        "untitled": "Imóvel"
+      },
+      "offers": {
+        "title": "Lixo de ofertas",
+        "restored": "Restaurou a oferta",
+        "back": "Ofertas",
+        "untitled": "Oferta"
+      },
+      "bookings": {
+        "title": "Lixo de reservas",
+        "restored": "Restaurou a reserva",
+        "back": "Reservas",
+        "untitled": "Reserva"
+      }
+    }
+  },
+  "pageTitles": {
+    "forgotPassword": "Recupere a sua palavra-passe",
+    "register": "Crie a sua conta",
+    "login": "Entrar",
+    "clients": "Clientes",
+    "settings": "Definições",
+    "offers": "Ofertas",
+    "bookings": "Reservas",
+    "inquiries": "Pedidos de informação",
+    "profile": "O meu perfil",
+    "properties": "Imóveis",
+    "import": "Importar imóveis",
+    "team": "Equipa",
+    "services": "Serviços",
+    "portal": "Site",
+    "docs": "Documentação",
+    "authCallback": "A iniciar sessão",
+    "resetPassword": "Redefinir palavra-passe"
+  },
+  "legal": {
+    "effective": "Em vigor desde",
+    "sections": "Secções",
+    "seeAlso": "Ver também",
+    "summary": "Em poucas palavras",
+    "summaryNote": "Este resumo ajuda a ler o documento, mas não o substitui: prevalece o texto completo.",
+    "brief": "Em resumo:",
+    "nav": "Principal",
+    "home": "Voltar ao início"
+  }
+}

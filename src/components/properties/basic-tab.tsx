@@ -1,6 +1,7 @@
 "use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 import { Controller, useWatch, type UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -22,7 +23,7 @@ import {
 import { ApiError } from "@/lib/api/client";
 import { updateProperty, type Property } from "@/lib/api/properties";
 import { getAccessToken, useSessionUser } from "@/lib/auth/session";
-import { LOCATION_CATEGORY_LABELS } from "@/lib/properties-labels";
+import { useLabels } from "@/lib/labels";
 import {
   ACCOMMODATION_TYPES,
   ENERGY_CERTIFICATE_OPTIONS,
@@ -58,6 +59,7 @@ function Section({
 
 /** Who looks after the property. Saved on its own, apart from the form; only owners and admins can change it. */
 function ResponsibleField({ property }: { property: Property }) {
+  const t = useTranslations("properties.basic");
   const user = useSessionUser();
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -69,22 +71,22 @@ function ResponsibleField({ property }: { property: Property }) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["property", property.id] });
       queryClient.invalidateQueries({ queryKey: ["properties"] });
-      toast.success("Responsable actualizado");
+      toast.success(t("responsibleUpdated"));
     },
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo cambiar el responsable"),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : t("responsibleFailed")),
   });
 
   if (!user || user.role === "AGENT") return null;
   return (
     <Field>
-      <FieldLabel>Responsable</FieldLabel>
+      <FieldLabel>{t("responsible")}</FieldLabel>
       <AssigneeSelect
         value={property.assignedAgentId}
         disabled={mutation.isPending}
         onChange={(userId) => mutation.mutate(userId)}
       />
       <FieldDescription>
-        Un agente solo ve las propiedades que tiene asignadas. Se guarda al elegirlo.
+        {t("responsibleHint")}
       </FieldDescription>
     </Field>
   );
@@ -97,6 +99,8 @@ export function BasicTab({
   form: UseFormReturn<FormValues>;
   property: Property;
 }) {
+  const t = useTranslations("properties.basic");
+  const labels = useLabels();
   const values = useWatch({ control: form.control });
   const listingType = values.listingType ?? property.listingType;
   const isRent = listingType === "RENT";
@@ -105,7 +109,7 @@ export function BasicTab({
   // What the card in /properties would look like with the values typed so far.
   const preview: Property = {
     ...property,
-    title: values.title?.trim() || "Sin título",
+    title: values.title?.trim() || t("untitled"),
     listingType,
     category: values.category ?? property.category,
     bedrooms: toNumber(values.bedrooms),
@@ -117,23 +121,23 @@ export function BasicTab({
   return (
     <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-12">
       <div className="flex max-w-2xl min-w-0 flex-col gap-10">
-        <Section title="Identidad" description="Cómo se llama y qué tipo de propiedad es.">
+        <Section title={t("identity.title")} description={t("identity.description")}>
           <FieldGroup>
             <Field>
-              <FieldLabel htmlFor="title">Título</FieldLabel>
+              <FieldLabel htmlFor="title">{t("identity.titleLabel")}</FieldLabel>
               <Input id="title" className="h-12 text-base" {...form.register("title")} />
               <FieldError errors={[form.formState.errors.title]} />
             </Field>
             <Field>
-              <FieldLabel htmlFor="agentFriendlyName">Nombre privado</FieldLabel>
+              <FieldLabel htmlFor="agentFriendlyName">{t("identity.privateName")}</FieldLabel>
               <Input id="agentFriendlyName" {...form.register("agentFriendlyName")} />
               <FieldDescription>
-                Solo lo ven vos y tu equipo. Sirve para distinguir propiedades parecidas.
+                {t("identity.privateNameHint")}
               </FieldDescription>
             </Field>
             <ResponsibleField property={property} />
             <Field>
-              <FieldLabel>Operación</FieldLabel>
+              <FieldLabel>{t("identity.operation")}</FieldLabel>
               <Controller
                 control={form.control}
                 name="listingType"
@@ -151,11 +155,11 @@ export function BasicTab({
                 )}
               />
               <FieldDescription>
-                Cambiarla muestra u oculta secciones, como las de Alquiler.
+                {t("identity.operationHint")}
               </FieldDescription>
             </Field>
             <Field>
-              <FieldLabel>Categoría</FieldLabel>
+              <FieldLabel>{t("identity.category")}</FieldLabel>
               <Controller
                 control={form.control}
                 name="category"
@@ -172,72 +176,72 @@ export function BasicTab({
           </FieldGroup>
         </Section>
 
-        <Section title="Características" description="Lo que ven los clientes en la ficha.">
+        <Section title={t("features.title")} description={t("features.description")}>
           <FieldGroup>
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <Field>
-                <FieldLabel htmlFor="bedrooms">Dormitorios</FieldLabel>
+                <FieldLabel htmlFor="bedrooms">{t("features.bedrooms")}</FieldLabel>
                 <Controller
                   control={form.control}
                   name="bedrooms"
                   render={({ field }) => (
-                    <Stepper id="bedrooms" label="dormitorios" value={field.value} onChange={field.onChange} />
+                    <Stepper id="bedrooms" label={t("features.bedrooms")} value={field.value} onChange={field.onChange} />
                   )}
                 />
               </Field>
               <Field>
-                <FieldLabel htmlFor="bathrooms">Baños</FieldLabel>
+                <FieldLabel htmlFor="bathrooms">{t("features.bathrooms")}</FieldLabel>
                 <Controller
                   control={form.control}
                   name="bathrooms"
                   render={({ field }) => (
-                    <Stepper id="bathrooms" label="baños" value={field.value} onChange={field.onChange} />
+                    <Stepper id="bathrooms" label={t("features.bathrooms")} value={field.value} onChange={field.onChange} />
                   )}
                 />
               </Field>
             </div>
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <Field>
-                <FieldLabel htmlFor="areaSqm">Superficie cubierta</FieldLabel>
+                <FieldLabel htmlFor="areaSqm">{t("features.areaSqm")}</FieldLabel>
                 <UnitInput id="areaSqm" unit="m²" {...form.register("areaSqm")} />
               </Field>
               <Field>
-                <FieldLabel htmlFor="plotArea">Superficie del terreno</FieldLabel>
+                <FieldLabel htmlFor="plotArea">{t("features.plotArea")}</FieldLabel>
                 <UnitInput id="plotArea" unit="m²" {...form.register("plotArea")} />
               </Field>
             </div>
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <Field>
-                <FieldLabel htmlFor="parkingSpaces">Cocheras</FieldLabel>
+                <FieldLabel htmlFor="parkingSpaces">{t("features.parking")}</FieldLabel>
                 <Controller
                   control={form.control}
                   name="parkingSpaces"
                   render={({ field }) => (
-                    <Stepper id="parkingSpaces" label="cocheras" value={field.value} onChange={field.onChange} />
+                    <Stepper id="parkingSpaces" label={t("features.parking")} value={field.value} onChange={field.onChange} />
                   )}
                 />
               </Field>
               <Field>
-                <FieldLabel htmlFor="storageSpaces">Depósitos</FieldLabel>
+                <FieldLabel htmlFor="storageSpaces">{t("features.storage")}</FieldLabel>
                 <Controller
                   control={form.control}
                   name="storageSpaces"
                   render={({ field }) => (
-                    <Stepper id="storageSpaces" label="depósitos" value={field.value} onChange={field.onChange} />
+                    <Stepper id="storageSpaces" label={t("features.storage")} value={field.value} onChange={field.onChange} />
                   )}
                 />
               </Field>
             </div>
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <Field>
-                <FieldLabel htmlFor="staffRoom">Habitaciones de servicio</FieldLabel>
+                <FieldLabel htmlFor="staffRoom">{t("features.staffRoom")}</FieldLabel>
                 <Controller
                   control={form.control}
                   name="staffRoom"
                   render={({ field }) => (
                     <Stepper
                       id="staffRoom"
-                      label="habitaciones de servicio"
+                      label={t("features.staffRoom")}
                       value={field.value}
                       onChange={field.onChange}
                     />
@@ -245,49 +249,45 @@ export function BasicTab({
                 />
               </Field>
               <Field>
-                <FieldLabel htmlFor="floorNumbersText">Pisos</FieldLabel>
+                <FieldLabel htmlFor="floorNumbersText">{t("features.floors")}</FieldLabel>
                 <Controller
                   control={form.control}
                   name="floorNumbersText"
                   render={({ field }) => (
                     <TagsInput
                       id="floorNumbersText"
-                      label="Pisos"
+                      label={t("features.floors")}
                       value={field.value}
                       onChange={field.onChange}
                       validate={(tag) => /^-?\d+$/.test(tag)}
-                      placeholder="Escribí un piso y Enter"
+                      placeholder={t("features.floorsPlaceholder")}
                     />
                   )}
                 />
-                <FieldDescription>Podés cargar varios, como 1, 2 y 3.</FieldDescription>
+                <FieldDescription>{t("features.floorsHint")}</FieldDescription>
               </Field>
             </div>
           </FieldGroup>
         </Section>
 
         <Section
-          title={isRent ? "Datos del alquiler" : "Datos de la venta"}
-          description={
-            isRent
-              ? "Capacidad y categoría del alojamiento."
-              : "Antigüedad, eficiencia energética y tipo de ubicación."
-          }
+          title={isRent ? t("rent.title") : t("sale.title")}
+          description={isRent ? t("rent.description") : t("sale.description")}
         >
           <FieldGroup>
             {isRent ? (
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                 <Field>
-                  <FieldLabel htmlFor="guests">Huéspedes</FieldLabel>
-                  <Input id="guests" placeholder="Ej: 8" {...form.register("guests")} />
+                  <FieldLabel htmlFor="guests">{t("rent.guests")}</FieldLabel>
+                  <Input id="guests" placeholder={t("example", { value: 8 })} {...form.register("guests")} />
                 </Field>
                 <Field>
-                  <FieldLabel htmlFor="stars">Estrellas</FieldLabel>
+                  <FieldLabel htmlFor="stars">{t("rent.stars")}</FieldLabel>
                   <Controller
                     control={form.control}
                     name="stars"
                     render={({ field }) => (
-                      <Stepper id="stars" label="estrellas" max={5} value={field.value} onChange={field.onChange} />
+                      <Stepper id="stars" label={t("rent.stars")} max={5} value={field.value} onChange={field.onChange} />
                     )}
                   />
                 </Field>
@@ -296,41 +296,41 @@ export function BasicTab({
               <>
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   <Field>
-                    <FieldLabel htmlFor="constructionYear">Año de construcción</FieldLabel>
+                    <FieldLabel htmlFor="constructionYear">{t("sale.constructionYear")}</FieldLabel>
                     <Input
                       id="constructionYear"
                       inputMode="numeric"
                       maxLength={4}
-                      placeholder="Ej: 2018"
+                      placeholder={t("example", { value: "2018" })}
                       {...form.register("constructionYear")}
                     />
                   </Field>
                   <Field>
-                    <FieldLabel htmlFor="renovationYear">Año de renovación</FieldLabel>
+                    <FieldLabel htmlFor="renovationYear">{t("sale.renovationYear")}</FieldLabel>
                     <Input
                       id="renovationYear"
                       inputMode="numeric"
                       maxLength={4}
-                      placeholder="Ej: 2024"
+                      placeholder={t("example", { value: "2024" })}
                       {...form.register("renovationYear")}
                     />
                   </Field>
                 </div>
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   <Field>
-                    <FieldLabel htmlFor="energyCertificate">Certificado energético</FieldLabel>
+                    <FieldLabel htmlFor="energyCertificate">{t("sale.energyCertificate")}</FieldLabel>
                     <Controller
                       control={form.control}
                       name="energyCertificate"
                       render={({ field }) => (
                         <Select value={field.value} onValueChange={field.onChange}>
                           <SelectTrigger id="energyCertificate" className="w-full">
-                            <SelectValue placeholder="Sin especificar" />
+                            <SelectValue placeholder={t("unspecified")} />
                           </SelectTrigger>
                           <SelectContent>
                             {ENERGY_CERTIFICATE_OPTIONS.map((value) => (
                               <SelectItem key={value} value={value}>
-                                {value}
+                                {labels.energyCertificate(value)}
                               </SelectItem>
                             ))}
                           </SelectContent>
@@ -339,19 +339,19 @@ export function BasicTab({
                     />
                   </Field>
                   <Field>
-                    <FieldLabel htmlFor="locationCategory">Tipo de ubicación</FieldLabel>
+                    <FieldLabel htmlFor="locationCategory">{t("sale.locationCategory")}</FieldLabel>
                     <Controller
                       control={form.control}
                       name="locationCategory"
                       render={({ field }) => (
                         <Select value={field.value} onValueChange={field.onChange}>
                           <SelectTrigger id="locationCategory" className="w-full">
-                            <SelectValue placeholder="Sin especificar" />
+                            <SelectValue placeholder={t("unspecified")} />
                           </SelectTrigger>
                           <SelectContent>
                             {LOCATION_CATEGORY_OPTIONS.map((value) => (
                               <SelectItem key={value} value={value}>
-                                {LOCATION_CATEGORY_LABELS[value] ?? value}
+                                {labels.locationCategory(value)}
                               </SelectItem>
                             ))}
                           </SelectContent>
@@ -368,7 +368,7 @@ export function BasicTab({
 
       <aside className="hidden lg:block">
         <div className="sticky top-28 flex flex-col gap-3">
-          <p className="text-sm font-medium text-muted-foreground">Así se ve en tu cartera</p>
+          <p className="text-sm font-medium text-muted-foreground">{t("preview")}</p>
           <PropertyCard property={preview} preview />
         </div>
       </aside>

@@ -16,11 +16,12 @@ import {
   startOfMonth,
   startOfWeek,
 } from "date-fns"
-import { es } from "date-fns/locale"
 import { ArrowRight, CalendarDays, ChevronLeft, ChevronRight } from "lucide-react"
 import { Popover as PopoverPrimitive } from "radix-ui"
+import { useTranslations } from "next-intl"
 import * as React from "react"
 
+import { useFormat } from "@/i18n/format"
 import { cn } from "@/lib/utils"
 
 /*
@@ -30,7 +31,6 @@ import { cn } from "@/lib/utils"
  * picker changes with the browser and clashes with the rest of the interface.
  */
 
-const WEEKDAYS = ["L", "M", "M", "J", "V", "S", "D"]
 const toKey = (date: Date) => format(date, "yyyy-MM-dd")
 
 interface SharedProps {
@@ -125,17 +125,20 @@ function MonthGrid({
   renderDay: (day: Date, outside: boolean) => React.ReactNode
   onLeave?: () => void
 }) {
+  const t = useTranslations("common.datePicker")
+  const { tag, date } = useFormat()
   const days = eachDayOfInterval({
     start: startOfWeek(startOfMonth(month), { weekStartsOn: 1 }),
     end: endOfWeek(endOfMonth(month), { weekStartsOn: 1 }),
   })
+  const weekdays = days.slice(0, 7).map((day) => new Intl.DateTimeFormat(tag, { weekday: "narrow" }).format(day))
 
   return (
     <>
       <div className="mb-3 flex items-center justify-between">
         <button
           type="button"
-          aria-label="Mes anterior"
+          aria-label={t("previousMonth")}
           // Nothing to pick before the minimum's month.
           disabled={min != null && !isAfter(month, startOfMonth(min))}
           onClick={() => onMonthChange(addMonths(month, -1))}
@@ -144,11 +147,11 @@ function MonthGrid({
           <ChevronLeft className="size-4" />
         </button>
         <p className="font-display text-lg capitalize" aria-live="polite">
-          {format(month, "MMMM yyyy", { locale: es })}
+          {date(month, "monthYear")}
         </p>
         <button
           type="button"
-          aria-label="Mes siguiente"
+          aria-label={t("nextMonth")}
           disabled={max != null && !isBefore(month, startOfMonth(max))}
           onClick={() => onMonthChange(addMonths(month, 1))}
           className={ARROW}
@@ -158,7 +161,7 @@ function MonthGrid({
       </div>
 
       <div className="grid grid-cols-7 text-center text-xs text-muted-foreground">
-        {WEEKDAYS.map((weekday, index) => (
+        {weekdays.map((weekday, index) => (
           <span key={index} className="flex h-8 items-center justify-center">
             {weekday}
           </span>
@@ -188,11 +191,13 @@ interface DatePickerProps extends SharedProps {
 function DatePicker({
   value,
   onChange,
-  placeholder = "Elegí una fecha",
+  placeholder,
   minDate,
   maxDate,
   ...trigger
 }: DatePickerProps) {
+  const t = useTranslations("common.datePicker")
+  const { date } = useFormat()
   const { min, max, isOff } = useLimits({ minDate, maxDate })
   const [open, setOpen] = React.useState(false)
   const selected = value ? parseISO(value) : null
@@ -207,9 +212,9 @@ function DatePicker({
     <PopoverPrimitive.Root open={open} onOpenChange={handleOpenChange}>
       <Trigger {...trigger}>
         {selected ? (
-          <span className="flex-1">{format(selected, "d MMM yyyy", { locale: es })}</span>
+          <span className="flex-1">{date(selected, "medium")}</span>
         ) : (
-          <span className="flex-1 text-muted-foreground">{placeholder}</span>
+          <span className="flex-1 text-muted-foreground">{placeholder ?? t("pickDate")}</span>
         )}
       </Trigger>
 
@@ -227,7 +232,7 @@ function DatePicker({
               <div className="flex h-9 items-center justify-center">
                 <button
                   type="button"
-                  aria-label={format(day, "d 'de' MMMM yyyy", { locale: es })}
+                  aria-label={date(day, "long")}
                   aria-pressed={isSelected}
                   disabled={off}
                   onClick={() => {
@@ -260,7 +265,7 @@ function DatePicker({
               }}
               className={LINK_BUTTON}
             >
-              Borrar
+              {t("clear")}
             </button>
           </div>
         )}
@@ -284,20 +289,21 @@ interface DateRangePickerProps extends SharedProps {
   hints?: { first: string; second: string }
 }
 
-const STAY_HINTS = { first: "Elegí el check-in", second: "Ahora elegí el check-out" }
-
 /** A range on one calendar: the first click opens it, the second closes it. */
 function DateRangePicker({
   start,
   end,
   onChange,
-  placeholder = "Elegí las fechas",
+  placeholder,
   minDate,
   maxDate,
   countAs = "nights",
-  hints = STAY_HINTS,
+  hints: customHints,
   ...trigger
 }: DateRangePickerProps) {
+  const t = useTranslations("common.datePicker")
+  const { date } = useFormat()
+  const hints = customHints ?? { first: t("pickCheckIn"), second: t("pickCheckOut") }
   const { min, max, isOff } = useLimits({ minDate, maxDate })
   const [open, setOpen] = React.useState(false)
   const startDate = start ? parseISO(start) : null
@@ -313,7 +319,6 @@ function DateRangePicker({
   const rangeStart = anchor ?? startDate
   const rangeEnd = anchor ? (hover && closesRange(hover, anchor) ? hover : null) : endDate
   const span = rangeStart && rangeEnd ? differenceInCalendarDays(rangeEnd, rangeStart) + (countAs === "days" ? 1 : 0) : 0
-  const unit = countAs === "days" ? ["día", "días"] : ["noche", "noches"]
 
   function pick(day: Date) {
     if (isOff(day)) return
@@ -342,12 +347,12 @@ function DateRangePicker({
       <Trigger {...trigger}>
         {startDate && endDate ? (
           <span className="flex flex-1 items-center gap-2">
-            {format(startDate, "d MMM yyyy", { locale: es })}
+            {date(startDate, "medium")}
             <ArrowRight className="size-3.5 text-muted-foreground" />
-            {format(endDate, "d MMM yyyy", { locale: es })}
+            {date(endDate, "medium")}
           </span>
         ) : (
-          <span className="flex-1 text-muted-foreground">{placeholder}</span>
+          <span className="flex-1 text-muted-foreground">{placeholder ?? t("pickDates")}</span>
         )}
       </Trigger>
 
@@ -377,7 +382,7 @@ function DateRangePicker({
               >
                 <button
                   type="button"
-                  aria-label={format(day, "d 'de' MMMM yyyy", { locale: es })}
+                  aria-label={date(day, "long")}
                   aria-pressed={isStart || isEnd}
                   disabled={off}
                   onClick={() => pick(day)}
@@ -400,7 +405,11 @@ function DateRangePicker({
 
         <div className="mt-3 flex min-h-8 items-center justify-between gap-3 text-sm">
           <span className="text-muted-foreground">
-            {anchor && !rangeEnd ? hints.second : span > 0 ? `${span} ${span === 1 ? unit[0] : unit[1]}` : hints.first}
+            {anchor && !rangeEnd
+              ? hints.second
+              : span > 0
+                ? t(countAs === "days" ? "days" : "nights", { count: span })
+                : hints.first}
           </span>
           {(start || end || anchor) && (
             <button
@@ -412,7 +421,7 @@ function DateRangePicker({
               }}
               className={LINK_BUTTON}
             >
-              Borrar
+              {t("clear")}
             </button>
           )}
         </div>

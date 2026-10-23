@@ -1,7 +1,9 @@
 import { AtSign, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 
+import { LanguageSwitcher } from "@/components/language-switcher";
 import { LogoIcon } from "@/components/logo-icon";
+import { Link } from "@/i18n/navigation";
 import type { PublicAgency } from "@/lib/api/agency";
 import {
   type ResolvedSite,
@@ -57,7 +59,10 @@ export function AgencyMark({
   return <span className="s-heading text-xl leading-none">{agency.name}</span>;
 }
 
-/** Main contact action: WhatsApp when the agency set it, email otherwise. */
+/**
+ * Main contact action: WhatsApp when the agency set it, email otherwise.
+ * `kind` picks its words: "site.contact.whatsapp" or "site.contact.email".
+ */
 export function contactAction(
   agency: PublicAgency,
   site: ResolvedSite,
@@ -66,13 +71,13 @@ export function contactAction(
   if (site.whatsapp)
     return {
       href: whatsappLink(site.whatsapp, message),
-      label: "Escribinos por WhatsApp",
+      kind: "whatsapp" as const,
       external: true,
     };
   if (agency.contactEmail)
     return {
       href: `mailto:${agency.contactEmail}`,
-      label: "Escribinos",
+      kind: "email" as const,
       external: true,
     };
   return null;
@@ -90,13 +95,14 @@ export function SiteHeader({
   /** Sits on top of a cover photo, with light text. */
   overlay?: boolean;
 }) {
+  const t = useTranslations("site.chrome");
   const home = `/page/${slug}`;
   const links = [
-    { href: `${home}#propiedades`, label: "Propiedades" },
+    { href: `${home}#propiedades`, label: t("properties") },
     ...(site.showAbout && site.about
-      ? [{ href: `${home}#nosotros`, label: "Nosotros" }]
+      ? [{ href: `${home}#nosotros`, label: t("about") }]
       : []),
-    { href: `${home}#contacto`, label: "Contacto" },
+    { href: `${home}#contacto`, label: t("contact") },
   ];
   const action = contactAction(agency, site);
 
@@ -116,7 +122,7 @@ export function SiteHeader({
         >
           <AgencyMark agency={agency} light={overlay} />
         </Link>
-        <nav aria-label="Principal" className="hidden md:block">
+        <nav aria-label={t("mainNav")} className="hidden md:block">
           <ul className="flex items-center gap-6 text-sm">
             {links.map((link) => (
               <li key={link.label}>
@@ -135,19 +141,26 @@ export function SiteHeader({
             ))}
           </ul>
         </nav>
+        <LanguageSwitcher
+          compact
+          className={cn(
+            "ml-auto",
+            overlay ? "text-white/80 hover:text-white" : "text-site-quiet hover:text-site-ink",
+          )}
+        />
         {action && (
           <a
             href={action.href}
             target="_blank"
             rel="noreferrer"
             className={cn(
-              "ml-auto inline-flex h-10 items-center rounded-lg px-4 text-sm font-medium outline-none transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-offset-2",
+              "inline-flex h-10 items-center rounded-lg px-4 text-sm font-medium outline-none transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-offset-2",
               overlay
                 ? "bg-white text-site-ink focus-visible:ring-white focus-visible:ring-offset-transparent"
                 : "bg-site-accent text-site-accent-ink focus-visible:ring-site-accent",
             )}
           >
-            Contactar
+            {t("contactCta")}
           </a>
         )}
       </div>
@@ -162,6 +175,7 @@ export function SiteFooter({
   agency: PublicAgency;
   site: ResolvedSite;
 }) {
+  const t = useTranslations("site.chrome");
   const items = [
     site.whatsapp && {
       icon: MessageCircle,
@@ -228,7 +242,7 @@ export function SiteFooter({
           className="inline-flex items-center gap-1.5 rounded-sm text-xs text-site-quiet outline-none hover:text-site-ink focus-visible:ring-2 focus-visible:ring-site-accent"
         >
           <LogoIcon className="h-3" />
-          Portal hecho con Tivvo
+          {t("madeWith")}
         </Link>
       </div>
     </footer>

@@ -25,10 +25,10 @@ Frontend de una plataforma inmobiliaria (propiedades, ofertas, clientes, reserva
 - `(auth)` — `/login`, `/register`, `/forgot-password`, `/reset-password`, `/auth/callback`
 - `(dashboard)/[agencySlug]/…` — área protegida, **con el slug de la agencia en la URL**. La raíz `/[agencySlug]` redirige a `properties`. Secciones: `properties`, `offers`, `clients`, `inquiries`, `bookings`, `services`, `team`, `settings`, `profile` (con rutas `[id]` y `trash` donde aplica). Su layout monta `DashboardSidebar`, `ActionBar` y `Shortcuts`.
 - `(editor)/[agencySlug]/portal` — editor del sitio, pantalla completa sin sidebar.
-- `(docs)/docs` — documentación del panel (requiere sesión); capturas en `public/docs-media`.
+- `(docs)/docs` — documentación del panel (requiere sesión); capturas en `public/docs-media` (español) y `public/docs-media/<locale>/` (cada traducción, con sus marcadores medidos sobre esa captura).
 - `(legal)` — `/terms`, `/privacy` y `/help`. Términos y privacidad usan `components/legal/legal-document.tsx` (cabecera en bloque bosque, índice con sección activa, `brief` «En corto» opcional por sección, `action` opcional) y `legal-table.tsx` para tablas (plazos, proveedores, cookies, derechos). Datos de la empresa en `lib/legal.ts`.
 - `(public)` — el sitio de cada agencia en `/page/[agencySlug]` y `/page/[agencySlug]/properties/[propertySlug]`, más `/offer/[token]`, `/owner/[token]` y `/booking/[token]` (la reserva vista por el cliente: sin comisión; el backend le manda el link por email al crear, confirmar o cancelar).
-- `/` es la landing de marketing (maqueta de concepto) y `/landing-test` el marketplace en prueba. Además: `robots.ts`, `sitemap.ts`, `llms.txt`, `opengraph-image.tsx`, `lib/seo.ts`.
+- `/` es la landing de marketing (maqueta de concepto) y `/landing-test` el marketplace en prueba. Además: `robots.ts`, `sitemap.ts`, `llms.txt`, `lib/seo.ts` y la tarjeta para compartir: `lib/og-card.tsx`, servida por idioma en `/api/og/[locale]` (`ogImages(locale)` en `app/root-metadata.ts`; el griego carga Inter desde Google Fonts porque la fuente por defecto de next/og no lo cubre).
 - `error.tsx` / `not-found.tsx` / `global-error.tsx` en la raíz, y `error.tsx` + `loading.tsx` en `(dashboard)` y `(public)`; comparten `components/shared/{status-screen,error-screen}.tsx`.
 
 **Proxy (`src/proxy.ts`)**
@@ -51,13 +51,22 @@ Frontend de una plataforma inmobiliaria (propiedades, ofertas, clientes, reserva
 **Tareas, notificaciones y roles**
 - Disponibilidad (`/availability`): grilla de 90 días y vista **Mensual** (`components/availability/availability-month-view.tsx`: ocupación por día, y con una propiedad elegida se arrastra sobre las noches libres para bloquearlas). El calendario viene de `GET /api/properties/calendar?from=&days=`; la lógica de noches vs. días bloqueados está en `lib/availability-range.ts` (un día está ocupado de check-in a check-out, y una noche se ocupa cuando ese día y el siguiente están bloqueados).
 - Estado de cuenta del propietario: `components/owners/owner-account.tsx` (en la pestaña Propietario de la propiedad: cobrado, comisión, lo que le corresponde, liquidaciones y saldo, con formulario para registrar liquidaciones; solo OWNER/ADMIN) y `owner-statement.tsx` (la misma vista en el portal público `/owner/[token]`). La comisión se descuenta de lo cobrado; el portal la oculta salvo que la agencia active «Mostrar la comisión» en Configuración (`ownerPortalShowsCommission`). Datos de `GET /api/owner-accounts/<ownerId>` y `POST .../payouts`.
-- Tareas de seguimiento (`lib/api/tasks.ts`, `components/tasks/task-list.tsx`): en el detalle del cliente. Clientes también se ven como **tablero** por etapa (`components/clients/client-board.tsx`, dnd-kit).
+- Tareas de seguimiento (`lib/api/tasks.ts`, `components/tasks/task-list.tsx`): en el detalle del cliente.
 - Campana (`components/dashboard/notification-bell.tsx`, en el sidebar, consulta cada minuto `GET /api/notifications/`): consulta nueva, oferta abierta, pago registrado, tarea asignada. El backend escribe una fila por persona.
 - Roles: `AGENT` ve solo sus propiedades (`assignedAgentId`), ofertas y reservas (`createdBy`), sus clientes y los leads sin asignar; `OWNER`/`ADMIN` ven todo y reasignan con `components/shared/assignee-select.tsx` (solo ellos pueden listar el equipo). El backend lo aplica; la UI solo oculta lo que no corresponde.
 
 **Consultas**
 - Las consultas del portal, de las fichas y de las ofertas crean (o reutilizan por email) un cliente, una nota en su historial que nombra la propiedad u oferta, y un registro en `inquiries`. Se listan en `/inquiries` (bandeja con nuevas y leídas, `read_at`); el sidebar muestra cuántas hay sin leer.
 - El backend avisa a la agencia por email (al email de contacto o, si no hay, a propietarios y administradores) y confirma al cliente, vía Resend (`RESEND_API_KEY`, `EMAIL_FROM`, `FRONTEND_URL` en el `.env` del backend). Sin clave, los emails solo se registran en el log.
+
+**Idiomas (next-intl, `src/i18n`)**
+- 8 idiomas: `es` (base, sin prefijo en la URL), `en`, `pt`, `fr`, `de`, `it`, `el`, `hr` (`LOCALES` en `src/i18n/config.ts`).
+- Lo público (landing, legal, ayuda, sitio de cada agencia, links por token) lleva prefijo: `/en/...` se reescribe en el proxy a `app/intl/[locale]/...`. Panel, auth, editor y docs no llevan prefijo: el idioma sale de la cookie `NEXT_LOCALE` (o `Accept-Language`) en `app/(app)/layout.tsx`; `?lang=xx` la fija. Los links que comparte una agencia usan el idioma de su sitio (`siteLocaleOf`, `useAgencySitePath` en `lib/agency-site.ts`).
+- Textos en `src/messages/<locale>/<ns>.json` (ICU). Tras crear un archivo de namespace hay que correr `npm run i18n:index`, que regenera el `index.ts` de cada idioma. Las claves que faltan caen al español. `src/i18n/messages.test.ts` exige que cada idioma tenga las mismas claves y los mismos `{placeholders}`/`<tags>` que el español (en croata, los plurales llevan `one`/`few`/`other`).
+- En los mensajes, una etiqueta literal se escapa con apóstrofos (`'<listing>'`); en fr/it se usa el apóstrofo tipográfico ’.
+- Fechas, números y moneda: `useFormat()` / `formatTools(locale)` de `src/i18n/format.ts`. Etiquetas de catálogos: `useLabels()`. Links públicos: `Link`/`useRouter` de `@/i18n/navigation`.
+- Documentos largos van como un módulo TSX por idioma, no como claves: legales en `src/content/legal/{terms,privacy}.<locale>.tsx` (manda la versión en español; cada traducción lo dice en la intro) y la guía de `/docs` en `src/content/docs/<locale>.tsx`. Al cambiar uno, actualizar los 8.
+- Backend: `apiFetch` manda el idioma de la página en `X-Locale`. Con ese header la API devuelve los errores y los textos del importador (campos, avisos) traducidos y recuerda el idioma del usuario (`User.locale`); los emails salen en el idioma de quien los lee (cliente: el que usó en el sitio; equipo: el del panel). La campana recibe `params` y arma el texto con `dashboard.notifications.types.*`. Traducciones del backend en `app/i18n/` (`messages.py`, `errors.py`, `imports.py`).
 
 **Capa de API (`src/lib/api`)**
 - `client.ts` expone `apiFetch<T>(path, { token })`: añade `Authorization: Bearer`, fuerza `Content-Type: application/json` salvo con `FormData` (subida de archivos), lanza `ApiError(message, status)` y devuelve `undefined` en 204.
@@ -71,6 +80,7 @@ Frontend de una plataforma inmobiliaria (propiedades, ofertas, clientes, reserva
 
 **UI**
 - Fechas: un solo selector propio, `DatePicker` (un día) y `DateRangePicker` (rango, en noches o en días) de `components/ui/date-picker.tsx`. Nunca `<input type="date">` (ESLint lo prohíbe).
+- Texto largo: nunca `<textarea>` nativo (ESLint lo prohíbe; se veía el tirador para agrandar o achicar). Para editar, `Textarea` de `components/ui/textarea.tsx` (crece con el contenido, sin tirador); para mostrar texto de solo lectura (un mensaje para copiar), un `<div>` con `whitespace-pre-wrap` y scroll.
 - shadcn/ui (estilo `radix-nova`, icon library lucide) en `src/components/ui`; añadir componentes con la CLI de `shadcn`. Alias `@/components`, `@/lib`, `@/hooks`.
 - Imágenes en tarjetas y miniaturas: pasar la URL por `sizedImage(url, IMAGE_WIDTH.*)` (`lib/image-url.ts`), que pide a Supabase una copia reducida; el original (hasta 2048 px) solo para portadas, galería y lightbox.
 - GSAP: importar desde `@/lib/gsap` (solo el núcleo); cada plugin en su módulo (`@/lib/gsap-flip`) para no cargarlo en todas las páginas. El editor de texto (Tiptap) se carga bajo demanda desde `components/rich-text/rich-text-editor.tsx`.

@@ -1,0 +1,36 @@
+{
+  "profile": {
+    "errors": {
+      "name": "Unesite svoje ime",
+      "email": "Neispravna e-pošta",
+      "currentPassword": "Unesite trenutačnu lozinku",
+      "minLength": "Najmanje 8 znakova",
+      "mismatch": "Lozinke se ne podudaraju"
+    },
+    "hidePassword": "Sakrij lozinku",
+    "showPassword": "Prikaži lozinku",
+    "saved": "Profil je ažuriran",
+    "saveFailed": "Profil nije moguće spremiti",
+    "photoUpdated": "Fotografija je ažurirana",
+    "photoFailed": "Fotografiju nije moguće učitati",
+    "passwordChanged": "Lozinka je promijenjena",
+    "passwordFailed": "Lozinku nije moguće promijeniti",
+    "help": "Pomoć za moj profil",
+    "data": {
+      "title": "Vaši podaci",
+      "description": "Kako vas drugi vide u računu agencije.",
+      "changePhoto": "Promijeni fotografiju",
+      "photoHint": "Dodirnite fotografiju da je promijenite.",
+      "name": "Ime"
+    },
+    "password": {
+      "title": "Lozinka",
+      "description": "Upotrijebite najmanje 8 znakova. Tražimo trenutačnu da potvrdimo da ste to vi.",
+      "current": "Trenutačna lozinka",
+      "new": "Nova lozinka",
+      "repeat": "Ponovite novu lozinku",
+      "submitting": "Mijenjanje…",
+      "submit": "Promijeni lozinku"
+    }
+  }
+}

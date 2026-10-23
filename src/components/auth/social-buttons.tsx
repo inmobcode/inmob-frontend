@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import { startOAuth, type OAuthProvider } from "@/lib/auth/oauth";
 
 function GoogleIcon() {
@@ -39,8 +41,9 @@ const PROVIDERS: { id: OAuthProvider; label: string; icon: React.ReactNode }[] =
     { id: "apple", label: "Apple", icon: <AppleIcon /> },
   ];
 
-/** Google and Apple buttons, one under the other; `verb` is "Continuar" or "Registrarte". */
-export function SocialButtons({ verb = "Continuar" }: { verb?: string }) {
+/** Google and Apple buttons, one under the other: "Continuar con…" to sign in, "Registrarte con…" to sign up. */
+export function SocialButtons({ signUp = false }: { signUp?: boolean }) {
+  const t = useTranslations("auth.social");
   return (
     <div className="grid gap-3">
       {PROVIDERS.map((provider) => (
@@ -51,9 +54,7 @@ export function SocialButtons({ verb = "Continuar" }: { verb?: string }) {
           className="flex h-12 items-center justify-center gap-3 rounded-lg border border-[#cfd5cc] bg-white text-sm font-medium text-ink outline-none transition-colors hover:border-forest/40 hover:bg-mist/50 focus-visible:ring-2 focus-visible:ring-forest"
         >
           {provider.icon}
-          <span>
-            {verb} con {provider.label}
-          </span>
+          <span>{t(signUp ? "signUp" : "continue", { provider: provider.label })}</span>
         </button>
       ))}
     </div>

@@ -1,0 +1,553 @@
+{
+  "landing": {
+    "plans": {
+      "free": {
+        "name": "Free",
+        "price": "Gratuit",
+        "tagline": "Pour démarrer et tester le système avec quelques biens.",
+        "features": {
+          "f1": "Jusqu’à 5 biens",
+          "f2": "1 utilisateur",
+          "f3": "Clients, demandes et offres",
+          "f4": "Site sur un sous-domaine Tivvo, modèle Couverture et votre couleur"
+        },
+        "cta": "Commencer gratuitement"
+      },
+      "pro": {
+        "name": "Pro",
+        "price": "29,99 USD",
+        "period": "/mois",
+        "tagline": "Pour les agences qui vendent et louent tous les jours.",
+        "features": {
+          "f1": "Biens et équipe illimités",
+          "f2": "Réservations, disponibilités et tarifs saisonniers",
+          "f3": "Encaissements et relevé du propriétaire",
+          "f4": "Éditeur de site complet : 5 modèles, 8 typographies et 6 types de blocs",
+          "f5": "Tâches, notifications et rôles d’équipe"
+        },
+        "cta": "Demander une démo"
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "price": "Parlons-en",
+        "tagline": "Pour les réseaux d’agences ou les grandes équipes.",
+        "features": {
+          "f1": "Tout ce qu’inclut Pro",
+          "f2": "Plusieurs agences",
+          "f3": "Support prioritaire",
+          "f4": "Permissions avancées par rôle"
+        },
+        "cta": "Contacter les ventes"
+      }
+    },
+    "faq": {
+      "both": {
+        "q": "Fonctionne-t-il pour la vente et la location en même temps ?",
+        "a": "Oui. Les deux activités cohabitent dans le même système : la vente avec offres et commission, la location saisonnière avec disponibilités, tarifs saisonniers, réservations datées et paiements."
+      },
+      "migration": {
+        "q": "Combien de temps prend la migration ?",
+        "a": "Cela dépend du volume de données et de leur format. Nous examinons votre cas pendant la démo et vous donnons une date précise."
+      },
+      "address": {
+        "q": "Quelle est l’adresse de mon site ?",
+        "a": "Votre site est hébergé sur un sous-domaine de Tivvo au nom de votre agence. Nous ne proposons pas encore de domaine personnalisé."
+      },
+      "privacy": {
+        "q": "Mes données sont-elles mélangées avec celles d’autres agences ?",
+        "a": "Non. Chaque agence travaille dans son propre espace et seule son équipe voit ses biens, clients et réservations."
+      },
+      "users": {
+        "q": "Combien d’utilisateurs puis-je avoir ?",
+        "a": "Un avec l’offre Free. Pro et Enterprise sont illimités : ajoutez toute votre équipe."
+      },
+      "site": {
+        "q": "Puis-je personnaliser le site de mon agence ?",
+        "a": "Oui. Vous choisissez un modèle, les couleurs et les typographies, et ajoutez vos propres blocs : emplacement, promotions, biens à la une, destinations, texte et appels à l’action. Vous voyez le résultat sur ordinateur, tablette et mobile avant de publier."
+      },
+      "team": {
+        "q": "Que voit chaque membre de mon équipe ?",
+        "a": "Les agents voient leurs biens, clients, offres et réservations, ainsi que les demandes non attribuées. Les propriétaires et administrateurs voient tout et peuvent réattribuer."
+      },
+      "owner": {
+        "q": "Que voit le propriétaire dans son portail ?",
+        "a": "Ses biens, réservations et paiements, avec les encaissements, les reversements et le solde. La commission de l’agence reste masquée sauf si vous décidez de l’afficher."
+      }
+    },
+    "problem": {
+      "claim": "Quand l’activité grandit, elle se désorganise.",
+      "rest": "Tivvo la remet en ordre.",
+      "problem": "Problème",
+      "solution": "Solution",
+      "items": {
+        "inquiries": {
+          "today": "Les demandes arrivent de partout et personne ne sait qui y a répondu.",
+          "tivvo": "Chaque demande de votre site arrive dans une boîte de réception comme client, avec un responsable et son historique."
+        },
+        "followUp": {
+          "today": "Un client est resté sans réponse et vous l’apprenez quand il a déjà acheté ailleurs.",
+          "tivvo": "Des tâches de suivi avec date et responsable, et une cloche qui signale ce qui demande votre attention."
+        },
+        "offers": {
+          "today": "Les offres circulent sur WhatsApp et vous ne savez pas si le client les a ouvertes.",
+          "tivvo": "Vous envoyez un lien et voyez quand il a été ouvert et quand il expire."
+        },
+        "calendar": {
+          "today": "Le calendrier des locations est dans un tableur et les réservations se chevauchent.",
+          "tivvo": "Disponibilités sur 90 jours : les dates réservées se bloquent seules et vous bloquez le reste en faisant glisser."
+        },
+        "payments": {
+          "today": "Les encaissements sont dans un tableur que seule une personne comprend.",
+          "tivvo": "Acompte, solde et commission de chaque réservation, visibles par les bonnes personnes."
+        },
+        "owners": {
+          "today": "Les propriétaires appellent chaque semaine pour savoir où en est leur bien.",
+          "tivvo": "Un lien privé avec leur relevé : encaissements, reversements et solde."
+        }
+      }
+    },
+    "flow": {
+      "claim": "Un même parcours pour vendre et louer.",
+      "rest": "Choisissez l’activité.",
+      "operation": "Type d’activité",
+      "modes": {
+        "sale": "Vente",
+        "rent": "Location saisonnière"
+      },
+      "sale": {
+        "inquiry": {
+          "title": "Demande",
+          "text": "Elle arrive de votre site et devient un client, sans rien saisir."
+        },
+        "followUp": {
+          "title": "Suivi",
+          "text": "Étape, notes et historique des appels, e-mails et visites. Toute l’équipe voit la même chose."
+        },
+        "offer": {
+          "title": "Offre par lien",
+          "text": "Vous composez une offre avec plusieurs biens et remises et la partagez. Vous voyez quand elle a été ouverte et quand elle expire."
+        },
+        "tasks": {
+          "title": "Tâches et alertes",
+          "text": "Vous planifiez l’appel de suivi avec date et responsable. La cloche vous prévient quand l’offre est ouverte."
+        },
+        "booking": {
+          "title": "Réservation",
+          "text": "Vous créez la réservation avec le client, le bien et le prix de l’offre déjà renseignés."
+        },
+        "payments": {
+          "title": "Encaissement et commission",
+          "text": "Acompte, solde et commission, avec ce qui est encaissé et ce qui reste."
+        }
+      },
+      "rent": {
+        "inquiry": {
+          "title": "Demande",
+          "text": "Le voyageur demande des dates depuis votre site et est enregistré comme client."
+        },
+        "availability": {
+          "title": "Disponibilités et tarifs",
+          "text": "Un calendrier par bien et des tarifs saisonniers. Vous savez ce qui est libre avant de répondre."
+        },
+        "offer": {
+          "title": "Offre par lien",
+          "text": "Vous envoyez une proposition avec le prix et la remise de chaque bien, et voyez si elle a été ouverte."
+        },
+        "tasks": {
+          "title": "Tâches et alertes",
+          "text": "Vous laissez une tâche pour relancer et la cloche vous prévient quand la proposition est ouverte, pour appeler au bon moment."
+        },
+        "booking": {
+          "title": "Réservation datée",
+          "text": "Arrivée, départ, nuits et total calculés. Les dates sont bloquées."
+        },
+        "payments": {
+          "title": "Paiements",
+          "text": "Acompte et solde avec leur statut. Le propriétaire le voit depuis son portail."
+        }
+      }
+    },
+    "team": {
+      "claim": "Chacun voit ce qui le concerne.",
+      "rest": "Chaque agent avec son accès, et vous gardez le contrôle.",
+      "roles": {
+        "owner": {
+          "name": "Propriétaire",
+          "text": "Voit et contrôle tout, y compris les paramètres de l’agence, et réattribue clients et biens."
+        },
+        "admin": {
+          "name": "Administrateur",
+          "text": "Gère l’équipe ainsi que les biens, offres et réservations de toute l’agence, et réattribue les responsables."
+        },
+        "agent": {
+          "name": "Agent",
+          "text": "Voit ses biens, offres et réservations, ses clients et les demandes que personne n’a encore prises. Le reste n’apparaît pas."
+        }
+      }
+    },
+    "portals": {
+      "claim": "Ce que voient les personnes extérieures.",
+      "rest": "Un lien privé pour chaque propriétaire et chaque client, sans mot de passe.",
+      "owner": {
+        "title": "Portail propriétaire",
+        "text": "Chaque propriétaire voit ses biens, réservations et paiements, et son relevé : encaissements, reversements et solde. La commission reste masquée sauf si vous décidez de l’afficher. Moins d’appels pour savoir où en sont les choses."
+      },
+      "booking": {
+        "title": "Réservation côté client",
+        "text": "À la création, la confirmation ou l’annulation d’une réservation, le client reçoit par e-mail un lien avec ses dates, le total et l’état des paiements. Sans commission visible et sans rien à transférer."
+      }
+    },
+    "migration": {
+      "claim": "Vous ne partez pas de zéro.",
+      "rest": "Nous importons vos données pour vous.",
+      "step": "Étape {number} :",
+      "steps": {
+        "send": {
+          "title": "Vous nous envoyez vos données",
+          "text": "Tableurs, exports ou ce que vous utilisez aujourd’hui, même si ce n’est pas bien rangé."
+        },
+        "load": {
+          "title": "Nous les importons et les vérifions ensemble",
+          "text": "Nous importons vos biens, propriétaires et clients, et les validons avec vous avant de continuer."
+        },
+        "start": {
+          "title": "Vous commencez à l’utiliser",
+          "text": "Votre équipe se connecte avec son propre accès et le bon rôle, et votre site est prêt à être publié."
+        }
+      },
+      "otherSystem": "Vos données sont dans un autre système ? Nous l’examinons pendant la démo et vous donnons une date précise.",
+      "cta": "Demander une démo"
+    },
+    "plansSection": {
+      "label": "Offres et questions fréquentes",
+      "claim": "Une offre pour chaque étape de votre agence.",
+      "rest": "Commencez gratuitement et passez à l’offre supérieure quand vous en avez besoin.",
+      "faq": "Questions fréquentes"
+    },
+    "demo": {
+      "errors": {
+        "name": "Saisissez votre nom",
+        "agency": "Saisissez le nom de votre agence",
+        "email": "Vérifiez l’e-mail : il manque le @ ou le domaine",
+        "teamSize": "Choisissez la taille de votre équipe"
+      },
+      "failed": "Impossible d’envoyer la demande. Réessayez dans quelques minutes.",
+      "claim": "Voyons votre agence dans Tivvo.",
+      "rest": "Avec vos biens et votre équipe.",
+      "sentTitle": "Demande envoyée",
+      "sentText": "Nous vous écrivons dans les prochains jours pour organiser la démo.",
+      "fields": {
+        "name": "Votre nom",
+        "agency": "Agence",
+        "email": "E-mail professionnel"
+      },
+      "teamQuestion": "Combien de personnes compte l’équipe ?",
+      "teamLabel": "Taille de l’équipe",
+      "teamSizes": {
+        "solo": "Indépendant",
+        "small": "2 à 5",
+        "medium": "6 à 30",
+        "large": "Plus de 30"
+      },
+      "sending": "Envoi…",
+      "submit": "Demander une démo"
+    },
+    "meta": {
+      "title": "Tivvo · Logiciel de gestion pour agences immobilières",
+      "description": "Ajoutez vos biens, composez des offres, suivez les réservations et publiez le site de votre agence depuis un seul endroit. Pour les agences de vente et de location saisonnière.",
+      "keywords": "logiciel immobilier, crm immobilier, gestion de biens, location saisonnière, site pour agence immobilière"
+    },
+    "hero": {
+      "title": "De la première demande",
+      "titleTail": "au dernier encaissement.",
+      "lead": "Biens, clients, offres, réservations, disponibilités et encaissements de votre agence dans un seul système. Avec votre propre site, des tâches de suivi et un portail pour chaque propriétaire.",
+      "demo": "Demander une démo",
+      "how": "Voir comment ça marche",
+      "sceneLabel": "Une réservation dans Tivvo, étape par étape",
+      "scene": {
+        "inquiry": "La demande arrive",
+        "offer": "L’offre est ouverte",
+        "booking": "La réservation est confirmée",
+        "payment": "L’acompte est payé"
+      },
+      "modulesLabel": "Ce qui est inclus",
+      "modules": {
+        "properties": "Biens",
+        "clients": "Clients",
+        "offers": "Offres",
+        "bookings": "Réservations",
+        "availability": "Disponibilités",
+        "payments": "Encaissements",
+        "site": "Site web",
+        "owners": "Propriétaires"
+      }
+    },
+    "nav": {
+      "label": "Principal",
+      "how": "Comment ça marche",
+      "site": "Site web",
+      "portals": "Portails",
+      "migration": "Migration",
+      "plans": "Offres",
+      "help": "Aide",
+      "login": "Se connecter",
+      "demo": "Demander une démo"
+    },
+    "availability": {
+      "property": "Maison en bord de mer",
+      "dayLabel": "{day}, {status, select, booked {réservé} blocked {bloqué} other {libre}}",
+      "legend": "Légende",
+      "booked": "Réservé",
+      "blocked": "Bloqué",
+      "free": "Libre",
+      "rates": "Tarifs par nuit",
+      "high": "Haute saison",
+      "mid": "Moyenne saison",
+      "low": "Basse saison",
+      "tryIt": "Essayez : faites glisser sur les jours libres pour les bloquer.",
+      "claim": "Chaque nuit, sous contrôle.",
+      "rest": "Sans tableur et sans réservations qui se chevauchent.",
+      "facts": {
+        "grid": {
+          "title": "90 jours d’un coup d’œil",
+          "text": "Une grille avec tous vos biens. Vous voyez ce qui est libre avant de répondre à une demande."
+        },
+        "month": {
+          "title": "Vue mensuelle",
+          "text": "L’occupation de chaque jour. Choisissez un bien et faites glisser sur les nuits libres pour les bloquer."
+        },
+        "rates": {
+          "title": "Tarifs saisonniers",
+          "text": "Vous saisissez le prix par nuit de chaque période et le total de la réservation se calcule tout seul."
+        },
+        "filters": {
+          "title": "Filtres par date et zone",
+          "text": "Demandez seulement les biens libres du 10 au 17 à un endroit, et c’est tout."
+        }
+      }
+    },
+    "more": {
+      "claim": "Et tout le quotidien.",
+      "rest": "Les détails qui font que l’équipe l’utilise vraiment.",
+      "items": {
+        "inbox": {
+          "title": "Boîte des demandes",
+          "text": "Nouvelles et lues, avec un compteur dans le menu. Chaque demande crée ou réutilise le client et laisse une note avec le bien."
+        },
+        "board": {
+          "title": "Clients en tableau",
+          "text": "Faites glisser chaque client d’une étape à l’autre, ou affichez-les en liste. Comme chacun préfère."
+        },
+        "tasks": {
+          "title": "Tâches de suivi",
+          "text": "Un rappel avec date et responsable dans chaque client, pour que personne ne reste sans réponse."
+        },
+        "notifications": {
+          "title": "Notifications",
+          "text": "Une cloche vous prévient quand une demande arrive, qu’une offre est ouverte, qu’un paiement est enregistré ou qu’une tâche vous est attribuée."
+        },
+        "services": {
+          "title": "Services en plus",
+          "text": "Chef, yacht, transferts, excursions, spa. Créez votre catalogue avec un prix par personne, jour, nuit ou heure et ajoutez-les à l’offre."
+        },
+        "pending": {
+          "title": "Réservations en attente",
+          "text": "Une réservation non confirmée apparaît dans le calendrier, même si elle ne bloque pas encore les dates. Vous la voyez venir avant de décider."
+        }
+      }
+    },
+    "footer": {
+      "tagline": "Logiciel de gestion pour agences de vente et de location saisonnière.",
+      "label": "Pied de page",
+      "legalLabel": "Mentions légales",
+      "top": "Haut de page",
+      "legal": {
+        "help": "Aide",
+        "terms": "Conditions générales",
+        "privacy": "Confidentialité"
+      },
+      "groups": {
+        "product": {
+          "title": "Produit",
+          "how": "Comment ça marche",
+          "team": "Équipe et permissions",
+          "migration": "Migration"
+        },
+        "portals": {
+          "title": "Portails",
+          "site": "Le site de votre agence",
+          "owner": "Portail propriétaire"
+        },
+        "start": {
+          "title": "Commencer",
+          "demo": "Demander une démo",
+          "plans": "Offres",
+          "faq": "Questions fréquentes"
+        },
+        "account": {
+          "title": "Compte",
+          "login": "Se connecter",
+          "register": "Créer un compte"
+        }
+      }
+    },
+    "siteEditor": {
+      "template": "Modèle",
+      "color": "Couleur",
+      "fonts": "Typographie",
+      "blocks": "Blocs",
+      "blockNames": {
+        "promo": "Promotion",
+        "location": "Emplacement",
+        "featured": "À la une"
+      },
+      "tryIt": "Essayez : changez le modèle, la couleur, la typographie et les blocs.",
+      "screen": "Taille d’écran",
+      "desktop": "Ordinateur",
+      "mobile": "Mobile",
+      "previewLabel": "Aperçu du site, défilable",
+      "claim": "Un site qui vous ressemble.",
+      "rest": "Construisez-le à votre façon, sans graphiste.",
+      "lead": "C’est le site public de votre agence, avec votre marque et vos biens, et c’est vous qui le personnalisez : modèle, couleurs, typographies et blocs. Vous voyez le rendu sur ordinateur, tablette et mobile avant de publier."
+    },
+    "preview": {
+      "searchLong": "Zone, type de bien ou prix",
+      "searchShort": "Zone, type ou prix",
+      "search": "Rechercher",
+      "title": "Trouvez votre lieu.",
+      "subtitle": "Maisons et appartements à vendre et en location saisonnière.",
+      "nav": {
+        "properties": "Biens",
+        "about": "À propos",
+        "contact": "Contact"
+      },
+      "contact": "Contacter",
+      "results": "{count} résultats",
+      "promo": "Séjours d’octobre à La Barra",
+      "destination": "Destination",
+      "destinationText": "Mer, forêt et couchers de soleil. Les plus belles maisons du coin, à deux pas de la plage.",
+      "destinationCta": "Voir les biens à La Barra",
+      "featured": "Biens à la une",
+      "viewAll": "Tout voir",
+      "kinds": {
+        "sale": "Vente",
+        "rent": "Location"
+      },
+      "listings": {
+        "beach": "Maison en bord de mer",
+        "view": "Appartement avec vue",
+        "garden": "Maison avec jardin"
+      },
+      "perMonth": "{price} / mois"
+    },
+    "fragments": {
+      "new": "Nouveau",
+      "inquiry": {
+        "source": "Demande depuis votre site",
+        "message": "Bonjour, la maison de La Barra est-elle libre la dernière semaine d’octobre ? Nous sommes quatre."
+      },
+      "offerSeen": {
+        "title": "Maison en bord de mer à La Barra",
+        "seen": "Consultée"
+      },
+      "booking": {
+        "title": "Réservation confirmée",
+        "confirmed": "Confirmée",
+        "checkIn": "Arrivée",
+        "checkOut": "Départ",
+        "nights": "Nuits"
+      },
+      "payment": {
+        "title": "Acompte encaissé",
+        "left": "Reste {left} · commission {commission}"
+      },
+      "clients": {
+        "search": "Rechercher des clients",
+        "notes": {
+          "vr": "Arrivée depuis votre site il y a 3 min",
+          "me": "Vous lui avez envoyé la fiche avec les charges",
+          "cd": "Visite samedi à 11 h",
+          "jb": "A signé pour le local"
+        }
+      },
+      "timeline": {
+        "since": "Client depuis septembre",
+        "daysAgo": "{count, plural, one {Il y a # jour} other {Il y a # jours}}",
+        "stage": "Étape",
+        "contact": "Contact",
+        "call": {
+          "type": "Appel",
+          "text": "Nous avons convenu d’organiser une deuxième visite samedi."
+        },
+        "visit": {
+          "type": "Visite",
+          "text": "A visité la maison d’Olivos. A aimé le jardin, s’inquiète des charges."
+        },
+        "email": {
+          "type": "E-mail",
+          "text": "Nous lui avons envoyé les trois biens du nord."
+        }
+      },
+      "offer": {
+        "title": "Trois options au nord",
+        "items": {
+          "olivos": "Maison à Olivos",
+          "vicenteLopez": "Maison à Vicente López",
+          "belgrano": "Appartement à Belgrano"
+        },
+        "total": "Total de l’offre",
+        "opened": "Ouverte il y a 5 minutes",
+        "expires": "Expire le {date}"
+      },
+      "saleBooking": {
+        "fromOffer": "créée depuis l’offre",
+        "price": "Prix",
+        "commission": "Commission",
+        "agent": "Agent",
+        "reserved": "Réservé",
+        "hint": "Client, bien et prix repris directement de l’offre."
+      },
+      "payments": {
+        "saleTitle": "Encaissements de la vente",
+        "rentTitle": "Paiements de la réservation",
+        "deposit": "Acompte",
+        "balance": "Solde",
+        "onBooking": "À la réservation",
+        "onDeed": "À l’acte",
+        "onCheckIn": "À l’arrivée",
+        "price": "Prix",
+        "commission": "Commission (3 %)",
+        "collected": "Encaissé",
+        "due": "À encaisser",
+        "nights": "Nuits",
+        "total": "Total",
+        "paid": "Encaissé",
+        "pending": "En attente"
+      },
+      "calendar": {
+        "rates": "Tarifs par nuit",
+        "high": "Haute saison",
+        "mid": "Moyenne saison",
+        "booked": "Réservé"
+      },
+      "owner": {
+        "title": "Relevé",
+        "property": "Maison en bord de mer",
+        "collected": "Encaissé",
+        "paidOut": "Reversé",
+        "balance": "Solde",
+        "payout": "Reversement",
+        "paid": "Payé"
+      },
+      "tasks": {
+        "call": "Appeler Valeria pour conclure l’offre",
+        "photos": "Envoyer des photos du jardin",
+        "today": "Aujourd’hui",
+        "tomorrow": "Demain",
+        "opened": "Valeria a ouvert l’offre",
+        "ago": "Il y a 2 minutes",
+        "title": "Tâches de suivi"
+      }
+    }
+  }
+}

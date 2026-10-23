@@ -1,0 +1,133 @@
+{
+  "marketplace": {
+    "metaTitle": "Tivvo · Kratkoročni najam i nekretnine na prodaju",
+    "byDestination": "Po destinaciji",
+    "nav": {
+      "rentals": "Najam",
+      "agency": "Ja sam agencija"
+    },
+    "hero": {
+      "title": "Mjesto za nekoliko dana.",
+      "titleTail": "Ili za ostanak.",
+      "lead": "Kuće, stanovi i vile stvarnih agencija. Odaberite datume, pogledajte što je slobodno i pitajte izravno oglašivača."
+    },
+    "card": {
+      "rent": "Kratkoročni najam",
+      "sale": "Prodaja",
+      "categoryIn": "{category}, {place}",
+      "bedrooms": "{value} spav.",
+      "bathrooms": "{count, plural, one {{value} kupaonica} few {{value} kupaonice} other {{value} kupaonica}}",
+      "perNight": "po noćenju",
+      "stayTotal": "{count, plural, one {{amount} za # noćenje} few {{amount} za # noćenja} other {{amount} za # noćenja}}",
+      "onRequest": "Cijena na upit",
+      "onRequestShort": "Upit",
+      "publishedBy": "Objavio/la <strong>{agency}</strong>"
+    },
+    "destination": {
+      "typed": "Traži s onim što ste upisali",
+      "label": "Gdje",
+      "placeholder": "Grad, područje ili država",
+      "withListings": "S nekretninama",
+      "destinations": "Destinacije s nekretninama",
+      "elsewhere": "Druga mjesta"
+    },
+    "search": {
+      "guestsCount": "{count, plural, one {# gost} few {# gosta} other {# gostiju}}",
+      "guestsPlaceholder": "Koliko vas je?",
+      "guests": "Gosti",
+      "guestsHint": "Uključujući djecu",
+      "oneLess": "Jedan manje",
+      "oneMore": "Jedan više",
+      "buy": "Kupnja",
+      "looking": "Tražim",
+      "lookingLabel": "Što tražite",
+      "where": "Gdje",
+      "when": "Kada",
+      "dates": "Dolazak i odlazak",
+      "who": "Tko",
+      "what": "Što",
+      "type": "Vrsta nekretnine",
+      "anyType": "Bilo koja vrsta",
+      "upTo": "Do",
+      "maxPrice": "Najviša cijena",
+      "noCap": "Bez ograničenja",
+      "submit": "Traži"
+    },
+    "empty": {
+      "zoneTitle": "Još nema nekretnina u području {zone}.",
+      "zoneDates": "Barem ne za te datume.",
+      "zoneSoon": "Uskoro bi ih moglo biti.",
+      "title": "Ništa ne odgovara svemu tome zajedno.",
+      "titleTail": "Pokušajte olabaviti neki filtar.",
+      "zoneBody": "Agencije na Tivvu ondje još nemaju ništa. U međuvremenu pogledajte destinacije gdje ima.",
+      "body": "Uklonite neki filtar ili promijenite datume i vidjet ćete više opcija.",
+      "everywhere": "Traži u svim destinacijama",
+      "noDates": "Pokušaj bez datuma",
+      "all": "Pogledaj sve nekretnine",
+      "destinations": "Destinacije s nekretninama"
+    },
+    "results": {
+      "upTo": "Do {amount}",
+      "title": "Rezultati",
+      "latest": "Upravo objavljeno",
+      "free": "Samo one slobodne na te datume.",
+      "chosen": "Prema vašem odabiru.",
+      "latestHint": "Najnovije od agencija.",
+      "sort": "Poredaj",
+      "sorts": {
+        "recent": "Najnovije",
+        "price_asc": "Najniža cijena",
+        "price_desc": "Najviša cijena"
+      },
+      "list": "Samo popis",
+      "map": "Prikaži na karti",
+      "remove": "Ukloni",
+      "clearAll": "Očisti sve"
+    },
+    "how": {
+      "title": "Bez suvišnih posrednika.",
+      "titleTail": "Razgovarate s agencijom.",
+      "search": {
+        "title": "Tražite",
+        "text": "Područje, datumi i broj osoba. S datumima vidite samo ono što je slobodno."
+      },
+      "ask": {
+        "title": "Pitate",
+        "text": "Vaša poruka stiže agenciji koja oglašava, a ne pozivnom centru."
+      },
+      "arrange": {
+        "title": "Dogovarate",
+        "text": "Potvrde vam dostupnost i konačnu cijenu te dogovorite rezervaciju ili razgledavanje."
+      }
+    },
+    "footer": {
+      "label": "Podnožje",
+      "blurb": "Kratkoročni najam i nekretnine na prodaju od stvarnih agencija. Svaki upit stiže oglašivaču.",
+      "legal": "Svaku nekretninu objavljuje i njome upravlja njezina agencija.",
+      "pitch": {
+        "title": "Imate agenciju za nekretnine?",
+        "body": "Objavite ovdje svoje nekretnine i upravljajte upitima, ponudama i rezervacijama na jednom mjestu.",
+        "cta": "Upoznajte Tivvo za agencije"
+      },
+      "rent": {
+        "title": "Najam",
+        "all": "Kratkoročni najam",
+        "in": "Najam: {zone}"
+      },
+      "buy": {
+        "title": "Kupnja",
+        "all": "Nekretnine na prodaju"
+      },
+      "agencies": {
+        "title": "Za agencije",
+        "about": "Upoznajte Tivvo",
+        "register": "Izradi račun",
+        "login": "Prijava"
+      },
+      "tivvo": {
+        "how": "Kako radi",
+        "all": "Pogledaj sve nekretnine"
+      }
+    }
+  }
+}

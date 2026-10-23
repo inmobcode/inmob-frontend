@@ -1,0 +1,319 @@
+{
+  "portalEditor": {
+    "templates": {
+      "portada": {
+        "label": "Couverture",
+        "description": "Une grande photo de couverture avec la recherche par-dessus."
+      },
+      "editorial": {
+        "label": "Éditorial",
+        "description": "Grand titre à côté de la photo et fiches plus larges, avec description."
+      },
+      "compacto": {
+        "label": "Compact",
+        "description": "Sans photo de couverture. Montre beaucoup de biens d’un coup d’œil."
+      },
+      "dividido": {
+        "label": "Partagé",
+        "description": "Une moitié à votre couleur avec le titre et la recherche, l’autre avec la photo de couverture."
+      },
+      "mosaico": {
+        "label": "Mosaïque",
+        "description": "Un collage de photos en haut, choisies dans Couverture, et le premier bien mis en avant en grand."
+      }
+    },
+    "accents": {
+      "charcoal": "Anthracite",
+      "forest": "Forêt",
+      "petrol": "Pétrole",
+      "blue": "Bleu",
+      "indigo": "Indigo",
+      "brick": "Brique",
+      "ochre": "Ocre",
+      "wood": "Bois"
+    },
+    "fonts": {
+      "moderna": {
+        "label": "Moderne",
+        "description": "Titres géométriques, nets."
+      },
+      "clasica": {
+        "label": "Classique",
+        "description": "Titres à empattements, élégant."
+      },
+      "sobria": {
+        "label": "Sobre",
+        "description": "Une seule famille, discrète."
+      },
+      "elegante": {
+        "label": "Élégante",
+        "description": "Serif fine, pour les biens de prestige."
+      },
+      "editorial": {
+        "label": "Éditoriale",
+        "description": "Serif de caractère, comme un magazine."
+      },
+      "calida": {
+        "label": "Chaleureuse",
+        "description": "Serif douce et texte arrondi."
+      },
+      "urbana": {
+        "label": "Urbaine",
+        "description": "Sans actuelle, claire et sympathique."
+      },
+      "arquitectonica": {
+        "label": "Architecturale",
+        "description": "Titres larges et affirmés."
+      }
+    },
+    "sections": {
+      "location": {
+        "label": "Emplacement",
+        "description": "Une zone avec photo, texte et ses biens. Idéal pour Ibiza, la Grèce ou votre quartier.",
+        "layouts": {
+          "split": "Mis en avant",
+          "banner": "Bannière",
+          "carousel": "Carrousel"
+        }
+      },
+      "promo": {
+        "label": "Promotion",
+        "description": "Des biens avec une étiquette comme « -15 % » ou « Offre de saison ».",
+        "layouts": {
+          "band": "Bande de couleur",
+          "banner": "Bannière photo",
+          "carousel": "Carrousel"
+        }
+      },
+      "featured": {
+        "label": "Biens à la une",
+        "description": "Votre sélection : les nouveautés, en bord de mer, les plus demandés.",
+        "layouts": {
+          "grid": "Grille",
+          "carousel": "Carrousel"
+        }
+      },
+      "destinations": {
+        "label": "Destinations",
+        "description": "Plusieurs zones à la fois, chacune avec sa photo. En touchant l’une d’elles, la liste se filtre.",
+        "layouts": {
+          "tiles": "Mosaïque",
+          "carousel": "Carrousel"
+        }
+      },
+      "text": {
+        "label": "Texte et image",
+        "description": "Racontez quelque chose de vous : vos services, estimations, votre façon de travailler.",
+        "layouts": {
+          "image-left": "Image à gauche",
+          "image-right": "Image à droite",
+          "centered": "Texte seul"
+        }
+      },
+      "cta": {
+        "label": "Appel à l’action",
+        "description": "Une invitation avec un bouton, comme « Vous voulez vendre votre bien ? ».",
+        "layouts": {
+          "color": "Couleur",
+          "photo": "Avec photo"
+        }
+      }
+    },
+    "buttonTargets": {
+      "contact": "Formulaire de contact",
+      "whatsapp": "WhatsApp",
+      "properties": "Liste des biens"
+    },
+    "design": {
+      "title": "Mise en page",
+      "description": "La forme générale de la page d’accueil. Vous pouvez en utiliser une sur ordinateur et une autre sur mobile.",
+      "screen": "Écran",
+      "desktop": "Ordinateur",
+      "mobile": "Mobile",
+      "sameAsDesktop": "Comme sur ordinateur",
+      "sameAsDesktopHint": "Désactivez pour choisir une autre mise en page sur mobile uniquement.",
+      "onMobile": "Mise en page sur mobile",
+      "onDesktop": "Mise en page sur ordinateur"
+    },
+    "color": {
+      "title": "Couleur",
+      "description": "Pour les boutons, liens et détails. Le reste du site reste blanc et gris.",
+      "custom": "Choisir une autre couleur",
+      "code": "Code couleur",
+      "picker": "Ou une autre, avec le sélecteur",
+      "format": "Utilisez le format #1F5F4A"
+    },
+    "fontsTitle": "Typographie",
+    "cover": {
+      "mosaicTitle": "Photos de la mosaïque",
+      "mosaicDescription": "Les quatre photos de couverture, dans cet ordre ; la première s’affiche en grand. Si vous n’en choisissez aucune, les photos de vos biens sont utilisées.",
+      "photoTitle": "Photo de couverture",
+      "photoDescription": "L’image principale de votre page. De préférence horizontale et d’au moins 1920 px de large.",
+      "current": "Couverture actuelle",
+      "none": "Sans couverture : votre couleur est utilisée.",
+      "change": "Changer la photo",
+      "upload": "Téléverser une photo",
+      "remove": "Retirer",
+      "texts": "Textes",
+      "heroTitle": "Titre",
+      "heroTitleHint": "Si vous le laissez vide, celui d’exemple est utilisé.",
+      "heroSubtitle": "Sous-titre",
+      "heroSubtitlePlaceholder": "Maisons et appartements à vendre et à louer sur la côte."
+    },
+    "blocksPanel": {
+      "title": "Blocs",
+      "description": "Vos propres sections entre la couverture et la liste : destinations comme Ibiza ou la Grèce, ou promotions avec des biens à la une."
+    },
+    "agency": {
+      "aboutTitle": "À propos de votre agence",
+      "aboutDescription": "Un paragraphe sur qui vous êtes et comment vous travaillez.",
+      "showAbout": "Afficher la section sur le site",
+      "aboutLabel": "Texte sur votre agence",
+      "aboutPlaceholder": "Nous sommes une agence familiale présente dans la région depuis 20 ans…",
+      "contactTitle": "Contact",
+      "contactDescription": "Affiché dans le pied de page et la section contact. L’e-mail se modifie dans Paramètres.",
+      "whatsappHint": "Avec l’indicatif du pays. Active le bouton « Écrivez-nous sur WhatsApp ».",
+      "phone": "Téléphone",
+      "address": "Adresse de l’agence",
+      "instagramPlaceholder": "@votreagence"
+    },
+    "placeholders": {
+      "location": {
+        "title": "Ibiza",
+        "text": "Criques turquoise, villages blancs et couchers de soleil. Nous avons des villas et des appartements sur toute l’île."
+      },
+      "promo": {
+        "title": "L’été sur la côte",
+        "text": "En réservant avant le 30 novembre, 15 % de remise sur les séjours d’une semaine ou plus."
+      },
+      "featured": {
+        "title": "Nouveautés",
+        "text": "Les derniers biens que nous avons ajoutés."
+      },
+      "destinations": {
+        "title": "Où nous avons des biens"
+      },
+      "text": {
+        "title": "Estimation gratuite de votre bien",
+        "text": "Nous vous disons ce qu’il vaut sur le marché actuel et comment le vendre plus vite."
+      },
+      "cta": {
+        "title": "Vous voulez vendre votre bien ?",
+        "text": "Nous vous accompagnons de l’estimation jusqu’à l’acte."
+      }
+    },
+    "blocks": {
+      "imageFailed": "Impossible de téléverser l’image",
+      "changeImage": "Changer l’image",
+      "uploadImage": "Téléverser une image",
+      "change": "Changer",
+      "remove": "Retirer",
+      "picker": {
+        "count": "({count} sur {max} maximum)",
+        "empty": "Vous n’avez pas encore de biens publiés.",
+        "searchPlaceholder": "Rechercher par titre ou zone",
+        "searchIn": "Rechercher dans {label}",
+        "noMatch": "Rien ne correspond à cette recherche.",
+        "previous": "Page précédente",
+        "next": "Page suivante",
+        "page": "Page {page} sur {total}"
+      },
+      "zone": "Zone",
+      "destinations": {
+        "title": "Destinations",
+        "name": "Nom de la destination {number}",
+        "zone": "Zone (si différente du nom)",
+        "remove": "Retirer {name}",
+        "fallback": "destination",
+        "add": "Ajouter une destination"
+      },
+      "button": {
+        "label": "Texte du bouton",
+        "hint": "Vide : pas de bouton.",
+        "placeholder": "Écrivez-nous",
+        "target": "Mène à"
+      },
+      "layout": "Mise en page",
+      "layoutLabel": "Mise en page du bloc",
+      "title": "Titre",
+      "zoneHint": "Sont comptés les biens dont le quartier, la région ou le pays correspond à cette zone.",
+      "badge": "Étiquette",
+      "endsAt": "Valable jusqu’au (facultatif)",
+      "noDate": "Sans date",
+      "text": "Texte",
+      "zonePhoto": "Photo de la zone",
+      "image": "Image",
+      "listings": "Biens du bloc",
+      "listingsLabel": "Quels biens afficher",
+      "fromZone": "Ceux de la zone",
+      "pick": "Les choisir",
+      "picked": "Biens choisis",
+      "included": "Biens inclus",
+      "properties": "Biens",
+      "untitled": "Sans titre",
+      "hidden": "masqué",
+      "showNamed": "Afficher {name}",
+      "hideNamed": "Masquer {name}",
+      "show": "Afficher sur le site",
+      "hide": "Masquer du site",
+      "moveUp": "Monter {name}",
+      "moveDown": "Descendre {name}",
+      "delete": "Supprimer {name}",
+      "max": "Vous avez atteint le maximum de {max} blocs.",
+      "addTitle": "Quel bloc voulez-vous ajouter ?",
+      "close": "Fermer",
+      "add": "Ajouter un bloc",
+      "zonePicker": {
+        "pick": "Choisissez un emplacement",
+        "none": "Sans emplacement"
+      }
+    },
+    "preview": {
+      "title": "Aperçu du site"
+    },
+    "mosaic": {
+      "uploadFailed": "Impossible de téléverser l’image",
+      "change": "Changer la photo {number}",
+      "pick": "Choisir la photo {number}",
+      "remove": "Retirer la photo {number}",
+      "dialogTitle": "Photo {number} de la mosaïque",
+      "dialogDescription": "Choisissez une photo de vos biens ou téléversez une image.",
+      "uploading": "Téléversement…",
+      "upload": "Téléverser une image",
+      "empty": "Vos biens n’ont pas encore de photos.",
+      "used": "{title} (déjà dans la mosaïque)"
+    },
+    "page": {
+      "saved": "Site mis à jour",
+      "saveFailed": "Impossible d’enregistrer le site",
+      "coverSaved": "Couverture mise à jour",
+      "coverFailed": "Impossible de téléverser la couverture",
+      "title": "Votre site",
+      "unsaved": "Modifications non enregistrées",
+      "previewSize": "Taille de l’aperçu",
+      "viewports": {
+        "desktop": "Ordinateur",
+        "mobile": "Mobile"
+      },
+      "edit": "Modifier",
+      "preview": "Aperçu",
+      "help": "Aide sur le site",
+      "viewPublishedTitle": "Voir le site publié",
+      "viewPublished": "Voir la version publiée",
+      "save": "Enregistrer les modifications",
+      "sections": "Sections de l’éditeur",
+      "tabs": {
+        "design": "Mise en page",
+        "cover": "Couverture",
+        "blocks": "Blocs",
+        "agency": "Agence et contact"
+      },
+      "exit": {
+        "title": "Vous avez des modifications non enregistrées",
+        "body": "Si vous partez maintenant, les modifications non enregistrées de votre site seront perdues.",
+        "stay": "Continuer l’édition",
+        "leave": "Quitter sans enregistrer"
+      }
+    }
+  }
+}

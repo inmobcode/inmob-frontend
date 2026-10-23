@@ -1,6 +1,7 @@
 "use client";
 
 import { Search } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { AgencyMark, SITE_WRAP } from "@/components/public/site-chrome";
 import {
@@ -11,7 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { PublicAgency } from "@/lib/api/agency";
-import { LISTING_TYPE_LABELS, categoryLabel } from "@/lib/properties-labels";
+import { useLabels } from "@/lib/labels";
 import type { ResolvedSite } from "@/lib/site-theme";
 import { cn } from "@/lib/utils";
 import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
@@ -25,11 +26,7 @@ export interface SearchValues {
 }
 
 const ALL = "__all";
-const OPERATIONS: [Operation, string][] = [
-  ["", "Todas"],
-  ["SALE", LISTING_TYPE_LABELS.SALE],
-  ["RENT", LISTING_TYPE_LABELS.RENT],
-];
+const OPERATIONS: Operation[] = ["", "SALE", "RENT"];
 
 /**
  * The three questions people ask first: buy or rent, where, and what kind of
@@ -55,17 +52,14 @@ export function SearchBar({
   layout?: "bar" | "stack";
   className?: string;
 }) {
-  const button =
-    resultCount === 0
-      ? "Sin resultados"
-      : resultCount === 1
-        ? "Ver 1 propiedad"
-        : `Ver ${resultCount} propiedades`;
+  const t = useTranslations("site.search");
+  const labels = useLabels();
+  const button = resultCount === 0 ? t("noResults") : t("seeResults", { count: resultCount });
 
   return (
     <form
       role="search"
-      aria-label="Buscar propiedades"
+      aria-label={t("label")}
       onSubmit={(event) => {
         event.preventDefault();
         onSubmit();
@@ -79,16 +73,16 @@ export function SearchBar({
     >
       <fieldset className="flex flex-col gap-1.5">
         <legend className="mb-1.5 px-1 text-xs text-site-quiet">
-          Operación
+          {t("operation")}
         </legend>
         <div
           role="radiogroup"
-          aria-label="Operación"
+          aria-label={t("operation")}
           className="flex h-11 rounded-lg bg-site-surface p-1"
         >
-          {OPERATIONS.map(([value, label]) => (
+          {OPERATIONS.map((value) => (
             <button
-              key={label}
+              key={value || "all"}
               type="button"
               role="radio"
               aria-checked={values.op === value}
@@ -100,26 +94,26 @@ export function SearchBar({
                   : "text-site-quiet hover:text-site-ink",
               )}
             >
-              {label}
+              {value ? labels.listingType(value) : t("allOperations")}
             </button>
           ))}
         </div>
       </fieldset>
 
       <SearchSelect
-        label="Zona"
+        label={t("zone")}
         value={values.zone}
-        allLabel="Todas las zonas"
+        allLabel={t("allZones")}
         options={zones.map((zone) => ({ value: zone, label: zone }))}
         onChange={(zone) => onChange({ zone })}
       />
       <SearchSelect
-        label="Tipo de propiedad"
+        label={t("type")}
         value={values.type}
-        allLabel="Todos los tipos"
+        allLabel={t("allTypes")}
         options={types.map((type) => ({
           value: type,
-          label: categoryLabel(type),
+          label: labels.category(type),
         }))}
         onChange={(type) => onChange({ type })}
       />
@@ -190,6 +184,8 @@ export function PortalHero({
   /** Cover photos of some listings, for the `mosaico` collage when the agency picked none. */
   photos?: string[];
 }) {
+  const t = useTranslations("site.portal");
+  const heroTitle = site.heroTitle ?? t("defaultHeroTitle");
   const subtitle = site.heroSubtitle && (
     <p className="max-w-xl text-lg text-pretty opacity-85">
       {site.heroSubtitle}
@@ -206,7 +202,7 @@ export function PortalHero({
       >
         <div className="flex flex-col gap-6">
           <h1 className="s-heading text-[clamp(2.75rem,5.4vw,5rem)] leading-[1] text-balance">
-            {site.heroTitle}
+            {heroTitle}
           </h1>
           {subtitle}
           {search("stack")}
@@ -245,7 +241,7 @@ export function PortalHero({
         </div>
         <div className="flex flex-col justify-center gap-6 bg-site-accent px-5 py-12 text-site-accent-ink sm:px-8 lg:py-16 lg:pr-14 lg:pl-[max(2rem,calc((100vw-72rem)/2+2rem))]">
           <h1 className="s-heading text-[clamp(2.5rem,4.6vw,4.25rem)] leading-[1.02] text-balance">
-            {site.heroTitle}
+            {heroTitle}
           </h1>
           {subtitle}
           <div className="text-site-ink">{search("stack")}</div>
@@ -262,7 +258,7 @@ export function PortalHero({
       <section className={cn(SITE_WRAP, "flex flex-col gap-8 py-10 lg:py-14")}>
         <div className="flex flex-col gap-3">
           <h1 className="s-heading max-w-4xl text-[clamp(2.5rem,5vw,4.5rem)] leading-[1.02] text-balance">
-            {site.heroTitle}
+            {heroTitle}
           </h1>
           {subtitle && <div className="text-site-quiet">{subtitle}</div>}
         </div>
@@ -303,7 +299,7 @@ export function PortalHero({
         <div className={cn(SITE_WRAP, "flex flex-col gap-6 py-10 lg:py-14")}>
           <div className="flex flex-col gap-3">
             <h1 className="s-heading text-[clamp(2rem,3.6vw,3rem)] leading-[1.05] text-balance">
-              {site.heroTitle}
+              {heroTitle}
             </h1>
             {subtitle && <div className="text-site-quiet">{subtitle}</div>}
           </div>
@@ -340,7 +336,7 @@ export function PortalHero({
         className={cn(SITE_WRAP, "flex flex-col gap-6 pt-32 pb-10 lg:pb-14")}
       >
         <h1 className="s-heading max-w-3xl text-[clamp(2.5rem,6vw,4.75rem)] leading-[1.02] text-balance">
-          {site.heroTitle}
+          {heroTitle}
         </h1>
         {subtitle}
         {search("bar")}

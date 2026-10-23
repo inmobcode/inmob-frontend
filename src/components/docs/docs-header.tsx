@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowLeft } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 import { LogoIcon } from "@/components/logo-icon";
@@ -9,6 +10,7 @@ import { useSessionUser } from "@/lib/auth/session";
 
 /** The docs' own top bar: the brand and a way back to the dashboard, nothing else. */
 export function DocsHeader() {
+  const t = useTranslations("docs.header");
   const user = useSessionUser();
   const dashboard = user?.agencySlug ? `/${user.agencySlug}/properties` : "/login";
 
@@ -21,12 +23,12 @@ export function DocsHeader() {
         >
           <LogoIcon className="text-primary" />
           Tivvo
-          <span className="ml-1 font-sans text-sm font-normal text-muted-foreground">Documentación</span>
+          <span className="ml-1 font-sans text-sm font-normal text-muted-foreground">{t("docs")}</span>
         </Link>
         <Button variant="outline" asChild className="h-9 gap-1.5 rounded-full px-4">
           <Link href={dashboard}>
             <ArrowLeft />
-            Volver al panel
+            {t("back")}
           </Link>
         </Button>
       </div>

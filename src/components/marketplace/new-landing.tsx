@@ -1,12 +1,11 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { differenceInCalendarDays, format, parseISO } from "date-fns";
-import { es } from "date-fns/locale";
+import { differenceInCalendarDays, parseISO } from "date-fns";
 import { ArrowUpRight, Compass, List, Map as MapIcon, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
-import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { BlurEdge } from "@/components/dashboard/scroll-panel";
@@ -15,13 +14,15 @@ import { ListingCard } from "@/components/marketplace/listing-card";
 import { SearchPanel } from "@/components/marketplace/search-panel";
 import { SiteFooter } from "@/components/marketplace/site-footer";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useFormat } from "@/i18n/format";
+import { Link, useRouter } from "@/i18n/navigation";
 import {
   searchMarketplace,
   type MarketplaceFacets,
   type MarketplaceQuery,
   type MarketplaceSort,
 } from "@/lib/api/marketplace";
-import { categoryLabel } from "@/lib/properties-labels";
+import { useLabels } from "@/lib/labels";
 import { cn } from "@/lib/utils";
 
 const ResultsMap = dynamic(() => import("@/components/marketplace/results-map"), {
@@ -32,11 +33,7 @@ const ResultsMap = dynamic(() => import("@/components/marketplace/results-map"),
 const PATH = "/landing-test";
 const WRAP = "mx-auto w-full max-w-7xl px-5 sm:px-8";
 
-const SORTS: { value: MarketplaceSort; label: string }[] = [
-  { value: "recent", label: "Más recientes" },
-  { value: "price_asc", label: "Menor precio" },
-  { value: "price_desc", label: "Mayor precio" },
-];
+const SORTS: MarketplaceSort[] = ["recent", "price_asc", "price_desc"];
 
 /** The search lives in the URL, so a result list can be shared or reloaded as is. */
 function readQuery(params: URLSearchParams): MarketplaceQuery {
@@ -51,7 +48,7 @@ function readQuery(params: URLSearchParams): MarketplaceQuery {
     checkOut: params.get("out") ?? undefined,
     guests: number("guests"),
     maxPrice: number("max"),
-    sort: SORTS.some((option) => option.value === sort) ? (sort as MarketplaceSort) : undefined,
+    sort: SORTS.includes(sort as MarketplaceSort) ? (sort as MarketplaceSort) : undefined,
   };
 }
 
@@ -71,8 +68,6 @@ function writeQuery(query: MarketplaceQuery) {
   return params.toString();
 }
 
-const shortDate = (iso: string) => format(parseISO(iso), "d MMM", { locale: es });
-
 /**
  * Nothing matched. With a place that has nothing yet, it says so by name and
  * points to the destinations that do; otherwise it suggests loosening filters.
@@ -86,6 +81,7 @@ function EmptyResults({
   facets: MarketplaceFacets;
   onSearch: (query: MarketplaceQuery) => void;
 }) {
+  const t = useTranslations("marketplace.empty");
   const hasDates = Boolean(query.checkIn && query.checkOut);
   const elsewhere = facets.zones.filter((zone) => zone.name !== query.zone && zone.coverUrl).slice(0, 4);
   const button =
@@ -100,19 +96,19 @@ function EmptyResults({
         <h3 className="font-display text-[clamp(1.75rem,3.2vw,2.5rem)] leading-tight tracking-tight text-balance">
           {query.zone ? (
             <>
-              Todavía no hay propiedades en {query.zone}.{" "}
-              <span className="text-quiet">{hasDates ? "Al menos no para esas fechas." : "Pronto puede haber."}</span>
+              {t("zoneTitle", { zone: query.zone })}{" "}
+              <span className="text-quiet">{hasDates ? t("zoneDates") : t("zoneSoon")}</span>
             </>
           ) : (
             <>
-              No hay nada con todo eso junto. <span className="text-quiet">Probá aflojar algún filtro.</span>
+              {t("title")} <span className="text-quiet">{t("titleTail")}</span>
             </>
           )}
         </h3>
         <p className="text-quiet">
           {query.zone
-            ? "Las inmobiliarias que publican en Tivvo todavía no tienen nada ahí. Mientras tanto, mirá los destinos donde sí hay."
-            : "Sacá algún filtro o cambiá las fechas y vas a ver más opciones."}
+            ? t("zoneBody")
+            : t("body")}
         </p>
         <div className="flex flex-wrap gap-2 pt-1">
           {query.zone && (
@@ -121,7 +117,7 @@ function EmptyResults({
               onClick={() => onSearch({ ...query, zone: undefined })}
               className={cn(button, "bg-forest text-paper hover:bg-forest-deep")}
             >
-              Buscar en todos los destinos
+              {t("everywhere")}
             </button>
           )}
           {hasDates && (
@@ -130,7 +126,7 @@ function EmptyResults({
               onClick={() => onSearch({ ...query, checkIn: undefined, checkOut: undefined })}
               className={cn(button, "border border-line hover:border-ink")}
             >
-              Probar sin fechas
+              {t("noDates")}
             </button>
           )}
           {!query.zone && !hasDates && (
@@ -139,7 +135,7 @@ function EmptyResults({
               onClick={() => onSearch({})}
               className={cn(button, "bg-forest text-paper hover:bg-forest-deep")}
             >
-              Ver todas las propiedades
+              {t("all")}
             </button>
           )}
         </div>
@@ -147,7 +143,7 @@ function EmptyResults({
 
       {elsewhere.length > 0 && (
         <div className="flex flex-col gap-4">
-          <h4 className="text-sm font-medium text-quiet">Destinos con propiedades</h4>
+          <h4 className="text-sm font-medium text-quiet">{t("destinations")}</h4>
           <ul className="grid grid-cols-2 gap-4 lg:grid-cols-4">
             {elsewhere.map((zone) => (
               <li key={zone.name}>
@@ -182,6 +178,10 @@ function EmptyResults({
 }
 
 export function NewLanding({ facets }: { facets: MarketplaceFacets }) {
+  const t = useTranslations("marketplace");
+  const labels = useLabels();
+  const { number, date } = useFormat();
+  const shortDate = (iso: string) => date(parseISO(iso), "dayMonthShort");
   const router = useRouter();
   const searchParams = useSearchParams();
   const query = useMemo(() => readQuery(new URLSearchParams(searchParams.toString())), [searchParams]);
@@ -251,21 +251,21 @@ export function NewLanding({ facets }: { facets: MarketplaceFacets }) {
   // What's applied, each with its own way out.
   const applied = [
     query.operation && {
-      label: query.operation === "RENT" ? "Alquiler temporario" : "Venta",
+      label: query.operation === "RENT" ? t("card.rent") : t("card.sale"),
       clear: { operation: undefined, checkIn: undefined, checkOut: undefined, guests: undefined, maxPrice: undefined },
     },
     query.zone && { label: query.zone, clear: { zone: undefined } },
-    query.category && { label: categoryLabel(query.category), clear: { category: undefined } },
+    query.category && { label: labels.category(query.category), clear: { category: undefined } },
     query.checkIn &&
       query.checkOut && {
         label: `${shortDate(query.checkIn)} – ${shortDate(query.checkOut)}`,
         clear: { checkIn: undefined, checkOut: undefined },
       },
     query.guests && {
-      label: `${query.guests} ${query.guests === 1 ? "huésped" : "huéspedes"}`,
+      label: t("search.guestsCount", { count: query.guests }),
       clear: { guests: undefined },
     },
-    query.maxPrice && { label: `Hasta USD ${query.maxPrice.toLocaleString("es-AR")}`, clear: { maxPrice: undefined } },
+    query.maxPrice && { label: t("results.upTo", { amount: `USD ${number(query.maxPrice)}` }), clear: { maxPrice: undefined } },
   ].filter(Boolean) as { label: string; clear: Partial<MarketplaceQuery> }[];
   const filtered = applied.length > 0;
   const heroPhotos = facets.zones
@@ -311,20 +311,20 @@ export function NewLanding({ facets }: { facets: MarketplaceFacets }) {
               onClick={() => go({ operation: "RENT" })}
               className="hidden h-9 rounded-full px-3.5 text-paper/80 hover:bg-paper/10 hover:text-paper sm:inline-flex sm:items-center"
             >
-              Alquileres
+              {t("nav.rentals")}
             </button>
             <button
               type="button"
               onClick={() => go({ operation: "SALE" })}
               className="hidden h-9 rounded-full px-3.5 text-paper/80 hover:bg-paper/10 hover:text-paper sm:inline-flex sm:items-center"
             >
-              Comprar
+              {t("search.buy")}
             </button>
             <Link
               href="/"
               className="inline-flex h-9 items-center gap-1 rounded-full border border-paper/25 px-3.5 text-paper hover:bg-paper/10"
             >
-              Soy inmobiliaria
+              {t("nav.agency")}
               <ArrowUpRight className="size-3.5" />
             </Link>
           </nav>
@@ -334,11 +334,10 @@ export function NewLanding({ facets }: { facets: MarketplaceFacets }) {
           <div className="grid items-end gap-10 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)]">
             <div className="flex max-w-3xl flex-col gap-5">
               <h1 className="font-display text-[clamp(2.75rem,6.5vw,5.5rem)] leading-[0.98] tracking-tight text-balance">
-                Un lugar para unos días. <span className="text-paper/45">O para quedarte.</span>
+                {t("hero.title")} <span className="text-paper/45">{t("hero.titleTail")}</span>
               </h1>
               <p className="max-w-xl text-lg text-paper/75">
-                Casas, departamentos y villas de inmobiliarias reales. Elegí fechas, mirá qué está libre y consultá
-                directo a quien la publica.
+                {t("hero.lead")}
               </p>
             </div>
             {/* Real listings, not stock photos: one tall and two stacked. */}
@@ -368,7 +367,7 @@ export function NewLanding({ facets }: { facets: MarketplaceFacets }) {
           <section className={cn(WRAP, "flex flex-col gap-12 py-14 lg:py-20")}>
             {facets.zones.length > 0 && (
               <div className="flex flex-col gap-4">
-                <h2 className="font-display text-2xl tracking-tight">Por destino</h2>
+                <h2 className="font-display text-2xl tracking-tight">{t("byDestination")}</h2>
                 <ul className="-mx-5 flex snap-x scroll-px-5 gap-4 overflow-x-auto px-5 pb-3 sm:-mx-8 sm:scroll-px-8 sm:px-8">
                   {facets.zones.map((zone) => (
                     <li key={zone.name} className="w-56 shrink-0 snap-start lg:w-64">
@@ -411,14 +410,14 @@ export function NewLanding({ facets }: { facets: MarketplaceFacets }) {
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div className="flex flex-col gap-1">
                 <h2 className="font-display text-3xl tracking-tight">
-                  {filtered ? "Resultados" : "Recién publicadas"}
+                  {filtered ? t("results.title") : t("results.latest")}
                 </h2>
                 <p className="text-quiet">
                   {query.checkIn && query.checkOut
-                    ? "Solo las que están libres en esas fechas."
+                    ? t("results.free")
                     : filtered
-                      ? "Con lo que elegiste."
-                      : "Lo último que subieron las inmobiliarias."}
+                      ? t("results.chosen")
+                      : t("results.latestHint")}
                 </p>
               </div>
               <div className="flex items-center gap-2">
@@ -426,13 +425,13 @@ export function NewLanding({ facets }: { facets: MarketplaceFacets }) {
                   value={query.sort ?? "recent"}
                   onValueChange={(sort) => go({ ...query, sort: sort as MarketplaceSort }, false)}
                 >
-                  <SelectTrigger aria-label="Ordenar" className="h-10! rounded-full border-line bg-paper px-4 text-sm">
+                  <SelectTrigger aria-label={t("results.sort")} className="h-10! rounded-full border-line bg-paper px-4 text-sm">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="landing">
                     {SORTS.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
+                      <SelectItem key={option} value={option}>
+                        {t(`results.sorts.${option}`)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -444,7 +443,7 @@ export function NewLanding({ facets }: { facets: MarketplaceFacets }) {
                   className="inline-flex h-10 items-center gap-2 rounded-full border border-line px-4 text-sm hover:border-ink"
                 >
                   {showMap ? <List className="size-4" /> : <MapIcon className="size-4" />}
-                  {showMap ? "Ver solo la lista" : "Ver en el mapa"}
+                  {showMap ? t("results.list") : t("results.map")}
                 </button>
               </div>
             </div>
@@ -459,7 +458,7 @@ export function NewLanding({ facets }: { facets: MarketplaceFacets }) {
                     className="inline-flex h-8 items-center gap-1.5 rounded-full bg-mist pr-2.5 pl-3 text-sm hover:bg-line"
                   >
                     {item.label}
-                    <X className="size-3.5" aria-label="Quitar" />
+                    <X className="size-3.5" aria-label={t("results.remove")} />
                   </button>
                 ))}
                 <button
@@ -467,7 +466,7 @@ export function NewLanding({ facets }: { facets: MarketplaceFacets }) {
                   onClick={() => go({}, false)}
                   className="h-8 px-2 text-sm font-medium underline-offset-4 hover:underline"
                 >
-                  Limpiar todo
+                  {t("results.clearAll")}
                 </button>
               </div>
             )}
@@ -520,23 +519,13 @@ export function NewLanding({ facets }: { facets: MarketplaceFacets }) {
         <section id="como-funciona" className="scroll-mt-24 border-t border-line bg-mist/60">
           <div className={cn(WRAP, "grid gap-10 py-14 lg:grid-cols-[1fr_2fr] lg:gap-16 lg:py-20")}>
             <h2 className="font-display text-3xl leading-tight tracking-tight text-balance">
-              Sin intermediarios de más. <span className="text-quiet">Hablás con la inmobiliaria.</span>
+              {t("how.title")} <span className="text-quiet">{t("how.titleTail")}</span>
             </h2>
             <ol className="grid gap-8 sm:grid-cols-3">
-              {[
-                {
-                  title: "Buscás",
-                  text: "Zona, fechas y cuántos van. Con fechas, solo ves lo que está libre.",
-                },
-                {
-                  title: "Consultás",
-                  text: "Tu mensaje le llega a la inmobiliaria que la publica, no a un call center.",
-                },
-                {
-                  title: "Coordinás",
-                  text: "Te confirma disponibilidad y precio final, y arreglan la reserva o la visita.",
-                },
-              ].map((step, index) => (
+              {(["search", "ask", "arrange"] as const).map((key) => ({
+                title: t(`how.${key}.title`),
+                text: t(`how.${key}.text`),
+              })).map((step, index) => (
                 <li key={step.title} className="flex flex-col gap-2 border-t border-ink/15 pt-4">
                   <span className="font-display text-sm text-quiet tabular-nums">{index + 1}</span>
                   <span className="font-display text-xl">{step.title}</span>

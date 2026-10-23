@@ -8,6 +8,7 @@ import {
   Check,
   Copy,
   ExternalLink,
+  Globe,
   Keyboard,
   LifeBuoy,
   LogOut,
@@ -19,6 +20,7 @@ import {
   UserRound,
   type LucideIcon,
 } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -28,6 +30,7 @@ import {
   OPEN_PALETTE_EVENT,
   OPEN_SHORTCUTS_EVENT,
 } from "@/components/dashboard/shortcuts";
+import { rememberLocale } from "@/components/language-switcher";
 import { RolePill } from "@/components/team/team-parts";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -44,10 +47,11 @@ import {
 import { getAgency } from "@/lib/api/agency";
 import { listMyAgencies, switchAgency } from "@/lib/api/auth";
 import { clearSession, getAccessToken, setSession, useSessionUser } from "@/lib/auth/session";
+import { LOCALE_NAMES, LOCALES, localePath, type Locale } from "@/i18n/config";
+import { siteLocaleOf } from "@/lib/agency-site";
 import { getPublicOrigin } from "@/lib/public-origin";
 import { cn } from "@/lib/utils";
 
-const NAME_FALLBACK = "Tu nombre";
 
 export function initials(name: string) {
   return name
@@ -58,18 +62,20 @@ export function initials(name: string) {
     .join("");
 }
 
-const THEMES: { value: string; label: string; icon: LucideIcon }[] = [
-  { value: "light", label: "Claro", icon: Sun },
-  { value: "dark", label: "Oscuro", icon: Moon },
-  { value: "system", label: "Automático", icon: Monitor },
+// Names in "dashboard.userMenu.theme.<value>".
+const THEMES: { value: "light" | "dark" | "system"; icon: LucideIcon }[] = [
+  { value: "light", icon: Sun },
+  { value: "dark", icon: Moon },
+  { value: "system", icon: Monitor },
 ];
 
 function ThemeSwitch() {
+  const t = useTranslations("dashboard.userMenu");
   const { theme, setTheme } = useTheme();
   return (
     <div
       role="radiogroup"
-      aria-label="Apariencia"
+      aria-label={t("appearance")}
       className="flex gap-0.5 rounded-full bg-foreground/[0.06] p-1"
     >
       {THEMES.map((item) => {
@@ -80,8 +86,8 @@ function ThemeSwitch() {
             type="button"
             role="radio"
             aria-checked={active}
-            aria-label={item.label}
-            title={item.label}
+            aria-label={t(`theme.${item.value}`)}
+            title={t(`theme.${item.value}`)}
             onClick={() => setTheme(item.value)}
             className={cn(
               "flex size-7 items-center justify-center rounded-full transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
@@ -99,7 +105,41 @@ function ThemeSwitch() {
 }
 
 /** Only rendered once there's more than one agency to switch to. */
+/** The dashboard's language: kept in a cookie on this browser and applied on the spot. */
+function LanguageItems() {
+  const t = useTranslations("dashboard.userMenu");
+  const locale = useLocale();
+  const router = useRouter();
+
+  function choose(next: Locale) {
+    if (next === locale) return;
+    rememberLocale(next);
+    router.refresh();
+  }
+
+  return (
+    <DropdownMenuSub>
+      <DropdownMenuSubTrigger className="rounded-xl py-2">
+        <Globe />
+        {t("language")}
+        <span className="ml-auto text-xs text-muted-foreground">{LOCALE_NAMES[locale]}</span>
+      </DropdownMenuSubTrigger>
+      <DropdownMenuPortal>
+        <DropdownMenuSubContent className="w-48 rounded-2xl p-1.5">
+          {LOCALES.map((option) => (
+            <DropdownMenuItem key={option} lang={option} className="gap-2 rounded-xl py-2" onSelect={() => choose(option)}>
+              {option === locale ? <Check /> : <span className="size-4" />}
+              {LOCALE_NAMES[option]}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuSubContent>
+      </DropdownMenuPortal>
+    </DropdownMenuSub>
+  );
+}
+
 function AgencySwitcherItems({ currentAgencyId }: { currentAgencyId: string }) {
+  const t = useTranslations("dashboard.userMenu");
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -125,7 +165,7 @@ function AgencySwitcherItems({ currentAgencyId }: { currentAgencyId: string }) {
       queryClient.clear();
       router.push(`/${auth.user.agencySlug}/properties`);
     },
-    onError: () => toast.error("No se pudo cambiar de agencia"),
+    onError: () => toast.error(t("switchFailed")),
   });
 
   if (!agencies || agencies.length < 2) return null;
@@ -134,7 +174,7 @@ function AgencySwitcherItems({ currentAgencyId }: { currentAgencyId: string }) {
     <DropdownMenuSub>
       <DropdownMenuSubTrigger className="rounded-xl py-2">
         <Building2 />
-        Cambiar de agencia
+        {t("switchAgency")}
       </DropdownMenuSubTrigger>
       <DropdownMenuPortal>
         <DropdownMenuSubContent className="w-56 rounded-2xl p-1.5">
@@ -156,6 +196,8 @@ function AgencySwitcherItems({ currentAgencyId }: { currentAgencyId: string }) {
 }
 
 export function UserMenu({ collapsed }: { collapsed: boolean }) {
+  const t = useTranslations("dashboard.userMenu");
+  const locale = useLocale();
   const router = useRouter();
   const queryClient = useQueryClient();
   const user = useSessionUser();
@@ -184,15 +226,15 @@ export function UserMenu({ collapsed }: { collapsed: boolean }) {
     if (!agency) return;
     try {
       await navigator.clipboard.writeText(
-        `${getPublicOrigin()}/page/${agency.slug}`,
+        `${getPublicOrigin()}${localePath(siteLocaleOf(agency), `/page/${agency.slug}`)}`,
       );
-      toast.success("Link del portal copiado");
+      toast.success(t("portalLinkCopied"));
     } catch {
-      toast.error("No se pudo copiar el link");
+      toast.error(t("linkCopyFailed"));
     }
   }
 
-  const name = user.name || NAME_FALLBACK;
+  const name = user.name || t("nameFallback");
 
   return (
     <>
@@ -275,14 +317,14 @@ export function UserMenu({ collapsed }: { collapsed: boolean }) {
           <DropdownMenuItem className="rounded-xl py-2" asChild>
             <Link href={`/${user.agencySlug}/profile`}>
               <UserRound />
-              Mi perfil
+              {t("profile")}
             </Link>
           </DropdownMenuItem>
           {user.role !== "AGENT" && (
             <DropdownMenuItem className="rounded-xl py-2" asChild>
               <Link href={`/${user.agencySlug}/settings`}>
                 <Settings />
-                Configuración
+                {t("settings")}
               </Link>
             </DropdownMenuItem>
           )}
@@ -294,12 +336,12 @@ export function UserMenu({ collapsed }: { collapsed: boolean }) {
               <DropdownMenuSeparator />
               <DropdownMenuItem className="rounded-xl py-2" asChild>
                 <a
-                  href={`/page/${agency.slug}`}
+                  href={localePath(siteLocaleOf(agency), `/page/${agency.slug}`)}
                   target="_blank"
                   rel="noreferrer"
                 >
                   <ExternalLink />
-                  Ver mi portal
+                  {t("viewPortal")}
                 </a>
               </DropdownMenuItem>
               <DropdownMenuItem
@@ -307,22 +349,23 @@ export function UserMenu({ collapsed }: { collapsed: boolean }) {
                 onSelect={copyPortalLink}
               >
                 <Copy />
-                Copiar link del portal
+                {t("copyPortalLink")}
               </DropdownMenuItem>
             </>
           )}
 
           <DropdownMenuSeparator />
           <div className="flex items-center justify-between gap-3 px-2.5 py-1.5 text-sm">
-            <span>Apariencia</span>
+            <span>{t("appearance")}</span>
             <ThemeSwitch />
           </div>
+          <LanguageItems />
 
           <DropdownMenuSeparator />
           <DropdownMenuItem className="group rounded-xl py-2" asChild>
             <Link href="/docs" target="_blank" rel="noreferrer">
               <BookOpen />
-              Documentación
+              {t("docs")}
               {/* Shows on hover/focus: it opens in a new tab. */}
               <ArrowUpRight className="ml-auto text-muted-foreground opacity-0 transition-[opacity,translate] duration-200 group-data-[highlighted]:translate-x-0.5 group-data-[highlighted]:-translate-y-0.5 group-data-[highlighted]:opacity-100" />
             </Link>
@@ -332,7 +375,7 @@ export function UserMenu({ collapsed }: { collapsed: boolean }) {
             onSelect={() => window.dispatchEvent(new Event(OPEN_PALETTE_EVENT))}
           >
             <Search />
-            Buscar y comandos
+            {t("search")}
             <kbd className="ml-auto text-xs text-muted-foreground">⌘ K</kbd>
           </DropdownMenuItem>
           <DropdownMenuItem
@@ -342,13 +385,13 @@ export function UserMenu({ collapsed }: { collapsed: boolean }) {
             }
           >
             <Keyboard />
-            Atajos de teclado
+            {t("shortcuts")}
             <kbd className="ml-auto text-xs text-muted-foreground">?</kbd>
           </DropdownMenuItem>
           <DropdownMenuItem className="rounded-xl py-2" asChild>
-            <a href="/help" target="_blank" rel="noreferrer">
+            <a href={locale === "es" ? "/help" : `/${locale}/help`} target="_blank" rel="noreferrer">
               <LifeBuoy />
-              Ayuda y soporte
+              {t("help")}
             </a>
           </DropdownMenuItem>
 
@@ -359,7 +402,7 @@ export function UserMenu({ collapsed }: { collapsed: boolean }) {
             onSelect={handleLogout}
           >
             <LogOut />
-            Cerrar sesión
+            {t("logout")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

@@ -1,0 +1,133 @@
+{
+  "marketplace": {
+    "metaTitle": "Tivvo · Alquileres temporarios y propiedades en venta",
+    "byDestination": "Por destino",
+    "nav": {
+      "rentals": "Alquileres",
+      "agency": "Soy inmobiliaria"
+    },
+    "hero": {
+      "title": "Un lugar para unos días.",
+      "titleTail": "O para quedarte.",
+      "lead": "Casas, departamentos y villas de inmobiliarias reales. Elegí fechas, mirá qué está libre y consultá directo a quien la publica."
+    },
+    "card": {
+      "rent": "Alquiler temporario",
+      "sale": "Venta",
+      "categoryIn": "{category} en {place}",
+      "bedrooms": "{value} dorm.",
+      "bathrooms": "{count, plural, one {{value} baño} other {{value} baños}}",
+      "perNight": "por noche",
+      "stayTotal": "{count, plural, one {{amount} por # noche} other {{amount} por # noches}}",
+      "onRequest": "Precio a consultar",
+      "onRequestShort": "Consultar",
+      "publishedBy": "Publicada por <strong>{agency}</strong>"
+    },
+    "destination": {
+      "typed": "Buscar con lo que escribiste",
+      "label": "Dónde",
+      "placeholder": "Ciudad, zona o país",
+      "withListings": "Con propiedades",
+      "destinations": "Destinos con propiedades",
+      "elsewhere": "Otros lugares"
+    },
+    "search": {
+      "guestsCount": "{count, plural, one {# huésped} other {# huéspedes}}",
+      "guestsPlaceholder": "¿Cuántos van?",
+      "guests": "Huéspedes",
+      "guestsHint": "Contando chicos",
+      "oneLess": "Uno menos",
+      "oneMore": "Uno más",
+      "buy": "Comprar",
+      "looking": "Busco",
+      "lookingLabel": "Qué buscás",
+      "where": "Dónde",
+      "when": "Cuándo",
+      "dates": "Entrada y salida",
+      "who": "Quiénes",
+      "what": "Qué",
+      "type": "Tipo de propiedad",
+      "anyType": "Cualquier tipo",
+      "upTo": "Hasta",
+      "maxPrice": "Precio máximo",
+      "noCap": "Sin tope",
+      "submit": "Buscar"
+    },
+    "empty": {
+      "zoneTitle": "Todavía no hay propiedades en {zone}.",
+      "zoneDates": "Al menos no para esas fechas.",
+      "zoneSoon": "Pronto puede haber.",
+      "title": "No hay nada con todo eso junto.",
+      "titleTail": "Probá aflojar algún filtro.",
+      "zoneBody": "Las inmobiliarias que publican en Tivvo todavía no tienen nada ahí. Mientras tanto, mirá los destinos donde sí hay.",
+      "body": "Sacá algún filtro o cambiá las fechas y vas a ver más opciones.",
+      "everywhere": "Buscar en todos los destinos",
+      "noDates": "Probar sin fechas",
+      "all": "Ver todas las propiedades",
+      "destinations": "Destinos con propiedades"
+    },
+    "results": {
+      "upTo": "Hasta {amount}",
+      "title": "Resultados",
+      "latest": "Recién publicadas",
+      "free": "Solo las que están libres en esas fechas.",
+      "chosen": "Con lo que elegiste.",
+      "latestHint": "Lo último que subieron las inmobiliarias.",
+      "sort": "Ordenar",
+      "sorts": {
+        "recent": "Más recientes",
+        "price_asc": "Menor precio",
+        "price_desc": "Mayor precio"
+      },
+      "list": "Ver solo la lista",
+      "map": "Ver en el mapa",
+      "remove": "Quitar",
+      "clearAll": "Limpiar todo"
+    },
+    "how": {
+      "title": "Sin intermediarios de más.",
+      "titleTail": "Hablás con la inmobiliaria.",
+      "search": {
+        "title": "Buscás",
+        "text": "Zona, fechas y cuántos van. Con fechas, solo ves lo que está libre."
+      },
+      "ask": {
+        "title": "Consultás",
+        "text": "Tu mensaje le llega a la inmobiliaria que la publica, no a un call center."
+      },
+      "arrange": {
+        "title": "Coordinás",
+        "text": "Te confirma disponibilidad y precio final, y arreglan la reserva o la visita."
+      }
+    },
+    "footer": {
+      "label": "Pie de página",
+      "blurb": "Alquileres temporarios y propiedades en venta de inmobiliarias reales. Cada consulta le llega a quien publica.",
+      "legal": "Cada propiedad la publica y la gestiona su inmobiliaria.",
+      "pitch": {
+        "title": "¿Tenés una inmobiliaria?",
+        "body": "Publicá tus propiedades acá y manejá consultas, ofertas y reservas desde un solo lugar.",
+        "cta": "Conocé Tivvo para inmobiliarias"
+      },
+      "rent": {
+        "title": "Alquilar",
+        "all": "Alquiler temporario",
+        "in": "Alquileres en {zone}"
+      },
+      "buy": {
+        "title": "Comprar",
+        "all": "Propiedades en venta"
+      },
+      "agencies": {
+        "title": "Para inmobiliarias",
+        "about": "Conocé Tivvo",
+        "register": "Crear una cuenta",
+        "login": "Ingresar"
+      },
+      "tivvo": {
+        "how": "Cómo funciona",
+        "all": "Ver todas las propiedades"
+      }
+    }
+  }
+}

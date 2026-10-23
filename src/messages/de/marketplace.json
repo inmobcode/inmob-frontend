@@ -1,0 +1,133 @@
+{
+  "marketplace": {
+    "metaTitle": "Tivvo · Ferienvermietung und Immobilien zum Kauf",
+    "byDestination": "Nach Reiseziel",
+    "nav": {
+      "rentals": "Ferienwohnungen",
+      "agency": "Ich bin eine Agentur"
+    },
+    "hero": {
+      "title": "Ein Ort für ein paar Tage.",
+      "titleTail": "Oder zum Bleiben.",
+      "lead": "Häuser, Wohnungen und Villen von echten Agenturen. Wählen Sie Daten, sehen Sie, was frei ist, und fragen Sie direkt beim Anbieter an."
+    },
+    "card": {
+      "rent": "Ferienvermietung",
+      "sale": "Verkauf",
+      "categoryIn": "{category} in {place}",
+      "bedrooms": "{value} SZ",
+      "bathrooms": "{count, plural, one {{value} Bad} other {{value} Bäder}}",
+      "perNight": "pro Nacht",
+      "stayTotal": "{count, plural, one {{amount} für # Nacht} other {{amount} für # Nächte}}",
+      "onRequest": "Preis auf Anfrage",
+      "onRequestShort": "Anfragen",
+      "publishedBy": "Angeboten von <strong>{agency}</strong>"
+    },
+    "destination": {
+      "typed": "Mit Ihrer Eingabe suchen",
+      "label": "Wo",
+      "placeholder": "Stadt, Gebiet oder Land",
+      "withListings": "Mit Objekten",
+      "destinations": "Reiseziele mit Objekten",
+      "elsewhere": "Andere Orte"
+    },
+    "search": {
+      "guestsCount": "{count, plural, one {# Gast} other {# Gäste}}",
+      "guestsPlaceholder": "Wie viele?",
+      "guests": "Gäste",
+      "guestsHint": "Kinder mitgezählt",
+      "oneLess": "Einen weniger",
+      "oneMore": "Einen mehr",
+      "buy": "Kaufen",
+      "looking": "Ich suche",
+      "lookingLabel": "Was suchen Sie",
+      "where": "Wo",
+      "when": "Wann",
+      "dates": "Anreise und Abreise",
+      "who": "Wer",
+      "what": "Was",
+      "type": "Objektart",
+      "anyType": "Jede Art",
+      "upTo": "Bis",
+      "maxPrice": "Höchstpreis",
+      "noCap": "Ohne Limit",
+      "submit": "Suchen"
+    },
+    "empty": {
+      "zoneTitle": "Noch keine Objekte in {zone}.",
+      "zoneDates": "Zumindest nicht für diese Daten.",
+      "zoneSoon": "Bald vielleicht schon.",
+      "title": "Nichts passt zu allem zusammen.",
+      "titleTail": "Lockern Sie einen Filter.",
+      "zoneBody": "Die Agenturen auf Tivvo haben dort noch nichts. Sehen Sie sich in der Zwischenzeit die Reiseziele mit Angeboten an.",
+      "body": "Entfernen Sie einen Filter oder ändern Sie die Daten, und Sie sehen mehr Optionen.",
+      "everywhere": "In allen Reisezielen suchen",
+      "noDates": "Ohne Daten versuchen",
+      "all": "Alle Objekte ansehen",
+      "destinations": "Reiseziele mit Objekten"
+    },
+    "results": {
+      "upTo": "Bis {amount}",
+      "title": "Ergebnisse",
+      "latest": "Neu eingestellt",
+      "free": "Nur die an diesen Daten freien.",
+      "chosen": "Passend zu Ihrer Auswahl.",
+      "latestHint": "Das Neueste von den Agenturen.",
+      "sort": "Sortieren",
+      "sorts": {
+        "recent": "Neueste",
+        "price_asc": "Niedrigster Preis",
+        "price_desc": "Höchster Preis"
+      },
+      "list": "Nur Liste",
+      "map": "Auf der Karte ansehen",
+      "remove": "Entfernen",
+      "clearAll": "Alles zurücksetzen"
+    },
+    "how": {
+      "title": "Keine überflüssigen Vermittler.",
+      "titleTail": "Sie sprechen mit der Agentur.",
+      "search": {
+        "title": "Sie suchen",
+        "text": "Gebiet, Daten und Personenzahl. Mit Daten sehen Sie nur, was frei ist."
+      },
+      "ask": {
+        "title": "Sie fragen an",
+        "text": "Ihre Nachricht geht an die anbietende Agentur, nicht an ein Callcenter."
+      },
+      "arrange": {
+        "title": "Sie vereinbaren",
+        "text": "Die Agentur bestätigt Verfügbarkeit und Endpreis, und Sie vereinbaren Buchung oder Besichtigung."
+      }
+    },
+    "footer": {
+      "label": "Fußzeile",
+      "blurb": "Ferienvermietung und Immobilien zum Kauf von echten Agenturen. Jede Anfrage geht an den Anbieter.",
+      "legal": "Jedes Objekt wird von seiner Agentur angeboten und verwaltet.",
+      "pitch": {
+        "title": "Sie haben eine Agentur?",
+        "body": "Stellen Sie Ihre Objekte hier ein und verwalten Sie Anfragen, Angebote und Buchungen an einem Ort.",
+        "cta": "Tivvo für Agenturen entdecken"
+      },
+      "rent": {
+        "title": "Mieten",
+        "all": "Ferienvermietung",
+        "in": "Ferienwohnungen in {zone}"
+      },
+      "buy": {
+        "title": "Kaufen",
+        "all": "Immobilien zum Kauf"
+      },
+      "agencies": {
+        "title": "Für Agenturen",
+        "about": "Tivvo entdecken",
+        "register": "Konto erstellen",
+        "login": "Anmelden"
+      },
+      "tivvo": {
+        "how": "So funktioniert es",
+        "all": "Alle Objekte ansehen"
+      }
+    }
+  }
+}

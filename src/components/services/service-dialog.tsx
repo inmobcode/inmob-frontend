@@ -2,6 +2,7 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ImagePlus, LoaderCircle, Trash2, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -38,6 +39,7 @@ import {
 } from "@/lib/api/services";
 import { getAccessToken } from "@/lib/auth/session";
 import { compressToWebp } from "@/lib/image-compression";
+import { useLabels } from "@/lib/labels";
 import { SERVICE_TYPES, SERVICE_UNITS } from "@/lib/service-labels";
 
 const CURRENCIES = ["USD", "EUR", "ARS"].map((code) => ({ value: code, label: code }));
@@ -88,10 +90,13 @@ function normalizeSearch(text: string) {
 }
 
 function ServiceTypeField({ value, onChange }: { value: ServiceType; onChange: (type: ServiceType) => void }) {
+  const t = useTranslations("services.dialog");
+  const labels = useLabels();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const current = SERVICE_TYPES.find((type) => type.value === value);
-  const matches = SERVICE_TYPES.filter((type) => normalizeSearch(type.label).includes(normalizeSearch(query)));
+  const types = SERVICE_TYPES.map((type) => ({ ...type, label: labels.serviceType(type.value) }));
+  const current = types.find((type) => type.value === value);
+  const matches = types.filter((type) => normalizeSearch(type.label).includes(normalizeSearch(query)));
 
   function pick(type: ServiceType) {
     onChange(type);
@@ -110,15 +115,15 @@ function ServiceTypeField({ value, onChange }: { value: ServiceType; onChange: (
       <PopoverTrigger asChild>
         <Button id="service-type" variant="outline" role="combobox" aria-expanded={open} className="w-full justify-start font-normal">
           {current && <current.icon />}
-          {current?.label ?? "Elegí un tipo"}
+          {current?.label ?? t("pickType")}
         </Button>
       </PopoverTrigger>
       <PopoverContent align="start" className="w-(--radix-popover-trigger-width) gap-1 p-2">
         <Input
           autoFocus
           value={query}
-          placeholder="Buscar tipo…"
-          aria-label="Buscar tipo de servicio"
+          placeholder={t("searchType")}
+          aria-label={t("searchTypeLabel")}
           onChange={(event) => setQuery(event.target.value)}
           onKeyDown={(event) => {
             if (event.key === "Enter" && matches[0]) {
@@ -127,7 +132,7 @@ function ServiceTypeField({ value, onChange }: { value: ServiceType; onChange: (
             }
           }}
         />
-        <ul className="flex max-h-64 flex-col overflow-y-auto" role="listbox" aria-label="Tipos de servicio">
+        <ul className="flex max-h-64 flex-col overflow-y-auto" role="listbox" aria-label={t("types")}>
           {matches.map((type) => (
             <li key={type.value} role="option" aria-selected={type.value === value}>
               <button
@@ -143,7 +148,7 @@ function ServiceTypeField({ value, onChange }: { value: ServiceType; onChange: (
               </button>
             </li>
           ))}
-          {matches.length === 0 && <li className="px-2 py-1.5 text-muted-foreground">Sin resultados para “{query}”</li>}
+          {matches.length === 0 && <li className="px-2 py-1.5 text-muted-foreground">{t("noTypeMatch", { query })}</li>}
         </ul>
       </PopoverContent>
     </Popover>
@@ -151,6 +156,7 @@ function ServiceTypeField({ value, onChange }: { value: ServiceType; onChange: (
 }
 
 function ZonesField({ value, onChange }: { value: string[]; onChange: (zones: string[]) => void }) {
+  const t = useTranslations("services.dialog");
   const [text, setText] = useState("");
   function add() {
     const zone = text.trim().replace(/,$/, "");
@@ -162,7 +168,7 @@ function ZonesField({ value, onChange }: { value: string[]; onChange: (zones: st
       <Input
         id="service-zones"
         value={text}
-        placeholder="Ej: Ibiza, Punta del Este"
+        placeholder={t("zonesPlaceholder")}
         onChange={(event) => setText(event.target.value)}
         onKeyDown={(event) => {
           if (event.key === "Enter" || event.key === ",") {
@@ -181,7 +187,7 @@ function ZonesField({ value, onChange }: { value: string[]; onChange: (zones: st
               {zone}
               <button
                 type="button"
-                aria-label={`Quitar ${zone}`}
+                aria-label={t("removeZone", { zone })}
                 onClick={() => onChange(value.filter((entry) => entry !== zone))}
                 className="flex size-5 items-center justify-center rounded-full hover:bg-foreground/10"
               >
@@ -208,6 +214,9 @@ export function ServiceDialog({
   onOpenChange: (open: boolean) => void;
   service: Service | null;
 }) {
+  const t = useTranslations("services.dialog");
+  const common = useTranslations("common");
+  const labels = useLabels();
   const queryClient = useQueryClient();
   const [draft, setDraft] = useState<SaveServicePayload>(() => toDraft(service));
   const [priceText, setPriceText] = useState(service?.price != null ? String(service.price) : "");
@@ -233,20 +242,20 @@ export function ServiceDialog({
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["services"] });
-      toast.success(service ? "Servicio actualizado" : "Servicio creado");
+      toast.success(service ? t("updated") : t("created"));
       onOpenChange(false);
     },
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo guardar el servicio"),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : t("saveFailed")),
   });
 
   const deleteMutation = useMutation({
     mutationFn: () => deleteService(requireToken(), service!.id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["services"] });
-      toast.success("Servicio eliminado");
+      toast.success(t("deleted"));
       onOpenChange(false);
     },
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo eliminar el servicio"),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : t("deleteFailed")),
   });
 
   async function upload(file: File) {
@@ -256,7 +265,7 @@ export function ServiceDialog({
       const { url } = await uploadServiceImage(requireToken(), compressed);
       set("imageUrl", url);
     } catch (err) {
-      toast.error(err instanceof ApiError ? err.message : "No se pudo subir la foto");
+      toast.error(err instanceof ApiError ? err.message : t("photoFailed"));
     } finally {
       setUploading(false);
     }
@@ -277,9 +286,9 @@ export function ServiceDialog({
           >
             <div className="flex flex-col gap-1.5 px-7 pt-7 pb-5">
               <DialogTitle className="font-display text-3xl leading-none tracking-tight">
-                {service ? "Editar servicio" : "Nuevo servicio"}
+                {service ? t("editTitle") : t("newTitle")}
               </DialogTitle>
-              <DialogDescription>Queda en tu librería para sumarlo a las ofertas que quieras.</DialogDescription>
+              <DialogDescription>{t("description")}</DialogDescription>
             </div>
 
             <FieldGroup className="px-7 pb-6">
@@ -287,7 +296,7 @@ export function ServiceDialog({
                 type="button"
                 disabled={uploading}
                 onClick={() => inputRef.current?.click()}
-                aria-label={draft.imageUrl ? "Cambiar foto" : "Subir foto"}
+                aria-label={draft.imageUrl ? t("changePhoto") : t("uploadPhoto")}
                 className="group relative flex aspect-[16/7] w-full items-center justify-center overflow-hidden rounded-2xl bg-foreground/[0.05] text-muted-foreground outline-none hover:bg-foreground/[0.08] focus-visible:ring-3 focus-visible:ring-ring/50"
               >
                 {draft.imageUrl ? (
@@ -319,71 +328,71 @@ export function ServiceDialog({
 
               <div className="grid gap-5 sm:grid-cols-[1.4fr_1fr]">
                 <Field>
-                  <FieldLabel htmlFor="service-name">Nombre</FieldLabel>
+                  <FieldLabel htmlFor="service-name">{t("name")}</FieldLabel>
                   <Input
                     id="service-name"
                     autoFocus
                     value={draft.name}
-                    placeholder="Ej: Chef privado"
+                    placeholder={t("namePlaceholder")}
                     onChange={(event) => set("name", event.target.value)}
                   />
                 </Field>
                 <Field>
-                  <FieldLabel htmlFor="service-type">Tipo</FieldLabel>
+                  <FieldLabel htmlFor="service-type">{t("type")}</FieldLabel>
                   <ServiceTypeField value={draft.type} onChange={(type) => set("type", type)} />
                 </Field>
               </div>
 
               <Field>
-                <FieldLabel htmlFor="service-description">Descripción</FieldLabel>
+                <FieldLabel htmlFor="service-description">{t("descriptionLabel")}</FieldLabel>
                 <Textarea
                   id="service-description"
                   rows={3}
                   value={draft.description ?? ""}
-                  placeholder="Qué incluye, cuánto dura, para cuántas personas…"
+                  placeholder={t("descriptionPlaceholder")}
                   onChange={(event) => set("description", event.target.value)}
                 />
-                <FieldDescription>El cliente la ve en la oferta.</FieldDescription>
+                <FieldDescription>{t("descriptionHint")}</FieldDescription>
               </Field>
 
               <Field>
-                <FieldLabel htmlFor="service-zones">Dónde se ofrece</FieldLabel>
+                <FieldLabel htmlFor="service-zones">{t("zones")}</FieldLabel>
                 <ZonesField value={draft.zones} onChange={(zones) => set("zones", zones)} />
-                <FieldDescription>Vacío: en cualquier lugar.</FieldDescription>
+                <FieldDescription>{t("zonesHint")}</FieldDescription>
               </Field>
 
               <div className="grid gap-5 sm:grid-cols-[1fr_auto_1fr] sm:items-start">
                 <Field>
-                  <FieldLabel htmlFor="service-price">Precio</FieldLabel>
+                  <FieldLabel htmlFor="service-price">{t("price")}</FieldLabel>
                   <Input
                     id="service-price"
                     inputMode="decimal"
                     value={priceText}
-                    placeholder="A consultar"
+                    placeholder={t("onRequest")}
                     aria-invalid={!priceValid}
                     onChange={(event) => setPriceText(event.target.value.replace(/[^\d.]/g, ""))}
                   />
                 </Field>
                 <Field>
-                  <FieldLabel>Moneda</FieldLabel>
+                  <FieldLabel>{t("currency")}</FieldLabel>
                   <Segmented
                     contained
-                    label="Moneda"
+                    label={t("currency")}
                     value={draft.currency}
                     options={CURRENCIES}
                     onChange={(currency) => set("currency", currency)}
                   />
                 </Field>
                 <Field>
-                  <FieldLabel htmlFor="service-unit">Se cobra</FieldLabel>
+                  <FieldLabel htmlFor="service-unit">{t("unit")}</FieldLabel>
                   <Select value={draft.unit} onValueChange={(value) => set("unit", value as ServiceUnit)}>
                     <SelectTrigger id="service-unit" className="w-full">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
                       {SERVICE_UNITS.map((unit) => (
-                        <SelectItem key={unit.value} value={unit.value}>
-                          {unit.label}
+                        <SelectItem key={unit} value={unit}>
+                          {labels.serviceUnit(unit)}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -392,34 +401,34 @@ export function ServiceDialog({
               </div>
 
               <Field>
-                <FieldLabel htmlFor="service-provider">Proveedor</FieldLabel>
+                <FieldLabel htmlFor="service-provider">{t("provider")}</FieldLabel>
                 <Input
                   id="service-provider"
                   value={draft.provider ?? ""}
-                  placeholder="Quién lo presta"
+                  placeholder={t("providerPlaceholder")}
                   onChange={(event) => set("provider", event.target.value)}
                 />
-                <FieldDescription>Solo lo ve tu equipo, nunca el cliente.</FieldDescription>
+                <FieldDescription>{t("providerHint")}</FieldDescription>
               </Field>
 
               <div className="grid gap-5 sm:grid-cols-2">
                 <Field>
-                  <FieldLabel htmlFor="service-reservation-policy">Política de reserva</FieldLabel>
+                  <FieldLabel htmlFor="service-reservation-policy">{t("reservationPolicy")}</FieldLabel>
                   <Textarea
                     id="service-reservation-policy"
                     rows={3}
                     value={draft.reservationPolicy ?? ""}
-                    placeholder="Cómo se reserva, seña, plazos…"
+                    placeholder={t("reservationPolicyPlaceholder")}
                     onChange={(event) => set("reservationPolicy", event.target.value)}
                   />
                 </Field>
                 <Field>
-                  <FieldLabel htmlFor="service-cancellation-policy">Política de cancelación</FieldLabel>
+                  <FieldLabel htmlFor="service-cancellation-policy">{t("cancellationPolicy")}</FieldLabel>
                   <Textarea
                     id="service-cancellation-policy"
                     rows={3}
                     value={draft.cancellationPolicy ?? ""}
-                    placeholder="Plazos y condiciones para cancelar…"
+                    placeholder={t("cancellationPolicyPlaceholder")}
                     onChange={(event) => set("cancellationPolicy", event.target.value)}
                   />
                 </Field>
@@ -427,8 +436,8 @@ export function ServiceDialog({
 
               <label className="flex items-center justify-between gap-4 rounded-2xl bg-foreground/[0.04] p-4">
                 <span className="flex flex-col gap-0.5">
-                  <span className="text-sm font-medium">Disponible</span>
-                  <span className="text-sm text-muted-foreground">Si lo apagás, no se puede sumar a ofertas nuevas.</span>
+                  <span className="text-sm font-medium">{t("available")}</span>
+                  <span className="text-sm text-muted-foreground">{t("availableHint")}</span>
                 </span>
                 <Switch checked={draft.active} onCheckedChange={(checked) => set("active", checked)} />
               </label>
@@ -443,18 +452,18 @@ export function ServiceDialog({
                   onClick={() => setConfirmDelete(true)}
                 >
                   <Trash2 />
-                  Eliminar
+                  {t("delete")}
                 </Button>
               ) : (
                 <span />
               )}
               <div className="flex gap-2">
                 <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>
-                  Cancelar
+                  {common("cancel")}
                 </Button>
                 <Button type="submit" disabled={!canSave}>
                   {saveMutation.isPending && <LoaderCircle className="animate-spin" />}
-                  {service ? "Guardar" : "Crear servicio"}
+                  {service ? common("save") : t("create")}
                 </Button>
               </div>
             </div>
@@ -465,15 +474,13 @@ export function ServiceDialog({
       <AlertDialog open={confirmDelete} onOpenChange={setConfirmDelete}>
         <AlertDialogContent className="rounded-3xl">
           <AlertDialogHeader>
-            <AlertDialogTitle className="font-display text-2xl">¿Eliminar «{service?.name}»?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Sale de tu librería. Las ofertas que ya lo incluyen lo mantienen tal cual.
-            </AlertDialogDescription>
+            <AlertDialogTitle className="font-display text-2xl">{t("deleteTitle", { name: service?.name ?? "" })}</AlertDialogTitle>
+            <AlertDialogDescription>{t("deleteBody")}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogCancel>{common("cancel")}</AlertDialogCancel>
             <AlertDialogAction variant="destructive" onClick={() => deleteMutation.mutate()}>
-              Eliminar
+              {t("delete")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

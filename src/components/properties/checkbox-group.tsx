@@ -7,8 +7,11 @@ export function CheckboxGroup({
   value,
   onChange,
   columns = 2,
+  labelOf = (option) => option,
 }: {
   options: string[];
+  /** Translates an option value for display only. */
+  labelOf?: (option: string) => string;
   value: string[];
   onChange: (value: string[]) => void;
   columns?: 1 | 2 | 3;
@@ -28,7 +31,7 @@ export function CheckboxGroup({
             checked={value.includes(option)}
             onCheckedChange={(checked) => toggle(option, checked === true)}
           />
-          {option}
+          {labelOf(option)}
         </label>
       ))}
     </div>

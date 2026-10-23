@@ -1,0 +1,654 @@
+{
+  "properties": {
+    "sort": {
+      "label": "Sortieren nach",
+      "updatedAt_desc": "Neueste",
+      "updatedAt_asc": "Älteste",
+      "price_desc": "Preis: absteigend",
+      "price_asc": "Preis: aufsteigend",
+      "title_asc": "Titel: A-Z",
+      "title_desc": "Titel: Z-A"
+    },
+    "menu": {
+      "viewOnSiteOf": "{title} auf der Website ansehen",
+      "viewOnSite": "Auf der Website ansehen",
+      "actionsOf": "Aktionen für {title}",
+      "edit": "Bearbeiten",
+      "republish": "Erneut veröffentlichen",
+      "publish": "Veröffentlichen",
+      "unpublish": "Veröffentlichung aufheben",
+      "archive": "Archivieren",
+      "delete": "Löschen"
+    },
+    "listingType": {
+      "label": "Vermarktungsart",
+      "SALE": {
+        "label": "Verkauf",
+        "hint": "Ein Objekt verkaufen"
+      },
+      "RENT": {
+        "label": "Vermietung",
+        "hint": "Dauerhaft oder saisonal vermieten"
+      }
+    },
+    "audience": {
+      "shown": "Auf der Website sichtbar",
+      "internal": "Nur intern"
+    },
+    "bulk": {
+      "label": "Aktionen für die ausgewählten Objekte",
+      "selected": "{count, plural, one {# ausgewählt} other {# ausgewählt}}",
+      "selectAll": "Alle {count} auswählen",
+      "publish": "Veröffentlichen",
+      "archive": "Archivieren",
+      "delete": "Löschen",
+      "clear": "Auswahl aufheben"
+    },
+    "activeFilters": {
+      "statusPlural": {
+        "PUBLISHED": "Veröffentlicht",
+        "DRAFT": "Entwürfe",
+        "ARCHIVED": "Archiviert"
+      },
+      "priceFrom": "Ab {price}",
+      "priceTo": "Bis {price}",
+      "owner": "Eigentümer",
+      "bedsAtLeast": "{count}+ Schlafzimmer",
+      "bathsAtLeast": "{count}+ Bäder",
+      "label": "Filter:",
+      "remove": "Filter {filter} entfernen",
+      "clearAll": "Alle entfernen"
+    },
+    "create": {
+      "titleRequired": "Geben Sie einen Titel ein",
+      "new": "Neues Objekt",
+      "description": "Beginnen Sie mit dem Wichtigsten. Fotos, Preis und Merkmale folgen später.",
+      "operation": "Was haben Sie damit vor?",
+      "title": "Titel",
+      "titlePlaceholder": "z. B. Haus direkt am Meer in La Barra",
+      "category": "Kategorie",
+      "submit": "Objekt erstellen"
+    },
+    "card": {
+      "unselect": "{title} aus der Auswahl entfernen",
+      "select": "{title} auswählen",
+      "priceOnRequest": "Preis auf Anfrage",
+      "bedrooms": "{count, plural, one {{value} Schlafzimmer} other {{value} Schlafzimmer}}",
+      "bathrooms": "{count, plural, one {{value} Bad} other {{value} Bäder}}",
+      "builtArea": "{value} Quadratmeter Wohnfläche",
+      "plotArea": "{value} Quadratmeter Grundstück",
+      "owner": "Eigentümer: {name}",
+      "updated": "Aktualisiert {ago}",
+      "onRequest": "Auf Anfrage",
+      "builtAreaTitle": "Wohnfläche",
+      "bedroomsShort": "{value} SZ"
+    },
+    "table": {
+      "unselectAll": "Auswahl aller aufheben",
+      "selectAll": "Alle auswählen",
+      "property": "Objekt",
+      "status": "Status",
+      "price": "Preis",
+      "bedrooms": "SZ",
+      "bathrooms": "Bäder",
+      "area": "Fläche",
+      "owner": "Eigentümer",
+      "updated": "Aktualisiert",
+      "actions": "Aktionen"
+    },
+    "controls": {
+      "decrease": "{label} verringern",
+      "increase": "{label} erhöhen",
+      "removeTag": "{tag} entfernen",
+      "search": "Suchen",
+      "searchIn": "In {label} suchen",
+      "selected": "{count, plural, =0 {Nichts ausgewählt} one {# ausgewählt} other {# ausgewählt}}",
+      "clear": "Leeren",
+      "noMatch": "Nichts passt zu „{query}“.",
+      "showLess": "Weniger anzeigen",
+      "showMore": "{count} weitere anzeigen"
+    },
+    "amenities": {
+      "general": {
+        "title": "Allgemeine Ausstattung",
+        "description": "Die kurze Liste auf der öffentlichen Objektseite. Geben Sie jedes Element ein und drücken Sie Enter.",
+        "label": "Ausstattung",
+        "placeholder": "z. B. Pool, Grill, WLAN"
+      },
+      "outdoor": {
+        "title": "Ausstattung außen",
+        "description": "Was es rund ums Haus gibt: Pool, Grill, Sportplätze und mehr."
+      },
+      "indoor": {
+        "title": "Ausstattung innen",
+        "description": "Einrichtungen und Ausstattung im Objekt.",
+        "other": "Weitere Einrichtungen",
+        "otherPlaceholder": "Etwas, das nicht in der Liste steht"
+      },
+      "conditions": {
+        "rentTitle": "Leistungen und Bedingungen",
+        "saleTitle": "Zustand",
+        "rentDescription": "Personal, Haustiere, Veranstaltungen und weitere Mietbedingungen.",
+        "saleDescription": "Vermarktungsstatus und allgemeine Merkmale des Objekts."
+      },
+      "bedrooms": {
+        "title": "Schlafzimmer nach Typ",
+        "description": "Wie viele Zimmer es von jeder Art gibt.",
+        "masterBedroomQty": "Hauptschlafzimmer",
+        "doubleBedroomQty": "Doppelzimmer",
+        "twinBedroomQty": "Zweibettzimmer",
+        "singleBedroomQty": "Einzelzimmer",
+        "bedroomWithBunkBedsQty": "Etagenbetten",
+        "guestBedroomQty": "Gästezimmer"
+      },
+      "layout": {
+        "title": "Raumaufteilung",
+        "description": "Die Räume des Objekts, mit optionalen Details zu jedem.",
+        "layoutKitchensCount": "Küchen",
+        "layoutLivingRoomsCount": "Wohnzimmer",
+        "layoutGuestWCCount": "Gäste-WC",
+        "layoutStaffQuartersCount": "Personalunterkünfte",
+        "garden": "Garten",
+        "storage": "Abstellraum",
+        "detailOf": "Details: {label}",
+        "detailPlaceholder": "Details (optional)"
+      },
+      "more": {
+        "title": "Weitere Details",
+        "description": "Beschreibung des Erlebnisses und Außenduschen.",
+        "enjoy": "Was man genießt",
+        "enjoyHint": "Eine kurze Beschreibung, wie es sich anfühlt, im Objekt zu wohnen.",
+        "outdoorShower": "Außenduschen"
+      },
+      "pools": {
+        "title": "Pools und Whirlpools",
+        "description": "Jeweils mit Typ und Maßen."
+      }
+    },
+    "location": {
+      "notFound": "Adresse nicht gefunden. Ergänzen Sie Angaben oder setzen Sie die Markierung manuell.",
+      "found": "Adresse auf der Karte gefunden",
+      "searchFailed": "Adresssuche fehlgeschlagen. Versuchen Sie es erneut.",
+      "linkTaken": "Koordinaten aus dem Link übernommen.",
+      "linkShort": "Kurzlinks enthalten keine Koordinaten. Öffnen Sie ihn und fügen Sie den vollständigen Link ein.",
+      "shown": {
+        "title": "Wie es angezeigt wird",
+        "description": "Der Text, den Ihre Kunden auf der Objektseite sehen.",
+        "label": "Sichtbare Lage",
+        "hint": "Zum Beispiel „La Barra, Punta del Este“. Muss nicht mit der genauen Adresse übereinstimmen.",
+        "empty": "Keine sichtbare Lage"
+      },
+      "where": {
+        "title": "Wo es liegt",
+        "description": "Genaue Adresse und Koordinaten, nur für Ihr Team sichtbar.",
+        "country": "Land",
+        "region": "Region",
+        "area": "Gebiet",
+        "address": "Adresse",
+        "search": "Auf der Karte suchen",
+        "mapsLink": "Google-Maps-Link",
+        "mapsPlaceholder": "Vollständigen Google-Maps-Link einfügen",
+        "mapsHint": "Wenn Sie ihn einfügen, übernehmen wir die Koordinaten daraus.",
+        "lat": "Breitengrad",
+        "lng": "Längengrad"
+      },
+      "surroundings": {
+        "title": "Umgebung",
+        "description": "Merkmale der Gegend und Aussicht des Objekts.",
+        "features": "Lagemerkmale",
+        "views": "Aussicht"
+      },
+      "links": {
+        "title": "Links",
+        "description": "Begleitmaterial für Ihre Kunden.",
+        "brochure": "Exposé (PDF)",
+        "website": "Website"
+      },
+      "map": {
+        "title": "Lage auf der Karte",
+        "hintPinned": "Ziehen Sie die Markierung oder klicken Sie auf die Karte, um die Position zu verfeinern.",
+        "hintEmpty": "Klicken Sie auf die Karte, um die Markierung zu setzen, oder suchen Sie die Adresse."
+      }
+    },
+    "content": {
+      "text": {
+        "title": "Text der Objektseite",
+        "description": "Das Erste, was der Kunde liest. Die Kurzbeschreibung steht hervorgehoben oben, die Beschreibung darunter.",
+        "summary": "Kurzbeschreibung",
+        "summaryHint": "Ein oder zwei packende Sätze. Am besten unter {limit} Zeichen.",
+        "descriptionLabel": "Beschreibung",
+        "descriptionHint": "Gliedern Sie Räume, Ausstattung oder Inklusivleistungen mit Überschriften und Listen."
+      },
+      "included": {
+        "title": "Inklusivleistungen",
+        "description": "Was im Mietpreis enthalten ist."
+      },
+      "policies": {
+        "title": "Richtlinien und Bedingungen",
+        "description": "Buchungs-, Storno- und Nutzungsbedingungen des Objekts."
+      }
+    },
+    "basic": {
+      "responsibleUpdated": "Zuständige Person aktualisiert",
+      "responsibleFailed": "Zuständige Person konnte nicht geändert werden",
+      "responsible": "Zuständig",
+      "responsibleHint": "Ein Makler sieht nur die ihm zugewiesenen Objekte. Wird bei der Auswahl gespeichert.",
+      "untitled": "Ohne Titel",
+      "example": "z. B. {value}",
+      "unspecified": "Keine Angabe",
+      "preview": "So erscheint es in Ihrem Bestand",
+      "identity": {
+        "title": "Identität",
+        "description": "Wie es heißt und welche Art von Objekt es ist.",
+        "titleLabel": "Titel",
+        "privateName": "Interner Name",
+        "privateNameHint": "Nur Sie und Ihr Team sehen ihn. Hilft, ähnliche Objekte zu unterscheiden.",
+        "operation": "Vermarktungsart",
+        "operationHint": "Eine Änderung blendet Abschnitte ein oder aus, etwa die zur Vermietung.",
+        "category": "Kategorie"
+      },
+      "features": {
+        "title": "Merkmale",
+        "description": "Was Kunden auf der Objektseite sehen.",
+        "bedrooms": "Schlafzimmer",
+        "bathrooms": "Bäder",
+        "areaSqm": "Wohnfläche",
+        "plotArea": "Grundstücksfläche",
+        "parking": "Stellplätze",
+        "storage": "Abstellräume",
+        "staffRoom": "Personalzimmer",
+        "floors": "Etagen",
+        "floorsPlaceholder": "Etage eingeben und Enter drücken",
+        "floorsHint": "Sie können mehrere eintragen, etwa 1, 2 und 3."
+      },
+      "rent": {
+        "title": "Mietangaben",
+        "description": "Kapazität und Kategorie der Unterkunft.",
+        "guests": "Gäste",
+        "stars": "Sterne"
+      },
+      "sale": {
+        "title": "Verkaufsangaben",
+        "description": "Baujahr, Energieeffizienz und Art der Lage.",
+        "constructionYear": "Baujahr",
+        "renovationYear": "Renovierungsjahr",
+        "energyCertificate": "Energieausweis",
+        "locationCategory": "Art der Lage"
+      }
+    },
+    "filters": {
+      "title": "Filter",
+      "description": "Kombinieren Sie die Filter, die Sie brauchen, und wenden Sie sie gemeinsam an.",
+      "status": "Status",
+      "statusPlural": {
+        "PUBLISHED": "Veröffentlicht",
+        "DRAFT": "Entwürfe",
+        "ARCHIVED": "Archiviert"
+      },
+      "statusHint": "Sie können mehrere wählen. Ohne Auswahl werden alle angezeigt.",
+      "type": "Art",
+      "allTypes": "Alle",
+      "any": "Alle",
+      "category": "Kategorie",
+      "allCategories": "Alle",
+      "location": "Lage",
+      "allLocations": "Alle",
+      "searchLocation": "Lage suchen…",
+      "noLocation": "Keine Lage passt.",
+      "owner": "Eigentümer",
+      "allOwners": "Alle Eigentümer",
+      "price": "Preis",
+      "allCurrencies": "Alle Währungen",
+      "minPrice": "Mindestpreis",
+      "maxPrice": "Höchstpreis",
+      "min": "Minimum",
+      "max": "Maximum",
+      "bedrooms": "Schlafzimmer",
+      "minBedrooms": "Mindestanzahl Schlafzimmer",
+      "bathrooms": "Bäder",
+      "minBathrooms": "Mindestanzahl Bäder",
+      "clear": "Zurücksetzen",
+      "show": "{count, plural, =0 {Keine Treffer} one {1 Objekt anzeigen} other {# Objekte anzeigen}}"
+    },
+    "photos": {
+      "cover": "Titelbild",
+      "makeCover": "Als Titelbild",
+      "move": "In anderen Abschnitt verschieben",
+      "confirmRemove": "Bestätigen: Foto entfernen",
+      "remove": "Foto entfernen",
+      "clickAgain": "Zum Entfernen erneut klicken",
+      "removeShort": "Entfernen?",
+      "uploadFailed": "Fotos konnten nicht hochgeladen werden",
+      "removeFailed": "Foto konnte nicht entfernt werden",
+      "coverFailed": "Titelbild konnte nicht geändert werden",
+      "moved": "Nach {section} verschoben",
+      "moveFailed": "Foto konnte nicht verschoben werden",
+      "orderFailed": "Reihenfolge konnte nicht gespeichert werden",
+      "saveFailed": "Speichern fehlgeschlagen",
+      "onlyImages": "Nur Bilder können hochgeladen werden (JPG, PNG, WebP oder HEIC).",
+      "videoInvalid": "Fügen Sie einen gültigen Link ein, etwa von YouTube oder Vimeo.",
+      "videoDuplicate": "Dieses Video ist bereits in der Liste.",
+      "add": "Hinzufügen",
+      "gallery": {
+        "title": "Galerie",
+        "description": "Ziehen Sie die Fotos, um sie innerhalb ihres Abschnitts zu sortieren. Änderungen in diesem Tab werden sofort gespeichert.",
+        "uploadTo": "In Abschnitt hochladen",
+        "target": "Zielabschnitt",
+        "newName": "Name",
+        "newNameLabel": "Name des neuen Abschnitts",
+        "upload": "Fotos hochladen",
+        "optimizing": "Fotos werden optimiert…",
+        "uploading": "{current} von {total} wird hochgeladen…",
+        "drop": "Zum Hochladen loslassen",
+        "drag": "Ziehen Sie Ihre Fotos hierher oder klicken Sie zur Auswahl",
+        "formats": "JPG, PNG, WebP oder HEIC. Sie werden vor dem Hochladen automatisch optimiert.",
+        "empty": "Sie haben noch keine Fotos hinzugefügt. Das erste wird das Titelbild."
+      },
+      "watermark": {
+        "title": "Wasserzeichen",
+        "description": "Setzt das Logo Ihrer Agentur auf die veröffentlichten Fotos.",
+        "label": "Wasserzeichen auf die Fotos setzen"
+      },
+      "videos": {
+        "title": "Videos",
+        "description": "Links von YouTube, Vimeo oder anderen Plattformen.",
+        "link": "Video-Link",
+        "remove": "Video entfernen"
+      },
+      "lightbox": {
+        "title": "Foto des Objekts",
+        "position": "{current} von {total}",
+        "previous": "Vorheriges Foto",
+        "next": "Nächstes Foto"
+      }
+    },
+    "owner": {
+      "created": "Eigentümer angelegt und zugewiesen",
+      "createFailed": "Eigentümer konnte nicht angelegt werden",
+      "regenerated": "Link neu erzeugt. Der alte funktioniert nicht mehr.",
+      "regenerateFailed": "Link konnte nicht neu erzeugt werden",
+      "noContact": "Keine Kontaktdaten.",
+      "noContactShort": "Keine Kontaktdaten",
+      "remove": "Entfernen",
+      "assigned": {
+        "title": "Zugewiesener Eigentümer",
+        "description": "Wem dieses Objekt gehört. Ein Eigentümer kann mehrere haben.",
+        "empty": "Noch kein Eigentümer zugewiesen. Wählen Sie einen aus der Liste oder legen Sie einen neuen an."
+      },
+      "access": {
+        "title": "Zugang für den Eigentümer",
+        "description": "Ein Link nur zum Lesen, mit dem {name} den Stand der eigenen Objekte (Verfügbarkeit, Buchungen und Zahlungen) ohne Passwort sieht.",
+        "link": "Zugangslink des Eigentümers",
+        "copyFailed": "Kopieren fehlgeschlagen. Markieren Sie den Link und kopieren Sie ihn manuell.",
+        "copy": "Link kopieren",
+        "regenerate": "Neu erzeugen"
+      },
+      "pick": {
+        "title": "Eigentümer wählen",
+        "description": "Durchsuchen Sie Ihre Eigentümer oder legen Sie einen neuen an.",
+        "searchPlaceholder": "Nach Name, E-Mail oder Telefon suchen",
+        "search": "Eigentümer durchsuchen",
+        "list": "Eigentümer",
+        "loading": "Eigentümer werden geladen…",
+        "noMatch": "Niemand passt zu „{query}“.",
+        "empty": "Sie haben noch keine Eigentümer angelegt."
+      },
+      "new": {
+        "title": "Neuer Eigentümer",
+        "name": "Name",
+        "email": "E-Mail (optional)",
+        "phone": "Telefon (optional)",
+        "notes": "Notizen (optional)",
+        "submit": "Anlegen und zuweisen"
+      }
+    },
+    "rates": {
+      "createFailed": "Zeitraum konnte nicht erstellt werden",
+      "new": "Neuer Zeitraum",
+      "label": "Bezeichnung (z. B. Hochsaison)",
+      "dates": "Von welchem bis zu welchem Tag er gilt",
+      "firstDay": "Ersten Tag wählen",
+      "lastDay": "Jetzt den letzten Tag wählen",
+      "price": "Offizieller Preis/Nacht",
+      "minStay": "Mindestaufenthalt (Nächte)",
+      "managementFee": "Verwaltungsgebühr (%)",
+      "commission": "Provision der Agentur (%)",
+      "add": "Zeitraum hinzufügen",
+      "noLabel": "Ohne Bezeichnung",
+      "perNight": "{price}/Nacht",
+      "minNights": "{count, plural, one {mind. # Nacht} other {mind. # Nächte}}",
+      "remove": "Entfernen",
+      "empty": "Noch keine Tarifzeiträume."
+    },
+    "availability": {
+      "blockFailed": "Datum konnte nicht blockiert werden",
+      "unblockFailed": "Blockierung konnte nicht entfernt werden",
+      "synced": "{count, plural, one {# Ereignis synchronisiert} other {# Ereignisse synchronisiert}}",
+      "syncFailed": "Synchronisierung fehlgeschlagen",
+      "manual": "Daten manuell blockieren",
+      "dates": "Von welchem bis zu welchem Tag",
+      "firstDay": "Ersten Tag wählen",
+      "lastDay": "Jetzt den letzten Tag wählen",
+      "note": "Notiz (optional)",
+      "block": "Blockieren",
+      "blocked": "Blockierte Daten",
+      "loading": "Wird geladen…",
+      "noBlocks": "Keine blockierten Daten.",
+      "remove": "Entfernen",
+      "sync": "Mit Airbnb/Booking synchronisieren (iCal)",
+      "syncing": "Wird synchronisiert…",
+      "syncNow": "Jetzt synchronisieren",
+      "export": "Ihre Verfügbarkeit exportieren",
+      "exportHint": "Fügen Sie diesen Link in Airbnb/Booking als externen Kalender ein, damit dort Ihre blockierten Daten sichtbar sind.",
+      "copy": "Kopieren"
+    },
+    "editor": {
+      "titleRequired": "Geben Sie einen Titel ein",
+      "categoryRequired": "Wählen Sie eine Kategorie",
+      "saveFailed": "Speichern fehlgeschlagen",
+      "published": "Objekt veröffentlicht",
+      "publishFailed": "Veröffentlichen fehlgeschlagen",
+      "unpublished": "Veröffentlichung aufgehoben",
+      "unpublishFailed": "Aufheben fehlgeschlagen",
+      "fallbackTitle": "Objekt",
+      "back": "Objekte",
+      "publish": "Veröffentlichen",
+      "unpublish": "Veröffentlichung aufheben",
+      "help": "Hilfe zu Objekten",
+      "groups": {
+        "general": "Allgemeine Informationen",
+        "media": "Medien",
+        "management": "Verwaltung",
+        "contact": "Kontakt",
+        "rental": "Vermietung"
+      },
+      "tabs": {
+        "basico": {
+          "label": "Grunddaten",
+          "hint": "Titel, Art und Kennzahlen"
+        },
+        "ubicacion": {
+          "label": "Lage",
+          "hint": "Adresse, Karte und Umgebung"
+        },
+        "amenities": {
+          "label": "Ausstattung",
+          "hint": "Ausstattung und Raumaufteilung"
+        },
+        "content": {
+          "label": "Inhalte und Leistungen",
+          "hint": "Texte für Kunden"
+        },
+        "precios": {
+          "label": "Preise",
+          "hint": "Preis und Währung"
+        },
+        "fotos": {
+          "label": "Fotos",
+          "hint": "Galerie und Videos"
+        },
+        "disponibilidad": {
+          "label": "Verfügbarkeit",
+          "hint": "Blockierungen und iCal-Kalender"
+        },
+        "rates": {
+          "label": "Tarife",
+          "hint": "Saisontarife"
+        },
+        "essentials": {
+          "label": "Verwaltung",
+          "hint": "Verwaltung und Lizenz"
+        },
+        "recomendaciones": {
+          "label": "Empfehlungen",
+          "hint": "Vorgeschlagene Verbesserungen"
+        },
+        "rooms": {
+          "label": "Zimmer",
+          "hint": "Hotelzimmer"
+        },
+        "propietario": {
+          "label": "Eigentümer",
+          "hint": "Verknüpfter Eigentümer"
+        }
+      }
+    },
+    "essentials": {
+      "management": {
+        "title": "Objektverwaltung",
+        "description": "Die Person oder Firma, die es im Alltag verwaltet.",
+        "name": "Name",
+        "phone": "Telefon",
+        "emailPlaceholder": "name@firma.com",
+        "company": "Firma"
+      },
+      "vendor": {
+        "title": "Anbieter und Lizenz",
+        "description": "Angaben zu dem, der das Objekt vermarktet, und zu seiner Genehmigung.",
+        "name": "Objektname beim Anbieter",
+        "website": "Website des Anbieters",
+        "commission": "Provision",
+        "commissionPlaceholder": "z. B. 5 %",
+        "license": "Lizenznummer"
+      },
+      "permissions": {
+        "title": "Berechtigungen",
+        "description": "Was Sie mit diesem Objekt außerhalb Ihrer Website tun dürfen.",
+        "thirdParty": "Auf Portalen Dritter veröffentlichen",
+        "thirdPartyHint": "Sie bestätigen, dass Sie dieses Objekt mit externen Portalen teilen dürfen."
+      }
+    },
+    "prices": {
+      "rentTitle": "Grundpreis pro Nacht",
+      "saleTitle": "Verkaufspreis",
+      "rentDescription": "Der Referenzwert pro Nacht. Angebote nutzen ihn, wenn es keinen Saisontarif gibt.",
+      "saleDescription": "Erscheint auf der Objektseite und auf den Karten in Ihrem Bestand.",
+      "currency": "Währung",
+      "perNight": "Preis pro Nacht",
+      "price": "Preis",
+      "emptyHint": "Leer lassen, wenn „Preis auf Anfrage“ angezeigt werden soll."
+    },
+    "pools": {
+      "pools": "Pools",
+      "jacuzzis": "Whirlpools",
+      "addPool": "Pool hinzufügen",
+      "addJacuzzi": "Whirlpool hinzufügen",
+      "quantity": "Anzahl",
+      "remove": "Entfernen"
+    },
+    "rooms": {
+      "add": "+ Zimmer hinzufügen",
+      "empty": "Dieses Hotel hat noch keine Zimmer.",
+      "edit": "Bearbeiten"
+    },
+    "recommendations": {
+      "new": "Neue Verbesserungsempfehlung",
+      "title": "Titel",
+      "details": "Details",
+      "priority": {
+        "LOW": "Niedrig",
+        "MEDIUM": "Mittel",
+        "HIGH": "Hoch"
+      },
+      "status": {
+        "PROPOSED": "Vorgeschlagen",
+        "APPROVED": "Genehmigt",
+        "DONE": "Erledigt"
+      },
+      "estCost": "Geschätzte Kosten",
+      "estCostValue": "Geschätzte Kosten: {value}",
+      "add": "Hinzufügen",
+      "remove": "Entfernen",
+      "empty": "Noch keine Empfehlungen."
+    },
+    "picker": {
+      "tabs": {
+        "ALL": "Alle",
+        "SALE": "Verkauf",
+        "RENT": "Vermietung"
+      },
+      "emptyAll": "Sie haben noch keine Objekte.",
+      "emptyOperation": {
+        "SALE": "Sie haben keine Objekte zum Verkauf.",
+        "RENT": "Sie haben keine Mietobjekte."
+      },
+      "noMatch": "Kein Objekt passt zu „{query}“.",
+      "emptyTab": "Keine Objekte in diesem Tab.",
+      "label": "Objekt",
+      "placeholder": "Objekt wählen",
+      "operation": "Vermarktungsart",
+      "only": {
+        "SALE": "Nur Objekte zum Verkauf",
+        "RENT": "Nur Mietobjekte"
+      },
+      "searchPlaceholder": "Nach Name oder Gebiet suchen",
+      "search": "Objekt suchen",
+      "list": "Objekte",
+      "perNight": "{price} /Nacht"
+    },
+    "ownerAccount": {
+      "added": "Auszahlung erfasst",
+      "addFailed": "Auszahlung konnte nicht erfasst werden",
+      "deleted": "Auszahlung gelöscht",
+      "deleteFailed": "Löschen fehlgeschlagen",
+      "title": "Kontoauszug",
+      "description": "Was aus den Buchungen von {name} eingenommen wurde, der Anteil (nach Abzug der Provision) und was bereits ausgezahlt wurde. Sichtbar über den Zugangslink.",
+      "loading": "Wird geladen…",
+      "loadFailed": "Kontoauszug konnte nicht geladen werden.",
+      "delete": "Auszahlung löschen",
+      "register": "Auszahlung erfassen",
+      "new": "Neue Auszahlung",
+      "amount": "Betrag",
+      "currency": "Währung",
+      "date": "Datum der Auszahlung",
+      "methodPlaceholder": "Zahlungsweg (Überweisung, bar…)",
+      "method": "Zahlungsweg",
+      "notePlaceholder": "Notiz (optional)",
+      "note": "Notiz",
+      "submit": "Erfassen"
+    },
+    "page": {
+      "title": "Objekte",
+      "searchPlaceholder": "Nach Titel, Gebiet oder Eigentümer suchen",
+      "search": "Objekte durchsuchen",
+      "help": "Hilfe zu Objekten",
+      "loadFailed": "Objekte konnten nicht geladen werden",
+      "bulk": {
+        "delete": "{count, plural, one {# Objekt in den Papierkorb verschoben} other {# Objekte in den Papierkorb verschoben}}",
+        "publish": "{count, plural, one {# Objekt veröffentlicht} other {# Objekte veröffentlicht}}",
+        "unpublish": "{count, plural, one {Veröffentlichung von # Objekt aufgehoben} other {Veröffentlichung von # Objekten aufgehoben}}",
+        "archive": "{count, plural, one {# Objekt archiviert} other {# Objekte archiviert}}",
+        "failed": "{count} konnten nicht verarbeitet werden. Versuchen Sie es erneut."
+      },
+      "empty": {
+        "title": "Legen Sie Ihr erstes Objekt an",
+        "body": "Fügen Sie Fotos, Preis und Merkmale hinzu, damit es bereit ist, wenn Sie es veröffentlichen möchten.",
+        "help": "So legen Sie ein Objekt an und veröffentlichen es"
+      },
+      "noMatch": {
+        "title": "Nichts passt zu diesen Filtern",
+        "body": "Versuchen Sie ein anderes Gebiet oder entfernen Sie einen Filter, um mehr Objekte zu sehen."
+      }
+    }
+  }
+}

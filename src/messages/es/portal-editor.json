@@ -1,0 +1,319 @@
+{
+  "portalEditor": {
+    "templates": {
+      "portada": {
+        "label": "Portada",
+        "description": "Una foto grande de portada con el buscador encima."
+      },
+      "editorial": {
+        "label": "Editorial",
+        "description": "Titular grande al lado de la foto y fichas más amplias, con descripción."
+      },
+      "compacto": {
+        "label": "Compacto",
+        "description": "Sin foto de portada. Muestra muchas propiedades de un vistazo."
+      },
+      "dividido": {
+        "label": "Dividido",
+        "description": "Mitad en tu color con el titular y el buscador, mitad con la foto de portada."
+      },
+      "mosaico": {
+        "label": "Mosaico",
+        "description": "Un collage de fotos arriba, que elegís en Portada, y la primera propiedad destacada en grande."
+      }
+    },
+    "accents": {
+      "charcoal": "Carbón",
+      "forest": "Bosque",
+      "petrol": "Petróleo",
+      "blue": "Azul",
+      "indigo": "Índigo",
+      "brick": "Ladrillo",
+      "ochre": "Ocre",
+      "wood": "Madera"
+    },
+    "fonts": {
+      "moderna": {
+        "label": "Moderna",
+        "description": "Títulos geométricos, limpios."
+      },
+      "clasica": {
+        "label": "Clásica",
+        "description": "Títulos con serif, elegante."
+      },
+      "sobria": {
+        "label": "Sobria",
+        "description": "Una sola familia, discreta."
+      },
+      "elegante": {
+        "label": "Elegante",
+        "description": "Serif fina, para propiedades de lujo."
+      },
+      "editorial": {
+        "label": "Editorial",
+        "description": "Serif con carácter, como una revista."
+      },
+      "calida": {
+        "label": "Cálida",
+        "description": "Serif suave y texto redondeado."
+      },
+      "urbana": {
+        "label": "Urbana",
+        "description": "Sans actual, clara y amigable."
+      },
+      "arquitectonica": {
+        "label": "Arquitectónica",
+        "description": "Títulos anchos y con presencia."
+      }
+    },
+    "sections": {
+      "location": {
+        "label": "Ubicación",
+        "description": "Una zona con foto, texto y sus propiedades. Ideal para Ibiza, Grecia o tu barrio.",
+        "layouts": {
+          "split": "Destacado",
+          "banner": "Banner",
+          "carousel": "Carrusel"
+        }
+      },
+      "promo": {
+        "label": "Promoción",
+        "description": "Propiedades con una etiqueta como “15% OFF” u “Oferta de temporada”.",
+        "layouts": {
+          "band": "Banda de color",
+          "banner": "Banner con foto",
+          "carousel": "Carrusel"
+        }
+      },
+      "featured": {
+        "label": "Propiedades destacadas",
+        "description": "Una selección tuya: lo más nuevo, frente al mar, las más pedidas.",
+        "layouts": {
+          "grid": "Grilla",
+          "carousel": "Carrusel"
+        }
+      },
+      "destinations": {
+        "label": "Destinos",
+        "description": "Varias zonas a la vez, cada una con su foto. Al tocar una, se filtra el listado.",
+        "layouts": {
+          "tiles": "Mosaico",
+          "carousel": "Carrusel"
+        }
+      },
+      "text": {
+        "label": "Texto e imagen",
+        "description": "Contá algo propio: tus servicios, tasaciones, cómo trabajan.",
+        "layouts": {
+          "image-left": "Imagen a la izquierda",
+          "image-right": "Imagen a la derecha",
+          "centered": "Solo texto"
+        }
+      },
+      "cta": {
+        "label": "Llamado a la acción",
+        "description": "Una invitación con un botón, como “¿Querés vender tu propiedad?”.",
+        "layouts": {
+          "color": "Color",
+          "photo": "Con foto"
+        }
+      }
+    },
+    "buttonTargets": {
+      "contact": "Formulario de contacto",
+      "whatsapp": "WhatsApp",
+      "properties": "Listado de propiedades"
+    },
+    "design": {
+      "title": "Diseño",
+      "description": "La forma general de la página de inicio. Podés usar uno en computadoras y otro en celulares.",
+      "screen": "Pantalla",
+      "desktop": "Computadora",
+      "mobile": "Celular",
+      "sameAsDesktop": "Igual que en computadora",
+      "sameAsDesktopHint": "Apagalo para elegir otro diseño solo para celulares.",
+      "onMobile": "Diseño en celulares",
+      "onDesktop": "Diseño en computadoras"
+    },
+    "color": {
+      "title": "Color",
+      "description": "Para botones, enlaces y detalles. El resto del portal queda en blanco y gris.",
+      "custom": "Elegir otro color",
+      "code": "Código del color",
+      "picker": "U otro, con el selector",
+      "format": "Usá el formato #1F5F4A"
+    },
+    "fontsTitle": "Tipografía",
+    "cover": {
+      "mosaicTitle": "Fotos del mosaico",
+      "mosaicDescription": "Las cuatro fotos de la portada, en este orden; la primera va en grande. Si no elegís ninguna, se usan las fotos de tus propiedades.",
+      "photoTitle": "Foto de portada",
+      "photoDescription": "La imagen principal de tu página. Mejor horizontal y de al menos 1920 px de ancho.",
+      "current": "Portada actual",
+      "none": "Sin portada: se usa tu color.",
+      "change": "Cambiar foto",
+      "upload": "Subir foto",
+      "remove": "Quitar",
+      "texts": "Textos",
+      "heroTitle": "Titular",
+      "heroTitleHint": "Si lo dejás vacío, se usa el de ejemplo.",
+      "heroSubtitle": "Bajada",
+      "heroSubtitlePlaceholder": "Casas y departamentos en venta y alquiler en la costa atlántica."
+    },
+    "blocksPanel": {
+      "title": "Bloques",
+      "description": "Secciones propias entre la portada y el listado: destinos como Ibiza o Grecia, o promociones con propiedades destacadas."
+    },
+    "agency": {
+      "aboutTitle": "Sobre tu agencia",
+      "aboutDescription": "Un párrafo sobre quiénes son y cómo trabajan.",
+      "showAbout": "Mostrar la sección en el portal",
+      "aboutLabel": "Texto sobre tu agencia",
+      "aboutPlaceholder": "Somos una inmobiliaria familiar con 20 años en la zona…",
+      "contactTitle": "Contacto",
+      "contactDescription": "Aparece en el pie y en la sección de contacto. El email se cambia en Configuración.",
+      "whatsappHint": "Con código de país. Activa el botón “Escribinos por WhatsApp”.",
+      "phone": "Teléfono",
+      "address": "Dirección de la oficina",
+      "instagramPlaceholder": "@tuagencia"
+    },
+    "placeholders": {
+      "location": {
+        "title": "Ibiza",
+        "text": "Calas de agua turquesa, pueblos blancos y atardeceres. Tenemos villas y departamentos en toda la isla."
+      },
+      "promo": {
+        "title": "Verano en la costa",
+        "text": "Reservando antes del 30 de noviembre, 15% de descuento en estadías de una semana o más."
+      },
+      "featured": {
+        "title": "Recién llegadas",
+        "text": "Las últimas propiedades que sumamos."
+      },
+      "destinations": {
+        "title": "Dónde tenemos propiedades"
+      },
+      "text": {
+        "title": "Tasamos tu propiedad sin costo",
+        "text": "Te decimos cuánto vale en el mercado de hoy y cómo venderla más rápido."
+      },
+      "cta": {
+        "title": "¿Querés vender tu propiedad?",
+        "text": "Te acompañamos desde la tasación hasta la escritura."
+      }
+    },
+    "blocks": {
+      "imageFailed": "No se pudo subir la imagen",
+      "changeImage": "Cambiar imagen",
+      "uploadImage": "Subir imagen",
+      "change": "Cambiar",
+      "remove": "Quitar",
+      "picker": {
+        "count": "({count} de {max} como máximo)",
+        "empty": "Todavía no tenés propiedades publicadas.",
+        "searchPlaceholder": "Buscar por título o zona",
+        "searchIn": "Buscar en {label}",
+        "noMatch": "Nada coincide con esa búsqueda.",
+        "previous": "Página anterior",
+        "next": "Página siguiente",
+        "page": "Página {page} de {total}"
+      },
+      "zone": "Zona",
+      "destinations": {
+        "title": "Destinos",
+        "name": "Nombre del destino {number}",
+        "zone": "Zona (si es distinta del nombre)",
+        "remove": "Quitar {name}",
+        "fallback": "destino",
+        "add": "Agregar destino"
+      },
+      "button": {
+        "label": "Texto del botón",
+        "hint": "Vacío: sin botón.",
+        "placeholder": "Escribinos",
+        "target": "Lleva a"
+      },
+      "layout": "Diseño",
+      "layoutLabel": "Diseño del bloque",
+      "title": "Título",
+      "zoneHint": "Se cuentan las propiedades cuyo barrio, región o país coincide con esta zona.",
+      "badge": "Etiqueta",
+      "endsAt": "Válido hasta (opcional)",
+      "noDate": "Sin fecha",
+      "text": "Texto",
+      "zonePhoto": "Foto de la zona",
+      "image": "Imagen",
+      "listings": "Propiedades del bloque",
+      "listingsLabel": "Qué propiedades mostrar",
+      "fromZone": "Las de la zona",
+      "pick": "Elegirlas",
+      "picked": "Propiedades elegidas",
+      "included": "Propiedades incluidas",
+      "properties": "Propiedades",
+      "untitled": "Sin título",
+      "hidden": "oculto",
+      "showNamed": "Mostrar {name}",
+      "hideNamed": "Ocultar {name}",
+      "show": "Mostrar en el portal",
+      "hide": "Ocultar del portal",
+      "moveUp": "Subir {name}",
+      "moveDown": "Bajar {name}",
+      "delete": "Borrar {name}",
+      "max": "Llegaste al máximo de {max} bloques.",
+      "addTitle": "¿Qué bloque querés agregar?",
+      "close": "Cerrar",
+      "add": "Agregar bloque",
+      "zonePicker": {
+        "pick": "Elegí una ubicación",
+        "none": "Sin ubicación"
+      }
+    },
+    "preview": {
+      "title": "Vista previa del portal"
+    },
+    "mosaic": {
+      "uploadFailed": "No se pudo subir la imagen",
+      "change": "Cambiar la foto {number}",
+      "pick": "Elegir la foto {number}",
+      "remove": "Quitar la foto {number}",
+      "dialogTitle": "Foto {number} del mosaico",
+      "dialogDescription": "Elegí una foto de tus propiedades o subí una imagen.",
+      "uploading": "Subiendo…",
+      "upload": "Subir una imagen",
+      "empty": "Tus propiedades todavía no tienen fotos.",
+      "used": "{title} (ya está en el mosaico)"
+    },
+    "page": {
+      "saved": "Portal actualizado",
+      "saveFailed": "No se pudo guardar el portal",
+      "coverSaved": "Portada actualizada",
+      "coverFailed": "No se pudo subir la portada",
+      "title": "Tu portal",
+      "unsaved": "Cambios sin guardar",
+      "previewSize": "Tamaño de la vista previa",
+      "viewports": {
+        "desktop": "Escritorio",
+        "mobile": "Celular"
+      },
+      "edit": "Editar",
+      "preview": "Vista previa",
+      "help": "Ayuda con el portal",
+      "viewPublishedTitle": "Ver portal publicado",
+      "viewPublished": "Ver publicado",
+      "save": "Guardar cambios",
+      "sections": "Secciones del editor",
+      "tabs": {
+        "design": "Diseño",
+        "cover": "Portada",
+        "blocks": "Bloques",
+        "agency": "Agencia y contacto"
+      },
+      "exit": {
+        "title": "Tenés cambios sin guardar",
+        "body": "Si salís ahora, se pierden los cambios que todavía no guardaste en tu portal.",
+        "stay": "Seguir editando",
+        "leave": "Salir sin guardar"
+      }
+    }
+  }
+}

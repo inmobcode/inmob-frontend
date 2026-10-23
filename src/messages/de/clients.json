@@ -1,0 +1,114 @@
+{
+  "clients": {
+    "menu": {
+      "actionsOf": "Aktionen für {name}",
+      "view": "Profil ansehen",
+      "changeStage": "Phase ändern",
+      "email": "E-Mail senden",
+      "call": "Anrufen",
+      "copyEmail": "E-Mail kopieren"
+    },
+    "views": {
+      "noPhone": "Kein Telefon",
+      "noInteractions": "Noch keine Interaktionen.",
+      "lastTouch": "Letzte Aktivität {ago}",
+      "client": "Kunde",
+      "stage": "Phase",
+      "phone": "Telefon",
+      "source": "Herkunft",
+      "lastMove": "Letzte Aktivität",
+      "actions": "Aktionen"
+    },
+    "detail": {
+      "logFailed": "Konnte nicht erfasst werden",
+      "notFound": "Kunde nicht gefunden",
+      "backToList": "Zurück zu den Kunden",
+      "list": "Kunden",
+      "clientSince": "Kunde seit {date}",
+      "notes": "Notizen",
+      "notesDescription": "Was man sich merken sollte: Wonach gesucht wird, Budget, Vorlieben.",
+      "notesLabel": "Notizen zum Kunden",
+      "notesPlaceholder": "Noch keine Notizen.",
+      "saveNotes": "Notizen speichern",
+      "tasks": "Aufgaben",
+      "tasksDescription": "Was mit diesem Kunden zu tun ist: anrufen, Fotos schicken, Besichtigung vereinbaren.",
+      "noTasks": "Keine offenen Aufgaben mit diesem Kunden.",
+      "history": "Verlauf",
+      "historyDescription": "Anrufe, E-Mails und Termine, die neuesten zuerst.",
+      "interactionType": "Art der Interaktion",
+      "interaction": {
+        "NOTE": "Notiz",
+        "CALL": "Anruf",
+        "EMAIL": "E-Mail",
+        "MEETING": "Termin"
+      },
+      "interactionDetail": "Details der Interaktion",
+      "interactionPlaceholder": "Was ist passiert? z. B. Besichtigung des Hauses am Samstag vereinbart.",
+      "log": "Erfassen",
+      "noInteractions": "Noch keine Interaktionen erfasst.",
+      "stage": "Phase",
+      "stageLabel": "Phase des Kunden",
+      "owner": "Zuständig",
+      "yours": "Das ist Ihr Kunde.",
+      "takeIt": "Übernehmen",
+      "ownerGone": "Jemandem zugewiesen, der nicht mehr im Team ist.",
+      "contact": "Kontakt",
+      "noPhone": "Kein Telefon",
+      "updated": "Aktualisiert {ago}"
+    },
+    "create": {
+      "new": "Neuer Kunde",
+      "description": "Erfassen Sie das Wichtigste. Notizen und Kontaktverlauf kommen später dazu.",
+      "name": "Name",
+      "namePlaceholder": "z. B. Valentina Ríos",
+      "email": "E-Mail",
+      "emailPlaceholder": "name@email.com",
+      "phone": "Telefon",
+      "phonePlaceholder": "+49 151 23456789",
+      "submit": "Kunde anlegen"
+    },
+    "list": {
+      "stagePlural": {
+        "LEAD": "Leads",
+        "CONTACTED": "Kontaktiert",
+        "NEGOTIATING": "In Verhandlung",
+        "CLIENT": "Kunden",
+        "LOST": "Verloren"
+      },
+      "movedTo": "Verschoben nach {stage}",
+      "stageFailed": "Phase konnte nicht geändert werden",
+      "title": "Kunden",
+      "searchPlaceholder": "Nach Name, E-Mail oder Telefon suchen",
+      "search": "Kunden durchsuchen",
+      "stage": "Phase",
+      "stages": "Phasen",
+      "help": "Hilfe zu Kunden",
+      "loadFailed": "Kunden konnten nicht geladen werden",
+      "emptyTitle": "Sie haben noch keine Kunden",
+      "emptyBody": "Anfragen über Ihre Website und Angebote erscheinen hier automatisch. Sie können auch einen manuell anlegen.",
+      "emptyHelp": "So begleiten Sie einen Kunden durch die Phasen",
+      "noMatchBody": "Versuchen Sie einen anderen Namen oder entfernen Sie den Phasenfilter."
+    }
+  },
+  "tasks": {
+    "due": {
+      "overdue": "{count, plural, one {Seit # Tag überfällig} other {Seit # Tagen überfällig}}",
+      "yesterday": "Gestern fällig",
+      "today": "Heute",
+      "tomorrow": "Morgen"
+    },
+    "reopen": "„{title}“ wieder öffnen",
+    "complete": "„{title}“ erledigen",
+    "delete": "„{title}“ löschen",
+    "createFailed": "Aufgabe konnte nicht erstellt werden",
+    "updateFailed": "Aufgabe konnte nicht aktualisiert werden",
+    "deleteFailed": "Aufgabe konnte nicht gelöscht werden",
+    "placeholder": "Neue Aufgabe: anrufen, Fotos schicken, besichtigen…",
+    "titleLabel": "Titel der Aufgabe",
+    "dueDate": "Fälligkeitsdatum",
+    "add": "Aufgabe hinzufügen",
+    "loadFailed": "Aufgaben konnten nicht geladen werden.",
+    "loading": "Wird geladen…",
+    "empty": "Nichts offen."
+  }
+}

@@ -1,6 +1,7 @@
 "use client";
 
 import { MapPin, Search } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 
 import { Popover, PopoverAnchor, PopoverContent } from "@/components/ui/popover";
@@ -71,6 +72,7 @@ export function DestinationField({
   zones: MarketplaceZone[];
   className?: string;
 }) {
+  const t = useTranslations("marketplace.destination");
   const id = useId();
   const [text, setText] = useState(value);
   const [open, setOpen] = useState(false);
@@ -114,7 +116,7 @@ export function DestinationField({
   // What was typed is always an option, even if no place by that name shows up.
   const typed: Suggestion | null =
     term.length >= 2 && !listed.some((entry) => fold(entry.name) === term)
-      ? { name: text.trim(), detail: "Buscar con lo que escribiste", withListings: false }
+      ? { name: text.trim(), detail: t("typed"), withListings: false }
       : null;
   const suggestions = typed ? [typed, ...listed] : listed;
 
@@ -154,12 +156,12 @@ export function DestinationField({
           <input
             ref={inputRef}
             role="combobox"
-            aria-label="Dónde"
+            aria-label={t("label")}
             aria-expanded={open}
             aria-controls={listId}
             aria-autocomplete="list"
             value={text}
-            placeholder="Ciudad, zona o país"
+            placeholder={t("placeholder")}
             onChange={(event) => {
               setText(event.target.value);
               onChange(event.target.value);
@@ -184,8 +186,8 @@ export function DestinationField({
         <ul id={listId} role="listbox" aria-label="Destinos" className="flex flex-col">
           {[
             { title: "", items: typed ? [typed] : [] },
-            { title: term ? "Con propiedades" : "Destinos con propiedades", items: withListings },
-            { title: "Otros lugares", items: elsewhere },
+            { title: term ? t("withListings") : t("destinations"), items: withListings },
+            { title: t("elsewhere"), items: elsewhere },
           ]
             .filter((group) => group.items.length > 0)
             .map((group) => (

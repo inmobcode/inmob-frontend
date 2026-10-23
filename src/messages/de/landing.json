@@ -1,0 +1,553 @@
+{
+  "landing": {
+    "plans": {
+      "free": {
+        "name": "Free",
+        "price": "Kostenlos",
+        "tagline": "Zum Einstieg und um das System mit wenigen Objekten zu testen.",
+        "features": {
+          "f1": "Bis zu 5 Objekte",
+          "f2": "1 Benutzer",
+          "f3": "Kunden, Anfragen und Angebote",
+          "f4": "Website auf einer Tivvo-Subdomain, Vorlage Titelbild und Ihre Farbe"
+        },
+        "cta": "Kostenlos starten"
+      },
+      "pro": {
+        "name": "Pro",
+        "price": "29,99 USD",
+        "period": "/Monat",
+        "tagline": "Für Agenturen, die jeden Tag verkaufen und vermieten.",
+        "features": {
+          "f1": "Unbegrenzt Objekte und Teammitglieder",
+          "f2": "Buchungen, Verfügbarkeit und Saisonpreise",
+          "f3": "Zahlungen und Eigentümerabrechnung",
+          "f4": "Vollständiger Website-Editor: 5 Vorlagen, 8 Schriften und 6 Blocktypen",
+          "f5": "Aufgaben, Benachrichtigungen und Teamrollen"
+        },
+        "cta": "Demo anfragen"
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "price": "Sprechen wir",
+        "tagline": "Für Agenturnetzwerke oder große Teams.",
+        "features": {
+          "f1": "Alles aus Pro",
+          "f2": "Mehrere Filialen",
+          "f3": "Bevorzugter Support",
+          "f4": "Erweiterte Rollenrechte"
+        },
+        "cta": "Vertrieb kontaktieren"
+      }
+    },
+    "faq": {
+      "both": {
+        "q": "Eignet es sich für Verkauf und Vermietung gleichzeitig?",
+        "a": "Ja. Beides läuft im selben System: Verkauf mit Angeboten und Provision, Ferienvermietung mit Verfügbarkeit, Saisonpreisen, Buchungen mit Daten und Zahlungen."
+      },
+      "migration": {
+        "q": "Wie lange dauert die Migration?",
+        "a": "Das hängt davon ab, wie viele Daten Sie haben und in welchem Format. In der Demo sehen wir uns Ihren Fall an und nennen Ihnen einen konkreten Termin."
+      },
+      "address": {
+        "q": "Welche Adresse hat meine Website?",
+        "a": "Ihre Website liegt auf einer Tivvo-Subdomain mit dem Namen Ihrer Agentur. Eigene Domains bieten wir derzeit nicht an."
+      },
+      "privacy": {
+        "q": "Werden meine Daten mit denen anderer Agenturen vermischt?",
+        "a": "Nein. Jede Agentur arbeitet in ihrem eigenen Bereich, und nur ihr Team sieht ihre Objekte, Kunden und Buchungen."
+      },
+      "users": {
+        "q": "Wie viele Benutzer kann ich haben?",
+        "a": "Im Free-Tarif einen. In Pro und Enterprise gibt es keine Begrenzung: Holen Sie Ihr ganzes Team dazu."
+      },
+      "site": {
+        "q": "Kann ich die Website meiner Agentur anpassen?",
+        "a": "Ja. Sie wählen eine Vorlage, Farben und Schriften und fügen eigene Blöcke hinzu, etwa Lage, Aktionen, hervorgehobene Objekte, Reiseziele, Text und Handlungsaufforderungen. Das Ergebnis sehen Sie vor dem Veröffentlichen auf Computer, Tablet und Handy."
+      },
+      "team": {
+        "q": "Was sieht jede Person in meinem Team?",
+        "a": "Makler sehen ihre Objekte, Kunden, Angebote und Buchungen sowie nicht zugewiesene Anfragen. Inhaber und Administratoren sehen alles und können neu zuweisen."
+      },
+      "owner": {
+        "q": "Was sieht der Eigentümer in seinem Portal?",
+        "a": "Seine Objekte, Buchungen und Zahlungen mit Eingängen, Auszahlungen und Saldo. Die Provision der Agentur bleibt verborgen, außer Sie entscheiden sich, sie anzuzeigen."
+      }
+    },
+    "problem": {
+      "claim": "Wenn das Geschäft wächst, wird es unübersichtlich.",
+      "rest": "Tivvo bringt Ordnung hinein.",
+      "problem": "Problem",
+      "solution": "Lösung",
+      "items": {
+        "inquiries": {
+          "today": "Anfragen kommen von überall, und niemand weiß, wer sie beantwortet hat.",
+          "tivvo": "Jede Anfrage von Ihrer Website landet als Kunde im Posteingang, mit Zuständigem und Verlauf."
+        },
+        "followUp": {
+          "today": "Ein Kunde blieb ohne Antwort, und Sie erfahren es erst, wenn er woanders gekauft hat.",
+          "tivvo": "Nachfass-Aufgaben mit Datum und Zuständigem und eine Glocke, die meldet, was Ihre Aufmerksamkeit braucht."
+        },
+        "offers": {
+          "today": "Angebote gehen per WhatsApp raus, und Sie wissen nicht, ob der Kunde sie geöffnet hat.",
+          "tivvo": "Sie schicken einen Link und sehen, wann er geöffnet wurde und wann er abläuft."
+        },
+        "calendar": {
+          "today": "Der Vermietungskalender steckt in einer Tabelle, und Buchungen überschneiden sich.",
+          "tivvo": "90-Tage-Verfügbarkeit: Gebuchte Daten blockieren sich selbst, den Rest blockieren Sie per Ziehen."
+        },
+        "payments": {
+          "today": "Zahlungen stehen in einer Tabelle, die nur eine Person versteht.",
+          "tivvo": "Anzahlung, Restbetrag und Provision jeder Buchung, sichtbar für die richtigen Personen."
+        },
+        "owners": {
+          "today": "Eigentümer rufen jede Woche an, um zu fragen, wie es läuft.",
+          "tivvo": "Ein privater Link mit ihrer Abrechnung: Eingänge, Auszahlungen und Saldo."
+        }
+      }
+    },
+    "flow": {
+      "claim": "Ein Ablauf für Verkauf und Vermietung.",
+      "rest": "Wählen Sie die Geschäftsart.",
+      "operation": "Geschäftsart",
+      "modes": {
+        "sale": "Verkauf",
+        "rent": "Ferienvermietung"
+      },
+      "sale": {
+        "inquiry": {
+          "title": "Anfrage",
+          "text": "Sie kommt von Ihrer Website und wird zum Kunden, ohne dass Sie etwas abtippen."
+        },
+        "followUp": {
+          "title": "Nachfassen",
+          "text": "Phase, Notizen und Verlauf von Anrufen, E-Mails und Besichtigungen. Das ganze Team sieht dasselbe."
+        },
+        "offer": {
+          "title": "Angebot per Link",
+          "text": "Sie stellen ein Angebot mit mehreren Objekten und Rabatten zusammen und teilen es. Sie sehen, wann es geöffnet wurde und wann es abläuft."
+        },
+        "tasks": {
+          "title": "Aufgaben und Hinweise",
+          "text": "Sie planen den Nachfass-Anruf mit Datum und Zuständigem. Die Glocke meldet, wenn das Angebot geöffnet wird."
+        },
+        "booking": {
+          "title": "Buchung",
+          "text": "Sie erstellen die Buchung mit Kunde, Objekt und Angebotspreis, schon ausgefüllt."
+        },
+        "payments": {
+          "title": "Zahlung und Provision",
+          "text": "Anzahlung, Restbetrag und Provision, mit Eingängen und offenen Beträgen."
+        }
+      },
+      "rent": {
+        "inquiry": {
+          "title": "Anfrage",
+          "text": "Der Interessent fragt auf Ihrer Website nach Daten und wird als Kunde gespeichert."
+        },
+        "availability": {
+          "title": "Verfügbarkeit und Preise",
+          "text": "Ein Kalender pro Objekt und Saisonpreise. Sie wissen, was frei ist, bevor Sie antworten."
+        },
+        "offer": {
+          "title": "Angebot per Link",
+          "text": "Sie schicken einen Vorschlag mit Preis und Rabatt je Objekt und sehen, ob er geöffnet wurde."
+        },
+        "tasks": {
+          "title": "Aufgaben und Hinweise",
+          "text": "Sie legen eine Aufgabe zum Nachfassen an, und die Glocke meldet, wenn der Vorschlag geöffnet wird – so rufen Sie im richtigen Moment an."
+        },
+        "booking": {
+          "title": "Buchung mit Daten",
+          "text": "Check-in, Check-out, Nächte und Gesamtbetrag berechnet. Die Daten werden blockiert."
+        },
+        "payments": {
+          "title": "Zahlungen",
+          "text": "Anzahlung und Restbetrag mit Status. Der Eigentümer sieht es in seinem Portal."
+        }
+      }
+    },
+    "team": {
+      "claim": "Jede Person sieht, was sie betrifft.",
+      "rest": "Jeder Makler mit eigenem Zugang, und Sie behalten die Kontrolle.",
+      "roles": {
+        "owner": {
+          "name": "Inhaber",
+          "text": "Sieht und steuert alles, einschließlich der Agentureinstellungen, und weist Kunden und Objekte neu zu."
+        },
+        "admin": {
+          "name": "Administrator",
+          "text": "Verwaltet das Team sowie Objekte, Angebote und Buchungen der ganzen Agentur und weist Zuständige neu zu."
+        },
+        "agent": {
+          "name": "Makler",
+          "text": "Sieht seine Objekte, Angebote und Buchungen, seine Kunden und die Anfragen, die noch niemand übernommen hat. Alles andere bleibt ausgeblendet."
+        }
+      }
+    },
+    "portals": {
+      "claim": "Was Außenstehende sehen.",
+      "rest": "Ein privater Link für jeden Eigentümer und jeden Kunden, ohne Passwörter.",
+      "owner": {
+        "title": "Eigentümerportal",
+        "text": "Jeder Eigentümer sieht seine Objekte, Buchungen und Zahlungen sowie seine Abrechnung: Eingänge, Auszahlungen und Saldo. Die Provision bleibt verborgen, außer Sie zeigen sie an. Weniger Anrufe mit der Frage, wie es läuft."
+      },
+      "booking": {
+        "title": "Buchung für den Kunden",
+        "text": "Wird eine Buchung erstellt, bestätigt oder storniert, erhält der Kunde per E-Mail einen Link mit Daten, Gesamtbetrag und Zahlungsstatus. Ohne sichtbare Provision und ohne dass Sie etwas weiterleiten müssen."
+      }
+    },
+    "migration": {
+      "claim": "Sie fangen nicht bei null an.",
+      "rest": "Wir übernehmen Ihre Daten für Sie.",
+      "step": "Schritt {number}:",
+      "steps": {
+        "send": {
+          "title": "Sie schicken uns Ihre Daten",
+          "text": "Tabellen, Exporte oder was Sie heute nutzen, auch wenn es nicht ordentlich ist."
+        },
+        "load": {
+          "title": "Wir laden sie und prüfen sie gemeinsam",
+          "text": "Wir übernehmen Ihre Objekte, Eigentümer und Kunden und prüfen sie mit Ihnen, bevor es weitergeht."
+        },
+        "start": {
+          "title": "Sie legen los",
+          "text": "Ihr Team meldet sich mit eigenem Zugang und passender Rolle an, und Ihre Website ist bereit zur Veröffentlichung."
+        }
+      },
+      "otherSystem": "Ihre Daten liegen in einem anderen System? Wir sehen es uns in der Demo an und nennen Ihnen einen konkreten Termin.",
+      "cta": "Demo anfragen"
+    },
+    "plansSection": {
+      "label": "Tarife und häufige Fragen",
+      "claim": "Ein Tarif für jede Phase Ihrer Agentur.",
+      "rest": "Starten Sie kostenlos und wechseln Sie, wenn Sie mehr brauchen.",
+      "faq": "Häufige Fragen"
+    },
+    "demo": {
+      "errors": {
+        "name": "Geben Sie Ihren Namen ein",
+        "agency": "Geben Sie den Namen Ihrer Agentur ein",
+        "email": "Prüfen Sie die E-Mail: Das @ oder die Domain fehlt",
+        "teamSize": "Wählen Sie die Größe Ihres Teams"
+      },
+      "failed": "Die Anfrage konnte nicht gesendet werden. Versuchen Sie es in ein paar Minuten erneut.",
+      "claim": "Sehen wir uns Ihre Agentur in Tivvo an.",
+      "rest": "Mit Ihren Objekten und Ihrem Team.",
+      "sentTitle": "Anfrage gesendet",
+      "sentText": "Wir melden uns in den nächsten Tagen, um die Demo zu vereinbaren.",
+      "fields": {
+        "name": "Ihr Name",
+        "agency": "Agentur",
+        "email": "Geschäftliche E-Mail"
+      },
+      "teamQuestion": "Wie viele Personen hat das Team?",
+      "teamLabel": "Teamgröße",
+      "teamSizes": {
+        "solo": "Nur ich",
+        "small": "2 bis 5",
+        "medium": "6 bis 30",
+        "large": "Mehr als 30"
+      },
+      "sending": "Wird gesendet…",
+      "submit": "Demo anfragen"
+    },
+    "meta": {
+      "title": "Tivvo · Verwaltungssoftware für Immobilienagenturen",
+      "description": "Objekte erfassen, Angebote erstellen, Buchungen verfolgen und die Website Ihrer Agentur veröffentlichen – alles an einem Ort. Für Verkaufs- und Ferienvermietungsagenturen.",
+      "keywords": "Immobiliensoftware, Immobilien-CRM, Objektverwaltung, Ferienvermietung, Website für Immobilienagenturen"
+    },
+    "hero": {
+      "title": "Von der ersten Anfrage",
+      "titleTail": "bis zur letzten Zahlung.",
+      "lead": "Objekte, Kunden, Angebote, Buchungen, Verfügbarkeit und Zahlungen Ihrer Agentur in einem System. Mit eigener Website, Nachfass-Aufgaben und einem Portal für jeden Eigentümer.",
+      "demo": "Demo anfragen",
+      "how": "So funktioniert es",
+      "sceneLabel": "Eine Buchung in Tivvo, Schritt für Schritt",
+      "scene": {
+        "inquiry": "Die Anfrage kommt",
+        "offer": "Das Angebot wird geöffnet",
+        "booking": "Die Buchung wird bestätigt",
+        "payment": "Die Anzahlung kommt"
+      },
+      "modulesLabel": "Was enthalten ist",
+      "modules": {
+        "properties": "Objekte",
+        "clients": "Kunden",
+        "offers": "Angebote",
+        "bookings": "Buchungen",
+        "availability": "Verfügbarkeit",
+        "payments": "Zahlungen",
+        "site": "Website",
+        "owners": "Eigentümer"
+      }
+    },
+    "nav": {
+      "label": "Hauptnavigation",
+      "how": "So funktioniert es",
+      "site": "Website",
+      "portals": "Portale",
+      "migration": "Migration",
+      "plans": "Tarife",
+      "help": "Hilfe",
+      "login": "Anmelden",
+      "demo": "Demo anfragen"
+    },
+    "availability": {
+      "property": "Haus am Meer",
+      "dayLabel": "{day}, {status, select, booked {gebucht} blocked {blockiert} other {frei}}",
+      "legend": "Legende",
+      "booked": "Gebucht",
+      "blocked": "Blockiert",
+      "free": "Frei",
+      "rates": "Preise pro Nacht",
+      "high": "Hochsaison",
+      "mid": "Zwischensaison",
+      "low": "Nebensaison",
+      "tryIt": "Probieren Sie es: Ziehen Sie über die freien Tage, um sie zu blockieren.",
+      "claim": "Jede Nacht unter Kontrolle.",
+      "rest": "Ohne Tabellen und ohne überschneidende Buchungen.",
+      "facts": {
+        "grid": {
+          "title": "90 Tage auf einen Blick",
+          "text": "Ein Raster mit all Ihren Objekten. Sie sehen, was frei ist, bevor Sie eine Anfrage beantworten."
+        },
+        "month": {
+          "title": "Monatsansicht",
+          "text": "Die Belegung jedes Tages. Wählen Sie ein Objekt und ziehen Sie über die freien Nächte, um sie zu blockieren."
+        },
+        "rates": {
+          "title": "Saisonpreise",
+          "text": "Sie erfassen den Preis pro Nacht für jeden Zeitraum, und der Buchungsbetrag berechnet sich von selbst."
+        },
+        "filters": {
+          "title": "Filter nach Datum und Gebiet",
+          "text": "Lassen Sie sich nur die Objekte zeigen, die vom 10. bis 17. an einem Ort frei sind – fertig."
+        }
+      }
+    },
+    "more": {
+      "claim": "Und alles für den Alltag.",
+      "rest": "Die Details, die das Team das System wirklich nutzen lassen.",
+      "items": {
+        "inbox": {
+          "title": "Anfragen-Posteingang",
+          "text": "Neu und gelesen, mit Zähler im Menü. Jede Anfrage erstellt den Kunden oder nutzt ihn wieder und hinterlässt eine Notiz mit dem Objekt."
+        },
+        "board": {
+          "title": "Kunden als Board",
+          "text": "Ziehen Sie jeden Kunden durch die Phasen oder sehen Sie sie als Liste. Wie jeder es mag."
+        },
+        "tasks": {
+          "title": "Nachfass-Aufgaben",
+          "text": "Eine Erinnerung mit Datum und Zuständigem in jedem Kunden, damit niemand unbeantwortet bleibt."
+        },
+        "notifications": {
+          "title": "Benachrichtigungen",
+          "text": "Eine Glocke meldet neue Anfragen, geöffnete Angebote, erfasste Zahlungen oder Ihnen zugewiesene Aufgaben."
+        },
+        "services": {
+          "title": "Zusatzleistungen",
+          "text": "Koch, Yacht, Transfers, Ausflüge, Spa. Legen Sie Ihre Bibliothek mit Preis pro Person, Tag, Nacht oder Stunde an und fügen Sie sie dem Angebot hinzu."
+        },
+        "pending": {
+          "title": "Ausstehende Buchungen",
+          "text": "Eine unbestätigte Buchung erscheint im Kalender, auch wenn sie die Daten noch nicht blockiert. Sie sehen sie kommen, bevor Sie entscheiden."
+        }
+      }
+    },
+    "footer": {
+      "tagline": "Verwaltungssoftware für Verkaufs- und Ferienvermietungsagenturen.",
+      "label": "Fußzeile",
+      "legalLabel": "Rechtliches",
+      "top": "Nach oben",
+      "legal": {
+        "help": "Hilfe",
+        "terms": "AGB",
+        "privacy": "Datenschutz"
+      },
+      "groups": {
+        "product": {
+          "title": "Produkt",
+          "how": "So funktioniert es",
+          "team": "Team und Rechte",
+          "migration": "Migration"
+        },
+        "portals": {
+          "title": "Portale",
+          "site": "Website Ihrer Agentur",
+          "owner": "Eigentümerportal"
+        },
+        "start": {
+          "title": "Loslegen",
+          "demo": "Demo anfragen",
+          "plans": "Tarife",
+          "faq": "Häufige Fragen"
+        },
+        "account": {
+          "title": "Konto",
+          "login": "Anmelden",
+          "register": "Konto erstellen"
+        }
+      }
+    },
+    "siteEditor": {
+      "template": "Vorlage",
+      "color": "Farbe",
+      "fonts": "Schrift",
+      "blocks": "Blöcke",
+      "blockNames": {
+        "promo": "Aktion",
+        "location": "Lage",
+        "featured": "Empfohlen"
+      },
+      "tryIt": "Probieren Sie es: Ändern Sie Vorlage, Farbe, Schrift und Blöcke.",
+      "screen": "Bildschirmgröße",
+      "desktop": "Computer",
+      "mobile": "Handy",
+      "previewLabel": "Website-Vorschau, scrollbar",
+      "claim": "Eine Website, die nach Ihnen aussieht.",
+      "rest": "Gestalten Sie sie selbst, ohne Designer.",
+      "lead": "Es ist die öffentliche Website Ihrer Agentur, mit Ihrer Marke und Ihren Objekten, und Sie passen sie an: Vorlage, Farben, Schriften und Blöcke. Sie sehen vor dem Veröffentlichen, wie sie auf Computer, Tablet und Handy aussieht."
+    },
+    "preview": {
+      "searchLong": "Gebiet, Objektart oder Preis",
+      "searchShort": "Gebiet, Art oder Preis",
+      "search": "Suchen",
+      "title": "Finden Sie Ihren Ort.",
+      "subtitle": "Häuser und Wohnungen zum Kauf und zur Ferienvermietung.",
+      "nav": {
+        "properties": "Objekte",
+        "about": "Über uns",
+        "contact": "Kontakt"
+      },
+      "contact": "Kontakt",
+      "results": "{count} Ergebnisse",
+      "promo": "Oktober-Aufenthalte in La Barra",
+      "destination": "Reiseziel",
+      "destinationText": "Meer, Wald und Sonnenuntergänge. Die schönsten Häuser der Gegend, nur Schritte vom Strand.",
+      "destinationCta": "Objekte in La Barra ansehen",
+      "featured": "Empfohlene Objekte",
+      "viewAll": "Alle ansehen",
+      "kinds": {
+        "sale": "Verkauf",
+        "rent": "Miete"
+      },
+      "listings": {
+        "beach": "Haus am Meer",
+        "view": "Wohnung mit Aussicht",
+        "garden": "Haus mit Garten"
+      },
+      "perMonth": "{price} / Monat"
+    },
+    "fragments": {
+      "new": "Neu",
+      "inquiry": {
+        "source": "Anfrage über Ihre Website",
+        "message": "Hallo, ist das Haus in La Barra in der letzten Oktoberwoche frei? Wir sind zu viert."
+      },
+      "offerSeen": {
+        "title": "Haus am Meer in La Barra",
+        "seen": "Angesehen"
+      },
+      "booking": {
+        "title": "Buchung bestätigt",
+        "confirmed": "Bestätigt",
+        "checkIn": "Check-in",
+        "checkOut": "Check-out",
+        "nights": "Nächte"
+      },
+      "payment": {
+        "title": "Anzahlung erhalten",
+        "left": "Offen {left} · Provision {commission}"
+      },
+      "clients": {
+        "search": "Kunden suchen",
+        "notes": {
+          "vr": "Vor 3 Min. über Ihre Website gekommen",
+          "me": "Sie haben das Exposé mit den Nebenkosten geschickt",
+          "cd": "Besichtigung am Samstag um 11",
+          "jb": "Hat für das Ladenlokal unterschrieben"
+        }
+      },
+      "timeline": {
+        "since": "Kunde seit September",
+        "daysAgo": "{count, plural, one {Vor # Tag} other {Vor # Tagen}}",
+        "stage": "Phase",
+        "contact": "Kontakt",
+        "call": {
+          "type": "Anruf",
+          "text": "Wir haben vereinbart, für Samstag eine zweite Besichtigung anzusetzen."
+        },
+        "visit": {
+          "type": "Besichtigung",
+          "text": "Hat das Haus in Olivos besichtigt. Der Garten gefiel, die Nebenkosten machen Sorgen."
+        },
+        "email": {
+          "type": "E-Mail",
+          "text": "Wir haben die drei Objekte im Norden geschickt."
+        }
+      },
+      "offer": {
+        "title": "Drei Optionen im Norden",
+        "items": {
+          "olivos": "Haus in Olivos",
+          "vicenteLopez": "Haus in Vicente López",
+          "belgrano": "Wohnung in Belgrano"
+        },
+        "total": "Angebotssumme",
+        "opened": "Vor 5 Minuten geöffnet",
+        "expires": "Läuft am {date} ab"
+      },
+      "saleBooking": {
+        "fromOffer": "aus dem Angebot erstellt",
+        "price": "Preis",
+        "commission": "Provision",
+        "agent": "Makler",
+        "reserved": "Reserviert",
+        "hint": "Kunde, Objekt und Preis kamen direkt aus dem Angebot."
+      },
+      "payments": {
+        "saleTitle": "Zahlungen zum Verkauf",
+        "rentTitle": "Zahlungen zur Buchung",
+        "deposit": "Anzahlung",
+        "balance": "Restbetrag",
+        "onBooking": "Bei Buchung",
+        "onDeed": "Bei Beurkundung",
+        "onCheckIn": "Beim Check-in",
+        "price": "Preis",
+        "commission": "Provision (3 %)",
+        "collected": "Eingegangen",
+        "due": "Offen",
+        "nights": "Nächte",
+        "total": "Gesamt",
+        "paid": "Eingegangen",
+        "pending": "Ausstehend"
+      },
+      "calendar": {
+        "rates": "Preise pro Nacht",
+        "high": "Hochsaison",
+        "mid": "Zwischensaison",
+        "booked": "Gebucht"
+      },
+      "owner": {
+        "title": "Abrechnung",
+        "property": "Haus am Meer",
+        "collected": "Eingegangen",
+        "paidOut": "Ausgezahlt",
+        "balance": "Saldo",
+        "payout": "Auszahlung",
+        "paid": "Bezahlt"
+      },
+      "tasks": {
+        "call": "Valeria anrufen, um das Angebot abzuschließen",
+        "photos": "Fotos vom Garten schicken",
+        "today": "Heute",
+        "tomorrow": "Morgen",
+        "opened": "Valeria hat das Angebot geöffnet",
+        "ago": "Vor 2 Minuten",
+        "title": "Nachfass-Aufgaben"
+      }
+    }
+  }
+}

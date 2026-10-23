@@ -1,10 +1,11 @@
 "use client";
 
 import { useRef } from "react";
+import { useTranslations } from "next-intl";
 
 import { gsap, useGSAP } from "@/lib/gsap";
 import { distance, duration, ease, media, stagger } from "@/lib/motion";
-import { categoryLabel } from "@/lib/properties-labels";
+import { useLabels } from "@/lib/labels";
 import { cn } from "@/lib/utils";
 
 /** Remounted (via `key`) whenever the listing type changes, so the options re-enter each time. */
@@ -17,6 +18,8 @@ export function CategoryChips({
   value: string;
   onChange: (value: string) => void;
 }) {
+  const t = useTranslations("properties.create");
+  const labels = useLabels();
   const ref = useRef<HTMLDivElement>(null);
 
   useGSAP(
@@ -37,7 +40,7 @@ export function CategoryChips({
   );
 
   return (
-    <div ref={ref} role="radiogroup" aria-label="Categoría" className="flex flex-wrap gap-2">
+    <div ref={ref} role="radiogroup" aria-label={t("category")} className="flex flex-wrap gap-2">
       {options.map((option) => {
         const active = option === value;
         return (
@@ -55,7 +58,7 @@ export function CategoryChips({
                 : "bg-foreground/[0.06] text-muted-foreground hover:bg-foreground/10 hover:text-foreground",
             )}
           >
-            {categoryLabel(option)}
+            {labels.category(option)}
           </button>
         );
       })}

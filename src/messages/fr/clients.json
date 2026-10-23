@@ -1,0 +1,114 @@
+{
+  "clients": {
+    "menu": {
+      "actionsOf": "Actions pour {name}",
+      "view": "Voir la fiche",
+      "changeStage": "Changer d’étape",
+      "email": "Envoyer un e-mail",
+      "call": "Appeler",
+      "copyEmail": "Copier l’e-mail"
+    },
+    "views": {
+      "noPhone": "Sans téléphone",
+      "noInteractions": "Aucune interaction pour l’instant.",
+      "lastTouch": "Dernière activité {ago}",
+      "client": "Client",
+      "stage": "Étape",
+      "phone": "Téléphone",
+      "source": "Origine",
+      "lastMove": "Dernière activité",
+      "actions": "Actions"
+    },
+    "detail": {
+      "logFailed": "Impossible d’enregistrer",
+      "notFound": "Client introuvable",
+      "backToList": "Retour aux clients",
+      "list": "Clients",
+      "clientSince": "client depuis le {date}",
+      "notes": "Notes",
+      "notesDescription": "Ce qu’il faut retenir : ce qu’il cherche, budget, préférences.",
+      "notesLabel": "Notes sur le client",
+      "notesPlaceholder": "Aucune note pour l’instant.",
+      "saveNotes": "Enregistrer les notes",
+      "tasks": "Tâches",
+      "tasksDescription": "Ce qu’il reste à faire avec ce client : appeler, envoyer des photos, organiser une visite.",
+      "noTasks": "Aucune tâche en attente avec ce client.",
+      "history": "Historique",
+      "historyDescription": "Appels, e-mails et rendez-vous, du plus récent au plus ancien.",
+      "interactionType": "Type d’interaction",
+      "interaction": {
+        "NOTE": "Note",
+        "CALL": "Appel",
+        "EMAIL": "E-mail",
+        "MEETING": "Rendez-vous"
+      },
+      "interactionDetail": "Détail de l’interaction",
+      "interactionPlaceholder": "Que s’est-il passé ? Ex. : Nous avons convenu de visiter la maison samedi.",
+      "log": "Enregistrer",
+      "noInteractions": "Aucune interaction enregistrée pour l’instant.",
+      "stage": "Étape",
+      "stageLabel": "Étape du client",
+      "owner": "Responsable",
+      "yours": "C’est votre client.",
+      "takeIt": "Le prendre",
+      "ownerGone": "Attribué à quelqu’un qui ne fait plus partie de l’équipe.",
+      "contact": "Contact",
+      "noPhone": "Sans téléphone",
+      "updated": "Mis à jour {ago}"
+    },
+    "create": {
+      "new": "Nouveau client",
+      "description": "Saisissez l’essentiel. Vous ajouterez ensuite des notes et l’historique de contact.",
+      "name": "Nom",
+      "namePlaceholder": "Ex. : Valentina Ríos",
+      "email": "E-mail",
+      "emailPlaceholder": "nom@email.com",
+      "phone": "Téléphone",
+      "phonePlaceholder": "+33 6 12 34 56 78",
+      "submit": "Créer le client"
+    },
+    "list": {
+      "stagePlural": {
+        "LEAD": "Prospects",
+        "CONTACTED": "Contactés",
+        "NEGOTIATING": "En négociation",
+        "CLIENT": "Clients",
+        "LOST": "Perdus"
+      },
+      "movedTo": "Passé à {stage}",
+      "stageFailed": "Impossible de changer l’étape",
+      "title": "Clients",
+      "searchPlaceholder": "Rechercher par nom, e-mail ou téléphone",
+      "search": "Rechercher des clients",
+      "stage": "Étape",
+      "stages": "étapes",
+      "help": "Aide sur les clients",
+      "loadFailed": "Impossible de charger les clients",
+      "emptyTitle": "Vous n’avez pas encore de clients",
+      "emptyBody": "Les demandes du site et des offres apparaissent ici automatiquement. Vous pouvez aussi en ajouter un à la main.",
+      "emptyHelp": "Comment suivre un client par étapes",
+      "noMatchBody": "Essayez un autre nom ou retirez le filtre d’étape."
+    }
+  },
+  "tasks": {
+    "due": {
+      "overdue": "{count, plural, one {En retard de # jour} other {En retard de # jours}}",
+      "yesterday": "Échue hier",
+      "today": "Aujourd’hui",
+      "tomorrow": "Demain"
+    },
+    "reopen": "Rouvrir « {title} »",
+    "complete": "Terminer « {title} »",
+    "delete": "Supprimer « {title} »",
+    "createFailed": "Impossible de créer la tâche",
+    "updateFailed": "Impossible de mettre à jour la tâche",
+    "deleteFailed": "Impossible de supprimer la tâche",
+    "placeholder": "Nouvelle tâche : appeler, envoyer des photos, visiter…",
+    "titleLabel": "Titre de la tâche",
+    "dueDate": "Échéance",
+    "add": "Ajouter une tâche",
+    "loadFailed": "Impossible de charger les tâches.",
+    "loading": "Chargement…",
+    "empty": "Rien en attente."
+  }
+}

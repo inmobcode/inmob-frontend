@@ -1,0 +1,36 @@
+{
+  "profile": {
+    "errors": {
+      "name": "Geben Sie Ihren Namen ein",
+      "email": "Ungültige E-Mail",
+      "currentPassword": "Geben Sie Ihr aktuelles Passwort ein",
+      "minLength": "Mindestens 8 Zeichen",
+      "mismatch": "Die Passwörter stimmen nicht überein"
+    },
+    "hidePassword": "Passwort verbergen",
+    "showPassword": "Passwort anzeigen",
+    "saved": "Profil aktualisiert",
+    "saveFailed": "Profil konnte nicht gespeichert werden",
+    "photoUpdated": "Foto aktualisiert",
+    "photoFailed": "Foto konnte nicht hochgeladen werden",
+    "passwordChanged": "Passwort geändert",
+    "passwordFailed": "Passwort konnte nicht geändert werden",
+    "help": "Hilfe zu meinem Profil",
+    "data": {
+      "title": "Ihre Daten",
+      "description": "Wie andere Sie im Konto der Agentur sehen.",
+      "changePhoto": "Foto ändern",
+      "photoHint": "Tippen Sie auf das Foto, um es zu ändern.",
+      "name": "Name"
+    },
+    "password": {
+      "title": "Passwort",
+      "description": "Verwenden Sie mindestens 8 Zeichen. Zur Bestätigung fragen wir nach Ihrem aktuellen Passwort.",
+      "current": "Aktuelles Passwort",
+      "new": "Neues Passwort",
+      "repeat": "Neues Passwort wiederholen",
+      "submitting": "Wird geändert…",
+      "submit": "Passwort ändern"
+    }
+  }
+}

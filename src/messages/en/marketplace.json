@@ -1,0 +1,133 @@
+{
+  "marketplace": {
+    "metaTitle": "Tivvo · Holiday rentals and properties for sale",
+    "byDestination": "By destination",
+    "nav": {
+      "rentals": "Rentals",
+      "agency": "I'm an agency"
+    },
+    "hero": {
+      "title": "A place for a few days.",
+      "titleTail": "Or to stay.",
+      "lead": "Houses, apartments and villas from real agencies. Pick your dates, see what's free and ask whoever lists it directly."
+    },
+    "card": {
+      "rent": "Holiday rental",
+      "sale": "Sale",
+      "categoryIn": "{category} in {place}",
+      "bedrooms": "{value} bed",
+      "bathrooms": "{count, plural, one {{value} bathroom} other {{value} bathrooms}}",
+      "perNight": "per night",
+      "stayTotal": "{count, plural, one {{amount} for # night} other {{amount} for # nights}}",
+      "onRequest": "Price on request",
+      "onRequestShort": "Ask",
+      "publishedBy": "Listed by <strong>{agency}</strong>"
+    },
+    "destination": {
+      "typed": "Search with what you typed",
+      "label": "Where",
+      "placeholder": "City, area or country",
+      "withListings": "With properties",
+      "destinations": "Destinations with properties",
+      "elsewhere": "Other places"
+    },
+    "search": {
+      "guestsCount": "{count, plural, one {# guest} other {# guests}}",
+      "guestsPlaceholder": "How many?",
+      "guests": "Guests",
+      "guestsHint": "Including children",
+      "oneLess": "One fewer",
+      "oneMore": "One more",
+      "buy": "Buy",
+      "looking": "Looking for",
+      "lookingLabel": "What are you looking for",
+      "where": "Where",
+      "when": "When",
+      "dates": "Check-in and check-out",
+      "who": "Who",
+      "what": "What",
+      "type": "Property type",
+      "anyType": "Any type",
+      "upTo": "Up to",
+      "maxPrice": "Maximum price",
+      "noCap": "No limit",
+      "submit": "Search"
+    },
+    "empty": {
+      "zoneTitle": "No properties in {zone} yet.",
+      "zoneDates": "At least not for those dates.",
+      "zoneSoon": "There may be soon.",
+      "title": "Nothing matches all of that.",
+      "titleTail": "Try loosening a filter.",
+      "zoneBody": "The agencies listing on Tivvo don't have anything there yet. In the meantime, look at the destinations that do.",
+      "body": "Remove a filter or change the dates and you'll see more options.",
+      "everywhere": "Search all destinations",
+      "noDates": "Try without dates",
+      "all": "See all properties",
+      "destinations": "Destinations with properties"
+    },
+    "results": {
+      "upTo": "Up to {amount}",
+      "title": "Results",
+      "latest": "Just listed",
+      "free": "Only those free on those dates.",
+      "chosen": "Matching your choices.",
+      "latestHint": "The latest from the agencies.",
+      "sort": "Sort",
+      "sorts": {
+        "recent": "Newest",
+        "price_asc": "Lowest price",
+        "price_desc": "Highest price"
+      },
+      "list": "List only",
+      "map": "See on the map",
+      "remove": "Remove",
+      "clearAll": "Clear all"
+    },
+    "how": {
+      "title": "No unnecessary middlemen.",
+      "titleTail": "You talk to the agency.",
+      "search": {
+        "title": "You search",
+        "text": "Area, dates and how many. With dates, you only see what's free."
+      },
+      "ask": {
+        "title": "You ask",
+        "text": "Your message goes to the agency that lists it, not to a call centre."
+      },
+      "arrange": {
+        "title": "You arrange",
+        "text": "They confirm availability and the final price, and you arrange the booking or the viewing."
+      }
+    },
+    "footer": {
+      "label": "Footer",
+      "blurb": "Holiday rentals and properties for sale from real agencies. Every inquiry goes to whoever lists it.",
+      "legal": "Each property is listed and managed by its agency.",
+      "pitch": {
+        "title": "Do you run an agency?",
+        "body": "List your properties here and handle inquiries, offers and bookings from one place.",
+        "cta": "Discover Tivvo for agencies"
+      },
+      "rent": {
+        "title": "Rent",
+        "all": "Holiday rentals",
+        "in": "Rentals in {zone}"
+      },
+      "buy": {
+        "title": "Buy",
+        "all": "Properties for sale"
+      },
+      "agencies": {
+        "title": "For agencies",
+        "about": "Discover Tivvo",
+        "register": "Create an account",
+        "login": "Log in"
+      },
+      "tivvo": {
+        "how": "How it works",
+        "all": "See all properties"
+      }
+    }
+  }
+}

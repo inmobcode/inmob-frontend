@@ -1,0 +1,36 @@
+{
+  "profile": {
+    "errors": {
+      "name": "Enter your name",
+      "email": "Invalid email",
+      "currentPassword": "Enter your current password",
+      "minLength": "At least 8 characters",
+      "mismatch": "The passwords don't match"
+    },
+    "hidePassword": "Hide password",
+    "showPassword": "Show password",
+    "saved": "Profile updated",
+    "saveFailed": "Couldn't save the profile",
+    "photoUpdated": "Photo updated",
+    "photoFailed": "Couldn't upload the photo",
+    "passwordChanged": "Password changed",
+    "passwordFailed": "Couldn't change the password",
+    "help": "Help with my profile",
+    "data": {
+      "title": "Your details",
+      "description": "How others see you in the agency's account.",
+      "changePhoto": "Change photo",
+      "photoHint": "Tap the photo to change it.",
+      "name": "Name"
+    },
+    "password": {
+      "title": "Password",
+      "description": "Use at least 8 characters. We ask for your current one to confirm it's you.",
+      "current": "Current password",
+      "new": "New password",
+      "repeat": "Repeat the new password",
+      "submitting": "Changing…",
+      "submit": "Change password"
+    }
+  }
+}

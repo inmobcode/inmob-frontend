@@ -1,6 +1,7 @@
 "use client";
 
 import { SearchX } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 
 import { AvailabilityGrid, type AvailabilityRow } from "@/components/availability/availability-grid";
@@ -44,6 +45,7 @@ export function AvailabilityCalendarView({
   /** Something to put at the far right of the filters (the dashboard's view switch). */
   viewControl?: React.ReactNode;
 }) {
+  const t = useTranslations("availability.grid");
   const [search, setSearch] = useState("");
   const [place, setPlace] = useState(ALL_PLACES);
   const [range, setRange] = useState({ start: "", end: "" });
@@ -76,22 +78,23 @@ export function AvailabilityCalendarView({
             setSearch(event.target.value);
             setVisibleCount(PAGE_SIZE);
           }}
-          placeholder="Buscar propiedad…"
-          aria-label="Buscar propiedad"
+          placeholder={t("searchPlaceholder")}
+          aria-label={t("search")}
+          data-list-search
           className="h-10 w-full sm:w-64"
         />
         {places.length > 0 && (
           <Combobox
-            ariaLabel="Ubicación"
+            ariaLabel={t("location")}
             value={place}
             onChange={(next) => {
               setPlace(next);
               setVisibleCount(PAGE_SIZE);
             }}
             allValue={ALL_PLACES}
-            allLabel="Todas las ubicaciones"
-            searchPlaceholder="Buscar ubicación…"
-            emptyText="Ninguna ubicación coincide."
+            allLabel={t("allLocations")}
+            searchPlaceholder={t("searchLocation")}
+            emptyText={t("noLocation")}
             options={places.map((option) => ({ value: option, label: option }))}
             className="w-full sm:w-56"
           />
@@ -110,10 +113,10 @@ export function AvailabilityCalendarView({
                   }}
                   className="size-4 accent-[var(--primary)]"
                 />
-                Solo libres
+                {t("onlyFree")}
               </label>
               <Button variant="ghost" size="sm" onClick={() => setRange({ start: "", end: "" })}>
-                Quitar fechas
+                {t("clearDates")}
               </Button>
             </>
           )}
@@ -125,7 +128,7 @@ export function AvailabilityCalendarView({
                 setRange({ start, end });
                 setVisibleCount(PAGE_SIZE);
               }}
-              placeholder="Elegí las fechas"
+              placeholder={t("pickDates")}
               minDate={new Date(`${from}T00:00:00`)}
             />
           </div>
@@ -140,10 +143,10 @@ export function AvailabilityCalendarView({
           <SearchX className="size-6 text-muted-foreground" />
           <p className="text-sm text-muted-foreground">
             {hasRange && onlyFree
-              ? "Ninguna propiedad está libre en esas fechas."
+              ? t("noneFree")
               : search.trim()
-                ? `Ninguna propiedad coincide con "${search.trim()}".`
-                : "Ninguna propiedad está en esa ubicación."}
+                ? t("noneMatch", { search: search.trim() })
+                : t("noneInLocation")}
           </p>
         </div>
       ) : (
@@ -157,7 +160,7 @@ export function AvailabilityCalendarView({
           />
           {hasMore && (
             <Button variant="outline" className="self-center" onClick={() => setVisibleCount((v) => v + PAGE_SIZE)}>
-              Ver más
+              {t("seeMore")}
             </Button>
           )}
         </>

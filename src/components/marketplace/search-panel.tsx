@@ -1,14 +1,16 @@
 "use client";
 
 import { Minus, Plus, Search, Users } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 import { DestinationField } from "@/components/marketplace/destination-field";
 import { DateRangePicker } from "@/components/ui/date-picker";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useFormat } from "@/i18n/format";
 import type { MarketplaceFacets, MarketplaceQuery } from "@/lib/api/marketplace";
-import { categoryLabel } from "@/lib/properties-labels";
+import { useLabels } from "@/lib/labels";
 import { cn } from "@/lib/utils";
 
 const ANY = "any";
@@ -33,6 +35,7 @@ const TRIGGER =
   "h-11! w-full rounded-xl border-0 bg-ink/[0.07] px-3.5 text-sm shadow-none transition-[background-color,box-shadow] duration-300 hover:bg-ink/10 data-[state=open]:bg-white data-[state=open]:shadow-[0_8px_24px_-12px_oklch(0.3_0.05_160/0.3)]";
 
 function GuestsField({ value, onChange }: { value: number; onChange: (value: number) => void }) {
+  const t = useTranslations("marketplace.search");
   const stepper =
     "flex size-9 items-center justify-center rounded-full border border-line outline-none transition-colors hover:border-ink disabled:pointer-events-none disabled:opacity-30 focus-visible:ring-3 focus-visible:ring-ring/50";
   return (
@@ -41,20 +44,20 @@ function GuestsField({ value, onChange }: { value: number; onChange: (value: num
         <button type="button" className={cn(TRIGGER, "flex items-center gap-2.5 text-left")}>
           <Users className="size-4 text-quiet" />
           <span className={value ? "" : "text-quiet"}>
-            {value ? `${value} ${value === 1 ? "huésped" : "huéspedes"}` : "¿Cuántos van?"}
+            {value ? t("guestsCount", { count: value }) : t("guestsPlaceholder")}
           </span>
         </button>
       </PopoverTrigger>
       <PopoverContent align="start" className="landing w-72 rounded-2xl p-4">
         <div className="flex items-center justify-between gap-4">
           <div className="flex flex-col">
-            <span className="font-medium">Huéspedes</span>
-            <span className="text-sm text-quiet">Contando chicos</span>
+            <span className="font-medium">{t("guests")}</span>
+            <span className="text-sm text-quiet">{t("guestsHint")}</span>
           </div>
           <div className="flex items-center gap-3">
             <button
               type="button"
-              aria-label="Uno menos"
+              aria-label={t("oneLess")}
               className={stepper}
               disabled={value <= 0}
               onClick={() => onChange(value - 1)}
@@ -64,7 +67,7 @@ function GuestsField({ value, onChange }: { value: number; onChange: (value: num
             <span className="w-5 text-center tabular-nums">{value}</span>
             <button
               type="button"
-              aria-label="Uno más"
+              aria-label={t("oneMore")}
               className={stepper}
               disabled={value >= MAX_GUESTS}
               onClick={() => onChange(value + 1)}
@@ -95,6 +98,10 @@ export function SearchPanel({
   /** The sticky bar: tighter, translucent, labels hidden on desktop. */
   compact?: boolean;
 }) {
+  const t = useTranslations("marketplace.search");
+  const tCard = useTranslations("marketplace.card");
+  const labels = useLabels();
+  const { number } = useFormat();
   const [operation, setOperation] = useState<Operation>(value.operation ?? "RENT");
   const [zone, setZone] = useState(value.zone ?? "");
   const [checkIn, setCheckIn] = useState(value.checkIn ?? "");
@@ -126,8 +133,8 @@ export function SearchPanel({
   }
 
   const operations: { value: Operation; label: string }[] = [
-    { value: "RENT", label: "Alquiler temporario" },
-    { value: "SALE", label: "Comprar" },
+    { value: "RENT", label: tCard("rent") },
+    { value: "SALE", label: t("buy") },
   ];
 
   return (
@@ -141,9 +148,9 @@ export function SearchPanel({
             : "rounded-[1.75rem] bg-paper p-3 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.5)] lg:divide-x lg:divide-line lg:p-3",
         )}
       >
-        <Cell compact={compact} label="Busco">
+        <Cell compact={compact} label={t("looking")}>
           <Select value={operation} onValueChange={(next) => setOperation(next as Operation)}>
-            <SelectTrigger aria-label="Qué buscás" className={TRIGGER}>
+            <SelectTrigger aria-label={t("lookingLabel")} className={TRIGGER}>
               <SelectValue />
             </SelectTrigger>
             <SelectContent className="landing">
@@ -156,55 +163,55 @@ export function SearchPanel({
           </Select>
         </Cell>
 
-        <Cell compact={compact} label="Dónde">
+        <Cell compact={compact} label={t("where")}>
           <DestinationField value={zone} onChange={setZone} zones={facets.zones} />
         </Cell>
 
         {operation === "RENT" ? (
           <>
-            <Cell compact={compact} label="Cuándo">
+            <Cell compact={compact} label={t("when")}>
               <DateRangePicker
                 start={checkIn}
                 end={checkOut}
                 minDate={new Date()}
-                placeholder="Entrada y salida"
+                placeholder={t("dates")}
                 onChange={(start, end) => {
                   setCheckIn(start);
                   setCheckOut(end);
                 }}
               />
             </Cell>
-            <Cell compact={compact} label="Quiénes">
+            <Cell compact={compact} label={t("who")}>
               <GuestsField value={guests} onChange={setGuests} />
             </Cell>
           </>
         ) : (
           <>
-            <Cell compact={compact} label="Qué">
+            <Cell compact={compact} label={t("what")}>
               <Select value={category || ANY} onValueChange={(next) => setCategory(next === ANY ? "" : next)}>
-                <SelectTrigger aria-label="Tipo de propiedad" className={TRIGGER}>
+                <SelectTrigger aria-label={t("type")} className={TRIGGER}>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="landing">
-                  <SelectItem value={ANY}>Cualquier tipo</SelectItem>
+                  <SelectItem value={ANY}>{t("anyType")}</SelectItem>
                   {facets.categories.map((entry) => (
                     <SelectItem key={entry.value} value={entry.value}>
-                      {categoryLabel(entry.value)}
+                      {labels.category(entry.value)}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </Cell>
-            <Cell compact={compact} label="Hasta">
+            <Cell compact={compact} label={t("upTo")}>
               <Select value={maxPrice || ANY} onValueChange={(next) => setMaxPrice(next === ANY ? "" : next)}>
-                <SelectTrigger aria-label="Precio máximo" className={TRIGGER}>
+                <SelectTrigger aria-label={t("maxPrice")} className={TRIGGER}>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="landing">
-                  <SelectItem value={ANY}>Sin tope</SelectItem>
+                  <SelectItem value={ANY}>{t("noCap")}</SelectItem>
                   {PRICE_CAPS.map((cap) => (
                     <SelectItem key={cap} value={String(cap)}>
-                      USD {cap.toLocaleString("es-AR")}
+                      USD {number(cap)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -222,7 +229,7 @@ export function SearchPanel({
             )}
           >
             <Search className="size-4" />
-            Buscar
+            {t("submit")}
           </button>
         </div>
       </div>

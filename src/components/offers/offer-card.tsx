@@ -1,8 +1,7 @@
 "use client";
 
-import { format, formatDistanceToNow } from "date-fns";
-import { es } from "date-fns/locale";
 import { CalendarClock, Clock, FileText, Link2, MoreHorizontal, Pencil, Send, Trash2, UserRound } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -16,9 +15,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useFormat } from "@/i18n/format";
+import { useAgencySitePath } from "@/lib/agency-site";
 import type { Offer } from "@/lib/api/offers";
+import { parseApiDate } from "@/lib/dates";
+import { useLabels } from "@/lib/labels";
 import { getPublicOrigin } from "@/lib/public-origin";
-import { OFFER_OPERATION_LABELS } from "@/lib/properties-labels";
 import { cn } from "@/lib/utils";
 import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 
@@ -72,15 +74,18 @@ export function Collage({ urls }: { urls: string[] }) {
 }
 
 export function OfferMenu({ offer, actions, className }: { offer: Offer; actions: OfferActions; className?: string }) {
+  const t = useTranslations("offers.menu");
+  const common = useTranslations("common");
+  const sitePath = useAgencySitePath();
   const router = useRouter();
   const { agencySlug } = useParams<{ agencySlug: string }>();
 
   async function copyLink() {
     try {
-      await navigator.clipboard.writeText(`${getPublicOrigin()}/offer/${offer.token}`);
-      toast.success("Link copiado");
+      await navigator.clipboard.writeText(`${getPublicOrigin()}${sitePath(`/offer/${offer.token}`)}`);
+      toast.success(common("linkCopied"));
     } catch {
-      toast.error("No se pudo copiar el link");
+      toast.error(common("linkCopyFailed"));
     }
   }
 
@@ -89,7 +94,7 @@ export function OfferMenu({ offer, actions, className }: { offer: Offer; actions
       <DropdownMenuTrigger asChild>
         <button
           type="button"
-          aria-label={`Acciones de ${offer.title}`}
+          aria-label={t("actionsOf", { title: offer.title })}
           className={cn("flex size-8 shrink-0 items-center justify-center rounded-full bg-card/90 text-foreground backdrop-blur transition-colors outline-none hover:bg-card focus-visible:ring-3 focus-visible:ring-ring/50 data-[state=open]:bg-card", className)}
         >
           <MoreHorizontal className="size-4" />
@@ -98,22 +103,22 @@ export function OfferMenu({ offer, actions, className }: { offer: Offer; actions
       <DropdownMenuContent align="end" className="w-52 rounded-2xl p-1.5">
         <DropdownMenuItem className="rounded-xl py-2" onSelect={() => router.push(`/${agencySlug}/offers/${offer.id}`)}>
           <Pencil />
-          Editar
+          {t("edit")}
         </DropdownMenuItem>
         <DropdownMenuItem className="rounded-xl py-2" onSelect={copyLink}>
           <Link2 />
-          Copiar link
+          {t("copyLink")}
         </DropdownMenuItem>
         {offer.status === "DRAFT" && (
           <DropdownMenuItem className="rounded-xl py-2" onSelect={() => actions.send(offer.id)}>
             <Send />
-            Marcar como enviada
+            {t("markSent")}
           </DropdownMenuItem>
         )}
         <DropdownMenuSeparator />
         <DropdownMenuItem variant="destructive" className="rounded-xl py-2" onSelect={() => actions.requestDelete(offer.id)}>
           <Trash2 />
-          Eliminar
+          {t("delete")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
@@ -124,11 +129,14 @@ const CARD_CLASS =
   "offer-card group flex flex-col overflow-hidden rounded-2xl bg-card shadow-[0_1px_2px_oklch(0.3_0.05_160/0.04),0_12px_32px_-12px_oklch(0.3_0.05_160/0.14)] ring-1 ring-foreground/5 outline-none transition-[box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:shadow-[0_1px_2px_oklch(0.3_0.05_160/0.06),0_24px_44px_-12px_oklch(0.3_0.05_160/0.26)] focus-visible:ring-3 focus-visible:ring-ring/50";
 
 export function OfferCard({ offer, actions }: { offer: Offer; actions: OfferActions }) {
+  const t = useTranslations("offers.card");
+  const labels = useLabels();
+  const { ago, date, number } = useFormat();
   const { agencySlug } = useParams<{ agencySlug: string }>();
   const items = propertiesOf(offer);
   const covers = coversOf(offer);
   const expired = offer.status === "EXPIRED";
-  const updated = formatDistanceToNow(new Date(offer.updatedAt), { addSuffix: true, locale: es });
+  const updated = ago(parseApiDate(offer.updatedAt));
   const client = offer.clientName?.trim();
 
   return (
@@ -144,24 +152,24 @@ export function OfferCard({ offer, actions }: { offer: Offer; actions: OfferActi
           <OfferMenu offer={offer} actions={actions} />
         </ControlsZone>
         <span className="absolute bottom-3 left-3 inline-flex items-center rounded-full bg-foreground/55 px-2.5 py-1 text-xs font-medium text-background backdrop-blur">
-          {items.length} {items.length === 1 ? "propiedad" : "propiedades"}
+          {t("properties", { count: items.length })}
         </span>
       </div>
 
       <div className="flex flex-1 flex-col gap-4 p-5">
         <div className="flex flex-col gap-1.5">
-          <p className="text-xs font-medium text-primary">{OFFER_OPERATION_LABELS[offer.operation]}</p>
+          <p className="text-xs font-medium text-primary">{labels.offerOperation(offer.operation)}</p>
           <h3 className="font-display text-xl leading-tight text-balance line-clamp-2" title={offer.title}>
             {offer.title}
           </h3>
           {offer.referenceCode && (
             <p className="truncate text-xs font-medium text-muted-foreground" title={offer.referenceCode}>
-              Ref: {offer.referenceCode}
+              {t("reference", { code: offer.referenceCode })}
             </p>
           )}
           <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
             <UserRound className="size-3.5 shrink-0" />
-            <span className="truncate">{client || "Sin cliente asignado"}</span>
+            <span className="truncate">{client || t("noClient")}</span>
           </p>
         </div>
 
@@ -170,23 +178,23 @@ export function OfferCard({ offer, actions }: { offer: Offer; actions: OfferActi
             {offer.total ? (
               <>
                 <span className="text-sm font-medium text-muted-foreground">{offer.currency}</span>
-                <span className="text-2xl leading-none font-semibold tracking-tight">{offer.total.toLocaleString("es-AR")}</span>
+                <span className="text-2xl leading-none font-semibold tracking-tight">{number(offer.total)}</span>
               </>
             ) : (
-              <span className="text-lg leading-none font-medium text-muted-foreground">Sin total</span>
+              <span className="text-lg leading-none font-medium text-muted-foreground">{t("noTotal")}</span>
             )}
           </p>
 
           {offer.expiresAt && (
             <p className={cn("flex items-center gap-1.5 text-sm", expired ? "text-destructive" : "text-muted-foreground")}>
               <CalendarClock className="size-4" />
-              {expired ? "Venció" : "Vence"} el {format(new Date(offer.expiresAt), "d 'de' MMMM", { locale: es })}
+              {t(expired ? "expired" : "expires", { date: date(parseApiDate(offer.expiresAt), "dayMonth") })}
             </p>
           )}
 
           <div className="mt-1 flex h-6 items-center gap-3 text-xs text-muted-foreground">
             <OfferStatusPill status={offer.status} />
-            <span className="ml-auto inline-flex shrink-0 items-center gap-1" title={`Actualizada ${updated}`}>
+            <span className="ml-auto inline-flex shrink-0 items-center gap-1" title={t("updated", { ago: updated })}>
               <Clock className="size-3" />
               {updated}
             </span>

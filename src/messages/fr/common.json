@@ -1,0 +1,171 @@
+{
+  "meta": {
+    "description": "Logiciel de gestion pour agences immobilières : biens, offres, réservations et le site de votre agence.",
+    "ogAlt": "Tivvo · Logiciel de gestion pour agences immobilières",
+    "ogTitle": "Un seul endroit pour vos biens, offres et réservations",
+    "ogSubtitle": "Logiciel de gestion pour agences de vente et de location saisonnière."
+  },
+  "notFound": {
+    "metaTitle": "Page introuvable",
+    "code": "Erreur 404",
+    "title": "Cette adresse ne figure pas sur le plan.",
+    "tail": "Elle a peut-être été déplacée ou n’est plus publiée.",
+    "searchLabel": "Rechercher dans l’aide",
+    "searchPlaceholder": "Que cherchiez-vous ? Essayez « réservation »",
+    "search": "Rechercher",
+    "otherPlaces": "Autres pages",
+    "stillLost": "Toujours perdu ? Écrivez-nous à",
+    "links": {
+      "home": {
+        "label": "Accueil",
+        "hint": "Ce qu’est Tivvo et comment ça marche"
+      },
+      "help": {
+        "label": "Aide",
+        "hint": "Réponses et contact"
+      },
+      "login": {
+        "label": "Se connecter",
+        "hint": "Accédez au tableau de bord de votre agence"
+      }
+    }
+  },
+  "language": {
+    "label": "Langue",
+    "change": "Changer de langue"
+  },
+  "common": {
+    "unexpectedError": "Erreur inattendue",
+    "linkCopied": "Lien copié",
+    "linkCopyFailed": "Impossible de copier le lien",
+    "actionFailed": "Impossible de terminer l’action",
+    "checkConnection": "Vérifiez votre connexion et réessayez.",
+    "back": "Retour",
+    "cancel": "Annuler",
+    "saving": "Enregistrement…",
+    "creating": "Création…",
+    "optional": "(facultatif)",
+    "undo": "Annuler",
+    "retry": "Réessayer",
+    "noMatchTitle": "Aucun résultat",
+    "clearFilters": "Effacer les filtres",
+    "emailCopied": "E-mail copié",
+    "emailCopyFailed": "Impossible de copier l’e-mail",
+    "changesSaved": "Modifications enregistrées",
+    "saveFailed": "Impossible d’enregistrer les modifications",
+    "nameRequired": "Saisissez un nom",
+    "emailInvalid": "E-mail invalide",
+    "checkFields": "Vérifiez les champs signalés",
+    "save": "Enregistrer",
+    "help": "Aide",
+    "datePicker": {
+      "previousMonth": "Mois précédent",
+      "nextMonth": "Mois suivant",
+      "pickDate": "Choisissez une date",
+      "pickDates": "Choisissez les dates",
+      "pickCheckIn": "Choisissez l’arrivée",
+      "pickCheckOut": "Choisissez maintenant le départ",
+      "days": "{count, plural, one {# jour} other {# jours}}",
+      "nights": "{count, plural, one {# nuit} other {# nuits}}",
+      "clear": "Effacer",
+      "search": "Rechercher…"
+    },
+    "combobox": {
+      "search": "Rechercher…",
+      "empty": "Aucun résultat."
+    },
+    "richText": {
+      "link": "Lien",
+      "linkUrl": "Adresse du lien",
+      "done": "OK",
+      "removeLink": "Supprimer le lien",
+      "blockType": "Type de texte",
+      "blocks": {
+        "p": "Texte",
+        "h2": "Titre",
+        "h3": "Sous-titre"
+      },
+      "bold": "Gras",
+      "italic": "Italique",
+      "bulletList": "Liste à puces",
+      "orderedList": "Liste numérotée"
+    }
+  },
+  "errors": {
+    "code": "Erreur {code}",
+    "otherPlaces": "Autres pages",
+    "server": {
+      "title": "Un problème est survenu de notre côté.",
+      "tail": "Réessayez ; si le problème persiste, écrivez-nous.",
+      "retry": "Réessayer",
+      "home": "Aller à l’accueil"
+    }
+  },
+  "trash": {
+    "restoreFailed": "Impossible de restaurer",
+    "deleted": "Supprimé définitivement",
+    "deleteFailed": "Impossible de supprimer",
+    "intro": "Ce que vous supprimez reste ici {days} jours, au cas où vous changeriez d’avis. Ensuite, c’est supprimé définitivement.",
+    "loadFailed": "Impossible de charger la corbeille.",
+    "emptyTitle": "La corbeille est vide",
+    "emptyBody": "Ce que vous supprimez apparaîtra ici.",
+    "deletedAgo": "Supprimé {ago}",
+    "goesToday": "supprimé définitivement aujourd’hui",
+    "goesIn": "{count, plural, one {supprimé définitivement dans # jour} other {supprimé définitivement dans # jours}}",
+    "restore": "Restaurer",
+    "deleteForever": "Supprimer définitivement",
+    "confirmTitle": "Supprimer définitivement ?",
+    "confirmBody": "« {title} » sera supprimé pour toujours et ne pourra pas être récupéré.",
+    "link": "Corbeille",
+    "linkCount": "{count, plural, one {Corbeille, # élément} other {Corbeille, # éléments}}",
+    "pages": {
+      "properties": {
+        "title": "Corbeille des biens",
+        "restored": "Vous avez restauré le bien",
+        "back": "Biens",
+        "untitled": "Bien"
+      },
+      "offers": {
+        "title": "Corbeille des offres",
+        "restored": "Vous avez restauré l’offre",
+        "back": "Offres",
+        "untitled": "Offre"
+      },
+      "bookings": {
+        "title": "Corbeille des réservations",
+        "restored": "Vous avez restauré la réservation",
+        "back": "Réservations",
+        "untitled": "Réservation"
+      }
+    }
+  },
+  "pageTitles": {
+    "forgotPassword": "Récupérez votre mot de passe",
+    "register": "Créez votre compte",
+    "login": "Se connecter",
+    "clients": "Clients",
+    "settings": "Paramètres",
+    "offers": "Offres",
+    "bookings": "Réservations",
+    "inquiries": "Demandes",
+    "profile": "Mon profil",
+    "properties": "Biens",
+    "import": "Importer des biens",
+    "team": "Équipe",
+    "services": "Services",
+    "portal": "Site",
+    "docs": "Documentation",
+    "authCallback": "Connexion en cours",
+    "resetPassword": "Réinitialiser le mot de passe"
+  },
+  "legal": {
+    "effective": "En vigueur depuis le",
+    "sections": "Sections",
+    "seeAlso": "Voir aussi",
+    "summary": "En quelques mots",
+    "summaryNote": "Ce résumé aide à lire le document mais ne le remplace pas : seul le texte complet fait foi.",
+    "brief": "En bref :",
+    "nav": "Principal",
+    "home": "Retour à l’accueil"
+  }
+}

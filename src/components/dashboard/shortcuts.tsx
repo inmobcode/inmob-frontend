@@ -4,6 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   BookOpen,
   Building2,
+  CalendarCheck,
   CalendarDays,
   CornerDownLeft,
   FileText,
@@ -23,6 +24,7 @@ import {
   UsersRound,
   type LucideIcon,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -53,48 +55,52 @@ export const TOGGLE_SIDEBAR_EVENT = "toggle-sidebar";
 const CARD_SELECTOR =
   ".property-card, .offer-card, .client-card, .booking-card, .team-card";
 
+// Labels are keys of "dashboard.shortcuts.go".
 const GO_TO: Record<string, { path: string; label: string }> = {
-  p: { path: "/properties", label: "Propiedades" },
-  o: { path: "/offers", label: "Ofertas" },
-  c: { path: "/clients", label: "Clientes" },
-  i: { path: "/inquiries", label: "Consultas" },
-  r: { path: "/bookings", label: "Reservas" },
-  e: { path: "/team", label: "Equipo" },
-  w: { path: "/portal", label: "Portal" },
-  s: { path: "/settings", label: "Configuración" },
-  m: { path: "/profile", label: "Mi perfil" },
+  p: { path: "/properties", label: "properties" },
+  o: { path: "/offers", label: "offers" },
+  c: { path: "/clients", label: "clients" },
+  i: { path: "/inquiries", label: "inquiries" },
+  r: { path: "/bookings", label: "bookings" },
+  d: { path: "/availability", label: "availability" },
+  e: { path: "/team", label: "team" },
+  w: { path: "/portal", label: "portal" },
+  s: { path: "/settings", label: "settings" },
+  m: { path: "/profile", label: "profile" },
 };
 
+// Titles and labels are keys of "dashboard.shortcuts.help".
 const SHORTCUT_GROUPS: {
-  title: string;
-  items: { keys: string[]; label: string }[];
+  title: "general" | "goTo" | "lists";
+  items: { keys: string[]; label: string; go?: boolean }[];
 }[] = [
   {
-    title: "General",
+    title: "general",
     items: [
-      { keys: ["Ctrl/Cmd", "K"], label: "Buscar y ejecutar comandos" },
-      { keys: ["Ctrl/Cmd", "B"], label: "Contraer o expandir el menú lateral" },
-      { keys: ["Ctrl/Cmd", "S"], label: "Guardar los cambios del formulario" },
-      { keys: ["?"], label: "Ver los atajos de teclado" },
+      { keys: ["Ctrl/Cmd", "K"], label: "palette" },
+      { keys: ["Ctrl/Cmd", "B"], label: "sidebar" },
+      { keys: ["Ctrl/Cmd", "S"], label: "save" },
+      { keys: ["?"], label: "help" },
     ],
   },
   {
-    title: "Ir a",
+    title: "goTo",
     items: Object.entries(GO_TO).map(([key, target]) => ({
       keys: ["G", key.toUpperCase()],
       label: target.label,
+      go: true,
     })),
   },
   {
-    title: "En las listas",
+    title: "lists",
     items: [
-      { keys: ["N"], label: "Crear uno nuevo" },
-      { keys: ["/"], label: "Ir al buscador" },
-      { keys: ["F"], label: "Abrir el filtro" },
-      { keys: ["1", "2", "3"], label: "Vista cuadrícula, lista o tabla" },
-      { keys: ["J", "K"], label: "Bajar y subir entre elementos" },
-      { keys: ["Enter"], label: "Abrir el elemento seleccionado" },
-      { keys: ["Esc"], label: "Limpiar la selección" },
+      { keys: ["N"], label: "new" },
+      { keys: ["/"], label: "search" },
+      { keys: ["F"], label: "filter" },
+      { keys: ["1", "2", "3"], label: "views" },
+      { keys: ["J", "K"], label: "move" },
+      { keys: ["Enter"], label: "open" },
+      { keys: ["Esc"], label: "clear" },
     ],
   },
 ];
@@ -151,6 +157,7 @@ function CommandPalette({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
+  const t = useTranslations("dashboard.shortcuts");
   const router = useRouter();
   const queryClient = useQueryClient();
   const user = useSessionUser();
@@ -195,80 +202,88 @@ function CommandPalette({
     const list: Command[] = [
       {
         id: "go-properties",
-        group: "Ir a",
-        label: "Propiedades",
+        group: t("groups.go"),
+        label: t("go.properties"),
         hint: "G P",
         icon: Building2,
         run: go("/properties"),
       },
       {
         id: "go-offers",
-        group: "Ir a",
-        label: "Ofertas",
+        group: t("groups.go"),
+        label: t("go.offers"),
         hint: "G O",
         icon: Tag,
         run: go("/offers"),
       },
       {
         id: "go-clients",
-        group: "Ir a",
-        label: "Clientes",
+        group: t("groups.go"),
+        label: t("go.clients"),
         hint: "G C",
         icon: Users,
         run: go("/clients"),
       },
       {
         id: "go-inquiries",
-        group: "Ir a",
-        label: "Consultas",
+        group: t("groups.go"),
+        label: t("go.inquiries"),
         hint: "G I",
         icon: Inbox,
         run: go("/inquiries"),
       },
       {
         id: "go-bookings",
-        group: "Ir a",
-        label: "Reservas",
+        group: t("groups.go"),
+        label: t("go.bookings"),
         hint: "G R",
         icon: CalendarDays,
         run: go("/bookings"),
       },
       {
+        id: "go-availability",
+        group: t("groups.go"),
+        label: t("go.availability"),
+        hint: "G D",
+        icon: CalendarCheck,
+        run: go("/availability"),
+      },
+      {
         id: "go-team",
-        group: "Ir a",
-        label: "Equipo",
+        group: t("groups.go"),
+        label: t("go.team"),
         hint: "G E",
         icon: UsersRound,
         run: go("/team"),
       },
       {
         id: "go-portal",
-        group: "Ir a",
-        label: "Portal",
+        group: t("groups.go"),
+        label: t("go.portal"),
         hint: "G W",
         icon: Globe,
         run: go("/portal"),
       },
       {
         id: "go-settings",
-        group: "Ir a",
-        label: "Configuración",
+        group: t("groups.go"),
+        label: t("go.settings"),
         hint: "G S",
         icon: Settings,
         run: go("/settings"),
       },
       {
         id: "go-profile",
-        group: "Ir a",
-        label: "Mi perfil",
+        group: t("groups.go"),
+        label: t("go.profile"),
         hint: "G M",
         icon: UserRound,
         run: go("/profile"),
       },
       {
         id: "go-docs",
-        group: "Ir a",
-        label: "Documentación",
+        group: t("groups.go"),
+        label: t("commands.docs"),
         icon: BookOpen,
         // Opens beside the dashboard, so reading it never loses your place.
         run: () => {
@@ -278,43 +293,43 @@ function CommandPalette({
       },
       {
         id: "new-property",
-        group: "Crear",
-        label: "Nueva propiedad",
+        group: t("groups.create"),
+        label: t("commands.newProperty"),
         icon: Plus,
         run: create("/properties"),
       },
       {
         id: "new-offer",
-        group: "Crear",
-        label: "Nueva oferta",
+        group: t("groups.create"),
+        label: t("commands.newOffer"),
         icon: Plus,
         run: create("/offers"),
       },
       {
         id: "new-client",
-        group: "Crear",
-        label: "Nuevo cliente",
+        group: t("groups.create"),
+        label: t("commands.newClient"),
         icon: Plus,
         run: create("/clients"),
       },
       {
         id: "new-booking",
-        group: "Crear",
-        label: "Nueva reserva",
+        group: t("groups.create"),
+        label: t("commands.newBooking"),
         icon: Plus,
         run: create("/bookings"),
       },
       {
         id: "new-member",
-        group: "Crear",
-        label: "Invitar miembro",
+        group: t("groups.create"),
+        label: t("commands.newMember"),
         icon: Plus,
         run: create("/team"),
       },
       {
         id: "theme-light",
-        group: "Acciones",
-        label: "Modo claro",
+        group: t("groups.actions"),
+        label: t("commands.light"),
         icon: Sun,
         run: () => {
           setTheme("light");
@@ -323,8 +338,8 @@ function CommandPalette({
       },
       {
         id: "theme-dark",
-        group: "Acciones",
-        label: "Modo oscuro",
+        group: t("groups.actions"),
+        label: t("commands.dark"),
         icon: Moon,
         run: () => {
           setTheme("dark");
@@ -333,8 +348,8 @@ function CommandPalette({
       },
       {
         id: "theme-system",
-        group: "Acciones",
-        label: "Modo automático",
+        group: t("groups.actions"),
+        label: t("commands.system"),
         icon: Monitor,
         run: () => {
           setTheme("system");
@@ -343,8 +358,8 @@ function CommandPalette({
       },
       {
         id: "sidebar",
-        group: "Acciones",
-        label: "Contraer o expandir el menú",
+        group: t("groups.actions"),
+        label: t("commands.sidebar"),
         hint: "⌘ B",
         icon: PanelLeftClose,
         run: () => {
@@ -354,8 +369,8 @@ function CommandPalette({
       },
       {
         id: "logout",
-        group: "Acciones",
-        label: "Cerrar sesión",
+        group: t("groups.actions"),
+        label: t("commands.logout"),
         icon: LogOut,
         run: () => {
           clearSession();
@@ -395,7 +410,7 @@ function CommandPalette({
     const found: RecordItem[] = [
       ...(properties.data ?? []).map((item) => ({
         id: `property-${item.id}`,
-        group: "Propiedades",
+        group: t("groups.properties"),
         label: item.title,
         icon: Building2,
         text: item.title,
@@ -403,7 +418,7 @@ function CommandPalette({
       })),
       ...(offers.data ?? []).map((item) => ({
         id: `offer-${item.id}`,
-        group: "Ofertas",
+        group: t("groups.offers"),
         label: item.title,
         hint: item.clientName ?? undefined,
         icon: FileText,
@@ -412,7 +427,7 @@ function CommandPalette({
       })),
       ...(clients.data ?? []).map((item) => ({
         id: `client-${item.id}`,
-        group: "Clientes",
+        group: t("groups.clients"),
         label: item.name,
         hint: item.email,
         icon: Users,
@@ -443,6 +458,7 @@ function CommandPalette({
     setTheme,
     queryClient,
     user,
+    t,
   ]);
 
   // Whatever is highlighted should stay on screen while arrowing through the list.
@@ -482,12 +498,8 @@ function CommandPalette({
         className="top-[22%] translate-y-0 gap-0 overflow-hidden rounded-3xl p-0 sm:max-w-xl"
         showCloseButton={false}
       >
-        <DialogTitle className="sr-only">
-          Buscar y ejecutar comandos
-        </DialogTitle>
-        <DialogDescription className="sr-only">
-          Escribí para buscar páginas, propiedades, ofertas o clientes.
-        </DialogDescription>
+        <DialogTitle className="sr-only">{t("paletteTitle")}</DialogTitle>
+        <DialogDescription className="sr-only">{t("paletteDescription")}</DialogDescription>
         <div className="flex items-center gap-3 px-5 py-4">
           <Search className="size-4 shrink-0 text-muted-foreground" />
           <input
@@ -498,8 +510,8 @@ function CommandPalette({
               setActive(0);
             }}
             onKeyDown={handleKeyDown}
-            placeholder="Buscar una página, propiedad, oferta o cliente…"
-            aria-label="Buscar comandos"
+            placeholder={t("palettePlaceholder")}
+            aria-label={t("paletteSearch")}
             className="min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-muted-foreground"
           />
           <kbd className="hidden h-6 items-center rounded-md bg-foreground/[0.07] px-1.5 text-xs text-muted-foreground sm:inline-flex">
@@ -509,9 +521,7 @@ function CommandPalette({
 
         <div ref={listRef} className="max-h-[22rem] overflow-y-auto px-2 pb-2">
           {commands.length === 0 && (
-            <p className="px-3 py-8 text-center text-sm text-muted-foreground">
-              No encontramos nada para “{query}”.
-            </p>
+            <p className="px-3 py-8 text-center text-sm text-muted-foreground">{t("nothingFor", { query })}</p>
           )}
           {commands.map((command, index) => {
             const heading = command.group !== lastGroup;
@@ -564,6 +574,7 @@ function ShortcutsDialog({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
+  const t = useTranslations("dashboard.shortcuts");
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -571,33 +582,25 @@ function ShortcutsDialog({
         showCloseButton
       >
         <div className="flex flex-col gap-1.5 px-7 pt-7 pb-5">
-          <DialogTitle className="font-display text-3xl leading-none tracking-tight">
-            Atajos de teclado
-          </DialogTitle>
-          <DialogDescription>
-            Para moverte más rápido sin soltar el teclado.
-          </DialogDescription>
+          <DialogTitle className="font-display text-3xl leading-none tracking-tight">{t("helpTitle")}</DialogTitle>
+          <DialogDescription>{t("helpDescription")}</DialogDescription>
         </div>
         <div className="flex max-h-[60vh] flex-col gap-6 overflow-y-auto px-7 pb-7">
           {SHORTCUT_GROUPS.map((group) => (
             <section key={group.title} className="flex flex-col gap-2.5">
-              <h3 className="font-display text-lg leading-tight">
-                {group.title}
-              </h3>
+              <h3 className="font-display text-lg leading-tight">{t(`help.${group.title}`)}</h3>
               <ul className="flex flex-col gap-2.5">
                 {group.items.map((item) => (
                   <li
                     key={item.label}
                     className="flex items-center justify-between gap-4 text-sm"
                   >
-                    <span>{item.label}</span>
+                    <span>{item.go ? t(`go.${item.label}` as never) : t(`help.${item.label}` as never)}</span>
                     <span className="flex shrink-0 items-center gap-1">
                       {item.keys.map((key, index) => (
                         <span key={key} className="flex items-center gap-1">
-                          {index > 0 && group.title === "Ir a" && (
-                            <span className="text-xs text-muted-foreground">
-                              luego
-                            </span>
+                          {index > 0 && group.title === "goTo" && (
+                            <span className="text-xs text-muted-foreground">{t("then")}</span>
                           )}
                           <kbd className="inline-flex h-6 min-w-6 items-center justify-center rounded-md bg-foreground/[0.07] px-1.5 text-xs font-medium">
                             {key}
@@ -618,6 +621,7 @@ function ShortcutsDialog({
 
 /** Global keyboard shortcuts of the dashboard, the command palette and the help dialog. */
 export function Shortcuts() {
+  const t = useTranslations("dashboard.shortcuts");
   const router = useRouter();
   const user = useSessionUser();
   const [helpOpen, setHelpOpen] = useState(false);
@@ -660,7 +664,7 @@ export function Shortcuts() {
           useActionBarStore.getState();
         if (!onSave) return;
         event.preventDefault();
-        if (!isDirty) toast("No hay cambios para guardar");
+        if (!isDirty) toast(t("nothingToSave"));
         else if (canSubmit && !isSubmitting) onSave();
         return;
       }
@@ -702,9 +706,7 @@ export function Shortcuts() {
           break;
         }
         case "/": {
-          const input = document.querySelector<HTMLInputElement>(
-            "input[aria-label^='Buscar']",
-          );
+          const input = document.querySelector<HTMLInputElement>("input[data-list-search]");
           if (input) {
             event.preventDefault();
             input.focus();
@@ -724,10 +726,8 @@ export function Shortcuts() {
         case "1":
         case "2":
         case "3": {
-          const label = { "1": "Cuadrícula", "2": "Lista", "3": "Tabla" }[key];
-          document
-            .querySelector<HTMLElement>(`button[aria-label="${label}"]`)
-            ?.click();
+          const view = { "1": "grid", "2": "list", "3": "table" }[key];
+          document.querySelector<HTMLElement>(`button[data-view="${view}"]`)?.click();
           break;
         }
         case "j":
@@ -764,7 +764,7 @@ export function Shortcuts() {
       window.removeEventListener("keydown", onKeyDown);
       if (goTimer.current) window.clearTimeout(goTimer.current);
     };
-  }, [router, user]);
+  }, [router, user, t]);
 
   return (
     <>
@@ -785,7 +785,7 @@ export function Shortcuts() {
                   <kbd className="mr-1 rounded-md bg-background/20 px-1.5">
                     {key.toUpperCase()}
                   </kbd>
-                  {target.label}
+                  {t(`go.${target.label}` as never)}
                 </span>
               ))}
           </span>

@@ -1,9 +1,11 @@
 import { Bath, BedDouble, Home, Ruler } from "lucide-react";
-import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
 
+import { LOCALE_TAGS } from "@/i18n/config";
+import { Link } from "@/i18n/navigation";
 import type { Property } from "@/lib/api/properties";
 import type { SiteTemplate } from "@/lib/api/agency";
-import { LISTING_TYPE_LABELS, categoryLabel } from "@/lib/properties-labels";
+import { useLabels } from "@/lib/labels";
 import { cn } from "@/lib/utils";
 import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 
@@ -12,14 +14,15 @@ export function coverPhoto(property: Pick<Property, "photos">) {
   return photos.find((photo) => photo.isCover) ?? photos[0] ?? null;
 }
 
-export function formatPrice(property: Pick<Property, "price" | "currency">) {
+/** "EUR 650", with the digits grouped the way `tag` (a BCP 47 language tag) does. */
+export function formatPrice(property: Pick<Property, "price" | "currency">, tag: string) {
   if (!property.price) return null;
-  return `${property.currency} ${property.price.toLocaleString("es-AR")}`;
+  return `${property.currency} ${property.price.toLocaleString(tag)}`;
 }
 
-/** What the price is charged per: rentals are priced by the night. */
-export function priceUnit(property: Pick<Property, "listingType">) {
-  return property.listingType === "RENT" ? "/por noche" : null;
+/** Rentals are priced by the night: their price reads "EUR 650 /por noche". */
+export function isPricedPerNight(property: Pick<Property, "listingType">) {
+  return property.listingType === "RENT";
 }
 
 export function placeOf(
@@ -33,11 +36,12 @@ export function placeOf(
 /** Shown wherever a property has no photo yet, so the card still looks intentional. */
 export function PhotoPlaceholder({
   className,
-  label = "Fotos próximamente",
+  label,
 }: {
   className?: string;
   label?: string;
 }) {
+  const t = useTranslations("site.property");
   return (
     <div
       className={cn(
@@ -46,7 +50,7 @@ export function PhotoPlaceholder({
       )}
     >
       <Home className="size-7" strokeWidth={1.25} aria-hidden />
-      <span className="text-xs">{label}</span>
+      <span className="text-xs">{label ?? t("photosSoon")}</span>
     </div>
   );
 }
@@ -58,22 +62,24 @@ export function PropertySpecs({
   property: Property;
   className?: string;
 }) {
-  const number = (value: number) => value.toLocaleString("es-AR");
+  const t = useTranslations("site.property");
+  const tag = LOCALE_TAGS[useLocale()];
+  const number = (value: number) => value.toLocaleString(tag);
   const specs = [
     property.bedrooms != null && {
       icon: BedDouble,
-      text: `${number(property.bedrooms)} dorm.`,
-      label: `${number(property.bedrooms)} dormitorios`,
+      text: t("bedroomsShort", { count: property.bedrooms, value: number(property.bedrooms) }),
+      label: t("bedroomsLong", { count: property.bedrooms, value: number(property.bedrooms) }),
     },
     property.bathrooms != null && {
       icon: Bath,
-      text: `${number(property.bathrooms)} baños`,
-      label: `${number(property.bathrooms)} baños`,
+      text: t("bathrooms", { count: property.bathrooms, value: number(property.bathrooms) }),
+      label: t("bathrooms", { count: property.bathrooms, value: number(property.bathrooms) }),
     },
     property.areaSqm != null && {
       icon: Ruler,
       text: `${number(property.areaSqm)} m²`,
-      label: `${number(property.areaSqm)} metros cuadrados`,
+      label: t("areaLong", { value: number(property.areaSqm) }),
     },
   ].filter(Boolean) as { icon: typeof Bath; text: string; label: string }[];
   if (specs.length === 0) return null;
@@ -114,9 +120,11 @@ export function PublicPropertyCard({
   /** A promotion's label, shown in the accent color on the photo. */
   badge?: string | null;
 }) {
+  const t = useTranslations("site.property");
+  const labels = useLabels();
   const cover = coverPhoto(property);
-  const price = formatPrice(property);
-  const unit = priceUnit(property);
+  const price = formatPrice(property, LOCALE_TAGS[useLocale()]);
+  const unit = isPricedPerNight(property) ? t("perNight") : null;
   const place = placeOf(property);
   const compact = template === "compacto";
   const editorial = template === "editorial";
@@ -148,7 +156,7 @@ export function PublicPropertyCard({
           <PhotoPlaceholder />
         )}
         <span className="absolute top-3 left-3 rounded-md bg-white/95 px-2 py-1 text-xs font-medium text-site-ink">
-          {LISTING_TYPE_LABELS[property.listingType]}
+          {labels.listingType(property.listingType)}
         </span>
         {badge && (
           <span className="absolute top-3 right-3 rounded-md bg-site-accent px-2 py-1 text-xs font-semibold text-site-accent-ink">
@@ -159,8 +167,9 @@ export function PublicPropertyCard({
 
       <div className={cn("flex flex-1 flex-col", compact ? "gap-1" : "gap-1.5")}>
         <p className="text-sm text-site-quiet">
-          {categoryLabel(property.category)}
-          {place && ` en ${place}`}
+          {place
+            ? t("categoryIn", { category: labels.category(property.category), place })
+            : labels.category(property.category)}
         </p>
         <h3
           className={cn(
@@ -195,7 +204,7 @@ export function PublicPropertyCard({
             </>
           ) : (
             <span className="font-medium text-site-quiet">
-              Precio a consultar
+              {t("priceOnRequest")}
             </span>
           )}
         </p>

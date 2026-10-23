@@ -35,8 +35,9 @@ const initialState = {
   onSave: null,
   onPublish: null,
   onCancel: null,
-  saveLabel: "Guardar",
-  publishLabel: "Publicar",
+  // Empty: the bar shows its own translated "Guardar" / "Publicar".
+  saveLabel: "",
+  publishLabel: "",
 };
 
 /**

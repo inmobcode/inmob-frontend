@@ -14,51 +14,21 @@ import type {
  * agency already gets a site that looks finished.
  */
 
-export const SITE_TEMPLATES: {
-  value: SiteTemplate;
-  label: string;
-  description: string;
-}[] = [
-  {
-    value: "portada",
-    label: "Portada",
-    description: "Una foto grande de portada con el buscador encima.",
-  },
-  {
-    value: "editorial",
-    label: "Editorial",
-    description:
-      "Titular grande al lado de la foto y fichas más amplias, con descripción.",
-  },
-  {
-    value: "compacto",
-    label: "Compacto",
-    description:
-      "Sin foto de portada. Muestra muchas propiedades de un vistazo.",
-  },
-  {
-    value: "dividido",
-    label: "Dividido",
-    description:
-      "Mitad en tu color con el titular y el buscador, mitad con la foto de portada.",
-  },
-  {
-    value: "mosaico",
-    label: "Mosaico",
-    description:
-      "Un collage de fotos arriba, que elegís en Portada, y la primera propiedad destacada en grande.",
-  },
-];
+// Their names and descriptions: "portalEditor.templates" in the messages.
+export const SITE_TEMPLATES: SiteTemplate[] = ["portada", "editorial", "compacto", "dividido", "mosaico"];
 
-export const ACCENT_PRESETS: { value: string; label: string }[] = [
-  { value: "#22302A", label: "Carbón" },
-  { value: "#1F5F4A", label: "Bosque" },
-  { value: "#0F6E74", label: "Petróleo" },
-  { value: "#1E4E8C", label: "Azul" },
-  { value: "#3F3D8F", label: "Índigo" },
-  { value: "#8C3B2E", label: "Ladrillo" },
-  { value: "#A86A1D", label: "Ocre" },
-  { value: "#6B5643", label: "Madera" },
+/** `name` is its key in "portalEditor.accents". */
+type AccentName = "charcoal" | "forest" | "petrol" | "blue" | "indigo" | "brick" | "ochre" | "wood";
+
+export const ACCENT_PRESETS: { value: string; name: AccentName }[] = [
+  { value: "#22302A", name: "charcoal" },
+  { value: "#1F5F4A", name: "forest" },
+  { value: "#0F6E74", name: "petrol" },
+  { value: "#1E4E8C", name: "blue" },
+  { value: "#3F3D8F", name: "indigo" },
+  { value: "#8C3B2E", name: "brick" },
+  { value: "#A86A1D", name: "ochre" },
+  { value: "#6B5643", name: "wood" },
 ];
 
 /**
@@ -67,10 +37,9 @@ export const ACCENT_PRESETS: { value: string; label: string }[] = [
  * untracked, geometric sans tighter and heavier. The fonts are loaded in the
  * root layout.
  */
+// Names and descriptions: "portalEditor.fonts" in the messages.
 export const FONT_PAIRS: {
   value: SiteFonts;
-  label: string;
-  description: string;
   heading: string;
   body: string;
   weight: number;
@@ -78,8 +47,6 @@ export const FONT_PAIRS: {
 }[] = [
   {
     value: "moderna",
-    label: "Moderna",
-    description: "Títulos geométricos, limpios.",
     heading: "var(--font-sora)",
     body: "var(--font-dm-sans)",
     weight: 600,
@@ -87,8 +54,6 @@ export const FONT_PAIRS: {
   },
   {
     value: "clasica",
-    label: "Clásica",
-    description: "Títulos con serif, elegante.",
     heading: "var(--font-dm-serif-display)",
     body: "var(--font-dm-sans)",
     weight: 400,
@@ -96,8 +61,6 @@ export const FONT_PAIRS: {
   },
   {
     value: "sobria",
-    label: "Sobria",
-    description: "Una sola familia, discreta.",
     heading: "var(--font-dm-sans)",
     body: "var(--font-dm-sans)",
     weight: 600,
@@ -105,8 +68,6 @@ export const FONT_PAIRS: {
   },
   {
     value: "elegante",
-    label: "Elegante",
-    description: "Serif fina, para propiedades de lujo.",
     heading: "var(--font-cormorant)",
     body: "var(--font-manrope)",
     weight: 600,
@@ -114,8 +75,6 @@ export const FONT_PAIRS: {
   },
   {
     value: "editorial",
-    label: "Editorial",
-    description: "Serif con carácter, como una revista.",
     heading: "var(--font-fraunces)",
     body: "var(--font-source-sans)",
     weight: 500,
@@ -123,8 +82,6 @@ export const FONT_PAIRS: {
   },
   {
     value: "calida",
-    label: "Cálida",
-    description: "Serif suave y texto redondeado.",
     heading: "var(--font-lora)",
     body: "var(--font-nunito-sans)",
     weight: 600,
@@ -132,8 +89,6 @@ export const FONT_PAIRS: {
   },
   {
     value: "urbana",
-    label: "Urbana",
-    description: "Sans actual, clara y amigable.",
     heading: "var(--font-jakarta)",
     body: "var(--font-jakarta)",
     weight: 700,
@@ -141,8 +96,6 @@ export const FONT_PAIRS: {
   },
   {
     value: "arquitectonica",
-    label: "Arquitectónica",
-    description: "Títulos anchos y con presencia.",
     heading: "var(--font-syne)",
     body: "var(--font-inter)",
     weight: 700,
@@ -156,7 +109,8 @@ export interface ResolvedSite {
   templateMobile: SiteTemplate;
   accent: string;
   fonts: SiteFonts;
-  heroTitle: string;
+  /** Null when the agency left it empty: the page shows a default in its own language. */
+  heroTitle: string | null;
   heroSubtitle: string | null;
   coverUrl: string | null;
   mosaicPhotos: string[];
@@ -170,8 +124,6 @@ export interface ResolvedSite {
   sections: SiteSection[];
 }
 
-export const DEFAULT_HERO_TITLE = "Encontrá tu próxima propiedad";
-
 /** Fills in every setting the agency hasn't chosen yet. */
 export function resolveSite(
   site: SiteSettings | null | undefined,
@@ -183,7 +135,7 @@ export function resolveSite(
     templateMobile: site?.templateMobile ?? site?.template ?? "portada",
     accent: site?.accent ?? ACCENT_PRESETS[0].value,
     fonts: site?.fonts ?? "moderna",
-    heroTitle: value(site?.heroTitle) ?? DEFAULT_HERO_TITLE,
+    heroTitle: value(site?.heroTitle),
     heroSubtitle: value(site?.heroSubtitle),
     coverUrl: value(site?.coverUrl),
     mosaicPhotos: site?.mosaicPhotos ?? [],
@@ -243,89 +195,25 @@ export function instagramLink(handle: string) {
   return `https://instagram.com/${handle.replace(/^@/, "")}`;
 }
 
-export const SECTION_TYPES: {
-  value: SiteSection["type"];
-  label: string;
-  description: string;
-  layouts: { value: SectionLayout; label: string }[];
-}[] = [
-  {
-    value: "location",
-    label: "Ubicación",
-    description:
-      "Una zona con foto, texto y sus propiedades. Ideal para Ibiza, Grecia o tu barrio.",
-    layouts: [
-      { value: "split", label: "Destacado" },
-      { value: "banner", label: "Banner" },
-      { value: "carousel", label: "Carrusel" },
-    ],
-  },
-  {
-    value: "promo",
-    label: "Promoción",
-    description:
-      "Propiedades con una etiqueta como “15% OFF” u “Oferta de temporada”.",
-    layouts: [
-      { value: "band", label: "Banda de color" },
-      { value: "banner", label: "Banner con foto" },
-      { value: "carousel", label: "Carrusel" },
-    ],
-  },
-  {
-    value: "featured",
-    label: "Propiedades destacadas",
-    description:
-      "Una selección tuya: lo más nuevo, frente al mar, las más pedidas.",
-    layouts: [
-      { value: "grid", label: "Grilla" },
-      { value: "carousel", label: "Carrusel" },
-    ],
-  },
-  {
-    value: "destinations",
-    label: "Destinos",
-    description:
-      "Varias zonas a la vez, cada una con su foto. Al tocar una, se filtra el listado.",
-    layouts: [
-      { value: "tiles", label: "Mosaico" },
-      { value: "carousel", label: "Carrusel" },
-    ],
-  },
-  {
-    value: "text",
-    label: "Texto e imagen",
-    description: "Contá algo propio: tus servicios, tasaciones, cómo trabajan.",
-    layouts: [
-      { value: "image-left", label: "Imagen a la izquierda" },
-      { value: "image-right", label: "Imagen a la derecha" },
-      { value: "centered", label: "Solo texto" },
-    ],
-  },
-  {
-    value: "cta",
-    label: "Llamado a la acción",
-    description:
-      "Una invitación con un botón, como “¿Querés vender tu propiedad?”.",
-    layouts: [
-      { value: "color", label: "Color" },
-      { value: "photo", label: "Con foto" },
-    ],
-  },
+/** Their names, descriptions and layout names: "portalEditor.sections" in the messages. */
+export const SECTION_TYPES: { value: SiteSection["type"]; layouts: SectionLayout[] }[] = [
+  { value: "location", layouts: ["split", "banner", "carousel"] },
+  { value: "promo", layouts: ["band", "banner", "carousel"] },
+  { value: "featured", layouts: ["grid", "carousel"] },
+  { value: "destinations", layouts: ["tiles", "carousel"] },
+  { value: "text", layouts: ["image-left", "image-right", "centered"] },
+  { value: "cta", layouts: ["color", "photo"] },
 ];
 
-export const BUTTON_TARGETS: { value: ButtonTarget; label: string }[] = [
-  { value: "contact", label: "Formulario de contacto" },
-  { value: "whatsapp", label: "WhatsApp" },
-  { value: "properties", label: "Listado de propiedades" },
-];
+export const BUTTON_TARGETS: ButtonTarget[] = ["contact", "whatsapp", "properties"];
 
 /** The block's layout if it's one its type offers, its type's first layout otherwise. */
 export function sectionLayout(section: SiteSection): SectionLayout {
   const layouts =
     SECTION_TYPES.find((type) => type.value === section.type)?.layouts ?? [];
   return (
-    layouts.find((layout) => layout.value === section.layout)?.value ??
-    layouts[0]?.value ??
+    layouts.find((layout) => layout === section.layout) ??
+    layouts[0] ??
     "split"
   );
 }
@@ -336,7 +224,7 @@ export function newId() {
 
 export function newSection(type: SiteSection["type"]): SiteSection {
   const layout =
-    SECTION_TYPES.find((option) => option.value === type)?.layouts[0]?.value ??
+    SECTION_TYPES.find((option) => option.value === type)?.layouts[0] ??
     null;
   return {
     id: newId(),
@@ -359,10 +247,10 @@ export function newSection(type: SiteSection["type"]): SiteSection {
   };
 }
 
-/** "31 de diciembre" from "2026-12-31", read as a local date. */
-export function formatEndDate(iso: string) {
+/** "31 de diciembre" from "2026-12-31", read as a local date, in the language of `tag` (BCP 47). */
+export function formatEndDate(iso: string, tag: string) {
   const [year, month, day] = iso.split("-").map(Number);
-  return new Date(year, month - 1, day).toLocaleDateString("es-AR", {
+  return new Date(year, month - 1, day).toLocaleDateString(tag, {
     day: "numeric",
     month: "long",
   });

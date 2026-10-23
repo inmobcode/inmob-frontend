@@ -1,0 +1,152 @@
+{
+  "dashboard": {
+    "actionBar": {
+      "unsaved": "Nespremljene promjene",
+      "save": "Spremi",
+      "publish": "Objavi",
+      "cancel": "Odustani"
+    },
+    "help": {
+      "label": "Pomoć",
+      "newTab": "{label} (otvara se u novoj kartici)"
+    },
+    "filter": {
+      "by": "Filtriraj: {name}",
+      "showAll": "Prikaži sve"
+    },
+    "views": {
+      "change": "Promijeni prikaz",
+      "table": "Tablica",
+      "list": "Popis",
+      "grid": "Mreža",
+      "board": "Ploča"
+    },
+    "nav": {
+      "inquiries": "Upiti",
+      "clients": "Klijenti",
+      "properties": "Nekretnine",
+      "offers": "Ponude",
+      "bookings": "Rezervacije",
+      "availability": "Dostupnost",
+      "services": "Usluge",
+      "portal": "Web-stranica",
+      "team": "Tim",
+      "settings": "Postavke",
+      "unread": "{name}, nepročitano: {count}",
+      "expandMenu": "Proširi izbornik",
+      "collapseMenu": "Sažmi izbornik",
+      "expand": "Proširi",
+      "collapse": "Sažmi",
+      "openMenu": "Otvori izbornik",
+      "menu": "Izbornik",
+      "mainNav": "Glavna navigacija"
+    },
+    "assignee": {
+      "label": "Odgovorna osoba",
+      "nobody": "Nedodijeljeno",
+      "you": "Vi"
+    },
+    "userMenu": {
+      "appearance": "Izgled",
+      "theme": {
+        "light": "Svijetlo",
+        "dark": "Tamno",
+        "system": "Automatski"
+      },
+      "language": "Jezik",
+      "switchFailed": "Promjena agencije nije uspjela",
+      "switchAgency": "Promijeni agenciju",
+      "portalLinkCopied": "Poveznica na stranicu kopirana",
+      "linkCopyFailed": "Poveznicu nije moguće kopirati",
+      "nameFallback": "Vaše ime",
+      "profile": "Moj profil",
+      "settings": "Postavke",
+      "viewPortal": "Pogledaj moju stranicu",
+      "copyPortalLink": "Kopiraj poveznicu na stranicu",
+      "docs": "Dokumentacija",
+      "search": "Pretraga i naredbe",
+      "shortcuts": "Tipkovni prečaci",
+      "help": "Pomoć i podrška",
+      "logout": "Odjava"
+    },
+    "shortcuts": {
+      "go": {
+        "properties": "Nekretnine",
+        "offers": "Ponude",
+        "clients": "Klijenti",
+        "inquiries": "Upiti",
+        "bookings": "Rezervacije",
+        "availability": "Dostupnost",
+        "team": "Tim",
+        "portal": "Web-stranica",
+        "settings": "Postavke",
+        "profile": "Moj profil"
+      },
+      "help": {
+        "general": "Općenito",
+        "goTo": "Idi na",
+        "lists": "U popisima",
+        "palette": "Pretraži i pokreni naredbe",
+        "sidebar": "Sažmi ili proširi bočni izbornik",
+        "save": "Spremi promjene obrasca",
+        "help": "Prikaži tipkovne prečace",
+        "new": "Izradi novo",
+        "search": "Idi na pretragu",
+        "filter": "Otvori filtar",
+        "views": "Prikaz mreže, popisa ili tablice",
+        "move": "Kretanje gore-dolje kroz stavke",
+        "open": "Otvori odabranu stavku",
+        "clear": "Poništi odabir"
+      },
+      "groups": {
+        "go": "Idi na",
+        "create": "Izradi",
+        "actions": "Radnje",
+        "properties": "Nekretnine",
+        "offers": "Ponude",
+        "clients": "Klijenti"
+      },
+      "commands": {
+        "docs": "Dokumentacija",
+        "newProperty": "Nova nekretnina",
+        "newOffer": "Nova ponuda",
+        "newClient": "Novi klijent",
+        "newBooking": "Nova rezervacija",
+        "newMember": "Pozovi člana",
+        "light": "Svijetli način",
+        "dark": "Tamni način",
+        "system": "Automatski način",
+        "sidebar": "Sažmi ili proširi izbornik",
+        "logout": "Odjava"
+      },
+      "paletteTitle": "Pretraži i pokreni naredbe",
+      "paletteDescription": "Upišite za pretragu stranica, nekretnina, ponuda ili klijenata.",
+      "palettePlaceholder": "Pretraži stranicu, nekretninu, ponudu ili klijenta…",
+      "paletteSearch": "Pretraži naredbe",
+      "nothingFor": "Ništa nije pronađeno za „{query}”.",
+      "helpTitle": "Tipkovni prečaci",
+      "helpDescription": "Za brži rad bez puštanja tipkovnice.",
+      "then": "zatim",
+      "nothingToSave": "Nema promjena za spremanje"
+    },
+    "notifications": {
+      "deleteFailed": "Obavijest nije moguće izbrisati",
+      "label": "Obavijesti",
+      "labelUnread": "Obavijesti, nepročitano: {count}",
+      "markAll": "Označi sve",
+      "empty": "Još nema novosti. Ovdje će se pojavljivati upiti, otvorene ponude i plaćanja.",
+      "unread": "Nepročitano",
+      "delete": "Izbriši «{title}»",
+      "deleteShort": "Izbriši",
+      "types": {
+        "inquiry": "Novi upit od {name}",
+        "inquiryNoMessage": "Ostavio je kontakt podatke.",
+        "offerViewed": "{who} je otvorio ponudu",
+        "offerViewedAnon": "Vaš klijent je otvorio ponudu",
+        "payment": "Evidentirana uplata: {amount}",
+        "task": "Dodijeljen vam je zadatak",
+        "taskDue": "{title} · do {date}"
+      }
+    }
+  }
+}

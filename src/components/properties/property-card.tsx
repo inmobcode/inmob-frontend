@@ -1,7 +1,6 @@
-import { formatDistanceToNow } from "date-fns";
-import { es } from "date-fns/locale";
 import { Bath, BedDouble, Building2, Camera, Clock, LandPlot, MapPin, Ruler } from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 
 import type { Property } from "@/lib/api/properties";
@@ -13,7 +12,8 @@ import {
   type PropertyActions,
 } from "@/components/properties/property-controls";
 import { StatusPill } from "@/components/properties/status-pill";
-import { categoryLabel, LISTING_TYPE_LABELS } from "@/lib/properties-labels";
+import { useFormat } from "@/i18n/format";
+import { useLabels } from "@/lib/labels";
 import { parseApiDate } from "@/lib/dates";
 import { cn } from "@/lib/utils";
 import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
@@ -23,10 +23,6 @@ export function coverOf(property: Property) {
   return photos.find((photo) => photo.isCover) ?? photos[0] ?? null;
 }
 
-function formatAmount(property: Property) {
-  if (!property.price) return null;
-  return property.price.toLocaleString("es-AR");
-}
 
 export function initials(name: string) {
   return (
@@ -77,13 +73,15 @@ export function PropertyCard({
   selecting?: boolean;
   onToggle?: () => void;
 }) {
+  const t = useTranslations("properties.card");
+  const labels = useLabels();
+  const { number, ago } = useFormat();
   const { agencySlug } = useParams<{ agencySlug: string }>();
   const cover = coverOf(property);
-  const amount = formatAmount(property);
+  const amount = property.price ? number(property.price) : null;
   const location = [property.area, property.region, property.country].filter(Boolean).join(", ");
-  const updated = formatDistanceToNow(parseApiDate(property.updatedAt), { addSuffix: true, locale: es });
+  const updated = ago(parseApiDate(property.updatedAt));
   const archived = property.status === "ARCHIVED";
-  const number = (value: number) => value.toLocaleString("es-AR");
 
   const inner = (
     <>
@@ -123,7 +121,7 @@ export function PropertyCard({
             <SelectToggle
               checked={selected}
               onToggle={onToggle}
-              label={selected ? `Quitar ${property.title} de la selección` : `Seleccionar ${property.title}`}
+              label={selected ? t("unselect", { title: property.title }) : t("select", { title: property.title })}
             />
             <div className="flex items-center gap-1.5">
               <ViewOnSiteButton property={property} />
@@ -136,7 +134,7 @@ export function PropertyCard({
       <div className="flex flex-1 flex-col gap-4 p-5">
         <div className="flex flex-col gap-1.5">
           <p className="text-xs font-medium text-primary">
-            {LISTING_TYPE_LABELS[property.listingType]} · {categoryLabel(property.category)}
+            {labels.listingType(property.listingType)} · {labels.category(property.category)}
           </p>
           <h3 className="font-display text-xl leading-tight text-balance line-clamp-2" title={property.title}>
             {property.title}
@@ -158,28 +156,28 @@ export function PropertyCard({
                 <span className="text-2xl leading-none font-semibold tracking-tight">{amount}</span>
               </>
             ) : (
-              <span className="text-lg leading-none font-medium text-muted-foreground">Precio a consultar</span>
+              <span className="text-lg leading-none font-medium text-muted-foreground">{t("priceOnRequest")}</span>
             )}
           </p>
 
           <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-sm tabular-nums">
             {property.bedrooms != null && (
-              <Spec icon={BedDouble} label={`${number(property.bedrooms)} dormitorios`}>
+              <Spec icon={BedDouble} label={t("bedrooms", { count: property.bedrooms, value: number(property.bedrooms) })}>
                 {number(property.bedrooms)}
               </Spec>
             )}
             {property.bathrooms != null && (
-              <Spec icon={Bath} label={`${number(property.bathrooms)} baños`}>
+              <Spec icon={Bath} label={t("bathrooms", { count: property.bathrooms, value: number(property.bathrooms) })}>
                 {number(property.bathrooms)}
               </Spec>
             )}
             {property.areaSqm != null && (
-              <Spec icon={Ruler} label={`${number(property.areaSqm)} metros cuadrados construidos`}>
+              <Spec icon={Ruler} label={t("builtArea", { value: number(property.areaSqm) })}>
                 {number(property.areaSqm)} m²
               </Spec>
             )}
             {property.plotArea != null && (
-              <Spec icon={LandPlot} label={`${number(property.plotArea)} metros cuadrados de terreno`}>
+              <Spec icon={LandPlot} label={t("plotArea", { value: number(property.plotArea) })}>
                 {number(property.plotArea)} m²
               </Spec>
             )}
@@ -189,14 +187,14 @@ export function PropertyCard({
             <StatusPill status={property.status} />
             <div className="ml-auto flex min-w-0 items-center gap-3">
               {property.owner && (
-                <span className="inline-flex min-w-0 items-center gap-1.5" title={`Propietario: ${property.owner.name}`}>
+                <span className="inline-flex min-w-0 items-center gap-1.5" title={t("owner", { name: property.owner.name })}>
                   <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-secondary text-[0.6rem] font-semibold text-secondary-foreground">
                     {initials(property.owner.name)}
                   </span>
                   <span className="truncate">{property.owner.name}</span>
                 </span>
               )}
-              <span className="inline-flex shrink-0 items-center gap-1" title={`Actualizada ${updated}`}>
+              <span className="inline-flex shrink-0 items-center gap-1" title={t("updated", { ago: updated })}>
                 <Clock className="size-3" />
                 {updated}
               </span>

@@ -1,0 +1,283 @@
+{
+  "labels": {
+    "listingType": {
+      "SALE": "Πώληση",
+      "RENT": "Ενοικίαση"
+    },
+    "propertyStatus": {
+      "DRAFT": "Πρόχειρο",
+      "PUBLISHED": "Δημοσιευμένο",
+      "ARCHIVED": "Αρχειοθετημένο"
+    },
+    "offerOperation": {
+      "SALE": "Πώληση",
+      "RENT": "Ενοικίαση",
+      "BOTH": "Πώληση και ενοικίαση"
+    },
+    "offerStatus": {
+      "DRAFT": "Πρόχειρη",
+      "SENT": "Απεσταλμένη",
+      "VIEWED": "Προβλήθηκε",
+      "EXPIRED": "Έληξε"
+    },
+    "discountType": {
+      "NONE": "Χωρίς έκπτωση",
+      "PERCENT": "Ποσοστό",
+      "FIXED": "Σταθερό ποσό"
+    },
+    "clientStage": {
+      "LEAD": "Δυνητικός",
+      "CONTACTED": "Σε επαφή",
+      "NEGOTIATING": "Σε διαπραγμάτευση",
+      "CLIENT": "Πελάτης",
+      "LOST": "Χάθηκε"
+    },
+    "bookingStatus": {
+      "PENDING": "Σε εκκρεμότητα",
+      "CONFIRMED": "Επιβεβαιωμένη",
+      "CANCELLED": "Ακυρωμένη",
+      "COMPLETED": "Ολοκληρωμένη"
+    },
+    "paymentType": {
+      "DEPOSIT": "Προκαταβολή",
+      "BALANCE": "Υπόλοιπο",
+      "COMMISSION": "Προμήθεια"
+    },
+    "category": {
+      "HOUSE": "Μονοκατοικία",
+      "APARTMENT": "Διαμέρισμα",
+      "PENTHOUSE": "Ρετιρέ",
+      "VILLA": "Βίλα",
+      "CHALET": "Σαλέ",
+      "SEASONAL_PROPERTY": "Εποχική μίσθωση",
+      "MAISONETTE": "Μεζονέτα",
+      "DETACHED_VILLA": "Ανεξάρτητη βίλα",
+      "SEMI_DETACHED_VILLA": "Δίδυμη βίλα",
+      "HOTEL": "Ξενοδοχείο",
+      "TOWNHOUSE": "Σπίτι σε σειρά",
+      "CONDO": "Συγκρότημα κατοικιών",
+      "BUILDING": "Κτίριο",
+      "LAND": "Οικόπεδο",
+      "COMMERCIAL": "Επαγγελματικός χώρος",
+      "OFFICE": "Γραφείο"
+    },
+    "locationCategory": {
+      "PRIVATE": "Ιδιωτική",
+      "PART_OF_COMPLEX": "Σε συγκρότημα",
+      "PART_OF_HOTEL": "Σε ξενοδοχείο",
+      "PART_OF_RESORT": "Σε θέρετρο"
+    },
+    "locationFeature": {
+      "Waterfront": "Δίπλα στο νερό",
+      "Prime Waterfront": "Πρώτη γραμμή στο νερό",
+      "Beachfront": "Πάνω στην παραλία",
+      "Resort Access": "Πρόσβαση σε θέρετρο",
+      "Walking distance to a village": "Με τα πόδια από χωριό",
+      "Private": "Ιδιωτική",
+      "City": "Πόλη",
+      "Downtown": "Κέντρο",
+      "Seaside": "Παραθαλάσσια",
+      "Mountain": "Βουνό",
+      "Private beach/sea access": "Ιδιωτική πρόσβαση σε παραλία ή θάλασσα",
+      "Walking distance to the beach": "Με τα πόδια από την παραλία",
+      "Walking distance to town": "Με τα πόδια από το κέντρο",
+      "Ski in/Ski out": "Ski in / ski out",
+      "Sea Access": "Πρόσβαση στη θάλασσα",
+      "Beach Access": "Πρόσβαση στην παραλία"
+    },
+    "view": {
+      "Sea View": "Θέα θάλασσα",
+      "Direct Sea View": "Απευθείας θέα θάλασσα",
+      "City View": "Θέα πόλη",
+      "Nature View": "Θέα στη φύση",
+      "Panoramic View": "Πανοραμική θέα",
+      "Lake View": "Θέα λίμνη",
+      "Forest View": "Θέα δάσος",
+      "Sunset View": "Θέα ηλιοβασίλεμα",
+      "Sunrise View": "Θέα ανατολή",
+      "Mountain View": "Θέα βουνό",
+      "Town View": "Θέα οικισμό",
+      "Ocean View": "Θέα ωκεανό",
+      "Water View": "Θέα στο νερό"
+    },
+    "outdoorAmenity": {
+      "Pool": "Πισίνα",
+      "Rooftop Pool": "Πισίνα στην ταράτσα",
+      "Plunge Pool": "Πισίνα εμβάπτισης",
+      "Pool Bar": "Μπαρ πισίνας",
+      "Heated pool": "Θερμαινόμενη πισίνα",
+      "Jacuzzi": "Τζακούζι",
+      "Outdoor kitchen": "Εξωτερική κουζίνα",
+      "Outdoor Gym": "Εξωτερικό γυμναστήριο",
+      "Dining & Lounge Area": "Χώρος φαγητού και χαλάρωσης",
+      "Cinema": "Κινηματογράφος",
+      "Ice plunge": "Λουτρό πάγου",
+      "Sauna": "Σάουνα",
+      "Playground": "Παιδική χαρά",
+      "Helipad": "Ελικοδρόμιο",
+      "Private Dock": "Ιδιωτική προβλήτα",
+      "Access to a dock": "Πρόσβαση σε προβλήτα",
+      "Private Parking": "Ιδιωτικό πάρκινγκ",
+      "BBQ": "Μπάρμπεκιου",
+      "Tennis Court": "Γήπεδο τένις",
+      "Basketball Court": "Γήπεδο μπάσκετ",
+      "Ski in/out": "Ski in / out",
+      "Sun Deck": "Ηλιακή βεράντα",
+      "Fire Pit": "Εστία φωτιάς",
+      "Outdoor Fireplace": "Εξωτερικό τζάκι",
+      "Roof Terrace": "Ταράτσα",
+      "Yoga Shala": "Χώρος γιόγκα",
+      "Landscaped Gardens": "Διαμορφωμένοι κήποι",
+      "Boxing Ring": "Ρινγκ πυγμαχίας",
+      "Golf": "Γκολφ",
+      "Beach Volleyball Court": "Γήπεδο beach volley",
+      "Children's Play Area": "Παιδότοπος",
+      "Outdoor Shower": "Εξωτερικό ντους",
+      "Sound System": "Ηχοσύστημα",
+      "Gated Property": "Περιφραγμένο ακίνητο",
+      "Table tennis": "Πινγκ πονγκ",
+      "CCTV Camera": "Κάμερες CCTV"
+    },
+    "indoorAmenity": {
+      "Indoor Pool": "Εσωτερική πισίνα",
+      "Gym": "Γυμναστήριο",
+      "Fitness room": "Αίθουσα fitness",
+      "Hammam": "Χαμάμ",
+      "Sauna": "Σάουνα",
+      "Massage room": "Αίθουσα μασάζ",
+      "Home Cinema": "Οικιακός κινηματογράφος",
+      "Club": "Κλαμπ",
+      "Elevator": "Ανελκυστήρας",
+      "Spa Area": "Χώρος σπα",
+      "Professional Kitchen": "Επαγγελματική κουζίνα",
+      "Wine Cellar": "Κάβα κρασιών",
+      "Fireplace": "Τζάκι",
+      "Ski Room": "Αποθήκη σκι",
+      "Cigar Lounge": "Σαλόνι πούρων",
+      "Laundry Facilities": "Πλυσταριό",
+      "Spa and Wellness Centre": "Κέντρο σπα και ευεξίας",
+      "Game Room": "Αίθουσα παιχνιδιών",
+      "Billiard": "Μπιλιάρδο",
+      "Playroom": "Παιδικό δωμάτιο παιχνιδιών",
+      "Music/Recording Studio": "Μουσικό στούντιο ή στούντιο ηχογράφησης",
+      "Staff quarters": "Χώροι προσωπικού",
+      "Smart Home Technology": "Έξυπνο σπίτι",
+      "Office/Workspace": "Γραφείο ή χώρος εργασίας",
+      "Children's Play Area": "Παιδότοπος",
+      "Alarm System": "Σύστημα συναγερμού",
+      "Safe Boxes": "Χρηματοκιβώτια",
+      "Fully equipped kitchen": "Πλήρως εξοπλισμένη κουζίνα",
+      "Airconditioning": "Κλιματισμός",
+      "Underfloor heating": "Ενδοδαπέδια θέρμανση",
+      "Solar panels": "Ηλιακά πάνελ",
+      "Security cameras": "Κάμερες ασφαλείας",
+      "Central heating": "Κεντρική θέρμανση",
+      "Double glazed windows": "Διπλά τζάμια",
+      "Security system": "Σύστημα ασφαλείας",
+      "Wood flooring": "Ξύλινο δάπεδο",
+      "Internal staircase": "Εσωτερική σκάλα"
+    },
+    "propertyCondition": {
+      "Fully staffed": "Πλήρες προσωπικό",
+      "Semi staffed": "Μερικό προσωπικό",
+      "Housekeeping & Daily cleaning": "Καθημερινός καθαρισμός",
+      "Suitable for children": "Κατάλληλο για παιδιά",
+      "Suitable for events": "Κατάλληλο για εκδηλώσεις",
+      "Suitable for the disabled": "Προσβάσιμο σε άτομα με αναπηρία",
+      "Pet friendly": "Επιτρέπονται κατοικίδια",
+      "For Sale": "Προς πώληση",
+      "Under Contract": "Υπό σύμβαση",
+      "Sold": "Πωλήθηκε",
+      "New Construction": "Νεόδμητο",
+      "Renovated": "Ανακαινισμένο",
+      "Investment Property": "Επενδυτικό ακίνητο",
+      "Luxury Property": "Ακίνητο πολυτελείας"
+    },
+    "includedService": {
+      "Housekeeping": "Καθαριότητα",
+      "Daily housekeeping": "Καθημερινή καθαριότητα",
+      "Pool Maintenance": "Συντήρηση πισίνας",
+      "Change of linen": "Αλλαγή σεντονιών",
+      "Change of towels": "Αλλαγή πετσετών",
+      "24/7 Reception": "Ρεσεψιόν 24/7",
+      "Airport transfer": "Μεταφορά από/προς αεροδρόμιο",
+      "Concierge service": "Υπηρεσία concierge",
+      "Security": "Φύλαξη",
+      "Gardener": "Κηπουρός",
+      "Babysitting": "Babysitting",
+      "Laundry service": "Υπηρεσία πλυντηρίου",
+      "Daily breakfast": "Καθημερινό πρωινό",
+      "Car rental arrangement": "Οργάνωση ενοικίασης αυτοκινήτου",
+      "Grocery pre-stocking": "Ψώνια πριν την άφιξη"
+    },
+    "photoSection": {
+      "GENERAL": "Γενικά",
+      "BEDROOMS": "Υπνοδωμάτια",
+      "INDOOR_LIVING": "Εσωτερικοί χώροι",
+      "POOL": "Πισίνα",
+      "OUTDOOR": "Εξωτερικοί χώροι",
+      "ADDED_FACILITIES": "Επιπλέον παροχές",
+      "VIEWS": "Θέα"
+    },
+    "poolType": {
+      "Private": "Ιδιωτική",
+      "Shared": "Κοινόχρηστη",
+      "Infinity": "Infinity",
+      "Heated": "Θερμαινόμενη",
+      "Plunge Pool": "Πισίνα εμβάπτισης",
+      "Indoor Pool": "Εσωτερική πισίνα",
+      "Child-Friendly Pool": "Κατάλληλη για παιδιά"
+    },
+    "jacuzziType": {
+      "Portable Hot Tub": "Φορητή μπανιέρα υδρομασάζ",
+      "In-Ground Jacuzzi": "Χωνευτό τζακούζι",
+      "Portable Jacuzzi": "Φορητό τζακούζι",
+      "Custom-Built Jacuzzi": "Τζακούζι κατά παραγγελία",
+      "Outdoor Jacuzzi": "Εξωτερικό τζακούζι",
+      "Indoor Jacuzzi": "Εσωτερικό τζακούζι",
+      "Jacuzzi with Waterfall": "Τζακούζι με καταρράκτη",
+      "Jacuzzi with LED Lighting": "Τζακούζι με φωτισμό LED"
+    },
+    "energyCertificate": {
+      "under_publication": "Σε εξέλιξη"
+    },
+    "serviceType": {
+      "BUTLER": "Μπάτλερ",
+      "CHEF": "Ιδιωτικός σεφ",
+      "YACHT": "Σκάφη και γιοτ",
+      "TRANSFER": "Μεταφορές",
+      "CAR": "Ενοικίαση αυτοκινήτου",
+      "EXCURSION": "Εκδρομές",
+      "SPA": "Σπα και ευεξία",
+      "BABYSITTER": "Μπέιμπι σίτερ",
+      "HOUSEKEEPING": "Επιπλέον καθαριότητα",
+      "EVENT": "Εκδηλώσεις",
+      "OTHER": "Άλλο"
+    },
+    "serviceUnit": {
+      "SERVICE": "Ανά υπηρεσία",
+      "PERSON": "Ανά άτομο",
+      "DAY": "Ανά ημέρα",
+      "NIGHT": "Ανά νύχτα",
+      "HOUR": "Ανά ώρα"
+    },
+    "serviceUnitPer": {
+      "PERSON": "ανά άτομο",
+      "DAY": "ανά ημέρα",
+      "NIGHT": "ανά νύχτα",
+      "HOUR": "ανά ώρα"
+    },
+    "serviceUnitCount": {
+      "SERVICE": "{count, plural, one {# φορά} other {# φορές}}",
+      "PERSON": "{count, plural, one {# άτομο} other {# άτομα}}",
+      "DAY": "{count, plural, one {# ημέρα} other {# ημέρες}}",
+      "NIGHT": "{count, plural, one {# νύχτα} other {# νύχτες}}",
+      "HOUR": "{count, plural, one {# ώρα} other {# ώρες}}"
+    },
+    "clientSource": {
+      "WEBSITE": "Ιστοσελίδα",
+      "MANUAL": "Χειροκίνητη καταχώριση",
+      "OFFER": "Προσφορά"
+    }
+  }
+}

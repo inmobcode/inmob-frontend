@@ -1,0 +1,171 @@
+{
+  "meta": {
+    "description": "Management software for real estate agencies: properties, offers, bookings and your agency's website.",
+    "ogAlt": "Tivvo · Management software for estate agencies",
+    "ogTitle": "One place for your properties, offers and bookings",
+    "ogSubtitle": "Management software for sales and holiday rental agencies."
+  },
+  "notFound": {
+    "metaTitle": "Page not found",
+    "code": "Error 404",
+    "title": "This address isn't on the map.",
+    "tail": "It may have moved or may no longer be published.",
+    "searchLabel": "Search the help centre",
+    "searchPlaceholder": "What were you looking for? Try “booking”",
+    "search": "Search",
+    "otherPlaces": "Other places",
+    "stillLost": "Still lost? Write to us at",
+    "links": {
+      "home": {
+        "label": "Home",
+        "hint": "What Tivvo is and how it works"
+      },
+      "help": {
+        "label": "Help",
+        "hint": "Answers and contact"
+      },
+      "login": {
+        "label": "Log in",
+        "hint": "Go to your agency's dashboard"
+      }
+    }
+  },
+  "language": {
+    "label": "Language",
+    "change": "Change language"
+  },
+  "common": {
+    "unexpectedError": "Unexpected error",
+    "linkCopied": "Link copied",
+    "linkCopyFailed": "Couldn't copy the link",
+    "actionFailed": "Couldn't complete the action",
+    "checkConnection": "Check your connection and try again.",
+    "back": "Back",
+    "cancel": "Cancel",
+    "saving": "Saving…",
+    "creating": "Creating…",
+    "optional": "(optional)",
+    "undo": "Undo",
+    "retry": "Try again",
+    "noMatchTitle": "Nothing matches that",
+    "clearFilters": "Clear filters",
+    "emailCopied": "Email copied",
+    "emailCopyFailed": "Couldn't copy the email",
+    "changesSaved": "Changes saved",
+    "saveFailed": "Couldn't save the changes",
+    "nameRequired": "Enter a name",
+    "emailInvalid": "Invalid email",
+    "checkFields": "Check the highlighted fields",
+    "save": "Save",
+    "help": "Help",
+    "datePicker": {
+      "previousMonth": "Previous month",
+      "nextMonth": "Next month",
+      "pickDate": "Pick a date",
+      "pickDates": "Pick the dates",
+      "pickCheckIn": "Pick the check-in",
+      "pickCheckOut": "Now pick the check-out",
+      "days": "{count, plural, one {# day} other {# days}}",
+      "nights": "{count, plural, one {# night} other {# nights}}",
+      "clear": "Clear",
+      "search": "Search…"
+    },
+    "combobox": {
+      "search": "Search…",
+      "empty": "Nothing matches."
+    },
+    "richText": {
+      "link": "Link",
+      "linkUrl": "Link address",
+      "done": "Done",
+      "removeLink": "Remove link",
+      "blockType": "Text type",
+      "blocks": {
+        "p": "Text",
+        "h2": "Heading",
+        "h3": "Subheading"
+      },
+      "bold": "Bold",
+      "italic": "Italic",
+      "bulletList": "Bulleted list",
+      "orderedList": "Numbered list"
+    }
+  },
+  "errors": {
+    "code": "Error {code}",
+    "otherPlaces": "Other places",
+    "server": {
+      "title": "Something went wrong on our side.",
+      "tail": "Try again; if it keeps happening, write to us.",
+      "retry": "Try again",
+      "home": "Go to the home page"
+    }
+  },
+  "trash": {
+    "restoreFailed": "Couldn't restore it",
+    "deleted": "Permanently deleted",
+    "deleteFailed": "Couldn't delete it",
+    "intro": "What you delete stays here for {days} days, in case you change your mind. After that it's deleted permanently.",
+    "loadFailed": "We couldn't load the trash.",
+    "emptyTitle": "The trash is empty",
+    "emptyBody": "When you delete something, it will show up here.",
+    "deletedAgo": "Deleted {ago}",
+    "goesToday": "deleted permanently today",
+    "goesIn": "{count, plural, one {deleted permanently in # day} other {deleted permanently in # days}}",
+    "restore": "Restore",
+    "deleteForever": "Delete permanently",
+    "confirmTitle": "Delete permanently?",
+    "confirmBody": "“{title}” will be deleted forever and can't be recovered.",
+    "link": "Trash",
+    "linkCount": "{count, plural, one {Trash, # item} other {Trash, # items}}",
+    "pages": {
+      "properties": {
+        "title": "Property trash",
+        "restored": "You restored the property",
+        "back": "Properties",
+        "untitled": "Property"
+      },
+      "offers": {
+        "title": "Offer trash",
+        "restored": "You restored the offer",
+        "back": "Offers",
+        "untitled": "Offer"
+      },
+      "bookings": {
+        "title": "Booking trash",
+        "restored": "You restored the booking",
+        "back": "Bookings",
+        "untitled": "Booking"
+      }
+    }
+  },
+  "pageTitles": {
+    "forgotPassword": "Recover your password",
+    "register": "Create your account",
+    "login": "Log in",
+    "clients": "Clients",
+    "settings": "Settings",
+    "offers": "Offers",
+    "bookings": "Bookings",
+    "inquiries": "Inquiries",
+    "profile": "My profile",
+    "properties": "Properties",
+    "import": "Import properties",
+    "team": "Team",
+    "services": "Services",
+    "portal": "Website",
+    "docs": "Documentation",
+    "authCallback": "Signing in",
+    "resetPassword": "Reset password"
+  },
+  "legal": {
+    "effective": "In force since",
+    "sections": "Sections",
+    "seeAlso": "See also",
+    "summary": "In a nutshell",
+    "summaryNote": "This summary helps you read the document but doesn't replace it: the full text is what applies.",
+    "brief": "In short:",
+    "nav": "Main",
+    "home": "Back to home"
+  }
+}

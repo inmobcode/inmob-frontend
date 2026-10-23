@@ -1,6 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ApiError } from "@/lib/api/client";
@@ -34,9 +35,9 @@ export function AssigneeSelect({
   value,
   onChange,
   disabled,
-  label = "Sin asignar",
+  label,
   className,
-  ariaLabel = "Responsable",
+  ariaLabel,
 }: {
   value: string | null | undefined;
   onChange: (userId: string | null) => void;
@@ -45,17 +46,18 @@ export function AssigneeSelect({
   className?: string;
   ariaLabel?: string;
 }) {
+  const t = useTranslations("dashboard.assignee");
   const user = useSessionUser();
   const { data: members } = useTeamMembers();
   if (!user || user.role === "AGENT") return null;
 
   return (
     <Select value={value ?? NOBODY} onValueChange={(next) => onChange(next === NOBODY ? null : next)} disabled={disabled}>
-      <SelectTrigger aria-label={ariaLabel} className={cn("h-10 w-full", className)}>
+      <SelectTrigger aria-label={ariaLabel ?? t("label")} className={cn("h-10 w-full", className)}>
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value={NOBODY}>{label}</SelectItem>
+        <SelectItem value={NOBODY}>{label ?? t("nobody")}</SelectItem>
         {members
           ?.filter((member) => member.isActive)
           .map((member) => (
@@ -70,9 +72,10 @@ export function AssigneeSelect({
 
 /** A teammate's name from the list, for read-only labels. */
 export function useMemberName(userId: string | null | undefined) {
+  const t = useTranslations("dashboard.assignee");
   const user = useSessionUser();
   const { data: members } = useTeamMembers();
   if (!userId) return null;
-  if (user?.id === userId) return "Vos";
+  if (user?.id === userId) return t("you");
   return members?.find((member) => member.id === userId)?.name ?? null;
 }

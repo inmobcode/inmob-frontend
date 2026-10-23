@@ -1,6 +1,7 @@
 "use client";
 
 import { Check } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import {
   DropdownMenu,
@@ -38,6 +39,7 @@ export function FilterMenu<T extends string>({
   onChange: (value: T[]) => void;
   counts: Record<string, number>;
 }) {
+  const t = useTranslations("dashboard.filter");
   const single = value.length === 1 ? options.find((option) => option.value === value[0]) : null;
   const label = value.length === 0 ? name : single ? single.label : `${value.length} ${plural}`;
 
@@ -51,7 +53,7 @@ export function FilterMenu<T extends string>({
         <button
           type="button"
           data-filter-menu
-          aria-label={`Filtrar por ${name.toLowerCase()}`}
+          aria-label={t("by", { name: name.toLowerCase() })}
           className="inline-flex h-10 items-center gap-2 rounded-full bg-foreground/[0.07] px-4 text-sm outline-none transition-colors hover:bg-foreground/10 focus-visible:ring-3 focus-visible:ring-ring/50 data-[state=open]:bg-card dark:bg-foreground/10 dark:hover:bg-foreground/15"
         >
           {label}
@@ -104,7 +106,7 @@ export function FilterMenu<T extends string>({
                 onChange([]);
               }}
             >
-              Mostrar todos
+              {t("showAll")}
             </DropdownMenuItem>
           </>
         )}

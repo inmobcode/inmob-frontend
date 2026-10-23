@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 import { LogoIcon } from "@/components/logo-icon";
@@ -88,6 +89,7 @@ export function StatusScreen({
   /** Inside the dashboard panel instead of filling the window. */
   compact?: boolean;
 }) {
+  const t = useTranslations("errors");
   const body = (
     <main className={cn("flex flex-1 flex-col bg-forest text-paper", compact && "rounded-2xl")}>
       {!compact && (
@@ -100,7 +102,7 @@ export function StatusScreen({
               <LogoIcon className="h-[0.95em] text-lime" />
               Tivvo
             </Link>
-            <span className="text-sm text-paper/55">Error {code}</span>
+            <span className="text-sm text-paper/55">{t("code", { code })}</span>
           </div>
         </header>
       )}
@@ -113,14 +115,14 @@ export function StatusScreen({
       >
         <Glyph code={code} searching={searching} compact={compact} />
         <h1 className="max-w-2xl font-logo text-2xl leading-snug font-medium tracking-tight sm:text-3xl">
-          <span className="sr-only">Error {code}. </span>
+          <span className="sr-only">{t("code", { code })}. </span>
           {title} <span className="text-paper/50">{tail}</span>
         </h1>
         {actions && <div className="flex flex-wrap items-center justify-center gap-3">{actions}</div>}
       </div>
 
       {links && links.length > 0 && (
-        <nav aria-label="Otros lugares" className="border-t border-paper/15">
+        <nav aria-label={t("otherPlaces")} className="border-t border-paper/15">
           <ul className="mx-auto grid max-w-[1440px] sm:grid-cols-3 sm:divide-x sm:divide-paper/15">
             {links.map((link) => (
               <li key={link.href} className="border-b border-paper/15 last:border-b-0 sm:border-b-0">

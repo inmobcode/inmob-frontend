@@ -1,0 +1,46 @@
+{
+  "settings": {
+    "errors": {
+      "slugRequired": "Ingresá una dirección",
+      "slugFormat": "Solo minúsculas, números y guiones"
+    },
+    "commissionShown": "El propietario ve la comisión",
+    "commissionHidden": "La comisión queda oculta",
+    "logoUpdated": "Logo actualizado",
+    "logoFailed": "No se pudo subir el logo",
+    "help": "Ayuda con la configuración",
+    "copyPortalLink": "Copiar link del portal",
+    "copyLink": "Copiar link",
+    "viewPortal": "Ver portal",
+    "customize": "Personalizar portal",
+    "agency": {
+      "title": "Tu agencia",
+      "description": "El nombre y el logo con los que te ven tus clientes.",
+      "changeLogo": "Cambiar el logo",
+      "change": "Cambiar",
+      "name": "Nombre de la agencia"
+    },
+    "portal": {
+      "title": "Portal público",
+      "description": "La página donde tus clientes ven tus propiedades.",
+      "slug": "Dirección del portal",
+      "slugWarning": "Cambiar la dirección rompe los links que ya compartiste.",
+      "contactEmail": "Email de contacto",
+      "contactEmailPlaceholder": "contacto@tuagencia.com"
+    },
+    "owner": {
+      "title": "Portal del propietario",
+      "description": "Qué ven tus propietarios en su link de acceso. Siempre ven lo cobrado, lo que les corresponde y lo liquidado.",
+      "switchLabel": "Mostrar la comisión en el portal del propietario",
+      "showCommission": "Mostrar la comisión de la agencia",
+      "showCommissionHint": "Apagado, el propietario ve cuánto le corresponde pero no cuánto se descontó. Se guarda al cambiarlo."
+    },
+    "preferences": {
+      "title": "Preferencias",
+      "description": "Cómo se muestran los textos y los precios por defecto.",
+      "language": "Idioma del portal",
+      "languageHint": "Los links que compartís (portal, ofertas, reservas, propietarios) se abren en este idioma. Tus clientes pueden cambiarlo desde la página.",
+      "currency": "Moneda por defecto"
+    }
+  }
+}

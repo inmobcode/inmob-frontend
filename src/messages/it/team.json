@@ -1,0 +1,83 @@
+{
+  "team": {
+    "active": "Attivo",
+    "inactive": "Inattivo",
+    "member": "Membro",
+    "role": "Ruolo",
+    "status": "Stato",
+    "actionsColumn": "Azioni",
+    "memberSince": "Nel team dal {date}",
+    "since": "Dal {date}",
+    "memberSinceColumn": "Nel team dal",
+    "roles": {
+      "OWNER": "Titolare",
+      "ADMIN": "Amministratore",
+      "AGENT": "Agente"
+    },
+    "rolePlurals": {
+      "OWNER": "Titolari",
+      "ADMIN": "Amministratori",
+      "AGENT": "Agenti"
+    },
+    "roleHints": {
+      "OWNER": "Titolare dell’account",
+      "ADMIN": "Gestisce team, immobili e offerte",
+      "AGENT": "Lavora con immobili, clienti e prenotazioni"
+    },
+    "menu": {
+      "actions": "Azioni per {name}",
+      "sendEmail": "Invia email",
+      "copyEmail": "Copia email",
+      "changeRole": "Cambia ruolo",
+      "deactivate": "Disattiva accesso",
+      "reactivate": "Riattiva accesso",
+      "remove": "Rimuovi dal team"
+    },
+    "invite": {
+      "linked": "Aveva già un account Tivvo: l’abbiamo aggiunto al tuo team",
+      "sent": "Gli abbiamo inviato l’accesso via email",
+      "title": "Invita membro",
+      "description": "Se ha già un account Tivvo lo aggiungiamo al tuo team; altrimenti gli inviamo l’accesso via email.",
+      "name": "Nome",
+      "namePlaceholder": "Es.: Rodrigo Sosa",
+      "emailPlaceholder": "nome@email.com",
+      "role": "Ruolo",
+      "submitting": "Invito in corso…",
+      "submit": "Invita"
+    },
+    "page": {
+      "updateFailed": "Impossibile salvare la modifica",
+      "removed": "Rimosso dal team",
+      "removeFailed": "Impossibile rimuovere dal team",
+      "roleChanged": "Nuovo ruolo: {role}",
+      "reactivated": "Accesso riattivato",
+      "deactivated": "Accesso disattivato",
+      "title": "Team",
+      "searchPlaceholder": "Cerca per nome o email",
+      "search": "Cerca nel team",
+      "role": "Ruolo",
+      "roles": "ruoli",
+      "help": "Assistenza sul team",
+      "loadFailed": "Non siamo riusciti a caricare il team",
+      "empty": {
+        "title": "Crea il tuo team",
+        "body": "Aggiungi amministratori e agenti per lavorare insieme.",
+        "help": "Cosa può fare ogni ruolo"
+      },
+      "noMatch": {
+        "title": "Nessuno corrisponde",
+        "body": "Prova un altro nome o togli il filtro per ruolo."
+      },
+      "deactivate": {
+        "title": "Disattivare l’accesso?",
+        "body": "{name} non potrà più entrare nell’account. I suoi immobili e clienti restano e puoi riattivarlo quando vuoi.",
+        "confirm": "Disattiva"
+      },
+      "remove": {
+        "title": "Rimuovere dal team?",
+        "body": "{name} perde l’accesso a questa agenzia. Il suo account non viene eliminato: se appartiene a un’altra agenzia, continua ad accedervi normalmente.",
+        "confirm": "Rimuovi"
+      }
+    }
+  }
+}

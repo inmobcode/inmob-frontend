@@ -1,9 +1,11 @@
 import { Globe, Lock } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { cn } from "@/lib/utils";
 
 /** Says whether a block reaches the public portal today. */
 export function Audience({ shown }: { shown: boolean }) {
+  const t = useTranslations("properties.audience");
   const Icon = shown ? Globe : Lock;
   return (
     <span
@@ -13,7 +15,7 @@ export function Audience({ shown }: { shown: boolean }) {
       )}
     >
       <Icon className="size-3" />
-      {shown ? "Se muestra en el portal" : "Solo interno"}
+      {shown ? t("shown") : t("internal")}
     </span>
   );
 }

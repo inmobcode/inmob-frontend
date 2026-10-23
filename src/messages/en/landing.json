@@ -1,0 +1,553 @@
+{
+  "landing": {
+    "plans": {
+      "free": {
+        "name": "Free",
+        "price": "Free",
+        "tagline": "To get started and try the system with a few properties.",
+        "features": {
+          "f1": "Up to 5 properties",
+          "f2": "1 user",
+          "f3": "Clients, inquiries and offers",
+          "f4": "Website on a Tivvo subdomain, Cover template and your colour"
+        },
+        "cta": "Start for free"
+      },
+      "pro": {
+        "name": "Pro",
+        "price": "USD 29.99",
+        "period": "/month",
+        "tagline": "For agencies that sell and rent every day.",
+        "features": {
+          "f1": "Unlimited properties and team",
+          "f2": "Bookings, availability and seasonal rates",
+          "f3": "Payments and owner statements",
+          "f4": "Full website editor: 5 templates, 8 typefaces and 6 block types",
+          "f5": "Tasks, notifications and team roles"
+        },
+        "cta": "Request a demo"
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "price": "Let's talk",
+        "tagline": "For agency networks or large teams.",
+        "features": {
+          "f1": "Everything in Pro",
+          "f2": "Multiple branches",
+          "f3": "Priority support",
+          "f4": "Advanced role permissions"
+        },
+        "cta": "Contact sales"
+      }
+    },
+    "faq": {
+      "both": {
+        "q": "Does it work for sales and rentals at the same time?",
+        "a": "Yes. Both operations live in the same system: sales with offers and commission, and holiday rentals with availability, seasonal rates, dated bookings and payments."
+      },
+      "migration": {
+        "q": "How long does the migration take?",
+        "a": "It depends on how much data you have and what format it's in. We look at your case in the demo and give you a specific date."
+      },
+      "address": {
+        "q": "What is my website's address?",
+        "a": "Your website lives on a Tivvo subdomain with your agency's name. We don't offer custom domains yet."
+      },
+      "privacy": {
+        "q": "Is my data mixed with other agencies' data?",
+        "a": "No. Each agency works in its own space and only its team can see its properties, clients and bookings."
+      },
+      "users": {
+        "q": "How many users can I have?",
+        "a": "One on the Free plan. Pro and Enterprise have no limit: bring your whole team."
+      },
+      "site": {
+        "q": "Can I customise my agency's website?",
+        "a": "Yes. You choose a template, colours and typefaces, and add your own blocks such as location, promotions, featured properties, destinations, text and calls to action. You see the result on desktop, tablet and mobile before publishing."
+      },
+      "team": {
+        "q": "What does each person on my team see?",
+        "a": "Agents see their properties, clients, offers and bookings, plus unassigned inquiries. Owners and administrators see everything and can reassign."
+      },
+      "owner": {
+        "q": "What does the owner see in their portal?",
+        "a": "Their properties, bookings and payments, with what was collected, the payouts and the balance. The agency's commission stays hidden unless you decide to show it."
+      }
+    },
+    "problem": {
+      "claim": "When the business grows, it gets messy.",
+      "rest": "Tivvo puts it in order.",
+      "problem": "Problem",
+      "solution": "Solution",
+      "items": {
+        "inquiries": {
+          "today": "Inquiries arrive from everywhere and nobody knows who answered them.",
+          "tivvo": "Every inquiry from your website lands in an inbox as a client, with an owner and its history."
+        },
+        "followUp": {
+          "today": "A client was left unanswered and you find out when they've already bought elsewhere.",
+          "tivvo": "Follow-up tasks with a date and an assignee, and a bell that flags what needs your attention."
+        },
+        "offers": {
+          "today": "Offers travel over WhatsApp and you don't know if the client opened them.",
+          "tivvo": "You send a link and see when it was opened and when it expires."
+        },
+        "calendar": {
+          "today": "The rental calendar lives in a spreadsheet and bookings overlap.",
+          "tivvo": "90-day availability: booked dates block themselves and you block the rest by dragging."
+        },
+        "payments": {
+          "today": "Payments live in a spreadsheet only one person understands.",
+          "tivvo": "Deposit, balance and commission for every booking, visible to the right people."
+        },
+        "owners": {
+          "today": "Owners call every week to ask how their property is doing.",
+          "tivvo": "A private link with their statement: what was collected, the payouts and the balance."
+        }
+      }
+    },
+    "flow": {
+      "claim": "One journey to sell and to rent.",
+      "rest": "Pick the operation.",
+      "operation": "Type of operation",
+      "modes": {
+        "sale": "Sale",
+        "rent": "Holiday rental"
+      },
+      "sale": {
+        "inquiry": {
+          "title": "Inquiry",
+          "text": "It comes from your website and becomes a client, without typing anything in."
+        },
+        "followUp": {
+          "title": "Follow-up",
+          "text": "Stage, notes and a history of calls, emails and viewings. The whole team sees the same."
+        },
+        "offer": {
+          "title": "Offer by link",
+          "text": "You put together an offer with several properties and discounts and share it. You see when it was opened and when it expires."
+        },
+        "tasks": {
+          "title": "Tasks and alerts",
+          "text": "You schedule the follow-up call with a date and an assignee. The bell tells you when the offer is opened."
+        },
+        "booking": {
+          "title": "Booking",
+          "text": "You create the booking with the client, the property and the offer price already filled in."
+        },
+        "payments": {
+          "title": "Payment and commission",
+          "text": "Deposit, balance and commission, with what's collected and what's left."
+        }
+      },
+      "rent": {
+        "inquiry": {
+          "title": "Inquiry",
+          "text": "The guest asks about dates from your website and is saved as a client."
+        },
+        "availability": {
+          "title": "Availability and rates",
+          "text": "A calendar per property and seasonal rates. You know what's free before you reply."
+        },
+        "offer": {
+          "title": "Offer by link",
+          "text": "You send a proposal with each property's price and discount, and see whether it was opened."
+        },
+        "tasks": {
+          "title": "Tasks and alerts",
+          "text": "You leave a task to get back in touch and the bell lets you know when the proposal is opened, so you call at the right time."
+        },
+        "booking": {
+          "title": "Dated booking",
+          "text": "Check-in, check-out, nights and total calculated. The dates get blocked."
+        },
+        "payments": {
+          "title": "Payments",
+          "text": "Deposit and balance with their status. The owner sees it from their portal."
+        }
+      }
+    },
+    "team": {
+      "claim": "Everyone sees what's theirs.",
+      "rest": "Each agent with their own login, and you in control.",
+      "roles": {
+        "owner": {
+          "name": "Owner",
+          "text": "Sees and controls everything, including the agency's settings, and reassigns clients and properties."
+        },
+        "admin": {
+          "name": "Administrator",
+          "text": "Manages the team and the whole agency's properties, offers and bookings, and reassigns who's in charge."
+        },
+        "agent": {
+          "name": "Agent",
+          "text": "Sees their properties, offers and bookings, their clients and the inquiries nobody has taken yet. Nothing else shows up."
+        }
+      }
+    },
+    "portals": {
+      "claim": "What outsiders see.",
+      "rest": "A private link for every owner and every client, no passwords.",
+      "owner": {
+        "title": "Owner portal",
+        "text": "Each owner sees their properties, bookings and payments, and their statement: what was collected, the payouts and the balance. The commission stays hidden unless you decide to show it. Fewer calls asking how things are going."
+      },
+      "booking": {
+        "title": "Booking for the client",
+        "text": "When a booking is created, confirmed or cancelled, the client gets an email with a link to their dates, the total and the payment status. No commission on show and nothing for you to forward."
+      }
+    },
+    "migration": {
+      "claim": "You don't start from scratch.",
+      "rest": "We bring your data over for you.",
+      "step": "Step {number}:",
+      "steps": {
+        "send": {
+          "title": "You send us your data",
+          "text": "Spreadsheets, exports or whatever you use today, even if it's messy."
+        },
+        "load": {
+          "title": "We load it and review it together",
+          "text": "We load your properties, owners and clients and check them with you before moving on."
+        },
+        "start": {
+          "title": "You start using it",
+          "text": "Your team logs in with their own access and the right role, and your website is ready to publish."
+        }
+      },
+      "otherSystem": "Is your data in another system? We'll look at it in the demo and give you a specific date.",
+      "cta": "Request a demo"
+    },
+    "plansSection": {
+      "label": "Plans and frequently asked questions",
+      "claim": "A plan for every stage of your agency.",
+      "rest": "Start for free and upgrade when you need it.",
+      "faq": "Frequently asked questions"
+    },
+    "demo": {
+      "errors": {
+        "name": "Enter your name",
+        "agency": "Enter your agency's name",
+        "email": "Check the email: the @ or the domain is missing",
+        "teamSize": "Choose your team size"
+      },
+      "failed": "We couldn't send the request. Try again in a few minutes.",
+      "claim": "Let's see your agency in Tivvo.",
+      "rest": "With your properties and your team.",
+      "sentTitle": "Request sent",
+      "sentText": "We'll write to you in the next few days to arrange the demo.",
+      "fields": {
+        "name": "Your name",
+        "agency": "Agency",
+        "email": "Work email"
+      },
+      "teamQuestion": "How many people are on the team?",
+      "teamLabel": "Team size",
+      "teamSizes": {
+        "solo": "Just me",
+        "small": "2 to 5",
+        "medium": "6 to 30",
+        "large": "More than 30"
+      },
+      "sending": "Sending…",
+      "submit": "Request a demo"
+    },
+    "meta": {
+      "title": "Tivvo · Real estate agency management software",
+      "description": "Add properties, build offers, track bookings and publish your agency's website from one place. For sales and holiday rental agencies.",
+      "keywords": "real estate software, real estate crm, property management, holiday rentals, real estate agency website"
+    },
+    "hero": {
+      "title": "From the first inquiry",
+      "titleTail": "to the last payment.",
+      "lead": "Your agency's properties, clients, offers, bookings, availability and payments in one system. With your own website, follow-up tasks and a portal for every owner.",
+      "demo": "Request a demo",
+      "how": "See how it works",
+      "sceneLabel": "A booking in Tivvo, step by step",
+      "scene": {
+        "inquiry": "The inquiry arrives",
+        "offer": "They open the offer",
+        "booking": "They confirm the booking",
+        "payment": "They pay the deposit"
+      },
+      "modulesLabel": "What's included",
+      "modules": {
+        "properties": "Properties",
+        "clients": "Clients",
+        "offers": "Offers",
+        "bookings": "Bookings",
+        "availability": "Availability",
+        "payments": "Payments",
+        "site": "Website",
+        "owners": "Owners"
+      }
+    },
+    "nav": {
+      "label": "Main",
+      "how": "How it works",
+      "site": "Website",
+      "portals": "Portals",
+      "migration": "Migration",
+      "plans": "Plans",
+      "help": "Help",
+      "login": "Log in",
+      "demo": "Request a demo"
+    },
+    "availability": {
+      "property": "Beachfront house",
+      "dayLabel": "{day}, {status, select, booked {booked} blocked {blocked} other {free}}",
+      "legend": "Key",
+      "booked": "Booked",
+      "blocked": "Blocked",
+      "free": "Free",
+      "rates": "Nightly rates",
+      "high": "High season",
+      "mid": "Mid season",
+      "low": "Low season",
+      "tryIt": "Try it: drag across the free days to block them.",
+      "claim": "Every night, under control.",
+      "rest": "No spreadsheets and no overlapping bookings.",
+      "facts": {
+        "grid": {
+          "title": "90 days at a glance",
+          "text": "A grid with all your properties. You see what's free before answering an inquiry."
+        },
+        "month": {
+          "title": "Month view",
+          "text": "Occupancy for every day. Pick a property and drag across the free nights to block them."
+        },
+        "rates": {
+          "title": "Seasonal rates",
+          "text": "You enter the nightly price for each period and the booking total is calculated for you."
+        },
+        "filters": {
+          "title": "Filters by date and area",
+          "text": "Ask for only the properties free from the 10th to the 17th in one location, and that's it."
+        }
+      }
+    },
+    "more": {
+      "claim": "And everything day to day.",
+      "rest": "The details that make the team actually use it.",
+      "items": {
+        "inbox": {
+          "title": "Inquiry inbox",
+          "text": "New and read, with a counter in the menu. Every inquiry creates or reuses the client and leaves a note with the property."
+        },
+        "board": {
+          "title": "Clients on a board",
+          "text": "Drag each client through the stages, or see them as a list. However each person prefers."
+        },
+        "tasks": {
+          "title": "Follow-up tasks",
+          "text": "A reminder with a date and an assignee inside every client, so nobody goes unanswered."
+        },
+        "notifications": {
+          "title": "Notifications",
+          "text": "A bell lets you know when an inquiry comes in, an offer is opened, a payment is recorded or you're assigned a task."
+        },
+        "services": {
+          "title": "Extra services",
+          "text": "Chef, yacht, transfers, excursions, spa. Build your library priced per person, day, night or hour and add them to the offer."
+        },
+        "pending": {
+          "title": "Pending bookings",
+          "text": "An unconfirmed booking shows on the calendar even though it doesn't block the dates yet. You see it coming before deciding."
+        }
+      }
+    },
+    "footer": {
+      "tagline": "Management software for sales and holiday rental agencies.",
+      "label": "Footer",
+      "legalLabel": "Legal",
+      "top": "Back to top",
+      "legal": {
+        "help": "Help",
+        "terms": "Terms and conditions",
+        "privacy": "Privacy"
+      },
+      "groups": {
+        "product": {
+          "title": "Product",
+          "how": "How it works",
+          "team": "Team and permissions",
+          "migration": "Migration"
+        },
+        "portals": {
+          "title": "Portals",
+          "site": "Your agency's website",
+          "owner": "Owner portal"
+        },
+        "start": {
+          "title": "Get started",
+          "demo": "Request a demo",
+          "plans": "Plans",
+          "faq": "FAQ"
+        },
+        "account": {
+          "title": "Account",
+          "login": "Log in",
+          "register": "Create account"
+        }
+      }
+    },
+    "siteEditor": {
+      "template": "Template",
+      "color": "Colour",
+      "fonts": "Typeface",
+      "blocks": "Blocks",
+      "blockNames": {
+        "promo": "Promotion",
+        "location": "Location",
+        "featured": "Featured"
+      },
+      "tryIt": "Try it: change the template, colour, typeface and blocks.",
+      "screen": "Screen size",
+      "desktop": "Desktop",
+      "mobile": "Mobile",
+      "previewLabel": "Website preview, scrollable",
+      "claim": "A website that looks like yours.",
+      "rest": "Build it your way, without asking a designer.",
+      "lead": "It's your agency's public website, with your brand and your properties, and you customise it: template, colours, typefaces and blocks. You see how it looks on desktop, tablet and mobile before publishing."
+    },
+    "preview": {
+      "searchLong": "Area, property type or price",
+      "searchShort": "Area, type or price",
+      "search": "Search",
+      "title": "Find your place.",
+      "subtitle": "Houses and apartments for sale and holiday rental.",
+      "nav": {
+        "properties": "Properties",
+        "about": "About us",
+        "contact": "Contact"
+      },
+      "contact": "Contact",
+      "results": "{count} results",
+      "promo": "October stays in La Barra",
+      "destination": "Destination",
+      "destinationText": "Sea, woods and sunsets. The best houses in the area, steps from the beach.",
+      "destinationCta": "See properties in La Barra",
+      "featured": "Featured properties",
+      "viewAll": "See all",
+      "kinds": {
+        "sale": "Sale",
+        "rent": "Rent"
+      },
+      "listings": {
+        "beach": "Beachfront house",
+        "view": "Apartment with a view",
+        "garden": "House with a garden"
+      },
+      "perMonth": "{price} / month"
+    },
+    "fragments": {
+      "new": "New",
+      "inquiry": {
+        "source": "Asked from your website",
+        "message": "Hi, is the house in La Barra free the last week of October? There are four of us."
+      },
+      "offerSeen": {
+        "title": "Beachfront house in La Barra",
+        "seen": "Viewed"
+      },
+      "booking": {
+        "title": "Booking confirmed",
+        "confirmed": "Confirmed",
+        "checkIn": "Check-in",
+        "checkOut": "Check-out",
+        "nights": "Nights"
+      },
+      "payment": {
+        "title": "Deposit received",
+        "left": "{left} left · commission {commission}"
+      },
+      "clients": {
+        "search": "Search clients",
+        "notes": {
+          "vr": "Came in from your website 3 min ago",
+          "me": "You sent the listing with the fees",
+          "cd": "Viewing on Saturday at 11",
+          "jb": "Signed for the shop"
+        }
+      },
+      "timeline": {
+        "since": "Client since September",
+        "daysAgo": "{count, plural, one {# day ago} other {# days ago}}",
+        "stage": "Stage",
+        "contact": "Contact",
+        "call": {
+          "type": "Call",
+          "text": "We agreed to arrange a second viewing for Saturday."
+        },
+        "visit": {
+          "type": "Viewing",
+          "text": "Toured the house in Olivos. Loved the garden, worried about the fees."
+        },
+        "email": {
+          "type": "Email",
+          "text": "We sent the three properties in the north."
+        }
+      },
+      "offer": {
+        "title": "Three options in the north",
+        "items": {
+          "olivos": "House in Olivos",
+          "vicenteLopez": "House in Vicente López",
+          "belgrano": "Apartment in Belgrano"
+        },
+        "total": "Offer total",
+        "opened": "Opened 5 minutes ago",
+        "expires": "Expires on {date}"
+      },
+      "saleBooking": {
+        "fromOffer": "created from the offer",
+        "price": "Price",
+        "commission": "Commission",
+        "agent": "Agent",
+        "reserved": "Reserved",
+        "hint": "Client, property and price came straight from the offer."
+      },
+      "payments": {
+        "saleTitle": "Sale payments",
+        "rentTitle": "Booking payments",
+        "deposit": "Deposit",
+        "balance": "Balance",
+        "onBooking": "On booking",
+        "onDeed": "On completion",
+        "onCheckIn": "At check-in",
+        "price": "Price",
+        "commission": "Commission (3%)",
+        "collected": "Collected",
+        "due": "Outstanding",
+        "nights": "Nights",
+        "total": "Total",
+        "paid": "Paid",
+        "pending": "Pending"
+      },
+      "calendar": {
+        "rates": "Nightly rates",
+        "high": "High season",
+        "mid": "Mid season",
+        "booked": "Booked"
+      },
+      "owner": {
+        "title": "Statement",
+        "property": "Beachfront house",
+        "collected": "Collected",
+        "paidOut": "Paid out",
+        "balance": "Balance",
+        "payout": "Payout",
+        "paid": "Paid"
+      },
+      "tasks": {
+        "call": "Call Valeria to close the offer",
+        "photos": "Send photos of the garden",
+        "today": "Today",
+        "tomorrow": "Tomorrow",
+        "opened": "Valeria opened the offer",
+        "ago": "2 minutes ago",
+        "title": "Follow-up tasks"
+      }
+    }
+  }
+}

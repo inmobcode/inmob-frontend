@@ -1,6 +1,7 @@
 "use client";
 
 import { SlidersHorizontal } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import { useMemo, useRef, useState } from "react";
 
 import { Segmented } from "@/components/properties/segmented";
@@ -34,29 +35,13 @@ import {
   DEFAULT_FILTERS,
   type PropertyFilters,
 } from "@/lib/property-filters";
-import { categoryLabel, LISTING_TYPE_LABELS, STATUS_LABELS } from "@/lib/properties-labels";
+import { useLabels } from "@/lib/labels";
 
 const STATUS_OPTIONS = ["PUBLISHED", "DRAFT", "ARCHIVED"] as const;
-const STATUS_PLURAL: Record<string, string> = {
-  PUBLISHED: STATUS_LABELS.PUBLISHED + "s",
-  DRAFT: STATUS_LABELS.DRAFT + "es",
-  ARCHIVED: STATUS_LABELS.ARCHIVED + "s",
-};
 
-const TYPE_OPTIONS = [
-  { value: "ALL", label: "Todo" },
-  { value: "SALE", label: LISTING_TYPE_LABELS.SALE },
-  { value: "RENT", label: LISTING_TYPE_LABELS.RENT },
-] as const;
-
-const MIN_OPTIONS = [
-  { value: "", label: "Todos" },
-  ...[1, 2, 3, 4, 5].map((n) => ({ value: String(n), label: `${n}+` })),
-];
-
-function unique(values: (string | null | undefined)[]) {
+function unique(values: (string | null | undefined)[], locale: string) {
   return [...new Set(values.filter((value): value is string => Boolean(value)))].sort((a, b) =>
-    a.localeCompare(b, "es"),
+    a.localeCompare(b, locale),
   );
 }
 
@@ -108,17 +93,30 @@ export function FiltersSheet({
   value: PropertyFilters;
   onApply: (filters: PropertyFilters) => void;
 }) {
+  const t = useTranslations("properties.filters");
+  const labels = useLabels();
+  const locale = useLocale();
   const iconRef = useRef<SVGSVGElement>(null);
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState(value);
 
-  const categories = useMemo(() => unique(properties.map((p) => p.category)), [properties]);
+  const typeOptions = [
+    { value: "ALL", label: t("allTypes") },
+    { value: "SALE", label: labels.listingType("SALE") },
+    { value: "RENT", label: labels.listingType("RENT") },
+  ] as const;
+  const minOptions = [
+    { value: "", label: t("any") },
+    ...[1, 2, 3, 4, 5].map((n) => ({ value: String(n), label: `${n}+` })),
+  ];
+
+  const categories = useMemo(() => unique(properties.map((p) => p.category), locale), [properties, locale]);
   // Any place a property is in (area, region or country), each spelled once.
   const places = useMemo(
     () => uniquePlaces(properties.flatMap((p) => [p.area, p.region, p.country])),
     [properties],
   );
-  const currencies = useMemo(() => unique(properties.map((p) => p.currency)), [properties]);
+  const currencies = useMemo(() => unique(properties.map((p) => p.currency), locale), [properties, locale]);
   const owners = useMemo(() => {
     const byId = new Map<string, string>();
     for (const property of properties) {
@@ -180,7 +178,7 @@ export function FiltersSheet({
             <Button
               variant="ghost"
               size="icon"
-              aria-label="Filtros"
+              aria-label={t("title")}
               className="relative size-10 shrink-0 bg-foreground/[0.07] hover:bg-foreground/10 dark:bg-foreground/10"
               onPointerEnter={wiggle}
               onFocus={wiggle}
@@ -195,59 +193,59 @@ export function FiltersSheet({
           </SheetTrigger>
         </TooltipTrigger>
         <TooltipContent side="bottom" sideOffset={10}>
-          Filtros
+          {t("title")}
         </TooltipContent>
       </Tooltip>
       <SheetContent side="right" className="w-full gap-0 overflow-hidden p-0 sm:max-w-md sm:rounded-l-[25px]">
         {/* Required by the dialog for screen readers, not shown. */}
-        <SheetTitle className="sr-only">Filtros</SheetTitle>
-        <SheetDescription className="sr-only">Combiná los filtros que necesites y aplicalos juntos.</SheetDescription>
+        <SheetTitle className="sr-only">{t("title")}</SheetTitle>
+        <SheetDescription className="sr-only">{t("description")}</SheetDescription>
 
         <div className="flex flex-1 flex-col gap-6 overflow-y-auto px-6 pt-8 pb-2">
-          <Section title="Estado">
+          <Section title={t("status")}>
             <ChipToggleGroup
-              label="Estado"
+              label={t("status")}
               options={[...STATUS_OPTIONS]}
-              labels={STATUS_PLURAL}
+              labelOf={(status) => t(`statusPlural.${status as (typeof STATUS_OPTIONS)[number]}`)}
               counts={statusCounts}
               value={draft.status}
               onChange={(status) => update({ status: status as PropertyFilters["status"] })}
             />
-            <p className="text-xs text-muted-foreground">Podés elegir más de uno. Sin elegir, se ven todas.</p>
+            <p className="text-xs text-muted-foreground">{t("statusHint")}</p>
           </Section>
 
-          <Section title="Tipo">
+          <Section title={t("type")}>
             <Segmented
-              label="Tipo"
+              label={t("type")}
               value={draft.type}
-              options={[...TYPE_OPTIONS]}
+              options={[...typeOptions]}
               onChange={(type) => update({ type })}
             />
           </Section>
 
           {categories.length > 0 && (
-            <Section title="Categoría">
+            <Section title={t("category")}>
               <SelectFilter
                 id="filter-category"
                 value={draft.category}
                 onChange={(category) => update({ category })}
-                allLabel="Todas"
-                options={categories.map((category) => ({ value: category, label: categoryLabel(category) }))}
+                allLabel={t("allCategories")}
+                options={categories.map((category) => ({ value: category, label: labels.category(category) }))}
               />
             </Section>
           )}
 
           {places.length > 0 && (
-            <Section title="Ubicación">
+            <Section title={t("location")}>
               <Combobox
                 id="filter-location"
-                ariaLabel="Ubicación"
+                ariaLabel={t("location")}
                 value={draft.region}
                 onChange={(region) => update({ region })}
                 allValue="ALL"
-                allLabel="Todas"
-                searchPlaceholder="Buscar ubicación…"
-                emptyText="Ninguna ubicación coincide."
+                allLabel={t("allLocations")}
+                searchPlaceholder={t("searchLocation")}
+                emptyText={t("noLocation")}
                 options={places.map((place) => ({ value: place, label: place }))}
                 className="rounded-xl"
               />
@@ -255,24 +253,24 @@ export function FiltersSheet({
           )}
 
           {owners.length > 0 && (
-            <Section title="Propietario">
+            <Section title={t("owner")}>
               <SelectFilter
                 id="filter-owner"
                 value={draft.owner}
                 onChange={(owner) => update({ owner })}
-                allLabel="Todos los propietarios"
+                allLabel={t("allOwners")}
                 options={owners}
               />
             </Section>
           )}
 
-          <Section title="Precio">
+          <Section title={t("price")}>
             {currencies.length > 1 && (
               <SelectFilter
                 id="filter-currency"
                 value={draft.currency}
                 onChange={(currency) => update({ currency })}
-                allLabel="Todas las monedas"
+                allLabel={t("allCurrencies")}
                 options={currencies.map((currency) => ({ value: currency, label: currency }))}
               />
             )}
@@ -280,8 +278,8 @@ export function FiltersSheet({
               <UnitInput
                 unit={priceUnit}
                 inputMode="numeric"
-                aria-label="Precio mínimo"
-                placeholder="Mínimo"
+                aria-label={t("minPrice")}
+                placeholder={t("min")}
                 value={draft.minPrice}
                 onChange={(event) => update({ minPrice: event.target.value.replace(/[^\d.,]/g, "") })}
                 className={priceUnit ? "pr-14" : undefined}
@@ -289,8 +287,8 @@ export function FiltersSheet({
               <UnitInput
                 unit={priceUnit}
                 inputMode="numeric"
-                aria-label="Precio máximo"
-                placeholder="Máximo"
+                aria-label={t("maxPrice")}
+                placeholder={t("max")}
                 value={draft.maxPrice}
                 onChange={(event) => update({ maxPrice: event.target.value.replace(/[^\d.,]/g, "") })}
                 className={priceUnit ? "pr-14" : undefined}
@@ -298,20 +296,20 @@ export function FiltersSheet({
             </div>
           </Section>
 
-          <Section title="Dormitorios">
+          <Section title={t("bedrooms")}>
             <Segmented
-              label="Dormitorios mínimos"
+              label={t("minBedrooms")}
               value={draft.minBedrooms}
-              options={MIN_OPTIONS}
+              options={minOptions}
               onChange={(minBedrooms) => update({ minBedrooms })}
             />
           </Section>
 
-          <Section title="Baños">
+          <Section title={t("bathrooms")}>
             <Segmented
-              label="Baños mínimos"
+              label={t("minBathrooms")}
               value={draft.minBathrooms}
-              options={MIN_OPTIONS}
+              options={minOptions}
               onChange={(minBathrooms) => update({ minBathrooms })}
             />
           </Section>
@@ -323,14 +321,10 @@ export function FiltersSheet({
             className="h-10"
             onClick={() => setDraft({ ...DEFAULT_FILTERS, search: value.search })}
           >
-            Limpiar
+            {t("clear")}
           </Button>
           <Button variant="highlight" className="h-10 flex-1" onClick={apply} disabled={resultCount === 0}>
-            {resultCount === 0
-              ? "Ninguna coincide"
-              : resultCount === 1
-                ? "Ver 1 propiedad"
-                : `Ver ${resultCount} propiedades`}
+            {t("show", { count: resultCount })}
           </Button>
         </SheetFooter>
       </SheetContent>

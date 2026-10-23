@@ -6,15 +6,18 @@
  */
 export type DocSectionId =
   | "primeros-pasos"
+  | "consultas"
+  | "clientes"
   | "propiedades"
   | "propietarios"
+  | "importar"
   | "ofertas"
-  | "servicios"
-  | "clientes"
-  | "consultas"
   | "reservas"
-  | "equipo"
+  | "disponibilidad"
+  | "servicios"
   | "portal"
+  | "lo-que-ven-tus-clientes"
+  | "equipo"
   | "configuracion"
   | "perfil"
   | "atajos";

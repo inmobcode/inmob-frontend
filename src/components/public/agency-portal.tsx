@@ -3,6 +3,7 @@
 import { placeMatches, uniquePlaces } from "@/lib/places";
 import { useQuery } from "@tanstack/react-query";
 import { Mail, MessageCircle, Phone, SlidersHorizontal, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 
@@ -34,7 +35,8 @@ import {
 } from "@/components/ui/select";
 import type { PublicAgency, SiteTemplate } from "@/lib/api/agency";
 import { listPublicProperties, type Property } from "@/lib/api/properties";
-import { LISTING_TYPE_LABELS, categoryLabel } from "@/lib/properties-labels";
+import { useFormat } from "@/i18n/format";
+import { useLabels } from "@/lib/labels";
 import { type ResolvedSite, whatsappLink } from "@/lib/site-theme";
 import { richTextHtml } from "@/lib/rich-text";
 import { cn } from "@/lib/utils";
@@ -186,6 +188,9 @@ export function AgencyPortal({
   initialProperties?: Property[];
   preview?: boolean;
 }) {
+  const t = useTranslations("site.portal");
+  const labels = useLabels();
+  const { number } = useFormat();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [filters, setFilters] = useState<Filters>(() =>
@@ -242,21 +247,21 @@ export function AgencyPortal({
 
   const active: { label: string; clear: Partial<Filters> }[] = [
     filters.op && {
-      label: LISTING_TYPE_LABELS[filters.op],
+      label: labels.listingType(filters.op),
       clear: { op: "" as Operation },
     },
     filters.zone && { label: filters.zone, clear: { zone: "" } },
-    filters.type && { label: categoryLabel(filters.type), clear: { type: "" } },
+    filters.type && { label: labels.category(filters.type), clear: { type: "" } },
     filters.beds && {
-      label: `${filters.beds}+ dormitorios`,
+      label: t("bedsAtLeast", { count: Number(filters.beds) }),
       clear: { beds: "" },
     },
     filters.minPrice && {
-      label: `Desde ${Number(filters.minPrice).toLocaleString("es-AR")}`,
+      label: t("priceFrom", { value: number(Number(filters.minPrice)) }),
       clear: { minPrice: "" },
     },
     filters.maxPrice && {
-      label: `Hasta ${Number(filters.maxPrice).toLocaleString("es-AR")}`,
+      label: t("priceTo", { value: number(Number(filters.maxPrice)) }),
       clear: { maxPrice: "" },
     },
     filters.q && { label: `“${filters.q}”`, clear: { q: "" } },
@@ -341,14 +346,12 @@ export function AgencyPortal({
                   id="propiedades-titulo"
                   className="s-heading text-3xl leading-tight"
                 >
-                  Propiedades
+                  {t("listingTitle")}
                 </h2>
                 <p className="text-site-quiet" aria-live="polite">
                   {isLoading && !properties
-                    ? "Cargando propiedades…"
-                    : results.length === 1
-                      ? "1 propiedad"
-                      : `${results.length} propiedades`}
+                    ? t("loading")
+                    : t("count", { count: results.length })}
                 </p>
               </div>
               <div className="flex items-center gap-2">
@@ -357,15 +360,15 @@ export function AgencyPortal({
                   onValueChange={(sort) => update({ sort: sort as Sort })}
                 >
                   <SelectTrigger
-                    aria-label="Ordenar"
+                    aria-label={t("sort")}
                     className="h-10! rounded-lg border-site-line bg-white px-3.5 shadow-none"
                   >
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent align="end">
-                    <SelectItem value="recent">Más recientes</SelectItem>
-                    <SelectItem value="price-asc">Menor precio</SelectItem>
-                    <SelectItem value="price-desc">Mayor precio</SelectItem>
+                    <SelectItem value="recent">{t("sortRecent")}</SelectItem>
+                    <SelectItem value="price-asc">{t("sortPriceAsc")}</SelectItem>
+                    <SelectItem value="price-desc">{t("sortPriceDesc")}</SelectItem>
                   </SelectContent>
                 </Select>
                 <button
@@ -381,7 +384,7 @@ export function AgencyPortal({
                   )}
                 >
                   <SlidersHorizontal className="size-4" aria-hidden />
-                  Más filtros
+                  {t("moreFilters")}
                   {advancedCount > 0 && (
                     <span className="flex size-5 items-center justify-center rounded-full bg-site-accent text-xs text-site-accent-ink">
                       {advancedCount}
@@ -406,11 +409,11 @@ export function AgencyPortal({
                 <div className="grid gap-5 rounded-xl bg-site-surface p-5 md:grid-cols-[auto_1fr_1fr_1.4fr]">
                   <fieldset className="flex flex-col gap-1.5">
                     <legend className="mb-1.5 text-sm font-medium">
-                      Dormitorios
+                      {t("bedrooms")}
                     </legend>
                     <div
                       role="radiogroup"
-                      aria-label="Dormitorios"
+                      aria-label={t("bedrooms")}
                       className="flex gap-1"
                     >
                       {BEDS.map((beds) => (
@@ -427,15 +430,15 @@ export function AgencyPortal({
                               : "bg-white hover:bg-white/70",
                           )}
                         >
-                          {beds ? `${beds}+` : "Todos"}
+                          {beds ? `${beds}+` : t("bedsAll")}
                         </button>
                       ))}
                     </div>
                   </fieldset>
                   {(
                     [
-                      ["minPrice", "Precio desde"],
-                      ["maxPrice", "Precio hasta"],
+                      ["minPrice", t("minPrice")],
+                      ["maxPrice", t("maxPrice")],
                     ] as const
                   ).map(([key, label]) => (
                     <div key={key} className="flex flex-col gap-1.5">
@@ -448,7 +451,7 @@ export function AgencyPortal({
                       <Input
                         id={`filtro-${key}`}
                         inputMode="numeric"
-                        placeholder="Sin límite"
+                        placeholder={t("noLimit")}
                         value={filters[key]}
                         onChange={(event) =>
                           update({
@@ -461,12 +464,12 @@ export function AgencyPortal({
                   ))}
                   <div className="flex flex-col gap-1.5">
                     <label htmlFor="filtro-q" className="text-sm font-medium">
-                      Buscar
+                      {t("search")}
                     </label>
                     <Input
                       id="filtro-q"
                       type="search"
-                      placeholder="Título, barrio o ciudad"
+                      placeholder={t("searchPlaceholder")}
                       value={filters.q}
                       onChange={(event) => update({ q: event.target.value })}
                       className="h-10 rounded-lg border-0 bg-white px-3.5 shadow-none"
@@ -483,7 +486,7 @@ export function AgencyPortal({
                     key={filter.label}
                     type="button"
                     onClick={() => update(filter.clear)}
-                    aria-label={`Quitar filtro: ${filter.label}`}
+                    aria-label={t("removeFilter", { filter: filter.label })}
                     className="inline-flex h-8 items-center gap-1.5 rounded-full border border-site-line bg-white pr-2.5 pl-3 text-sm outline-none transition-colors hover:border-site-quiet focus-visible:ring-2 focus-visible:ring-site-accent"
                   >
                     {filter.label}
@@ -495,7 +498,7 @@ export function AgencyPortal({
                   onClick={() => update({ ...EMPTY, sort: filters.sort })}
                   className="h-8 rounded-sm px-2 text-sm font-medium underline-offset-4 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-site-accent"
                 >
-                  Limpiar filtros
+                  {t("clearFilters")}
                 </button>
               </div>
             )}
@@ -512,25 +515,18 @@ export function AgencyPortal({
               </ByViewport>
             ) : all.length === 0 ? (
               <div className="rounded-xl border border-dashed border-site-line px-6 py-16 text-center">
-                <p className="s-heading text-xl">
-                  Todavía no hay propiedades publicadas
-                </p>
-                <p className="mt-2 text-site-quiet">
-                  Volvé pronto o escribinos y te contamos qué tenemos
-                  disponible.
-                </p>
+                <p className="s-heading text-xl">{t("emptyTitle")}</p>
+                <p className="mt-2 text-site-quiet">{t("emptyBody")}</p>
               </div>
             ) : results.length === 0 ? (
               <div className="rounded-xl border border-dashed border-site-line px-6 py-16 text-center">
-                <p className="s-heading text-xl">
-                  Ninguna propiedad coincide con estos filtros
-                </p>
+                <p className="s-heading text-xl">{t("noMatches")}</p>
                 <button
                   type="button"
                   onClick={() => update({ ...EMPTY, sort: filters.sort })}
                   className="mt-4 inline-flex h-10 items-center rounded-lg bg-site-accent px-4 text-sm font-medium text-site-accent-ink outline-none hover:opacity-90 focus-visible:ring-2 focus-visible:ring-site-accent focus-visible:ring-offset-2"
                 >
-                  Limpiar filtros
+                  {t("clearFilters")}
                 </button>
               </div>
             ) : (
@@ -568,7 +564,7 @@ export function AgencyPortal({
                 id="nosotros-titulo"
                 className="s-heading text-3xl leading-tight text-balance"
               >
-                Sobre {agency.name}
+                {t("aboutTitle", { agency: agency.name })}
               </h2>
               {/* Formatted text, cleaned by the backend (app/utils/rich_text.py). */}
               <div
@@ -596,6 +592,7 @@ function ContactSection({
   agency: PublicAgency;
   site: ResolvedSite;
 }) {
+  const t = useTranslations("site.portal");
   const channels = [
     site.whatsapp && {
       icon: MessageCircle,
@@ -605,13 +602,13 @@ function ContactSection({
     },
     site.phone && {
       icon: Phone,
-      label: "Teléfono",
+      label: t("phone"),
       value: site.phone,
       href: `tel:${site.phone.replace(/[^\d+]/g, "")}`,
     },
     agency.contactEmail && {
       icon: Mail,
-      label: "Email",
+      label: t("email"),
       value: agency.contactEmail,
       href: `mailto:${agency.contactEmail}`,
     },
@@ -640,10 +637,10 @@ function ContactSection({
               id="contacto-titulo"
               className="s-heading text-3xl leading-tight text-balance"
             >
-              ¿Buscás algo en particular?
+              {t("contactTitle")}
             </h2>
             <p className="max-w-md text-lg text-pretty text-site-quiet">
-              Contanos qué necesitás y te respondemos con opciones.
+              {t("contactBody")}
             </p>
           </div>
           {channels.length > 0 && (

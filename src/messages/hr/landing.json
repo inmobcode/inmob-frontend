@@ -1,0 +1,553 @@
+{
+  "landing": {
+    "plans": {
+      "free": {
+        "name": "Free",
+        "price": "Besplatno",
+        "tagline": "Za početak i isprobavanje sustava s nekoliko nekretnina.",
+        "features": {
+          "f1": "Do 5 nekretnina",
+          "f2": "1 korisnik",
+          "f3": "Klijenti, upiti i ponude",
+          "f4": "Web-stranica na Tivvo poddomeni, predložak Naslovnica i vaša boja"
+        },
+        "cta": "Započnite besplatno"
+      },
+      "pro": {
+        "name": "Pro",
+        "price": "29,99 USD",
+        "period": "/mjesečno",
+        "tagline": "Za agencije koje svaki dan prodaju i iznajmljuju.",
+        "features": {
+          "f1": "Neograničeno nekretnina i članova tima",
+          "f2": "Rezervacije, dostupnost i sezonske cijene",
+          "f3": "Naplate i izvod za vlasnika",
+          "f4": "Potpuni uređivač stranice: 5 predložaka, 8 fontova i 6 vrsta blokova",
+          "f5": "Zadaci, obavijesti i uloge u timu"
+        },
+        "cta": "Zatražite demo"
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "price": "Razgovarajmo",
+        "tagline": "Za mreže agencija ili velike timove.",
+        "features": {
+          "f1": "Sve iz Pro paketa",
+          "f2": "Više poslovnica",
+          "f3": "Prioritetna podrška",
+          "f4": "Napredne ovlasti po ulogama"
+        },
+        "cta": "Kontaktirajte prodaju"
+      }
+    },
+    "faq": {
+      "both": {
+        "q": "Je li prikladan za prodaju i najam istodobno?",
+        "a": "Da. Obje djelatnosti žive u istom sustavu: prodaja s ponudama i provizijom, a kratkoročni najam s dostupnošću, sezonskim cijenama, rezervacijama s datumima i plaćanjima."
+      },
+      "migration": {
+        "q": "Koliko traje prijenos podataka?",
+        "a": "Ovisi o količini podataka i njihovu formatu. Na demu pogledamo vaš slučaj i damo vam konkretan datum."
+      },
+      "address": {
+        "q": "Koja je adresa moje web-stranice?",
+        "a": "Vaša stranica nalazi se na Tivvo poddomeni s nazivom vaše agencije. Zasad ne nudimo vlastitu domenu."
+      },
+      "privacy": {
+        "q": "Miješaju li se moji podaci s podacima drugih agencija?",
+        "a": "Ne. Svaka agencija radi u svom prostoru i samo njezin tim vidi njezine nekretnine, klijente i rezervacije."
+      },
+      "users": {
+        "q": "Koliko korisnika mogu imati?",
+        "a": "U paketu Free jednog. U paketima Pro i Enterprise nema ograničenja: dovedite cijeli tim."
+      },
+      "site": {
+        "q": "Mogu li prilagoditi web-stranicu svoje agencije?",
+        "a": "Da. Odaberete predložak, boje i fontove te dodajete vlastite blokove poput lokacije, promocija, istaknutih nekretnina, destinacija, teksta i poziva na akciju. Rezultat vidite na računalu, tabletu i mobitelu prije objave."
+      },
+      "team": {
+        "q": "Što vidi svaka osoba u mom timu?",
+        "a": "Agenti vide svoje nekretnine, klijente, ponude i rezervacije te nedodijeljene upite. Vlasnici i administratori vide sve i mogu ponovno dodjeljivati."
+      },
+      "owner": {
+        "q": "Što vlasnik vidi na svom portalu?",
+        "a": "Svoje nekretnine, rezervacije i plaćanja, s naplaćenim iznosima, isplatama i saldom. Provizija agencije ostaje skrivena osim ako je odlučite prikazati."
+      }
+    },
+    "problem": {
+      "claim": "Kad posao raste, nastaje nered.",
+      "rest": "Tivvo ga dovodi u red.",
+      "problem": "Problem",
+      "solution": "Rješenje",
+      "items": {
+        "inquiries": {
+          "today": "Upiti stižu sa svih strana i nitko ne zna tko je na njih odgovorio.",
+          "tivvo": "Svaki upit s vaše stranice ulazi u pristiglu poštu kao klijent, s odgovornom osobom i poviješću."
+        },
+        "followUp": {
+          "today": "Klijent je ostao bez odgovora, a vi saznate kad je već kupio drugdje.",
+          "tivvo": "Zadaci praćenja s datumom i odgovornom osobom te zvono koje upozorava na ono što traži vašu pažnju."
+        },
+        "offers": {
+          "today": "Ponude putuju WhatsAppom i ne znate je li ih klijent otvorio.",
+          "tivvo": "Pošaljete poveznicu i vidite kada je otvorena i kada istječe."
+        },
+        "calendar": {
+          "today": "Kalendar najma je u tablici i rezervacije se preklapaju.",
+          "tivvo": "Dostupnost za 90 dana: rezervirani datumi blokiraju se sami, a ostatak blokirate povlačenjem."
+        },
+        "payments": {
+          "today": "Naplate žive u tablici koju razumije samo jedna osoba.",
+          "tivvo": "Predujam, ostatak i provizija svake rezervacije, vidljivi onima kojima trebaju."
+        },
+        "owners": {
+          "today": "Vlasnici zovu svaki tjedan da pitaju kako ide.",
+          "tivvo": "Privatna poveznica s njihovim izvodom: naplaćeno, isplate i saldo."
+        }
+      }
+    },
+    "flow": {
+      "claim": "Isti put za prodaju i najam.",
+      "rest": "Odaberite djelatnost.",
+      "operation": "Vrsta djelatnosti",
+      "modes": {
+        "sale": "Prodaja",
+        "rent": "Kratkoročni najam"
+      },
+      "sale": {
+        "inquiry": {
+          "title": "Upit",
+          "text": "Stiže s vaše stranice i postaje klijent, bez ručnog unosa."
+        },
+        "followUp": {
+          "title": "Praćenje",
+          "text": "Faza, bilješke i povijest poziva, e-poruka i razgledavanja. Cijeli tim vidi isto."
+        },
+        "offer": {
+          "title": "Ponuda putem poveznice",
+          "text": "Složite ponudu s više nekretnina i popusta i podijelite je. Vidite kada je otvorena i kada istječe."
+        },
+        "tasks": {
+          "title": "Zadaci i upozorenja",
+          "text": "Zakažete poziv za praćenje s datumom i odgovornom osobom. Zvono vas obavijesti kad se ponuda otvori."
+        },
+        "booking": {
+          "title": "Rezervacija",
+          "text": "Izradite rezervaciju s klijentom, nekretninom i cijenom iz ponude već upisanima."
+        },
+        "payments": {
+          "title": "Naplata i provizija",
+          "text": "Predujam, ostatak i provizija, s naplaćenim i preostalim iznosom."
+        }
+      },
+      "rent": {
+        "inquiry": {
+          "title": "Upit",
+          "text": "Zainteresirani pita za datume s vaše stranice i sprema se kao klijent."
+        },
+        "availability": {
+          "title": "Dostupnost i cijene",
+          "text": "Kalendar po nekretnini i sezonske cijene. Znate što je slobodno prije nego odgovorite."
+        },
+        "offer": {
+          "title": "Ponuda putem poveznice",
+          "text": "Pošaljete prijedlog s cijenom i popustom za svaku nekretninu i vidite je li otvoren."
+        },
+        "tasks": {
+          "title": "Zadaci i upozorenja",
+          "text": "Ostavite zadatak za ponovni kontakt, a zvono vas obavijesti kad se prijedlog otvori, da nazovete u pravom trenutku."
+        },
+        "booking": {
+          "title": "Rezervacija s datumima",
+          "text": "Dolazak, odlazak, noćenja i ukupan iznos izračunati. Datumi se blokiraju."
+        },
+        "payments": {
+          "title": "Plaćanja",
+          "text": "Predujam i ostatak sa statusom. Vlasnik to vidi na svom portalu."
+        }
+      }
+    },
+    "team": {
+      "claim": "Svatko vidi ono što mu pripada.",
+      "rest": "Svaki agent sa svojim pristupom, a kontrola je vaša.",
+      "roles": {
+        "owner": {
+          "name": "Vlasnik",
+          "text": "Vidi i kontrolira sve, uključujući postavke agencije, i ponovno dodjeljuje klijente i nekretnine."
+        },
+        "admin": {
+          "name": "Administrator",
+          "text": "Upravlja timom te nekretninama, ponudama i rezervacijama cijele agencije i ponovno dodjeljuje odgovorne osobe."
+        },
+        "agent": {
+          "name": "Agent",
+          "text": "Vidi svoje nekretnine, ponude i rezervacije, svoje klijente i upite koje još nitko nije preuzeo. Ostalo se ne prikazuje."
+        }
+      }
+    },
+    "portals": {
+      "claim": "Ono što vide oni izvana.",
+      "rest": "Privatna poveznica za svakog vlasnika i svakog klijenta, bez lozinki.",
+      "owner": {
+        "title": "Portal za vlasnike",
+        "text": "Svaki vlasnik vidi svoje nekretnine, rezervacije i plaćanja te svoj izvod: naplaćeno, isplate i saldo. Provizija ostaje skrivena osim ako je odlučite prikazati. Manje poziva s pitanjem kako ide."
+      },
+      "booking": {
+        "title": "Rezervacija za klijenta",
+        "text": "Kad izradite, potvrdite ili otkažete rezervaciju, klijent e-poštom dobije poveznicu s datumima, ukupnim iznosom i stanjem plaćanja. Bez vidljive provizije i bez prosljeđivanja."
+      }
+    },
+    "migration": {
+      "claim": "Ne krećete od nule.",
+      "rest": "Mi prenosimo vaše podatke.",
+      "step": "Korak {number}:",
+      "steps": {
+        "send": {
+          "title": "Pošaljete nam svoje podatke",
+          "text": "Tablice, izvoze ili što god danas koristite, čak i ako nije uredno."
+        },
+        "load": {
+          "title": "Unesemo ih i zajedno pregledamo",
+          "text": "Unesemo vaše nekretnine, vlasnike i klijente te ih provjerimo s vama prije nastavka."
+        },
+        "start": {
+          "title": "Počnete ga koristiti",
+          "text": "Vaš tim ulazi s vlastitim pristupom i odgovarajućom ulogom, a vaša je stranica spremna za objavu."
+        }
+      },
+      "otherSystem": "Imate podatke u drugom sustavu? Pogledamo to na demu i damo vam konkretan datum.",
+      "cta": "Zatražite demo"
+    },
+    "plansSection": {
+      "label": "Paketi i česta pitanja",
+      "claim": "Paket za svaku fazu vaše agencije.",
+      "rest": "Počnite besplatno i prijeđite na veći paket kad vam zatreba.",
+      "faq": "Česta pitanja"
+    },
+    "demo": {
+      "errors": {
+        "name": "Unesite svoje ime",
+        "agency": "Unesite naziv agencije",
+        "email": "Provjerite e-poštu: nedostaje @ ili domena",
+        "teamSize": "Odaberite veličinu tima"
+      },
+      "failed": "Zahtjev nije moguće poslati. Pokušajte ponovno za nekoliko minuta.",
+      "claim": "Pogledajmo vašu agenciju u Tivvu.",
+      "rest": "S vašim nekretninama i vašim timom.",
+      "sentTitle": "Zahtjev je poslan",
+      "sentText": "Javit ćemo vam se idućih dana da dogovorimo demo.",
+      "fields": {
+        "name": "Vaše ime",
+        "agency": "Agencija",
+        "email": "Poslovna e-pošta"
+      },
+      "teamQuestion": "Koliko ljudi ima tim?",
+      "teamLabel": "Veličina tima",
+      "teamSizes": {
+        "solo": "Samo ja",
+        "small": "2 do 5",
+        "medium": "6 do 30",
+        "large": "Više od 30"
+      },
+      "sending": "Slanje…",
+      "submit": "Zatražite demo"
+    },
+    "meta": {
+      "title": "Tivvo · Softver za upravljanje agencijama za nekretnine",
+      "description": "Unosite nekretnine, slažite ponude, pratite rezervacije i objavite web-stranicu svoje agencije na jednom mjestu. Za agencije za prodaju i kratkoročni najam.",
+      "keywords": "softver za nekretnine, crm za nekretnine, upravljanje nekretninama, kratkoročni najam, web-stranica za agencije za nekretnine"
+    },
+    "hero": {
+      "title": "Od prvog upita",
+      "titleTail": "do posljednje naplate.",
+      "lead": "Nekretnine, klijenti, ponude, rezervacije, dostupnost i naplate vaše agencije u jednom sustavu. S vlastitom web-stranicom, zadacima praćenja i portalom za svakog vlasnika.",
+      "demo": "Zatražite demo",
+      "how": "Pogledajte kako radi",
+      "sceneLabel": "Rezervacija u Tivvu, korak po korak",
+      "scene": {
+        "inquiry": "Stiže upit",
+        "offer": "Otvara ponudu",
+        "booking": "Potvrđuje rezervaciju",
+        "payment": "Plaća predujam"
+      },
+      "modulesLabel": "Što uključuje",
+      "modules": {
+        "properties": "Nekretnine",
+        "clients": "Klijenti",
+        "offers": "Ponude",
+        "bookings": "Rezervacije",
+        "availability": "Dostupnost",
+        "payments": "Naplate",
+        "site": "Web-stranica",
+        "owners": "Vlasnici"
+      }
+    },
+    "nav": {
+      "label": "Glavna navigacija",
+      "how": "Kako radi",
+      "site": "Web-stranica",
+      "portals": "Portali",
+      "migration": "Prijenos",
+      "plans": "Paketi",
+      "help": "Pomoć",
+      "login": "Prijava",
+      "demo": "Zatražite demo"
+    },
+    "availability": {
+      "property": "Kuća uz more",
+      "dayLabel": "{day}, {status, select, booked {rezervirano} blocked {blokirano} other {slobodno}}",
+      "legend": "Legenda",
+      "booked": "Rezervirano",
+      "blocked": "Blokirano",
+      "free": "Slobodno",
+      "rates": "Cijene po noćenju",
+      "high": "Visoka sezona",
+      "mid": "Predsezona",
+      "low": "Niska sezona",
+      "tryIt": "Isprobajte: povucite preko slobodnih dana da ih blokirate.",
+      "claim": "Svaka noć pod kontrolom.",
+      "rest": "Bez tablica i bez preklapanja rezervacija.",
+      "facts": {
+        "grid": {
+          "title": "90 dana na prvi pogled",
+          "text": "Mreža sa svim vašim nekretninama. Vidite što je slobodno prije nego odgovorite na upit."
+        },
+        "month": {
+          "title": "Mjesečni prikaz",
+          "text": "Zauzetost svakog dana. Odaberete nekretninu i povlačenjem preko slobodnih noćenja ih blokirate."
+        },
+        "rates": {
+          "title": "Sezonske cijene",
+          "text": "Unesete cijenu po noćenju za svako razdoblje i ukupan iznos rezervacije izračuna se sam."
+        },
+        "filters": {
+          "title": "Filtri po datumu i području",
+          "text": "Zatražite samo nekretnine slobodne od 10. do 17. na jednoj lokaciji i gotovo."
+        }
+      }
+    },
+    "more": {
+      "claim": "I sve svakodnevno.",
+      "rest": "Detalji zbog kojih ga tim stvarno koristi.",
+      "items": {
+        "inbox": {
+          "title": "Pristigli upiti",
+          "text": "Novi i pročitani, s brojačem u izborniku. Svaki upit stvara ili ponovno koristi klijenta i ostavlja bilješku s nekretninom."
+        },
+        "board": {
+          "title": "Klijenti na ploči",
+          "text": "Povlačite svakog klijenta kroz faze ili ih gledajte kao popis. Kako tko voli."
+        },
+        "tasks": {
+          "title": "Zadaci praćenja",
+          "text": "Podsjetnik s datumom i odgovornom osobom unutar svakog klijenta, da nitko ne ostane bez odgovora."
+        },
+        "notifications": {
+          "title": "Obavijesti",
+          "text": "Zvono vas obavijesti kad stigne upit, otvori se ponuda, evidentira plaćanje ili vam se dodijeli zadatak."
+        },
+        "services": {
+          "title": "Dodatne usluge",
+          "text": "Kuhar, jahta, transferi, izleti, spa. Složite svoju biblioteku s cijenom po osobi, danu, noćenju ili satu i dodajte ih ponudi."
+        },
+        "pending": {
+          "title": "Rezervacije na čekanju",
+          "text": "Nepotvrđena rezervacija pojavljuje se u kalendaru, iako još ne blokira datume. Vidite je unaprijed, prije nego odlučite."
+        }
+      }
+    },
+    "footer": {
+      "tagline": "Softver za upravljanje agencijama za prodaju i kratkoročni najam.",
+      "label": "Podnožje",
+      "legalLabel": "Pravne informacije",
+      "top": "Natrag na vrh",
+      "legal": {
+        "help": "Pomoć",
+        "terms": "Uvjeti korištenja",
+        "privacy": "Privatnost"
+      },
+      "groups": {
+        "product": {
+          "title": "Proizvod",
+          "how": "Kako radi",
+          "team": "Tim i ovlasti",
+          "migration": "Prijenos"
+        },
+        "portals": {
+          "title": "Portali",
+          "site": "Web-stranica vaše agencije",
+          "owner": "Portal za vlasnike"
+        },
+        "start": {
+          "title": "Početak",
+          "demo": "Zatražite demo",
+          "plans": "Paketi",
+          "faq": "Česta pitanja"
+        },
+        "account": {
+          "title": "Račun",
+          "login": "Prijava",
+          "register": "Izradi račun"
+        }
+      }
+    },
+    "siteEditor": {
+      "template": "Predložak",
+      "color": "Boja",
+      "fonts": "Font",
+      "blocks": "Blokovi",
+      "blockNames": {
+        "promo": "Promocija",
+        "location": "Lokacija",
+        "featured": "Istaknuto"
+      },
+      "tryIt": "Isprobajte: promijenite predložak, boju, font i blokove.",
+      "screen": "Veličina zaslona",
+      "desktop": "Računalo",
+      "mobile": "Mobitel",
+      "previewLabel": "Pregled stranice, s pomicanjem",
+      "claim": "Stranica koja izgleda kao vaša.",
+      "rest": "Složite je po svome, bez dizajnera.",
+      "lead": "To je javna web-stranica vaše agencije, s vašim brendom i nekretninama, a prilagođavate je vi: predložak, boje, fontovi i blokovi. Vidite kako izgleda na računalu, tabletu i mobitelu prije objave."
+    },
+    "preview": {
+      "searchLong": "Područje, vrsta nekretnine ili cijena",
+      "searchShort": "Područje, vrsta ili cijena",
+      "search": "Traži",
+      "title": "Pronađite svoje mjesto.",
+      "subtitle": "Kuće i stanovi na prodaju i za kratkoročni najam.",
+      "nav": {
+        "properties": "Nekretnine",
+        "about": "O nama",
+        "contact": "Kontakt"
+      },
+      "contact": "Kontaktirajte nas",
+      "results": "{count} rezultata",
+      "promo": "Listopadski boravci u La Barri",
+      "destination": "Destinacija",
+      "destinationText": "More, šuma i zalasci sunca. Najljepše kuće u okolici, nadomak plaže.",
+      "destinationCta": "Pogledajte nekretnine u La Barri",
+      "featured": "Istaknute nekretnine",
+      "viewAll": "Pogledaj sve",
+      "kinds": {
+        "sale": "Prodaja",
+        "rent": "Najam"
+      },
+      "listings": {
+        "beach": "Kuća uz more",
+        "view": "Stan s pogledom",
+        "garden": "Kuća s vrtom"
+      },
+      "perMonth": "{price} / mjesečno"
+    },
+    "fragments": {
+      "new": "Novo",
+      "inquiry": {
+        "source": "Upit s vaše stranice",
+        "message": "Pozdrav, je li kuća u La Barri slobodna zadnji tjedan listopada? Nas je četvero."
+      },
+      "offerSeen": {
+        "title": "Kuća uz more u La Barri",
+        "seen": "Pregledano"
+      },
+      "booking": {
+        "title": "Rezervacija potvrđena",
+        "confirmed": "Potvrđena",
+        "checkIn": "Dolazak",
+        "checkOut": "Odlazak",
+        "nights": "Noćenja"
+      },
+      "payment": {
+        "title": "Predujam naplaćen",
+        "left": "Preostalo {left} · provizija {commission}"
+      },
+      "clients": {
+        "search": "Pretraži klijente",
+        "notes": {
+          "vr": "Stigla s vaše stranice prije 3 min",
+          "me": "Poslali ste mu oglas s troškovima održavanja",
+          "cd": "Razgledavanje u subotu u 11",
+          "jb": "Potpisao za poslovni prostor"
+        }
+      },
+      "timeline": {
+        "since": "Klijentica od rujna",
+        "daysAgo": "{count, plural, one {Prije # dan} few {Prije # dana} other {Prije # dana}}",
+        "stage": "Faza",
+        "contact": "Kontakt",
+        "call": {
+          "type": "Poziv",
+          "text": "Dogovorili smo drugo razgledavanje u subotu."
+        },
+        "visit": {
+          "type": "Razgledavanje",
+          "text": "Razgledala je kuću u Olivosu. Svidio joj se vrt, brinu je troškovi održavanja."
+        },
+        "email": {
+          "type": "E-pošta",
+          "text": "Poslali smo joj tri nekretnine na sjeveru."
+        }
+      },
+      "offer": {
+        "title": "Tri opcije na sjeveru",
+        "items": {
+          "olivos": "Kuća u Olivosu",
+          "vicenteLopez": "Kuća u Vicente Lópezu",
+          "belgrano": "Stan u Belgranu"
+        },
+        "total": "Ukupno ponuda",
+        "opened": "Otvorila ju je prije 5 minuta",
+        "expires": "Istječe {date}"
+      },
+      "saleBooking": {
+        "fromOffer": "izrađena iz ponude",
+        "price": "Cijena",
+        "commission": "Provizija",
+        "agent": "Agent",
+        "reserved": "Rezervirano",
+        "hint": "Klijent, nekretnina i cijena preuzeti su iz ponude."
+      },
+      "payments": {
+        "saleTitle": "Naplate prodaje",
+        "rentTitle": "Plaćanja rezervacije",
+        "deposit": "Predujam",
+        "balance": "Ostatak",
+        "onBooking": "Pri rezervaciji",
+        "onDeed": "Pri potpisu ugovora",
+        "onCheckIn": "Pri dolasku",
+        "price": "Cijena",
+        "commission": "Provizija (3 %)",
+        "collected": "Naplaćeno",
+        "due": "Za naplatu",
+        "nights": "Noćenja",
+        "total": "Ukupno",
+        "paid": "Naplaćeno",
+        "pending": "Na čekanju"
+      },
+      "calendar": {
+        "rates": "Cijene po noćenju",
+        "high": "Visoka sezona",
+        "mid": "Predsezona",
+        "booked": "Rezervirano"
+      },
+      "owner": {
+        "title": "Izvod",
+        "property": "Kuća uz more",
+        "collected": "Naplaćeno",
+        "paidOut": "Isplaćeno",
+        "balance": "Saldo",
+        "payout": "Isplata",
+        "paid": "Plaćeno"
+      },
+      "tasks": {
+        "call": "Nazvati Valeriju radi zaključenja ponude",
+        "photos": "Poslati fotografije vrta",
+        "today": "Danas",
+        "tomorrow": "Sutra",
+        "opened": "Valeria je otvorila ponudu",
+        "ago": "Prije 2 minute",
+        "title": "Zadaci praćenja"
+      }
+    }
+  }
+}

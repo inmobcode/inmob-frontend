@@ -1,3 +1,4 @@
+import { LOCALE_NAMES, LOCALES, localePath } from "@/i18n/config";
 import { getSitemapUrls } from "@/lib/api/sitemap";
 import { SITE_NAME, absoluteUrl, agencyPath } from "@/lib/seo";
 
@@ -20,7 +21,8 @@ Tivvo es el software; las propiedades y los precios son de cada agencia, que los
 const PRODUCT = `## Producto
 
 - [Inicio](${absoluteUrl("/")}): qué resuelve Tivvo, cómo funciona, planes y preguntas frecuentes.
-- [Contacto y ayuda](${absoluteUrl("/help")}): formulario para escribirle al equipo.`;
+- [Contacto y ayuda](${absoluteUrl("/help")}): formulario para escribirle al equipo.
+- Idiomas: ${LOCALES.map((locale) => `[${LOCALE_NAMES[locale]}](${absoluteUrl(localePath(locale, "/"))})`).join(", ")}. Cada página pública existe en todos con el prefijo del idioma (\`/en/…\`, \`/pt/…\`); sin prefijo es la versión en español.`;
 
 const LEGAL = `## Legal
 

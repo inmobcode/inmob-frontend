@@ -1,0 +1,15 @@
+{
+  "docs": {
+    "header": {
+      "docs": "Dokumentacija",
+      "back": "Natrag na nadzornu ploču"
+    },
+    "page": {
+      "title": "Kako radi Tivvo",
+      "lead": "Vodič kroz svaki alat nadzorne ploče: što radi, kako se koristi i što vide vaši klijenti. Pomoću sadržaja idite izravno na ono što vam treba.",
+      "sections": "Odjeljci dokumentacije",
+      "index": "Sadržaj",
+      "adminOnly": "Vlasnici i administratori"
+    }
+  }
+}

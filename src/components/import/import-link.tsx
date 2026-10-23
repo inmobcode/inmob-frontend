@@ -1,6 +1,7 @@
 "use client";
 
 import { Upload } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
@@ -9,6 +10,7 @@ import { useSessionUser } from "@/lib/auth/session";
 
 /** Entry to the property importer. Bulk import is OWNER/ADMIN only (the API enforces it too). */
 export function ImportLink() {
+  const t = useTranslations("importer");
   const { agencySlug } = useParams<{ agencySlug: string }>();
   const user = useSessionUser();
   if (!user?.role || user.role === "AGENT") return null;
@@ -16,7 +18,7 @@ export function ImportLink() {
     <Button asChild variant="outline" className="h-10 gap-2 rounded-full px-4">
       <Link href={`/${agencySlug}/properties/import`}>
         <Upload />
-        Importar
+        {t("link")}
       </Link>
     </Button>
   );

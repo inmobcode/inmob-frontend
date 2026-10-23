@@ -1,7 +1,8 @@
 "use client";
 
 import { Check, LoaderCircle, Plus } from "lucide-react";
-import { useId, useLayoutEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
+import { useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -19,7 +20,8 @@ import {
   TimelineFragment,
 } from "@/components/landing/fragments";
 import { SECTION, WRAP } from "@/components/landing/layout";
-import { FAQ, PLANS, type Plan } from "@/components/landing/plans-faq-data";
+import { faqIn, plansIn, type Plan } from "@/components/landing/plans-faq-data";
+import type { LooseTranslator } from "@/i18n/loose";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { requestDemo } from "@/lib/api/demo";
@@ -114,50 +116,17 @@ export function Heading({
 
 /* ── Hoy y con Tivvo ────────────────────────────────────── */
 
-const PROBLEMS = [
-  {
-    today:
-      "Las consultas llegan por todos lados y nadie sabe quién las atendió.",
-    tivvo:
-      "Cada consulta de tu sitio entra a una bandeja como cliente, con un responsable y su historial.",
-  },
-  {
-    today:
-      "Un cliente quedó sin respuesta y te enterás cuando ya compró en otra.",
-    tivvo:
-      "Tareas de seguimiento con fecha y responsable, y una campana que avisa lo que necesita tu atención.",
-  },
-  {
-    today:
-      "Las ofertas viajan por WhatsApp y no sabés si el cliente las abrió.",
-    tivvo: "Mandás un link y ves cuándo la abrieron y cuándo vence.",
-  },
-  {
-    today:
-      "El calendario de alquileres está en una planilla y se pisan las reservas.",
-    tivvo:
-      "Disponibilidad de 90 días: las fechas reservadas se bloquean solas y vos bloqueás el resto arrastrando.",
-  },
-  {
-    today: "Los cobros viven en una planilla que solo entiende una persona.",
-    tivvo:
-      "Anticipo, saldo y comisión de cada reserva, a la vista de quien corresponde.",
-  },
-  {
-    today: "Los propietarios llaman cada semana para saber cómo viene lo suyo.",
-    tivvo:
-      "Un link privado con su estado de cuenta: lo cobrado, las liquidaciones y el saldo.",
-  },
-];
+const PROBLEMS = ["inquiries", "followUp", "offers", "calendar", "payments", "owners"] as const;
 
 export function Problem() {
+  const t = useTranslations("landing.problem");
   return (
     <section aria-labelledby="problema" className="border-b border-line">
       <div className={cn(WRAP, SECTION, "flex flex-col gap-12 md:gap-14")}>
         <Heading
           id="problema"
-          claim="Cuando el negocio crece, se desordena."
-          rest="Tivvo lo ordena."
+          claim={t("claim")}
+          rest={t("rest")}
           className="max-w-3xl"
         />
         {/* Two columns read across: the problem in grey, its answer marked in forest green. */}
@@ -166,25 +135,25 @@ export function Problem() {
             aria-hidden
             className="hidden text-sm font-semibold sm:grid sm:grid-cols-2"
           >
-            <span className="pb-3 text-quiet">Problema</span>
+            <span className="pb-3 text-quiet">{t("problem")}</span>
             <span className="border-b-2 border-forest pb-3 pl-8 text-forest">
-              Solución
+              {t("solution")}
             </span>
           </div>
           <ul>
             {PROBLEMS.map((item) => (
-              <li key={item.today} className="grid sm:grid-cols-2">
+              <li key={item} className="grid sm:grid-cols-2">
                 <div className="flex flex-col gap-2 border-t border-line pt-6 pb-4 sm:py-7 sm:pr-8">
                   <span className="text-sm font-semibold text-quiet sm:hidden">
-                    Problema
+                    {t("problem")}
                   </span>
                   <p className="text-lg leading-snug text-pretty text-quiet">
-                    {item.today}
+                    {t(`items.${item}.today`)}
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 border-t border-forest/20 pt-2 pb-6 sm:py-7 sm:pl-8">
                   <span className="text-sm font-semibold text-forest sm:hidden">
-                    Solución
+                    {t("solution")}
                   </span>
                   <p className="flex gap-3 text-lg leading-snug text-pretty">
                     <span
@@ -193,7 +162,7 @@ export function Problem() {
                     >
                       <Check className="size-3" strokeWidth={3} />
                     </span>
-                    {item.tivvo}
+                    {t(`items.${item}.tivvo`)}
                   </p>
                 </div>
               </li>
@@ -209,82 +178,29 @@ export function Problem() {
 
 type Mode = "sale" | "rent";
 
-const FLOWS: Record<
-  Mode,
-  { title: string; text: string; shot: React.ReactNode }[]
-> = {
+const FLOWS: Record<Mode, { key: string; shot: React.ReactNode }[]> = {
   sale: [
-    {
-      title: "Consulta",
-      text: "Llega desde tu sitio y queda como cliente, sin cargar nada a mano.",
-      shot: <ClientsFragment />,
-    },
-    {
-      title: "Seguimiento",
-      text: "Etapa, notas e historial de llamadas, emails y visitas. Todo el equipo ve lo mismo.",
-      shot: <TimelineFragment />,
-    },
-    {
-      title: "Oferta con link",
-      text: "Armás una oferta con varias propiedades y descuentos y la compartís. Ves cuándo la abrieron y cuándo vence.",
-      shot: <OfferFragment />,
-    },
-    {
-      title: "Tareas y alertas",
-      text: "Programás el llamado de seguimiento con fecha y responsable. La campana te avisa cuando abren la oferta.",
-      shot: <TasksFragment />,
-    },
-    {
-      title: "Reserva",
-      text: "Creás la reserva con el cliente, la propiedad y el precio de la oferta ya cargados.",
-      shot: <SaleBookingFragment />,
-    },
-    {
-      title: "Cobro y comisión",
-      text: "Anticipo, saldo y comisión, con lo cobrado y lo que falta.",
-      shot: <PaymentsFragment variant="sale" />,
-    },
+    { key: "inquiry", shot: <ClientsFragment /> },
+    { key: "followUp", shot: <TimelineFragment /> },
+    { key: "offer", shot: <OfferFragment /> },
+    { key: "tasks", shot: <TasksFragment /> },
+    { key: "booking", shot: <SaleBookingFragment /> },
+    { key: "payments", shot: <PaymentsFragment variant="sale" /> },
   ],
   rent: [
-    {
-      title: "Consulta",
-      text: "El interesado pregunta por las fechas desde tu sitio y queda registrado como cliente.",
-      shot: <ClientsFragment />,
-    },
-    {
-      title: "Disponibilidad y tarifas",
-      text: "Calendario por propiedad y tarifas por temporada. Sabés qué está libre antes de responder.",
-      shot: <CalendarFragment />,
-    },
-    {
-      title: "Oferta con link",
-      text: "Mandás una propuesta con el precio y el descuento de cada propiedad, y ves si la abrieron.",
-      shot: <OfferFragment />,
-    },
-    {
-      title: "Tareas y alertas",
-      text: "Dejás una tarea para retomar el contacto y la campana avisa cuando abren la propuesta, para llamar en el momento justo.",
-      shot: <TasksFragment />,
-    },
-    {
-      title: "Reserva con fechas",
-      text: "Check-in, check-out, noches y total calculados. Las fechas quedan bloqueadas.",
-      shot: <BookingFragment className="mx-auto max-w-md" />,
-    },
-    {
-      title: "Pagos",
-      text: "Anticipo y saldo con su estado. El propietario lo ve desde su portal.",
-      shot: <PaymentsFragment variant="rent" />,
-    },
+    { key: "inquiry", shot: <ClientsFragment /> },
+    { key: "availability", shot: <CalendarFragment /> },
+    { key: "offer", shot: <OfferFragment /> },
+    { key: "tasks", shot: <TasksFragment /> },
+    { key: "booking", shot: <BookingFragment className="mx-auto max-w-md" /> },
+    { key: "payments", shot: <PaymentsFragment variant="rent" /> },
   ],
 };
 
-const MODES: [Mode, string][] = [
-  ["sale", "Venta"],
-  ["rent", "Alquiler temporario"],
-];
+const MODES: Mode[] = ["sale", "rent"];
 
 export function Flow() {
+  const t = useTranslations("landing.flow");
   const [mode, setMode] = useState<Mode>("sale");
   const [step, setStep] = useState(0);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -388,17 +304,17 @@ export function Flow() {
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <Heading
             id="flujo-titulo"
-            claim="Un mismo recorrido para vender y alquilar."
-            rest="Elegí la operación."
+            claim={t("claim")}
+            rest={t("rest")}
             className="max-w-3xl"
           />
           <div
             ref={tabsRef}
             role="tablist"
-            aria-label="Tipo de operación"
+            aria-label={t("operation")}
             className="relative flex shrink-0 gap-6 border-b border-line"
           >
-            {MODES.map(([value, label]) => (
+            {MODES.map((value) => (
               <button
                 key={value}
                 type="button"
@@ -410,7 +326,7 @@ export function Flow() {
                   mode === value ? "text-ink" : "text-quiet hover:text-ink",
                 )}
               >
-                {label}
+                {t(`modes.${value}`)}
               </button>
             ))}
             <span
@@ -427,7 +343,7 @@ export function Flow() {
               const active = index === step;
               return (
                 <li
-                  key={item.title}
+                  key={item.key}
                   className="border-t border-line last:border-b"
                 >
                   <button
@@ -453,7 +369,7 @@ export function Flow() {
                           !active && "text-quiet group-hover:text-ink",
                         )}
                       >
-                        {item.title}
+                        {t(`${mode}.${item.key}.title` as never)}
                       </span>
                       {/* Every step keeps its text; the open one unfolds it, the rest fold it away. */}
                       <span
@@ -466,7 +382,7 @@ export function Flow() {
                         )}
                       >
                         <span className="overflow-hidden text-pretty text-quiet">
-                          {item.text}
+                          {t(`${mode}.${item.key}.text` as never)}
                         </span>
                       </span>
                     </span>
@@ -492,22 +408,10 @@ export function Flow() {
 
 /* ── Equipo ─────────────────────────────────────────────── */
 
-const ROLES = [
-  {
-    name: "Propietario",
-    text: "Ve y controla todo, incluida la configuración de la agencia, y reasigna clientes y propiedades.",
-  },
-  {
-    name: "Administrador",
-    text: "Gestiona el equipo, las propiedades, las ofertas y las reservas de toda la agencia, y reasigna responsables.",
-  },
-  {
-    name: "Agente",
-    text: "Ve sus propiedades, ofertas y reservas, sus clientes y las consultas que todavía nadie tomó. Lo demás no aparece.",
-  },
-];
+const ROLES = ["owner", "admin", "agent"] as const;
 
 export function TeamSection() {
+  const t = useTranslations("landing.team");
   return (
     <section
       id="equipo"
@@ -519,19 +423,19 @@ export function TeamSection() {
       >
         <Heading
           id="equipo-titulo"
-          claim="Cada persona ve lo que le corresponde."
-          rest="Cada agente con su acceso, y vos con el control."
+          claim={t("claim")}
+          rest={t("rest")}
           className="lg:col-span-5"
         />
         <dl className="lg:col-span-6 lg:col-start-7">
           {ROLES.map((role) => (
             <div
-              key={role.name}
+              key={role}
               className="grid gap-1 border-t border-line py-6 last:border-b sm:grid-cols-[11rem_1fr] sm:gap-8"
             >
-              <dt className="font-logo text-xl font-semibold">{role.name}</dt>
+              <dt className="font-logo text-xl font-semibold">{t(`roles.${role}.name`)}</dt>
               <dd className="text-lg leading-snug text-pretty text-quiet">
-                {role.text}
+                {t(`roles.${role}.text`)}
               </dd>
             </div>
           ))}
@@ -544,6 +448,7 @@ export function TeamSection() {
 /* ── Sitio y portal del propietario ─────────────────────── */
 
 export function Portals() {
+  const t = useTranslations("landing.portals");
   return (
     <section
       id="portales"
@@ -553,8 +458,8 @@ export function Portals() {
       <div className={cn(WRAP, "pt-20 md:pt-28")}>
         <Heading
           id="portales-titulo"
-          claim="Lo que ven los de afuera."
-          rest="Un link privado para cada propietario y para cada cliente, sin contraseñas."
+          claim={t("claim")}
+          rest={t("rest")}
           className="max-w-4xl"
         />
       </div>
@@ -563,13 +468,13 @@ export function Portals() {
         <div className="grid gap-px bg-line lg:grid-cols-2">
           {[
             {
-              title: "Portal del propietario",
-              text: "Cada propietario ve sus propiedades, reservas y pagos, y su estado de cuenta: lo cobrado, las liquidaciones y el saldo. La comisión queda oculta salvo que decidas mostrarla. Menos llamadas preguntando cómo viene lo suyo.",
+              title: t("owner.title"),
+              text: t("owner.text"),
               shot: <OwnerStatementFragment />,
             },
             {
-              title: "Reserva para el cliente",
-              text: "Al crear, confirmar o cancelar una reserva, el cliente recibe por email un link con sus fechas, el total y el estado de los pagos. Sin comisión a la vista y sin que tengas que reenviar nada.",
+              title: t("booking.title"),
+              text: t("booking.text"),
               shot: <BookingFragment className="mx-auto max-w-md" />,
             },
           ].map((item) => (
@@ -598,22 +503,10 @@ export function Portals() {
 
 /* ── Migración ──────────────────────────────────────────── */
 
-const MIGRATION = [
-  {
-    title: "Nos pasás tus datos",
-    text: "Planillas, exportaciones o lo que uses hoy, aunque no esté prolijo.",
-  },
-  {
-    title: "Los cargamos y revisamos juntos",
-    text: "Cargamos tus propiedades, propietarios y clientes, y los validamos con vos antes de seguir.",
-  },
-  {
-    title: "Empezás a usarlo",
-    text: "Tu equipo entra con su propio acceso y el rol que le corresponde, y tu sitio queda listo para publicar.",
-  },
-];
+const MIGRATION = ["send", "load", "start"] as const;
 
 export function Migration() {
+  const t = useTranslations("landing.migration");
   return (
     <section
       id="migracion"
@@ -623,14 +516,14 @@ export function Migration() {
       <div className={cn(WRAP, SECTION, "flex flex-col gap-12 md:gap-14")}>
         <Heading
           id="migracion-titulo"
-          claim="No arrancás de cero."
-          rest="Traemos tus datos por vos."
+          claim={t("claim")}
+          rest={t("rest")}
           className="max-w-4xl"
         />
         <ol className="grid gap-x-8 md:grid-cols-3 lg:gap-x-10">
           {MIGRATION.map((item, index) => (
             <li
-              key={item.title}
+              key={item}
               className="flex flex-col gap-3 border-t border-ink/15 py-6"
             >
               <span
@@ -640,22 +533,21 @@ export function Migration() {
                 {String(index + 1).padStart(2, "0")}
               </span>
               <p className="mt-3 font-logo text-xl leading-tight font-semibold">
-                <span className="sr-only">Paso {index + 1}: </span>
-                {item.title}
+                <span className="sr-only">{t("step", { number: index + 1 })} </span>
+                {t(`steps.${item}.title`)}
               </p>
               <p className="text-lg leading-snug text-pretty text-quiet">
-                {item.text}
+                {t(`steps.${item}.text`)}
               </p>
             </li>
           ))}
         </ol>
         <div className="flex flex-col gap-4 border-t border-ink/15 pt-8 sm:flex-row sm:items-center sm:justify-between">
           <p className="max-w-xl text-lg leading-snug text-pretty">
-            ¿Tenés los datos en otro sistema? Lo vemos en la demo y te damos una
-            fecha concreta.
+            {t("otherSystem")}
           </p>
           <a href="#demo" className={CTA}>
-            Pedir una demo
+            {t("cta")}
           </a>
         </div>
       </div>
@@ -777,22 +669,25 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
 }
 
 export function PlansAndFaq() {
+  const t = useTranslations("landing");
+  const plans = useMemo(() => plansIn(t as unknown as LooseTranslator), [t]);
+  const faq = useMemo(() => faqIn(t as unknown as LooseTranslator), [t]);
   return (
     <section
       id="planes"
-      aria-label="Planes y preguntas frecuentes"
+      aria-label={t("plansSection.label")}
       className="scroll-mt-16 border-b border-line"
     >
       <div className={cn(WRAP, SECTION, "flex flex-col gap-16")}>
         <Heading
-          claim="Un plan para cada etapa de tu agencia."
-          rest="Empezá gratis y subí de plan cuando lo necesites."
+          claim={t("plansSection.claim")}
+          rest={t("plansSection.rest")}
           className="max-w-3xl"
         />
 
         <ul className="grid gap-6 lg:grid-cols-3">
-          {PLANS.map((plan) => (
-            <PlanCard key={plan.name} plan={plan} />
+          {plans.map((plan) => (
+            <PlanCard key={plan.id} plan={plan} />
           ))}
         </ul>
 
@@ -801,10 +696,10 @@ export function PlansAndFaq() {
             id="preguntas"
             className="scroll-mt-24 font-logo text-xl font-semibold lg:col-span-5"
           >
-            Preguntas frecuentes
+            {t("plansSection.faq")}
           </h3>
           <ul className="lg:col-span-6 lg:col-start-7">
-            {FAQ.map((item) => (
+            {faq.map((item) => (
               <li key={item.q} className="border-t border-line last:border-b">
                 <FaqItem question={item.q} answer={item.a} />
               </li>
@@ -818,18 +713,27 @@ export function PlansAndFaq() {
 
 /* ── Pedido de demo ─────────────────────────────────────── */
 
-const demoSchema = z.object({
-  name: z.string().min(2, "Ingresá tu nombre"),
-  agency: z.string().min(2, "Ingresá el nombre de tu agencia"),
-  email: z.string().email("Revisá el email: falta la @ o el dominio"),
-  teamSize: z.string().min(1, "Elegí el tamaño de tu equipo"),
-});
+const makeDemoSchema = (t: (key: "name" | "agency" | "email" | "teamSize") => string) =>
+  z.object({
+    name: z.string().min(2, t("name")),
+    agency: z.string().min(2, t("agency")),
+    email: z.string().email(t("email")),
+    teamSize: z.string().min(1, t("teamSize")),
+  });
 
-type DemoValues = z.infer<typeof demoSchema>;
+type DemoValues = z.infer<ReturnType<typeof makeDemoSchema>>;
 
-const TEAM_SIZES = ["Particular", "2 a 5", "6 a 30", "Más de 30"];
+// What reaches Tivvo's inbox stays in Spanish; each language shows its own label.
+const TEAM_SIZES = [
+  { value: "Particular", key: "solo" },
+  { value: "2 a 5", key: "small" },
+  { value: "6 a 30", key: "medium" },
+  { value: "Más de 30", key: "large" },
+] as const;
 
 export function DemoForm() {
+  const t = useTranslations("landing.demo");
+  const demoSchema = useMemo(() => makeDemoSchema((key) => t(`errors.${key}`)), [t]);
   const [sent, setSent] = useState(false);
   const form = useForm<DemoValues>({
     resolver: zodResolver(demoSchema),
@@ -846,7 +750,7 @@ export function DemoForm() {
       toast.error(
         err instanceof ApiError
           ? err.message
-          : "No se pudo enviar el pedido. Probá de nuevo en unos minutos.",
+          : t("failed"),
       );
     }
   }
@@ -865,8 +769,8 @@ export function DemoForm() {
           <Heading
             id="demo-titulo"
             tone="paper"
-            claim="Veamos tu agencia en Tivvo."
-            rest="Con tus propiedades y tu equipo."
+            claim={t("claim")}
+            rest={t("rest")}
           />
         </div>
 
@@ -876,10 +780,8 @@ export function DemoForm() {
               <span className="flex size-10 items-center justify-center rounded-lg bg-lime text-forest-deep">
                 <Check className="size-5" />
               </span>
-              <p className="font-logo text-2xl font-semibold">Pedido enviado</p>
-              <p className="text-quiet">
-                Te escribimos en los próximos días para coordinar la demo.
-              </p>
+              <p className="font-logo text-2xl font-semibold">{t("sentTitle")}</p>
+              <p className="text-quiet">{t("sentText")}</p>
             </div>
           ) : (
             <form
@@ -890,12 +792,12 @@ export function DemoForm() {
               <div className="grid gap-5 sm:grid-cols-2">
                 {(
                   [
-                    ["name", "Tu nombre", "text", "name"],
-                    ["agency", "Agencia", "text", "organization"],
+                    ["name", "text", "name"],
+                    ["agency", "text", "organization"],
                   ] as const
-                ).map(([field, label, type, autoComplete]) => (
+                ).map(([field, type, autoComplete]) => (
                   <div key={field} className="flex flex-col gap-2">
-                    <Label htmlFor={`demo-${field}`}>{label}</Label>
+                    <Label htmlFor={`demo-${field}`}>{t(`fields.${field}`)}</Label>
                     <Input
                       id={`demo-${field}`}
                       type={type}
@@ -913,7 +815,7 @@ export function DemoForm() {
                 ))}
               </div>
               <div className="flex flex-col gap-2">
-                <Label htmlFor="demo-email">Email de trabajo</Label>
+                <Label htmlFor="demo-email">{t("fields.email")}</Label>
                 <Input
                   id="demo-email"
                   type="email"
@@ -930,32 +832,32 @@ export function DemoForm() {
               </div>
               <fieldset className="flex flex-col gap-2">
                 <legend className="mb-2 text-sm font-medium">
-                  ¿Cuántas personas son en el equipo?
+                  {t("teamQuestion")}
                 </legend>
                 <div
                   role="radiogroup"
-                  aria-label="Tamaño del equipo"
+                  aria-label={t("teamLabel")}
                   className="grid grid-cols-2 gap-2 sm:grid-cols-4"
                 >
                   {TEAM_SIZES.map((size) => (
                     <button
-                      key={size}
+                      key={size.key}
                       type="button"
                       role="radio"
-                      aria-checked={teamSize === size}
+                      aria-checked={teamSize === size.value}
                       onClick={() =>
-                        form.setValue("teamSize", size, {
+                        form.setValue("teamSize", size.value, {
                           shouldValidate: true,
                         })
                       }
                       className={cn(
                         "h-11 rounded-lg border text-sm font-medium tabular-nums outline-none transition-colors focus-visible:ring-2 focus-visible:ring-forest",
-                        teamSize === size
+                        teamSize === size.value
                           ? "border-forest bg-forest text-paper"
                           : "border-[#cfd5cc] bg-white text-ink hover:border-forest/50",
                       )}
                     >
-                      {size}
+                      {t(`teamSizes.${size.key}`)}
                     </button>
                   ))}
                 </div>
@@ -973,10 +875,10 @@ export function DemoForm() {
                 {form.formState.isSubmitting ? (
                   <>
                     <LoaderCircle className="size-4 animate-spin" />
-                    Enviando…
+                    {t("sending")}
                   </>
                 ) : (
-                  "Pedir una demo"
+                  t("submit")
                 )}
               </button>
             </form>

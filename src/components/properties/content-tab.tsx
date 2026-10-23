@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Controller, useWatch, type UseFormReturn } from "react-hook-form";
 
 import { ChipPicker } from "@/components/properties/form-controls";
@@ -8,7 +9,7 @@ import { RichTextEditor } from "@/components/rich-text/rich-text-editor";
 import type { FormValues } from "@/components/properties/property-editor";
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
-import { INCLUDED_SERVICE_LABELS } from "@/lib/properties-labels";
+import { useLabels } from "@/lib/labels";
 import { richTextPlain } from "@/lib/rich-text";
 import { INCLUDED_SERVICES } from "@/lib/property-catalogs";
 import { cn } from "@/lib/utils";
@@ -26,6 +27,8 @@ function Counter({ length, limit }: { length: number; limit?: number }) {
 }
 
 export function ContentTab({ form, isRent }: { form: UseFormReturn<FormValues>; isRent: boolean }) {
+  const t = useTranslations("properties.content");
+  const labels = useLabels();
   const values = useWatch({ control: form.control });
   const summary = values.summary ?? "";
   const description = richTextPlain(values.description ?? "");
@@ -33,24 +36,24 @@ export function ContentTab({ form, isRent }: { form: UseFormReturn<FormValues>; 
   return (
     <div className="flex max-w-2xl min-w-0 flex-col gap-12">
       <Section
-        title="Texto de la ficha"
-        description="Lo primero que lee el cliente. El resumen va destacado arriba y la descripción debajo."
+        title={t("text.title")}
+        description={t("text.description")}
         shown
       >
         <FieldGroup>
           <Field>
             <div className="flex items-baseline justify-between gap-3">
-              <FieldLabel htmlFor="summary">Resumen</FieldLabel>
+              <FieldLabel htmlFor="summary">{t("text.summary")}</FieldLabel>
               <Counter length={summary.length} limit={SUMMARY_LIMIT} />
             </div>
             <Textarea id="summary" rows={3} {...form.register("summary")} />
             <FieldDescription>
-              Una o dos frases que enganchen. Funciona mejor si no pasa de {SUMMARY_LIMIT} caracteres.
+              {t("text.summaryHint", { limit: SUMMARY_LIMIT })}
             </FieldDescription>
           </Field>
           <Field>
             <div className="flex items-baseline justify-between gap-3">
-              <FieldLabel htmlFor="description">Descripción</FieldLabel>
+              <FieldLabel htmlFor="description">{t("text.descriptionLabel")}</FieldLabel>
               <Counter length={description.length} />
             </div>
             <Controller
@@ -66,22 +69,22 @@ export function ContentTab({ form, isRent }: { form: UseFormReturn<FormValues>; 
                 />
               )}
             />
-            <FieldDescription>Usá títulos y listas para ordenar ambientes, comodidades o lo que incluye.</FieldDescription>
+            <FieldDescription>{t("text.descriptionHint")}</FieldDescription>
           </Field>
         </FieldGroup>
       </Section>
 
       {isRent && (
         <>
-          <Section title="Servicios incluidos" description="Lo que está incluido en el precio del alquiler.">
+          <Section title={t("included.title")} description={t("included.description")}>
             <Controller
               control={form.control}
               name="includedServices"
               render={({ field }) => (
                 <ChipPicker
-                  label="Servicios incluidos"
+                  label={t("included.title")}
                   options={INCLUDED_SERVICES}
-                  labels={INCLUDED_SERVICE_LABELS}
+                  labelOf={labels.includedService}
                   value={field.value}
                   onChange={field.onChange}
                   limit={20}
@@ -90,10 +93,10 @@ export function ContentTab({ form, isRent }: { form: UseFormReturn<FormValues>; 
             />
           </Section>
 
-          <Section title="Políticas y términos" description="Condiciones de reserva, cancelación y uso de la propiedad.">
+          <Section title={t("policies.title")} description={t("policies.description")}>
             <Field>
               <FieldLabel htmlFor="extraInfo" className="sr-only">
-                Políticas y términos
+                {t("policies.title")}
               </FieldLabel>
               <Textarea id="extraInfo" rows={4} {...form.register("extraInfo")} />
             </Field>

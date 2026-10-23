@@ -1,0 +1,83 @@
+{
+  "team": {
+    "active": "Actif",
+    "inactive": "Inactif",
+    "member": "Membre",
+    "role": "Rôle",
+    "status": "Statut",
+    "actionsColumn": "Actions",
+    "memberSince": "Dans l’équipe depuis le {date}",
+    "since": "Depuis le {date}",
+    "memberSinceColumn": "Dans l’équipe depuis",
+    "roles": {
+      "OWNER": "Titulaire",
+      "ADMIN": "Administrateur",
+      "AGENT": "Agent"
+    },
+    "rolePlurals": {
+      "OWNER": "Titulaires",
+      "ADMIN": "Administrateurs",
+      "AGENT": "Agents"
+    },
+    "roleHints": {
+      "OWNER": "Titulaire du compte",
+      "ADMIN": "Gère l’équipe, les biens et les offres",
+      "AGENT": "Travaille avec les biens, les clients et les réservations"
+    },
+    "menu": {
+      "actions": "Actions pour {name}",
+      "sendEmail": "Envoyer un e-mail",
+      "copyEmail": "Copier l’e-mail",
+      "changeRole": "Changer de rôle",
+      "deactivate": "Désactiver l’accès",
+      "reactivate": "Réactiver l’accès",
+      "remove": "Retirer de l’équipe"
+    },
+    "invite": {
+      "linked": "Cette personne avait déjà un compte Tivvo : nous l’avons ajoutée à votre équipe",
+      "sent": "Nous lui avons envoyé l’accès par e-mail",
+      "title": "Inviter un membre",
+      "description": "S’il a déjà un compte Tivvo, nous l’ajoutons à votre équipe ; sinon, nous lui envoyons l’accès par e-mail.",
+      "name": "Nom",
+      "namePlaceholder": "Ex. : Rodrigo Sosa",
+      "emailPlaceholder": "nom@email.com",
+      "role": "Rôle",
+      "submitting": "Invitation…",
+      "submit": "Inviter"
+    },
+    "page": {
+      "updateFailed": "Impossible d’enregistrer la modification",
+      "removed": "Retiré de l’équipe",
+      "removeFailed": "Impossible de retirer de l’équipe",
+      "roleChanged": "Nouveau rôle : {role}",
+      "reactivated": "Accès réactivé",
+      "deactivated": "Accès désactivé",
+      "title": "Équipe",
+      "searchPlaceholder": "Rechercher par nom ou e-mail",
+      "search": "Rechercher dans l’équipe",
+      "role": "Rôle",
+      "roles": "rôles",
+      "help": "Aide sur l’équipe",
+      "loadFailed": "Impossible de charger l’équipe",
+      "empty": {
+        "title": "Constituez votre équipe",
+        "body": "Ajoutez des administrateurs et des agents pour travailler ensemble.",
+        "help": "Ce que peut faire chaque rôle"
+      },
+      "noMatch": {
+        "title": "Personne ne correspond",
+        "body": "Essayez un autre nom ou retirez le filtre de rôle."
+      },
+      "deactivate": {
+        "title": "Désactiver l’accès ?",
+        "body": "{name} ne pourra plus se connecter au compte. Ses biens et clients sont conservés et vous pouvez le réactiver quand vous voulez.",
+        "confirm": "Désactiver"
+      },
+      "remove": {
+        "title": "Retirer de l’équipe ?",
+        "body": "{name} perd l’accès à cette agence. Son compte n’est pas supprimé : s’il appartient à une autre agence, il continue à s’y connecter normalement.",
+        "confirm": "Retirer"
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "docs": {
+    "header": {
+      "docs": "Documentación",
+      "back": "Volver al panel"
+    },
+    "page": {
+      "title": "Cómo funciona Tivvo",
+      "lead": "Una guía de cada herramienta del panel: qué hace, cómo se usa y qué ven tus clientes. Usá el índice para ir directo a lo que necesitás.",
+      "sections": "Secciones de la documentación",
+      "index": "Índice",
+      "adminOnly": "Propietarios y administradores"
+    }
+  }
+}

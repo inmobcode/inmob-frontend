@@ -1,58 +1,61 @@
-import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
+import NextLink from "next/link";
 
+import { LanguageSwitcher } from "@/components/language-switcher";
 import { LogoIcon } from "@/components/logo-icon";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 const WRAP = "mx-auto w-full max-w-[1440px] px-5 sm:px-8";
 
 // Section links point at "/#…" so they also work from the legal pages, which
-// share this footer.
-const FOOTER_LINKS: {
-  title: string;
-  links: { label: string; href: string }[];
-}[] = [
+// share this footer. `app` links go to the dashboard host, which has no
+// language prefix: ?lang carries the language over.
+const FOOTER_LINKS = [
   {
-    title: "Producto",
+    key: "product",
     links: [
-      { label: "Cómo funciona", href: "/#flujo" },
-      { label: "Equipo y permisos", href: "/#equipo" },
-      { label: "Migración", href: "/#migracion" },
+      { key: "how", href: "/#flujo" },
+      { key: "team", href: "/#equipo" },
+      { key: "migration", href: "/#migracion" },
     ],
   },
   {
-    title: "Portales",
+    key: "portals",
     links: [
-      { label: "Sitio de tu agencia", href: "/#portales" },
-      { label: "Portal del propietario", href: "/#portales" },
+      { key: "site", href: "/#portales" },
+      { key: "owner", href: "/#portales" },
     ],
   },
   {
-    title: "Empezar",
+    key: "start",
     links: [
-      { label: "Pedir una demo", href: "/#demo" },
-      { label: "Planes", href: "/#planes" },
-      { label: "Preguntas frecuentes", href: "/#preguntas" },
+      { key: "demo", href: "/#demo" },
+      { key: "plans", href: "/#planes" },
+      { key: "faq", href: "/#preguntas" },
     ],
   },
   {
-    title: "Cuenta",
+    key: "account",
     links: [
-      { label: "Ingresar", href: "/login" },
-      { label: "Crear cuenta", href: "/register" },
+      { key: "login", href: "/login", app: true },
+      { key: "register", href: "/register", app: true },
     ],
   },
-];
+] as const;
 
 const LEGAL_LINKS = [
-  { label: "Ayuda", href: "/help" },
-  { label: "Términos y condiciones", href: "/terms" },
-  { label: "Privacidad", href: "/privacy" },
-];
+  { key: "help", href: "/help" },
+  { key: "terms", href: "/terms" },
+  { key: "privacy", href: "/privacy" },
+] as const;
 
 const FOOTER_LINK =
   "rounded-sm text-paper/75 outline-none transition-colors hover:text-paper focus-visible:ring-2 focus-visible:ring-lime";
 
 export function LandingFooter() {
+  const t = useTranslations("landing.footer");
+  const locale = useLocale();
   return (
     <footer data-nav-dark className="overflow-hidden bg-forest-deep text-paper">
       <div
@@ -70,23 +73,29 @@ export function LandingFooter() {
             Tivvo
           </Link>
           <p className="max-w-xs text-pretty text-paper/60">
-            Sistema de gestión para agencias de venta y alquiler temporario.
+            {t("tagline")}
           </p>
         </div>
 
         <nav
-          aria-label="Pie"
+          aria-label={t("label")}
           className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-4 lg:col-span-8"
         >
           {FOOTER_LINKS.map((group) => (
-            <div key={group.title} className="flex flex-col gap-4">
-              <h3 className="text-sm text-paper/45">{group.title}</h3>
+            <div key={group.key} className="flex flex-col gap-4">
+              <h3 className="text-sm text-paper/45">{t(`groups.${group.key}.title`)}</h3>
               <ul className="flex flex-col gap-2.5">
                 {group.links.map((link) => (
-                  <li key={link.label}>
-                    <Link href={link.href} className={FOOTER_LINK}>
-                      {link.label}
-                    </Link>
+                  <li key={link.key}>
+                    {"app" in link ? (
+                      <NextLink href={`${link.href}?lang=${locale}`} className={FOOTER_LINK}>
+                        {t(`groups.${group.key}.${link.key}` as never)}
+                      </NextLink>
+                    ) : (
+                      <Link href={link.href} className={FOOTER_LINK}>
+                        {t(`groups.${group.key}.${link.key}` as never)}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -98,19 +107,22 @@ export function LandingFooter() {
       <div className={WRAP}>
         <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-t border-paper/10 py-6 text-sm text-paper/45">
           <p>© {new Date().getFullYear()} Tivvo</p>
-          <ul aria-label="Legal" className="flex flex-wrap items-center gap-x-6 gap-y-2">
+          <ul aria-label={t("legalLabel")} className="flex flex-wrap items-center gap-x-6 gap-y-2">
             {LEGAL_LINKS.map((link) => (
               <li key={link.href}>
                 <Link href={link.href} className={cn(FOOTER_LINK, "text-paper/60")}>
-                  {link.label}
+                  {t(`legal.${link.key}`)}
                 </Link>
               </li>
             ))}
             <li>
               {/* "#top" scrolls to the start of the document without needing an element with that id. */}
               <a href="#top" className={cn(FOOTER_LINK, "text-paper/60")}>
-                Volver arriba
+                {t("top")}
               </a>
+            </li>
+            <li>
+              <LanguageSwitcher align="end" className="-ml-2.5 text-paper/60 hover:bg-paper/10 hover:text-paper" />
             </li>
           </ul>
         </div>

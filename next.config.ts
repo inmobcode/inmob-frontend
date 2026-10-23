@@ -1,4 +1,8 @@
 import type { NextConfig } from "next";
+import createNextIntlPlugin from "next-intl/plugin";
+
+// Points next-intl at src/i18n/request.ts (where each request picks its language).
+const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 // No CSP yet: the portals inject per-agency fonts/colors, maplibre runs from a
 // blob worker and next-themes inlines a script, so a strict policy needs its
@@ -14,6 +18,8 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   experimental: {
     agentUpgrade: "security",
+    // Two root layouts (the app and the localized site): unmatched URLs need app/global-not-found.tsx.
+    globalNotFound: true,
   },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
@@ -46,4 +52,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

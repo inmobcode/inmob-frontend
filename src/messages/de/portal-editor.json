@@ -1,0 +1,319 @@
+{
+  "portalEditor": {
+    "templates": {
+      "portada": {
+        "label": "Titelbild",
+        "description": "Ein großes Titelbild mit der Suche darüber."
+      },
+      "editorial": {
+        "label": "Editorial",
+        "description": "Große Überschrift neben dem Foto und breitere Karten mit Beschreibung."
+      },
+      "compacto": {
+        "label": "Kompakt",
+        "description": "Ohne Titelbild. Zeigt viele Objekte auf einen Blick."
+      },
+      "dividido": {
+        "label": "Geteilt",
+        "description": "Eine Hälfte in Ihrer Farbe mit Überschrift und Suche, die andere mit dem Titelbild."
+      },
+      "mosaico": {
+        "label": "Mosaik",
+        "description": "Eine Fotocollage oben, die Sie unter Titelbild wählen, und das erste Objekt groß hervorgehoben."
+      }
+    },
+    "accents": {
+      "charcoal": "Anthrazit",
+      "forest": "Waldgrün",
+      "petrol": "Petrol",
+      "blue": "Blau",
+      "indigo": "Indigo",
+      "brick": "Ziegelrot",
+      "ochre": "Ocker",
+      "wood": "Holz"
+    },
+    "fonts": {
+      "moderna": {
+        "label": "Modern",
+        "description": "Klare, geometrische Überschriften."
+      },
+      "clasica": {
+        "label": "Klassisch",
+        "description": "Überschriften mit Serifen, elegant."
+      },
+      "sobria": {
+        "label": "Schlicht",
+        "description": "Eine einzige, dezente Schriftfamilie."
+      },
+      "elegante": {
+        "label": "Elegant",
+        "description": "Feine Serifenschrift, für Luxusobjekte."
+      },
+      "editorial": {
+        "label": "Editorial",
+        "description": "Serifenschrift mit Charakter, wie ein Magazin."
+      },
+      "calida": {
+        "label": "Warm",
+        "description": "Weiche Serifen und runder Text."
+      },
+      "urbana": {
+        "label": "Urban",
+        "description": "Zeitgemäße Groteskschrift, klar und freundlich."
+      },
+      "arquitectonica": {
+        "label": "Architektonisch",
+        "description": "Breite Überschriften mit Präsenz."
+      }
+    },
+    "sections": {
+      "location": {
+        "label": "Lage",
+        "description": "Ein Gebiet mit Foto, Text und seinen Objekten. Ideal für Ibiza, Griechenland oder Ihr Viertel.",
+        "layouts": {
+          "split": "Hervorgehoben",
+          "banner": "Banner",
+          "carousel": "Karussell"
+        }
+      },
+      "promo": {
+        "label": "Aktion",
+        "description": "Objekte mit einem Etikett wie „15 % Rabatt“ oder „Saisonangebot“.",
+        "layouts": {
+          "band": "Farbband",
+          "banner": "Fotobanner",
+          "carousel": "Karussell"
+        }
+      },
+      "featured": {
+        "label": "Ausgewählte Objekte",
+        "description": "Ihre eigene Auswahl: das Neueste, direkt am Meer, das Gefragteste.",
+        "layouts": {
+          "grid": "Raster",
+          "carousel": "Karussell"
+        }
+      },
+      "destinations": {
+        "label": "Reiseziele",
+        "description": "Mehrere Gebiete auf einmal, jedes mit eigenem Foto. Ein Klick filtert die Liste.",
+        "layouts": {
+          "tiles": "Kacheln",
+          "carousel": "Karussell"
+        }
+      },
+      "text": {
+        "label": "Text und Bild",
+        "description": "Erzählen Sie etwas Eigenes: Ihre Leistungen, Bewertungen, wie Sie arbeiten.",
+        "layouts": {
+          "image-left": "Bild links",
+          "image-right": "Bild rechts",
+          "centered": "Nur Text"
+        }
+      },
+      "cta": {
+        "label": "Handlungsaufruf",
+        "description": "Eine Einladung mit Schaltfläche, etwa „Möchten Sie Ihre Immobilie verkaufen?“.",
+        "layouts": {
+          "color": "Farbe",
+          "photo": "Mit Foto"
+        }
+      }
+    },
+    "buttonTargets": {
+      "contact": "Kontaktformular",
+      "whatsapp": "WhatsApp",
+      "properties": "Objektliste"
+    },
+    "design": {
+      "title": "Layout",
+      "description": "Die Grundform der Startseite. Sie können eines für Computer und ein anderes für Handys nutzen.",
+      "screen": "Bildschirm",
+      "desktop": "Computer",
+      "mobile": "Handy",
+      "sameAsDesktop": "Wie am Computer",
+      "sameAsDesktopHint": "Ausschalten, um ein anderes Layout nur für Handys zu wählen.",
+      "onMobile": "Layout auf Handys",
+      "onDesktop": "Layout auf Computern"
+    },
+    "color": {
+      "title": "Farbe",
+      "description": "Für Schaltflächen, Links und Details. Der Rest der Website bleibt weiß und grau.",
+      "custom": "Andere Farbe wählen",
+      "code": "Farbcode",
+      "picker": "Oder eine andere, mit der Farbauswahl",
+      "format": "Verwenden Sie das Format #1F5F4A"
+    },
+    "fontsTitle": "Typografie",
+    "cover": {
+      "mosaicTitle": "Mosaikfotos",
+      "mosaicDescription": "Die vier Titelfotos in dieser Reihenfolge; das erste wird groß gezeigt. Wenn Sie keine wählen, werden Fotos Ihrer Objekte verwendet.",
+      "photoTitle": "Titelbild",
+      "photoDescription": "Das Hauptbild Ihrer Seite. Am besten im Querformat und mindestens 1920 px breit.",
+      "current": "Aktuelles Titelbild",
+      "none": "Kein Titelbild: Ihre Farbe wird verwendet.",
+      "change": "Foto ändern",
+      "upload": "Foto hochladen",
+      "remove": "Entfernen",
+      "texts": "Texte",
+      "heroTitle": "Überschrift",
+      "heroTitleHint": "Bleibt sie leer, wird die Beispielüberschrift verwendet.",
+      "heroSubtitle": "Unterzeile",
+      "heroSubtitlePlaceholder": "Häuser und Wohnungen zum Kauf und zur Miete an der Küste."
+    },
+    "blocksPanel": {
+      "title": "Blöcke",
+      "description": "Eigene Abschnitte zwischen Titelbild und Objektliste: Reiseziele wie Ibiza oder Griechenland oder Aktionen mit ausgewählten Objekten."
+    },
+    "agency": {
+      "aboutTitle": "Über Ihre Agentur",
+      "aboutDescription": "Ein Absatz darüber, wer Sie sind und wie Sie arbeiten.",
+      "showAbout": "Abschnitt auf der Website zeigen",
+      "aboutLabel": "Text über Ihre Agentur",
+      "aboutPlaceholder": "Wir sind ein Familienunternehmen und seit 20 Jahren in der Region tätig…",
+      "contactTitle": "Kontakt",
+      "contactDescription": "Erscheint in der Fußzeile und im Kontaktbereich. Die E-Mail ändern Sie in den Einstellungen.",
+      "whatsappHint": "Mit Ländervorwahl. Aktiviert die Schaltfläche „Schreiben Sie uns auf WhatsApp“.",
+      "phone": "Telefon",
+      "address": "Büroadresse",
+      "instagramPlaceholder": "@ihreagentur"
+    },
+    "placeholders": {
+      "location": {
+        "title": "Ibiza",
+        "text": "Türkisfarbene Buchten, weiße Dörfer und Sonnenuntergänge. Wir haben Villen und Wohnungen auf der ganzen Insel."
+      },
+      "promo": {
+        "title": "Sommer an der Küste",
+        "text": "Bei Buchung bis 30. November 15 % Rabatt auf Aufenthalte ab einer Woche."
+      },
+      "featured": {
+        "title": "Neu eingetroffen",
+        "text": "Die zuletzt hinzugefügten Objekte."
+      },
+      "destinations": {
+        "title": "Wo wir Objekte haben"
+      },
+      "text": {
+        "title": "Kostenlose Bewertung Ihrer Immobilie",
+        "text": "Wir sagen Ihnen, was sie auf dem heutigen Markt wert ist und wie sie schneller verkauft wird."
+      },
+      "cta": {
+        "title": "Möchten Sie Ihre Immobilie verkaufen?",
+        "text": "Wir begleiten Sie von der Bewertung bis zum Notartermin."
+      }
+    },
+    "blocks": {
+      "imageFailed": "Bild konnte nicht hochgeladen werden",
+      "changeImage": "Bild ändern",
+      "uploadImage": "Bild hochladen",
+      "change": "Ändern",
+      "remove": "Entfernen",
+      "picker": {
+        "count": "({count} von höchstens {max})",
+        "empty": "Sie haben noch keine veröffentlichten Objekte.",
+        "searchPlaceholder": "Nach Titel oder Gebiet suchen",
+        "searchIn": "In {label} suchen",
+        "noMatch": "Nichts passt zu dieser Suche.",
+        "previous": "Vorherige Seite",
+        "next": "Nächste Seite",
+        "page": "Seite {page} von {total}"
+      },
+      "zone": "Gebiet",
+      "destinations": {
+        "title": "Reiseziele",
+        "name": "Name von Reiseziel {number}",
+        "zone": "Gebiet (falls anders als der Name)",
+        "remove": "{name} entfernen",
+        "fallback": "Reiseziel",
+        "add": "Reiseziel hinzufügen"
+      },
+      "button": {
+        "label": "Schaltflächentext",
+        "hint": "Leer: keine Schaltfläche.",
+        "placeholder": "Schreiben Sie uns",
+        "target": "Führt zu"
+      },
+      "layout": "Layout",
+      "layoutLabel": "Layout des Blocks",
+      "title": "Titel",
+      "zoneHint": "Gezählt werden Objekte, deren Viertel, Region oder Land zu diesem Gebiet passt.",
+      "badge": "Etikett",
+      "endsAt": "Gültig bis (optional)",
+      "noDate": "Ohne Datum",
+      "text": "Text",
+      "zonePhoto": "Foto des Gebiets",
+      "image": "Bild",
+      "listings": "Objekte im Block",
+      "listingsLabel": "Welche Objekte angezeigt werden",
+      "fromZone": "Die aus dem Gebiet",
+      "pick": "Selbst auswählen",
+      "picked": "Ausgewählte Objekte",
+      "included": "Enthaltene Objekte",
+      "properties": "Objekte",
+      "untitled": "Ohne Titel",
+      "hidden": "ausgeblendet",
+      "showNamed": "{name} einblenden",
+      "hideNamed": "{name} ausblenden",
+      "show": "Auf der Website zeigen",
+      "hide": "Auf der Website ausblenden",
+      "moveUp": "{name} nach oben",
+      "moveDown": "{name} nach unten",
+      "delete": "{name} löschen",
+      "max": "Sie haben das Maximum von {max} Blöcken erreicht.",
+      "addTitle": "Welchen Block möchten Sie hinzufügen?",
+      "close": "Schließen",
+      "add": "Block hinzufügen",
+      "zonePicker": {
+        "pick": "Lage wählen",
+        "none": "Ohne Lage"
+      }
+    },
+    "preview": {
+      "title": "Vorschau der Website"
+    },
+    "mosaic": {
+      "uploadFailed": "Bild konnte nicht hochgeladen werden",
+      "change": "Foto {number} ändern",
+      "pick": "Foto {number} wählen",
+      "remove": "Foto {number} entfernen",
+      "dialogTitle": "Mosaikfoto {number}",
+      "dialogDescription": "Wählen Sie ein Foto Ihrer Objekte oder laden Sie ein Bild hoch.",
+      "uploading": "Wird hochgeladen…",
+      "upload": "Bild hochladen",
+      "empty": "Ihre Objekte haben noch keine Fotos.",
+      "used": "{title} (bereits im Mosaik)"
+    },
+    "page": {
+      "saved": "Website aktualisiert",
+      "saveFailed": "Website konnte nicht gespeichert werden",
+      "coverSaved": "Titelbild aktualisiert",
+      "coverFailed": "Titelbild konnte nicht hochgeladen werden",
+      "title": "Ihre Website",
+      "unsaved": "Ungespeicherte Änderungen",
+      "previewSize": "Vorschaugröße",
+      "viewports": {
+        "desktop": "Desktop",
+        "mobile": "Handy"
+      },
+      "edit": "Bearbeiten",
+      "preview": "Vorschau",
+      "help": "Hilfe zur Website",
+      "viewPublishedTitle": "Veröffentlichte Website ansehen",
+      "viewPublished": "Veröffentlicht ansehen",
+      "save": "Änderungen speichern",
+      "sections": "Bereiche des Editors",
+      "tabs": {
+        "design": "Layout",
+        "cover": "Titelbild",
+        "blocks": "Blöcke",
+        "agency": "Agentur und Kontakt"
+      },
+      "exit": {
+        "title": "Sie haben ungespeicherte Änderungen",
+        "body": "Wenn Sie jetzt gehen, gehen die noch nicht gespeicherten Änderungen an Ihrer Website verloren.",
+        "stay": "Weiter bearbeiten",
+        "leave": "Ohne Speichern verlassen"
+      }
+    }
+  }
+}

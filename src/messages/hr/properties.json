@@ -1,0 +1,654 @@
+{
+  "properties": {
+    "sort": {
+      "label": "Poredaj po",
+      "updatedAt_desc": "Najnovije",
+      "updatedAt_asc": "Najstarije",
+      "price_desc": "Cijena: od najviše",
+      "price_asc": "Cijena: od najniže",
+      "title_asc": "Naslov: A-Ž",
+      "title_desc": "Naslov: Ž-A"
+    },
+    "menu": {
+      "viewOnSiteOf": "Pogledaj {title} na stranici",
+      "viewOnSite": "Pogledaj na stranici",
+      "actionsOf": "Radnje za {title}",
+      "edit": "Uredi",
+      "republish": "Ponovno objavi",
+      "publish": "Objavi",
+      "unpublish": "Povuci objavu",
+      "archive": "Arhiviraj",
+      "delete": "Izbriši"
+    },
+    "listingType": {
+      "label": "Vrsta posla",
+      "SALE": {
+        "label": "Prodaja",
+        "hint": "Prodajte nekretninu"
+      },
+      "RENT": {
+        "label": "Najam",
+        "hint": "Dugoročni ili sezonski najam"
+      }
+    },
+    "audience": {
+      "shown": "Prikazuje se na stranici",
+      "internal": "Samo interno"
+    },
+    "bulk": {
+      "label": "Radnje nad odabranim nekretninama",
+      "selected": "{count, plural, one {# odabrana} few {# odabrane} other {# odabranih}}",
+      "selectAll": "Odaberi svih {count}",
+      "publish": "Objavi",
+      "archive": "Arhiviraj",
+      "delete": "Izbriši",
+      "clear": "Poništi odabir"
+    },
+    "activeFilters": {
+      "statusPlural": {
+        "PUBLISHED": "Objavljene",
+        "DRAFT": "Skice",
+        "ARCHIVED": "Arhivirane"
+      },
+      "priceFrom": "Od {price}",
+      "priceTo": "Do {price}",
+      "owner": "Vlasnik",
+      "bedsAtLeast": "{count}+ spavaćih soba",
+      "bathsAtLeast": "{count}+ kupaonica",
+      "label": "Filtri:",
+      "remove": "Ukloni filtar {filter}",
+      "clearAll": "Ukloni sve"
+    },
+    "create": {
+      "titleRequired": "Unesite naslov",
+      "new": "Nova nekretnina",
+      "description": "Počnite s osnovnim. Fotografije, cijenu i značajke dodajete poslije.",
+      "operation": "Što ćete s njom?",
+      "title": "Naslov",
+      "titlePlaceholder": "Npr. Kuća uz more u La Barri",
+      "category": "Kategorija",
+      "submit": "Izradi nekretninu"
+    },
+    "card": {
+      "unselect": "Ukloni {title} iz odabira",
+      "select": "Odaberi {title}",
+      "priceOnRequest": "Cijena na upit",
+      "bedrooms": "{count, plural, one {{value} spavaća soba} few {{value} spavaće sobe} other {{value} spavaćih soba}}",
+      "bathrooms": "{count, plural, one {{value} kupaonica} few {{value} kupaonice} other {{value} kupaonica}}",
+      "builtArea": "{value} četvornih metara izgrađeno",
+      "plotArea": "{value} četvornih metara zemljišta",
+      "owner": "Vlasnik: {name}",
+      "updated": "Ažurirano {ago}",
+      "onRequest": "Na upit",
+      "builtAreaTitle": "Izgrađena površina",
+      "bedroomsShort": "{value} sp."
+    },
+    "table": {
+      "unselectAll": "Poništi odabir svih",
+      "selectAll": "Odaberi sve",
+      "property": "Nekretnina",
+      "status": "Status",
+      "price": "Cijena",
+      "bedrooms": "Sp.",
+      "bathrooms": "Kup.",
+      "area": "Površina",
+      "owner": "Vlasnik",
+      "updated": "Ažurirano",
+      "actions": "Radnje"
+    },
+    "controls": {
+      "decrease": "Smanji {label}",
+      "increase": "Povećaj {label}",
+      "removeTag": "Ukloni {tag}",
+      "search": "Pretraži",
+      "searchIn": "Pretraži u {label}",
+      "selected": "{count, plural, =0 {Ništa nije odabrano} one {# odabrano} few {# odabrana} other {# odabrano}}",
+      "clear": "Očisti",
+      "noMatch": "Ništa ne odgovara „{query}”.",
+      "showLess": "Prikaži manje",
+      "showMore": "Prikaži još {count}"
+    },
+    "amenities": {
+      "general": {
+        "title": "Opći sadržaji",
+        "description": "Kratki popis koji se prikazuje na javnoj kartici. Upišite svaki i pritisnite Enter.",
+        "label": "Sadržaji",
+        "placeholder": "Npr. Bazen, Roštilj, Wi-Fi"
+      },
+      "outdoor": {
+        "title": "Vanjski sadržaji",
+        "description": "Što je izvan kuće: bazen, roštilj, igrališta i drugo."
+      },
+      "indoor": {
+        "title": "Unutarnji sadržaji",
+        "description": "Instalacije i oprema unutar nekretnine.",
+        "other": "Ostali sadržaji",
+        "otherPlaceholder": "Nešto čega nema na popisu"
+      },
+      "conditions": {
+        "rentTitle": "Usluge i uvjeti",
+        "saleTitle": "Stanje",
+        "rentDescription": "Osoblje, kućni ljubimci, događanja i ostali uvjeti najma.",
+        "saleDescription": "Komercijalni status i opće značajke nekretnine."
+      },
+      "bedrooms": {
+        "title": "Spavaće sobe po vrsti",
+        "description": "Koliko soba ima od svake vrste.",
+        "masterBedroomQty": "Glavna",
+        "doubleBedroomQty": "Bračna",
+        "twinBedroomQty": "Dvokrevetna",
+        "singleBedroomQty": "Jednokrevetna",
+        "bedroomWithBunkBedsQty": "Kreveti na kat",
+        "guestBedroomQty": "Za goste"
+      },
+      "layout": {
+        "title": "Raspored",
+        "description": "Prostorije nekretnine, s neobaveznim opisom svake.",
+        "layoutKitchensCount": "Kuhinje",
+        "layoutLivingRoomsCount": "Dnevni boravci",
+        "layoutGuestWCCount": "WC za goste",
+        "layoutStaffQuartersCount": "Prostorije za osoblje",
+        "garden": "Vrt",
+        "storage": "Spremište",
+        "detailOf": "Detalj: {label}",
+        "detailPlaceholder": "Detalj (neobavezno)"
+      },
+      "more": {
+        "title": "Više detalja",
+        "description": "Opis doživljaja i vanjski tuševi.",
+        "enjoy": "Što se može uživati",
+        "enjoyHint": "Kratki opis doživljaja boravka u nekretnini.",
+        "outdoorShower": "Vanjski tuševi"
+      },
+      "pools": {
+        "title": "Bazeni i jacuzziji",
+        "description": "Svaki s vrstom i dimenzijama."
+      }
+    },
+    "location": {
+      "notFound": "Nismo pronašli tu adresu. Dodajte više podataka ili ručno postavite oznaku.",
+      "found": "Adresa je pronađena na karti",
+      "searchFailed": "Pretraga adrese nije uspjela. Pokušajte ponovno.",
+      "linkTaken": "Koordinate smo preuzeli iz poveznice.",
+      "linkShort": "Kratke poveznice ne sadrže koordinate. Otvorite je i zalijepite punu poveznicu.",
+      "shown": {
+        "title": "Kako se prikazuje",
+        "description": "Tekst koji klijenti vide na kartici.",
+        "label": "Vidljiva lokacija",
+        "hint": "Na primjer „La Barra, Punta del Este”. Ne mora odgovarati točnoj adresi.",
+        "empty": "Nema vidljive lokacije"
+      },
+      "where": {
+        "title": "Gdje se nalazi",
+        "description": "Točna adresa i koordinate, vidljive samo vašem timu.",
+        "country": "Država",
+        "region": "Regija",
+        "area": "Područje",
+        "address": "Adresa",
+        "search": "Pretraži na karti",
+        "mapsLink": "Poveznica na Google Maps",
+        "mapsPlaceholder": "Zalijepite punu poveznicu na Google Maps",
+        "mapsHint": "Ako je zalijepite, koordinate uzimamo odande.",
+        "lat": "Geografska širina",
+        "lng": "Geografska dužina"
+      },
+      "surroundings": {
+        "title": "Okolina",
+        "description": "Značajke područja i pogledi s nekretnine.",
+        "features": "Značajke lokacije",
+        "views": "Pogledi"
+      },
+      "links": {
+        "title": "Poveznice",
+        "description": "Dodatni materijali za klijente.",
+        "brochure": "Brošura (PDF)",
+        "website": "Web-stranica"
+      },
+      "map": {
+        "title": "Lokacija na karti",
+        "hintPinned": "Povucite oznaku ili kliknite na kartu da precizirate položaj.",
+        "hintEmpty": "Kliknite na kartu da postavite oznaku ili potražite adresu."
+      }
+    },
+    "content": {
+      "text": {
+        "title": "Tekst kartice",
+        "description": "Prvo što klijent čita. Sažetak je istaknut na vrhu, a opis ispod.",
+        "summary": "Sažetak",
+        "summaryHint": "Jedna ili dvije rečenice koje privlače pažnju. Najbolje do {limit} znakova.",
+        "descriptionLabel": "Opis",
+        "descriptionHint": "Koristite naslove i popise za prostorije, sadržaje ili što je uključeno."
+      },
+      "included": {
+        "title": "Uključene usluge",
+        "description": "Što je uključeno u cijenu najma."
+      },
+      "policies": {
+        "title": "Pravila i uvjeti",
+        "description": "Uvjeti rezervacije, otkazivanja i korištenja nekretnine."
+      }
+    },
+    "basic": {
+      "responsibleUpdated": "Odgovorna osoba je ažurirana",
+      "responsibleFailed": "Odgovornu osobu nije moguće promijeniti",
+      "responsible": "Odgovorna osoba",
+      "responsibleHint": "Agent vidi samo nekretnine koje su mu dodijeljene. Sprema se pri odabiru.",
+      "untitled": "Bez naslova",
+      "example": "Npr. {value}",
+      "unspecified": "Nije navedeno",
+      "preview": "Ovako izgleda u vašem portfelju",
+      "identity": {
+        "title": "Identitet",
+        "description": "Kako se zove i koja je vrsta nekretnine.",
+        "titleLabel": "Naslov",
+        "privateName": "Interni naziv",
+        "privateNameHint": "Vidite ga samo vi i vaš tim. Služi za razlikovanje sličnih nekretnina.",
+        "operation": "Vrsta posla",
+        "operationHint": "Promjena prikazuje ili skriva odjeljke, poput onih za najam.",
+        "category": "Kategorija"
+      },
+      "features": {
+        "title": "Značajke",
+        "description": "Što klijenti vide na kartici.",
+        "bedrooms": "Spavaće sobe",
+        "bathrooms": "Kupaonice",
+        "areaSqm": "Zatvorena površina",
+        "plotArea": "Površina zemljišta",
+        "parking": "Parkirna mjesta",
+        "storage": "Spremišta",
+        "staffRoom": "Sobe za osoblje",
+        "floors": "Katovi",
+        "floorsPlaceholder": "Upišite kat i pritisnite Enter",
+        "floorsHint": "Možete unijeti više, npr. 1, 2 i 3."
+      },
+      "rent": {
+        "title": "Podaci o najmu",
+        "description": "Kapacitet i kategorija smještaja.",
+        "guests": "Gosti",
+        "stars": "Zvjezdice"
+      },
+      "sale": {
+        "title": "Podaci o prodaji",
+        "description": "Starost, energetska učinkovitost i vrsta lokacije.",
+        "constructionYear": "Godina izgradnje",
+        "renovationYear": "Godina obnove",
+        "energyCertificate": "Energetski certifikat",
+        "locationCategory": "Vrsta lokacije"
+      }
+    },
+    "filters": {
+      "title": "Filtri",
+      "description": "Kombinirajte filtre koji vam trebaju i primijenite ih zajedno.",
+      "status": "Status",
+      "statusPlural": {
+        "PUBLISHED": "Objavljene",
+        "DRAFT": "Skice",
+        "ARCHIVED": "Arhivirane"
+      },
+      "statusHint": "Možete odabrati više. Bez odabira prikazuju se sve.",
+      "type": "Vrsta",
+      "allTypes": "Sve",
+      "any": "Sve",
+      "category": "Kategorija",
+      "allCategories": "Sve",
+      "location": "Lokacija",
+      "allLocations": "Sve",
+      "searchLocation": "Pretraži lokaciju…",
+      "noLocation": "Nijedna lokacija ne odgovara.",
+      "owner": "Vlasnik",
+      "allOwners": "Svi vlasnici",
+      "price": "Cijena",
+      "allCurrencies": "Sve valute",
+      "minPrice": "Najniža cijena",
+      "maxPrice": "Najviša cijena",
+      "min": "Najmanje",
+      "max": "Najviše",
+      "bedrooms": "Spavaće sobe",
+      "minBedrooms": "Najmanje spavaćih soba",
+      "bathrooms": "Kupaonice",
+      "minBathrooms": "Najmanje kupaonica",
+      "clear": "Očisti",
+      "show": "{count, plural, =0 {Nema rezultata} one {Prikaži # nekretninu} few {Prikaži # nekretnine} other {Prikaži # nekretnina}}"
+    },
+    "photos": {
+      "cover": "Naslovna",
+      "makeCover": "Postavi kao naslovnu",
+      "move": "Premjesti u drugi odjeljak",
+      "confirmRemove": "Potvrdi: ukloni fotografiju",
+      "remove": "Ukloni fotografiju",
+      "clickAgain": "Kliknite ponovno da je uklonite",
+      "removeShort": "Ukloniti?",
+      "uploadFailed": "Fotografije nije moguće učitati",
+      "removeFailed": "Fotografiju nije moguće ukloniti",
+      "coverFailed": "Naslovnu nije moguće promijeniti",
+      "moved": "Premješteno u {section}",
+      "moveFailed": "Fotografiju nije moguće premjestiti",
+      "orderFailed": "Redoslijed nije moguće spremiti",
+      "saveFailed": "Spremanje nije uspjelo",
+      "onlyImages": "Mogu se učitati samo slike (JPG, PNG, WebP ili HEIC).",
+      "videoInvalid": "Zalijepite valjanu poveznicu, npr. s YouTubea ili Vimea.",
+      "videoDuplicate": "Taj je videozapis već na popisu.",
+      "add": "Dodaj",
+      "gallery": {
+        "title": "Galerija",
+        "description": "Povucite fotografije da ih poredate unutar odjeljka. Promjene na ovoj kartici spremaju se odmah.",
+        "uploadTo": "Učitaj u odjeljak",
+        "target": "Odredišni odjeljak",
+        "newName": "Naziv",
+        "newNameLabel": "Naziv novog odjeljka",
+        "upload": "Učitaj fotografije",
+        "optimizing": "Optimizacija fotografija…",
+        "uploading": "Učitavanje {current} od {total}…",
+        "drop": "Ispustite ih za učitavanje",
+        "drag": "Povucite fotografije ovdje ili kliknite za odabir",
+        "formats": "JPG, PNG, WebP ili HEIC. Automatski se optimiziraju prije učitavanja.",
+        "empty": "Još niste dodali fotografije. Prva će biti naslovna."
+      },
+      "watermark": {
+        "title": "Vodeni žig",
+        "description": "Dodaje logotip vaše agencije na objavljene fotografije.",
+        "label": "Stavi vodeni žig na fotografije"
+      },
+      "videos": {
+        "title": "Videozapisi",
+        "description": "Poveznice s YouTubea, Vimea ili drugih platformi.",
+        "link": "Poveznica na videozapis",
+        "remove": "Ukloni videozapis"
+      },
+      "lightbox": {
+        "title": "Fotografija nekretnine",
+        "position": "{current} od {total}",
+        "previous": "Prethodna fotografija",
+        "next": "Sljedeća fotografija"
+      }
+    },
+    "owner": {
+      "created": "Vlasnik je izrađen i dodijeljen",
+      "createFailed": "Vlasnika nije moguće izraditi",
+      "regenerated": "Poveznica je obnovljena. Stara više ne radi.",
+      "regenerateFailed": "Poveznicu nije moguće obnoviti",
+      "noContact": "Nema kontakt podataka.",
+      "noContactShort": "Nema kontakt podataka",
+      "remove": "Ukloni",
+      "assigned": {
+        "title": "Dodijeljeni vlasnik",
+        "description": "Tko je vlasnik ove nekretnine. Isti vlasnik može imati više njih.",
+        "empty": "Vlasnik još nije dodijeljen. Odaberite jednog s popisa ili izradite novog."
+      },
+      "access": {
+        "title": "Pristup vlasnika",
+        "description": "Poveznica samo za čitanje kako bi {name} vidio stanje svojih nekretnina (dostupnost, rezervacije i uplate), bez lozinke.",
+        "link": "Pristupna poveznica vlasnika",
+        "copyFailed": "Kopiranje nije uspjelo. Označite poveznicu i kopirajte je ručno.",
+        "copy": "Kopiraj poveznicu",
+        "regenerate": "Obnovi"
+      },
+      "pick": {
+        "title": "Odaberi vlasnika",
+        "description": "Pretražite svoje vlasnike ili dodajte novog.",
+        "searchPlaceholder": "Pretraži po imenu, e-pošti ili telefonu",
+        "search": "Pretraži vlasnike",
+        "list": "Vlasnici",
+        "loading": "Učitavanje vlasnika…",
+        "noMatch": "Nitko ne odgovara „{query}”.",
+        "empty": "Još niste unijeli vlasnike."
+      },
+      "new": {
+        "title": "Novi vlasnik",
+        "name": "Ime",
+        "email": "E-pošta (neobavezno)",
+        "phone": "Telefon (neobavezno)",
+        "notes": "Bilješke (neobavezno)",
+        "submit": "Izradi i dodijeli"
+      }
+    },
+    "rates": {
+      "createFailed": "Razdoblje nije moguće izraditi",
+      "new": "Novo razdoblje",
+      "label": "Oznaka (npr. Visoka sezona)",
+      "dates": "Od kojeg do kojeg dana vrijedi",
+      "firstDay": "Odaberite prvi dan",
+      "lastDay": "Sada odaberite zadnji dan",
+      "price": "Službena cijena/noć",
+      "minStay": "Minimalni boravak (noći)",
+      "managementFee": "Naknada za upravljanje (%)",
+      "commission": "Provizija agencije (%)",
+      "add": "Dodaj razdoblje",
+      "noLabel": "Bez oznake",
+      "perNight": "{price}/noć",
+      "minNights": "{count, plural, one {min. # noć} few {min. # noći} other {min. # noći}}",
+      "remove": "Ukloni",
+      "empty": "Još nema cjenovnih razdoblja."
+    },
+    "availability": {
+      "blockFailed": "Datum nije moguće blokirati",
+      "unblockFailed": "Blokadu nije moguće ukloniti",
+      "synced": "{count, plural, one {Sinkroniziran # događaj} few {Sinkronizirana # događaja} other {Sinkronizirano # događaja}}",
+      "syncFailed": "Sinkronizacija nije uspjela",
+      "manual": "Ručno blokiraj datume",
+      "dates": "Od kojeg do kojeg dana",
+      "firstDay": "Odaberite prvi dan",
+      "lastDay": "Sada odaberite zadnji dan",
+      "note": "Bilješka (neobavezno)",
+      "block": "Blokiraj",
+      "blocked": "Blokirani datumi",
+      "loading": "Učitavanje…",
+      "noBlocks": "Nema blokiranih datuma.",
+      "remove": "Ukloni",
+      "sync": "Sinkroniziraj s Airbnb/Booking (iCal)",
+      "syncing": "Sinkronizacija…",
+      "syncNow": "Sinkroniziraj sada",
+      "export": "Izvezi svoju dostupnost",
+      "exportHint": "Zalijepite ovu poveznicu u Airbnb/Booking kao vanjski kalendar da vide vaše blokirane datume.",
+      "copy": "Kopiraj"
+    },
+    "editor": {
+      "titleRequired": "Unesite naslov",
+      "categoryRequired": "Odaberite kategoriju",
+      "saveFailed": "Spremanje nije uspjelo",
+      "published": "Nekretnina je objavljena",
+      "publishFailed": "Objava nije uspjela",
+      "unpublished": "Objava je povučena",
+      "unpublishFailed": "Povlačenje objave nije uspjelo",
+      "fallbackTitle": "Nekretnina",
+      "back": "Nekretnine",
+      "publish": "Objavi",
+      "unpublish": "Povuci objavu",
+      "help": "Pomoć za nekretnine",
+      "groups": {
+        "general": "Opće informacije",
+        "media": "Multimedija",
+        "management": "Upravljanje",
+        "contact": "Kontakt",
+        "rental": "Najam"
+      },
+      "tabs": {
+        "basico": {
+          "label": "Osnovno",
+          "hint": "Naslov, vrsta i mjere"
+        },
+        "ubicacion": {
+          "label": "Lokacija",
+          "hint": "Adresa, karta i okolina"
+        },
+        "amenities": {
+          "label": "Sadržaji",
+          "hint": "Sadržaji i raspored"
+        },
+        "content": {
+          "label": "Sadržaj i usluge",
+          "hint": "Tekstovi za klijente"
+        },
+        "precios": {
+          "label": "Cijene",
+          "hint": "Cijena i valuta"
+        },
+        "fotos": {
+          "label": "Fotografije",
+          "hint": "Galerija i videozapisi"
+        },
+        "disponibilidad": {
+          "label": "Dostupnost",
+          "hint": "Blokade i iCal kalendar"
+        },
+        "rates": {
+          "label": "Cjenik",
+          "hint": "Sezonske cijene"
+        },
+        "essentials": {
+          "label": "Upravljanje",
+          "hint": "Upravljanje i licenca"
+        },
+        "recomendaciones": {
+          "label": "Preporuke",
+          "hint": "Predložena poboljšanja"
+        },
+        "rooms": {
+          "label": "Sobe",
+          "hint": "Hotelske sobe"
+        },
+        "propietario": {
+          "label": "Vlasnik",
+          "hint": "Povezani vlasnik"
+        }
+      }
+    },
+    "essentials": {
+      "management": {
+        "title": "Upravljanje nekretninom",
+        "description": "Osoba ili tvrtka koja njome svakodnevno upravlja.",
+        "name": "Ime",
+        "phone": "Telefon",
+        "emailPlaceholder": "ime@tvrtka.com",
+        "company": "Tvrtka"
+      },
+      "vendor": {
+        "title": "Pružatelj i licenca",
+        "description": "Podaci o onome tko prodaje nekretninu i njezinoj dozvoli.",
+        "name": "Naziv nekretnine kod pružatelja",
+        "website": "Web-stranica pružatelja",
+        "commission": "Provizija",
+        "commissionPlaceholder": "Npr. 5 %",
+        "license": "Broj licence"
+      },
+      "permissions": {
+        "title": "Dozvole",
+        "description": "Što smijete raditi s ovom nekretninom izvan svoje stranice.",
+        "thirdParty": "Objavi na portalima trećih strana",
+        "thirdPartyHint": "Potvrđujete da imate ovlaštenje dijeliti ovu nekretninu s vanjskim portalima."
+      }
+    },
+    "prices": {
+      "rentTitle": "Osnovna cijena po noći",
+      "saleTitle": "Prodajna cijena",
+      "rentDescription": "Referentna vrijednost po noći. Ponude je koriste kad nema sezonske cijene.",
+      "saleDescription": "Prikazuje se na kartici i na karticama u vašem portfelju.",
+      "currency": "Valuta",
+      "perNight": "Cijena po noći",
+      "price": "Cijena",
+      "emptyHint": "Ostavite prazno ako želite prikazati „Cijena na upit”."
+    },
+    "pools": {
+      "pools": "Bazeni",
+      "jacuzzis": "Jacuzziji",
+      "addPool": "Dodaj bazen",
+      "addJacuzzi": "Dodaj jacuzzi",
+      "quantity": "Količina",
+      "remove": "Ukloni"
+    },
+    "rooms": {
+      "add": "+ Dodaj sobu",
+      "empty": "Ovaj hotel još nema soba.",
+      "edit": "Uredi"
+    },
+    "recommendations": {
+      "new": "Nova preporuka za poboljšanje",
+      "title": "Naslov",
+      "details": "Detalji",
+      "priority": {
+        "LOW": "Niska",
+        "MEDIUM": "Srednja",
+        "HIGH": "Visoka"
+      },
+      "status": {
+        "PROPOSED": "Predložena",
+        "APPROVED": "Odobrena",
+        "DONE": "Obavljena"
+      },
+      "estCost": "Procijenjeni trošak",
+      "estCostValue": "Procijenjeni trošak: {value}",
+      "add": "Dodaj",
+      "remove": "Ukloni",
+      "empty": "Još nema preporuka."
+    },
+    "picker": {
+      "tabs": {
+        "ALL": "Sve",
+        "SALE": "Prodaja",
+        "RENT": "Najam"
+      },
+      "emptyAll": "Još nemate nekretnina.",
+      "emptyOperation": {
+        "SALE": "Nemate nekretnina na prodaju.",
+        "RENT": "Nemate nekretnina za najam."
+      },
+      "noMatch": "Nijedna nekretnina ne odgovara „{query}”.",
+      "emptyTab": "Na ovoj kartici nema nekretnina.",
+      "label": "Nekretnina",
+      "placeholder": "Odaberi nekretninu",
+      "operation": "Vrsta posla",
+      "only": {
+        "SALE": "Samo nekretnine na prodaju",
+        "RENT": "Samo nekretnine za najam"
+      },
+      "searchPlaceholder": "Pretraži po nazivu ili području",
+      "search": "Pretraži nekretninu",
+      "list": "Nekretnine",
+      "perNight": "{price} /noć"
+    },
+    "ownerAccount": {
+      "added": "Isplata je evidentirana",
+      "addFailed": "Isplatu nije moguće evidentirati",
+      "deleted": "Isplata je izbrisana",
+      "deleteFailed": "Brisanje nije uspjelo",
+      "title": "Izvadak računa",
+      "description": "Naplaćeno od rezervacija za {name}, iznos koji mu pripada (nakon odbitka provizije) i ono što mu je već isplaćeno. Vidi ga na svojoj pristupnoj poveznici.",
+      "loading": "Učitavanje…",
+      "loadFailed": "Izvadak računa nije moguće učitati.",
+      "delete": "Izbriši isplatu",
+      "register": "Evidentiraj isplatu",
+      "new": "Nova isplata",
+      "amount": "Iznos",
+      "currency": "Valuta",
+      "date": "Datum isplate",
+      "methodPlaceholder": "Način (prijenos, gotovina…)",
+      "method": "Način",
+      "notePlaceholder": "Bilješka (neobavezno)",
+      "note": "Bilješka",
+      "submit": "Evidentiraj"
+    },
+    "page": {
+      "title": "Nekretnine",
+      "searchPlaceholder": "Pretraži po naslovu, području ili vlasniku",
+      "search": "Pretraži nekretnine",
+      "help": "Pomoć za nekretnine",
+      "loadFailed": "Nekretnine nije moguće učitati",
+      "bulk": {
+        "delete": "{count, plural, one {# nekretnina premještena u koš} few {# nekretnine premještene u koš} other {# nekretnina premješteno u koš}}",
+        "publish": "{count, plural, one {# nekretnina objavljena} few {# nekretnine objavljene} other {# nekretnina objavljeno}}",
+        "unpublish": "{count, plural, one {Povučena objava # nekretnine} few {Povučena objava # nekretnine} other {Povučena objava # nekretnina}}",
+        "archive": "{count, plural, one {# nekretnina arhivirana} few {# nekretnine arhivirane} other {# nekretnina arhivirano}}",
+        "failed": "Nije moguće obraditi {count}. Pokušajte ponovno."
+      },
+      "empty": {
+        "title": "Dodajte svoju prvu nekretninu",
+        "body": "Dodajte fotografije, cijenu i značajke da bude spremna kad je želite objaviti.",
+        "help": "Kako dodati i objaviti nekretninu"
+      },
+      "noMatch": {
+        "title": "Ništa ne odgovara tim filtrima",
+        "body": "Pokušajte drugo područje ili uklonite neki filtar da vidite više nekretnina."
+      }
+    }
+  }
+}

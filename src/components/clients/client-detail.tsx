@@ -1,8 +1,6 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { format, formatDistanceToNow } from "date-fns";
-import { es } from "date-fns/locale";
 import {
   ArrowLeft,
   CalendarDays,
@@ -14,12 +12,14 @@ import {
   Users,
   type LucideIcon,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { ClientAvatar, SOURCE_LABELS, STAGES } from "@/components/clients/client-parts";
+import { BackLink } from "@/components/shared/back-link";
+import { ClientAvatar, STAGES } from "@/components/clients/client-parts";
 import { AssigneeSelect, useMemberName } from "@/components/shared/assignee-select";
 import { TaskList } from "@/components/tasks/task-list";
 import { FormSection } from "@/components/properties/form-section";
@@ -36,14 +36,17 @@ import {
   type InteractionType,
 } from "@/lib/api/clients";
 import { getAccessToken, useSessionUser } from "@/lib/auth/session";
-import { CLIENT_STAGE_LABELS } from "@/lib/properties-labels";
+import { useFormat } from "@/i18n/format";
+import { parseApiDate } from "@/lib/dates";
+import { useLabels } from "@/lib/labels";
 import { cn } from "@/lib/utils";
 
-const INTERACTIONS: { value: InteractionType; label: string; icon: LucideIcon }[] = [
-  { value: "NOTE", label: "Nota", icon: MessageSquareText },
-  { value: "CALL", label: "Llamada", icon: PhoneCall },
-  { value: "EMAIL", label: "Email", icon: Mail },
-  { value: "MEETING", label: "Reunión", icon: Users },
+// Their names live in "clients.detail.interaction.<TYPE>".
+const INTERACTIONS: { value: InteractionType; icon: LucideIcon }[] = [
+  { value: "NOTE", icon: MessageSquareText },
+  { value: "CALL", icon: PhoneCall },
+  { value: "EMAIL", icon: Mail },
+  { value: "MEETING", icon: Users },
 ];
 
 function requireToken() {
@@ -68,6 +71,10 @@ function Skeleton() {
 }
 
 export function ClientDetail({ clientId }: { clientId: string }) {
+  const t = useTranslations("clients.detail");
+  const common = useTranslations("common");
+  const labels = useLabels();
+  const { date, ago } = useFormat();
   const { agencySlug } = useParams<{ agencySlug: string }>();
   const queryClient = useQueryClient();
   const [notes, setNotes] = useState<string | null>(null);
@@ -86,9 +93,9 @@ export function ClientDetail({ clientId }: { clientId: string }) {
       queryClient.setQueryData<Client>(["client", clientId], (prev) => (prev ? { ...prev, ...updated } : prev));
       queryClient.invalidateQueries({ queryKey: ["clients"] });
       if (payload.notes !== undefined) setNotes(null);
-      toast.success("Cambios guardados");
+      toast.success(common("changesSaved"));
     },
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudieron guardar los cambios"),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : common("saveFailed")),
   });
 
   const interactionMutation = useMutation({
@@ -98,7 +105,7 @@ export function ClientDetail({ clientId }: { clientId: string }) {
       queryClient.invalidateQueries({ queryKey: ["client", clientId] });
       queryClient.invalidateQueries({ queryKey: ["clients"] });
     },
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo registrar"),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : t("logFailed")),
   });
 
   const ownerName = useMemberName(client?.assignedAgentId);
@@ -107,15 +114,15 @@ export function ClientDetail({ clientId }: { clientId: string }) {
     return (
       <div className="flex flex-col items-start gap-4 rounded-2xl bg-card p-6 ring-1 ring-foreground/5">
         <div>
-          <p className="font-display text-xl">No encontramos al cliente</p>
+          <p className="font-display text-xl">{t("notFound")}</p>
           <p className="text-sm text-muted-foreground">
-            {error instanceof ApiError ? error.message : "Revisá tu conexión e intentá de nuevo."}
+            {error instanceof ApiError ? error.message : common("checkConnection")}
           </p>
         </div>
         <Button variant="outline" asChild>
           <Link href={`/${agencySlug}/clients`}>
             <ArrowLeft />
-            Volver a clientes
+            {t("backToList")}
           </Link>
         </Button>
       </div>
@@ -129,13 +136,7 @@ export function ClientDetail({ clientId }: { clientId: string }) {
 
   return (
     <div className="flex flex-col gap-8">
-      <Link
-        href={`/${agencySlug}/clients`}
-        className="inline-flex w-fit items-center gap-1.5 rounded-full text-sm text-muted-foreground transition-colors outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
-      >
-        <ArrowLeft className="size-4" />
-        Clientes
-      </Link>
+      <BackLink href={`/${agencySlug}/clients`}>{t("list")}</BackLink>
 
       <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_20rem]">
         <div className="flex min-w-0 flex-col gap-12">
@@ -144,21 +145,21 @@ export function ClientDetail({ clientId }: { clientId: string }) {
             <div className="flex min-w-0 flex-col gap-1">
               <h1 className="font-display text-4xl leading-none tracking-tight text-balance">{client.name}</h1>
               <p className="text-sm text-muted-foreground">
-                {SOURCE_LABELS[client.source]} · cliente desde{" "}
-                {format(new Date(client.createdAt), "d 'de' MMMM yyyy", { locale: es })}
+                {labels.clientSource(client.source)} ·{" "}
+                {t("clientSince", { date: date(parseApiDate(client.createdAt), "long") })}
               </p>
             </div>
           </header>
 
           <FormSection
-            title="Notas"
-            description="Lo que conviene recordar: qué busca, presupuesto, preferencias."
+            title={t("notes")}
+            description={t("notesDescription")}
             shown={false}
           >
             <div className="flex flex-col items-start gap-3">
               <RichTextEditor
-                ariaLabel="Notas del cliente"
-                placeholder="Todavía no hay notas."
+                ariaLabel={t("notesLabel")}
+                placeholder={t("notesPlaceholder")}
                 value={notesValue}
                 onChange={setNotes}
               />
@@ -169,27 +170,27 @@ export function ClientDetail({ clientId }: { clientId: string }) {
                   disabled={updateMutation.isPending}
                   onClick={() => updateMutation.mutate({ notes: notesValue })}
                 >
-                  Guardar notas
+                  {t("saveNotes")}
                 </Button>
               )}
             </div>
           </FormSection>
 
           <FormSection
-            title="Tareas"
-            description="Lo que hay que hacer con este cliente: llamar, mandar fotos, coordinar una visita."
+            title={t("tasks")}
+            description={t("tasksDescription")}
             shown={false}
           >
-            <TaskList clientId={clientId} emptyText="No hay tareas pendientes con este cliente." />
+            <TaskList clientId={clientId} emptyText={t("noTasks")} />
           </FormSection>
 
           <FormSection
-            title="Historial"
-            description="Llamadas, emails y reuniones, de la más reciente a la más antigua."
+            title={t("history")}
+            description={t("historyDescription")}
             shown={false}
           >
             <div className="flex flex-col gap-3 rounded-3xl bg-card p-4 shadow-[0_1px_2px_oklch(0.3_0.05_160/0.04),0_12px_32px_-12px_oklch(0.3_0.05_160/0.14)] ring-1 ring-foreground/5">
-              <div role="group" aria-label="Tipo de interacción" className="flex flex-wrap gap-1.5">
+              <div role="group" aria-label={t("interactionType")} className="flex flex-wrap gap-1.5">
                 {INTERACTIONS.map((item) => {
                   const active = item.value === type;
                   return (
@@ -206,15 +207,15 @@ export function ClientDetail({ clientId }: { clientId: string }) {
                       )}
                     >
                       <item.icon className="size-3.5" />
-                      {item.label}
+                      {t(`interaction.${item.value}`)}
                     </button>
                   );
                 })}
               </div>
               <Textarea
                 rows={2}
-                aria-label="Detalle de la interacción"
-                placeholder="¿Qué pasó? Ej: Quedamos en visitar la casa el sábado."
+                aria-label={t("interactionDetail")}
+                placeholder={t("interactionPlaceholder")}
                 value={content}
                 onChange={(event) => setContent(event.target.value)}
               />
@@ -224,7 +225,7 @@ export function ClientDetail({ clientId }: { clientId: string }) {
                 onClick={() => interactionMutation.mutate()}
               >
                 <Plus />
-                Registrar
+                {t("log")}
               </Button>
             </div>
 
@@ -242,10 +243,10 @@ export function ClientDetail({ clientId }: { clientId: string }) {
                       </span>
                       <div className="flex min-w-0 flex-1 flex-col gap-1 pt-1">
                         <p className="flex flex-wrap items-baseline gap-x-2 text-xs text-muted-foreground">
-                          <span className="font-medium text-foreground">{meta.label}</span>
+                          <span className="font-medium text-foreground">{t(`interaction.${meta.value}`)}</span>
                           {item.createdBy && <span>· {item.createdBy}</span>}
-                          <span title={format(new Date(item.createdAt), "d MMM yyyy, HH:mm", { locale: es })}>
-                            · {formatDistanceToNow(new Date(item.createdAt), { addSuffix: true, locale: es })}
+                          <span title={date(parseApiDate(item.createdAt), "dateTime")}>
+                            · {ago(parseApiDate(item.createdAt))}
                           </span>
                         </p>
                         <p className="text-sm text-pretty text-foreground/85">{item.content}</p>
@@ -255,15 +256,15 @@ export function ClientDetail({ clientId }: { clientId: string }) {
                 })}
               </ol>
             ) : (
-              <p className="text-sm text-muted-foreground">Todavía no hay interacciones registradas.</p>
+              <p className="text-sm text-muted-foreground">{t("noInteractions")}</p>
             )}
           </FormSection>
         </div>
 
         <aside className="flex flex-col gap-6 rounded-3xl bg-card p-6 shadow-[0_1px_2px_oklch(0.3_0.05_160/0.04),0_12px_32px_-12px_oklch(0.3_0.05_160/0.14)] ring-1 ring-foreground/5 lg:sticky lg:top-24">
           <div className="flex flex-col gap-3">
-            <h2 className="font-display text-xl leading-tight">Etapa</h2>
-            <div role="group" aria-label="Etapa del cliente" className="flex flex-wrap gap-1.5">
+            <h2 className="font-display text-xl leading-tight">{t("stage")}</h2>
+            <div role="group" aria-label={t("stageLabel")} className="flex flex-wrap gap-1.5">
               {STAGES.map((stage) => {
                 const active = stage === client.stage;
                 return (
@@ -280,7 +281,7 @@ export function ClientDetail({ clientId }: { clientId: string }) {
                         : "bg-foreground/[0.06] text-muted-foreground hover:bg-foreground/10 hover:text-foreground",
                     )}
                   >
-                    {CLIENT_STAGE_LABELS[stage]}
+                    {labels.clientStage(stage)}
                   </button>
                 );
               })}
@@ -288,10 +289,10 @@ export function ClientDetail({ clientId }: { clientId: string }) {
           </div>
 
           <div className="flex flex-col gap-3">
-            <h2 className="font-display text-xl leading-tight">Responsable</h2>
+            <h2 className="font-display text-xl leading-tight">{t("owner")}</h2>
             {user?.role === "AGENT" ? (
               client.assignedAgentId === user.id ? (
-                <p className="text-sm text-muted-foreground">Es tu cliente.</p>
+                <p className="text-sm text-muted-foreground">{t("yours")}</p>
               ) : (
                 <Button
                   variant="outline"
@@ -299,7 +300,7 @@ export function ClientDetail({ clientId }: { clientId: string }) {
                   disabled={updateMutation.isPending}
                   onClick={() => updateMutation.mutate({ assignedAgentId: user.id })}
                 >
-                  Quedármelo
+                  {t("takeIt")}
                 </Button>
               )
             ) : (
@@ -310,12 +311,12 @@ export function ClientDetail({ clientId }: { clientId: string }) {
               />
             )}
             {user?.role !== "AGENT" && ownerName === null && client.assignedAgentId && (
-              <p className="text-xs text-muted-foreground">Asignado a alguien que ya no está en el equipo.</p>
+              <p className="text-xs text-muted-foreground">{t("ownerGone")}</p>
             )}
           </div>
 
           <div className="flex flex-col gap-3">
-            <h2 className="font-display text-xl leading-tight">Contacto</h2>
+            <h2 className="font-display text-xl leading-tight">{t("contact")}</h2>
             <ul className="flex flex-col gap-2.5 text-sm">
               <li>
                 <a
@@ -338,13 +339,13 @@ export function ClientDetail({ clientId }: { clientId: string }) {
                 ) : (
                   <span className="flex items-center gap-2.5 text-muted-foreground">
                     <Phone className="size-4 shrink-0" />
-                    Sin teléfono
+                    {t("noPhone")}
                   </span>
                 )}
               </li>
               <li className="flex items-center gap-2.5 text-muted-foreground">
                 <CalendarDays className="size-4 shrink-0" />
-                Actualizado {formatDistanceToNow(new Date(client.updatedAt), { addSuffix: true, locale: es })}
+                {t("updated", { ago: ago(parseApiDate(client.updatedAt)) })}
               </li>
             </ul>
           </div>

@@ -1,0 +1,114 @@
+{
+  "clients": {
+    "menu": {
+      "actionsOf": "Acciones de {name}",
+      "view": "Ver ficha",
+      "changeStage": "Cambiar etapa",
+      "email": "Enviar email",
+      "call": "Llamar",
+      "copyEmail": "Copiar email"
+    },
+    "views": {
+      "noPhone": "Sin teléfono",
+      "noInteractions": "Todavía sin interacciones.",
+      "lastTouch": "Último movimiento {ago}",
+      "client": "Cliente",
+      "stage": "Etapa",
+      "phone": "Teléfono",
+      "source": "Origen",
+      "lastMove": "Último movimiento",
+      "actions": "Acciones"
+    },
+    "detail": {
+      "logFailed": "No se pudo registrar",
+      "notFound": "No encontramos al cliente",
+      "backToList": "Volver a clientes",
+      "list": "Clientes",
+      "clientSince": "cliente desde el {date}",
+      "notes": "Notas",
+      "notesDescription": "Lo que conviene recordar: qué busca, presupuesto, preferencias.",
+      "notesLabel": "Notas del cliente",
+      "notesPlaceholder": "Todavía no hay notas.",
+      "saveNotes": "Guardar notas",
+      "tasks": "Tareas",
+      "tasksDescription": "Lo que hay que hacer con este cliente: llamar, mandar fotos, coordinar una visita.",
+      "noTasks": "No hay tareas pendientes con este cliente.",
+      "history": "Historial",
+      "historyDescription": "Llamadas, emails y reuniones, de la más reciente a la más antigua.",
+      "interactionType": "Tipo de interacción",
+      "interaction": {
+        "NOTE": "Nota",
+        "CALL": "Llamada",
+        "EMAIL": "Email",
+        "MEETING": "Reunión"
+      },
+      "interactionDetail": "Detalle de la interacción",
+      "interactionPlaceholder": "¿Qué pasó? Ej: Quedamos en visitar la casa el sábado.",
+      "log": "Registrar",
+      "noInteractions": "Todavía no hay interacciones registradas.",
+      "stage": "Etapa",
+      "stageLabel": "Etapa del cliente",
+      "owner": "Responsable",
+      "yours": "Es tu cliente.",
+      "takeIt": "Quedármelo",
+      "ownerGone": "Asignado a alguien que ya no está en el equipo.",
+      "contact": "Contacto",
+      "noPhone": "Sin teléfono",
+      "updated": "Actualizado {ago}"
+    },
+    "create": {
+      "new": "Nuevo cliente",
+      "description": "Cargá lo básico. Después sumás notas y el historial de contacto.",
+      "name": "Nombre",
+      "namePlaceholder": "Ej: Valentina Ríos",
+      "email": "Email",
+      "emailPlaceholder": "nombre@correo.com",
+      "phone": "Teléfono",
+      "phonePlaceholder": "+54 9 11 5555-0000",
+      "submit": "Crear cliente"
+    },
+    "list": {
+      "stagePlural": {
+        "LEAD": "Leads",
+        "CONTACTED": "Contactados",
+        "NEGOTIATING": "En negociación",
+        "CLIENT": "Clientes",
+        "LOST": "Perdidos"
+      },
+      "movedTo": "Pasó a {stage}",
+      "stageFailed": "No se pudo cambiar la etapa",
+      "title": "Clientes",
+      "searchPlaceholder": "Buscar por nombre, email o teléfono",
+      "search": "Buscar clientes",
+      "stage": "Etapa",
+      "stages": "etapas",
+      "help": "Ayuda con clientes",
+      "loadFailed": "No pudimos cargar los clientes",
+      "emptyTitle": "Todavía no tenés clientes",
+      "emptyBody": "Las consultas del portal y de las ofertas aparecen acá solas. También podés cargar uno a mano.",
+      "emptyHelp": "Cómo seguir a un cliente por etapas",
+      "noMatchBody": "Probá con otro nombre o quitá el filtro de etapa."
+    }
+  },
+  "tasks": {
+    "due": {
+      "overdue": "{count, plural, one {Vencida hace # día} other {Vencida hace # días}}",
+      "yesterday": "Venció ayer",
+      "today": "Hoy",
+      "tomorrow": "Mañana"
+    },
+    "reopen": "Reabrir «{title}»",
+    "complete": "Completar «{title}»",
+    "delete": "Eliminar «{title}»",
+    "createFailed": "No se pudo crear la tarea",
+    "updateFailed": "No se pudo actualizar la tarea",
+    "deleteFailed": "No se pudo eliminar la tarea",
+    "placeholder": "Nueva tarea: llamar, enviar fotos, visitar…",
+    "titleLabel": "Título de la tarea",
+    "dueDate": "Fecha límite",
+    "add": "Agregar tarea",
+    "loadFailed": "No pudimos cargar las tareas.",
+    "loading": "Cargando…",
+    "empty": "Nada pendiente."
+  }
+}

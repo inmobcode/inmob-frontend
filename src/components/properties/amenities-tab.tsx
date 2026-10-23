@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Controller, type UseFormReturn } from "react-hook-form";
 
 import { ChipPicker, Stepper, TagsInput } from "@/components/properties/form-controls";
@@ -11,11 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import type { Property } from "@/lib/api/properties";
-import {
-  INDOOR_AMENITY_LABELS,
-  OUTDOOR_AMENITY_LABELS,
-  PROPERTY_CONDITION_LABELS,
-} from "@/lib/properties-labels";
+import { useLabels } from "@/lib/labels";
 import {
   INDOOR_AMENITIES,
   OUTDOOR_AMENITIES,
@@ -24,19 +21,19 @@ import {
 } from "@/lib/property-catalogs";
 
 const BEDROOM_TYPES = [
-  ["masterBedroomQty", "Principal"],
-  ["doubleBedroomQty", "Doble"],
-  ["twinBedroomQty", "Dos camas"],
-  ["singleBedroomQty", "Individual"],
-  ["bedroomWithBunkBedsQty", "Cuchetas"],
-  ["guestBedroomQty", "Para invitados"],
+  "masterBedroomQty",
+  "doubleBedroomQty",
+  "twinBedroomQty",
+  "singleBedroomQty",
+  "bedroomWithBunkBedsQty",
+  "guestBedroomQty",
 ] as const;
 
 const LAYOUT_ROWS = [
-  ["layoutKitchensCount", "layoutKitchensDescription", "Cocinas"],
-  ["layoutLivingRoomsCount", "layoutLivingRoomsDescription", "Livings"],
-  ["layoutGuestWCCount", "layoutGuestWCDescription", "Toilette de huéspedes"],
-  ["layoutStaffQuartersCount", "layoutStaffQuartersDescription", "Cuartos de servicio"],
+  ["layoutKitchensCount", "layoutKitchensDescription"],
+  ["layoutLivingRoomsCount", "layoutLivingRoomsDescription"],
+  ["layoutGuestWCCount", "layoutGuestWCDescription"],
+  ["layoutStaffQuartersCount", "layoutStaffQuartersDescription"],
 ] as const;
 
 export function AmenitiesTab({
@@ -48,27 +45,29 @@ export function AmenitiesTab({
   property: Property;
   isRent: boolean;
 }) {
+  const t = useTranslations("properties.amenities");
+  const labels = useLabels();
   const conditionOptions = isRent ? PROPERTY_STATUS_RENT : PROPERTY_STATUS_SALE;
 
   return (
     <div className="flex max-w-3xl flex-col gap-12">
       <Section
-        title="Amenities generales"
-        description="La lista corta que aparece en la ficha pública. Escribí cada una y presioná Enter."
+        title={t("general.title")}
+        description={t("general.description")}
         shown
       >
         <Field>
-          <FieldLabel htmlFor="amenitiesText">Amenities</FieldLabel>
+          <FieldLabel htmlFor="amenitiesText">{t("general.label")}</FieldLabel>
           <Controller
             control={form.control}
             name="amenitiesText"
             render={({ field }) => (
               <TagsInput
                 id="amenitiesText"
-                label="Amenities"
+                label={t("general.label")}
                 value={field.value}
                 onChange={field.onChange}
-                placeholder="Ej: Piscina, Parrilla, Wifi"
+                placeholder={t("general.placeholder")}
               />
             )}
           />
@@ -76,8 +75,8 @@ export function AmenitiesTab({
       </Section>
 
       <Section
-        title="Comodidades exteriores"
-        description="Lo que hay fuera de la casa: piscina, parrilla, canchas y más."
+        title={t("outdoor.title")}
+        description={t("outdoor.description")}
         shown
       >
         <Controller
@@ -85,9 +84,9 @@ export function AmenitiesTab({
           name="outdoorAmenities"
           render={({ field }) => (
             <ChipPicker
-              label="Comodidades exteriores"
+              label={t("outdoor.title")}
               options={OUTDOOR_AMENITIES}
-              labels={OUTDOOR_AMENITY_LABELS}
+              labelOf={labels.outdoorAmenity}
               value={field.value}
               onChange={field.onChange}
             />
@@ -96,8 +95,8 @@ export function AmenitiesTab({
       </Section>
 
       <Section
-        title="Comodidades interiores"
-        description="Instalaciones y equipamiento dentro de la propiedad."
+        title={t("indoor.title")}
+        description={t("indoor.description")}
         shown
       >
         <FieldGroup>
@@ -106,9 +105,9 @@ export function AmenitiesTab({
             name="indoorAmenities"
             render={({ field }) => (
               <ChipPicker
-                label="Comodidades interiores"
+                label={t("indoor.title")}
                 options={INDOOR_AMENITIES}
-                labels={INDOOR_AMENITY_LABELS}
+                labelOf={labels.indoorAmenity}
                 value={field.value}
                 onChange={field.onChange}
               />
@@ -116,17 +115,17 @@ export function AmenitiesTab({
           />
           {isRent && (
             <Field>
-              <FieldLabel htmlFor="customFacilitiesText">Otras facilidades</FieldLabel>
+              <FieldLabel htmlFor="customFacilitiesText">{t("indoor.other")}</FieldLabel>
               <Controller
                 control={form.control}
                 name="customFacilitiesText"
                 render={({ field }) => (
                   <TagsInput
                     id="customFacilitiesText"
-                    label="Otras facilidades"
+                    label={t("indoor.other")}
                     value={field.value}
                     onChange={field.onChange}
-                    placeholder="Algo que no está en la lista"
+                    placeholder={t("indoor.otherPlaceholder")}
                   />
                 )}
               />
@@ -136,12 +135,8 @@ export function AmenitiesTab({
       </Section>
 
       <Section
-        title={isRent ? "Servicios y condiciones" : "Condición"}
-        description={
-          isRent
-            ? "Personal, mascotas, eventos y otras condiciones del alquiler."
-            : "Estado comercial y características generales de la propiedad."
-        }
+        title={isRent ? t("conditions.rentTitle") : t("conditions.saleTitle")}
+        description={isRent ? t("conditions.rentDescription") : t("conditions.saleDescription")}
         shown
       >
         <Controller
@@ -149,9 +144,9 @@ export function AmenitiesTab({
           name="propertyStatus"
           render={({ field }) => (
             <ChipPicker
-              label={isRent ? "Servicios y condiciones" : "Condición"}
+              label={isRent ? t("conditions.rentTitle") : t("conditions.saleTitle")}
               options={conditionOptions}
-              labels={PROPERTY_CONDITION_LABELS}
+              labelOf={labels.propertyCondition}
               value={field.value}
               onChange={field.onChange}
               limit={20}
@@ -161,16 +156,16 @@ export function AmenitiesTab({
       </Section>
 
       {isRent ? (
-        <Section title="Dormitorios por tipo" description="Cuántas habitaciones hay de cada clase." shown>
+        <Section title={t("bedrooms.title")} description={t("bedrooms.description")} shown>
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {BEDROOM_TYPES.map(([name, label]) => (
+            {BEDROOM_TYPES.map((name) => (
               <Field key={name}>
-                <FieldLabel htmlFor={name}>{label}</FieldLabel>
+                <FieldLabel htmlFor={name}>{t(`bedrooms.${name}`)}</FieldLabel>
                 <Controller
                   control={form.control}
                   name={name}
                   render={({ field }) => (
-                    <Stepper id={name} label={label} value={field.value} onChange={field.onChange} />
+                    <Stepper id={name} label={t(`bedrooms.${name}`)} value={field.value} onChange={field.onChange} />
                   )}
                 />
               </Field>
@@ -178,9 +173,11 @@ export function AmenitiesTab({
           </div>
         </Section>
       ) : (
-        <Section title="Distribución" description="Ambientes de la propiedad, con un detalle opcional de cada uno." shown>
+        <Section title={t("layout.title")} description={t("layout.description")} shown>
           <div className="flex flex-col gap-4">
-            {LAYOUT_ROWS.map(([countField, descField, label]) => (
+            {LAYOUT_ROWS.map(([countField, descField]) => {
+              const label = t(`layout.${countField}`);
+              return (
               <div key={countField} className="grid grid-cols-1 gap-3 sm:grid-cols-[minmax(0,15rem)_1fr] sm:items-end">
                 <Field>
                   <FieldLabel htmlFor={countField}>{label}</FieldLabel>
@@ -194,16 +191,17 @@ export function AmenitiesTab({
                 </Field>
                 <Field>
                   <FieldLabel htmlFor={descField} className="sr-only">
-                    Detalle de {label.toLowerCase()}
+                    {t("layout.detailOf", { label })}
                   </FieldLabel>
-                  <Input id={descField} placeholder="Detalle (opcional)" {...form.register(descField)} />
+                  <Input id={descField} placeholder={t("layout.detailPlaceholder")} {...form.register(descField)} />
                 </Field>
               </div>
-            ))}
+              );
+            })}
             {(
               [
-                ["layoutGardenAvailable", "layoutGardenDescription", "Jardín"],
-                ["layoutStorageAvailable", "layoutStorageDescription", "Depósito"],
+                ["layoutGardenAvailable", "layoutGardenDescription", t("layout.garden")],
+                ["layoutStorageAvailable", "layoutStorageDescription", t("layout.storage")],
               ] as const
             ).map(([switchField, descField, label]) => (
               <div
@@ -224,8 +222,8 @@ export function AmenitiesTab({
                 </div>
                 <Input
                   id={descField}
-                  aria-label={`Detalle de ${label.toLowerCase()}`}
-                  placeholder="Detalle (opcional)"
+                  aria-label={t("layout.detailOf", { label })}
+                  placeholder={t("layout.detailPlaceholder")}
                   className="flex-1"
                   {...form.register(descField)}
                 />
@@ -235,21 +233,21 @@ export function AmenitiesTab({
         </Section>
       )}
 
-      <Section title="Más detalles" description="Descripción de la experiencia y duchas exteriores." shown>
+      <Section title={t("more.title")} description={t("more.description")} shown>
         <FieldGroup>
           <Field>
-            <FieldLabel htmlFor="enjoy">Qué se disfruta</FieldLabel>
+            <FieldLabel htmlFor="enjoy">{t("more.enjoy")}</FieldLabel>
             <Textarea id="enjoy" rows={4} {...form.register("enjoy")} />
-            <FieldDescription>Una descripción corta de la experiencia de estar en la propiedad.</FieldDescription>
+            <FieldDescription>{t("more.enjoyHint")}</FieldDescription>
           </Field>
           {!isRent && (
             <Field className="max-w-60">
-              <FieldLabel htmlFor="outdoorShower">Duchas exteriores</FieldLabel>
+              <FieldLabel htmlFor="outdoorShower">{t("more.outdoorShower")}</FieldLabel>
               <Controller
                 control={form.control}
                 name="outdoorShower"
                 render={({ field }) => (
-                  <Stepper id="outdoorShower" label="duchas exteriores" value={field.value} onChange={field.onChange} />
+                  <Stepper id="outdoorShower" label={t("more.outdoorShower")} value={field.value} onChange={field.onChange} />
                 )}
               />
             </Field>
@@ -258,7 +256,7 @@ export function AmenitiesTab({
       </Section>
 
       {!isRent && (
-        <Section title="Piscinas y jacuzzis" description="Cada una con su tipo y medidas.">
+        <Section title={t("pools.title")} description={t("pools.description")}>
           <PoolsTab propertyId={property.id} />
         </Section>
       )}

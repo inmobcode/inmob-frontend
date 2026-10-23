@@ -1,0 +1,91 @@
+{
+  "availability": {
+    "legend": {
+      "available": "Available",
+      "booked": "Booked",
+      "turnover": "Check-in / check-out",
+      "past": "Past",
+      "pending": "Pending booking"
+    },
+    "grid": {
+      "searchPlaceholder": "Search property…",
+      "search": "Search property",
+      "location": "Location",
+      "allLocations": "All locations",
+      "searchLocation": "Search location…",
+      "noLocation": "No location matches.",
+      "onlyFree": "Available only",
+      "clearDates": "Clear dates",
+      "pickDates": "Pick the dates",
+      "noneFree": "No property is available on those dates.",
+      "noneMatch": "No property matches \"{search}\".",
+      "noneInLocation": "No property is in that location.",
+      "seeMore": "See more",
+      "otherLocation": "Other location",
+      "nothing": "No properties to show.",
+      "property": "Property",
+      "perNight": "{price}/night",
+      "past": "Past",
+      "pending": "Pending booking",
+      "pendingIn": "Pending booking (check-in)",
+      "pendingOut": "Pending booking (check-out)",
+      "available": "Available",
+      "booked": "Booked",
+      "turnover": "Check-in / check-out",
+      "checkIn": "Check-in",
+      "checkOut": "Check-out"
+    },
+    "month": {
+      "blocked": "Dates blocked",
+      "blockFailed": "Couldn't block the dates",
+      "rangeTaken": "That range includes booked or past nights.",
+      "previous": "Previous month",
+      "next": "Next month",
+      "today": "Today",
+      "property": "Property",
+      "allProperties": "All properties",
+      "searchProperty": "Search property…",
+      "noProperty": "No property matches.",
+      "hintSelected": "Drag over the free nights to block them. With the keyboard: Enter on the first day and Enter on the last.",
+      "hintAll": "Each day shows how many properties are booked that night. Pick a property to see its bookings and block dates.",
+      "pendingHint": "Pending booking: it doesn't block the dates yet, but it has been requested.",
+      "loadFailed": "We couldn't load the calendar.",
+      "noRentals": "You don't have any rental properties yet.",
+      "dayLabel": "{day}: {occupied} of {total} booked",
+      "more": "+{count} more",
+      "checkIn": "In",
+      "checkOut": "Out",
+      "turnover": "Out and in",
+      "occupiedOf": "{occupied}/{total} booked",
+      "pending": "Pending",
+      "blockSummary": "{count, plural, one {Block <strong>{title}</strong>: # night, from {from} to {to}.} other {Block <strong>{title}</strong>: # nights, from {from} to {to}.}}",
+      "note": "Note (optional)",
+      "noteLabel": "Block note",
+      "block": "Block",
+      "lists": {
+        "taken": "Booked ({count})",
+        "waiting": "Pending ({count})",
+        "free": "Free ({count})",
+        "none": "None.",
+        "viewMonth": "View month"
+      }
+    },
+    "page": {
+      "view": "View",
+      "views": {
+        "grid": "Next 90 days",
+        "month": "Monthly"
+      },
+      "title": "Availability",
+      "gridLead": "The next 90 days of your rental properties, all together.",
+      "monthLead": "One month at a time: how many properties are booked each day, and date blocking.",
+      "help": "Help with availability",
+      "copyLink": "Copy link to share",
+      "loadFailed": "We couldn't load availability",
+      "empty": {
+        "title": "You don't have any rental properties yet",
+        "body": "As soon as you add one, its availability shows up here."
+      }
+    }
+  }
+}

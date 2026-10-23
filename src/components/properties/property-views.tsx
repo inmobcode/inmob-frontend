@@ -1,7 +1,5 @@
 "use client";
 
-import { format, formatDistanceToNow } from "date-fns";
-import { es } from "date-fns/locale";
 import {
   Bath,
   BedDouble,
@@ -10,6 +8,7 @@ import {
   MapPin,
   Ruler,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { Tooltip as TooltipPrimitive } from "radix-ui";
 import { useParams, useRouter } from "next/navigation";
@@ -24,12 +23,11 @@ import {
   type PropertyActions,
 } from "@/components/properties/property-controls";
 import type { Property } from "@/lib/api/properties";
-import { categoryLabel, LISTING_TYPE_LABELS } from "@/lib/properties-labels";
+import { useFormat } from "@/i18n/format";
+import { useLabels } from "@/lib/labels";
 import { parseApiDate } from "@/lib/dates";
 import { cn } from "@/lib/utils";
 import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
-
-const number = (value: number) => value.toLocaleString("es-AR");
 
 function Price({
   property,
@@ -38,6 +36,8 @@ function Price({
   property: Property;
   className?: string;
 }) {
+  const t = useTranslations("properties.card");
+  const { number } = useFormat();
   return property.price ? (
     <span className={cn("tabular-nums", className)}>
       <span className="mr-1 text-xs font-medium text-muted-foreground">
@@ -46,7 +46,7 @@ function Price({
       <span className="font-semibold">{number(property.price)}</span>
     </span>
   ) : (
-    <span className={cn("text-muted-foreground", className)}>A consultar</span>
+    <span className={cn("text-muted-foreground", className)}>{t("onRequest")}</span>
   );
 }
 
@@ -98,14 +98,14 @@ export function PropertyRow({
   selecting: boolean;
   onToggle: () => void;
 }) {
+  const t = useTranslations("properties.card");
+  const labels = useLabels();
+  const { number, ago } = useFormat();
   const { agencySlug } = useParams<{ agencySlug: string }>();
   const location = [property.area, property.region, property.country]
     .filter(Boolean)
     .join(", ");
-  const updated = formatDistanceToNow(parseApiDate(property.updatedAt), {
-    addSuffix: true,
-    locale: es,
-  });
+  const updated = ago(parseApiDate(property.updatedAt));
 
   return (
     <Link
@@ -134,8 +134,8 @@ export function PropertyRow({
             onToggle={onToggle}
             label={
               selected
-                ? `Quitar ${property.title} de la selección`
-                : `Seleccionar ${property.title}`
+                ? t("unselect", { title: property.title })
+                : t("select", { title: property.title })
             }
           />
         </ControlsZone>
@@ -143,8 +143,8 @@ export function PropertyRow({
 
       <div className="flex min-w-0 flex-1 flex-col gap-1.5 sm:py-1">
         <p className="text-xs font-medium text-primary">
-          {LISTING_TYPE_LABELS[property.listingType]} ·{" "}
-          {categoryLabel(property.category)}
+          {labels.listingType(property.listingType)} ·{" "}
+          {labels.category(property.category)}
         </p>
         <h3
           className="font-display text-xl leading-tight text-balance line-clamp-2"
@@ -162,7 +162,7 @@ export function PropertyRow({
           {property.bedrooms != null && (
             <span
               className="inline-flex items-center gap-1.5"
-              title={`${number(property.bedrooms)} dormitorios`}
+              title={t("bedrooms", { count: property.bedrooms, value: number(property.bedrooms) })}
             >
               <BedDouble className="size-4 text-muted-foreground" />
               {number(property.bedrooms)}
@@ -171,7 +171,7 @@ export function PropertyRow({
           {property.bathrooms != null && (
             <span
               className="inline-flex items-center gap-1.5"
-              title={`${number(property.bathrooms)} baños`}
+              title={t("bathrooms", { count: property.bathrooms, value: number(property.bathrooms) })}
             >
               <Bath className="size-4 text-muted-foreground" />
               {number(property.bathrooms)}
@@ -180,7 +180,7 @@ export function PropertyRow({
           {property.areaSqm != null && (
             <span
               className="inline-flex items-center gap-1.5"
-              title="Superficie construida"
+              title={t("builtAreaTitle")}
             >
               <Ruler className="size-4 text-muted-foreground" />
               {number(property.areaSqm)} m²
@@ -226,6 +226,9 @@ function PropertyPeek({
   property: Property;
   children: React.ReactNode;
 }) {
+  const t = useTranslations("properties.card");
+  const labels = useLabels();
+  const { number, shortAgo } = useFormat();
   const cover = coverOf(property);
   const place = [
     property.address,
@@ -238,11 +241,11 @@ function PropertyPeek({
   const specs = [
     property.bedrooms != null && {
       icon: BedDouble,
-      text: `${number(property.bedrooms)} dorm.`,
+      text: t("bedroomsShort", { value: number(property.bedrooms) }),
     },
     property.bathrooms != null && {
       icon: Bath,
-      text: `${number(property.bathrooms)} baños`,
+      text: t("bathrooms", { count: property.bathrooms, value: number(property.bathrooms) }),
     },
     property.areaSqm != null && {
       icon: Ruler,
@@ -280,8 +283,8 @@ function PropertyPeek({
           <div className="flex flex-col gap-3 p-4">
             <div className="flex flex-col gap-1">
               <p className="text-xs font-medium text-primary">
-                {LISTING_TYPE_LABELS[property.listingType]} ·{" "}
-                {categoryLabel(property.category)}
+                {labels.listingType(property.listingType)} ·{" "}
+                {labels.category(property.category)}
               </p>
               <p className="font-display text-lg leading-snug text-balance">
                 {property.title}
@@ -309,7 +312,7 @@ function PropertyPeek({
             <div className="flex items-baseline justify-between gap-3 border-t border-foreground/5 pt-3">
               <Price property={property} className="text-base" />
               <span className="text-xs whitespace-nowrap text-muted-foreground">
-                Actualizada {shortAgo(property.updatedAt)}
+                {t("updated", { ago: shortAgo(parseApiDate(property.updatedAt)) })}
               </span>
             </div>
           </div>
@@ -317,23 +320,6 @@ function PropertyPeek({
       </TooltipPrimitive.Portal>
     </TooltipPrimitive.Root>
   );
-}
-
-/** "hace 20 min", "hace 3 h", "ayer", "hace 4 días", "3 oct": short enough for a table cell. */
-function shortAgo(iso: string) {
-  const date = parseApiDate(iso);
-  const minutes = Math.max(
-    0,
-    Math.round((Date.now() - date.getTime()) / 60_000),
-  );
-  if (minutes < 1) return "recién";
-  if (minutes < 60) return `hace ${minutes} min`;
-  const hours = Math.round(minutes / 60);
-  if (hours < 24) return `hace ${hours} h`;
-  const days = Math.round(hours / 24);
-  if (days === 1) return "ayer";
-  if (days < 7) return `hace ${days} días`;
-  return format(date, "d MMM", { locale: es });
 }
 
 /*
@@ -367,6 +353,10 @@ export function PropertiesTable({
     !allSelected && properties.some((property) => selectedIds.has(property.id));
   const router = useRouter();
   const { agencySlug } = useParams<{ agencySlug: string }>();
+  const t = useTranslations("properties.table");
+  const tCard = useTranslations("properties.card");
+  const labels = useLabels();
+  const { number, shortAgo, date } = useFormat();
 
   return (
     <div className="@container overflow-hidden rounded-2xl bg-card shadow-[0_1px_2px_oklch(0.3_0.05_160/0.04),0_12px_32px_-12px_oklch(0.3_0.05_160/0.14)] ring-1 ring-foreground/5">
@@ -379,25 +369,23 @@ export function PropertiesTable({
                 indeterminate={someSelected}
                 onToggle={onToggleAll}
                 label={
-                  allSelected
-                    ? "Quitar la selección de todas"
-                    : "Seleccionar todas"
+                  allSelected ? t("unselectAll") : t("selectAll")
                 }
                 className="size-5"
               />
             </th>
-            <th className={cn(HEAD, "pl-3 text-left")}>Propiedad</th>
-            <th className={cn(HEAD, "w-28", SHOW_STATUS_PRICE)}>Estado</th>
-            <th className={cn(HEAD, "w-36", SHOW_STATUS_PRICE)}>Precio</th>
-            <th className={cn(HEAD, "w-16 px-2", SHOW_SPECS)}>Dorm.</th>
-            <th className={cn(HEAD, "w-16 px-2", SHOW_SPECS)}>Baños</th>
-            <th className={cn(HEAD, "w-24 px-2", SHOW_SPECS)}>Superficie</th>
+            <th className={cn(HEAD, "pl-3 text-left")}>{t("property")}</th>
+            <th className={cn(HEAD, "w-28", SHOW_STATUS_PRICE)}>{t("status")}</th>
+            <th className={cn(HEAD, "w-36", SHOW_STATUS_PRICE)}>{t("price")}</th>
+            <th className={cn(HEAD, "w-16 px-2", SHOW_SPECS)}>{t("bedrooms")}</th>
+            <th className={cn(HEAD, "w-16 px-2", SHOW_SPECS)}>{t("bathrooms")}</th>
+            <th className={cn(HEAD, "w-24 px-2", SHOW_SPECS)}>{t("area")}</th>
             <th className={cn(HEAD, "w-40 text-left", SHOW_OWNER)}>
-              Propietario
+              {t("owner")}
             </th>
-            <th className={cn(HEAD, "w-28", SHOW_UPDATED)}>Actualizada</th>
+            <th className={cn(HEAD, "w-28", SHOW_UPDATED)}>{t("updated")}</th>
             <th className={cn(HEAD, "w-24")}>
-              <span className="sr-only">Acciones</span>
+              <span className="sr-only">{t("actions")}</span>
             </th>
           </tr>
         </thead>
@@ -407,9 +395,9 @@ export function PropertiesTable({
               .filter(Boolean)
               .join(", ");
             const specs = [
-              property.bedrooms != null && `${number(property.bedrooms)} dorm.`,
+              property.bedrooms != null && tCard("bedroomsShort", { value: number(property.bedrooms) }),
               property.bathrooms != null &&
-                `${number(property.bathrooms)} baños`,
+                tCard("bathrooms", { count: property.bathrooms, value: number(property.bathrooms) }),
               property.areaSqm != null && `${number(property.areaSqm)} m²`,
             ].filter(Boolean);
             return (
@@ -432,7 +420,7 @@ export function PropertiesTable({
                   <SelectToggle
                     checked={selectedIds.has(property.id)}
                     onToggle={() => onToggle(property.id)}
-                    label={`Seleccionar ${property.title}`}
+                    label={tCard("select", { title: property.title })}
                     className="size-5"
                   />
                 </td>
@@ -453,8 +441,8 @@ export function PropertiesTable({
                             {property.title}
                           </Link>
                           <span className="truncate text-xs text-muted-foreground">
-                            {LISTING_TYPE_LABELS[property.listingType]} ·{" "}
-                            {categoryLabel(property.category)}
+                            {labels.listingType(property.listingType)} ·{" "}
+                            {labels.category(property.category)}
                             {location && ` · ${location}`}
                           </span>
                         </div>
@@ -531,13 +519,9 @@ export function PropertiesTable({
                     "px-2 py-3 text-center whitespace-nowrap text-muted-foreground",
                     SHOW_UPDATED,
                   )}
-                  title={format(
-                    parseApiDate(property.updatedAt),
-                    "d 'de' MMMM, HH:mm",
-                    { locale: es },
-                  )}
+                  title={date(parseApiDate(property.updatedAt), "dayMonthTime")}
                 >
-                  {shortAgo(property.updatedAt)}
+                  {shortAgo(parseApiDate(property.updatedAt))}
                 </td>
                 <td
                   className="w-24 py-3 pr-4"

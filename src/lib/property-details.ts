@@ -1,61 +1,53 @@
+import type { LooseTranslator } from "@/i18n/loose";
 import type { PublicProperty } from "@/lib/api/offers";
-import {
-  INDOOR_AMENITY_LABELS,
-  LOCATION_FEATURE_LABELS,
-  OUTDOOR_AMENITY_LABELS,
-  VIEW_LABELS,
-} from "@/lib/properties-labels";
+import type { Labels } from "@/lib/properties-labels";
 
 // What a property page shows about the property, shared by the agency site and the offer's view.
+// `t` is scoped to "site.facts".
 
 /** The key figures, only the ones the agency filled in. */
-export function propertyFacts(property: PublicProperty) {
-  const number = (value: number) => value.toLocaleString("es-AR");
+export function propertyFacts(property: PublicProperty, t: LooseTranslator, number: (value: number) => string) {
   return [
     property.bedrooms != null && {
-      label: "Dormitorios",
+      label: t("bedrooms"),
       value: number(property.bedrooms),
     },
     property.bathrooms != null && {
-      label: "Baños",
+      label: t("bathrooms"),
       value: number(property.bathrooms),
     },
     property.areaSqm != null && {
-      label: "Superficie",
+      label: t("area"),
       value: `${number(property.areaSqm)} m²`,
     },
     property.plotArea != null && {
-      label: "Terreno",
+      label: t("plot"),
       value: `${number(property.plotArea)} m²`,
     },
-    property.guests && { label: "Huéspedes", value: property.guests },
+    property.guests && { label: t("guests"), value: property.guests },
     property.constructionYear != null && {
-      label: "Año",
+      label: t("year"),
       value: String(property.constructionYear),
     },
   ].filter(Boolean) as { label: string; value: string }[];
 }
 
-const AMENITY_LABELS = { ...OUTDOOR_AMENITY_LABELS, ...INDOOR_AMENITY_LABELS };
-
-export function propertyFeatureGroups(property: PublicProperty) {
-  const label = (map: Record<string, string>) => (code: string) =>
-    map[code] ?? code;
+export function propertyFeatureGroups(property: PublicProperty, t: LooseTranslator, labels: Labels) {
   return [
     {
-      title: "Comodidades",
+      title: t("amenities"),
       items: [
         ...new Set([
           ...property.amenities,
           ...property.outdoorAmenities,
           ...property.indoorAmenities,
         ]),
-      ].map(label(AMENITY_LABELS)),
+      ].map(labels.amenity),
     },
-    { title: "Vistas", items: property.view.map(label(VIEW_LABELS)) },
+    { title: t("views"), items: property.view.map(labels.view) },
     {
-      title: "Ubicación",
-      items: property.locationFeatures.map(label(LOCATION_FEATURE_LABELS)),
+      title: t("location"),
+      items: property.locationFeatures.map(labels.locationFeature),
     },
   ].filter((group) => group.items.length > 0);
 }

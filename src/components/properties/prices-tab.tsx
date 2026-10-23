@@ -1,6 +1,7 @@
 "use client";
 
 import { Controller, useWatch, type UseFormReturn } from "react-hook-form";
+import { useTranslations } from "next-intl";
 
 import { FormSection as Section } from "@/components/properties/form-section";
 import { PriceInput } from "@/components/properties/form-controls";
@@ -11,6 +12,7 @@ import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui
 const COMMON_CURRENCIES = ["USD", "EUR"];
 
 export function PricesTab({ form, isRent }: { form: UseFormReturn<FormValues>; isRent: boolean }) {
+  const t = useTranslations("properties.prices");
   const values = useWatch({ control: form.control });
   const currency = values.currency || "USD";
   // Keep a currency that is already saved even when it is not one of the common ones.
@@ -21,24 +23,20 @@ export function PricesTab({ form, isRent }: { form: UseFormReturn<FormValues>; i
   return (
     <div className="flex max-w-2xl min-w-0 flex-col gap-12">
       <Section
-        title={isRent ? "Precio base por noche" : "Precio de venta"}
-        description={
-          isRent
-            ? "El valor de referencia por noche. Las ofertas lo usan cuando no hay una tarifa por temporada."
-            : "Aparece en la ficha y en las tarjetas de tu cartera."
-        }
+        title={isRent ? t("rentTitle") : t("saleTitle")}
+        description={isRent ? t("rentDescription") : t("saleDescription")}
         shown
       >
         <FieldGroup>
           <Field>
-            <FieldLabel>Moneda</FieldLabel>
+            <FieldLabel>{t("currency")}</FieldLabel>
             <Controller
               control={form.control}
               name="currency"
               render={({ field }) => (
                 <div className="flex">
                   <Segmented
-                    label="Moneda"
+                    label={t("currency")}
                     contained
                     value={field.value || "USD"}
                     options={options}
@@ -49,7 +47,7 @@ export function PricesTab({ form, isRent }: { form: UseFormReturn<FormValues>; i
             />
           </Field>
           <Field className="max-w-sm">
-            <FieldLabel htmlFor="price">{isRent ? "Precio por noche" : "Precio"}</FieldLabel>
+            <FieldLabel htmlFor="price">{isRent ? t("perNight") : t("price")}</FieldLabel>
             <Controller
               control={form.control}
               name="price"
@@ -64,7 +62,7 @@ export function PricesTab({ form, isRent }: { form: UseFormReturn<FormValues>; i
                 />
               )}
             />
-            <FieldDescription>Dejalo vacío si preferís mostrar «Precio a consultar».</FieldDescription>
+            <FieldDescription>{t("emptyHint")}</FieldDescription>
           </Field>
         </FieldGroup>
       </Section>

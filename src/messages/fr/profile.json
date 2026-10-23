@@ -1,0 +1,36 @@
+{
+  "profile": {
+    "errors": {
+      "name": "Saisissez votre nom",
+      "email": "E-mail invalide",
+      "currentPassword": "Saisissez votre mot de passe actuel",
+      "minLength": "8 caractères minimum",
+      "mismatch": "Les mots de passe ne correspondent pas"
+    },
+    "hidePassword": "Masquer le mot de passe",
+    "showPassword": "Afficher le mot de passe",
+    "saved": "Profil mis à jour",
+    "saveFailed": "Impossible d’enregistrer le profil",
+    "photoUpdated": "Photo mise à jour",
+    "photoFailed": "Impossible de téléverser la photo",
+    "passwordChanged": "Mot de passe modifié",
+    "passwordFailed": "Impossible de modifier le mot de passe",
+    "help": "Aide sur mon profil",
+    "data": {
+      "title": "Vos informations",
+      "description": "Comment les autres vous voient dans le compte de l’agence.",
+      "changePhoto": "Changer la photo",
+      "photoHint": "Touchez la photo pour la changer.",
+      "name": "Nom"
+    },
+    "password": {
+      "title": "Mot de passe",
+      "description": "Utilisez au moins 8 caractères. Nous demandons l’actuel pour confirmer que c’est bien vous.",
+      "current": "Mot de passe actuel",
+      "new": "Nouveau mot de passe",
+      "repeat": "Répétez le nouveau mot de passe",
+      "submitting": "Modification…",
+      "submit": "Modifier le mot de passe"
+    }
+  }
+}

@@ -1,0 +1,171 @@
+{
+  "meta": {
+    "description": "Softver za upravljanje agencijama za nekretnine: nekretnine, ponude, rezervacije i web-stranica vaše agencije.",
+    "ogAlt": "Tivvo · Sustav za upravljanje agencijama za nekretnine",
+    "ogTitle": "Jedno mjesto za nekretnine, ponude i rezervacije",
+    "ogSubtitle": "Sustav za upravljanje agencijama za prodaju i kratkoročni najam."
+  },
+  "notFound": {
+    "metaTitle": "Stranica nije pronađena",
+    "code": "Pogreška 404",
+    "title": "Ova adresa nije ucrtana u plan.",
+    "tail": "Možda je premještena ili više nije objavljena.",
+    "searchLabel": "Pretraži pomoć",
+    "searchPlaceholder": "Što ste tražili? Pokušajte s «rezervacija»",
+    "search": "Pretraži",
+    "otherPlaces": "Druge stranice",
+    "stillLost": "I dalje ste izgubljeni? Pišite nam na",
+    "links": {
+      "home": {
+        "label": "Početna",
+        "hint": "Što je Tivvo i kako radi"
+      },
+      "help": {
+        "label": "Pomoć",
+        "hint": "Odgovori i kontakt"
+      },
+      "login": {
+        "label": "Prijava",
+        "hint": "Uđite u nadzornu ploču svoje agencije"
+      }
+    }
+  },
+  "language": {
+    "label": "Jezik",
+    "change": "Promijeni jezik"
+  },
+  "common": {
+    "unexpectedError": "Neočekivana pogreška",
+    "linkCopied": "Poveznica kopirana",
+    "linkCopyFailed": "Poveznicu nije moguće kopirati",
+    "actionFailed": "Radnju nije moguće dovršiti",
+    "checkConnection": "Provjerite vezu i pokušajte ponovno.",
+    "back": "Natrag",
+    "cancel": "Odustani",
+    "saving": "Spremanje…",
+    "creating": "Stvaranje…",
+    "optional": "(neobavezno)",
+    "undo": "Poništi",
+    "retry": "Pokušaj ponovno",
+    "noMatchTitle": "Nema rezultata",
+    "clearFilters": "Ukloni filtre",
+    "emailCopied": "E-pošta kopirana",
+    "emailCopyFailed": "E-poštu nije moguće kopirati",
+    "changesSaved": "Promjene su spremljene",
+    "saveFailed": "Promjene nije moguće spremiti",
+    "nameRequired": "Unesite ime",
+    "emailInvalid": "Neispravna e-pošta",
+    "checkFields": "Provjerite označena polja",
+    "save": "Spremi",
+    "help": "Pomoć",
+    "datePicker": {
+      "previousMonth": "Prethodni mjesec",
+      "nextMonth": "Sljedeći mjesec",
+      "pickDate": "Odaberite datum",
+      "pickDates": "Odaberite datume",
+      "pickCheckIn": "Odaberite dolazak",
+      "pickCheckOut": "Sada odaberite odlazak",
+      "days": "{count, plural, one {# dan} few {# dana} other {# dana}}",
+      "nights": "{count, plural, one {# noć} few {# noći} other {# noći}}",
+      "clear": "Očisti",
+      "search": "Pretraži…"
+    },
+    "combobox": {
+      "search": "Pretraži…",
+      "empty": "Nema rezultata."
+    },
+    "richText": {
+      "link": "Poveznica",
+      "linkUrl": "Adresa poveznice",
+      "done": "Gotovo",
+      "removeLink": "Ukloni poveznicu",
+      "blockType": "Vrsta teksta",
+      "blocks": {
+        "p": "Tekst",
+        "h2": "Naslov",
+        "h3": "Podnaslov"
+      },
+      "bold": "Podebljano",
+      "italic": "Kurziv",
+      "bulletList": "Popis s grafičkim oznakama",
+      "orderedList": "Numerirani popis"
+    }
+  },
+  "errors": {
+    "code": "Pogreška {code}",
+    "otherPlaces": "Druge stranice",
+    "server": {
+      "title": "Nešto je pošlo po zlu kod nas.",
+      "tail": "Pokušajte ponovno; ako se nastavi, pišite nam.",
+      "retry": "Pokušaj ponovno",
+      "home": "Idi na početnu"
+    }
+  },
+  "trash": {
+    "restoreFailed": "Vraćanje nije uspjelo",
+    "deleted": "Trajno izbrisano",
+    "deleteFailed": "Brisanje nije uspjelo",
+    "intro": "Ono što izbrišete ostaje ovdje {days} dana, za slučaj da se predomislite. Nakon toga se trajno briše.",
+    "loadFailed": "Nismo uspjeli učitati koš za smeće.",
+    "emptyTitle": "Koš za smeće je prazan",
+    "emptyBody": "Kada nešto izbrišete, pojavit će se ovdje.",
+    "deletedAgo": "Izbrisano {ago}",
+    "goesToday": "briše se danas",
+    "goesIn": "{count, plural, one {trajno se briše za # dan} few {trajno se briše za # dana} other {trajno se briše za # dana}}",
+    "restore": "Vrati",
+    "deleteForever": "Trajno izbriši",
+    "confirmTitle": "Trajno izbrisati?",
+    "confirmBody": "«{title}» bit će zauvijek izbrisano i neće se moći vratiti.",
+    "link": "Koš za smeće",
+    "linkCount": "{count, plural, one {Koš za smeće, # stavka} few {Koš za smeće, # stavke} other {Koš za smeće, # stavki}}",
+    "pages": {
+      "properties": {
+        "title": "Koš za smeće: nekretnine",
+        "restored": "Vratili ste nekretninu",
+        "back": "Nekretnine",
+        "untitled": "Nekretnina"
+      },
+      "offers": {
+        "title": "Koš za smeće: ponude",
+        "restored": "Vratili ste ponudu",
+        "back": "Ponude",
+        "untitled": "Ponuda"
+      },
+      "bookings": {
+        "title": "Koš za smeće: rezervacije",
+        "restored": "Vratili ste rezervaciju",
+        "back": "Rezervacije",
+        "untitled": "Rezervacija"
+      }
+    }
+  },
+  "pageTitles": {
+    "forgotPassword": "Oporavak lozinke",
+    "register": "Izradite račun",
+    "login": "Prijava",
+    "clients": "Klijenti",
+    "settings": "Postavke",
+    "offers": "Ponude",
+    "bookings": "Rezervacije",
+    "inquiries": "Upiti",
+    "profile": "Moj profil",
+    "properties": "Nekretnine",
+    "import": "Uvoz nekretnina",
+    "team": "Tim",
+    "services": "Usluge",
+    "portal": "Web-stranica",
+    "docs": "Dokumentacija",
+    "authCallback": "Prijava u tijeku",
+    "resetPassword": "Ponovno postavljanje lozinke"
+  },
+  "legal": {
+    "effective": "Na snazi od",
+    "sections": "Odjeljci",
+    "seeAlso": "Pogledajte i",
+    "summary": "Ukratko",
+    "summaryNote": "Ovaj sažetak pomaže pri čitanju dokumenta, ali ga ne zamjenjuje: mjerodavan je cijeli tekst.",
+    "brief": "Ukratko:",
+    "nav": "Glavna navigacija",
+    "home": "Natrag na početnu"
+  }
+}

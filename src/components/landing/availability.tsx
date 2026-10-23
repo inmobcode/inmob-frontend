@@ -1,47 +1,35 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
 import { SECTION, WRAP } from "@/components/landing/layout";
 import { Heading } from "@/components/landing/sections";
+import { useFormat } from "@/i18n/format";
 import { cn } from "@/lib/utils";
 
-const FACTS = [
-  {
-    title: "90 días de un vistazo",
-    text: "Una grilla con todas tus propiedades. Ves qué está libre antes de responder una consulta.",
-  },
-  {
-    title: "Vista mensual",
-    text: "La ocupación de cada día. Elegís una propiedad y arrastrás sobre las noches libres para bloquearlas.",
-  },
-  {
-    title: "Tarifas por temporada",
-    text: "Cargás el precio por noche de cada período y el total de la reserva se calcula solo.",
-  },
-  {
-    title: "Filtros por fecha y zona",
-    text: "Pedí solo las propiedades libres del 10 al 17 en una ubicación y listo.",
-  },
-];
+const FACTS = ["grid", "month", "rates", "filters"] as const;
 
 /**
  * Two months in one run of day numbers (October is 1 to 31, November 32 to 61)
  * so a drag can cross from one month to the next.
  */
 const MONTHS = [
-  { name: "Octubre 2026", offset: 3, days: 31, base: 0 },
-  { name: "Noviembre 2026", offset: 6, days: 30, base: 31 },
+  { month: 9, offset: 3, days: 31, base: 0 },
+  { month: 10, offset: 6, days: 30, base: 31 },
 ];
 const TOTAL = 61;
 const BOOKED = new Set([
   3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 28, 29, 30, 36, 37, 38, 39, 40,
   45, 46, 47, 48, 49, 50, 51,
 ]);
-const WEEKDAYS = ["L", "M", "M", "J", "V", "S", "D"];
+// A Monday (5 October 2026) and the six days after it, to name the weekdays.
+const WEEK = Array.from({ length: 7 }, (_, index) => new Date(2026, 9, 5 + index));
 
 /** A pair of months where free days can be blocked by dragging across them, like in the real calendar. */
 function MonthFragment() {
+  const t = useTranslations("landing.availability");
+  const { tag, date } = useFormat();
   const [blocked, setBlocked] = useState<Set<number>>(() => new Set([13, 14]));
   const [drag, setDrag] = useState<{ start: number; end: number } | null>(null);
 
@@ -94,19 +82,21 @@ function MonthFragment() {
         );
         return (
           <div
-            key={month.name}
+            key={month.month}
             className="flex flex-col gap-3 border-b border-line p-5 lg:border-r lg:border-b-0"
           >
             <div className="flex items-baseline justify-between gap-3">
-              <p className="font-logo text-lg font-semibold">{month.name}</p>
+              <p className="font-logo text-lg font-semibold first-letter:uppercase">
+                {date(new Date(2026, month.month, 1), "monthYear")}
+              </p>
               {month.base === 0 && (
-                <p className="text-xs text-quiet">Casa frente al mar</p>
+                <p className="text-xs text-quiet">{t("property")}</p>
               )}
             </div>
             <div className="grid touch-pan-y grid-cols-7 gap-1 text-center text-[11px] select-none">
-              {WEEKDAYS.map((day, index) => (
+              {WEEK.map((day, index) => (
                 <span key={index} className="py-1 text-quiet">
-                  {day}
+                  {new Intl.DateTimeFormat(tag, { weekday: "narrow" }).format(day)}
                 </span>
               ))}
               {cells.map((day) => {
@@ -120,7 +110,10 @@ function MonthFragment() {
                     key={day}
                     type="button"
                     disabled={booked}
-                    aria-label={`${day} de ${month.name.split(" ")[0].toLowerCase()}, ${booked ? "reservado" : isBlocked ? "bloqueado" : "libre"}`}
+                    aria-label={t("dayLabel", {
+                      day: date(new Date(2026, month.month, day), "dayMonth"),
+                      status: booked ? "booked" : isBlocked ? "blocked" : "free",
+                    })}
                     aria-pressed={isBlocked}
                     onPointerDown={() => setDrag({ start: id, end: id })}
                     onPointerEnter={() =>
@@ -156,22 +149,22 @@ function MonthFragment() {
         );
       })}
       <div className="flex flex-col gap-3 p-5 text-xs">
-        <p className="text-quiet">Referencias</p>
+        <p className="text-quiet">{t("legend")}</p>
         {[
-          ["Reservado", "bg-forest"],
-          ["Bloqueado", "bg-ink/20"],
-          ["Libre", "bg-mist ring-1 ring-line"],
+          [t("booked"), "bg-forest"],
+          [t("blocked"), "bg-ink/20"],
+          [t("free"), "bg-mist ring-1 ring-line"],
         ].map(([label, swatch]) => (
           <div key={label} className="flex items-center gap-2">
             <span className={cn("size-2.5 rounded-sm", swatch)} />
             <span>{label}</span>
           </div>
         ))}
-        <p className="mt-3 text-quiet">Tarifas por noche</p>
+        <p className="mt-3 text-quiet">{t("rates")}</p>
         {[
-          ["Temporada alta", "USD 600"],
-          ["Temporada media", "USD 420"],
-          ["Temporada baja", "USD 310"],
+          [t("high"), "USD 600"],
+          [t("mid"), "USD 420"],
+          [t("low"), "USD 310"],
         ].map(([label, value]) => (
           <div key={label} className="flex items-center justify-between gap-2">
             <span>{label}</span>
@@ -179,7 +172,7 @@ function MonthFragment() {
           </div>
         ))}
         <p className="mt-auto pt-4 text-quiet">
-          Probalo: arrastrá sobre los días libres para bloquearlos.
+          {t("tryIt")}
         </p>
       </div>
     </div>
@@ -187,6 +180,7 @@ function MonthFragment() {
 }
 
 export function Availability() {
+  const t = useTranslations("landing.availability");
   return (
     <section
       id="disponibilidad"
@@ -196,17 +190,17 @@ export function Availability() {
       <div className={cn(WRAP, SECTION, "flex flex-col gap-12 md:gap-14")}>
         <Heading
           id="disponibilidad-titulo"
-          claim="Cada noche, bajo control."
-          rest="Sin planillas y sin reservas que se pisan."
+          claim={t("claim")}
+          rest={t("rest")}
           className="max-w-3xl"
         />
         <MonthFragment />
         <dl className="grid gap-x-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-10">
           {FACTS.map((fact) => (
-            <div key={fact.title} className="border-t border-line py-6">
-              <dt className="font-logo text-lg font-semibold">{fact.title}</dt>
+            <div key={fact} className="border-t border-line py-6">
+              <dt className="font-logo text-lg font-semibold">{t(`facts.${fact}.title`)}</dt>
               <dd className="mt-1 text-base leading-snug text-pretty text-quiet">
-                {fact.text}
+                {t(`facts.${fact}.text`)}
               </dd>
             </div>
           ))}

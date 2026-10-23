@@ -1,0 +1,46 @@
+{
+  "settings": {
+    "errors": {
+      "slugRequired": "Introduza um endereço",
+      "slugFormat": "Apenas minúsculas, números e hífenes"
+    },
+    "commissionShown": "O proprietário vê a comissão",
+    "commissionHidden": "A comissão fica oculta",
+    "logoUpdated": "Logótipo atualizado",
+    "logoFailed": "Não foi possível carregar o logótipo",
+    "help": "Ajuda com as definições",
+    "copyPortalLink": "Copiar link do site",
+    "copyLink": "Copiar link",
+    "viewPortal": "Ver site",
+    "customize": "Personalizar site",
+    "agency": {
+      "title": "A sua agência",
+      "description": "O nome e o logótipo com que os seus clientes o veem.",
+      "changeLogo": "Mudar o logótipo",
+      "change": "Mudar",
+      "name": "Nome da agência"
+    },
+    "portal": {
+      "title": "Site público",
+      "description": "A página onde os seus clientes veem os seus imóveis.",
+      "slug": "Endereço do site",
+      "slugWarning": "Mudar o endereço quebra os links que já partilhou.",
+      "contactEmail": "Email de contacto",
+      "contactEmailPlaceholder": "contacto@suaagencia.com"
+    },
+    "owner": {
+      "title": "Portal do proprietário",
+      "description": "O que os seus proprietários veem no link de acesso. Veem sempre o cobrado, o que lhes cabe e o liquidado.",
+      "switchLabel": "Mostrar a comissão no portal do proprietário",
+      "showCommission": "Mostrar a comissão da agência",
+      "showCommissionHint": "Desligado, o proprietário vê quanto lhe cabe, mas não quanto foi descontado. Guarda-se ao alterar."
+    },
+    "preferences": {
+      "title": "Preferências",
+      "description": "Como se mostram os textos e os preços por defeito.",
+      "language": "Idioma do site",
+      "languageHint": "Os links que partilha (site, ofertas, reservas, proprietários) abrem neste idioma. Os seus clientes podem mudá-lo na página.",
+      "currency": "Moeda por defeito"
+    }
+  }
+}

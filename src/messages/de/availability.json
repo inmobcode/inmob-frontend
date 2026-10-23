@@ -1,0 +1,91 @@
+{
+  "availability": {
+    "legend": {
+      "available": "Frei",
+      "booked": "Gebucht",
+      "turnover": "Anreise / Abreise",
+      "past": "Vergangen",
+      "pending": "Ausstehende Buchung"
+    },
+    "grid": {
+      "searchPlaceholder": "Objekt suchen…",
+      "search": "Objekt suchen",
+      "location": "Lage",
+      "allLocations": "Alle Lagen",
+      "searchLocation": "Lage suchen…",
+      "noLocation": "Keine Lage passt.",
+      "onlyFree": "Nur freie",
+      "clearDates": "Daten löschen",
+      "pickDates": "Daten wählen",
+      "noneFree": "An diesen Daten ist kein Objekt frei.",
+      "noneMatch": "Kein Objekt passt zu „{search}“.",
+      "noneInLocation": "In dieser Lage gibt es kein Objekt.",
+      "seeMore": "Mehr anzeigen",
+      "otherLocation": "Andere Lage",
+      "nothing": "Keine Objekte anzuzeigen.",
+      "property": "Objekt",
+      "perNight": "{price}/Nacht",
+      "past": "Vergangen",
+      "pending": "Ausstehende Buchung",
+      "pendingIn": "Ausstehende Buchung (Anreise)",
+      "pendingOut": "Ausstehende Buchung (Abreise)",
+      "available": "Frei",
+      "booked": "Gebucht",
+      "turnover": "Anreise / Abreise",
+      "checkIn": "Anreise",
+      "checkOut": "Abreise"
+    },
+    "month": {
+      "blocked": "Daten blockiert",
+      "blockFailed": "Daten konnten nicht blockiert werden",
+      "rangeTaken": "Dieser Zeitraum enthält belegte oder vergangene Nächte.",
+      "previous": "Vorheriger Monat",
+      "next": "Nächster Monat",
+      "today": "Heute",
+      "property": "Objekt",
+      "allProperties": "Alle Objekte",
+      "searchProperty": "Objekt suchen…",
+      "noProperty": "Kein Objekt passt.",
+      "hintSelected": "Ziehen Sie über freie Nächte, um sie zu blockieren. Mit der Tastatur: Enter am ersten und Enter am letzten Tag.",
+      "hintAll": "Jeder Tag zeigt, wie viele Objekte in dieser Nacht belegt sind. Wählen Sie ein Objekt, um seine Buchungen zu sehen und Daten zu blockieren.",
+      "pendingHint": "Ausstehende Buchung: blockiert die Daten noch nicht, ist aber angefragt.",
+      "loadFailed": "Kalender konnte nicht geladen werden.",
+      "noRentals": "Sie haben noch keine Mietobjekte.",
+      "dayLabel": "{day}: {occupied} von {total} belegt",
+      "more": "+{count} weitere",
+      "checkIn": "An",
+      "checkOut": "Ab",
+      "turnover": "Ab und an",
+      "occupiedOf": "{occupied}/{total} belegt",
+      "pending": "Ausstehend",
+      "blockSummary": "{count, plural, one {<strong>{title}</strong> blockieren: # Nacht, vom {from} bis {to}.} other {<strong>{title}</strong> blockieren: # Nächte, vom {from} bis {to}.}}",
+      "note": "Notiz (optional)",
+      "noteLabel": "Notiz zur Blockierung",
+      "block": "Blockieren",
+      "lists": {
+        "taken": "Belegt ({count})",
+        "waiting": "Ausstehend ({count})",
+        "free": "Frei ({count})",
+        "none": "Keine.",
+        "viewMonth": "Monat ansehen"
+      }
+    },
+    "page": {
+      "view": "Ansicht",
+      "views": {
+        "grid": "Nächste 90 Tage",
+        "month": "Monat"
+      },
+      "title": "Verfügbarkeit",
+      "gridLead": "Die nächsten 90 Tage Ihrer Mietobjekte, alle auf einen Blick.",
+      "monthLead": "Ein Monat nach dem anderen: wie viele Objekte pro Tag belegt sind, und Blockieren von Daten.",
+      "help": "Hilfe zur Verfügbarkeit",
+      "copyLink": "Link zum Teilen kopieren",
+      "loadFailed": "Verfügbarkeit konnte nicht geladen werden",
+      "empty": {
+        "title": "Sie haben noch keine Mietobjekte",
+        "body": "Sobald Sie eines anlegen, erscheint seine Verfügbarkeit hier."
+      }
+    }
+  }
+}

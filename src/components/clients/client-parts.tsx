@@ -1,6 +1,7 @@
 "use client";
 
 import { Check, Copy, Mail, MoreHorizontal, Pencil, Phone, Repeat2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -14,17 +15,12 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { Client, ClientSource, ClientStage } from "@/lib/api/clients";
-import { CLIENT_STAGE_LABELS } from "@/lib/properties-labels";
+import type { Client, ClientStage } from "@/lib/api/clients";
+import { useLabels } from "@/lib/labels";
+import { CLIENT_STAGES } from "@/lib/properties-labels";
 import { cn } from "@/lib/utils";
 
-export const STAGES = Object.keys(CLIENT_STAGE_LABELS) as ClientStage[];
-
-export const SOURCE_LABELS: Record<ClientSource, string> = {
-  WEBSITE: "Portal",
-  MANUAL: "Carga manual",
-  OFFER: "Oferta",
-};
+export const STAGES = CLIENT_STAGES;
 
 export interface ClientActions {
   changeStage: (id: string, stage: ClientStage) => void;
@@ -39,6 +35,7 @@ const STAGE_STYLES: Record<ClientStage, string> = {
 };
 
 export function ClientStagePill({ stage, className }: { stage: ClientStage; className?: string }) {
+  const labels = useLabels();
   return (
     <span
       className={cn(
@@ -47,7 +44,7 @@ export function ClientStagePill({ stage, className }: { stage: ClientStage; clas
         className,
       )}
     >
-      {CLIENT_STAGE_LABELS[stage]}
+      {labels.clientStage(stage)}
     </span>
   );
 }
@@ -91,15 +88,18 @@ export function ClientMenu({
   actions: ClientActions;
   className?: string;
 }) {
+  const t = useTranslations("clients.menu");
+  const common = useTranslations("common");
+  const labels = useLabels();
   const router = useRouter();
   const { agencySlug } = useParams<{ agencySlug: string }>();
 
   async function copyEmail() {
     try {
       await navigator.clipboard.writeText(client.email);
-      toast.success("Email copiado");
+      toast.success(common("emailCopied"));
     } catch {
-      toast.error("No se pudo copiar el email");
+      toast.error(common("emailCopyFailed"));
     }
   }
 
@@ -108,7 +108,7 @@ export function ClientMenu({
       <DropdownMenuTrigger asChild>
         <button
           type="button"
-          aria-label={`Acciones de ${client.name}`}
+          aria-label={t("actionsOf", { name: client.name })}
           className={cn(
             "flex size-8 shrink-0 items-center justify-center rounded-full bg-foreground/[0.06] text-foreground transition-colors outline-none hover:bg-foreground/10 focus-visible:ring-3 focus-visible:ring-ring/50 data-[state=open]:bg-foreground/10",
             className,
@@ -120,12 +120,12 @@ export function ClientMenu({
       <DropdownMenuContent align="end" className="w-56 rounded-2xl p-1.5">
         <DropdownMenuItem className="rounded-xl py-2" onSelect={() => router.push(`/${agencySlug}/clients/${client.id}`)}>
           <Pencil />
-          Ver ficha
+          {t("view")}
         </DropdownMenuItem>
         <DropdownMenuSub>
           <DropdownMenuSubTrigger className="rounded-xl py-2">
             <Repeat2 />
-            Cambiar etapa
+            {t("changeStage")}
           </DropdownMenuSubTrigger>
           <DropdownMenuSubContent className="w-48 rounded-2xl p-1.5">
             {STAGES.map((stage) => (
@@ -134,7 +134,7 @@ export function ClientMenu({
                 className="rounded-xl py-2"
                 onSelect={() => stage !== client.stage && actions.changeStage(client.id, stage)}
               >
-                {CLIENT_STAGE_LABELS[stage]}
+                {labels.clientStage(stage)}
                 {stage === client.stage && <Check className="ml-auto" />}
               </DropdownMenuItem>
             ))}
@@ -144,20 +144,20 @@ export function ClientMenu({
         <DropdownMenuItem className="rounded-xl py-2" asChild>
           <a href={`mailto:${client.email}`}>
             <Mail />
-            Enviar email
+            {t("email")}
           </a>
         </DropdownMenuItem>
         {client.phone && (
           <DropdownMenuItem className="rounded-xl py-2" asChild>
             <a href={`tel:${client.phone.replace(/[^\d+]/g, "")}`}>
               <Phone />
-              Llamar
+              {t("call")}
             </a>
           </DropdownMenuItem>
         )}
         <DropdownMenuItem className="rounded-xl py-2" onSelect={copyEmail}>
           <Copy />
-          Copiar email
+          {t("copyEmail")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

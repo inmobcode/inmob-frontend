@@ -1,0 +1,83 @@
+{
+  "team": {
+    "active": "Aktivan",
+    "inactive": "Neaktivan",
+    "member": "Član",
+    "role": "Uloga",
+    "status": "Status",
+    "actionsColumn": "Radnje",
+    "memberSince": "U timu od {date}",
+    "since": "Od {date}",
+    "memberSinceColumn": "U timu od",
+    "roles": {
+      "OWNER": "Vlasnik računa",
+      "ADMIN": "Administrator",
+      "AGENT": "Agent"
+    },
+    "rolePlurals": {
+      "OWNER": "Vlasnici računa",
+      "ADMIN": "Administratori",
+      "AGENT": "Agenti"
+    },
+    "roleHints": {
+      "OWNER": "Vlasnik računa",
+      "ADMIN": "Upravlja timom, nekretninama i ponudama",
+      "AGENT": "Radi s nekretninama, klijentima i rezervacijama"
+    },
+    "menu": {
+      "actions": "Radnje za {name}",
+      "sendEmail": "Pošalji e-poštu",
+      "copyEmail": "Kopiraj e-poštu",
+      "changeRole": "Promijeni ulogu",
+      "deactivate": "Deaktiviraj pristup",
+      "reactivate": "Ponovno aktiviraj pristup",
+      "remove": "Ukloni iz tima"
+    },
+    "invite": {
+      "linked": "Već je imao račun na Tivvu: dodali smo ga u vaš tim",
+      "sent": "Poslali smo mu pristup e-poštom",
+      "title": "Pozovi člana",
+      "description": "Ako već ima račun na Tivvu, dodajemo ga u vaš tim; ako nema, šaljemo mu pristup e-poštom.",
+      "name": "Ime",
+      "namePlaceholder": "Npr. Rodrigo Sosa",
+      "emailPlaceholder": "ime@email.com",
+      "role": "Uloga",
+      "submitting": "Pozivanje…",
+      "submit": "Pozovi"
+    },
+    "page": {
+      "updateFailed": "Promjenu nije moguće spremiti",
+      "removed": "Uklonjen iz tima",
+      "removeFailed": "Uklanjanje iz tima nije uspjelo",
+      "roleChanged": "Nova uloga: {role}",
+      "reactivated": "Pristup ponovno aktiviran",
+      "deactivated": "Pristup deaktiviran",
+      "title": "Tim",
+      "searchPlaceholder": "Pretraži po imenu ili e-pošti",
+      "search": "Pretraži tim",
+      "role": "Uloga",
+      "roles": "uloge",
+      "help": "Pomoć za tim",
+      "loadFailed": "Tim nije moguće učitati",
+      "empty": {
+        "title": "Složite svoj tim",
+        "body": "Dodajte administratore i agente za zajednički rad.",
+        "help": "Što može svaka uloga"
+      },
+      "noMatch": {
+        "title": "Nitko ne odgovara",
+        "body": "Pokušajte s drugim imenom ili uklonite filtar uloge."
+      },
+      "deactivate": {
+        "title": "Deaktivirati pristup?",
+        "body": "{name} se više neće moći prijaviti u račun. Nekretnine i klijenti ostaju, a pristup možete ponovno aktivirati kad god želite.",
+        "confirm": "Deaktiviraj"
+      },
+      "remove": {
+        "title": "Ukloniti iz tima?",
+        "body": "{name} gubi pristup ovoj agenciji. Račun se ne briše: ako pripada drugoj agenciji, i dalje se normalno prijavljuje tamo.",
+        "confirm": "Ukloni"
+      }
+    }
+  }
+}

@@ -3,7 +3,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { LoaderCircle } from "lucide-react";
-import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -16,15 +17,20 @@ import { ApiError } from "@/lib/api/client";
 import { createClient } from "@/lib/api/clients";
 import { getAccessToken } from "@/lib/auth/session";
 
-const schema = z.object({
-  name: z.string().min(2, "Ingresá un nombre"),
-  email: z.string().email("Email inválido"),
-  phone: z.string(),
-});
+function makeSchema(t: (key: "nameRequired" | "emailInvalid") => string) {
+  return z.object({
+    name: z.string().min(2, t("nameRequired")),
+    email: z.string().email(t("emailInvalid")),
+    phone: z.string(),
+  });
+}
 
-type FormValues = z.infer<typeof schema>;
+type FormValues = z.infer<ReturnType<typeof makeSchema>>;
 
 export function CreateClientDialog() {
+  const t = useTranslations("clients.create");
+  const common = useTranslations("common");
+  const schema = useMemo(() => makeSchema(common), [common]);
   const [open, setOpen] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const queryClient = useQueryClient();
@@ -44,7 +50,7 @@ export function CreateClientDialog() {
       queryClient.invalidateQueries({ queryKey: ["clients"] });
       setOpen(false);
     },
-    onError: (err) => setServerError(err instanceof ApiError ? err.message : "Error inesperado"),
+    onError: (err) => setServerError(err instanceof ApiError ? err.message : common("unexpectedError")),
   });
 
   function handleOpenChange(next: boolean) {
@@ -58,7 +64,7 @@ export function CreateClientDialog() {
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <NewItemButton label="Nuevo cliente" />
+        <NewItemButton label={t("new")} />
       </DialogTrigger>
       <DialogContent className="gap-0 rounded-3xl p-0 sm:max-w-lg" showCloseButton>
         <form
@@ -69,17 +75,17 @@ export function CreateClientDialog() {
           })}
         >
           <div className="flex flex-col gap-1.5 px-7 pt-7 pb-5">
-            <DialogTitle className="font-display text-3xl leading-none tracking-tight">Nuevo cliente</DialogTitle>
-            <DialogDescription>Cargá lo básico. Después sumás notas y el historial de contacto.</DialogDescription>
+            <DialogTitle className="font-display text-3xl leading-none tracking-tight">{t("new")}</DialogTitle>
+            <DialogDescription>{t("description")}</DialogDescription>
           </div>
 
           <div className="flex flex-col gap-5 px-7 pb-2">
             <div className="flex flex-col gap-2.5">
-              <Label htmlFor="name">Nombre</Label>
+              <Label htmlFor="name">{t("name")}</Label>
               <Input
                 id="name"
                 autoComplete="off"
-                placeholder="Ej: Valentina Ríos"
+                placeholder={t("namePlaceholder")}
                 aria-invalid={Boolean(errors.name)}
                 className="h-11 px-4"
                 {...form.register("name")}
@@ -87,12 +93,12 @@ export function CreateClientDialog() {
               {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
             </div>
             <div className="flex flex-col gap-2.5">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t("email")}</Label>
               <Input
                 id="email"
                 type="email"
                 autoComplete="off"
-                placeholder="nombre@correo.com"
+                placeholder={t("emailPlaceholder")}
                 aria-invalid={Boolean(errors.email)}
                 className="h-11 px-4"
                 {...form.register("email")}
@@ -101,25 +107,25 @@ export function CreateClientDialog() {
             </div>
             <div className="flex flex-col gap-2.5">
               <Label htmlFor="phone">
-                Teléfono <span className="font-normal text-muted-foreground">(opcional)</span>
+                {t("phone")} <span className="font-normal text-muted-foreground">{common("optional")}</span>
               </Label>
-              <Input id="phone" autoComplete="off" placeholder="+54 9 11 5555-0000" className="h-11 px-4" {...form.register("phone")} />
+              <Input id="phone" autoComplete="off" placeholder={t("phonePlaceholder")} className="h-11 px-4" {...form.register("phone")} />
             </div>
             {serverError && <p className="text-sm text-destructive">{serverError}</p>}
           </div>
 
           <div className="flex items-center justify-end gap-2 px-7 pt-5 pb-7">
             <Button type="button" variant="ghost" className="h-10 px-5" onClick={() => handleOpenChange(false)}>
-              Cancelar
+              {common("cancel")}
             </Button>
             <Button type="submit" variant="highlight" className="h-10 gap-2 px-6" disabled={mutation.isPending}>
               {mutation.isPending ? (
                 <>
                   <LoaderCircle className="animate-spin" />
-                  Creando…
+                  {common("creating")}
                 </>
               ) : (
-                "Crear cliente"
+                t("submit")
               )}
             </Button>
           </div>

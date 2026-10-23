@@ -18,6 +18,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
@@ -52,7 +53,8 @@ import { cn } from "@/lib/utils";
 
 interface NavItem {
   href: string;
-  label: string;
+  /** Its name, a key of "dashboard.nav". */
+  label: "inquiries" | "clients" | "properties" | "offers" | "bookings" | "availability" | "services" | "portal" | "team" | "settings";
   icon: LucideIcon;
   /** Leaves a little extra room above it: the start of the administration links. */
   startsGroup?: boolean;
@@ -81,25 +83,25 @@ function navItemsFor(agencySlug: string, role: string | undefined): NavItem[] {
   // In the order the business runs: a question comes in, becomes a client, gets
   // properties offered, turns into a booking. Agency administration goes last.
   const items: NavItem[] = [
-    { href: `/${agencySlug}/inquiries`, label: "Consultas", icon: Inbox },
-    { href: `/${agencySlug}/clients`, label: "Clientes", icon: Users },
+    { href: `/${agencySlug}/inquiries`, label: "inquiries", icon: Inbox },
+    { href: `/${agencySlug}/clients`, label: "clients", icon: Users },
     {
       href: `/${agencySlug}/properties`,
-      label: "Propiedades",
+      label: "properties",
       icon: Building2,
     },
-    { href: `/${agencySlug}/offers`, label: "Ofertas", icon: Tag },
-    { href: `/${agencySlug}/bookings`, label: "Reservas", icon: CalendarDays },
-    { href: `/${agencySlug}/availability`, label: "Disponibilidad", icon: CalendarCheck },
-    { href: `/${agencySlug}/services`, label: "Servicios", icon: Sparkles },
+    { href: `/${agencySlug}/offers`, label: "offers", icon: Tag },
+    { href: `/${agencySlug}/bookings`, label: "bookings", icon: CalendarDays },
+    { href: `/${agencySlug}/availability`, label: "availability", icon: CalendarCheck },
+    { href: `/${agencySlug}/services`, label: "services", icon: Sparkles },
   ];
   if (role && role !== "AGENT") {
     items.push(
-      { href: `/${agencySlug}/portal`, label: "Portal", icon: Globe, startsGroup: true },
-      { href: `/${agencySlug}/team`, label: "Equipo", icon: UsersRound },
+      { href: `/${agencySlug}/portal`, label: "portal", icon: Globe },
+      { href: `/${agencySlug}/team`, label: "team", icon: UsersRound },
       {
         href: `/${agencySlug}/settings`,
-        label: "Configuración",
+        label: "settings",
         icon: Settings,
       },
     );
@@ -141,6 +143,8 @@ function NavLink({
   /** A count of new things behind this link (unread inquiries). */
   badge?: number;
 }) {
+  const t = useTranslations("dashboard.nav");
+  const name = t(item.label);
   const [hovering, setHovering] = useState(false);
 
   // Collapsing/expanding reflows every row under a stationary pointer, so
@@ -166,9 +170,7 @@ function NavLink({
           href={item.href}
           data-nav-link
           aria-current={active ? "page" : undefined}
-          aria-label={
-            badge > 0 ? `${item.label}, ${badge} sin leer` : item.label
-          }
+          aria-label={badge > 0 ? t("unread", { name, count: badge }) : name}
           onClick={onNavigate}
           className={cn(
             "relative z-10 flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium whitespace-nowrap transition-colors",
@@ -197,7 +199,7 @@ function NavLink({
               collapsed && "opacity-0",
             )}
           >
-            {item.label}
+            {name}
           </span>
           {badge > 0 && !collapsed && (
             <span
@@ -216,7 +218,7 @@ function NavLink({
         </Link>
       </TooltipTrigger>
       <TooltipContent side="right" sideOffset={12}>
-        {item.label}
+        {name}
       </TooltipContent>
     </Tooltip>
   );
@@ -344,6 +346,7 @@ function SidebarBody({
   onToggle?: () => void;
   onNavigate?: () => void;
 }) {
+  const t = useTranslations("dashboard.nav");
   // The toggle moves while the sidebar resizes; its tooltip would chase it and
   // swap its text mid-flight, so it stays closed until the pointer leaves.
   const [tipOpen, setTipOpen] = useState(false);
@@ -370,7 +373,7 @@ function SidebarBody({
                   setTipOpen(false);
                   onToggle();
                 }}
-                aria-label={collapsed ? "Expandir menú" : "Contraer menú"}
+                aria-label={collapsed ? t("expandMenu") : t("collapseMenu")}
                 aria-expanded={!collapsed}
                 className={cn(
                   "shrink-0 text-muted-foreground transition-transform duration-300 hover:text-foreground",
@@ -381,7 +384,7 @@ function SidebarBody({
               </Button>
             </TooltipTrigger>
             <TooltipContent side="right" sideOffset={12}>
-              {collapsed ? "Expandir" : "Contraer"} (Ctrl/Cmd + B)
+              {collapsed ? t("expand") : t("collapse")} (Ctrl/Cmd + B)
             </TooltipContent>
           </Tooltip>
         )}
@@ -482,6 +485,7 @@ export function DashboardSidebar({
 }
 
 export function MobileTopbar() {
+  const t = useTranslations("dashboard.nav");
   const [open, setOpen] = useState(false);
 
   return (
@@ -489,7 +493,7 @@ export function MobileTopbar() {
       <Brand />
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>
-          <Button variant="ghost" size="icon" aria-label="Abrir menú">
+          <Button variant="ghost" size="icon" aria-label={t("openMenu")}>
             <Menu />
           </Button>
         </SheetTrigger>
@@ -498,10 +502,8 @@ export function MobileTopbar() {
           className="w-72 bg-sidebar p-0"
           showCloseButton={false}
         >
-          <SheetTitle className="sr-only">Menú</SheetTitle>
-          <SheetDescription className="sr-only">
-            Navegación principal
-          </SheetDescription>
+          <SheetTitle className="sr-only">{t("menu")}</SheetTitle>
+          <SheetDescription className="sr-only">{t("mainNav")}</SheetDescription>
           <SidebarBody onNavigate={() => setOpen(false)} />
         </SheetContent>
       </Sheet>

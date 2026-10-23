@@ -1,0 +1,46 @@
+{
+  "settings": {
+    "errors": {
+      "slugRequired": "Saisissez une adresse",
+      "slugFormat": "Minuscules, chiffres et tirets uniquement"
+    },
+    "commissionShown": "Le propriétaire voit la commission",
+    "commissionHidden": "La commission reste masquée",
+    "logoUpdated": "Logo mis à jour",
+    "logoFailed": "Impossible de téléverser le logo",
+    "help": "Aide sur les paramètres",
+    "copyPortalLink": "Copier le lien du site",
+    "copyLink": "Copier le lien",
+    "viewPortal": "Voir le site",
+    "customize": "Personnaliser le site",
+    "agency": {
+      "title": "Votre agence",
+      "description": "Le nom et le logo que voient vos clients.",
+      "changeLogo": "Changer le logo",
+      "change": "Changer",
+      "name": "Nom de l’agence"
+    },
+    "portal": {
+      "title": "Site public",
+      "description": "La page où vos clients voient vos biens.",
+      "slug": "Adresse du site",
+      "slugWarning": "Changer l’adresse casse les liens déjà partagés.",
+      "contactEmail": "E-mail de contact",
+      "contactEmailPlaceholder": "contact@votreagence.com"
+    },
+    "owner": {
+      "title": "Portail propriétaire",
+      "description": "Ce que vos propriétaires voient sur leur lien d’accès. Ils voient toujours l’encaissé, ce qui leur revient et ce qui a été versé.",
+      "switchLabel": "Afficher la commission sur le portail propriétaire",
+      "showCommission": "Afficher la commission de l’agence",
+      "showCommissionHint": "Désactivé, le propriétaire voit ce qui lui revient mais pas ce qui a été déduit. Enregistré dès le changement."
+    },
+    "preferences": {
+      "title": "Préférences",
+      "description": "Comment les textes et les prix s’affichent par défaut.",
+      "language": "Langue du site",
+      "languageHint": "Les liens que vous partagez (site, offres, réservations, propriétaires) s’ouvrent dans cette langue. Vos clients peuvent la changer depuis la page.",
+      "currency": "Devise par défaut"
+    }
+  }
+}

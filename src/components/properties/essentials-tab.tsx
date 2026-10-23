@@ -1,6 +1,7 @@
 "use client";
 
 import { Controller, type UseFormReturn } from "react-hook-form";
+import { useTranslations } from "next-intl";
 
 import { FormSection as Section } from "@/components/properties/form-section";
 import type { FormValues } from "@/components/properties/property-editor";
@@ -9,16 +10,17 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 
 export function EssentialsTab({ form }: { form: UseFormReturn<FormValues> }) {
+  const t = useTranslations("properties.essentials");
   return (
     <div className="flex max-w-2xl min-w-0 flex-col gap-12">
       <Section
-        title="Gestión de la propiedad"
-        description="La persona o empresa que la administra en el día a día."
+        title={t("management.title")}
+        description={t("management.description")}
         shown={false}
       >
         <FieldGroup>
           <Field>
-            <FieldLabel htmlFor="managementName">Nombre</FieldLabel>
+            <FieldLabel htmlFor="managementName">{t("management.name")}</FieldLabel>
             <Input id="managementName" autoComplete="off" {...form.register("managementName")} />
           </Field>
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -28,12 +30,12 @@ export function EssentialsTab({ form }: { form: UseFormReturn<FormValues> }) {
                 id="managementEmail"
                 type="email"
                 autoComplete="off"
-                placeholder="nombre@empresa.com"
+                placeholder={t("management.emailPlaceholder")}
                 {...form.register("managementEmail")}
               />
             </Field>
             <Field>
-              <FieldLabel htmlFor="managementPhone">Teléfono</FieldLabel>
+              <FieldLabel htmlFor="managementPhone">{t("management.phone")}</FieldLabel>
               <Input
                 id="managementPhone"
                 type="tel"
@@ -44,33 +46,33 @@ export function EssentialsTab({ form }: { form: UseFormReturn<FormValues> }) {
             </Field>
           </div>
           <Field>
-            <FieldLabel htmlFor="managementCompany">Empresa</FieldLabel>
+            <FieldLabel htmlFor="managementCompany">{t("management.company")}</FieldLabel>
             <Input id="managementCompany" autoComplete="off" {...form.register("managementCompany")} />
           </Field>
         </FieldGroup>
       </Section>
 
       <Section
-        title="Proveedor y licencia"
-        description="Datos de quien comercializa la propiedad y su habilitación."
+        title={t("vendor.title")}
+        description={t("vendor.description")}
         shown={false}
       >
         <FieldGroup>
           <Field>
-            <FieldLabel htmlFor="vendorPropertyName">Nombre de la propiedad para el proveedor</FieldLabel>
+            <FieldLabel htmlFor="vendorPropertyName">{t("vendor.name")}</FieldLabel>
             <Input id="vendorPropertyName" autoComplete="off" {...form.register("vendorPropertyName")} />
           </Field>
           <Field>
-            <FieldLabel htmlFor="website">Sitio web del proveedor</FieldLabel>
+            <FieldLabel htmlFor="website">{t("vendor.website")}</FieldLabel>
             <Input id="website" type="url" placeholder="https://" {...form.register("website")} />
           </Field>
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <Field>
-              <FieldLabel htmlFor="commission">Comisión</FieldLabel>
-              <Input id="commission" placeholder="Ej: 5 %" {...form.register("commission")} />
+              <FieldLabel htmlFor="commission">{t("vendor.commission")}</FieldLabel>
+              <Input id="commission" placeholder={t("vendor.commissionPlaceholder")} {...form.register("commission")} />
             </Field>
             <Field>
-              <FieldLabel htmlFor="license">Número de licencia</FieldLabel>
+              <FieldLabel htmlFor="license">{t("vendor.license")}</FieldLabel>
               <Input id="license" autoComplete="off" {...form.register("license")} />
             </Field>
           </div>
@@ -78,17 +80,17 @@ export function EssentialsTab({ form }: { form: UseFormReturn<FormValues> }) {
       </Section>
 
       <Section
-        title="Permisos"
-        description="Qué podés hacer con esta propiedad fuera de tu portal."
+        title={t("permissions.title")}
+        description={t("permissions.description")}
         shown={false}
       >
         <div className="flex items-start justify-between gap-6 rounded-2xl bg-foreground/[0.04] p-5">
           <div className="flex flex-col gap-1">
             <label htmlFor="thirdPartyPermission" className="text-sm font-medium">
-              Publicar en portales de terceros
+              {t("permissions.thirdParty")}
             </label>
             <FieldDescription>
-              Confirmás que tenés autorización para compartir esta propiedad con portales externos.
+              {t("permissions.thirdPartyHint")}
             </FieldDescription>
           </div>
           <Controller

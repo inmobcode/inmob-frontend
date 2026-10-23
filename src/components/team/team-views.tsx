@@ -1,20 +1,26 @@
 "use client";
 
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
 import { Mail } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { ClientAvatar } from "@/components/clients/client-parts";
 import { ActivePill, RolePill, TeamMenu, type TeamActions } from "@/components/team/team-parts";
+import { useFormat } from "@/i18n/format";
 import type { TeamMember } from "@/lib/api/team";
 import { cn } from "@/lib/utils";
 
 const SURFACE =
   "team-card group rounded-2xl bg-card shadow-[0_1px_2px_oklch(0.3_0.05_160/0.04),0_12px_32px_-12px_oklch(0.3_0.05_160/0.14)] ring-1 ring-foreground/5 transition-[box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:shadow-[0_1px_2px_oklch(0.3_0.05_160/0.06),0_24px_44px_-12px_oklch(0.3_0.05_160/0.26)]";
 
-const since = (iso: string) => format(new Date(iso), "MMM yyyy", { locale: es });
+/** "oct 2026": when someone joined, in the page's language. */
+function useSince() {
+  const { tag } = useFormat();
+  return (iso: string) => new Intl.DateTimeFormat(tag, { month: "short", year: "numeric" }).format(new Date(iso));
+}
 
 export function TeamCard({ member, actions }: { member: TeamMember; actions: TeamActions }) {
+  const t = useTranslations("team");
+  const since = useSince();
   return (
     <div className={cn(SURFACE, "flex flex-col gap-5 p-5", !member.isActive && "opacity-70")}>
       <div className="flex items-start gap-3.5">
@@ -39,13 +45,15 @@ export function TeamCard({ member, actions }: { member: TeamMember; actions: Tea
 
       <div className="mt-auto flex items-center gap-3 text-xs text-muted-foreground">
         <ActivePill active={member.isActive} />
-        <span className="ml-auto">En el equipo desde {since(member.createdAt)}</span>
+        <span className="ml-auto">{t("memberSince", { date: since(member.createdAt) })}</span>
       </div>
     </div>
   );
 }
 
 export function TeamRow({ member, actions }: { member: TeamMember; actions: TeamActions }) {
+  const t = useTranslations("team");
+  const since = useSince();
   return (
     <div className={cn(SURFACE, "flex flex-col gap-4 p-4 sm:flex-row sm:items-center", !member.isActive && "opacity-70")}>
       <div className="flex min-w-0 items-center gap-3.5 sm:w-80 sm:shrink-0">
@@ -62,7 +70,7 @@ export function TeamRow({ member, actions }: { member: TeamMember; actions: Team
         <ActivePill active={member.isActive} />
       </div>
       <div className="flex items-center justify-between gap-3 sm:w-56 sm:shrink-0 sm:justify-end">
-        <span className="text-xs text-muted-foreground">Desde {since(member.createdAt)}</span>
+        <span className="text-xs text-muted-foreground">{t("since", { date: since(member.createdAt) })}</span>
         <TeamMenu member={member} actions={actions} />
       </div>
     </div>
@@ -72,17 +80,19 @@ export function TeamRow({ member, actions }: { member: TeamMember; actions: Team
 const HEAD = "px-4 py-3 text-left text-xs font-medium text-muted-foreground";
 
 export function TeamTable({ members, actions }: { members: TeamMember[]; actions: TeamActions }) {
+  const t = useTranslations("team");
+  const since = useSince();
   return (
     <div className="overflow-x-auto rounded-2xl bg-card shadow-[0_1px_2px_oklch(0.3_0.05_160/0.04),0_12px_32px_-12px_oklch(0.3_0.05_160/0.14)] ring-1 ring-foreground/5">
       <table className="w-full min-w-[720px] border-collapse text-sm">
         <thead>
           <tr>
-            <th className={cn(HEAD, "pl-4")}>Miembro</th>
-            <th className={HEAD}>Rol</th>
-            <th className={HEAD}>Estado</th>
-            <th className={HEAD}>En el equipo desde</th>
+            <th className={cn(HEAD, "pl-4")}>{t("member")}</th>
+            <th className={HEAD}>{t("role")}</th>
+            <th className={HEAD}>{t("status")}</th>
+            <th className={HEAD}>{t("memberSinceColumn")}</th>
             <th className={cn(HEAD, "w-14")}>
-              <span className="sr-only">Acciones</span>
+              <span className="sr-only">{t("actionsColumn")}</span>
             </th>
           </tr>
         </thead>

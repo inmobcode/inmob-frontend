@@ -1,4 +1,5 @@
 import { Lightbulb, Lock, type LucideIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 
 import { cn } from "@/lib/utils";
@@ -86,6 +87,7 @@ export function DocSection({
   adminOnly?: boolean;
   children: React.ReactNode;
 }) {
+  const t = useTranslations("docs.page");
   return (
     <section id={id} data-doc-section className="flex scroll-mt-28 flex-col gap-6 border-t border-border pt-12 first:border-t-0 first:pt-0">
       <div className="flex flex-col gap-3">
@@ -97,7 +99,7 @@ export function DocSection({
           {adminOnly && (
             <span className="inline-flex h-6 items-center gap-1.5 rounded-full bg-foreground/[0.06] px-2.5 text-xs font-medium text-muted-foreground">
               <Lock className="size-3" />
-              Propietarios y administradores
+              {t("adminOnly")}
             </span>
           )}
         </div>

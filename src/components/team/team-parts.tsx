@@ -1,6 +1,7 @@
 "use client";
 
 import { Check, Copy, Mail, MoreHorizontal, Power, Repeat2, UserMinus } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
 import {
@@ -18,17 +19,6 @@ import { cn } from "@/lib/utils";
 
 export const ROLES: TeamRole[] = ["OWNER", "ADMIN", "AGENT"];
 
-export const ROLE_LABELS: Record<TeamRole, string> = {
-  OWNER: "Propietario",
-  ADMIN: "Administrador",
-  AGENT: "Agente",
-};
-
-export const ROLE_HINTS: Record<TeamRole, string> = {
-  OWNER: "Dueño de la cuenta",
-  ADMIN: "Gestiona equipo, propiedades y ofertas",
-  AGENT: "Trabaja con propiedades, clientes y reservas",
-};
 
 export interface TeamActions {
   changeRole: (id: string, role: Exclude<TeamRole, "OWNER">) => void;
@@ -43,6 +33,7 @@ const ROLE_STYLES: Record<TeamRole, string> = {
 };
 
 export function RolePill({ role, className }: { role: TeamRole; className?: string }) {
+  const t = useTranslations("team.roles");
   return (
     <span
       className={cn(
@@ -51,12 +42,13 @@ export function RolePill({ role, className }: { role: TeamRole; className?: stri
         className,
       )}
     >
-      {ROLE_LABELS[role]}
+      {t(role)}
     </span>
   );
 }
 
 export function ActivePill({ active, className }: { active: boolean; className?: string }) {
+  const t = useTranslations("team");
   return (
     <span
       className={cn(
@@ -65,7 +57,7 @@ export function ActivePill({ active, className }: { active: boolean; className?:
         className,
       )}
     >
-      {active ? "Activo" : "Inactivo"}
+      {active ? t("active") : t("inactive")}
     </span>
   );
 }
@@ -79,14 +71,17 @@ export function TeamMenu({
   actions: TeamActions;
   className?: string;
 }) {
+  const t = useTranslations("team.menu");
+  const tRoles = useTranslations("team.roles");
+  const tc = useTranslations("common");
   const locked = member.role === "OWNER";
 
   async function copyEmail() {
     try {
       await navigator.clipboard.writeText(member.email);
-      toast.success("Email copiado");
+      toast.success(tc("emailCopied"));
     } catch {
-      toast.error("No se pudo copiar el email");
+      toast.error(tc("emailCopyFailed"));
     }
   }
 
@@ -95,7 +90,7 @@ export function TeamMenu({
       <DropdownMenuTrigger asChild>
         <button
           type="button"
-          aria-label={`Acciones de ${member.name}`}
+          aria-label={t("actions", { name: member.name })}
           className={cn(
             "flex size-8 shrink-0 items-center justify-center rounded-full bg-foreground/[0.06] text-foreground transition-colors outline-none hover:bg-foreground/10 focus-visible:ring-3 focus-visible:ring-ring/50 data-[state=open]:bg-foreground/10",
             className,
@@ -108,12 +103,12 @@ export function TeamMenu({
         <DropdownMenuItem className="rounded-xl py-2" asChild>
           <a href={`mailto:${member.email}`}>
             <Mail />
-            Enviar email
+            {t("sendEmail")}
           </a>
         </DropdownMenuItem>
         <DropdownMenuItem className="rounded-xl py-2" onSelect={copyEmail}>
           <Copy />
-          Copiar email
+          {t("copyEmail")}
         </DropdownMenuItem>
         {!locked && (
           <>
@@ -121,7 +116,7 @@ export function TeamMenu({
             <DropdownMenuSub>
               <DropdownMenuSubTrigger className="rounded-xl py-2">
                 <Repeat2 />
-                Cambiar rol
+                {t("changeRole")}
               </DropdownMenuSubTrigger>
               <DropdownMenuSubContent className="w-52 rounded-2xl p-1.5">
                 {(["ADMIN", "AGENT"] as const).map((role) => (
@@ -130,7 +125,7 @@ export function TeamMenu({
                     className="rounded-xl py-2"
                     onSelect={() => role !== member.role && actions.changeRole(member.id, role)}
                   >
-                    {ROLE_LABELS[role]}
+                    {tRoles(role)}
                     {role === member.role && <Check className="ml-auto" />}
                   </DropdownMenuItem>
                 ))}
@@ -142,7 +137,7 @@ export function TeamMenu({
               onSelect={() => actions.setActive(member.id, !member.isActive)}
             >
               <Power />
-              {member.isActive ? "Desactivar acceso" : "Reactivar acceso"}
+              {member.isActive ? t("deactivate") : t("reactivate")}
             </DropdownMenuItem>
             <DropdownMenuItem
               variant="destructive"
@@ -150,7 +145,7 @@ export function TeamMenu({
               onSelect={() => actions.requestRemove(member.id)}
             >
               <UserMinus />
-              Quitar del equipo
+              {t("remove")}
             </DropdownMenuItem>
           </>
         )}

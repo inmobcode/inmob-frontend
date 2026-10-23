@@ -2,11 +2,13 @@
 
 import { ArrowRight } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { DateRangePicker } from "@/components/ui/date-picker";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { ApiError } from "@/lib/api/client";
 import {
   createRatePeriod,
@@ -15,6 +17,7 @@ import {
   type RatePeriodPayload,
 } from "@/lib/api/rate-periods";
 import { getAccessToken } from "@/lib/auth/session";
+import { useFormat } from "@/i18n/format";
 
 const EMPTY_FORM = {
   label: "",
@@ -27,6 +30,8 @@ const EMPTY_FORM = {
 };
 
 export function RatesTab({ propertyId }: { propertyId: string }) {
+  const t = useTranslations("properties.rates");
+  const { number } = useFormat();
   const [form, setForm] = useState(EMPTY_FORM);
   const [error, setError] = useState<string | null>(null);
   const queryClient = useQueryClient();
@@ -64,7 +69,7 @@ export function RatesTab({ propertyId }: { propertyId: string }) {
       setError(null);
       invalidate();
     },
-    onError: (err) => setError(err instanceof ApiError ? err.message : "No se pudo crear el período"),
+    onError: (err) => setError(err instanceof ApiError ? err.message : t("createFailed")),
   });
 
   const removeMutation = useMutation({
@@ -79,10 +84,10 @@ export function RatesTab({ propertyId }: { propertyId: string }) {
   return (
     <div className="space-y-6">
       <div className="space-y-3 rounded-md border p-4">
-        <h4 className="text-sm font-medium">Nuevo período</h4>
+        <h4 className="text-sm font-medium">{t("new")}</h4>
         <div className="grid grid-cols-2 gap-3">
           <Input
-            placeholder="Etiqueta (ej. Temporada alta)"
+            placeholder={t("label")}
             value={form.label}
             onChange={(e) => setForm({ ...form, label: e.target.value })}
             className="col-span-2"
@@ -92,35 +97,44 @@ export function RatesTab({ propertyId }: { propertyId: string }) {
               start={form.startDate}
               end={form.endDate}
               countAs="days"
-              placeholder="Desde y hasta qué día rige"
-              hints={{ first: "Elegí el primer día", second: "Ahora elegí el último día" }}
+              placeholder={t("dates")}
+              hints={{ first: t("firstDay"), second: t("lastDay") }}
               onChange={(startDate, endDate) => setForm({ ...form, startDate, endDate })}
             />
           </div>
           <Input
-            placeholder="Precio oficial/noche"
+            placeholder={t("price")}
             inputMode="decimal"
             value={form.officialPricePerNight}
             onChange={(e) => setForm({ ...form, officialPricePerNight: e.target.value })}
           />
           <Input
-            placeholder="Estadía mínima (noches)"
+            placeholder={t("minStay")}
             inputMode="numeric"
             value={form.minStay}
             onChange={(e) => setForm({ ...form, minStay: e.target.value })}
           />
-          <Input
-            placeholder="% fee de management"
-            inputMode="decimal"
-            value={form.managementFeePct}
-            onChange={(e) => setForm({ ...form, managementFeePct: e.target.value })}
-          />
-          <Input
-            placeholder="% comisión agencia"
-            inputMode="decimal"
-            value={form.agencyCommissionPct}
-            onChange={(e) => setForm({ ...form, agencyCommissionPct: e.target.value })}
-          />
+          {/* They start filled with the defaults, so the placeholder never shows: each needs its own label. */}
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="rate-management-fee">{t("managementFee")}</Label>
+            <Input
+              id="rate-management-fee"
+              placeholder={t("managementFee")}
+              inputMode="decimal"
+              value={form.managementFeePct}
+              onChange={(e) => setForm({ ...form, managementFeePct: e.target.value })}
+            />
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="rate-agency-commission">{t("commission")}</Label>
+            <Input
+              id="rate-agency-commission"
+              placeholder={t("commission")}
+              inputMode="decimal"
+              value={form.agencyCommissionPct}
+              onChange={(e) => setForm({ ...form, agencyCommissionPct: e.target.value })}
+            />
+          </div>
         </div>
         {error && <p className="text-sm text-destructive">{error}</p>}
         <Button
@@ -129,7 +143,7 @@ export function RatesTab({ propertyId }: { propertyId: string }) {
           disabled={!form.startDate || !form.endDate || createMutation.isPending}
           onClick={() => createMutation.mutate()}
         >
-          Agregar período
+          {t("add")}
         </Button>
       </div>
 
@@ -138,21 +152,21 @@ export function RatesTab({ propertyId }: { propertyId: string }) {
           {periods.map((period) => (
             <div key={period.id} className="flex items-center justify-between rounded-md border p-3 text-sm">
               <div>
-                <p className="font-medium">{period.label || "Sin etiqueta"}</p>
+                <p className="font-medium">{period.label || t("noLabel")}</p>
                 <p className="text-zinc-500">
                   {period.startDate} <ArrowRight className="inline size-3.5 align-[-2px]" /> {period.endDate}
-                  {period.officialPricePerNight ? ` · ${period.officialPricePerNight}/noche` : ""}
-                  {period.minStay ? ` · mín. ${period.minStay} noches` : ""}
+                  {period.officialPricePerNight ? ` · ${t("perNight", { price: number(period.officialPricePerNight) })}` : ""}
+                  {period.minStay ? ` · ${t("minNights", { count: period.minStay })}` : ""}
                 </p>
               </div>
               <Button type="button" size="sm" variant="ghost" onClick={() => removeMutation.mutate(period.id)}>
-                Quitar
+                {t("remove")}
               </Button>
             </div>
           ))}
         </div>
       ) : (
-        <p className="text-sm text-zinc-500">Todavía no hay períodos de tarifa.</p>
+        <p className="text-sm text-zinc-500">{t("empty")}</p>
       )}
     </div>
   );

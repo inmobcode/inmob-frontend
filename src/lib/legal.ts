@@ -13,5 +13,5 @@ export const LEGAL_ENTITY = {
   privacyEmail: "privacidad@tivvo.app",
 } as const;
 
-/** Fecha desde la que rige la versión publicada de ambos documentos. */
-export const LEGAL_UPDATED_AT = "14 de octubre de 2026";
+/** Fecha (ISO) desde la que rige la versión publicada de ambos documentos; cada idioma la escribe a su modo. */
+export const LEGAL_UPDATED_AT = "2026-10-14";

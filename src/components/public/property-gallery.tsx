@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronLeft, ChevronRight, Images, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useState } from "react";
 
 import { PhotoPlaceholder } from "@/components/public/property-card";
@@ -11,31 +12,23 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import type { PhotoSection, PropertyPhoto } from "@/lib/api/properties";
-import { PHOTO_SECTIONS } from "@/lib/property-catalogs";
+import { useLabels } from "@/lib/labels";
 import { cn } from "@/lib/utils";
 
-/** What one photo shows, in the singular: "Dormitorio 2", "Pileta". */
-const PHOTO_LABELS: Record<PhotoSection, string> = {
-  GENERAL: "General",
-  BEDROOMS: "Dormitorio",
-  INDOOR_LIVING: "Living",
-  POOL: "Pileta",
-  OUTDOOR: "Exterior",
-  ADDED_FACILITIES: "Instalaciones",
-  VIEWS: "Vistas",
-};
-
-/** Section names for the viewer's tabs, which group several photos. */
-const SECTION_LABELS: Record<string, string> = Object.fromEntries(
-  PHOTO_SECTIONS.map((section) => [section.value, section.label]),
-);
-
-function photoLabel(photo: PropertyPhoto) {
-  const base = PHOTO_LABELS[photo.section] ?? SECTION_LABELS[photo.section] ?? "";
-  const detail = photo.sectionDetail?.trim();
-  if (!detail) return base;
-  // A number numbers the room ("Dormitorio 2"); any other text names it ("Suite principal").
-  return /^\d+$/.test(detail) ? `${base} ${detail}` : detail;
+/**
+ * What one photo shows: "Dormitorio 2", "Pileta". `singular` names a built-in
+ * section in the singular ("site.gallery.singular"); a custom one keeps its name.
+ */
+function usePhotoLabel() {
+  const t = useTranslations("site.gallery.singular");
+  const labels = useLabels();
+  return (photo: PropertyPhoto) => {
+    const base = t.has(photo.section as never) ? t(photo.section as never) : labels.photoSection(photo.section);
+    const detail = photo.sectionDetail?.trim();
+    if (!detail) return base;
+    // A number numbers the room ("Dormitorio 2"); any other text names it ("Suite principal").
+    return /^\d+$/.test(detail) ? `${base} ${detail}` : detail;
+  };
 }
 
 /**
@@ -66,13 +59,15 @@ export function PropertyGallery({
   photos: PropertyPhoto[];
   title: string;
 }) {
+  const t = useTranslations("site.gallery");
+  const photoLabel = usePhotoLabel();
   const sorted = orderPhotos(photos);
   const [open, setOpen] = useState<number | null>(null);
 
   if (sorted.length === 0) {
     return (
       <div className="h-48 overflow-hidden rounded-2xl md:h-64">
-        <PhotoPlaceholder label="Esta propiedad todavía no tiene fotos" />
+        <PhotoPlaceholder label={t("noPhotos")} />
       </div>
     );
   }
@@ -96,9 +91,11 @@ export function PropertyGallery({
             key={photo.id}
             type="button"
             onClick={() => setOpen(index)}
-            aria-label={`Ver foto ${index + 1} de ${sorted.length}${
-              photo.section === "GENERAL" ? "" : `: ${photoLabel(photo)}`
-            }`}
+            aria-label={
+              photo.section === "GENERAL"
+                ? t("seePhoto", { index: index + 1, total: sorted.length })
+                : t("seePhotoOf", { index: index + 1, total: sorted.length, label: photoLabel(photo) })
+            }
             className={cn(
               "group relative overflow-hidden bg-site-surface outline-none focus-visible:ring-2 focus-visible:ring-site-accent focus-visible:ring-inset",
               mosaic && index === 0 && "col-span-4 row-span-2 md:col-span-2",
@@ -121,7 +118,7 @@ export function PropertyGallery({
             className="absolute right-4 bottom-4 inline-flex h-10 items-center gap-2 rounded-lg bg-white px-3.5 text-sm font-medium text-site-ink shadow-md outline-none hover:bg-white/90 focus-visible:ring-2 focus-visible:ring-site-accent"
           >
             <Images className="size-4" aria-hidden />
-            Ver las {sorted.length} fotos
+            {t("seeAll", { count: sorted.length })}
           </button>
         )}
       </div>
@@ -147,6 +144,9 @@ function Lightbox({
   index: number | null;
   onIndexChange: (index: number | null) => void;
 }) {
+  const t = useTranslations("site.gallery");
+  const labels = useLabels();
+  const photoLabel = usePhotoLabel();
   const count = photos.length;
   const step = useCallback(
     (delta: number) =>
@@ -189,7 +189,7 @@ function Lightbox({
         showCloseButton={false}
         className="flex h-[100svh] max-w-none! w-screen flex-col gap-0 rounded-none bg-black/95 p-0 text-white ring-0 sm:max-w-none"
       >
-        <DialogTitle className="sr-only">Fotos de {title}</DialogTitle>
+        <DialogTitle className="sr-only">{t("dialogTitle", { title })}</DialogTitle>
         <div className="flex h-14 items-center justify-between gap-4 px-4 text-sm text-white/70">
           <p aria-live="polite" className="flex min-w-0 items-baseline gap-2.5">
             {photo && (
@@ -203,14 +203,14 @@ function Lightbox({
           </p>
           <DialogClose
             className="flex size-10 items-center justify-center rounded-full outline-none hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-white"
-            aria-label="Cerrar"
+            aria-label={t("close")}
           >
             <X className="size-5" />
           </DialogClose>
         </div>
         {tabs.length > 1 && (
           <nav
-            aria-label="Partes de la casa"
+            aria-label={t("parts")}
             className="flex shrink-0 gap-1.5 overflow-x-auto px-4 pb-3 [scrollbar-width:none] sm:justify-center"
           >
             {tabs.map((tab, i) => (
@@ -226,7 +226,7 @@ function Lightbox({
                     : "bg-white/10 text-white/75 hover:bg-white/20 hover:text-white",
                 )}
               >
-                {SECTION_LABELS[tab.section] ?? tab.section}
+                {labels.photoSection(tab.section)}
                 {tab.count > 1 && (
                   <span className={cn("tabular-nums", i === activeTab ? "text-black/50" : "text-white/45")}>
                     {tab.count}
@@ -251,7 +251,7 @@ function Lightbox({
               <button
                 type="button"
                 onClick={() => step(-1)}
-                aria-label="Foto anterior"
+                aria-label={t("previous")}
                 className={cn(arrow, "left-4")}
               >
                 <ChevronLeft className="size-6" />
@@ -259,7 +259,7 @@ function Lightbox({
               <button
                 type="button"
                 onClick={() => step(1)}
-                aria-label="Foto siguiente"
+                aria-label={t("next")}
                 className={cn(arrow, "right-4")}
               >
                 <ChevronRight className="size-6" />

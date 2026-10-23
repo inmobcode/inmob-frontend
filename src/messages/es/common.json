@@ -1,0 +1,171 @@
+{
+  "meta": {
+    "description": "Sistema de gestión para inmobiliarias: propiedades, ofertas, reservas y el sitio de tu agencia.",
+    "ogAlt": "Tivvo · Sistema de gestión para inmobiliarias",
+    "ogTitle": "Un solo lugar para tus propiedades, ofertas y reservas",
+    "ogSubtitle": "Sistema de gestión para inmobiliarias de venta y alquiler temporario."
+  },
+  "notFound": {
+    "metaTitle": "Página no encontrada",
+    "code": "Error 404",
+    "title": "Esta dirección no figura en el plano.",
+    "tail": "Puede que se haya movido o que ya no esté publicada.",
+    "searchLabel": "Buscar en la ayuda",
+    "searchPlaceholder": "¿Qué buscabas? Probá con «reserva»",
+    "search": "Buscar",
+    "otherPlaces": "Otros lugares",
+    "stillLost": "¿Seguís perdido? Escribinos a",
+    "links": {
+      "home": {
+        "label": "Inicio",
+        "hint": "Qué es Tivvo y cómo funciona"
+      },
+      "help": {
+        "label": "Ayuda",
+        "hint": "Respuestas y contacto"
+      },
+      "login": {
+        "label": "Ingresar",
+        "hint": "Entrá al panel de tu agencia"
+      }
+    }
+  },
+  "language": {
+    "label": "Idioma",
+    "change": "Cambiar idioma"
+  },
+  "common": {
+    "unexpectedError": "Error inesperado",
+    "linkCopied": "Link copiado",
+    "linkCopyFailed": "No se pudo copiar el link",
+    "actionFailed": "No se pudo completar la acción",
+    "checkConnection": "Revisá tu conexión e intentá de nuevo.",
+    "back": "Volver",
+    "cancel": "Cancelar",
+    "saving": "Guardando…",
+    "creating": "Creando…",
+    "optional": "(opcional)",
+    "undo": "Deshacer",
+    "retry": "Reintentar",
+    "noMatchTitle": "Nada coincide con eso",
+    "clearFilters": "Quitar filtros",
+    "emailCopied": "Email copiado",
+    "emailCopyFailed": "No se pudo copiar el email",
+    "changesSaved": "Cambios guardados",
+    "saveFailed": "No se pudieron guardar los cambios",
+    "nameRequired": "Ingresá un nombre",
+    "emailInvalid": "Email inválido",
+    "checkFields": "Revisá los campos marcados",
+    "save": "Guardar",
+    "help": "Ayuda",
+    "datePicker": {
+      "previousMonth": "Mes anterior",
+      "nextMonth": "Mes siguiente",
+      "pickDate": "Elegí una fecha",
+      "pickDates": "Elegí las fechas",
+      "pickCheckIn": "Elegí el check-in",
+      "pickCheckOut": "Ahora elegí el check-out",
+      "days": "{count, plural, one {# día} other {# días}}",
+      "nights": "{count, plural, one {# noche} other {# noches}}",
+      "clear": "Borrar",
+      "search": "Buscar…"
+    },
+    "combobox": {
+      "search": "Buscar…",
+      "empty": "Nada coincide."
+    },
+    "richText": {
+      "link": "Link",
+      "linkUrl": "Dirección del link",
+      "done": "Listo",
+      "removeLink": "Quitar link",
+      "blockType": "Tipo de texto",
+      "blocks": {
+        "p": "Texto",
+        "h2": "Título",
+        "h3": "Subtítulo"
+      },
+      "bold": "Negrita",
+      "italic": "Cursiva",
+      "bulletList": "Lista con viñetas",
+      "orderedList": "Lista numerada"
+    }
+  },
+  "errors": {
+    "code": "Error {code}",
+    "otherPlaces": "Otros lugares",
+    "server": {
+      "title": "Algo salió mal de nuestro lado.",
+      "tail": "Probá de nuevo; si sigue igual, escribinos.",
+      "retry": "Reintentar",
+      "home": "Ir al inicio"
+    }
+  },
+  "trash": {
+    "restoreFailed": "No se pudo restaurar",
+    "deleted": "Borrado definitivamente",
+    "deleteFailed": "No se pudo borrar",
+    "intro": "Lo que borrás queda acá {days} días, por si te arrepentís. Después se borra definitivamente.",
+    "loadFailed": "No pudimos cargar la papelera.",
+    "emptyTitle": "La papelera está vacía",
+    "emptyBody": "Cuando borres algo, va a aparecer acá.",
+    "deletedAgo": "Borrado {ago}",
+    "goesToday": "se borra hoy",
+    "goesIn": "{count, plural, one {se borra definitivamente en # día} other {se borra definitivamente en # días}}",
+    "restore": "Restaurar",
+    "deleteForever": "Borrar definitivamente",
+    "confirmTitle": "¿Borrar definitivamente?",
+    "confirmBody": "«{title}» se borra para siempre y no se puede recuperar.",
+    "link": "Papelera",
+    "linkCount": "Papelera, {count} elementos",
+    "pages": {
+      "properties": {
+        "title": "Papelera de propiedades",
+        "restored": "Restauraste la propiedad",
+        "back": "Propiedades",
+        "untitled": "Propiedad"
+      },
+      "offers": {
+        "title": "Papelera de ofertas",
+        "restored": "Restauraste la oferta",
+        "back": "Ofertas",
+        "untitled": "Oferta"
+      },
+      "bookings": {
+        "title": "Papelera de reservas",
+        "restored": "Restauraste la reserva",
+        "back": "Reservas",
+        "untitled": "Reserva"
+      }
+    }
+  },
+  "pageTitles": {
+    "forgotPassword": "Recuperá tu contraseña",
+    "register": "Creá tu cuenta",
+    "login": "Ingresar",
+    "clients": "Clientes",
+    "settings": "Configuración",
+    "offers": "Ofertas",
+    "bookings": "Reservas",
+    "inquiries": "Consultas",
+    "profile": "Mi perfil",
+    "properties": "Propiedades",
+    "import": "Importar propiedades",
+    "team": "Equipo",
+    "services": "Servicios",
+    "portal": "Portal",
+    "docs": "Documentación",
+    "authCallback": "Iniciando sesión",
+    "resetPassword": "Restablecer contraseña"
+  },
+  "legal": {
+    "effective": "Vigente desde",
+    "sections": "Secciones",
+    "seeAlso": "Ver también",
+    "summary": "En pocas palabras",
+    "summaryNote": "Este resumen ayuda a leer el documento, pero no lo reemplaza: rige el texto completo.",
+    "brief": "En corto:",
+    "nav": "Principal",
+    "home": "Volver al inicio"
+  }
+}

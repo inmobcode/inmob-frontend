@@ -1,0 +1,198 @@
+{
+  "help": {
+    "topics": {
+      "primeros-pasos": {
+        "title": "Primi passi",
+        "summary": "Il tuo account, il tuo team e come accedere.",
+        "questions": {
+          "q1": {
+            "q": "Come creo il mio account e la mia agenzia?",
+            "a": "Da «Registrati» crei il tuo utente e il nome della tua agenzia, ed entri nel pannello. L’indirizzo del tuo pannello contiene il nome della tua agenzia."
+          },
+          "q2": {
+            "q": "Come aggiungo il mio team?",
+            "a": "In Team aggiungi persone e assegni loro un ruolo: titolare, amministratore o agente. Solo titolari e amministratori vedono quella sezione."
+          },
+          "q3": {
+            "q": "Ho dimenticato la password, cosa faccio?",
+            "a": "Nella schermata di accesso usa l’opzione per recuperare la password. Ti inviamo un link via email per crearne una nuova."
+          },
+          "q4": {
+            "q": "Perché si è chiusa la mia sessione?",
+            "a": "Per sicurezza, la sessione scade dopo un certo tempo e bisogna accedere di nuovo. Non si perde nulla di quanto già salvato."
+          }
+        }
+      },
+      "propiedades": {
+        "title": "Immobili",
+        "summary": "Caricarli, pubblicarli e assegnarli.",
+        "questions": {
+          "q1": {
+            "q": "Come carico un immobile?",
+            "a": "In Immobili ne crei uno nuovo, compili i dati, carichi le foto (vengono ridotte automaticamente prima del caricamento) e lo pubblichi quando è pronto."
+          },
+          "q2": {
+            "q": "Come assegno un immobile a un agente?",
+            "a": "Titolari e amministratori possono scegliere il responsabile di ogni immobile. Gli agenti vedono solo quelli assegnati a loro."
+          },
+          "q3": {
+            "q": "Tutto ciò che carico appare sul mio sito?",
+            "a": "Compaiono gli immobili che pubblichi. Ciò che lasci non pubblicato resta solo nel pannello."
+          }
+        }
+      },
+      "clientes-consultas": {
+        "title": "Clienti e richieste",
+        "summary": "Dalla prima richiesta al follow-up.",
+        "questions": {
+          "q1": {
+            "q": "Dove arrivano le richieste del mio sito?",
+            "a": "Nella casella Richieste. Ognuna crea un cliente (o riutilizza quello con la stessa email), lascia una nota con l’immobile visto e si aggiunge al contatore del menu."
+          },
+          "q2": {
+            "q": "Come vengo avvisato di una nuova richiesta?",
+            "a": "Via email all’agenzia (all’email di contatto o, se manca, a titolari e amministratori) e con la campanella del pannello. Il cliente riceve una conferma."
+          },
+          "q3": {
+            "q": "Come seguo un cliente?",
+            "a": "All’interno di ogni cliente puoi creare attività con data e responsabile. Puoi anche vedere tutti in bacheca e trascinarli da una fase all’altra."
+          }
+        }
+      },
+      "ofertas": {
+        "title": "Offerte",
+        "summary": "Prepararle, condividerle e sapere se sono state aperte.",
+        "questions": {
+          "q1": {
+            "q": "Come invio un’offerta a un cliente?",
+            "a": "Prepari l’offerta con uno o più immobili, sconti e servizi, e condividi il link. Il cliente la vede senza dover creare un account."
+          },
+          "q2": {
+            "q": "Come so se la mia offerta è stata aperta?",
+            "a": "La campanella ti avvisa appena viene aperta. Nell’offerta vedi anche quando è stata vista e quando scade."
+          }
+        }
+      },
+      "reservas-cobros": {
+        "title": "Prenotazioni e incassi",
+        "summary": "Date, pagamenti e cosa vede il cliente.",
+        "questions": {
+          "q1": {
+            "q": "Cosa vede il cliente della sua prenotazione?",
+            "a": "Un link via email, che arriva quando la prenotazione viene creata, confermata o annullata, con le date, il totale e lo stato dei pagamenti. Non mostra la provvigione."
+          },
+          "q2": {
+            "q": "Come registro un pagamento?",
+            "a": "Nella prenotazione inserisci acconto e saldo con il loro stato. Vedi quanto incassato, quanto manca e la provvigione."
+          },
+          "q3": {
+            "q": "Cos’è una prenotazione in attesa?",
+            "a": "Una prenotazione non confermata. Compare nel calendario così la vedi arrivare, ma non blocca ancora le date."
+          }
+        }
+      },
+      "disponibilidad": {
+        "title": "Disponibilità e tariffe",
+        "summary": "Il calendario dei tuoi affitti brevi.",
+        "questions": {
+          "q1": {
+            "q": "Come blocco delle date?",
+            "a": "In Disponibilità, vista mensile: scegli un immobile e trascina sulle notti libere. Le notti prenotate non si possono modificare."
+          },
+          "q2": {
+            "q": "Come inserisco le tariffe stagionali?",
+            "a": "In ogni immobile definisci periodi con il loro prezzo a notte. Il totale della prenotazione si calcola con quei valori."
+          },
+          "q3": {
+            "q": "Posso vedere solo gli immobili liberi in certe date?",
+            "a": "Sì. In Disponibilità scegli un intervallo di date e una località, e vengono mostrati solo quelli liberi."
+          }
+        }
+      },
+      "sitio-portales": {
+        "title": "Sito e portali",
+        "summary": "Il tuo sito pubblico e i link per i proprietari.",
+        "questions": {
+          "q1": {
+            "q": "Come personalizzo il sito della mia agenzia?",
+            "a": "In Sito scegli modello, colori, font e blocchi, e vedi come appare su computer, tablet e smartphone prima di pubblicare."
+          },
+          "q2": {
+            "q": "Posso usare il mio dominio?",
+            "a": "Per ora no. Il tuo sito si trova su un sottodominio di Tivvo con il nome della tua agenzia."
+          },
+          "q3": {
+            "q": "Cosa vede il proprietario nel suo portale?",
+            "a": "I suoi immobili, prenotazioni e pagamenti, con gli incassi, le liquidazioni e il saldo. La provvigione resta nascosta, a meno che tu non la mostri dalle Impostazioni."
+          }
+        }
+      },
+      "cuenta-datos": {
+        "title": "Account e dati",
+        "summary": "Chi vede cosa e come proteggiamo le tue informazioni.",
+        "questions": {
+          "q1": {
+            "q": "I miei dati si mescolano con quelli di altre agenzie?",
+            "a": "No. Ogni agenzia lavora nel proprio spazio e solo il suo team vede i suoi immobili, clienti e prenotazioni."
+          },
+          "q2": {
+            "q": "Cosa vede ogni persona del mio team?",
+            "a": "Gli agenti vedono i propri immobili, offerte e prenotazioni, i propri clienti e le richieste non assegnate. Titolari e amministratori vedono tutto e riassegnano."
+          },
+          "q3": {
+            "q": "Come esercito i miei diritti sui miei dati?",
+            "a": "È spiegato nell’Informativa sulla privacy, insieme all’email a cui scriverci."
+          }
+        }
+      }
+    },
+    "title": "Come possiamo aiutarti?",
+    "titleTail": "Cerca o scegli un argomento.",
+    "searchLabel": "Cerca nell’assistenza",
+    "searchPlaceholder": "Prova con «prenotazione», «offerta» o «portale del proprietario»",
+    "clearSearch": "Cancella la ricerca",
+    "popularLabel": "I più cercati:",
+    "popular": {
+      "p1": "richieste",
+      "p2": "offerta",
+      "p3": "prenotazione",
+      "p4": "tariffe",
+      "p5": "portale del proprietario",
+      "p6": "team"
+    },
+    "faqLabel": "Domande frequenti",
+    "noResults": "Nessun risultato",
+    "results": "{count, plural, one {# risposta per «{query}»} other {# risposte per «{query}»}}",
+    "nothingFor": "Non abbiamo trovato nulla per «{query}».",
+    "tryAnother": "Prova con un’altra parola, oppure scrivici e ti risponderemo via email.",
+    "toContact": "Vai al modulo di contatto",
+    "docsLead": "Hai già un account? La guida completa del pannello è nella documentazione.",
+    "docs": "Apri la documentazione",
+    "contact": {
+      "errors": {
+        "name": "Inserisci il tuo nome",
+        "email": "Controlla l’email: manca la @ o il dominio",
+        "message": "Raccontaci qualcosa in più"
+      },
+      "failed": "Impossibile inviare il messaggio. Riprova tra qualche minuto.",
+      "sentTitle": "Messaggio inviato",
+      "sentText": "Ti risponderemo via email al più presto.",
+      "name": "Il tuo nome",
+      "message": "Come possiamo aiutarti",
+      "sending": "Invio…",
+      "submit": "Invia messaggio"
+    },
+    "page": {
+      "metaTitle": "Assistenza e contatti",
+      "metaDescription": "Risposte su immobili, offerte, prenotazioni, disponibilità e il tuo sito. Se non trovi quello che cerchi, scrivici.",
+      "contactTitle": "Non hai trovato quello che cercavi?",
+      "contactTitleTail": "Scrivici.",
+      "contactLead": "Raccontaci il tuo dubbio, un problema o un’idea. Rispondiamo via email.",
+      "byEmail": "Via email",
+      "personalData": "Dati personali",
+      "rules": "Regole",
+      "terms": "Termini",
+      "privacy": "Privacy"
+    }
+  }
+}

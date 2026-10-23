@@ -1,0 +1,36 @@
+{
+  "profile": {
+    "errors": {
+      "name": "Introduza o seu nome",
+      "email": "Email inválido",
+      "currentPassword": "Introduza a palavra-passe atual",
+      "minLength": "Mínimo de 8 caracteres",
+      "mismatch": "As palavras-passe não coincidem"
+    },
+    "hidePassword": "Ocultar palavra-passe",
+    "showPassword": "Mostrar palavra-passe",
+    "saved": "Perfil atualizado",
+    "saveFailed": "Não foi possível guardar o perfil",
+    "photoUpdated": "Foto atualizada",
+    "photoFailed": "Não foi possível carregar a foto",
+    "passwordChanged": "Palavra-passe alterada",
+    "passwordFailed": "Não foi possível alterar a palavra-passe",
+    "help": "Ajuda com o meu perfil",
+    "data": {
+      "title": "Os seus dados",
+      "description": "Como os outros o veem na conta da agência.",
+      "changePhoto": "Mudar a foto",
+      "photoHint": "Toque na foto para a mudar.",
+      "name": "Nome"
+    },
+    "password": {
+      "title": "Palavra-passe",
+      "description": "Use pelo menos 8 caracteres. Pedimos a atual para confirmar que é você.",
+      "current": "Palavra-passe atual",
+      "new": "Nova palavra-passe",
+      "repeat": "Repita a nova palavra-passe",
+      "submitting": "A alterar…",
+      "submit": "Alterar palavra-passe"
+    }
+  }
+}

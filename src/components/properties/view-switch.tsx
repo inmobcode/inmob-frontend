@@ -1,17 +1,19 @@
 "use client";
 
 import { Columns3, LayoutGrid, Rows3, Table2, type LucideIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
 export type ViewMode = "grid" | "list" | "table" | "board";
 
-const VIEWS: { value: ViewMode; label: string; icon: LucideIcon }[] = [
-  { value: "table", label: "Tabla", icon: Table2 },
-  { value: "list", label: "Lista", icon: Rows3 },
-  { value: "grid", label: "Cuadrícula", icon: LayoutGrid },
-  { value: "board", label: "Tablero", icon: Columns3 },
+// Names in "dashboard.views.<value>"; the 1/2/3 shortcuts find each button by data-view.
+const VIEWS: { value: ViewMode; icon: LucideIcon }[] = [
+  { value: "table", icon: Table2 },
+  { value: "list", icon: Rows3 },
+  { value: "grid", icon: LayoutGrid },
+  { value: "board", icon: Columns3 },
 ];
 
 const DEFAULT_VIEWS: ViewMode[] = ["table", "list", "grid"];
@@ -27,10 +29,11 @@ export function ViewSwitch({
   /** Which layouts to offer; the board only makes sense for clients. */
   views?: ViewMode[];
 }) {
+  const t = useTranslations("dashboard.views");
   return (
     <div
       role="group"
-      aria-label="Cambiar la vista"
+      aria-label={t("change")}
       className="flex gap-0.5 rounded-full bg-foreground/[0.06] p-1"
     >
       {VIEWS.filter((view) => views.includes(view.value)).map((view) => {
@@ -40,7 +43,8 @@ export function ViewSwitch({
             <TooltipTrigger asChild>
               <button
                 type="button"
-                aria-label={view.label}
+                aria-label={t(view.value)}
+                data-view={view.value}
                 aria-pressed={active}
                 onClick={() => onChange(view.value)}
                 className={cn(
@@ -54,7 +58,7 @@ export function ViewSwitch({
               </button>
             </TooltipTrigger>
             <TooltipContent side="bottom" sideOffset={10}>
-              {view.label}
+              {t(view.value)}
             </TooltipContent>
           </Tooltip>
         );

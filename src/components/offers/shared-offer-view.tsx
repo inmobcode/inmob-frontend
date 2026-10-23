@@ -1,30 +1,33 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
+import { LanguageSwitcher } from "@/components/language-switcher";
 import { Button } from "@/components/ui/button";
 import { OfferInquiryForm } from "@/components/offers/offer-inquiry-form";
 import { OfferPropertyCard } from "@/components/offers/offer-property-card";
 import { ServiceTypeIcon } from "@/components/services/service-type-icon";
+import { useFormat } from "@/i18n/format";
 import type { Offer } from "@/lib/api/offers";
+import { useLabels } from "@/lib/labels";
 import { richTextHtml } from "@/lib/rich-text";
-import { SERVICE_TYPE_LABELS, formatMoney, unitCount, unitPer } from "@/lib/service-labels";
 import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 
-// Dates come as yyyy-MM-dd: read them as a calendar day, not a UTC instant.
-const longDate = (iso: string) =>
-  new Date(`${iso}T12:00:00`).toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long" });
-
 export function SharedOfferView({ initialOffer: offer }: { initialOffer: Offer }) {
+  const t = useTranslations("site.offer");
+  const labels = useLabels();
+  const { money: formatMoney, date } = useFormat();
+  // Dates come as yyyy-MM-dd: read them as a calendar day, not a UTC instant.
+  const longDate = (iso: string) => date(new Date(`${iso}T12:00:00`), "weekdayLong");
   const [showContactForm, setShowContactForm] = useState(false);
 
   return (
     <div className="min-h-screen bg-white dark:bg-zinc-950">
-      {offer.branded && (
-        <header className="border-b px-6 py-4">
-          <p className="text-sm font-medium text-zinc-500">Propuesta personalizada</p>
-        </header>
-      )}
+      <header className={offer.branded ? "flex items-center justify-between gap-4 border-b px-6 py-4" : "flex justify-end px-6 pt-4"}>
+        {offer.branded && <p className="text-sm font-medium text-zinc-500">{t("personalized")}</p>}
+        <LanguageSwitcher compact className="text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100" />
+      </header>
 
       <div className="mx-auto max-w-5xl px-6 py-12">
         <h1 className="text-2xl font-semibold break-words">{offer.title}</h1>
@@ -48,7 +51,7 @@ export function SharedOfferView({ initialOffer: offer }: { initialOffer: Offer }
         {/* Rentals are options priced per night, as in the editor: adding them up says nothing. */}
         {offer.showPrice && offer.operation !== "RENT" && (offer.total != null || offer.servicesTotal != null) && (
           <p className="mt-6 text-xl font-semibold">
-            Total: {formatMoney(offer.currency, (offer.total ?? 0) + (offer.servicesTotal ?? 0))}
+            {t("total", { amount: formatMoney(offer.currency, (offer.total ?? 0) + (offer.servicesTotal ?? 0)) })}
           </p>
         )}
 
@@ -75,12 +78,12 @@ export function SharedOfferView({ initialOffer: offer }: { initialOffer: Offer }
           <section className="mt-12 border-t pt-10">
             <div className="flex flex-wrap items-end justify-between gap-3">
               <div>
-                <h2 className="text-lg font-medium">Servicios y experiencias</h2>
-                <p className="mt-1 text-sm text-zinc-500">Para sumar a tu estadía.</p>
+                <h2 className="text-lg font-medium">{t("servicesTitle")}</h2>
+                <p className="mt-1 text-sm text-zinc-500">{t("servicesBody")}</p>
               </div>
               {offer.servicesTotal != null && (
                 <p className="text-sm text-zinc-500">
-                  Subtotal{" "}
+                  {t("subtotal")}{" "}
                   <span className="font-semibold text-zinc-900 tabular-nums dark:text-zinc-100">
                     {formatMoney(offer.currency, offer.servicesTotal)}
                   </span>
@@ -89,7 +92,7 @@ export function SharedOfferView({ initialOffer: offer }: { initialOffer: Offer }
             </div>
             <ul className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
               {offer.services.map((item) => {
-                const per = unitPer(item.unit);
+                const per = labels.serviceUnitPer(item.unit);
                 return (
                   <li key={item.id} className="flex gap-4 overflow-hidden rounded-lg border p-3">
                     <div className="flex size-24 shrink-0 items-center justify-center overflow-hidden rounded-md bg-zinc-100 text-zinc-400 dark:bg-zinc-900">
@@ -103,7 +106,7 @@ export function SharedOfferView({ initialOffer: offer }: { initialOffer: Offer }
                     <div className="flex min-w-0 flex-1 flex-col gap-1">
                       <p className="flex items-center gap-1.5 text-xs text-zinc-500">
                         <ServiceTypeIcon type={item.type} className="size-3.5" />
-                        {SERVICE_TYPE_LABELS[item.type]}
+                        {labels.serviceType(item.type)}
                       </p>
                       <h3 className="font-medium break-words">{item.name}</h3>
                       {item.description && <p className="text-sm break-words text-zinc-600 dark:text-zinc-400">{item.description}</p>}
@@ -116,14 +119,14 @@ export function SharedOfferView({ initialOffer: offer }: { initialOffer: Offer }
                             {(item.quantity > 1 || per) && (
                               <span className="text-zinc-500">
                                 {" "}
-                                · {unitCount(item.unit, item.quantity)}
-                                {per && ` a ${formatMoney(offer.currency, item.unitPrice)} ${per}`}
+                                · {labels.serviceUnitCount(item.unit, item.quantity)}
+                                {per && ` ${t("unitPrice", { price: formatMoney(offer.currency, item.unitPrice), per })}`}
                               </span>
                             )}
                           </>
                         ) : (
                           <span className="text-zinc-500">
-                            {offer.showPrice ? "Precio a consultar" : unitCount(item.unit, item.quantity)}
+                            {offer.showPrice ? t("priceOnRequest") : labels.serviceUnitCount(item.unit, item.quantity)}
                           </span>
                         )}
                       </p>
@@ -136,7 +139,7 @@ export function SharedOfferView({ initialOffer: offer }: { initialOffer: Offer }
         )}
 
         {offer.status === "EXPIRED" && (
-          <p className="mt-10 text-sm text-zinc-500">Esta oferta venció.</p>
+          <p className="mt-10 text-sm text-zinc-500">{t("expired")}</p>
         )}
 
         {offer.branded && offer.status !== "EXPIRED" && (
@@ -144,7 +147,7 @@ export function SharedOfferView({ initialOffer: offer }: { initialOffer: Offer }
             {showContactForm ? (
               <OfferInquiryForm offerToken={offer.token} />
             ) : (
-              <Button onClick={() => setShowContactForm(true)}>Contactanos</Button>
+              <Button onClick={() => setShowContactForm(true)}>{t("contact")}</Button>
             )}
           </div>
         )}
@@ -152,7 +155,7 @@ export function SharedOfferView({ initialOffer: offer }: { initialOffer: Offer }
 
       {offer.branded && (
         <footer className="border-t px-6 py-6 text-center text-xs text-zinc-500">
-          Esta propuesta fue generada especialmente para vos.
+          {t("footer")}
         </footer>
       )}
     </div>

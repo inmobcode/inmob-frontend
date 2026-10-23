@@ -1,0 +1,654 @@
+{
+  "properties": {
+    "sort": {
+      "label": "Ordenar por",
+      "updatedAt_desc": "Más recientes",
+      "updatedAt_asc": "Más antiguas",
+      "price_desc": "Precio: mayor a menor",
+      "price_asc": "Precio: menor a mayor",
+      "title_asc": "Título: A-Z",
+      "title_desc": "Título: Z-A"
+    },
+    "menu": {
+      "viewOnSiteOf": "Ver {title} en el sitio",
+      "viewOnSite": "Ver en el sitio",
+      "actionsOf": "Acciones de {title}",
+      "edit": "Editar",
+      "republish": "Volver a publicar",
+      "publish": "Publicar",
+      "unpublish": "Despublicar",
+      "archive": "Archivar",
+      "delete": "Eliminar"
+    },
+    "listingType": {
+      "label": "Tipo de operación",
+      "SALE": {
+        "label": "Venta",
+        "hint": "Vendé una propiedad"
+      },
+      "RENT": {
+        "label": "Alquiler",
+        "hint": "Alquilá o dá en temporada"
+      }
+    },
+    "audience": {
+      "shown": "Se muestra en el portal",
+      "internal": "Solo interno"
+    },
+    "bulk": {
+      "label": "Acciones sobre las propiedades seleccionadas",
+      "selected": "{count, plural, one {# seleccionada} other {# seleccionadas}}",
+      "selectAll": "Seleccionar las {count}",
+      "publish": "Publicar",
+      "archive": "Archivar",
+      "delete": "Eliminar",
+      "clear": "Quitar la selección"
+    },
+    "activeFilters": {
+      "statusPlural": {
+        "PUBLISHED": "Publicadas",
+        "DRAFT": "Borradores",
+        "ARCHIVED": "Archivadas"
+      },
+      "priceFrom": "Desde {price}",
+      "priceTo": "Hasta {price}",
+      "owner": "Propietario",
+      "bedsAtLeast": "{count}+ dormitorios",
+      "bathsAtLeast": "{count}+ baños",
+      "label": "Filtros:",
+      "remove": "Quitar el filtro {filter}",
+      "clearAll": "Quitar todos"
+    },
+    "create": {
+      "titleRequired": "Ingresá un título",
+      "new": "Nueva propiedad",
+      "description": "Empezá con lo básico. Después sumás fotos, precio y características.",
+      "operation": "¿Qué vas a hacer con ella?",
+      "title": "Título",
+      "titlePlaceholder": "Ej: Casa frente al mar en La Barra",
+      "category": "Categoría",
+      "submit": "Crear propiedad"
+    },
+    "card": {
+      "unselect": "Quitar {title} de la selección",
+      "select": "Seleccionar {title}",
+      "priceOnRequest": "Precio a consultar",
+      "bedrooms": "{count, plural, one {{value} dormitorio} other {{value} dormitorios}}",
+      "bathrooms": "{count, plural, one {{value} baño} other {{value} baños}}",
+      "builtArea": "{value} metros cuadrados construidos",
+      "plotArea": "{value} metros cuadrados de terreno",
+      "owner": "Propietario: {name}",
+      "updated": "Actualizada {ago}",
+      "onRequest": "A consultar",
+      "builtAreaTitle": "Superficie construida",
+      "bedroomsShort": "{value} dorm."
+    },
+    "table": {
+      "unselectAll": "Quitar la selección de todas",
+      "selectAll": "Seleccionar todas",
+      "property": "Propiedad",
+      "status": "Estado",
+      "price": "Precio",
+      "bedrooms": "Dorm.",
+      "bathrooms": "Baños",
+      "area": "Superficie",
+      "owner": "Propietario",
+      "updated": "Actualizada",
+      "actions": "Acciones"
+    },
+    "controls": {
+      "decrease": "Disminuir {label}",
+      "increase": "Aumentar {label}",
+      "removeTag": "Quitar {tag}",
+      "search": "Buscar",
+      "searchIn": "Buscar en {label}",
+      "selected": "{count, plural, =0 {Ninguna seleccionada} one {# seleccionada} other {# seleccionadas}}",
+      "clear": "Limpiar",
+      "noMatch": "Nada coincide con «{query}».",
+      "showLess": "Ver menos",
+      "showMore": "Ver {count} más"
+    },
+    "amenities": {
+      "general": {
+        "title": "Amenities generales",
+        "description": "La lista corta que aparece en la ficha pública. Escribí cada una y presioná Enter.",
+        "label": "Amenities",
+        "placeholder": "Ej: Piscina, Parrilla, Wifi"
+      },
+      "outdoor": {
+        "title": "Comodidades exteriores",
+        "description": "Lo que hay fuera de la casa: piscina, parrilla, canchas y más."
+      },
+      "indoor": {
+        "title": "Comodidades interiores",
+        "description": "Instalaciones y equipamiento dentro de la propiedad.",
+        "other": "Otras facilidades",
+        "otherPlaceholder": "Algo que no está en la lista"
+      },
+      "conditions": {
+        "rentTitle": "Servicios y condiciones",
+        "saleTitle": "Condición",
+        "rentDescription": "Personal, mascotas, eventos y otras condiciones del alquiler.",
+        "saleDescription": "Estado comercial y características generales de la propiedad."
+      },
+      "bedrooms": {
+        "title": "Dormitorios por tipo",
+        "description": "Cuántas habitaciones hay de cada clase.",
+        "masterBedroomQty": "Principal",
+        "doubleBedroomQty": "Doble",
+        "twinBedroomQty": "Dos camas",
+        "singleBedroomQty": "Individual",
+        "bedroomWithBunkBedsQty": "Cuchetas",
+        "guestBedroomQty": "Para invitados"
+      },
+      "layout": {
+        "title": "Distribución",
+        "description": "Ambientes de la propiedad, con un detalle opcional de cada uno.",
+        "layoutKitchensCount": "Cocinas",
+        "layoutLivingRoomsCount": "Livings",
+        "layoutGuestWCCount": "Toilette de huéspedes",
+        "layoutStaffQuartersCount": "Cuartos de servicio",
+        "garden": "Jardín",
+        "storage": "Depósito",
+        "detailOf": "Detalle: {label}",
+        "detailPlaceholder": "Detalle (opcional)"
+      },
+      "more": {
+        "title": "Más detalles",
+        "description": "Descripción de la experiencia y duchas exteriores.",
+        "enjoy": "Qué se disfruta",
+        "enjoyHint": "Una descripción corta de la experiencia de estar en la propiedad.",
+        "outdoorShower": "Duchas exteriores"
+      },
+      "pools": {
+        "title": "Piscinas y jacuzzis",
+        "description": "Cada una con su tipo y medidas."
+      }
+    },
+    "location": {
+      "notFound": "No encontramos esa dirección. Probá con más datos o poné el pin a mano.",
+      "found": "Ubicamos la dirección en el mapa",
+      "searchFailed": "No pudimos buscar la dirección. Intentá de nuevo.",
+      "linkTaken": "Tomamos las coordenadas del link.",
+      "linkShort": "Los links cortos no traen coordenadas. Abrilo y pegá el link completo.",
+      "shown": {
+        "title": "Cómo se muestra",
+        "description": "El texto que ven tus clientes en la ficha.",
+        "label": "Ubicación visible",
+        "hint": "Por ejemplo «La Barra, Punta del Este». No hace falta que coincida con la dirección exacta.",
+        "empty": "Sin ubicación visible"
+      },
+      "where": {
+        "title": "Dónde está",
+        "description": "Dirección y coordenadas exactas, que solo ve tu equipo.",
+        "country": "País",
+        "region": "Región",
+        "area": "Zona",
+        "address": "Dirección",
+        "search": "Buscar en el mapa",
+        "mapsLink": "Link de Google Maps",
+        "mapsPlaceholder": "Pegá el link completo de Google Maps",
+        "mapsHint": "Si lo pegás, tomamos las coordenadas de ahí.",
+        "lat": "Latitud",
+        "lng": "Longitud"
+      },
+      "surroundings": {
+        "title": "Entorno",
+        "description": "Características de la zona y vistas de la propiedad.",
+        "features": "Características de la ubicación",
+        "views": "Vistas"
+      },
+      "links": {
+        "title": "Enlaces",
+        "description": "Material de apoyo para tus clientes.",
+        "brochure": "Folleto (PDF)",
+        "website": "Sitio web"
+      },
+      "map": {
+        "title": "Ubicación en el mapa",
+        "hintPinned": "Arrastrá el pin o hacé clic en el mapa para afinar la posición.",
+        "hintEmpty": "Hacé clic en el mapa para poner el pin, o buscá la dirección."
+      }
+    },
+    "content": {
+      "text": {
+        "title": "Texto de la ficha",
+        "description": "Lo primero que lee el cliente. El resumen va destacado arriba y la descripción debajo.",
+        "summary": "Resumen",
+        "summaryHint": "Una o dos frases que enganchen. Funciona mejor si no pasa de {limit} caracteres.",
+        "descriptionLabel": "Descripción",
+        "descriptionHint": "Usá títulos y listas para ordenar ambientes, comodidades o lo que incluye."
+      },
+      "included": {
+        "title": "Servicios incluidos",
+        "description": "Lo que está incluido en el precio del alquiler."
+      },
+      "policies": {
+        "title": "Políticas y términos",
+        "description": "Condiciones de reserva, cancelación y uso de la propiedad."
+      }
+    },
+    "basic": {
+      "responsibleUpdated": "Responsable actualizado",
+      "responsibleFailed": "No se pudo cambiar el responsable",
+      "responsible": "Responsable",
+      "responsibleHint": "Un agente solo ve las propiedades que tiene asignadas. Se guarda al elegirlo.",
+      "untitled": "Sin título",
+      "example": "Ej: {value}",
+      "unspecified": "Sin especificar",
+      "preview": "Así se ve en tu cartera",
+      "identity": {
+        "title": "Identidad",
+        "description": "Cómo se llama y qué tipo de propiedad es.",
+        "titleLabel": "Título",
+        "privateName": "Nombre privado",
+        "privateNameHint": "Solo lo ven vos y tu equipo. Sirve para distinguir propiedades parecidas.",
+        "operation": "Operación",
+        "operationHint": "Cambiarla muestra u oculta secciones, como las de Alquiler.",
+        "category": "Categoría"
+      },
+      "features": {
+        "title": "Características",
+        "description": "Lo que ven los clientes en la ficha.",
+        "bedrooms": "Dormitorios",
+        "bathrooms": "Baños",
+        "areaSqm": "Superficie cubierta",
+        "plotArea": "Superficie del terreno",
+        "parking": "Cocheras",
+        "storage": "Depósitos",
+        "staffRoom": "Habitaciones de servicio",
+        "floors": "Pisos",
+        "floorsPlaceholder": "Escribí un piso y Enter",
+        "floorsHint": "Podés cargar varios, como 1, 2 y 3."
+      },
+      "rent": {
+        "title": "Datos del alquiler",
+        "description": "Capacidad y categoría del alojamiento.",
+        "guests": "Huéspedes",
+        "stars": "Estrellas"
+      },
+      "sale": {
+        "title": "Datos de la venta",
+        "description": "Antigüedad, eficiencia energética y tipo de ubicación.",
+        "constructionYear": "Año de construcción",
+        "renovationYear": "Año de renovación",
+        "energyCertificate": "Certificado energético",
+        "locationCategory": "Tipo de ubicación"
+      }
+    },
+    "filters": {
+      "title": "Filtros",
+      "description": "Combiná los filtros que necesites y aplicalos juntos.",
+      "status": "Estado",
+      "statusPlural": {
+        "PUBLISHED": "Publicadas",
+        "DRAFT": "Borradores",
+        "ARCHIVED": "Archivadas"
+      },
+      "statusHint": "Podés elegir más de uno. Sin elegir, se ven todas.",
+      "type": "Tipo",
+      "allTypes": "Todo",
+      "any": "Todos",
+      "category": "Categoría",
+      "allCategories": "Todas",
+      "location": "Ubicación",
+      "allLocations": "Todas",
+      "searchLocation": "Buscar ubicación…",
+      "noLocation": "Ninguna ubicación coincide.",
+      "owner": "Propietario",
+      "allOwners": "Todos los propietarios",
+      "price": "Precio",
+      "allCurrencies": "Todas las monedas",
+      "minPrice": "Precio mínimo",
+      "maxPrice": "Precio máximo",
+      "min": "Mínimo",
+      "max": "Máximo",
+      "bedrooms": "Dormitorios",
+      "minBedrooms": "Dormitorios mínimos",
+      "bathrooms": "Baños",
+      "minBathrooms": "Baños mínimos",
+      "clear": "Limpiar",
+      "show": "{count, plural, =0 {Ninguna coincide} one {Ver 1 propiedad} other {Ver # propiedades}}"
+    },
+    "photos": {
+      "cover": "Portada",
+      "makeCover": "Hacer portada",
+      "move": "Mover a otra sección",
+      "confirmRemove": "Confirmar: quitar foto",
+      "remove": "Quitar foto",
+      "clickAgain": "Hacé clic de nuevo para quitarla",
+      "removeShort": "¿Quitar?",
+      "uploadFailed": "No se pudieron subir las fotos",
+      "removeFailed": "No se pudo quitar la foto",
+      "coverFailed": "No se pudo cambiar la portada",
+      "moved": "Movida a {section}",
+      "moveFailed": "No se pudo mover la foto",
+      "orderFailed": "No se pudo guardar el orden",
+      "saveFailed": "No se pudo guardar",
+      "onlyImages": "Solo se pueden subir imágenes (JPG, PNG, WebP o HEIC).",
+      "videoInvalid": "Pegá un link válido, por ejemplo de YouTube o Vimeo.",
+      "videoDuplicate": "Ese video ya está en la lista.",
+      "add": "Agregar",
+      "gallery": {
+        "title": "Galería",
+        "description": "Arrastrá las fotos para ordenarlas dentro de su sección. Los cambios de esta pestaña se guardan al momento.",
+        "uploadTo": "Subir a la sección",
+        "target": "Sección de destino",
+        "newName": "Nombre",
+        "newNameLabel": "Nombre de la nueva sección",
+        "upload": "Subir fotos",
+        "optimizing": "Optimizando fotos…",
+        "uploading": "Subiendo {current} de {total}…",
+        "drop": "Soltalas para subirlas",
+        "drag": "Arrastrá tus fotos acá o hacé clic para elegirlas",
+        "formats": "JPG, PNG, WebP o HEIC. Se optimizan solas antes de subir.",
+        "empty": "Todavía no agregaste fotos. La primera será la portada."
+      },
+      "watermark": {
+        "title": "Marca de agua",
+        "description": "Agrega el logo de tu agencia sobre las fotos publicadas.",
+        "label": "Poner marca de agua en las fotos"
+      },
+      "videos": {
+        "title": "Videos",
+        "description": "Links de YouTube, Vimeo u otras plataformas.",
+        "link": "Link del video",
+        "remove": "Quitar video"
+      },
+      "lightbox": {
+        "title": "Foto de la propiedad",
+        "position": "{current} de {total}",
+        "previous": "Foto anterior",
+        "next": "Foto siguiente"
+      }
+    },
+    "owner": {
+      "created": "Propietario creado y asignado",
+      "createFailed": "No se pudo crear el propietario",
+      "regenerated": "Link regenerado. El anterior ya no funciona.",
+      "regenerateFailed": "No se pudo regenerar el link",
+      "noContact": "Sin datos de contacto.",
+      "noContactShort": "Sin datos de contacto",
+      "remove": "Quitar",
+      "assigned": {
+        "title": "Propietario asignado",
+        "description": "Quién es el dueño de esta propiedad. Un mismo propietario puede tener varias.",
+        "empty": "Todavía no hay un propietario asignado. Elegí uno de la lista o creá uno nuevo."
+      },
+      "access": {
+        "title": "Acceso del propietario",
+        "description": "Un link de solo lectura para que {name} vea el estado de sus propiedades (disponibilidad, reservas y pagos), sin contraseña.",
+        "link": "Link de acceso del propietario",
+        "copyFailed": "No se pudo copiar. Seleccioná el link y copialo a mano.",
+        "copy": "Copiar link",
+        "regenerate": "Regenerar"
+      },
+      "pick": {
+        "title": "Elegir propietario",
+        "description": "Buscá entre tus propietarios o sumá uno nuevo.",
+        "searchPlaceholder": "Buscar por nombre, email o teléfono",
+        "search": "Buscar propietarios",
+        "list": "Propietarios",
+        "loading": "Cargando propietarios…",
+        "noMatch": "Nadie coincide con «{query}».",
+        "empty": "Todavía no cargaste propietarios."
+      },
+      "new": {
+        "title": "Nuevo propietario",
+        "name": "Nombre",
+        "email": "Email (opcional)",
+        "phone": "Teléfono (opcional)",
+        "notes": "Notas (opcional)",
+        "submit": "Crear y asignar"
+      }
+    },
+    "rates": {
+      "createFailed": "No se pudo crear el período",
+      "new": "Nuevo período",
+      "label": "Etiqueta (ej. Temporada alta)",
+      "dates": "Desde y hasta qué día rige",
+      "firstDay": "Elegí el primer día",
+      "lastDay": "Ahora elegí el último día",
+      "price": "Precio oficial/noche",
+      "minStay": "Estadía mínima (noches)",
+      "managementFee": "Fee de management (%)",
+      "commission": "Comisión de la agencia (%)",
+      "add": "Agregar período",
+      "noLabel": "Sin etiqueta",
+      "perNight": "{price}/noche",
+      "minNights": "{count, plural, one {mín. # noche} other {mín. # noches}}",
+      "remove": "Quitar",
+      "empty": "Todavía no hay períodos de tarifa."
+    },
+    "availability": {
+      "blockFailed": "No se pudo bloquear la fecha",
+      "unblockFailed": "No se pudo quitar el bloqueo",
+      "synced": "{count, plural, one {Se sincronizó # evento} other {Se sincronizaron # eventos}}",
+      "syncFailed": "No se pudo sincronizar",
+      "manual": "Bloquear fechas manualmente",
+      "dates": "Desde y hasta qué día",
+      "firstDay": "Elegí el primer día",
+      "lastDay": "Ahora elegí el último día",
+      "note": "Nota (opcional)",
+      "block": "Bloquear",
+      "blocked": "Fechas bloqueadas",
+      "loading": "Cargando…",
+      "noBlocks": "No hay fechas bloqueadas.",
+      "remove": "Quitar",
+      "sync": "Sincronizar con Airbnb/Booking (iCal)",
+      "syncing": "Sincronizando…",
+      "syncNow": "Sincronizar ahora",
+      "export": "Exportar tu disponibilidad",
+      "exportHint": "Pegá este link en Airbnb/Booking como calendario externo para que vean tus fechas bloqueadas.",
+      "copy": "Copiar"
+    },
+    "editor": {
+      "titleRequired": "Ingresá un título",
+      "categoryRequired": "Elegí una categoría",
+      "saveFailed": "No se pudo guardar",
+      "published": "Propiedad publicada",
+      "publishFailed": "No se pudo publicar",
+      "unpublished": "Propiedad despublicada",
+      "unpublishFailed": "No se pudo despublicar",
+      "fallbackTitle": "Propiedad",
+      "back": "Propiedades",
+      "publish": "Publicar",
+      "unpublish": "Despublicar",
+      "help": "Ayuda con propiedades",
+      "groups": {
+        "general": "Información general",
+        "media": "Multimedia",
+        "management": "Gestión",
+        "contact": "Contacto",
+        "rental": "Alquiler"
+      },
+      "tabs": {
+        "basico": {
+          "label": "Básico",
+          "hint": "Título, tipo y métricas"
+        },
+        "ubicacion": {
+          "label": "Ubicación",
+          "hint": "Dirección, mapa y entorno"
+        },
+        "amenities": {
+          "label": "Amenities & Facilities",
+          "hint": "Comodidades y distribución"
+        },
+        "content": {
+          "label": "Content & Services",
+          "hint": "Textos para clientes"
+        },
+        "precios": {
+          "label": "Precios",
+          "hint": "Precio y moneda"
+        },
+        "fotos": {
+          "label": "Fotos",
+          "hint": "Galería y videos"
+        },
+        "disponibilidad": {
+          "label": "Disponibilidad",
+          "hint": "Bloqueos y calendario iCal"
+        },
+        "rates": {
+          "label": "Rates",
+          "hint": "Tarifas por temporada"
+        },
+        "essentials": {
+          "label": "Essentials",
+          "hint": "Management y licencia"
+        },
+        "recomendaciones": {
+          "label": "Recomendaciones",
+          "hint": "Mejoras sugeridas"
+        },
+        "rooms": {
+          "label": "Rooms",
+          "hint": "Habitaciones del hotel"
+        },
+        "propietario": {
+          "label": "Propietario",
+          "hint": "Propietario asociado"
+        }
+      }
+    },
+    "essentials": {
+      "management": {
+        "title": "Gestión de la propiedad",
+        "description": "La persona o empresa que la administra en el día a día.",
+        "name": "Nombre",
+        "phone": "Teléfono",
+        "emailPlaceholder": "nombre@empresa.com",
+        "company": "Empresa"
+      },
+      "vendor": {
+        "title": "Proveedor y licencia",
+        "description": "Datos de quien comercializa la propiedad y su habilitación.",
+        "name": "Nombre de la propiedad para el proveedor",
+        "website": "Sitio web del proveedor",
+        "commission": "Comisión",
+        "commissionPlaceholder": "Ej: 5 %",
+        "license": "Número de licencia"
+      },
+      "permissions": {
+        "title": "Permisos",
+        "description": "Qué podés hacer con esta propiedad fuera de tu portal.",
+        "thirdParty": "Publicar en portales de terceros",
+        "thirdPartyHint": "Confirmás que tenés autorización para compartir esta propiedad con portales externos."
+      }
+    },
+    "prices": {
+      "rentTitle": "Precio base por noche",
+      "saleTitle": "Precio de venta",
+      "rentDescription": "El valor de referencia por noche. Las ofertas lo usan cuando no hay una tarifa por temporada.",
+      "saleDescription": "Aparece en la ficha y en las tarjetas de tu cartera.",
+      "currency": "Moneda",
+      "perNight": "Precio por noche",
+      "price": "Precio",
+      "emptyHint": "Dejalo vacío si preferís mostrar «Precio a consultar»."
+    },
+    "pools": {
+      "pools": "Piletas",
+      "jacuzzis": "Jacuzzis",
+      "addPool": "Agregar pileta",
+      "addJacuzzi": "Agregar jacuzzi",
+      "quantity": "Cantidad",
+      "remove": "Quitar"
+    },
+    "rooms": {
+      "add": "+ Agregar habitación",
+      "empty": "Este hotel todavía no tiene habitaciones.",
+      "edit": "Editar"
+    },
+    "recommendations": {
+      "new": "Nueva recomendación de mejora",
+      "title": "Título",
+      "details": "Detalle",
+      "priority": {
+        "LOW": "Baja",
+        "MEDIUM": "Media",
+        "HIGH": "Alta"
+      },
+      "status": {
+        "PROPOSED": "Propuesta",
+        "APPROVED": "Aprobada",
+        "DONE": "Hecha"
+      },
+      "estCost": "Costo estimado",
+      "estCostValue": "Costo estimado: {value}",
+      "add": "Agregar",
+      "remove": "Quitar",
+      "empty": "Todavía no hay recomendaciones."
+    },
+    "picker": {
+      "tabs": {
+        "ALL": "Todas",
+        "SALE": "Venta",
+        "RENT": "Alquiler"
+      },
+      "emptyAll": "Todavía no tenés propiedades.",
+      "emptyOperation": {
+        "SALE": "No tenés propiedades en venta.",
+        "RENT": "No tenés propiedades en alquiler."
+      },
+      "noMatch": "Ninguna propiedad coincide con «{query}».",
+      "emptyTab": "No hay propiedades en esta pestaña.",
+      "label": "Propiedad",
+      "placeholder": "Elegir propiedad",
+      "operation": "Operación",
+      "only": {
+        "SALE": "Solo propiedades en venta",
+        "RENT": "Solo propiedades en alquiler"
+      },
+      "searchPlaceholder": "Buscar por nombre o zona",
+      "search": "Buscar propiedad",
+      "list": "Propiedades",
+      "perNight": "{price} /noche"
+    },
+    "ownerAccount": {
+      "added": "Liquidación registrada",
+      "addFailed": "No se pudo registrar la liquidación",
+      "deleted": "Liquidación eliminada",
+      "deleteFailed": "No se pudo eliminar",
+      "title": "Estado de cuenta",
+      "description": "Lo cobrado por las reservas de {name}, lo que le corresponde (la comisión se descuenta) y lo que ya se le liquidó. Lo ve en su link de acceso.",
+      "loading": "Cargando…",
+      "loadFailed": "No pudimos cargar el estado de cuenta.",
+      "delete": "Eliminar liquidación",
+      "register": "Registrar liquidación",
+      "new": "Nueva liquidación",
+      "amount": "Monto",
+      "currency": "Moneda",
+      "date": "Fecha de la liquidación",
+      "methodPlaceholder": "Medio (transferencia, efectivo…)",
+      "method": "Medio",
+      "notePlaceholder": "Nota (opcional)",
+      "note": "Nota",
+      "submit": "Registrar"
+    },
+    "page": {
+      "title": "Propiedades",
+      "searchPlaceholder": "Buscar por título, zona o propietario",
+      "search": "Buscar propiedades",
+      "help": "Ayuda con propiedades",
+      "loadFailed": "No pudimos cargar las propiedades",
+      "bulk": {
+        "delete": "{count, plural, one {# propiedad movida a la papelera} other {# propiedades movidas a la papelera}}",
+        "publish": "{count, plural, one {# propiedad publicada} other {# propiedades publicadas}}",
+        "unpublish": "{count, plural, one {# propiedad despublicada} other {# propiedades despublicadas}}",
+        "archive": "{count, plural, one {# propiedad archivada} other {# propiedades archivadas}}",
+        "failed": "No se pudieron procesar {count}. Intentá de nuevo."
+      },
+      "empty": {
+        "title": "Cargá tu primera propiedad",
+        "body": "Sumá fotos, precio y características para tenerla lista cuando quieras publicarla.",
+        "help": "Cómo cargar y publicar una propiedad"
+      },
+      "noMatch": {
+        "title": "Nada coincide con esos filtros",
+        "body": "Probá con otra zona o quitá algún filtro para ver más propiedades."
+      }
+    }
+  }
+}

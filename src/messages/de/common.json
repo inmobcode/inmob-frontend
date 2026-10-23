@@ -1,0 +1,171 @@
+{
+  "meta": {
+    "description": "Verwaltungssoftware für Immobilienagenturen: Objekte, Angebote, Buchungen und die Website Ihrer Agentur.",
+    "ogAlt": "Tivvo · Verwaltungssoftware für Immobilienagenturen",
+    "ogTitle": "Ein Ort für Ihre Objekte, Angebote und Buchungen",
+    "ogSubtitle": "Verwaltungssoftware für Verkaufs- und Ferienvermietungsagenturen."
+  },
+  "notFound": {
+    "metaTitle": "Seite nicht gefunden",
+    "code": "Fehler 404",
+    "title": "Diese Adresse steht nicht im Plan.",
+    "tail": "Sie wurde vielleicht verschoben oder ist nicht mehr veröffentlicht.",
+    "searchLabel": "In der Hilfe suchen",
+    "searchPlaceholder": "Was haben Sie gesucht? Versuchen Sie „Buchung“",
+    "search": "Suchen",
+    "otherPlaces": "Andere Seiten",
+    "stillLost": "Immer noch verloren? Schreiben Sie uns an",
+    "links": {
+      "home": {
+        "label": "Startseite",
+        "hint": "Was Tivvo ist und wie es funktioniert"
+      },
+      "help": {
+        "label": "Hilfe",
+        "hint": "Antworten und Kontakt"
+      },
+      "login": {
+        "label": "Anmelden",
+        "hint": "Zum Dashboard Ihrer Agentur"
+      }
+    }
+  },
+  "language": {
+    "label": "Sprache",
+    "change": "Sprache ändern"
+  },
+  "common": {
+    "unexpectedError": "Unerwarteter Fehler",
+    "linkCopied": "Link kopiert",
+    "linkCopyFailed": "Link konnte nicht kopiert werden",
+    "actionFailed": "Aktion konnte nicht abgeschlossen werden",
+    "checkConnection": "Prüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
+    "back": "Zurück",
+    "cancel": "Abbrechen",
+    "saving": "Wird gespeichert…",
+    "creating": "Wird erstellt…",
+    "optional": "(optional)",
+    "undo": "Rückgängig",
+    "retry": "Erneut versuchen",
+    "noMatchTitle": "Keine Treffer",
+    "clearFilters": "Filter zurücksetzen",
+    "emailCopied": "E-Mail kopiert",
+    "emailCopyFailed": "E-Mail konnte nicht kopiert werden",
+    "changesSaved": "Änderungen gespeichert",
+    "saveFailed": "Änderungen konnten nicht gespeichert werden",
+    "nameRequired": "Geben Sie einen Namen ein",
+    "emailInvalid": "Ungültige E-Mail",
+    "checkFields": "Prüfen Sie die markierten Felder",
+    "save": "Speichern",
+    "help": "Hilfe",
+    "datePicker": {
+      "previousMonth": "Vorheriger Monat",
+      "nextMonth": "Nächster Monat",
+      "pickDate": "Datum wählen",
+      "pickDates": "Daten wählen",
+      "pickCheckIn": "Wählen Sie den Check-in",
+      "pickCheckOut": "Wählen Sie jetzt den Check-out",
+      "days": "{count, plural, one {# Tag} other {# Tage}}",
+      "nights": "{count, plural, one {# Nacht} other {# Nächte}}",
+      "clear": "Löschen",
+      "search": "Suchen…"
+    },
+    "combobox": {
+      "search": "Suchen…",
+      "empty": "Keine Treffer."
+    },
+    "richText": {
+      "link": "Link",
+      "linkUrl": "Linkadresse",
+      "done": "Fertig",
+      "removeLink": "Link entfernen",
+      "blockType": "Textart",
+      "blocks": {
+        "p": "Text",
+        "h2": "Überschrift",
+        "h3": "Zwischenüberschrift"
+      },
+      "bold": "Fett",
+      "italic": "Kursiv",
+      "bulletList": "Aufzählung",
+      "orderedList": "Nummerierte Liste"
+    }
+  },
+  "errors": {
+    "code": "Fehler {code}",
+    "otherPlaces": "Andere Seiten",
+    "server": {
+      "title": "Bei uns ist etwas schiefgelaufen.",
+      "tail": "Versuchen Sie es erneut; wenn es so bleibt, schreiben Sie uns.",
+      "retry": "Erneut versuchen",
+      "home": "Zur Startseite"
+    }
+  },
+  "trash": {
+    "restoreFailed": "Wiederherstellen fehlgeschlagen",
+    "deleted": "Endgültig gelöscht",
+    "deleteFailed": "Löschen fehlgeschlagen",
+    "intro": "Was Sie löschen, bleibt {days} Tage hier, falls Sie es sich anders überlegen. Danach wird es endgültig gelöscht.",
+    "loadFailed": "Der Papierkorb konnte nicht geladen werden.",
+    "emptyTitle": "Der Papierkorb ist leer",
+    "emptyBody": "Wenn Sie etwas löschen, erscheint es hier.",
+    "deletedAgo": "Gelöscht {ago}",
+    "goesToday": "wird heute endgültig gelöscht",
+    "goesIn": "{count, plural, one {wird in # Tag endgültig gelöscht} other {wird in # Tagen endgültig gelöscht}}",
+    "restore": "Wiederherstellen",
+    "deleteForever": "Endgültig löschen",
+    "confirmTitle": "Endgültig löschen?",
+    "confirmBody": "„{title}“ wird für immer gelöscht und kann nicht wiederhergestellt werden.",
+    "link": "Papierkorb",
+    "linkCount": "{count, plural, one {Papierkorb, # Element} other {Papierkorb, # Elemente}}",
+    "pages": {
+      "properties": {
+        "title": "Papierkorb: Objekte",
+        "restored": "Sie haben das Objekt wiederhergestellt",
+        "back": "Objekte",
+        "untitled": "Objekt"
+      },
+      "offers": {
+        "title": "Papierkorb: Angebote",
+        "restored": "Sie haben das Angebot wiederhergestellt",
+        "back": "Angebote",
+        "untitled": "Angebot"
+      },
+      "bookings": {
+        "title": "Papierkorb: Buchungen",
+        "restored": "Sie haben die Buchung wiederhergestellt",
+        "back": "Buchungen",
+        "untitled": "Buchung"
+      }
+    }
+  },
+  "pageTitles": {
+    "forgotPassword": "Passwort wiederherstellen",
+    "register": "Konto erstellen",
+    "login": "Anmelden",
+    "clients": "Kunden",
+    "settings": "Einstellungen",
+    "offers": "Angebote",
+    "bookings": "Buchungen",
+    "inquiries": "Anfragen",
+    "profile": "Mein Profil",
+    "properties": "Objekte",
+    "import": "Objekte importieren",
+    "team": "Team",
+    "services": "Leistungen",
+    "portal": "Website",
+    "docs": "Dokumentation",
+    "authCallback": "Anmeldung läuft",
+    "resetPassword": "Passwort zurücksetzen"
+  },
+  "legal": {
+    "effective": "Gültig seit",
+    "sections": "Abschnitte",
+    "seeAlso": "Siehe auch",
+    "summary": "Kurz gesagt",
+    "summaryNote": "Diese Zusammenfassung erleichtert das Lesen, ersetzt das Dokument aber nicht: Maßgeblich ist der vollständige Text.",
+    "brief": "Kurz:",
+    "nav": "Hauptnavigation",
+    "home": "Zur Startseite"
+  }
+}

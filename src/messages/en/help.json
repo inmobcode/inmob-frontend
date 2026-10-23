@@ -1,0 +1,198 @@
+{
+  "help": {
+    "topics": {
+      "primeros-pasos": {
+        "title": "Getting started",
+        "summary": "Your account, your team and how to log in.",
+        "questions": {
+          "q1": {
+            "q": "How do I create my account and agency?",
+            "a": "From “Sign up” you create your user and your agency's name, and you're in the dashboard. Your dashboard's address carries your agency's name."
+          },
+          "q2": {
+            "q": "How do I add my team?",
+            "a": "In Team you add people and give them a role: owner, administrator or agent. Only owners and administrators see that section."
+          },
+          "q3": {
+            "q": "I forgot my password. What do I do?",
+            "a": "On the login screen use the option to recover your password. We'll email you a link to create a new one."
+          },
+          "q4": {
+            "q": "Why was I logged out?",
+            "a": "For security, sessions expire after a while and you need to log in again. Nothing you've saved is lost."
+          }
+        }
+      },
+      "propiedades": {
+        "title": "Properties",
+        "summary": "Adding, publishing and assigning them.",
+        "questions": {
+          "q1": {
+            "q": "How do I add a property?",
+            "a": "In Properties you create a new one, fill in the details, upload the photos (they're resized automatically before uploading) and publish it when it's ready."
+          },
+          "q2": {
+            "q": "How do I assign a property to an agent?",
+            "a": "Owners and administrators can choose who's in charge of each property. Agents only see the ones assigned to them."
+          },
+          "q3": {
+            "q": "Does everything I add show on my website?",
+            "a": "The properties you publish are shown. Whatever you leave unpublished stays in the dashboard only."
+          }
+        }
+      },
+      "clientes-consultas": {
+        "title": "Clients and inquiries",
+        "summary": "From the first inquiry to the follow-up.",
+        "questions": {
+          "q1": {
+            "q": "Where do inquiries from my website go?",
+            "a": "To the Inquiries inbox. Each one creates a client (or reuses the one with that email), leaves a note with the property they looked at and adds to the counter in the menu."
+          },
+          "q2": {
+            "q": "How am I notified of a new inquiry?",
+            "a": "By email to the agency (to the contact email or, if there isn't one, to owners and administrators) and with the bell in the dashboard. The client gets a confirmation."
+          },
+          "q3": {
+            "q": "How do I follow up with a client?",
+            "a": "Inside each client you can create tasks with a date and an assignee. You can also view everyone as a board and drag them from one stage to another."
+          }
+        }
+      },
+      "ofertas": {
+        "title": "Offers",
+        "summary": "Building them, sharing them and knowing if they were opened.",
+        "questions": {
+          "q1": {
+            "q": "How do I send an offer to a client?",
+            "a": "You build the offer with one or more properties, discounts and services, and share the link. The client sees it without creating an account."
+          },
+          "q2": {
+            "q": "How do I know if my offer was opened?",
+            "a": "The bell lets you know as soon as it's opened. On the offer you also see when it was viewed and when it expires."
+          }
+        }
+      },
+      "reservas-cobros": {
+        "title": "Bookings and payments",
+        "summary": "Dates, payments and what the client sees.",
+        "questions": {
+          "q1": {
+            "q": "What does the client see of their booking?",
+            "a": "A link by email, sent when the booking is created, confirmed or cancelled, with their dates, the total and the payment status. It doesn't show the commission."
+          },
+          "q2": {
+            "q": "How do I record a payment?",
+            "a": "In the booking you enter the deposit and the balance with their status. You see what's collected, what's left and the commission."
+          },
+          "q3": {
+            "q": "What is a pending booking?",
+            "a": "An unconfirmed booking. It shows on the calendar so you see it coming, but it doesn't block the dates yet."
+          }
+        }
+      },
+      "disponibilidad": {
+        "title": "Availability and rates",
+        "summary": "The calendar for your holiday rentals.",
+        "questions": {
+          "q1": {
+            "q": "How do I block dates?",
+            "a": "In Availability, month view: pick a property and drag across the free nights. Booked nights can't be changed."
+          },
+          "q2": {
+            "q": "How do I set seasonal rates?",
+            "a": "On each property you define periods with their nightly price. The booking total is calculated from those values."
+          },
+          "q3": {
+            "q": "Can I see only the properties free on certain dates?",
+            "a": "Yes. In Availability you choose a date range and a location, and it shows only the ones that are free."
+          }
+        }
+      },
+      "sitio-portales": {
+        "title": "Website and portals",
+        "summary": "Your public website and the links for owners.",
+        "questions": {
+          "q1": {
+            "q": "How do I customise my agency's website?",
+            "a": "In Website you choose the template, colours, typefaces and blocks, and see how it looks on desktop, tablet and mobile before publishing."
+          },
+          "q2": {
+            "q": "Can I use my own domain?",
+            "a": "Not yet. Your website lives on a Tivvo subdomain with your agency's name."
+          },
+          "q3": {
+            "q": "What does the owner see in their portal?",
+            "a": "Their properties, bookings and payments, with what was collected, the payouts and the balance. The commission stays hidden unless you show it from Settings."
+          }
+        }
+      },
+      "cuenta-datos": {
+        "title": "Account and data",
+        "summary": "Who sees what and how we look after your information.",
+        "questions": {
+          "q1": {
+            "q": "Is my data mixed with other agencies' data?",
+            "a": "No. Each agency works in its own space and only its team sees its properties, clients and bookings."
+          },
+          "q2": {
+            "q": "What does each person on my team see?",
+            "a": "Agents see their properties, offers and bookings, their clients and unassigned inquiries. Owners and administrators see everything and reassign."
+          },
+          "q3": {
+            "q": "How do I exercise my rights over my data?",
+            "a": "It's explained in the Privacy policy, along with the email address to write to."
+          }
+        }
+      }
+    },
+    "title": "How can we help you?",
+    "titleTail": "Search or pick a topic.",
+    "searchLabel": "Search the help centre",
+    "searchPlaceholder": "Try “booking”, “offer” or “owner portal”",
+    "clearSearch": "Clear the search",
+    "popularLabel": "Most searched:",
+    "popular": {
+      "p1": "inquiries",
+      "p2": "offer",
+      "p3": "booking",
+      "p4": "rates",
+      "p5": "owner portal",
+      "p6": "team"
+    },
+    "faqLabel": "Frequently asked questions",
+    "noResults": "No results",
+    "results": "{count, plural, one {# answer for “{query}”} other {# answers for “{query}”}}",
+    "nothingFor": "We found nothing for “{query}”.",
+    "tryAnother": "Try another word, or write to us and we'll reply by email.",
+    "toContact": "Go to the contact form",
+    "docsLead": "Already have an account? The full dashboard guide is in the documentation.",
+    "docs": "Open the documentation",
+    "contact": {
+      "errors": {
+        "name": "Enter your name",
+        "email": "Check the email: the @ or the domain is missing",
+        "message": "Tell us a bit more"
+      },
+      "failed": "The message couldn't be sent. Try again in a few minutes.",
+      "sentTitle": "Message sent",
+      "sentText": "We'll reply by email shortly.",
+      "name": "Your name",
+      "message": "How can we help?",
+      "sending": "Sending…",
+      "submit": "Send message"
+    },
+    "page": {
+      "metaTitle": "Help and contact",
+      "metaDescription": "Answers about properties, offers, bookings, availability and your website. If you can't find what you're looking for, write to us.",
+      "contactTitle": "Didn't find what you were looking for?",
+      "contactTitleTail": "Write to us.",
+      "contactLead": "Tell us your question, a problem or an idea. We reply by email.",
+      "byEmail": "By email",
+      "personalData": "Personal data",
+      "rules": "Rules",
+      "terms": "Terms",
+      "privacy": "Privacy"
+    }
+  }
+}

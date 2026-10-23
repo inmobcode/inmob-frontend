@@ -1,0 +1,152 @@
+{
+  "dashboard": {
+    "actionBar": {
+      "unsaved": "Ungespeicherte Änderungen",
+      "save": "Speichern",
+      "publish": "Veröffentlichen",
+      "cancel": "Abbrechen"
+    },
+    "help": {
+      "label": "Hilfe",
+      "newTab": "{label} (öffnet in neuem Tab)"
+    },
+    "filter": {
+      "by": "Nach {name} filtern",
+      "showAll": "Alle anzeigen"
+    },
+    "views": {
+      "change": "Ansicht wechseln",
+      "table": "Tabelle",
+      "list": "Liste",
+      "grid": "Raster",
+      "board": "Board"
+    },
+    "nav": {
+      "inquiries": "Anfragen",
+      "clients": "Kunden",
+      "properties": "Objekte",
+      "offers": "Angebote",
+      "bookings": "Buchungen",
+      "availability": "Verfügbarkeit",
+      "services": "Leistungen",
+      "portal": "Website",
+      "team": "Team",
+      "settings": "Einstellungen",
+      "unread": "{name}, {count} ungelesen",
+      "expandMenu": "Menü ausklappen",
+      "collapseMenu": "Menü einklappen",
+      "expand": "Ausklappen",
+      "collapse": "Einklappen",
+      "openMenu": "Menü öffnen",
+      "menu": "Menü",
+      "mainNav": "Hauptnavigation"
+    },
+    "assignee": {
+      "label": "Zuständig",
+      "nobody": "Nicht zugewiesen",
+      "you": "Sie"
+    },
+    "userMenu": {
+      "appearance": "Darstellung",
+      "theme": {
+        "light": "Hell",
+        "dark": "Dunkel",
+        "system": "Automatisch"
+      },
+      "language": "Sprache",
+      "switchFailed": "Agentur konnte nicht gewechselt werden",
+      "switchAgency": "Agentur wechseln",
+      "portalLinkCopied": "Website-Link kopiert",
+      "linkCopyFailed": "Link konnte nicht kopiert werden",
+      "nameFallback": "Ihr Name",
+      "profile": "Mein Profil",
+      "settings": "Einstellungen",
+      "viewPortal": "Meine Website ansehen",
+      "copyPortalLink": "Website-Link kopieren",
+      "docs": "Dokumentation",
+      "search": "Suche und Befehle",
+      "shortcuts": "Tastenkürzel",
+      "help": "Hilfe und Support",
+      "logout": "Abmelden"
+    },
+    "shortcuts": {
+      "go": {
+        "properties": "Objekte",
+        "offers": "Angebote",
+        "clients": "Kunden",
+        "inquiries": "Anfragen",
+        "bookings": "Buchungen",
+        "availability": "Verfügbarkeit",
+        "team": "Team",
+        "portal": "Website",
+        "settings": "Einstellungen",
+        "profile": "Mein Profil"
+      },
+      "help": {
+        "general": "Allgemein",
+        "goTo": "Gehe zu",
+        "lists": "In Listen",
+        "palette": "Suchen und Befehle ausführen",
+        "sidebar": "Seitenleiste ein- oder ausklappen",
+        "save": "Formularänderungen speichern",
+        "help": "Tastenkürzel anzeigen",
+        "new": "Neu erstellen",
+        "search": "Zur Suche springen",
+        "filter": "Filter öffnen",
+        "views": "Raster-, Listen- oder Tabellenansicht",
+        "move": "Zwischen Einträgen nach unten und oben",
+        "open": "Ausgewählten Eintrag öffnen",
+        "clear": "Auswahl aufheben"
+      },
+      "groups": {
+        "go": "Gehe zu",
+        "create": "Erstellen",
+        "actions": "Aktionen",
+        "properties": "Objekte",
+        "offers": "Angebote",
+        "clients": "Kunden"
+      },
+      "commands": {
+        "docs": "Dokumentation",
+        "newProperty": "Neues Objekt",
+        "newOffer": "Neues Angebot",
+        "newClient": "Neuer Kunde",
+        "newBooking": "Neue Buchung",
+        "newMember": "Mitglied einladen",
+        "light": "Heller Modus",
+        "dark": "Dunkler Modus",
+        "system": "Automatischer Modus",
+        "sidebar": "Menü ein- oder ausklappen",
+        "logout": "Abmelden"
+      },
+      "paletteTitle": "Suchen und Befehle ausführen",
+      "paletteDescription": "Tippen Sie, um Seiten, Objekte, Angebote oder Kunden zu suchen.",
+      "palettePlaceholder": "Seite, Objekt, Angebot oder Kunden suchen…",
+      "paletteSearch": "Befehle suchen",
+      "nothingFor": "Nichts gefunden für „{query}“.",
+      "helpTitle": "Tastenkürzel",
+      "helpDescription": "Schneller arbeiten, ohne die Tastatur loszulassen.",
+      "then": "dann",
+      "nothingToSave": "Keine Änderungen zu speichern"
+    },
+    "notifications": {
+      "deleteFailed": "Benachrichtigung konnte nicht gelöscht werden",
+      "label": "Benachrichtigungen",
+      "labelUnread": "Benachrichtigungen, {count} ungelesen",
+      "markAll": "Alle als gelesen markieren",
+      "empty": "Noch nichts Neues. Hier erscheinen Anfragen, geöffnete Angebote und Zahlungen.",
+      "unread": "Ungelesen",
+      "delete": "„{title}“ löschen",
+      "deleteShort": "Löschen",
+      "types": {
+        "inquiry": "Neue Anfrage von {name}",
+        "inquiryNoMessage": "Hat Kontaktdaten hinterlassen.",
+        "offerViewed": "{who} hat das Angebot geöffnet",
+        "offerViewedAnon": "Ihr Kunde hat das Angebot geöffnet",
+        "payment": "Zahlung erfasst: {amount}",
+        "task": "Ihnen wurde eine Aufgabe zugewiesen",
+        "taskDue": "{title} · bis {date}"
+      }
+    }
+  }
+}

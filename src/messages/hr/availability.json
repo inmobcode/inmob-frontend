@@ -1,0 +1,91 @@
+{
+  "availability": {
+    "legend": {
+      "available": "Slobodno",
+      "booked": "Rezervirano",
+      "turnover": "Dolazak / odlazak",
+      "past": "Prošlo",
+      "pending": "Rezervacija na čekanju"
+    },
+    "grid": {
+      "searchPlaceholder": "Pretraži nekretninu…",
+      "search": "Pretraži nekretninu",
+      "location": "Lokacija",
+      "allLocations": "Sve lokacije",
+      "searchLocation": "Pretraži lokaciju…",
+      "noLocation": "Nijedna lokacija ne odgovara.",
+      "onlyFree": "Samo slobodne",
+      "clearDates": "Ukloni datume",
+      "pickDates": "Odaberite datume",
+      "noneFree": "Nijedna nekretnina nije slobodna tih datuma.",
+      "noneMatch": "Nijedna nekretnina ne odgovara „{search}”.",
+      "noneInLocation": "Nema nekretnina na toj lokaciji.",
+      "seeMore": "Prikaži više",
+      "otherLocation": "Druga lokacija",
+      "nothing": "Nema nekretnina za prikaz.",
+      "property": "Nekretnina",
+      "perNight": "{price}/noć",
+      "past": "Prošlo",
+      "pending": "Rezervacija na čekanju",
+      "pendingIn": "Rezervacija na čekanju (dolazak)",
+      "pendingOut": "Rezervacija na čekanju (odlazak)",
+      "available": "Slobodno",
+      "booked": "Rezervirano",
+      "turnover": "Dolazak / odlazak",
+      "checkIn": "Dolazak",
+      "checkOut": "Odlazak"
+    },
+    "month": {
+      "blocked": "Datumi su blokirani",
+      "blockFailed": "Datume nije moguće blokirati",
+      "rangeTaken": "To razdoblje uključuje zauzete ili prošle noći.",
+      "previous": "Prethodni mjesec",
+      "next": "Sljedeći mjesec",
+      "today": "Danas",
+      "property": "Nekretnina",
+      "allProperties": "Sve nekretnine",
+      "searchProperty": "Pretraži nekretninu…",
+      "noProperty": "Nijedna nekretnina ne odgovara.",
+      "hintSelected": "Povucite preko slobodnih noći da ih blokirate. Tipkovnicom: Enter na prvi dan i Enter na zadnji.",
+      "hintAll": "Svaki dan pokazuje koliko je nekretnina zauzeto te noći. Odaberite nekretninu da vidite njezine rezervacije i blokirate datume.",
+      "pendingHint": "Rezervacija na čekanju: još ne blokira datume, ali je zatražena.",
+      "loadFailed": "Kalendar nije moguće učitati.",
+      "noRentals": "Još nemate nekretnina za najam.",
+      "dayLabel": "{day}: zauzeto {occupied} od {total}",
+      "more": "+{count} više",
+      "checkIn": "Dolazak",
+      "checkOut": "Odlazak",
+      "turnover": "Odlazak i dolazak",
+      "occupiedOf": "{occupied}/{total} zauzeto",
+      "pending": "Na čekanju",
+      "blockSummary": "{count, plural, one {Blokiraj <strong>{title}</strong>: # noć, od {from} do {to}.} few {Blokiraj <strong>{title}</strong>: # noći, od {from} do {to}.} other {Blokiraj <strong>{title}</strong>: # noći, od {from} do {to}.}}",
+      "note": "Bilješka (neobavezno)",
+      "noteLabel": "Bilješka blokade",
+      "block": "Blokiraj",
+      "lists": {
+        "taken": "Zauzete ({count})",
+        "waiting": "Na čekanju ({count})",
+        "free": "Slobodne ({count})",
+        "none": "Nijedna.",
+        "viewMonth": "Prikaži mjesec"
+      }
+    },
+    "page": {
+      "view": "Prikaz",
+      "views": {
+        "grid": "Sljedećih 90 dana",
+        "month": "Mjesečno"
+      },
+      "title": "Dostupnost",
+      "gridLead": "Sljedećih 90 dana vaših nekretnina za najam, sve zajedno.",
+      "monthLead": "Mjesec po mjesec: koliko je nekretnina zauzeto svaki dan, i blokiranje datuma.",
+      "help": "Pomoć za dostupnost",
+      "copyLink": "Kopiraj poveznicu za dijeljenje",
+      "loadFailed": "Dostupnost nije moguće učitati",
+      "empty": {
+        "title": "Još nemate nekretnina za najam",
+        "body": "Čim dodate jednu, njezina se dostupnost pojavljuje ovdje."
+      }
+    }
+  }
+}

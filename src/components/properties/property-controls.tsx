@@ -1,6 +1,7 @@
 "use client";
 
 import { Archive, Check, ExternalLink, EyeOff, Globe, Minus, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useParams, useRouter } from "next/navigation";
 
 import {
@@ -10,6 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useAgencySitePath } from "@/lib/agency-site";
 import type { Property } from "@/lib/api/properties";
 import { cn } from "@/lib/utils";
 
@@ -22,13 +24,11 @@ export interface PropertyActions {
   requestDelete: (ids: string[]) => void;
 }
 
-/** The property's page on the agency's public site; only published ones have one. */
-export function publicPropertyUrl(property: Property, agencySlug: string) {
-  return `/page/${property.agencySlug ?? agencySlug}/properties/${property.slug}`;
-}
-
-function openOnSite(property: Property, agencySlug: string) {
-  window.open(publicPropertyUrl(property, agencySlug), "_blank", "noopener");
+/** The property's page on the agency's public site (only published ones have one), in the site's language. */
+function useOpenOnSite() {
+  const sitePath = useAgencySitePath();
+  return (property: Property, agencySlug: string) =>
+    window.open(sitePath(`/page/${property.agencySlug ?? agencySlug}/properties/${property.slug}`), "_blank", "noopener");
 }
 
 /**
@@ -37,13 +37,15 @@ function openOnSite(property: Property, agencySlug: string) {
  * links themselves, whose controls zone cancels link navigation.
  */
 export function ViewOnSiteButton({ property, className }: { property: Property; className?: string }) {
+  const t = useTranslations("properties.menu");
+  const openOnSite = useOpenOnSite();
   const { agencySlug } = useParams<{ agencySlug: string }>();
   if (property.status !== "PUBLISHED") return null;
   return (
     <button
       type="button"
-      aria-label={`Ver ${property.title} en el sitio`}
-      title="Ver en el sitio"
+      aria-label={t("viewOnSiteOf", { title: property.title })}
+      title={t("viewOnSite")}
       onClick={() => openOnSite(property, agencySlug)}
       className={cn(
         "flex size-8 shrink-0 items-center justify-center rounded-full bg-card/90 text-foreground backdrop-blur transition-colors outline-none hover:bg-card focus-visible:ring-3 focus-visible:ring-ring/50",
@@ -116,6 +118,8 @@ export function PropertyMenu({
   actions: PropertyActions;
   className?: string;
 }) {
+  const t = useTranslations("properties.menu");
+  const openOnSite = useOpenOnSite();
   const router = useRouter();
   const { agencySlug } = useParams<{ agencySlug: string }>();
 
@@ -124,7 +128,7 @@ export function PropertyMenu({
       <DropdownMenuTrigger asChild>
         <button
           type="button"
-          aria-label={`Acciones de ${property.title}`}
+          aria-label={t("actionsOf", { title: property.title })}
           className={cn(
             "flex size-8 shrink-0 items-center justify-center rounded-full bg-card/90 text-foreground backdrop-blur transition-colors outline-none hover:bg-card focus-visible:ring-3 focus-visible:ring-ring/50 data-[state=open]:bg-card",
             className,
@@ -136,30 +140,30 @@ export function PropertyMenu({
       <DropdownMenuContent align="end" className="w-52 rounded-2xl p-1.5">
         <DropdownMenuItem className="rounded-xl py-2" onSelect={() => router.push(`/${agencySlug}/properties/${property.id}`)}>
           <Pencil />
-          Editar
+          {t("edit")}
         </DropdownMenuItem>
         {property.status === "PUBLISHED" && (
           <DropdownMenuItem className="rounded-xl py-2" onSelect={() => openOnSite(property, agencySlug)}>
             <ExternalLink />
-            Ver en el sitio
+            {t("viewOnSite")}
           </DropdownMenuItem>
         )}
         {property.status !== "PUBLISHED" && (
           <DropdownMenuItem className="rounded-xl py-2" onSelect={() => actions.publish([property.id])}>
             <Globe />
-            {property.status === "ARCHIVED" ? "Volver a publicar" : "Publicar"}
+            {property.status === "ARCHIVED" ? t("republish") : t("publish")}
           </DropdownMenuItem>
         )}
         {property.status === "PUBLISHED" && (
           <DropdownMenuItem className="rounded-xl py-2" onSelect={() => actions.unpublish([property.id])}>
             <EyeOff />
-            Despublicar
+            {t("unpublish")}
           </DropdownMenuItem>
         )}
         {property.status !== "ARCHIVED" && (
           <DropdownMenuItem className="rounded-xl py-2" onSelect={() => actions.archive([property.id])}>
             <Archive />
-            Archivar
+            {t("archive")}
           </DropdownMenuItem>
         )}
         <DropdownMenuSeparator />
@@ -169,7 +173,7 @@ export function PropertyMenu({
           onSelect={() => actions.requestDelete([property.id])}
         >
           <Trash2 />
-          Eliminar
+          {t("delete")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

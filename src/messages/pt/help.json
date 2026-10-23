@@ -1,0 +1,198 @@
+{
+  "help": {
+    "topics": {
+      "primeros-pasos": {
+        "title": "Primeiros passos",
+        "summary": "A sua conta, a sua equipa e como entrar.",
+        "questions": {
+          "q1": {
+            "q": "Como crio a minha conta e a minha agência?",
+            "a": "Em «Registar-se» cria o seu utilizador e o nome da sua agência, e entra no painel. O endereço do seu painel tem o nome da sua agência."
+          },
+          "q2": {
+            "q": "Como junto a minha equipa?",
+            "a": "Em Equipa adiciona pessoas e atribui-lhes uma função: proprietário, administrador ou agente. Só proprietários e administradores veem essa secção."
+          },
+          "q3": {
+            "q": "Esqueci-me da palavra-passe. O que faço?",
+            "a": "No ecrã de entrada use a opção para recuperar a palavra-passe. Enviamos-lhe um link por email para criar uma nova."
+          },
+          "q4": {
+            "q": "Porque terminou a minha sessão?",
+            "a": "Por segurança, a sessão expira passado algum tempo e é preciso voltar a entrar. Não se perde nada do que já guardou."
+          }
+        }
+      },
+      "propiedades": {
+        "title": "Imóveis",
+        "summary": "Carregá-los, publicá-los e atribuí-los.",
+        "questions": {
+          "q1": {
+            "q": "Como carrego um imóvel?",
+            "a": "Em Imóveis cria um novo, preenche os dados, carrega as fotos (são reduzidas automaticamente antes de subir) e publica-o quando estiver pronto."
+          },
+          "q2": {
+            "q": "Como atribuo um imóvel a um agente?",
+            "a": "Proprietários e administradores podem escolher o responsável de cada imóvel. Os agentes só veem os que lhes estão atribuídos."
+          },
+          "q3": {
+            "q": "Tudo o que carrego aparece no meu site?",
+            "a": "Aparecem os imóveis que publica. O que deixa por publicar fica só no painel."
+          }
+        }
+      },
+      "clientes-consultas": {
+        "title": "Clientes e pedidos",
+        "summary": "Do primeiro pedido ao seguimento.",
+        "questions": {
+          "q1": {
+            "q": "Para onde vão os pedidos do meu site?",
+            "a": "Para a caixa de Pedidos. Cada um cria um cliente (ou reutiliza o que tiver esse email), deixa uma nota com o imóvel que viu e soma ao contador do menu."
+          },
+          "q2": {
+            "q": "Como sou avisado de um novo pedido?",
+            "a": "Por email para a agência (para o email de contacto ou, se não houver, para proprietários e administradores) e com o sino do painel. O cliente recebe uma confirmação."
+          },
+          "q3": {
+            "q": "Como faço o seguimento de um cliente?",
+            "a": "Dentro de cada cliente pode criar tarefas com data e responsável. Também pode ver todos em quadro e arrastá-los de uma fase para outra."
+          }
+        }
+      },
+      "ofertas": {
+        "title": "Ofertas",
+        "summary": "Montá-las, partilhá-las e saber se foram abertas.",
+        "questions": {
+          "q1": {
+            "q": "Como envio uma oferta a um cliente?",
+            "a": "Monta a oferta com um ou vários imóveis, descontos e serviços, e partilha o link. O cliente vê-a sem ter de criar conta."
+          },
+          "q2": {
+            "q": "Como sei se abriram a minha oferta?",
+            "a": "O sino avisa-o assim que a abrem. Na oferta também vê quando foi vista e quando expira."
+          }
+        }
+      },
+      "reservas-cobros": {
+        "title": "Reservas e pagamentos",
+        "summary": "Datas, pagamentos e o que vê o cliente.",
+        "questions": {
+          "q1": {
+            "q": "O que vê o cliente da sua reserva?",
+            "a": "Um link por email, enviado ao criar, confirmar ou cancelar a reserva, com as datas, o total e o estado dos pagamentos. Não mostra a comissão."
+          },
+          "q2": {
+            "q": "Como registo um pagamento?",
+            "a": "Na reserva introduz o sinal e o saldo com o seu estado. Vê o cobrado, o que falta e a comissão."
+          },
+          "q3": {
+            "q": "O que é uma reserva pendente?",
+            "a": "Uma reserva por confirmar. Aparece no calendário para que a veja chegar, mas ainda não bloqueia as datas."
+          }
+        }
+      },
+      "disponibilidad": {
+        "title": "Disponibilidade e tarifas",
+        "summary": "O calendário do seu arrendamento de curta duração.",
+        "questions": {
+          "q1": {
+            "q": "Como bloqueio datas?",
+            "a": "Em Disponibilidade, vista mensal: escolha um imóvel e arraste sobre as noites livres. As noites reservadas não podem ser alteradas."
+          },
+          "q2": {
+            "q": "Como defino as tarifas por época?",
+            "a": "Em cada imóvel define períodos com o seu preço por noite. O total da reserva calcula-se com esses valores."
+          },
+          "q3": {
+            "q": "Posso ver só os imóveis livres em certas datas?",
+            "a": "Sim. Em Disponibilidade escolhe um intervalo de datas e uma localização, e mostra só os que estão livres."
+          }
+        }
+      },
+      "sitio-portales": {
+        "title": "Site e portais",
+        "summary": "O seu site público e os links para proprietários.",
+        "questions": {
+          "q1": {
+            "q": "Como personalizo o site da minha agência?",
+            "a": "Em Site escolhe o modelo, as cores, as tipografias e os blocos, e vê como fica em computador, tablet e telemóvel antes de publicar."
+          },
+          "q2": {
+            "q": "Posso usar o meu próprio domínio?",
+            "a": "Por agora não. O seu site fica num subdomínio da Tivvo com o nome da sua agência."
+          },
+          "q3": {
+            "q": "O que vê o proprietário no seu portal?",
+            "a": "Os seus imóveis, reservas e pagamentos, com o cobrado, as liquidações e o saldo. A comissão fica oculta, a não ser que a mostre nas Definições."
+          }
+        }
+      },
+      "cuenta-datos": {
+        "title": "Conta e dados",
+        "summary": "Quem vê o quê e como cuidamos da sua informação.",
+        "questions": {
+          "q1": {
+            "q": "Os meus dados misturam-se com os de outras agências?",
+            "a": "Não. Cada agência trabalha no seu próprio espaço e só a sua equipa vê os seus imóveis, clientes e reservas."
+          },
+          "q2": {
+            "q": "O que vê cada pessoa da minha equipa?",
+            "a": "Os agentes veem os seus imóveis, ofertas e reservas, os seus clientes e os pedidos sem responsável. Proprietários e administradores veem tudo e reatribuem."
+          },
+          "q3": {
+            "q": "Como exerço os meus direitos sobre os meus dados?",
+            "a": "Está explicado na Política de privacidade, juntamente com o email para onde nos escrever."
+          }
+        }
+      }
+    },
+    "title": "Como podemos ajudar?",
+    "titleTail": "Pesquise ou escolha um tema.",
+    "searchLabel": "Pesquisar na ajuda",
+    "searchPlaceholder": "Experimente «reserva», «oferta» ou «portal do proprietário»",
+    "clearSearch": "Limpar a pesquisa",
+    "popularLabel": "O mais procurado:",
+    "popular": {
+      "p1": "pedidos",
+      "p2": "oferta",
+      "p3": "reserva",
+      "p4": "tarifas",
+      "p5": "portal do proprietário",
+      "p6": "equipa"
+    },
+    "faqLabel": "Perguntas frequentes",
+    "noResults": "Sem resultados",
+    "results": "{count, plural, one {# resposta para «{query}»} other {# respostas para «{query}»}}",
+    "nothingFor": "Não encontrámos nada para «{query}».",
+    "tryAnother": "Experimente outra palavra, ou escreva-nos e respondemos por email.",
+    "toContact": "Ir para o formulário de contacto",
+    "docsLead": "Já tem conta? O guia completo do painel está na documentação.",
+    "docs": "Abrir a documentação",
+    "contact": {
+      "errors": {
+        "name": "Introduza o seu nome",
+        "email": "Verifique o email: falta o @ ou o domínio",
+        "message": "Conte-nos um pouco mais"
+      },
+      "failed": "Não foi possível enviar a mensagem. Tente novamente dentro de alguns minutos.",
+      "sentTitle": "Mensagem enviada",
+      "sentText": "Respondemos por email com a maior brevidade.",
+      "name": "O seu nome",
+      "message": "Em que podemos ajudar",
+      "sending": "A enviar…",
+      "submit": "Enviar mensagem"
+    },
+    "page": {
+      "metaTitle": "Ajuda e contacto",
+      "metaDescription": "Respostas sobre imóveis, ofertas, reservas, disponibilidade e o seu site. Se não encontrar o que procura, escreva-nos.",
+      "contactTitle": "Não encontrou o que procurava?",
+      "contactTitleTail": "Escreva-nos.",
+      "contactLead": "Conte-nos a sua dúvida, um problema ou uma ideia. Respondemos por email.",
+      "byEmail": "Por email",
+      "personalData": "Dados pessoais",
+      "rules": "Regras",
+      "terms": "Termos",
+      "privacy": "Privacidade"
+    }
+  }
+}

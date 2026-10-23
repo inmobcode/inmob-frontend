@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowLeft } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRef } from "react";
 
@@ -11,6 +12,7 @@ import { distance, duration, ease, media } from "@/lib/motion";
 import { useActionBarStore } from "@/lib/store/action-bar-store";
 
 function UnsavedChip() {
+  const t = useTranslations("dashboard.actionBar");
   const ref = useRef<HTMLSpanElement>(null);
 
   useGSAP(
@@ -36,11 +38,11 @@ function UnsavedChip() {
       <TooltipTrigger asChild>
         <span ref={ref} className="mr-1 inline-flex items-center gap-2 text-sm text-muted-foreground" role="status">
           <span aria-hidden className="size-2.5 rounded-full bg-amber-500 ring-4 ring-amber-500/20" />
-          <span className="sr-only 2xl:not-sr-only">Cambios sin guardar</span>
+          <span className="sr-only 2xl:not-sr-only">{t("unsaved")}</span>
         </span>
       </TooltipTrigger>
       <TooltipContent side="bottom" sideOffset={6}>
-        Cambios sin guardar
+        {t("unsaved")}
       </TooltipContent>
     </Tooltip>
   );
@@ -71,6 +73,9 @@ export function ActionBar() {
     saveLabel,
     publishLabel,
   } = useActionBarStore();
+  const t = useTranslations("dashboard.actionBar");
+  const saveText = saveLabel || t("save");
+  const publishText = publishLabel || t("publish");
   const barRef = useRef<HTMLDivElement>(null);
   const visible = Boolean(title || navigation || onSave || onPublish);
 
@@ -122,7 +127,7 @@ export function ActionBar() {
         {isDirty && <UnsavedChip />}
         {onCancel && (
           <Button variant="ghost" onClick={onCancel} disabled={isSubmitting}>
-            Cancelar
+            {t("cancel")}
           </Button>
         )}
         {onSave && (
@@ -133,18 +138,18 @@ export function ActionBar() {
                 onClick={onSave}
                 disabled={!canSubmit || isSubmitting}
               >
-                {saveLabel}
+                {saveText}
               </Button>
             </TooltipTrigger>
             <TooltipContent side="bottom" sideOffset={6}>
-              {saveLabel}
+              {saveText}
               <SaveShortcut />
             </TooltipContent>
           </Tooltip>
         )}
         {onPublish && (
           <Button onClick={onPublish} disabled={!canSubmit || isSubmitting}>
-            {publishLabel}
+            {publishText}
           </Button>
         )}
       </div>

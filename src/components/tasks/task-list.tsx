@@ -1,9 +1,9 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { differenceInCalendarDays, format, parseISO } from "date-fns";
-import { es } from "date-fns/locale";
+import { differenceInCalendarDays, parseISO } from "date-fns";
 import { CalendarClock, Plus, Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { DatePicker } from "@/components/ui/date-picker";
 import { Input } from "@/components/ui/input";
+import { useFormat } from "@/i18n/format";
 import { ApiError } from "@/lib/api/client";
 import { createTask, deleteTask, listTasks, updateTask, type Task, type TaskFilters } from "@/lib/api/tasks";
 import { getAccessToken } from "@/lib/auth/session";
@@ -24,15 +25,19 @@ function requireToken() {
 }
 
 /** "Vencida hace 2 días", "Hoy", "Mañana", "jue 16 oct". */
-export function dueLabel(dueDate: string | null) {
-  if (!dueDate) return null;
-  const date = parseISO(dueDate);
-  const days = differenceInCalendarDays(date, new Date());
-  if (days < -1) return `Vencida hace ${-days} días`;
-  if (days === -1) return "Venció ayer";
-  if (days === 0) return "Hoy";
-  if (days === 1) return "Mañana";
-  return format(date, "EEE d MMM", { locale: es });
+export function useDueLabel() {
+  const t = useTranslations("tasks.due");
+  const { date: formatDate } = useFormat();
+  return (dueDate: string | null) => {
+    if (!dueDate) return null;
+    const date = parseISO(dueDate);
+    const days = differenceInCalendarDays(date, new Date());
+    if (days < -1) return t("overdue", { count: -days });
+    if (days === -1) return t("yesterday");
+    if (days === 0) return t("today");
+    if (days === 1) return t("tomorrow");
+    return formatDate(date, "weekdayDayMonthShort");
+  };
 }
 
 function TaskRow({
@@ -48,6 +53,8 @@ function TaskRow({
   onDelete: () => void;
   busy: boolean;
 }) {
+  const t = useTranslations("tasks");
+  const dueLabel = useDueLabel();
   const { agencySlug } = useParams<{ agencySlug: string }>();
   const done = !!task.doneAt;
   const due = dueLabel(task.dueDate);
@@ -58,7 +65,7 @@ function TaskRow({
         checked={done}
         disabled={busy}
         onChange={(event) => onToggle(event.target.checked)}
-        aria-label={done ? `Reabrir «${task.title}»` : `Completar «${task.title}»`}
+        aria-label={done ? t("reopen", { title: task.title }) : t("complete", { title: task.title })}
         className="mt-1 size-4 shrink-0 cursor-pointer accent-[var(--primary)]"
       />
       <div className="flex min-w-0 flex-1 flex-col gap-0.5">
@@ -81,7 +88,7 @@ function TaskRow({
         type="button"
         onClick={onDelete}
         disabled={busy}
-        aria-label={`Eliminar «${task.title}»`}
+        aria-label={t("delete", { title: task.title })}
         className="flex size-7 shrink-0 items-center justify-center rounded-full text-muted-foreground opacity-0 transition-opacity outline-none group-focus-within:opacity-100 group-hover:opacity-100 hover:text-destructive focus-visible:ring-3 focus-visible:ring-ring/50 [@media(hover:none)]:opacity-100"
       >
         <Trash2 className="size-3.5" />
@@ -99,13 +106,14 @@ export function TaskList({
   clientId,
   filters,
   limit,
-  emptyText = "Nada pendiente.",
+  emptyText,
 }: {
   clientId?: string;
   filters?: TaskFilters;
   limit?: number;
   emptyText?: string;
 }) {
+  const t = useTranslations("tasks");
   const queryClient = useQueryClient();
   const [title, setTitle] = useState("");
   const [dueDate, setDueDate] = useState("");
@@ -135,7 +143,7 @@ export function TaskList({
       setDueDate("");
       refresh();
     },
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo crear la tarea"),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : t("createFailed")),
   });
 
   const toggleMutation = useMutation({
@@ -149,7 +157,7 @@ export function TaskList({
     },
     onError: (err, _vars, context) => {
       if (context?.previous) queryClient.setQueryData(queryKey, context.previous);
-      toast.error(err instanceof ApiError ? err.message : "No se pudo actualizar la tarea");
+      toast.error(err instanceof ApiError ? err.message : t("updateFailed"));
     },
     onSettled: refresh,
   });
@@ -158,7 +166,7 @@ export function TaskList({
     meta: { affectsSite: false },
     mutationFn: (id: string) => deleteTask(requireToken(), id),
     onSuccess: refresh,
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : "No se pudo eliminar la tarea"),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : t("deleteFailed")),
   });
 
   const tasks = limit ? data?.slice(0, limit) : data;
@@ -176,26 +184,26 @@ export function TaskList({
         <Input
           value={title}
           onChange={(event) => setTitle(event.target.value)}
-          placeholder="Nueva tarea: llamar, enviar fotos, visitar…"
-          aria-label="Título de la tarea"
+          placeholder={t("placeholder")}
+          aria-label={t("titleLabel")}
           maxLength={200}
           className="h-10 min-w-48 flex-1 rounded-full bg-foreground/[0.05] px-4"
         />
         <div className="w-44">
-          <DatePicker value={dueDate} onChange={setDueDate} placeholder="Fecha límite" size="sm" />
+          <DatePicker value={dueDate} onChange={setDueDate} placeholder={t("dueDate")} size="sm" />
         </div>
-        <Button type="submit" size="icon-lg" className="rounded-full" disabled={!canAdd} aria-label="Agregar tarea">
+        <Button type="submit" size="icon-lg" className="rounded-full" disabled={!canAdd} aria-label={t("add")}>
           <Plus />
         </Button>
       </form>
 
       {error && (
         <p className="py-3 text-sm text-muted-foreground">
-          {error instanceof ApiError ? error.message : "No pudimos cargar las tareas."}
+          {error instanceof ApiError ? error.message : t("loadFailed")}
         </p>
       )}
-      {isLoading && <p className="py-3 text-sm text-muted-foreground">Cargando…</p>}
-      {tasks && tasks.length === 0 && <p className="py-3 text-sm text-muted-foreground">{emptyText}</p>}
+      {isLoading && <p className="py-3 text-sm text-muted-foreground">{t("loading")}</p>}
+      {tasks && tasks.length === 0 && <p className="py-3 text-sm text-muted-foreground">{emptyText ?? t("empty")}</p>}
       {tasks && tasks.length > 0 && (
         <ul className="mt-2 flex flex-col">
           {tasks.map((task) => (

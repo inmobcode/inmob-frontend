@@ -1,0 +1,152 @@
+{
+  "dashboard": {
+    "actionBar": {
+      "unsaved": "Modifiche non salvate",
+      "save": "Salva",
+      "publish": "Pubblica",
+      "cancel": "Annulla"
+    },
+    "help": {
+      "label": "Assistenza",
+      "newTab": "{label} (si apre in un’altra scheda)"
+    },
+    "filter": {
+      "by": "Filtra per {name}",
+      "showAll": "Mostra tutti"
+    },
+    "views": {
+      "change": "Cambia vista",
+      "table": "Tabella",
+      "list": "Elenco",
+      "grid": "Griglia",
+      "board": "Bacheca"
+    },
+    "nav": {
+      "inquiries": "Richieste",
+      "clients": "Clienti",
+      "properties": "Immobili",
+      "offers": "Offerte",
+      "bookings": "Prenotazioni",
+      "availability": "Disponibilità",
+      "services": "Servizi",
+      "portal": "Sito",
+      "team": "Team",
+      "settings": "Impostazioni",
+      "unread": "{name}, {count} da leggere",
+      "expandMenu": "Espandi menu",
+      "collapseMenu": "Comprimi menu",
+      "expand": "Espandi",
+      "collapse": "Comprimi",
+      "openMenu": "Apri menu",
+      "menu": "Menu",
+      "mainNav": "Navigazione principale"
+    },
+    "assignee": {
+      "label": "Responsabile",
+      "nobody": "Non assegnato",
+      "you": "Tu"
+    },
+    "userMenu": {
+      "appearance": "Aspetto",
+      "theme": {
+        "light": "Chiaro",
+        "dark": "Scuro",
+        "system": "Automatico"
+      },
+      "language": "Lingua",
+      "switchFailed": "Impossibile cambiare agenzia",
+      "switchAgency": "Cambia agenzia",
+      "portalLinkCopied": "Link del sito copiato",
+      "linkCopyFailed": "Impossibile copiare il link",
+      "nameFallback": "Il tuo nome",
+      "profile": "Il mio profilo",
+      "settings": "Impostazioni",
+      "viewPortal": "Vedi il mio sito",
+      "copyPortalLink": "Copia il link del sito",
+      "docs": "Documentazione",
+      "search": "Cerca e comandi",
+      "shortcuts": "Scorciatoie da tastiera",
+      "help": "Assistenza e supporto",
+      "logout": "Esci"
+    },
+    "shortcuts": {
+      "go": {
+        "properties": "Immobili",
+        "offers": "Offerte",
+        "clients": "Clienti",
+        "inquiries": "Richieste",
+        "bookings": "Prenotazioni",
+        "availability": "Disponibilità",
+        "team": "Team",
+        "portal": "Sito",
+        "settings": "Impostazioni",
+        "profile": "Il mio profilo"
+      },
+      "help": {
+        "general": "Generale",
+        "goTo": "Vai a",
+        "lists": "Negli elenchi",
+        "palette": "Cerca ed esegui comandi",
+        "sidebar": "Comprimi o espandi il menu laterale",
+        "save": "Salva le modifiche del modulo",
+        "help": "Vedi le scorciatoie da tastiera",
+        "new": "Crea nuovo",
+        "search": "Vai alla ricerca",
+        "filter": "Apri il filtro",
+        "views": "Vista griglia, elenco o tabella",
+        "move": "Scendi e sali tra gli elementi",
+        "open": "Apri l’elemento selezionato",
+        "clear": "Annulla la selezione"
+      },
+      "groups": {
+        "go": "Vai a",
+        "create": "Crea",
+        "actions": "Azioni",
+        "properties": "Immobili",
+        "offers": "Offerte",
+        "clients": "Clienti"
+      },
+      "commands": {
+        "docs": "Documentazione",
+        "newProperty": "Nuovo immobile",
+        "newOffer": "Nuova offerta",
+        "newClient": "Nuovo cliente",
+        "newBooking": "Nuova prenotazione",
+        "newMember": "Invita membro",
+        "light": "Modalità chiara",
+        "dark": "Modalità scura",
+        "system": "Modalità automatica",
+        "sidebar": "Comprimi o espandi il menu",
+        "logout": "Esci"
+      },
+      "paletteTitle": "Cerca ed esegui comandi",
+      "paletteDescription": "Scrivi per cercare pagine, immobili, offerte o clienti.",
+      "palettePlaceholder": "Cerca una pagina, un immobile, un’offerta o un cliente…",
+      "paletteSearch": "Cerca comandi",
+      "nothingFor": "Nessun risultato per “{query}”.",
+      "helpTitle": "Scorciatoie da tastiera",
+      "helpDescription": "Per muoverti più in fretta senza staccare le mani dalla tastiera.",
+      "then": "poi",
+      "nothingToSave": "Nessuna modifica da salvare"
+    },
+    "notifications": {
+      "deleteFailed": "Impossibile eliminare la notifica",
+      "label": "Notifiche",
+      "labelUnread": "Notifiche, {count} da leggere",
+      "markAll": "Segna tutte come lette",
+      "empty": "Ancora nessuna novità. Qui compariranno richieste, offerte aperte e pagamenti.",
+      "unread": "Da leggere",
+      "delete": "Elimina «{title}»",
+      "deleteShort": "Elimina",
+      "types": {
+        "inquiry": "Nuova richiesta da {name}",
+        "inquiryNoMessage": "Ha lasciato i suoi contatti.",
+        "offerViewed": "{who} ha aperto l’offerta",
+        "offerViewedAnon": "Il tuo cliente ha aperto l’offerta",
+        "payment": "Pagamento registrato: {amount}",
+        "task": "Ti è stata assegnata un’attività",
+        "taskDue": "{title} · entro il {date}"
+      }
+    }
+  }
+}

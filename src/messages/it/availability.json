@@ -1,0 +1,91 @@
+{
+  "availability": {
+    "legend": {
+      "available": "Disponibile",
+      "booked": "Prenotato",
+      "turnover": "Check-in / check-out",
+      "past": "Passato",
+      "pending": "Prenotazione in attesa"
+    },
+    "grid": {
+      "searchPlaceholder": "Cerca immobile…",
+      "search": "Cerca immobile",
+      "location": "Località",
+      "allLocations": "Tutte le località",
+      "searchLocation": "Cerca località…",
+      "noLocation": "Nessuna località corrisponde.",
+      "onlyFree": "Solo liberi",
+      "clearDates": "Cancella date",
+      "pickDates": "Scegli le date",
+      "noneFree": "Nessun immobile è libero in quelle date.",
+      "noneMatch": "Nessun immobile corrisponde a \"{search}\".",
+      "noneInLocation": "Nessun immobile in quella località.",
+      "seeMore": "Vedi altro",
+      "otherLocation": "Altra località",
+      "nothing": "Nessun immobile da mostrare.",
+      "property": "Immobile",
+      "perNight": "{price}/notte",
+      "past": "Passato",
+      "pending": "Prenotazione in attesa",
+      "pendingIn": "Prenotazione in attesa (check-in)",
+      "pendingOut": "Prenotazione in attesa (check-out)",
+      "available": "Disponibile",
+      "booked": "Prenotato",
+      "turnover": "Check-in / check-out",
+      "checkIn": "Check-in",
+      "checkOut": "Check-out"
+    },
+    "month": {
+      "blocked": "Date bloccate",
+      "blockFailed": "Impossibile bloccare le date",
+      "rangeTaken": "Quel periodo include notti occupate o già passate.",
+      "previous": "Mese precedente",
+      "next": "Mese successivo",
+      "today": "Oggi",
+      "property": "Immobile",
+      "allProperties": "Tutti gli immobili",
+      "searchProperty": "Cerca immobile…",
+      "noProperty": "Nessun immobile corrisponde.",
+      "hintSelected": "Trascina sulle notti libere per bloccarle. Da tastiera: Invio sul primo giorno e Invio sull’ultimo.",
+      "hintAll": "Ogni giorno mostra quanti immobili sono occupati quella notte. Scegli un immobile per vederne le prenotazioni e bloccare date.",
+      "pendingHint": "Prenotazione in attesa: non blocca ancora le date, ma è stata richiesta.",
+      "loadFailed": "Non siamo riusciti a caricare il calendario.",
+      "noRentals": "Non hai ancora immobili in affitto.",
+      "dayLabel": "{day}: {occupied} su {total} occupati",
+      "more": "+{count} altri",
+      "checkIn": "Entra",
+      "checkOut": "Esce",
+      "turnover": "Esce ed entra",
+      "occupiedOf": "{occupied}/{total} occupati",
+      "pending": "In attesa",
+      "blockSummary": "{count, plural, one {Blocca <strong>{title}</strong>: # notte, dal {from} al {to}.} other {Blocca <strong>{title}</strong>: # notti, dal {from} al {to}.}}",
+      "note": "Nota (facoltativa)",
+      "noteLabel": "Nota del blocco",
+      "block": "Blocca",
+      "lists": {
+        "taken": "Occupati ({count})",
+        "waiting": "In attesa ({count})",
+        "free": "Liberi ({count})",
+        "none": "Nessuno.",
+        "viewMonth": "Vedi mese"
+      }
+    },
+    "page": {
+      "view": "Vista",
+      "views": {
+        "grid": "Prossimi 90 giorni",
+        "month": "Mensile"
+      },
+      "title": "Disponibilità",
+      "gridLead": "I prossimi 90 giorni dei tuoi immobili in affitto, tutti insieme.",
+      "monthLead": "Un mese alla volta: quanti immobili sono occupati ogni giorno, e blocco date.",
+      "help": "Assistenza sulla disponibilità",
+      "copyLink": "Copia link da condividere",
+      "loadFailed": "Non siamo riusciti a caricare la disponibilità",
+      "empty": {
+        "title": "Non hai ancora immobili in affitto",
+        "body": "Appena ne inserisci uno, la sua disponibilità compare qui."
+      }
+    }
+  }
+}

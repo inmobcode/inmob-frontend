@@ -1,0 +1,309 @@
+{
+  "importer": {
+    "formats": {
+      "table": "CSV ili Excel",
+      "kyero": "Kyero feed (XML)",
+      "tivvo_xml": "Tivvo XML"
+    },
+    "generic": {
+      "xml": {
+        "name": "Kyero XML",
+        "description": "Feed u Kyero formatu (verzija 3) koji izvoze Casafari, Estatebud i većina CRM-ova, putem URL-a ili datoteke."
+      },
+      "tivvo": {
+        "name": "Moj vlastiti sustav (Tivvo XML)",
+        "description": "Ako vaš sustav ima vlastiti API, generirajte Tivvo XML, a mi čitamo taj feed putem URL-a ili datoteke."
+      }
+    },
+    "guides": {
+      "shared": {
+        "tableTips": "Ako možete, uključite: jedinstveni referentni stupac (ID) po nekretnini (tako ponovni uvoz ažurira umjesto da duplicira), naslov, vrstu, vrstu posla, cijenu, lokaciju, opis i fotografije (poveznice).",
+        "review": "Provjerite pregled: ništa se ne sprema dok ne potvrdite.",
+        "provideTable": "Zalijepite URL datoteke (CSV ili Excel) u okvir pokraj ili učitajte datoteku. Povezivanje stupaca predlažemo automatski.",
+        "provideFeed": "Zalijepite URL feeda u okvir pokraj ili učitajte XML."
+      },
+      "help": {
+        "greeting": "Pozdrav, tim Tivva,",
+        "body": "Želim prenijeti svoje nekretnine iz {origin} u Tivvo i ne znam kako doći do podataka ni kako ih uvesti. Možete li mi pomoći?",
+        "agency": "Moja agencija na Tivvu: {slug}",
+        "thanks": "Hvala."
+      },
+      "overrides": {
+        "casafari-crm": {
+          "steps": {
+            "s1": "Casafari nudi feed nekretnina putem URL-a (u formatu Kyero, XML2U ili ACME-CRM) koji se ažurira svakih 20 minuta, ali ga uključuje njihova podrška: zatražite ga gumbom ispod (help@casafaricrm.com) i odaberite Kyero format.",
+            "s2": "U Kyero izvozu nekretnine bez cijene, okruga, grada ili vrste ne izlaze: najprije ih dopunite."
+          },
+          "note": "Casafarijev izbornik Properties › Export › Portals Catalogue služi za objavu na portalima poput Kyera, a ne za dobivanje vašeg feeda.",
+          "sources": {
+            "s1": "Casafari pomoć: integracija s vanjskim sustavima"
+          }
+        },
+        "estatebud": {
+          "steps": {
+            "s1": "Otvorite c.estatebud.com, idite na Admin › Plugins, instalirajte Kyero dodatak i potvrdite instalaciju.",
+            "s2": "U Admin › Plugins › Kyero kopirajte „XML Feed URL”.",
+            "s3": "Označite koje nekretnine idu u feed: na svakoj, Actions Menu › Listings › Kyero › Save; ili skupno, odaberite više njih i koristite Bulk Edit › „Add listings on” › Kyero. Ako nedostaje obavezno polje, Estatebud vam kaže koje."
+          },
+          "note": "Ovi koraci potječu iz vodiča portala INDEX.cy, a ne iz Estatebudove pomoći: ako se neki izbornik promijenio, obratite se njihovoj podršci.",
+          "sources": {
+            "s1": "Vodič INDEX.cy za Estatebud"
+          }
+        },
+        "kyero": {
+          "steps": {
+            "s1": "Kyero ne daje vaš feed: prima ga od vašeg CRM-a. Zatražite od svog CRM-a ili pružatelja URL Kyero feeda (XML verzija 3) koji već šalju Kyeru."
+          },
+          "note": "Svaki Kyero feed potpuna je snimka jedne agencije: ono čega nema u feedu smatra se povučenim.",
+          "sources": {
+            "s1": "Specifikacija Kyero feeda"
+          }
+        }
+      },
+      "titles": {
+        "platform": "Prijenos iz {name}",
+        "own": "Prijenos iz vlastitog sustava",
+        "kyero": "Prijenos iz Kyero XML-a",
+        "table": "Prijenos iz CSV-a ili Excela",
+        "routeKyero": "Prijenos iz {name} putem Kyero feeda",
+        "routeTable": "Prijenos iz {name} putem CSV-a ili Excela"
+      },
+      "support": "Podrška za {name}",
+      "site": "Web-stranica {name}",
+      "alternatives": {
+        "table": "Radije bih CSV ili Excel iz {name}",
+        "kyero": "Imam Kyero feed (XML) iz {name}",
+        "tableGeneric": "Radije bih CSV ili Excel",
+        "kyeroGeneric": "Imam Kyero feed (XML)"
+      },
+      "platformSteps": {
+        "portal": {
+          "s1": "{name} je oglasni portal: vaši podaci obično su u CRM-u iz kojeg objavljujete, a najpotpunije je prenijeti ih iz tog CRM-a (vratite se i odaberite ga s popisa).",
+          "s2": "Ako želite prenijeti oglase objavljene na {name}, zatražite od njihove podrške XML feed (idealno u Kyero formatu): poruka je spremna ispod."
+        },
+        "aggregator": {
+          "s1": "{name} skuplja i pretvara feedove drugih sustava: najpotpunije je prenijeti podatke iz CRM-a koji mu ih šalje (vratite se i odaberite ga s popisa).",
+          "s2": "Ako imate XML feed iz {name} (idealno u Kyero formatu), upotrijebite ga; ako nemate, zatražite ga od podrške porukom ispod."
+        },
+        "crm": {
+          "s1": "Nabavite u {name} XML feed svojih nekretnina, idealno u Kyero formatu (verzija 3). Ako ne znate gdje je, zatražite ga od njihove podrške: poruka ispod spremna je za slanje."
+        }
+      },
+      "ownSteps": {
+        "s1": "Iz svog API-ja generirajte XML u Tivvo formatu (primjer ispod): jedan '<listing>' po nekretnini.",
+        "s2": "Za istu nekretninu uvijek koristite isti '<external_id>': tako ponovni uvoz ažurira umjesto da duplicira.",
+        "s3": "Objavite XML na javnom URL-u i zalijepite ga u okvir pokraj ili učitajte datoteku."
+      },
+      "kyeroSteps": {
+        "s1": "U svom CRM-u nabavite XML feed svojih nekretnina u Kyero formatu (verzija 3): većina CRM-ova ga generira za objavu na portalima."
+      },
+      "tableSteps": {
+        "s1": "Nabavite svoje nekretnine u CSV ili Excel (.xlsx) datoteci. Ako počinjete od nule, preuzmite predložak ispod."
+      },
+      "routeSteps": {
+        "kyero": "Ako vam {name} može dati feed u Kyero formatu (XML), kopirajte njegov javni URL ili preuzmite datoteku.",
+        "table": "Nabavite svoje nekretnine iz {name} u CSV ili Excel (.xlsx) datoteci."
+      }
+    },
+    "wizard": {
+      "readFailed": "Datoteku nije moguće pročitati",
+      "importFailed": "Uvoz nije uspio",
+      "back": "Nekretnine",
+      "otherPlatform": "Odaberi drugu platformu",
+      "title": "Uvezi nekretnine"
+    },
+    "picker": {
+      "title": "Odakle prelazite?",
+      "searchPlaceholder": "Potražite svoju platformu po nazivu ili državi",
+      "search": "Pretraži platformu",
+      "type": "Vrsta platforme",
+      "types": {
+        "all": "Sve",
+        "crm": "CRM",
+        "portal": "Portali",
+        "aggregator": "Agregatori"
+      },
+      "notFound": "Nismo pronašli tu platformu. Niže možete koristiti CSV ili Excel datoteku, ili XML feed.",
+      "popular": "Najkorištenije",
+      "others": "Ostale platforme",
+      "showLess": "Prikaži manje",
+      "showOthers": "Prikaži ostalih {count} platformi",
+      "genericLeadEmpty": "Vaše platforme nema? Učitajte što imate:",
+      "genericLead": "Vaš sustav se ne pojavljuje? Radi s bilo kojim CSV-om, Excelom ili XML feedom:"
+    },
+    "actions": {
+      "create": "Nova",
+      "update": "Ažurira",
+      "unchanged": "Bez promjena",
+      "skip": "Preskočena",
+      "error": "S greškom"
+    },
+    "changes": {
+      "title": "naslov",
+      "listing_type": "vrsta posla",
+      "category": "vrsta",
+      "price": "cijena",
+      "currency": "valuta",
+      "country": "država",
+      "region": "regija",
+      "area": "područje",
+      "address": "adresa",
+      "lat": "koordinate",
+      "bedrooms": "spavaće sobe",
+      "bathrooms": "kupaonice",
+      "area_sqm": "izgrađeni m²",
+      "plot_area": "m² zemljišta",
+      "construction_year": "godina",
+      "energy_certificate": "energetski certifikat",
+      "website_url": "izvorna poveznica",
+      "summary": "sažetak",
+      "description": "opis",
+      "parking_spaces": "parking",
+      "features": "značajke",
+      "photos": "fotografije",
+      "owner": "vlasnik"
+    },
+    "problems": {
+      "notTable": "Datoteka mora biti CSV ili Excel (.xlsx).",
+      "notXml": "Datoteka mora biti XML.",
+      "tooBig": "Datoteka je veća od 10 MB.",
+      "notHttps": "URL mora počinjati s https://",
+      "incomplete": "Provjerite adresu: čini se nepotpunom.",
+      "badUrl": "Provjerite adresu: mora počinjati s https://"
+    },
+    "failuresCsv": {
+      "row": "Redak",
+      "reference": "Referenca",
+      "error": "Greška",
+      "filename": "greske-uvoza.csv"
+    },
+    "source": {
+      "urlHint": "Zalijepite URL za nastavak.",
+      "fileHint": "Odaberite datoteku za nastavak.",
+      "template": "Preuzmi CSV predložak",
+      "recommended": "Natrag na preporučeni vodič",
+      "xmlExample": "Pogledaj primjer XML-a",
+      "title": "Donesite svoje podatke",
+      "upload": "Učitaj datoteku",
+      "useUrl": "Koristi URL",
+      "urlNote": "URL mora biti javan. Čitamo ga samo jednom; ne ostaje sinkroniziran.",
+      "drop": "Ispustite ga ovdje",
+      "drag": "Povucite datoteku ili kliknite za odabir",
+      "tableLimits": "CSV ili Excel (.xlsx), do 10 MB i 3.000 redaka",
+      "xmlLimits": "XML, do 10 MB",
+      "removeFile": "Ukloni datoteku",
+      "reading": "Čitanje datoteke…",
+      "continue": "Nastavi"
+    },
+    "mapping": {
+      "fieldFor": "Tivvo polje za stupac {header}",
+      "skip": "Ne uvozi",
+      "title": "Što je koji stupac",
+      "lead": "Pronašli smo {rows} redaka i prepoznali {detected} od {total} stupaca. Neprepoznati su prvi; nedodijeljeni se zanemaruju. Prazna ćelija nikad ne briše ono što je već uneseno.",
+      "status": "{mapped} se uvozi · {unassigned} nedodijeljeno",
+      "column": "Stupac u vašoj datoteci",
+      "examples": "Primjeri",
+      "field": "Polje u Tivvu",
+      "noReference": "Bez referentnog stupca (ID) ponovni uvoz datoteke duplicirat će nekretnine umjesto da ih ažurira.",
+      "back": "Natrag",
+      "preview": "Pogledaj pregled",
+      "atLeastOne": "Dodijelite barem jedan stupac."
+    },
+    "review": {
+      "cards": {
+        "create": "Nove",
+        "update": "Ažuriraju se",
+        "unchanged": "Bez promjena",
+        "skip": "Preskočene",
+        "error": "S greškom",
+        "trash": "U koš"
+      },
+      "publish": "Objavi nove pri uvozu",
+      "publishHint": "Ako ne, ostaju kao skice da ih pregledate prije prikaza na stranici.",
+      "archive": "Premjesti u koš ono čega više nema u datoteci",
+      "archiveHint": "Odnosi se samo na nekretnine koje ste ranije unijeli iz {origin}. Mogu se vratiti tijekom 30 dana.",
+      "refreshing": "Ažuriranje",
+      "goingToTrash": "{more, plural, =0 {Idu u koš: {titles}.} other {Idu u koš: {titles} i još #.}}",
+      "rows": "Detalji po retku",
+      "problems": "S upozorenjima ili greškama",
+      "all": "Prikaži sve",
+      "columns": {
+        "row": "Redak",
+        "status": "Status",
+        "property": "Nekretnina",
+        "detail": "Detalji"
+      },
+      "row": "Redak {row}",
+      "untitled": "Bez naslova",
+      "noProblems": "Nema redaka s upozorenjima ili greškama.",
+      "noRows": "Nema redaka u ovoj kategoriji.",
+      "partial": "Pregled prikazuje prvih {count} redaka; uvoz obrađuje sve.",
+      "back": "Natrag",
+      "importing": "Uvoz…",
+      "import": "{count, plural, one {Uvezi # nekretninu} few {Uvezi # nekretnine} other {Uvezi # nekretnina}}",
+      "apply": "Primijeni",
+      "savingTable": "Spremamo nekretnine i njihove fotografije.",
+      "savingFeed": "Spremamo nekretnine i preuzimamo njihove fotografije.",
+      "savingWait": "Može potrajati nekoliko minuta ako ih je mnogo. Ne zatvarajte ovu karticu.",
+      "confirm": {
+        "title": "{count, plural, one {Premjestiti # nekretninu u koš?} few {Premjestiti # nekretnine u koš?} other {Premjestiti # nekretnina u koš?}}",
+        "body": "To su one kojih više nema u datoteci. Prestaju se prikazivati na stranici, a možete ih vratiti tijekom 30 dana.",
+        "action": "Uvezi i premjesti u koš"
+      },
+      "changes": "Mijenja: {fields}"
+    },
+    "done": {
+      "title": "Uvoz je gotov",
+      "summary": "Izrađeno: {created}, ažurirano: {updated}{trashed, plural, =0 {} other {, u koš: #}}{failed, plural, =0 {} other {, s greškom: #}}.",
+      "drafts": "Nove su spremljene kao skice: pregledajte ih i objavite kad želite.",
+      "failure": "Redak {row}: {error}",
+      "showLess": "Prikaži manje",
+      "showAll": "Prikaži svih {count} grešaka",
+      "download": "Preuzmi greške (CSV)",
+      "reviewDrafts": "Pregledaj skice",
+      "viewProperties": "Pogledaj nekretnine",
+      "viewAll": "Prikaži sve",
+      "viewSite": "Pogledaj moju stranicu",
+      "again": "Uvezi drugu datoteku"
+    },
+    "link": "Uvoz",
+    "leave": {
+      "title": "Napustiti uvoz?",
+      "body": "Još ništa nije spremljeno. Ako sada izađete, morat ćete početi ispočetka.",
+      "stay": "Nastavi uvoz",
+      "leave": "Izađi"
+    },
+    "help": {
+      "mailOpened": "Otvorila se vaša e-pošta s napisanom porukom: samo je pošaljite.",
+      "copiedFor": "Kopirali smo poruku. Zalijepite je u kontakt obrazac platforme {platform} i pošaljite.",
+      "copyManually": "Kopirajte poruku i zalijepite je u kontakt obrazac platforme.",
+      "askTitle": "Zatražite feed od {platform}",
+      "askEmail": "Otvaramo vašu e-poštu s već upisanim primateljem, predmetom i porukom: samo pošaljite.",
+      "askPage": "Vodimo vas na njihovu kontakt stranicu s već kopiranom porukom: samo je zalijepite i pošaljite.",
+      "sendEmail": "Pošalji zahtjev e-poštom",
+      "goToContact": "Idi na kontakt s kopiranom porukom",
+      "gmail": "Otvori u Gmailu",
+      "viewMessage": "Pogledaj poruku",
+      "messageFor": "Poruka za {platform}",
+      "sentTo": "Šalje se na {email}. Kopirajte je ako je radije šaljete s njihove stranice.",
+      "pasteIt": "Kopirajte je i zalijepite na njihovu kontakt stranicu.",
+      "messageLabel": "Poruka za platformu",
+      "copied": "Kopirano",
+      "copy": "Kopiraj poruku",
+      "goToSite": "Idi na stranicu",
+      "goesTo": "Šalje se na {email}.",
+      "sendFailed": "Poruku nije moguće poslati. Pokušajte ponovno za nekoliko minuta.",
+      "withUs": "Želite li da to napravimo zajedno?",
+      "withUsText": "Pišite nam i pomoći ćemo vam s prijenosom iz {origin}. Poruka je spremna: samo je pošaljite.",
+      "ask": "Zatraži pomoć",
+      "sentTitle": "Poruka je poslana",
+      "sentText": "Uskoro ćemo vam odgovoriti e-poštom.",
+      "close": "Zatvori",
+      "dialogDescription": "Provjerite poruku, promijenite je ako želite i pošaljite.",
+      "name": "Vaše ime",
+      "message": "Poruka",
+      "send": "Pošalji",
+      "summary": "Zapeli ste? Pomažemo"
+    }
+  }
+}

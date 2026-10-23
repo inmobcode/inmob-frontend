@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 
-import { DEFAULT_HERO_TITLE, instagramLink, resolveSite, whatsappLink } from "./site-theme";
+import { instagramLink, resolveSite, whatsappLink } from "./site-theme";
 
 describe("resolveSite", () => {
   it("falls back to defaults", () => {
     const site = resolveSite(null);
     expect(site.template).toBe("portada");
-    expect(site.heroTitle).toBe(DEFAULT_HERO_TITLE);
+    expect(site.heroTitle).toBeNull();
     expect(site.sections).toEqual([]);
   });
   it("uses the desktop template on mobile unless told otherwise", () => {
@@ -20,7 +20,7 @@ describe("resolveSite", () => {
         { id: "b", type: "text" },
       ],
     } as never);
-    expect(site.heroTitle).toBe(DEFAULT_HERO_TITLE);
+    expect(site.heroTitle).toBeNull();
     expect(site.sections.map((s) => s.id)).toEqual(["b"]);
   });
 });

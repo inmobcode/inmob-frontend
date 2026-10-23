@@ -1,0 +1,152 @@
+{
+  "dashboard": {
+    "actionBar": {
+      "unsaved": "Cambios sin guardar",
+      "save": "Guardar",
+      "publish": "Publicar",
+      "cancel": "Cancelar"
+    },
+    "help": {
+      "label": "Ayuda",
+      "newTab": "{label} (se abre en otra pestaña)"
+    },
+    "filter": {
+      "by": "Filtrar por {name}",
+      "showAll": "Mostrar todos"
+    },
+    "views": {
+      "change": "Cambiar la vista",
+      "table": "Tabla",
+      "list": "Lista",
+      "grid": "Cuadrícula",
+      "board": "Tablero"
+    },
+    "nav": {
+      "inquiries": "Consultas",
+      "clients": "Clientes",
+      "properties": "Propiedades",
+      "offers": "Ofertas",
+      "bookings": "Reservas",
+      "availability": "Disponibilidad",
+      "services": "Servicios",
+      "portal": "Portal",
+      "team": "Equipo",
+      "settings": "Configuración",
+      "unread": "{name}, {count} sin leer",
+      "expandMenu": "Expandir menú",
+      "collapseMenu": "Contraer menú",
+      "expand": "Expandir",
+      "collapse": "Contraer",
+      "openMenu": "Abrir menú",
+      "menu": "Menú",
+      "mainNav": "Navegación principal"
+    },
+    "assignee": {
+      "label": "Responsable",
+      "nobody": "Sin asignar",
+      "you": "Vos"
+    },
+    "userMenu": {
+      "appearance": "Apariencia",
+      "theme": {
+        "light": "Claro",
+        "dark": "Oscuro",
+        "system": "Automático"
+      },
+      "language": "Idioma",
+      "switchFailed": "No se pudo cambiar de agencia",
+      "switchAgency": "Cambiar de agencia",
+      "portalLinkCopied": "Link del portal copiado",
+      "linkCopyFailed": "No se pudo copiar el link",
+      "nameFallback": "Tu nombre",
+      "profile": "Mi perfil",
+      "settings": "Configuración",
+      "viewPortal": "Ver mi portal",
+      "copyPortalLink": "Copiar link del portal",
+      "docs": "Documentación",
+      "search": "Buscar y comandos",
+      "shortcuts": "Atajos de teclado",
+      "help": "Ayuda y soporte",
+      "logout": "Cerrar sesión"
+    },
+    "shortcuts": {
+      "go": {
+        "properties": "Propiedades",
+        "offers": "Ofertas",
+        "clients": "Clientes",
+        "inquiries": "Consultas",
+        "bookings": "Reservas",
+        "availability": "Disponibilidad",
+        "team": "Equipo",
+        "portal": "Portal",
+        "settings": "Configuración",
+        "profile": "Mi perfil"
+      },
+      "help": {
+        "general": "General",
+        "goTo": "Ir a",
+        "lists": "En las listas",
+        "palette": "Buscar y ejecutar comandos",
+        "sidebar": "Contraer o expandir el menú lateral",
+        "save": "Guardar los cambios del formulario",
+        "help": "Ver los atajos de teclado",
+        "new": "Crear uno nuevo",
+        "search": "Ir al buscador",
+        "filter": "Abrir el filtro",
+        "views": "Vista cuadrícula, lista o tabla",
+        "move": "Bajar y subir entre elementos",
+        "open": "Abrir el elemento seleccionado",
+        "clear": "Limpiar la selección"
+      },
+      "groups": {
+        "go": "Ir a",
+        "create": "Crear",
+        "actions": "Acciones",
+        "properties": "Propiedades",
+        "offers": "Ofertas",
+        "clients": "Clientes"
+      },
+      "commands": {
+        "docs": "Documentación",
+        "newProperty": "Nueva propiedad",
+        "newOffer": "Nueva oferta",
+        "newClient": "Nuevo cliente",
+        "newBooking": "Nueva reserva",
+        "newMember": "Invitar miembro",
+        "light": "Modo claro",
+        "dark": "Modo oscuro",
+        "system": "Modo automático",
+        "sidebar": "Contraer o expandir el menú",
+        "logout": "Cerrar sesión"
+      },
+      "paletteTitle": "Buscar y ejecutar comandos",
+      "paletteDescription": "Escribí para buscar páginas, propiedades, ofertas o clientes.",
+      "palettePlaceholder": "Buscar una página, propiedad, oferta o cliente…",
+      "paletteSearch": "Buscar comandos",
+      "nothingFor": "No encontramos nada para “{query}”.",
+      "helpTitle": "Atajos de teclado",
+      "helpDescription": "Para moverte más rápido sin soltar el teclado.",
+      "then": "luego",
+      "nothingToSave": "No hay cambios para guardar"
+    },
+    "notifications": {
+      "deleteFailed": "No se pudo eliminar la notificación",
+      "label": "Notificaciones",
+      "labelUnread": "Notificaciones, {count} sin leer",
+      "markAll": "Marcar todas",
+      "empty": "Todavía no hay novedades. Acá van a aparecer las consultas, ofertas abiertas y pagos.",
+      "unread": "Sin leer",
+      "delete": "Eliminar «{title}»",
+      "deleteShort": "Eliminar",
+      "types": {
+        "inquiry": "Nueva consulta de {name}",
+        "inquiryNoMessage": "Dejó sus datos de contacto.",
+        "offerViewed": "{who} abrió la oferta",
+        "offerViewedAnon": "Tu cliente abrió la oferta",
+        "payment": "Pago registrado: {amount}",
+        "task": "Te asignaron una tarea",
+        "taskDue": "{title} · para el {date}"
+      }
+    }
+  }
+}

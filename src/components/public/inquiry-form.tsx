@@ -3,7 +3,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { Check, LoaderCircle } from "lucide-react";
-import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -13,14 +14,16 @@ import { ApiError } from "@/lib/api/client";
 import { submitPropertyInquiry } from "@/lib/api/properties";
 import { cn } from "@/lib/utils";
 
-const schema = z.object({
-  name: z.string().min(2, "Ingresá tu nombre."),
-  email: z.string().email("Revisá el email: falta la @ o el dominio."),
-  phone: z.string(),
-  message: z.string(),
-});
+function makeSchema(t: (key: "nameRequired" | "emailInvalid") => string) {
+  return z.object({
+    name: z.string().min(2, t("nameRequired")),
+    email: z.string().email(t("emailInvalid")),
+    phone: z.string(),
+    message: z.string(),
+  });
+}
 
-type FormValues = z.infer<typeof schema>;
+type FormValues = z.infer<ReturnType<typeof makeSchema>>;
 
 const FIELD =
   "h-11 rounded-lg border border-[#d6d9d5] bg-white px-3.5 shadow-none";
@@ -40,6 +43,8 @@ export function InquiryForm({
   defaultMessage?: string;
   className?: string;
 }) {
+  const t = useTranslations("site.inquiry");
+  const schema = useMemo(() => makeSchema(t), [t]);
   const [sent, setSent] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const form = useForm<FormValues>({
@@ -61,8 +66,8 @@ export function InquiryForm({
     onError: (err) =>
       setServerError(
         err instanceof ApiError && err.status < 500
-          ? "Revisá los datos y probá de nuevo."
-          : "No se pudo enviar la consulta. Probá de nuevo en unos minutos.",
+          ? t("checkData")
+          : t("sendFailed"),
       ),
   });
 
@@ -75,10 +80,8 @@ export function InquiryForm({
         <span className="flex size-10 items-center justify-center rounded-lg bg-site-accent text-site-accent-ink">
           <Check className="size-5" />
         </span>
-        <p className="s-heading text-xl">Consulta enviada</p>
-        <p className="text-pretty text-site-quiet">
-          La agencia te va a responder por email o por teléfono.
-        </p>
+        <p className="s-heading text-xl">{t("sentTitle")}</p>
+        <p className="text-pretty text-site-quiet">{t("sentBody")}</p>
       </div>
     );
   }
@@ -94,9 +97,9 @@ export function InquiryForm({
     >
       {(
         [
-          ["name", "Nombre", "text", "name"],
-          ["email", "Email", "email", "email"],
-          ["phone", "Teléfono (opcional)", "tel", "tel"],
+          ["name", t("name"), "text", "name"],
+          ["email", t("email"), "email", "email"],
+          ["phone", t("phone"), "tel", "tel"],
         ] as const
       ).map(([id, label, type, autoComplete]) => {
         const error = errors[id]?.message;
@@ -128,7 +131,7 @@ export function InquiryForm({
           htmlFor={`inquiry-${propertyId ?? "general"}-message`}
           className="text-sm font-medium"
         >
-          Mensaje (opcional)
+          {t("message")}
         </label>
         <Textarea
           id={`inquiry-${propertyId ?? "general"}-message`}
@@ -153,10 +156,10 @@ export function InquiryForm({
         {mutation.isPending ? (
           <>
             <LoaderCircle className="size-4 animate-spin" />
-            Enviando…
+            {t("sending")}
           </>
         ) : (
-          "Enviar consulta"
+          t("submit")
         )}
       </button>
     </form>

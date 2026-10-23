@@ -1,9 +1,12 @@
 "use client";
 
+import { NextIntlClientProvider, useLocale, useMessages, useTranslations, type Messages } from "next-intl";
 import { Suspense, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 import { AgencyPortal } from "@/components/public/agency-portal";
+import type { Locale } from "@/i18n/config";
+import { loadMessages } from "@/i18n/messages";
 import type { PublicAgency } from "@/lib/api/agency";
 import type { Property } from "@/lib/api/properties";
 import type { ResolvedSite } from "@/lib/site-theme";
@@ -32,6 +35,7 @@ function DeviceFrame({
   height: number;
   children: React.ReactNode;
 }) {
+  const t = useTranslations("portalEditor.preview");
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [body, setBody] = useState<HTMLElement | null>(null);
 
@@ -83,12 +87,37 @@ function DeviceFrame({
     <>
       <iframe
         ref={iframeRef}
-        title="Vista previa del portal"
+        title={t("title")}
         style={{ width, height, border: 0, display: "block" }}
       />
       {body && createPortal(children, body)}
     </>
   );
+}
+
+/**
+ * The messages of the site's language: the editor's own when they match,
+ * loaded on demand otherwise (only while the editor is open).
+ */
+function useSiteMessages(siteLocale: Locale) {
+  const editorLocale = useLocale();
+  const editorMessages = useMessages();
+  const [loaded, setLoaded] = useState<{ locale: Locale; messages: Messages } | null>(null);
+  const same = siteLocale === editorLocale;
+
+  useEffect(() => {
+    if (same) return;
+    let cancelled = false;
+    loadMessages(siteLocale).then((messages) => {
+      if (!cancelled) setLoaded({ locale: siteLocale, messages });
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [same, siteLocale]);
+
+  if (same) return editorMessages;
+  return loaded?.locale === siteLocale ? loaded.messages : null;
 }
 
 /**
@@ -102,6 +131,7 @@ export function SitePreview({
   agency,
   site,
   properties,
+  siteLocale,
   className,
 }: {
   viewport: Viewport;
@@ -109,8 +139,11 @@ export function SitePreview({
   agency: PublicAgency;
   site: ResolvedSite;
   properties: Property[];
+  /** The language the agency picked for its site: the preview speaks it, whatever the editor's language. */
+  siteLocale: Locale;
   className?: string;
 }) {
+  const siteMessages = useSiteMessages(siteLocale);
   const areaRef = useRef<HTMLDivElement>(null);
   const [area, setArea] = useState({ width: 0, height: 0 });
 
@@ -156,15 +189,19 @@ export function SitePreview({
             }}
           >
             <DeviceFrame key={viewport} width={width} height={height}>
-              <Suspense fallback={null}>
-                <AgencyPortal
-                  agencySlug={agencySlug}
-                  agency={agency}
-                  site={site}
-                  initialProperties={properties}
-                  preview
-                />
-              </Suspense>
+              {siteMessages && (
+                <NextIntlClientProvider locale={siteLocale} messages={siteMessages}>
+                  <Suspense fallback={null}>
+                    <AgencyPortal
+                      agencySlug={agencySlug}
+                      agency={agency}
+                      site={site}
+                      initialProperties={properties}
+                      preview
+                    />
+                  </Suspense>
+                </NextIntlClientProvider>
+              )}
             </DeviceFrame>
           </div>
         </div>

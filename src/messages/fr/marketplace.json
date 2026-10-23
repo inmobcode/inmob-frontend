@@ -1,0 +1,133 @@
+{
+  "marketplace": {
+    "metaTitle": "Tivvo · Locations saisonnières et biens à vendre",
+    "byDestination": "Par destination",
+    "nav": {
+      "rentals": "Locations",
+      "agency": "Je suis une agence"
+    },
+    "hero": {
+      "title": "Un endroit pour quelques jours.",
+      "titleTail": "Ou pour rester.",
+      "lead": "Maisons, appartements et villas d’agences réelles. Choisissez vos dates, voyez ce qui est libre et contactez directement l’annonceur."
+    },
+    "card": {
+      "rent": "Location saisonnière",
+      "sale": "Vente",
+      "categoryIn": "{category} à {place}",
+      "bedrooms": "{value} ch.",
+      "bathrooms": "{count, plural, one {{value} salle de bain} other {{value} salles de bain}}",
+      "perNight": "par nuit",
+      "stayTotal": "{count, plural, one {{amount} pour # nuit} other {{amount} pour # nuits}}",
+      "onRequest": "Prix sur demande",
+      "onRequestShort": "Sur demande",
+      "publishedBy": "Publié par <strong>{agency}</strong>"
+    },
+    "destination": {
+      "typed": "Rechercher avec ce que vous avez saisi",
+      "label": "Où",
+      "placeholder": "Ville, zone ou pays",
+      "withListings": "Avec des biens",
+      "destinations": "Destinations avec des biens",
+      "elsewhere": "Autres lieux"
+    },
+    "search": {
+      "guestsCount": "{count, plural, one {# voyageur} other {# voyageurs}}",
+      "guestsPlaceholder": "Combien êtes-vous ?",
+      "guests": "Voyageurs",
+      "guestsHint": "Enfants compris",
+      "oneLess": "Un de moins",
+      "oneMore": "Un de plus",
+      "buy": "Acheter",
+      "looking": "Je cherche",
+      "lookingLabel": "Que cherchez-vous",
+      "where": "Où",
+      "when": "Quand",
+      "dates": "Arrivée et départ",
+      "who": "Qui",
+      "what": "Quoi",
+      "type": "Type de bien",
+      "anyType": "Tous types",
+      "upTo": "Jusqu’à",
+      "maxPrice": "Prix maximum",
+      "noCap": "Sans plafond",
+      "submit": "Rechercher"
+    },
+    "empty": {
+      "zoneTitle": "Pas encore de biens à {zone}.",
+      "zoneDates": "Du moins pas pour ces dates.",
+      "zoneSoon": "Il pourrait bientôt y en avoir.",
+      "title": "Rien ne correspond à tout ça.",
+      "titleTail": "Essayez d’assouplir un filtre.",
+      "zoneBody": "Les agences présentes sur Tivvo n’ont encore rien là-bas. En attendant, découvrez les destinations où il y en a.",
+      "body": "Retirez un filtre ou changez les dates pour voir plus d’options.",
+      "everywhere": "Rechercher dans toutes les destinations",
+      "noDates": "Essayer sans dates",
+      "all": "Voir tous les biens",
+      "destinations": "Destinations avec des biens"
+    },
+    "results": {
+      "upTo": "Jusqu’à {amount}",
+      "title": "Résultats",
+      "latest": "Tout juste publiés",
+      "free": "Seulement ceux libres à ces dates.",
+      "chosen": "Selon vos choix.",
+      "latestHint": "Les dernières annonces des agences.",
+      "sort": "Trier",
+      "sorts": {
+        "recent": "Plus récents",
+        "price_asc": "Prix croissant",
+        "price_desc": "Prix décroissant"
+      },
+      "list": "Liste seule",
+      "map": "Voir sur la carte",
+      "remove": "Retirer",
+      "clearAll": "Tout effacer"
+    },
+    "how": {
+      "title": "Pas d’intermédiaires superflus.",
+      "titleTail": "Vous parlez à l’agence.",
+      "search": {
+        "title": "Vous cherchez",
+        "text": "Zone, dates et nombre de voyageurs. Avec des dates, vous ne voyez que ce qui est libre."
+      },
+      "ask": {
+        "title": "Vous demandez",
+        "text": "Votre message arrive à l’agence qui publie le bien, pas à un centre d’appels."
+      },
+      "arrange": {
+        "title": "Vous organisez",
+        "text": "L’agence confirme la disponibilité et le prix final, et vous organisez la réservation ou la visite."
+      }
+    },
+    "footer": {
+      "label": "Pied de page",
+      "blurb": "Locations saisonnières et biens à vendre d’agences réelles. Chaque demande arrive à l’annonceur.",
+      "legal": "Chaque bien est publié et géré par son agence.",
+      "pitch": {
+        "title": "Vous avez une agence ?",
+        "body": "Publiez vos biens ici et gérez demandes, offres et réservations depuis un seul endroit.",
+        "cta": "Découvrez Tivvo pour les agences"
+      },
+      "rent": {
+        "title": "Louer",
+        "all": "Location saisonnière",
+        "in": "Locations à {zone}"
+      },
+      "buy": {
+        "title": "Acheter",
+        "all": "Biens à vendre"
+      },
+      "agencies": {
+        "title": "Pour les agences",
+        "about": "Découvrez Tivvo",
+        "register": "Créer un compte",
+        "login": "Se connecter"
+      },
+      "tivvo": {
+        "how": "Comment ça marche",
+        "all": "Voir tous les biens"
+      }
+    }
+  }
+}

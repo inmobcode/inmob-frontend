@@ -1,0 +1,319 @@
+{
+  "portalEditor": {
+    "templates": {
+      "portada": {
+        "label": "Cover",
+        "description": "A large cover photo with the search bar on top."
+      },
+      "editorial": {
+        "label": "Editorial",
+        "description": "Big headline next to the photo and wider cards with a description."
+      },
+      "compacto": {
+        "label": "Compact",
+        "description": "No cover photo. Shows many properties at a glance."
+      },
+      "dividido": {
+        "label": "Split",
+        "description": "Half in your colour with the headline and search, half with the cover photo."
+      },
+      "mosaico": {
+        "label": "Mosaic",
+        "description": "A photo collage at the top, chosen in Cover, and the first property featured large."
+      }
+    },
+    "accents": {
+      "charcoal": "Charcoal",
+      "forest": "Forest",
+      "petrol": "Petrol",
+      "blue": "Blue",
+      "indigo": "Indigo",
+      "brick": "Brick",
+      "ochre": "Ochre",
+      "wood": "Wood"
+    },
+    "fonts": {
+      "moderna": {
+        "label": "Modern",
+        "description": "Clean, geometric headings."
+      },
+      "clasica": {
+        "label": "Classic",
+        "description": "Serif headings, elegant."
+      },
+      "sobria": {
+        "label": "Understated",
+        "description": "A single, discreet family."
+      },
+      "elegante": {
+        "label": "Elegant",
+        "description": "Fine serif, for luxury properties."
+      },
+      "editorial": {
+        "label": "Editorial",
+        "description": "Serif with character, like a magazine."
+      },
+      "calida": {
+        "label": "Warm",
+        "description": "Soft serif and rounded text."
+      },
+      "urbana": {
+        "label": "Urban",
+        "description": "Contemporary sans, clear and friendly."
+      },
+      "arquitectonica": {
+        "label": "Architectural",
+        "description": "Wide headings with presence."
+      }
+    },
+    "sections": {
+      "location": {
+        "label": "Location",
+        "description": "An area with a photo, text and its properties. Ideal for Ibiza, Greece or your neighbourhood.",
+        "layouts": {
+          "split": "Featured",
+          "banner": "Banner",
+          "carousel": "Carousel"
+        }
+      },
+      "promo": {
+        "label": "Promotion",
+        "description": "Properties with a label like “15% OFF” or “Seasonal offer”.",
+        "layouts": {
+          "band": "Colour band",
+          "banner": "Photo banner",
+          "carousel": "Carousel"
+        }
+      },
+      "featured": {
+        "label": "Featured properties",
+        "description": "Your own selection: the newest, beachfront, the most requested.",
+        "layouts": {
+          "grid": "Grid",
+          "carousel": "Carousel"
+        }
+      },
+      "destinations": {
+        "label": "Destinations",
+        "description": "Several areas at once, each with its photo. Tapping one filters the listing.",
+        "layouts": {
+          "tiles": "Tiles",
+          "carousel": "Carousel"
+        }
+      },
+      "text": {
+        "label": "Text and image",
+        "description": "Tell something of your own: your services, valuations, how you work.",
+        "layouts": {
+          "image-left": "Image on the left",
+          "image-right": "Image on the right",
+          "centered": "Text only"
+        }
+      },
+      "cta": {
+        "label": "Call to action",
+        "description": "An invitation with a button, like “Want to sell your property?”.",
+        "layouts": {
+          "color": "Colour",
+          "photo": "With photo"
+        }
+      }
+    },
+    "buttonTargets": {
+      "contact": "Contact form",
+      "whatsapp": "WhatsApp",
+      "properties": "Property listing"
+    },
+    "design": {
+      "title": "Design",
+      "description": "The overall shape of the home page. You can use one on computers and another on phones.",
+      "screen": "Screen",
+      "desktop": "Computer",
+      "mobile": "Phone",
+      "sameAsDesktop": "Same as on computer",
+      "sameAsDesktopHint": "Turn it off to pick a different design for phones only.",
+      "onMobile": "Design on phones",
+      "onDesktop": "Design on computers"
+    },
+    "color": {
+      "title": "Colour",
+      "description": "For buttons, links and details. The rest of the site stays white and grey.",
+      "custom": "Choose another colour",
+      "code": "Colour code",
+      "picker": "Or another, with the picker",
+      "format": "Use the format #1F5F4A"
+    },
+    "fontsTitle": "Typography",
+    "cover": {
+      "mosaicTitle": "Mosaic photos",
+      "mosaicDescription": "The four cover photos, in this order; the first one is shown large. If you don't pick any, your properties' photos are used.",
+      "photoTitle": "Cover photo",
+      "photoDescription": "The main image of your page. Best landscape and at least 1920 px wide.",
+      "current": "Current cover",
+      "none": "No cover: your colour is used.",
+      "change": "Change photo",
+      "upload": "Upload photo",
+      "remove": "Remove",
+      "texts": "Texts",
+      "heroTitle": "Headline",
+      "heroTitleHint": "If you leave it empty, the sample one is used.",
+      "heroSubtitle": "Subheading",
+      "heroSubtitlePlaceholder": "Houses and flats for sale and rent on the coast."
+    },
+    "blocksPanel": {
+      "title": "Blocks",
+      "description": "Your own sections between the cover and the listing: destinations like Ibiza or Greece, or promotions with featured properties."
+    },
+    "agency": {
+      "aboutTitle": "About your agency",
+      "aboutDescription": "A paragraph about who you are and how you work.",
+      "showAbout": "Show the section on the site",
+      "aboutLabel": "Text about your agency",
+      "aboutPlaceholder": "We're a family estate agency with 20 years in the area…",
+      "contactTitle": "Contact",
+      "contactDescription": "Shown in the footer and the contact section. The email is changed in Settings.",
+      "whatsappHint": "With country code. Turns on the “Message us on WhatsApp” button.",
+      "phone": "Phone",
+      "address": "Office address",
+      "instagramPlaceholder": "@youragency"
+    },
+    "placeholders": {
+      "location": {
+        "title": "Ibiza",
+        "text": "Turquoise coves, white villages and sunsets. We have villas and flats all over the island."
+      },
+      "promo": {
+        "title": "Summer on the coast",
+        "text": "Book before 30 November and get 15% off stays of a week or more."
+      },
+      "featured": {
+        "title": "Just in",
+        "text": "The latest properties we've added."
+      },
+      "destinations": {
+        "title": "Where we have properties"
+      },
+      "text": {
+        "title": "Free valuation of your property",
+        "text": "We tell you what it's worth on today's market and how to sell it faster."
+      },
+      "cta": {
+        "title": "Want to sell your property?",
+        "text": "We're with you from the valuation to completion."
+      }
+    },
+    "blocks": {
+      "imageFailed": "Couldn't upload the image",
+      "changeImage": "Change image",
+      "uploadImage": "Upload image",
+      "change": "Change",
+      "remove": "Remove",
+      "picker": {
+        "count": "({count} of {max} max)",
+        "empty": "You don't have any published properties yet.",
+        "searchPlaceholder": "Search by title or area",
+        "searchIn": "Search in {label}",
+        "noMatch": "Nothing matches that search.",
+        "previous": "Previous page",
+        "next": "Next page",
+        "page": "Page {page} of {total}"
+      },
+      "zone": "Area",
+      "destinations": {
+        "title": "Destinations",
+        "name": "Name of destination {number}",
+        "zone": "Area (if different from the name)",
+        "remove": "Remove {name}",
+        "fallback": "destination",
+        "add": "Add destination"
+      },
+      "button": {
+        "label": "Button text",
+        "hint": "Empty: no button.",
+        "placeholder": "Get in touch",
+        "target": "Goes to"
+      },
+      "layout": "Layout",
+      "layoutLabel": "Block layout",
+      "title": "Title",
+      "zoneHint": "Counts properties whose neighbourhood, region or country matches this area.",
+      "badge": "Label",
+      "endsAt": "Valid until (optional)",
+      "noDate": "No date",
+      "text": "Text",
+      "zonePhoto": "Area photo",
+      "image": "Image",
+      "listings": "Block properties",
+      "listingsLabel": "Which properties to show",
+      "fromZone": "Those in the area",
+      "pick": "Pick them",
+      "picked": "Picked properties",
+      "included": "Included properties",
+      "properties": "Properties",
+      "untitled": "Untitled",
+      "hidden": "hidden",
+      "showNamed": "Show {name}",
+      "hideNamed": "Hide {name}",
+      "show": "Show on the site",
+      "hide": "Hide from the site",
+      "moveUp": "Move {name} up",
+      "moveDown": "Move {name} down",
+      "delete": "Delete {name}",
+      "max": "You've reached the maximum of {max} blocks.",
+      "addTitle": "Which block do you want to add?",
+      "close": "Close",
+      "add": "Add block",
+      "zonePicker": {
+        "pick": "Pick a location",
+        "none": "No location"
+      }
+    },
+    "preview": {
+      "title": "Site preview"
+    },
+    "mosaic": {
+      "uploadFailed": "Couldn't upload the image",
+      "change": "Change photo {number}",
+      "pick": "Choose photo {number}",
+      "remove": "Remove photo {number}",
+      "dialogTitle": "Mosaic photo {number}",
+      "dialogDescription": "Pick a photo from your properties or upload an image.",
+      "uploading": "Uploading…",
+      "upload": "Upload an image",
+      "empty": "Your properties don't have photos yet.",
+      "used": "{title} (already in the mosaic)"
+    },
+    "page": {
+      "saved": "Site updated",
+      "saveFailed": "Couldn't save the site",
+      "coverSaved": "Cover updated",
+      "coverFailed": "Couldn't upload the cover",
+      "title": "Your site",
+      "unsaved": "Unsaved changes",
+      "previewSize": "Preview size",
+      "viewports": {
+        "desktop": "Desktop",
+        "mobile": "Phone"
+      },
+      "edit": "Edit",
+      "preview": "Preview",
+      "help": "Help with the site",
+      "viewPublishedTitle": "View published site",
+      "viewPublished": "View published",
+      "save": "Save changes",
+      "sections": "Editor sections",
+      "tabs": {
+        "design": "Design",
+        "cover": "Cover",
+        "blocks": "Blocks",
+        "agency": "Agency and contact"
+      },
+      "exit": {
+        "title": "You have unsaved changes",
+        "body": "If you leave now, the changes you haven't saved to your site will be lost.",
+        "stay": "Keep editing",
+        "leave": "Leave without saving"
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "profile": {
+    "errors": {
+      "name": "Ingresá tu nombre",
+      "email": "Email inválido",
+      "currentPassword": "Ingresá tu contraseña actual",
+      "minLength": "Mínimo 8 caracteres",
+      "mismatch": "Las contraseñas no coinciden"
+    },
+    "hidePassword": "Ocultar contraseña",
+    "showPassword": "Mostrar contraseña",
+    "saved": "Perfil actualizado",
+    "saveFailed": "No se pudo guardar el perfil",
+    "photoUpdated": "Foto actualizada",
+    "photoFailed": "No se pudo subir la foto",
+    "passwordChanged": "Contraseña cambiada",
+    "passwordFailed": "No se pudo cambiar la contraseña",
+    "help": "Ayuda con mi perfil",
+    "data": {
+      "title": "Tus datos",
+      "description": "Cómo te ven los demás en la cuenta de la agencia.",
+      "changePhoto": "Cambiar la foto",
+      "photoHint": "Tocá la foto para cambiarla.",
+      "name": "Nombre"
+    },
+    "password": {
+      "title": "Contraseña",
+      "description": "Usá al menos 8 caracteres. Te pedimos la actual para confirmar que sos vos.",
+      "current": "Contraseña actual",
+      "new": "Contraseña nueva",
+      "repeat": "Repetí la contraseña nueva",
+      "submitting": "Cambiando…",
+      "submit": "Cambiar contraseña"
+    }
+  }
+}

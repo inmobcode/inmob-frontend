@@ -1,0 +1,83 @@
+{
+  "team": {
+    "active": "Aktiv",
+    "inactive": "Inaktiv",
+    "member": "Mitglied",
+    "role": "Rolle",
+    "status": "Status",
+    "actionsColumn": "Aktionen",
+    "memberSince": "Im Team seit {date}",
+    "since": "Seit {date}",
+    "memberSinceColumn": "Im Team seit",
+    "roles": {
+      "OWNER": "Inhaber",
+      "ADMIN": "Administrator",
+      "AGENT": "Makler"
+    },
+    "rolePlurals": {
+      "OWNER": "Inhaber",
+      "ADMIN": "Administratoren",
+      "AGENT": "Makler"
+    },
+    "roleHints": {
+      "OWNER": "Inhaber des Kontos",
+      "ADMIN": "Verwaltet Team, Objekte und Angebote",
+      "AGENT": "Arbeitet mit Objekten, Kunden und Buchungen"
+    },
+    "menu": {
+      "actions": "Aktionen für {name}",
+      "sendEmail": "E-Mail senden",
+      "copyEmail": "E-Mail kopieren",
+      "changeRole": "Rolle ändern",
+      "deactivate": "Zugang deaktivieren",
+      "reactivate": "Zugang reaktivieren",
+      "remove": "Aus dem Team entfernen"
+    },
+    "invite": {
+      "linked": "Bereits ein Tivvo-Konto vorhanden: zu Ihrem Team hinzugefügt",
+      "sent": "Zugang per E-Mail verschickt",
+      "title": "Mitglied einladen",
+      "description": "Mit bestehendem Tivvo-Konto fügen wir die Person Ihrem Team hinzu; sonst senden wir ihr den Zugang per E-Mail.",
+      "name": "Name",
+      "namePlaceholder": "z. B. Rodrigo Sosa",
+      "emailPlaceholder": "name@email.com",
+      "role": "Rolle",
+      "submitting": "Wird eingeladen…",
+      "submit": "Einladen"
+    },
+    "page": {
+      "updateFailed": "Änderung konnte nicht gespeichert werden",
+      "removed": "Aus dem Team entfernt",
+      "removeFailed": "Konnte nicht aus dem Team entfernt werden",
+      "roleChanged": "Neue Rolle: {role}",
+      "reactivated": "Zugang reaktiviert",
+      "deactivated": "Zugang deaktiviert",
+      "title": "Team",
+      "searchPlaceholder": "Nach Name oder E-Mail suchen",
+      "search": "Im Team suchen",
+      "role": "Rolle",
+      "roles": "Rollen",
+      "help": "Hilfe zum Team",
+      "loadFailed": "Team konnte nicht geladen werden",
+      "empty": {
+        "title": "Stellen Sie Ihr Team zusammen",
+        "body": "Fügen Sie Administratoren und Makler hinzu, um gemeinsam zu arbeiten.",
+        "help": "Was jede Rolle kann"
+      },
+      "noMatch": {
+        "title": "Niemand passt dazu",
+        "body": "Versuchen Sie einen anderen Namen oder entfernen Sie den Rollenfilter."
+      },
+      "deactivate": {
+        "title": "Zugang deaktivieren?",
+        "body": "{name} kann sich nicht mehr im Konto anmelden. Objekte und Kunden bleiben erhalten, und Sie können den Zugang jederzeit reaktivieren.",
+        "confirm": "Deaktivieren"
+      },
+      "remove": {
+        "title": "Aus dem Team entfernen?",
+        "body": "{name} verliert den Zugang zu dieser Agentur. Das Konto wird nicht gelöscht: Gehört die Person zu einer anderen Agentur, meldet sie sich dort weiter an.",
+        "confirm": "Entfernen"
+      }
+    }
+  }
+}

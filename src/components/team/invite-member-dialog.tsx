@@ -3,13 +3,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { LoaderCircle } from "lucide-react";
-import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
 import { NewItemButton } from "@/components/new-item-button";
-import { ROLE_HINTS, ROLE_LABELS } from "@/components/team/team-parts";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -19,17 +19,23 @@ import { createTeamMember } from "@/lib/api/team";
 import { getAccessToken } from "@/lib/auth/session";
 import { cn } from "@/lib/utils";
 
-const schema = z.object({
-  name: z.string().min(2, "Ingresá un nombre"),
-  email: z.string().email("Email inválido"),
-  role: z.enum(["ADMIN", "AGENT"]),
-});
+const makeSchema = (t: (key: "nameRequired" | "emailInvalid") => string) =>
+  z.object({
+    name: z.string().min(2, t("nameRequired")),
+    email: z.string().email(t("emailInvalid")),
+    role: z.enum(["ADMIN", "AGENT"]),
+  });
 
-type FormValues = z.infer<typeof schema>;
+type FormValues = z.infer<ReturnType<typeof makeSchema>>;
 
 const DEFAULTS: FormValues = { name: "", email: "", role: "AGENT" };
 
 export function InviteMemberDialog() {
+  const t = useTranslations("team.invite");
+  const tRoles = useTranslations("team.roles");
+  const tHints = useTranslations("team.roleHints");
+  const tc = useTranslations("common");
+  const schema = useMemo(() => makeSchema(tc), [tc]);
   const [open, setOpen] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const queryClient = useQueryClient();
@@ -46,12 +52,10 @@ export function InviteMemberDialog() {
       queryClient.invalidateQueries({ queryKey: ["team"] });
       handleOpenChange(false);
       toast.success(
-        result.linkedExisting
-          ? "Ya tenía cuenta en Tivvo: lo sumamos a tu equipo"
-          : "Le enviamos el acceso por email",
+        result.linkedExisting ? t("linked") : t("sent"),
       );
     },
-    onError: (err) => setServerError(err instanceof ApiError ? err.message : "Error inesperado"),
+    onError: (err) => setServerError(err instanceof ApiError ? err.message : tc("unexpectedError")),
   });
 
   function handleOpenChange(next: boolean) {
@@ -65,7 +69,7 @@ export function InviteMemberDialog() {
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <NewItemButton label="Invitar miembro" />
+        <NewItemButton label={t("title")} />
       </DialogTrigger>
       <DialogContent className="gap-0 rounded-3xl p-0 sm:max-w-lg" showCloseButton>
         <form
@@ -76,30 +80,28 @@ export function InviteMemberDialog() {
           })}
         >
           <div className="flex flex-col gap-1.5 px-7 pt-7 pb-5">
-            <DialogTitle className="font-display text-3xl leading-none tracking-tight">Invitar miembro</DialogTitle>
-            <DialogDescription>
-              Si ya tiene cuenta en Tivvo lo sumamos a tu equipo; si no, le mandamos el acceso por email.
-            </DialogDescription>
+            <DialogTitle className="font-display text-3xl leading-none tracking-tight">{t("title")}</DialogTitle>
+            <DialogDescription>{t("description")}</DialogDescription>
           </div>
 
           <div className="flex flex-col gap-5 px-7 pb-2">
             <div className="flex flex-col gap-2.5">
-              <Label htmlFor="name">Nombre</Label>
-              <Input id="name" autoComplete="off" placeholder="Ej: Rodrigo Sosa" aria-invalid={Boolean(errors.name)} className="h-11 px-4" {...form.register("name")} />
+              <Label htmlFor="name">{t("name")}</Label>
+              <Input id="name" autoComplete="off" placeholder={t("namePlaceholder")} aria-invalid={Boolean(errors.name)} className="h-11 px-4" {...form.register("name")} />
               {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
             </div>
             <div className="flex flex-col gap-2.5">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" autoComplete="off" placeholder="nombre@correo.com" aria-invalid={Boolean(errors.email)} className="h-11 px-4" {...form.register("email")} />
+              <Input id="email" type="email" autoComplete="off" placeholder={t("emailPlaceholder")} aria-invalid={Boolean(errors.email)} className="h-11 px-4" {...form.register("email")} />
               {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
             </div>
             <div className="flex flex-col gap-2.5">
-              <Label>Rol</Label>
+              <Label>{t("role")}</Label>
               <Controller
                 control={form.control}
                 name="role"
                 render={({ field }) => (
-                  <div role="radiogroup" aria-label="Rol" className="grid gap-2 sm:grid-cols-2">
+                  <div role="radiogroup" aria-label={t("role")} className="grid gap-2 sm:grid-cols-2">
                     {(["AGENT", "ADMIN"] as const).map((value) => {
                       const active = field.value === value;
                       return (
@@ -114,9 +116,9 @@ export function InviteMemberDialog() {
                             active ? "bg-primary text-primary-foreground" : "bg-foreground/[0.06] hover:bg-foreground/10",
                           )}
                         >
-                          <span className="text-sm font-medium">{ROLE_LABELS[value]}</span>
+                          <span className="text-sm font-medium">{tRoles(value)}</span>
                           <span className={cn("text-xs", active ? "text-primary-foreground/75" : "text-muted-foreground")}>
-                            {ROLE_HINTS[value]}
+                            {tHints(value)}
                           </span>
                         </button>
                       );
@@ -130,16 +132,16 @@ export function InviteMemberDialog() {
 
           <div className="flex items-center justify-end gap-2 px-7 pt-5 pb-7">
             <Button type="button" variant="ghost" className="h-10 px-5" onClick={() => handleOpenChange(false)}>
-              Cancelar
+              {tc("cancel")}
             </Button>
             <Button type="submit" variant="highlight" className="h-10 gap-2 px-6" disabled={mutation.isPending}>
               {mutation.isPending ? (
                 <>
                   <LoaderCircle className="animate-spin" />
-                  Invitando…
+                  {t("submitting")}
                 </>
               ) : (
-                "Invitar"
+                t("submit")
               )}
             </Button>
           </div>

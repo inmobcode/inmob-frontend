@@ -1,8 +1,7 @@
 "use client";
 
-import { formatDistanceToNow } from "date-fns";
-import { es } from "date-fns/locale";
 import { Clock, Mail, MessageSquareText, Phone } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 
@@ -10,18 +9,23 @@ import {
   ClientAvatar,
   ClientMenu,
   ClientStagePill,
-  SOURCE_LABELS,
   type ClientActions,
 } from "@/components/clients/client-parts";
 import { ControlsZone } from "@/components/properties/property-controls";
 import type { Client } from "@/lib/api/clients";
+import { useFormat } from "@/i18n/format";
+import { parseApiDate } from "@/lib/dates";
+import { useLabels } from "@/lib/labels";
 import { richTextPlain } from "@/lib/rich-text";
 import { cn } from "@/lib/utils";
 
 const SURFACE =
   "client-card group rounded-2xl bg-card shadow-[0_1px_2px_oklch(0.3_0.05_160/0.04),0_12px_32px_-12px_oklch(0.3_0.05_160/0.14)] ring-1 ring-foreground/5 outline-none transition-[box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:shadow-[0_1px_2px_oklch(0.3_0.05_160/0.06),0_24px_44px_-12px_oklch(0.3_0.05_160/0.26)] focus-visible:ring-3 focus-visible:ring-ring/50";
 
-const ago = (iso: string) => formatDistanceToNow(new Date(iso), { addSuffix: true, locale: es });
+function useAgo() {
+  const { ago } = useFormat();
+  return (iso: string) => ago(parseApiDate(iso));
+}
 
 /** The latest thing that happened with the client: the last logged interaction, else the last edit. */
 function lastTouch(client: Client) {
@@ -30,6 +34,7 @@ function lastTouch(client: Client) {
 }
 
 function Contact({ client, className }: { client: Client; className?: string }) {
+  const t = useTranslations("clients.views");
   return (
     <div className={cn("flex min-w-0 flex-col gap-1 text-sm text-muted-foreground", className)}>
       <span className="flex items-center gap-1.5">
@@ -38,13 +43,16 @@ function Contact({ client, className }: { client: Client; className?: string }) 
       </span>
       <span className="flex items-center gap-1.5">
         <Phone className="size-3.5 shrink-0" />
-        <span className="truncate">{client.phone ?? "Sin teléfono"}</span>
+        <span className="truncate">{client.phone ?? t("noPhone")}</span>
       </span>
     </div>
   );
 }
 
 export function ClientCard({ client, actions }: { client: Client; actions: ClientActions }) {
+  const t = useTranslations("clients.views");
+  const labels = useLabels();
+  const ago = useAgo();
   const { agencySlug } = useParams<{ agencySlug: string }>();
   const last = client.interactions?.[0];
   const lost = client.stage === "LOST";
@@ -68,14 +76,14 @@ export function ClientCard({ client, actions }: { client: Client; actions: Clien
 
       <p className="flex min-h-10 items-start gap-2 text-sm text-foreground/75">
         <MessageSquareText className="mt-0.5 size-3.5 shrink-0 text-muted-foreground" />
-        <span className="line-clamp-2">{last?.content ?? (client.notes ? richTextPlain(client.notes) : null) ?? "Todavía sin interacciones."}</span>
+        <span className="line-clamp-2">{last?.content ?? (client.notes ? richTextPlain(client.notes) : null) ?? t("noInteractions")}</span>
       </p>
 
       <div className="mt-auto flex items-center gap-3 text-xs text-muted-foreground">
         <span className="inline-flex h-6 items-center rounded-full bg-foreground/[0.06] px-2.5 font-medium">
-          {SOURCE_LABELS[client.source]}
+          {labels.clientSource(client.source)}
         </span>
-        <span className="ml-auto inline-flex items-center gap-1" title={`Último movimiento ${ago(lastTouch(client))}`}>
+        <span className="ml-auto inline-flex items-center gap-1" title={t("lastTouch", { ago: ago(lastTouch(client)) })}>
           <Clock className="size-3" />
           {ago(lastTouch(client))}
         </span>
@@ -85,6 +93,9 @@ export function ClientCard({ client, actions }: { client: Client; actions: Clien
 }
 
 export function ClientRow({ client, actions }: { client: Client; actions: ClientActions }) {
+  const t = useTranslations("clients.views");
+  const labels = useLabels();
+  const ago = useAgo();
   const { agencySlug } = useParams<{ agencySlug: string }>();
   const last = client.interactions?.[0];
 
@@ -99,14 +110,14 @@ export function ClientRow({ client, actions }: { client: Client; actions: Client
           <h3 className="truncate font-display text-lg leading-tight" title={client.name}>
             {client.name}
           </h3>
-          <span className="text-xs text-muted-foreground">{SOURCE_LABELS[client.source]}</span>
+          <span className="text-xs text-muted-foreground">{labels.clientSource(client.source)}</span>
         </div>
       </div>
 
       <Contact client={client} className="sm:w-64 sm:shrink-0" />
 
       <p className="line-clamp-2 min-w-0 flex-1 text-sm text-foreground/75">
-        {last?.content ?? (client.notes ? richTextPlain(client.notes) : null) ?? <span className="text-muted-foreground">Todavía sin interacciones.</span>}
+        {last?.content ?? (client.notes ? richTextPlain(client.notes) : null) ?? <span className="text-muted-foreground">{t("noInteractions")}</span>}
       </p>
 
       <div className="flex items-center justify-between gap-3 sm:w-52 sm:shrink-0 sm:flex-col sm:items-end sm:gap-2">
@@ -123,6 +134,9 @@ export function ClientRow({ client, actions }: { client: Client; actions: Client
 const HEAD = "px-4 py-3 text-left text-xs font-medium text-muted-foreground";
 
 export function ClientsTable({ clients, actions }: { clients: Client[]; actions: ClientActions }) {
+  const t = useTranslations("clients.views");
+  const labels = useLabels();
+  const ago = useAgo();
   const router = useRouter();
   const { agencySlug } = useParams<{ agencySlug: string }>();
 
@@ -131,13 +145,13 @@ export function ClientsTable({ clients, actions }: { clients: Client[]; actions:
       <table className="w-full min-w-[820px] border-collapse text-sm">
         <thead>
           <tr>
-            <th className={cn(HEAD, "pl-4")}>Cliente</th>
-            <th className={HEAD}>Etapa</th>
-            <th className={HEAD}>Teléfono</th>
-            <th className={HEAD}>Origen</th>
-            <th className={HEAD}>Último movimiento</th>
+            <th className={cn(HEAD, "pl-4")}>{t("client")}</th>
+            <th className={HEAD}>{t("stage")}</th>
+            <th className={HEAD}>{t("phone")}</th>
+            <th className={HEAD}>{t("source")}</th>
+            <th className={HEAD}>{t("lastMove")}</th>
             <th className={cn(HEAD, "w-14")}>
-              <span className="sr-only">Acciones</span>
+              <span className="sr-only">{t("actions")}</span>
             </th>
           </tr>
         </thead>
@@ -167,7 +181,7 @@ export function ClientsTable({ clients, actions }: { clients: Client[]; actions:
                 <ClientStagePill stage={client.stage} />
               </td>
               <td className="px-4 py-3 whitespace-nowrap text-muted-foreground tabular-nums">{client.phone ?? "—"}</td>
-              <td className="px-4 py-3 whitespace-nowrap text-muted-foreground">{SOURCE_LABELS[client.source]}</td>
+              <td className="px-4 py-3 whitespace-nowrap text-muted-foreground">{labels.clientSource(client.source)}</td>
               <td className="px-4 py-3 whitespace-nowrap text-muted-foreground">{ago(lastTouch(client))}</td>
               <td className="w-14 py-3 pr-4" onClick={(event) => event.stopPropagation()}>
                 <ClientMenu client={client} actions={actions} />

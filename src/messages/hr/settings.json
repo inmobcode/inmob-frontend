@@ -1,0 +1,46 @@
+{
+  "settings": {
+    "errors": {
+      "slugRequired": "Unesite adresu",
+      "slugFormat": "Samo mala slova, brojevi i crtice"
+    },
+    "commissionShown": "Vlasnik vidi proviziju",
+    "commissionHidden": "Provizija ostaje skrivena",
+    "logoUpdated": "Logotip je ažuriran",
+    "logoFailed": "Logotip nije moguće učitati",
+    "help": "Pomoć za postavke",
+    "copyPortalLink": "Kopiraj poveznicu na stranicu",
+    "copyLink": "Kopiraj poveznicu",
+    "viewPortal": "Pogledaj stranicu",
+    "customize": "Prilagodi stranicu",
+    "agency": {
+      "title": "Vaša agencija",
+      "description": "Ime i logotip koje vide vaši klijenti.",
+      "changeLogo": "Promijeni logotip",
+      "change": "Promijeni",
+      "name": "Naziv agencije"
+    },
+    "portal": {
+      "title": "Javna stranica",
+      "description": "Stranica na kojoj klijenti vide vaše nekretnine.",
+      "slug": "Adresa stranice",
+      "slugWarning": "Promjena adrese prekida poveznice koje ste već podijelili.",
+      "contactEmail": "E-pošta za kontakt",
+      "contactEmailPlaceholder": "info@vasaagencija.com"
+    },
+    "owner": {
+      "title": "Portal vlasnika",
+      "description": "Što vlasnici vide na svojoj pristupnoj poveznici. Uvijek vide naplaćeno, svoj dio i isplaćeno.",
+      "switchLabel": "Prikaži proviziju na portalu vlasnika",
+      "showCommission": "Prikaži proviziju agencije",
+      "showCommissionHint": "Kad je isključeno, vlasnik vidi svoj dio, ali ne i koliko je odbijeno. Sprema se pri promjeni."
+    },
+    "preferences": {
+      "title": "Preferencije",
+      "description": "Kako se tekstovi i cijene prikazuju prema zadanim postavkama.",
+      "language": "Jezik stranice",
+      "languageHint": "Poveznice koje dijelite (stranica, ponude, rezervacije, vlasnici) otvaraju se na ovom jeziku. Klijenti ga mogu promijeniti na stranici.",
+      "currency": "Zadana valuta"
+    }
+  }
+}

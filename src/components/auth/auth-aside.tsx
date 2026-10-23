@@ -1,6 +1,7 @@
 "use client";
 
 import { Building2, CalendarCheck, FileText } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 
@@ -12,25 +13,12 @@ const PHOTO =
   "https://images.unsplash.com/photo-1636301587190-88cbb412fea0?w=1800&q=80&fm=jpg&fit=crop";
 
 const POINTS = [
-  {
-    icon: Building2,
-    text: "Propiedades, clientes y reservas en un solo lugar",
-  },
-  { icon: FileText, text: "Ofertas con link que ves cuándo abren" },
-  { icon: CalendarCheck, text: "Cobros y comisiones siempre a la vista" },
-];
+  { icon: Building2, key: "all" },
+  { icon: FileText, key: "offers" },
+  { icon: CalendarCheck, key: "payments" },
+] as const;
 
-const NEXT_STEPS = [
-  { title: "Creás tu agencia", text: "Con tu nombre y el de tu inmobiliaria." },
-  {
-    title: "Cargás tus propiedades",
-    text: "Una por una, o nos pasás tus planillas y las cargamos nosotros.",
-  },
-  {
-    title: "Invitás a tu equipo",
-    text: "Cada persona entra con su propio acceso y su rol.",
-  },
-];
+const NEXT_STEPS = ["agency", "properties", "team"] as const;
 
 /**
  * The right-hand panel of the auth screens: the photo with what Tivvo does at
@@ -38,6 +26,7 @@ const NEXT_STEPS = [
  * the photo fades into.
  */
 export function AuthAside() {
+  const t = useTranslations("auth.aside");
   const pathname = usePathname();
   const signingUp = pathname.startsWith("/register");
 
@@ -70,18 +59,18 @@ export function AuthAside() {
           {!signingUp && (
             <div className="relative flex flex-col gap-7 p-10 text-paper xl:p-12">
               <p className="max-w-md font-logo text-[clamp(2.25rem,3.4vw,3.25rem)] leading-[1.02] font-semibold tracking-[-0.035em] text-balance">
-                Toda tu inmobiliaria, bajo control.
+                {t("title")}
               </p>
               <ul className="flex flex-col gap-3.5">
                 {POINTS.map((point) => (
                   <li
-                    key={point.text}
+                    key={point.key}
                     className="flex items-center gap-3 text-paper/90"
                   >
                     <span className="flex size-9 shrink-0 items-center justify-center rounded-md bg-paper/12">
                       <point.icon className="size-4" />
                     </span>
-                    {point.text}
+                    {t(`points.${point.key}`)}
                   </li>
                 ))}
               </ul>
@@ -98,20 +87,20 @@ export function AuthAside() {
               id="next-steps"
               className="font-logo text-2xl font-semibold tracking-tight"
             >
-              Qué pasa después
+              {t("nextTitle")}
             </h2>
             <ol className="grid gap-6 xl:grid-cols-3 xl:gap-8">
               {NEXT_STEPS.map((step, index) => (
                 <li
-                  key={step.title}
+                  key={step}
                   className="flex flex-col gap-2 border-t border-paper/20 pt-4"
                 >
                   <span className="text-sm text-lime tabular-nums">
-                    Paso {index + 1}
+                    {t("step", { number: index + 1 })}
                   </span>
-                  <p className="font-semibold">{step.title}</p>
+                  <p className="font-semibold">{t(`steps.${step}.title`)}</p>
                   <p className="text-sm text-pretty text-paper/70">
-                    {step.text}
+                    {t(`steps.${step}.text`)}
                   </p>
                 </li>
               ))}

@@ -1,6 +1,7 @@
-import { format, parseISO } from "date-fns";
-import { es } from "date-fns/locale";
+import { parseISO } from "date-fns";
+import { useTranslations } from "next-intl";
 
+import { useFormat } from "@/i18n/format";
 import type { OwnerStatement, OwnerStatementTotal } from "@/lib/api/owner-accounts";
 import { cn } from "@/lib/utils";
 
@@ -12,10 +13,16 @@ const TONES = {
 
 export type StatementTone = keyof typeof TONES;
 
-export const money = (currency: string, value: number) =>
-  `${currency} ${value.toLocaleString("es-AR", { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`;
-
-const day = (iso: string | null) => (iso ? format(parseISO(iso), "d MMM", { locale: es }) : "—");
+/** Money with up to two decimals and a day as "5 nov", in the page's language. */
+function useStatementFormat() {
+  const { money: formatMoney, date } = useFormat();
+  return {
+    money: (currency: string, value: number) =>
+      formatMoney(currency, value, { minimumFractionDigits: 0, maximumFractionDigits: 2 }),
+    day: (iso: string | null) => (iso ? date(parseISO(iso), "dayMonthShort") : "—"),
+    payoutDay: (iso: string) => date(parseISO(iso), "medium"),
+  };
+}
 
 function Figure({ label, value, hint, tone, emphasis }: { label: string; value: string; hint?: string; tone: StatementTone; emphasis?: boolean }) {
   const t = TONES[tone];
@@ -30,6 +37,8 @@ function Figure({ label, value, hint, tone, emphasis }: { label: string; value: 
 
 function TotalBlock({ total, tone }: { total: OwnerStatementTotal; tone: StatementTone }) {
   const t = TONES[tone];
+  const w = useTranslations("site.statement");
+  const { money } = useStatementFormat();
   // Gross figures only come with the commission: see OwnerStatementTotal.
   const hasCommission = total.commission !== undefined;
   const hasGross = total.collected !== undefined && total.booked !== undefined;
@@ -40,15 +49,27 @@ function TotalBlock({ total, tone }: { total: OwnerStatementTotal; tone: Stateme
         style={{ "--cols": `repeat(${(hasGross ? 1 : 0) + (hasCommission ? 1 : 0) + 3}, minmax(0, 1fr))` } as React.CSSProperties}
       >
         {hasGross && (
-          <Figure tone={tone} label="Cobrado" value={money(total.currency, total.collected!)} hint={`de ${money(total.currency, total.booked!)} reservados`} />
+          <Figure
+            tone={tone}
+            label={w("collected")}
+            value={money(total.currency, total.collected!)}
+            hint={w("ofBooked", { amount: money(total.currency, total.booked!) })}
+          />
         )}
-        {hasCommission && <Figure tone={tone} label="Comisión" value={`− ${money(total.currency, total.commission!)}`} hint="de la agencia" />}
-        <Figure tone={tone} label="Te corresponde" value={money(total.currency, total.due)} hint={hasCommission ? "lo cobrado menos la comisión" : "de lo cobrado"} />
-        <Figure tone={tone} label="Ya liquidado" value={money(total.currency, total.paidOut)} />
+        {hasCommission && (
+          <Figure tone={tone} label={w("commission")} value={`− ${money(total.currency, total.commission!)}`} hint={w("ofAgency")} />
+        )}
+        <Figure
+          tone={tone}
+          label={w("due")}
+          value={money(total.currency, total.due)}
+          hint={hasCommission ? w("dueMinusCommission") : w("ofCollected")}
+        />
+        <Figure tone={tone} label={w("paidOut")} value={money(total.currency, total.paidOut)} />
         <Figure
           tone={tone}
           emphasis
-          label={total.balance < 0 ? "Se liquidó de más" : "Saldo por liquidar"}
+          label={total.balance < 0 ? w("overpaid") : w("balance")}
           value={money(total.currency, Math.abs(total.balance))}
         />
       </dl>
@@ -72,10 +93,12 @@ export function OwnerStatementView({
   renderPayoutAction?: (payoutId: string) => React.ReactNode;
 }) {
   const t = TONES[tone];
+  const w = useTranslations("site.statement");
+  const { money, day, payoutDay } = useStatementFormat();
   const showCommission = statement.totals.some((total) => total.commission !== undefined);
 
   if (statement.totals.length === 0 && statement.payouts.length === 0) {
-    return <p className={cn("text-sm", t.quiet)}>Todavía no hay reservas con cobros ni liquidaciones.</p>;
+    return <p className={cn("text-sm", t.quiet)}>{w("empty")}</p>;
   }
 
   return (
@@ -86,23 +109,29 @@ export function OwnerStatementView({
 
       {statement.bookings.length > 0 && (
         <div className="flex flex-col gap-2">
-          <h3 className={cn(t.heading, "text-lg", t.strong)}>Por reserva</h3>
+          <h3 className={cn(t.heading, "text-lg", t.strong)}>{w("byBooking")}</h3>
           <ul className="flex flex-col">
             {statement.bookings.map((booking, index) => (
               <li
                 key={index}
                 className={cn("grid grid-cols-[1fr_auto] items-baseline gap-x-6 gap-y-0.5 border-b py-3 text-sm last:border-b-0", t.line)}
               >
-                <span className={cn("min-w-0 truncate font-medium", t.strong)}>{booking.propertyTitle ?? "Propiedad"}</span>
+                <span className={cn("min-w-0 truncate font-medium", t.strong)}>{booking.propertyTitle ?? w("property")}</span>
                 <span className={cn("text-right tabular-nums", t.strong)}>{money(booking.currency, booking.due)}</span>
                 <span className={cn("text-xs", t.quiet)}>
                   {day(booking.startDate)} → {day(booking.endDate)}
-                  {booking.status === "PENDING" && " · sin confirmar"}
+                  {booking.status === "PENDING" && ` · ${w("unconfirmed")}`}
                 </span>
                 {booking.collected !== undefined && booking.total !== undefined && (
                   <span className={cn("text-right text-xs tabular-nums", t.quiet)}>
-                    cobrado {money(booking.currency, booking.collected)} de {money(booking.currency, booking.total)}
-                    {showCommission && booking.commission !== undefined && booking.commission > 0 && ` · comisión ${money(booking.currency, booking.commission)}`}
+                    {w("collectedOf", {
+                      collected: money(booking.currency, booking.collected),
+                      total: money(booking.currency, booking.total),
+                    })}
+                    {showCommission &&
+                      booking.commission !== undefined &&
+                      booking.commission > 0 &&
+                      ` · ${w("commissionOf", { amount: money(booking.currency, booking.commission) })}`}
                   </span>
                 )}
               </li>
@@ -112,14 +141,14 @@ export function OwnerStatementView({
       )}
 
       <div className="flex flex-col gap-2">
-        <h3 className={cn(t.heading, "text-lg", t.strong)}>Liquidaciones</h3>
+        <h3 className={cn(t.heading, "text-lg", t.strong)}>{w("payouts")}</h3>
         {statement.payouts.length === 0 ? (
-          <p className={cn("text-sm", t.quiet)}>Todavía no se registró ninguna.</p>
+          <p className={cn("text-sm", t.quiet)}>{w("noPayouts")}</p>
         ) : (
           <ul className="flex flex-col">
             {statement.payouts.map((payout) => (
               <li key={payout.id} className={cn("flex items-center gap-4 border-b py-3 text-sm last:border-b-0", t.line)}>
-                <span className={cn("w-16 shrink-0 tabular-nums", t.quiet)}>{format(parseISO(payout.paidAt), "d MMM yy", { locale: es })}</span>
+                <span className={cn("w-24 shrink-0 tabular-nums", t.quiet)}>{payoutDay(payout.paidAt)}</span>
                 <span className="flex min-w-0 flex-1 flex-col">
                   <span className={cn("font-medium tabular-nums", t.strong)}>{money(payout.currency, payout.amount)}</span>
                   {(payout.method || payout.note) && (
