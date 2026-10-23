@@ -54,7 +54,7 @@ export function ReviewStep({
   refreshing: boolean;
   applying: boolean;
   importableCount: number;
-  format: "table" | "kyero" | "tivvo_xml";
+  format: "table" | "kyero" | "tivvu_xml";
   onBack: () => void;
   onApply: () => void;
 }) {

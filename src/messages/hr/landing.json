@@ -9,7 +9,7 @@
           "f1": "Do 5 nekretnina",
           "f2": "1 korisnik",
           "f3": "Klijenti, upiti i ponude",
-          "f4": "Web-stranica na Tivvo poddomeni, predložak Naslovnica i vaša boja"
+          "f4": "Web-stranica na Tivvu poddomeni, predložak Naslovnica i vaša boja"
         },
         "cta": "Započnite besplatno"
       },
@@ -51,7 +51,7 @@
       },
       "address": {
         "q": "Koja je adresa moje web-stranice?",
-        "a": "Vaša stranica nalazi se na Tivvo poddomeni s nazivom vaše agencije. Zasad ne nudimo vlastitu domenu."
+        "a": "Vaša stranica nalazi se na Tivvu poddomeni s nazivom vaše agencije. Zasad ne nudimo vlastitu domenu."
       },
       "privacy": {
         "q": "Miješaju li se moji podaci s podacima drugih agencija?",
@@ -76,33 +76,33 @@
     },
     "problem": {
       "claim": "Kad posao raste, nastaje nered.",
-      "rest": "Tivvo ga dovodi u red.",
+      "rest": "Tivvu ga dovodi u red.",
       "problem": "Problem",
       "solution": "Rješenje",
       "items": {
         "inquiries": {
           "today": "Upiti stižu sa svih strana i nitko ne zna tko je na njih odgovorio.",
-          "tivvo": "Svaki upit s vaše stranice ulazi u pristiglu poštu kao klijent, s odgovornom osobom i poviješću."
+          "tivvu": "Svaki upit s vaše stranice ulazi u pristiglu poštu kao klijent, s odgovornom osobom i poviješću."
         },
         "followUp": {
           "today": "Klijent je ostao bez odgovora, a vi saznate kad je već kupio drugdje.",
-          "tivvo": "Zadaci praćenja s datumom i odgovornom osobom te zvono koje upozorava na ono što traži vašu pažnju."
+          "tivvu": "Zadaci praćenja s datumom i odgovornom osobom te zvono koje upozorava na ono što traži vašu pažnju."
         },
         "offers": {
           "today": "Ponude putuju WhatsAppom i ne znate je li ih klijent otvorio.",
-          "tivvo": "Pošaljete poveznicu i vidite kada je otvorena i kada istječe."
+          "tivvu": "Pošaljete poveznicu i vidite kada je otvorena i kada istječe."
         },
         "calendar": {
           "today": "Kalendar najma je u tablici i rezervacije se preklapaju.",
-          "tivvo": "Dostupnost za 90 dana: rezervirani datumi blokiraju se sami, a ostatak blokirate povlačenjem."
+          "tivvu": "Dostupnost za 90 dana: rezervirani datumi blokiraju se sami, a ostatak blokirate povlačenjem."
         },
         "payments": {
           "today": "Naplate žive u tablici koju razumije samo jedna osoba.",
-          "tivvo": "Predujam, ostatak i provizija svake rezervacije, vidljivi onima kojima trebaju."
+          "tivvu": "Predujam, ostatak i provizija svake rezervacije, vidljivi onima kojima trebaju."
         },
         "owners": {
           "today": "Vlasnici zovu svaki tjedan da pitaju kako ide.",
-          "tivvo": "Privatna poveznica s njihovim izvodom: naplaćeno, isplate i saldo."
+          "tivvu": "Privatna poveznica s njihovim izvodom: naplaćeno, isplate i saldo."
         }
       }
     },
@@ -253,7 +253,7 @@
       "submit": "Zatražite demo"
     },
     "meta": {
-      "title": "Tivvo · Softver za upravljanje agencijama za nekretnine",
+      "title": "Tivvu · Softver za upravljanje agencijama za nekretnine",
       "description": "Unosite nekretnine, slažite ponude, pratite rezervacije i objavite web-stranicu svoje agencije na jednom mjestu. Za agencije za prodaju i kratkoročni najam.",
       "keywords": "softver za nekretnine, crm za nekretnine, upravljanje nekretninama, kratkoročni najam, web-stranica za agencije za nekretnine"
     },

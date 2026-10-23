@@ -22,7 +22,7 @@ export function DocsHeader() {
           className="flex items-center gap-2 font-logo text-2xl font-semibold leading-none tracking-tight text-foreground"
         >
           <LogoIcon className="text-primary" />
-          Tivvo
+          Tivvu
           <span className="ml-1 font-sans text-sm font-normal text-muted-foreground">{t("docs")}</span>
         </Link>
         <Button variant="outline" asChild className="h-9 gap-1.5 rounded-full px-4">

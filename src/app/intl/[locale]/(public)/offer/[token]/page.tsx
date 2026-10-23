@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     : t("metaDescription", { count });
 
   return {
-    // Absolute: this is the agency's own offer link, not a Tivvo surface.
+    // Absolute: this is the agency's own offer link, not a Tivvu surface.
     title: { absolute: offer.title },
     description,
     // A private link: keep it out of search engines.

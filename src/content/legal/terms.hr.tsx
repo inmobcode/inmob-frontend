@@ -8,7 +8,7 @@ import { LEGAL_ENTITY } from "@/lib/legal";
 const { name, taxId, address, jurisdiction, contactEmail } = LEGAL_ENTITY;
 
 const SUMMARY = [
-  "Tivvo je alat kojim vaša agencija upravlja nekretninama, klijentima, ponudama i rezervacijama te objavljuje vlastitu web-stranicu. Nismo strana u poslovima koje sklapate sa svojim klijentima.",
+  "Tivvu je alat kojim vaša agencija upravlja nekretninama, klijentima, ponudama i rezervacijama te objavljuje vlastitu web-stranicu. Nismo strana u poslovima koje sklapate sa svojim klijentima.",
   "Podaci koje unosite pripadaju vašoj agenciji. Mi ih pohranjujemo i obrađujemo kako bismo vam pružili uslugu, a vi ih možete izvesti.",
   "Vaša je agencija odgovorna za poštivanje pravila svoje djelatnosti: licence, istinitog oglašavanja, ugovora o najmu i zaštite podataka svojih klijenata.",
   "Svoj paket možete otkazati kad god želite, istim putem kojim ste ga ugovorili. Ako se cijene ili ovi uvjeti promijene, obavještavamo vas 30 dana unaprijed.",
@@ -24,9 +24,9 @@ const SECTIONS: LegalSection[] = [
       <>
         <p>
           Ovi Uvjeti korištenja (»Uvjeti«) uređuju pristup i korištenje Tivva,
-          sustava za upravljanje agencijama za nekretnine dostupnog na tivvo.app
+          sustava za upravljanje agencijama za nekretnine dostupnog na tivvu.app
           i njegovim poddomenama (»Usluga«). Uslugu pruža {name}, CUIT {taxId},
-          sa sjedištem na adresi {address} (»Tivvo«, »mi«).
+          sa sjedištem na adresi {address} (»Tivvu«, »mi«).
         </p>
         <p>
           Uvjeti zajedno s{" "}
@@ -147,7 +147,7 @@ const SECTIONS: LegalSection[] = [
           <li>timski rad s ulogama i ovlastima.</li>
         </ul>
         <p>
-          Tivvo neprestano poboljšava Uslugu: funkcije možemo dodavati,
+          Tivvu neprestano poboljšava Uslugu: funkcije možemo dodavati,
           mijenjati ili uklanjati. Ako uklonimo bitnu funkciju iz plaćenog
           paketa, obavijestit ćemo vas najmanje 30 dana unaprijed, a ako vam
           promjena ne odgovara, paket možete otkazati bez troškova.
@@ -161,21 +161,21 @@ const SECTIONS: LegalSection[] = [
     ),
   },
   {
-    id: "rol-de-tivvo",
-    title: "Tivvo nije strana u vašim poslovima",
+    id: "rol-de-tivvu",
+    title: "Tivvu nije strana u vašim poslovima",
     brief:
-      "Tivvo je softver: nije agencija za nekretnine ni posrednik, i ne obrađuje niti čuva vaše uplate.",
+      "Tivvu je softver: nije agencija za nekretnine ni posrednik, i ne obrađuje niti čuva vaše uplate.",
     content: (
       <>
         <p>
-          Tivvo je softverski alat. Nije agencija za nekretnine, ne djeluje kao
+          Tivvu je softverski alat. Nije agencija za nekretnine, ne djeluje kao
           posrednik, ne naplaćuje u ime Agencije i ne jamči da će se posao
           zaključiti. Prodaje, najmovi, rezervacije, kapare, provizije i naplate
           dogovori su između Agencije, njezinih klijenata i vlasnika.
         </p>
         <p>
           Uplate koje Agencija evidentira u Tivvu bilješke su za njezinu vlastitu
-          kontrolu; Tivvo ih ne obrađuje niti čuva. Dostupnost sinkronizirana s
+          kontrolu; Tivvu ih ne obrađuje niti čuva. Dostupnost sinkronizirana s
           vanjskim kalendarima (primjerice putem iCala) ovisi o tim uslugama i
           može kasniti: Agencija mora potvrditi dostupnost prije zaključenja
           rezervacije.
@@ -250,7 +250,7 @@ const SECTIONS: LegalSection[] = [
           </li>
           <li>
             automatizirano kopiranje Usluge (scraping), obrnuti inženjering ili
-            njezinu preprodaju bez pisanog ugovora s Tivvom.
+            njezinu preprodaju bez pisanog ugovora s Tivvum.
           </li>
         </ul>
         <p>
@@ -269,10 +269,10 @@ const SECTIONS: LegalSection[] = [
     content: (
       <>
         <p>
-          Tivvo nudi besplatni paket s ograničenjima (primjerice broja nekretnina
+          Tivvu nudi besplatni paket s ograničenjima (primjerice broja nekretnina
           i Korisnika) i plaćene pakete. Važeće cijene, ograničenja i funkcije
           svakog paketa objavljene su na{" "}
-          <LegalLink href="/#planes">tivvo.app</LegalLink> ili se za pakete po
+          <LegalLink href="/#planes">tivvu.app</LegalLink> ili se za pakete po
           mjeri dogovaraju pisanim putem.
         </p>
         <ul>
@@ -342,16 +342,16 @@ const SECTIONS: LegalSection[] = [
     content: (
       <>
         <p>
-          Podaci Agencije pripadaju Agenciji. Tivvo ih koristi samo za pružanje,
+          Podaci Agencije pripadaju Agenciji. Tivvu ih koristi samo za pružanje,
           održavanje i poboljšanje Usluge, podršku i poštivanje zakona; ne
           prodaje ih niti ih koristi kako bi u vlastito ime kontaktirao vaše
           klijente.
         </p>
         <p>
           U pogledu osobnih podataka Krajnjih klijenata, Agencija je voditelj
-          zbirke podataka, a Tivvo djeluje kao pružatelj usluga obrade u njezino
+          zbirke podataka, a Tivvu djeluje kao pružatelj usluga obrade u njezino
           ime, u smislu članka 25. argentinskog Zakona 25.326. Slijedom toga,
-          Tivvo:
+          Tivvu:
         </p>
         <ul>
           <li>
@@ -384,7 +384,7 @@ const SECTIONS: LegalSection[] = [
           Agencija sa svoje strane jamči da ima pravnu osnovu za unos tih
           podataka i da svoje Krajnje klijente obavještava o njihovoj obradi.{" "}
           <LegalLink href="/privacy">Pravila privatnosti</LegalLink> objašnjavaju
-          koje podatke Tivvo obrađuje, s kojim pružateljima usluga i u kojim
+          koje podatke Tivvu obrađuje, s kojim pružateljima usluga i u kojim
           zemljama.
         </p>
       </>
@@ -421,7 +421,7 @@ const SECTIONS: LegalSection[] = [
         <p>
           Stranica Agencije pripada Agenciji: ona odlučuje što objavljuje i
           odgovara za sadržaj. Upiti koji stižu putem stranice, kartica
-          nekretnina ili ponuda pohranjuju se u računu Agencije, a Tivvo u
+          nekretnina ili ponuda pohranjuju se u računu Agencije, a Tivvu u
           njezino ime šalje e-poruke s obavijestima i potvrdama.
         </p>
         <p>
@@ -441,10 +441,10 @@ const SECTIONS: LegalSection[] = [
     id: "propiedad-intelectual",
     title: "Intelektualno vlasništvo Tivva",
     brief:
-      "Softver i žig Tivvo su naši; možete ih koristiti dok vam je račun aktivan.",
+      "Softver i žig Tivvu su naši; možete ih koristiti dok vam je račun aktivan.",
     content: (
       <p>
-        Softver, dizajn, predlošci stranica, žig Tivvo i njegov logotip
+        Softver, dizajn, predlošci stranica, žig Tivvu i njegov logotip
         pripadaju Tivvu ili njegovim davateljima licence. Ovi Uvjeti ne prenose
         vam nikakva prava na njima, osim dopuštenja da koristite Uslugu dok vam
         je račun aktivan. Ako nam pošaljete ideje ili prijedloge, možemo ih
@@ -461,7 +461,7 @@ const SECTIONS: LegalSection[] = [
       <p>
         Usluga je povezana s uslugama trećih strana, kao što su prijava putem
         Googlea ili Applea ili sinkronizacija kalendara s platformi za najam. Te
-        usluge podliježu vlastitim uvjetima i pravilima, a Tivvo ne odgovara za
+        usluge podliježu vlastitim uvjetima i pravilima, a Tivvu ne odgovara za
         njihov rad ni za promjene njihovih uvjeta.
       </p>
     ),
@@ -542,7 +542,7 @@ const SECTIONS: LegalSection[] = [
     content: (
       <>
         <p>
-          U mjeri u kojoj to zakon dopušta, Tivvo ne odgovara za izgubljenu
+          U mjeri u kojoj to zakon dopušta, Tivvu ne odgovara za izgubljenu
           dobit, gubitak poslovnih prilika ni neizravnu štetu koja proizlazi iz
           korištenja ili nemogućnosti korištenja Usluge, niti za poslove između
           Agencije, njezinih klijenata i vlasnika.
@@ -567,7 +567,7 @@ const SECTIONS: LegalSection[] = [
       "Ako treća osoba postavi zahtjev zbog onoga što objavljujete ili zbog vaših poslova, odgovornost snosi vaša agencija.",
     content: (
       <p>
-        Agencija će obeštetiti Tivvo za zahtjeve trećih osoba (uključujući
+        Agencija će obeštetiti Tivvu za zahtjeve trećih osoba (uključujući
         Krajnje klijente, vlasnike i tijela vlasti) koji proizlaze iz sadržaja
         koji objavljuje, poslova koje obavlja ili kršenja ovih Uvjeta ili
         propisa primjenjivih na njezinu djelatnost, uključujući razumne troškove

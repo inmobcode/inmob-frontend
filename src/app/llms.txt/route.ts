@@ -16,11 +16,11 @@ const INTRO = `# ${SITE_NAME}
 
 > Sistema de gestión para inmobiliarias de venta y alquiler temporario. Cada agencia carga sus propiedades, arma ofertas para sus clientes, sigue reservas y pagos, y publica su propio sitio público dentro de ${new URL(absoluteUrl("/")).host}.
 
-Tivvo es el software; las propiedades y los precios son de cada agencia, que los publica y los gestiona. Una dirección \`/page/<agencia>\` es el sitio de esa inmobiliaria, y \`/page/<agencia>/properties/<propiedad>\` es una de sus publicaciones, con su precio, ubicación, fotos y formulario de contacto. La consulta le llega a esa agencia, no a Tivvo.`;
+Tivvu es el software; las propiedades y los precios son de cada agencia, que los publica y los gestiona. Una dirección \`/page/<agencia>\` es el sitio de esa inmobiliaria, y \`/page/<agencia>/properties/<propiedad>\` es una de sus publicaciones, con su precio, ubicación, fotos y formulario de contacto. La consulta le llega a esa agencia, no a Tivvu.`;
 
 const PRODUCT = `## Producto
 
-- [Inicio](${absoluteUrl("/")}): qué resuelve Tivvo, cómo funciona, planes y preguntas frecuentes.
+- [Inicio](${absoluteUrl("/")}): qué resuelve Tivvu, cómo funciona, planes y preguntas frecuentes.
 - [Contacto y ayuda](${absoluteUrl("/help")}): formulario para escribirle al equipo.
 - Idiomas: ${LOCALES.map((locale) => `[${LOCALE_NAMES[locale]}](${absoluteUrl(localePath(locale, "/"))})`).join(", ")}. Cada página pública existe en todos con el prefijo del idioma (\`/en/…\`, \`/pt/…\`); sin prefijo es la versión en español.`;
 

@@ -8,7 +8,7 @@ import { getMarketplaceFacets, type MarketplaceFacets } from "@/lib/api/marketpl
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("marketplace");
   return {
-    // Absolute: reads better without "· Tivvo" tacked on twice.
+    // Absolute: reads better without "· Tivvu" tacked on twice.
     title: { absolute: t("metaTitle") },
     description: t("hero.lead"),
     // Not the public landing right now: kept reachable for testing, out of the index.

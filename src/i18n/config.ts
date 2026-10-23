@@ -1,5 +1,5 @@
 /**
- * The languages Tivvo speaks. Spanish is the base: its URLs carry no prefix
+ * The languages Tivvu speaks. Spanish is the base: its URLs carry no prefix
  * (/terms), every other language does (/en/terms). The dashboard never has a
  * prefix: it follows the person's choice, kept in LOCALE_COOKIE.
  */

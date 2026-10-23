@@ -54,10 +54,10 @@ export function SiteFooter({ facets }: { facets: MarketplaceFacets }) {
       ],
     },
     {
-      title: "Tivvo",
+      title: "Tivvu",
       links: [
-        { label: t("tivvo.how"), href: `${PATH}#como-funciona` },
-        { label: t("tivvo.all"), href: `${PATH}#resultados` },
+        { label: t("tivvu.how"), href: `${PATH}#como-funciona` },
+        { label: t("tivvu.all"), href: `${PATH}#resultados` },
       ],
     },
   ];
@@ -68,7 +68,7 @@ export function SiteFooter({ facets }: { facets: MarketplaceFacets }) {
         <div className="flex flex-col items-start gap-5">
           <Link href={PATH} className="inline-flex items-center gap-2 font-display text-2xl tracking-tight">
             <LogoIcon className="text-lime" />
-            Tivvo
+            Tivvu
           </Link>
           <p className="max-w-sm text-paper/70">
             {t("blurb")}
@@ -112,7 +112,7 @@ export function SiteFooter({ facets }: { facets: MarketplaceFacets }) {
 
       <div className="border-t border-paper/10">
         <div className={cn(WRAP, "flex flex-col gap-2 py-6 text-sm text-paper/55 sm:flex-row sm:items-center sm:justify-between")}>
-          <span>© {new Date().getFullYear()} Tivvo</span>
+          <span>© {new Date().getFullYear()} Tivvu</span>
           <span>{t("legal")}</span>
         </div>
       </div>

@@ -8,7 +8,7 @@ import { LEGAL_ENTITY } from "@/lib/legal";
 const { name, taxId, address, jurisdiction, contactEmail } = LEGAL_ENTITY;
 
 const SUMMARY = [
-  "Tivvo ist ein Werkzeug, mit dem Ihre Agentur Objekte, Kunden, Angebote und Buchungen verwaltet und eine eigene Website veröffentlicht. Wir sind nicht Partei der Geschäfte, die Sie mit Ihren Kunden abschließen.",
+  "Tivvu ist ein Werkzeug, mit dem Ihre Agentur Objekte, Kunden, Angebote und Buchungen verwaltet und eine eigene Website veröffentlicht. Wir sind nicht Partei der Geschäfte, die Sie mit Ihren Kunden abschließen.",
   "Die Daten, die Sie erfassen, gehören Ihrer Agentur. Wir speichern und verarbeiten sie, um den Dienst zu erbringen, und Sie können sie exportieren.",
   "Ihre Agentur ist dafür verantwortlich, die Regeln ihrer Tätigkeit einzuhalten: Zulassung, wahrheitsgemäße Werbung, Mietverträge und Schutz der Daten ihrer Kunden.",
   "Sie können Ihren Tarif jederzeit kündigen, auf demselben Weg, auf dem Sie ihn abgeschlossen haben. Ändern sich Preise oder diese Bedingungen, informieren wir Sie 30 Tage im Voraus.",
@@ -19,21 +19,21 @@ const SECTIONS: LegalSection[] = [
     id: "quienes-somos",
     title: "Wer wir sind und was diese Bedingungen regeln",
     brief:
-      "Diese Bedingungen, die Datenschutzerklärung und die Bedingungen Ihres Tarifs bilden die gesamte Vereinbarung zwischen Tivvo und Ihrer Agentur.",
+      "Diese Bedingungen, die Datenschutzerklärung und die Bedingungen Ihres Tarifs bilden die gesamte Vereinbarung zwischen Tivvu und Ihrer Agentur.",
     content: (
       <>
         <p>
           Diese Allgemeinen Geschäftsbedingungen (die „Bedingungen“) regeln den
-          Zugang zu und die Nutzung von Tivvo, dem Verwaltungssystem für
-          Immobilienagenturen unter tivvo.app und seinen Subdomains (der
+          Zugang zu und die Nutzung von Tivvu, dem Verwaltungssystem für
+          Immobilienagenturen unter tivvu.app und seinen Subdomains (der
           „Dienst“). Der Dienst wird erbracht von {name}, Steuernummer (CUIT){" "}
-          {taxId}, mit Sitz in {address} („Tivvo“, „wir“).
+          {taxId}, mit Sitz in {address} („Tivvu“, „wir“).
         </p>
         <p>
           Die Bedingungen bilden zusammen mit der{" "}
           <LegalLink href="/privacy">Datenschutzerklärung</LegalLink> und den
           Bedingungen des von Ihnen gewählten Tarifs die gesamte Vereinbarung
-          zwischen Tivvo und der Agentur. Weicht eine besondere Bedingung Ihres
+          zwischen Tivvu und der Agentur. Weicht eine besondere Bedingung Ihres
           Tarifs (zum Beispiel ein unterzeichneter Enterprise-Vertrag) davon ab,
           hat die besondere Bedingung Vorrang.
         </p>
@@ -49,7 +49,7 @@ const SECTIONS: LegalSection[] = [
       <ul>
         <li>
           <strong>Agentur:</strong> die natürliche oder juristische Person, die
-          ein Tivvo-Konto anlegt, um ihre Immobilientätigkeit zu verwalten.
+          ein Tivvu-Konto anlegt, um ihre Immobilientätigkeit zu verwalten.
         </li>
         <li>
           <strong>Nutzer:</strong> die Personen, denen die Agentur die Nutzung
@@ -69,7 +69,7 @@ const SECTIONS: LegalSection[] = [
         </li>
         <li>
           <strong>Website der Agentur:</strong> die öffentliche Website, die die
-          Agentur mit dem Tivvo-Editor erstellt und die auf einer Tivvo-Subdomain
+          Agentur mit dem Tivvu-Editor erstellt und die auf einer Tivvu-Subdomain
           unter dem Namen der Agentur veröffentlicht wird.
         </li>
       </ul>
@@ -79,7 +79,7 @@ const SECTIONS: LegalSection[] = [
     id: "aceptacion",
     title: "Annahme und Geschäftsfähigkeit",
     brief:
-      "Mit der Nutzung von Tivvo akzeptieren Sie diese Bedingungen. Sie müssen volljährig und geschäftsfähig sein.",
+      "Mit der Nutzung von Tivvu akzeptieren Sie diese Bedingungen. Sie müssen volljährig und geschäftsfähig sein.",
     content: (
       <>
         <p>
@@ -151,7 +151,7 @@ const SECTIONS: LegalSection[] = [
           <li>im Team mit Rollen und Berechtigungen arbeiten.</li>
         </ul>
         <p>
-          Tivvo verbessert den Dienst laufend: Wir können Funktionen hinzufügen,
+          Tivvu verbessert den Dienst laufend: Wir können Funktionen hinzufügen,
           ändern oder entfernen. Entfernen wir eine wesentliche Funktion aus
           einem kostenpflichtigen Tarif, informieren wir Sie mindestens 30 Tage
           im Voraus, und wenn die Änderung für Sie nicht passt, können Sie den
@@ -166,14 +166,14 @@ const SECTIONS: LegalSection[] = [
     ),
   },
   {
-    id: "rol-de-tivvo",
-    title: "Tivvo ist nicht Partei Ihrer Geschäfte",
+    id: "rol-de-tivvu",
+    title: "Tivvu ist nicht Partei Ihrer Geschäfte",
     brief:
-      "Tivvo ist Software: weder Immobilienagentur noch Vermittler, und es wickelt Ihre Zahlungen weder ab noch verwahrt es sie.",
+      "Tivvu ist Software: weder Immobilienagentur noch Vermittler, und es wickelt Ihre Zahlungen weder ab noch verwahrt es sie.",
     content: (
       <>
         <p>
-          Tivvo ist ein Software-Werkzeug. Es ist keine Immobilienagentur,
+          Tivvu ist ein Software-Werkzeug. Es ist keine Immobilienagentur,
           handelt weder als Makler noch als Vermittler, kassiert nicht im Namen
           der Agentur und garantiert nicht, dass ein Geschäft zustande kommt.
           Verkäufe, Vermietungen, Buchungen, Anzahlungen, Provisionen und
@@ -181,8 +181,8 @@ const SECTIONS: LegalSection[] = [
           den Eigentümern.
         </p>
         <p>
-          Die Zahlungen, die die Agentur in Tivvo erfasst, sind Vermerke zu
-          ihrer eigenen Kontrolle; Tivvo wickelt sie weder ab noch verwahrt es
+          Die Zahlungen, die die Agentur in Tivvu erfasst, sind Vermerke zu
+          ihrer eigenen Kontrolle; Tivvu wickelt sie weder ab noch verwahrt es
           sie. Mit externen Kalendern synchronisierte Verfügbarkeiten (zum
           Beispiel über iCal) hängen von diesen Diensten ab und können verzögert
           sein: Die Agentur muss die Verfügbarkeit bestätigen, bevor sie eine
@@ -263,7 +263,7 @@ const SECTIONS: LegalSection[] = [
           </li>
           <li>
             den Dienst automatisiert zu kopieren (Scraping), ihn zurückzuentwickeln
-            oder ohne schriftliche Vereinbarung mit Tivvo weiterzuverkaufen.
+            oder ohne schriftliche Vereinbarung mit Tivvu weiterzuverkaufen.
           </li>
         </ul>
         <p>
@@ -282,10 +282,10 @@ const SECTIONS: LegalSection[] = [
     content: (
       <>
         <p>
-          Tivvo bietet einen kostenlosen Tarif mit Grenzen (zum Beispiel bei der
+          Tivvu bietet einen kostenlosen Tarif mit Grenzen (zum Beispiel bei der
           Anzahl der Objekte und Nutzer) und kostenpflichtige Tarife. Die
           geltenden Preise, Grenzen und Funktionen jedes Tarifs werden auf{" "}
-          <LegalLink href="/#planes">tivvo.app</LegalLink> veröffentlicht oder
+          <LegalLink href="/#planes">tivvu.app</LegalLink> veröffentlicht oder
           bei individuellen Tarifen schriftlich vereinbart.
         </p>
         <ul>
@@ -355,42 +355,42 @@ const SECTIONS: LegalSection[] = [
     content: (
       <>
         <p>
-          Die Daten der Agentur gehören der Agentur. Tivvo nutzt sie nur, um den
+          Die Daten der Agentur gehören der Agentur. Tivvu nutzt sie nur, um den
           Dienst zu erbringen, zu warten und zu verbessern, Sie zu unterstützen
           und das Gesetz einzuhalten; es verkauft sie nicht und nutzt sie nicht,
           um Ihre Kunden auf eigene Rechnung zu kontaktieren.
         </p>
         <p>
           Hinsichtlich der personenbezogenen Daten der Endkunden ist die Agentur
-          die Verantwortliche für die Datenbank, und Tivvo handelt als
+          die Verantwortliche für die Datenbank, und Tivvu handelt als
           Dienstleister, der sie in ihrem Auftrag verarbeitet, im Sinne von
           Artikel 25 des argentinischen Gesetzes 25.326. Entsprechend:
         </p>
         <ul>
           <li>
-            verarbeitet Tivvo diese Daten nur zur Erbringung des Dienstes und
+            verarbeitet Tivvu diese Daten nur zur Erbringung des Dienstes und
             nach den Weisungen der Agentur, die sich aus diesen Bedingungen und
             der Art ergeben, wie sie den Dienst konfiguriert und nutzt;
           </li>
           <li>
-            gibt Tivvo sie nicht an Dritte weiter, außer an die Dienstleister,
+            gibt Tivvu sie nicht an Dritte weiter, außer an die Dienstleister,
             die es für den Betrieb benötigt, oder auf behördliche Anordnung;
           </li>
           <li>
-            wendet Tivvo technische und organisatorische Sicherheitsmaßnahmen an
+            wendet Tivvu technische und organisatorische Sicherheitsmaßnahmen an
             und verpflichtet sein Personal und seine Dienstleister zur
             Vertraulichkeit;
           </li>
           <li>
-            informiert Tivvo die Agentur unverzüglich, wenn es einen
+            informiert Tivvu die Agentur unverzüglich, wenn es einen
             Sicherheitsvorfall feststellt, der ihre Daten betrifft;
           </li>
           <li>
-            unterstützt Tivvo die Agentur bei Auskunfts-, Berichtigungs- oder
+            unterstützt Tivvu die Agentur bei Auskunfts-, Berichtigungs- oder
             Löschungsanfragen der Endkunden;
           </li>
           <li>
-            löscht Tivvo diese Daten nach Ende des Dienstes innerhalb der Fristen
+            löscht Tivvu diese Daten nach Ende des Dienstes innerhalb der Fristen
             des Abschnitts „Export und Löschung von Daten“.
           </li>
         </ul>
@@ -398,7 +398,7 @@ const SECTIONS: LegalSection[] = [
           Die Agentur ihrerseits sichert zu, dass sie eine Rechtsgrundlage für
           die Erfassung dieser Daten hat und ihre Endkunden über die Verarbeitung
           informiert. Die <LegalLink href="/privacy">Datenschutzerklärung</LegalLink>{" "}
-          erläutert, welche Daten Tivvo verarbeitet, mit welchen Dienstleistern
+          erläutert, welche Daten Tivvu verarbeitet, mit welchen Dienstleistern
           und in welchen Ländern.
         </p>
       </>
@@ -437,7 +437,7 @@ const SECTIONS: LegalSection[] = [
           Die Website der Agentur gehört der Agentur: Sie entscheidet, was sie
           veröffentlicht, und ist für den Inhalt verantwortlich. Anfragen über
           die Website, Objektseiten oder Angebote werden im Konto der Agentur
-          gespeichert, und Tivvo versendet in ihrem Namen die Benachrichtigungs-
+          gespeichert, und Tivvu versendet in ihrem Namen die Benachrichtigungs-
           und Bestätigungs-E-Mails.
         </p>
         <p>
@@ -447,7 +447,7 @@ const SECTIONS: LegalSection[] = [
           senden.
         </p>
         <p>
-          Derzeit wird die Website der Agentur auf einer Tivvo-Subdomain
+          Derzeit wird die Website der Agentur auf einer Tivvu-Subdomain
           veröffentlicht. Verlässt die Agentur den Dienst, ist die Website nicht
           mehr verfügbar.
         </p>
@@ -456,13 +456,13 @@ const SECTIONS: LegalSection[] = [
   },
   {
     id: "propiedad-intelectual",
-    title: "Geistiges Eigentum von Tivvo",
+    title: "Geistiges Eigentum von Tivvu",
     brief:
-      "Die Software und die Marke Tivvo gehören uns; Sie dürfen sie nutzen, solange Ihr Konto besteht.",
+      "Die Software und die Marke Tivvu gehören uns; Sie dürfen sie nutzen, solange Ihr Konto besteht.",
     content: (
       <p>
-        Die Software, das Design, die Website-Vorlagen, die Marke Tivvo und ihr
-        Logo gehören Tivvo oder seinen Lizenzgebern. Diese Bedingungen
+        Die Software, das Design, die Website-Vorlagen, die Marke Tivvu und ihr
+        Logo gehören Tivvu oder seinen Lizenzgebern. Diese Bedingungen
         übertragen Ihnen keine Rechte daran, über die Erlaubnis hinaus, den
         Dienst zu nutzen, solange Ihr Konto besteht. Senden Sie uns Ideen oder
         Vorschläge, dürfen wir sie frei zur Verbesserung des Dienstes nutzen,
@@ -480,7 +480,7 @@ const SECTIONS: LegalSection[] = [
         Der Dienst ist mit Diensten Dritter verbunden, etwa der Anmeldung mit
         Google oder Apple oder der Synchronisierung von Kalendern von
         Vermietungsplattformen. Diese Dienste unterliegen ihren eigenen
-        Bedingungen und Richtlinien, und Tivvo haftet weder für ihren Betrieb
+        Bedingungen und Richtlinien, und Tivvu haftet weder für ihren Betrieb
         noch für Änderungen ihrer Bedingungen.
       </p>
     ),
@@ -534,7 +534,7 @@ const SECTIONS: LegalSection[] = [
   },
   {
     id: "suspension",
-    title: "Sperrung und Kündigung durch Tivvo",
+    title: "Sperrung und Kündigung durch Tivvu",
     brief:
       "Wir können ein Konto bei schweren Verstößen oder Sicherheitsrisiken sperren und informieren vorher, außer in dringenden Fällen.",
     content: (
@@ -563,20 +563,20 @@ const SECTIONS: LegalSection[] = [
     content: (
       <>
         <p>
-          Soweit gesetzlich zulässig, haftet Tivvo nicht für entgangenen Gewinn,
+          Soweit gesetzlich zulässig, haftet Tivvu nicht für entgangenen Gewinn,
           verlorene Geschäftschancen oder indirekte Schäden, die aus der Nutzung
           oder Nichtnutzbarkeit des Dienstes entstehen, noch für die Geschäfte
           zwischen der Agentur, ihren Kunden und den Eigentümern.
         </p>
         <p>
-          Die Gesamthaftung von Tivvo gegenüber der Agentur für jeden Anspruch im
+          Die Gesamthaftung von Tivvu gegenüber der Agentur für jeden Anspruch im
           Zusammenhang mit dem Dienst ist auf den Betrag begrenzt, den die Agentur
-          in den 12 Monaten vor dem anspruchsbegründenden Ereignis an Tivvo
+          in den 12 Monaten vor dem anspruchsbegründenden Ereignis an Tivvu
           gezahlt hat.
         </p>
         <p>
           Diese Grenzen gelten nicht bei Vorsatz oder grober Fahrlässigkeit von
-          Tivvo und schränken die Rechte nicht ein, die zwingende Vorschriften wie
+          Tivvu und schränken die Rechte nicht ein, die zwingende Vorschriften wie
           das argentinische Gesetz 24.240 Verbrauchern gewähren.
         </p>
       </>
@@ -589,7 +589,7 @@ const SECTIONS: LegalSection[] = [
       "Erhebt ein Dritter Ansprüche wegen Ihrer Veröffentlichungen oder Geschäfte, trägt Ihre Agentur die Verantwortung.",
     content: (
       <p>
-        Die Agentur stellt Tivvo von Ansprüchen Dritter frei (einschließlich
+        Die Agentur stellt Tivvu von Ansprüchen Dritter frei (einschließlich
         Endkunden, Eigentümern und Behörden), die aus den von ihr
         veröffentlichten Inhalten, ihren Geschäften oder der Verletzung dieser
         Bedingungen oder der für ihre Tätigkeit geltenden Vorschriften entstehen,
@@ -662,12 +662,12 @@ const SECTIONS: LegalSection[] = [
 export const content: LegalContent = {
   metaTitle: "Allgemeine Geschäftsbedingungen",
   metaDescription:
-    "Nutzungsbedingungen von Tivvo, dem Verwaltungssystem für Verkaufs- und Ferienvermietungsagenturen.",
+    "Nutzungsbedingungen von Tivvu, dem Verwaltungssystem für Verkaufs- und Ferienvermietungsagenturen.",
   title: "Allgemeine Geschäftsbedingungen",
   intro: (
     <>
       <p>
-        Die Regeln für die Nutzung von Tivvo: was wir tun, was Sache Ihrer
+        Die Regeln für die Nutzung von Tivvu: was wir tun, was Sache Ihrer
         Agentur ist und was mit Ihren Daten, Zahlungen und Ihrem Konto geschieht.
       </p>
       <p>

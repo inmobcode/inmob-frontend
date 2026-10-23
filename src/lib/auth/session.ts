@@ -5,7 +5,7 @@ import type { AuthResponse } from "@/lib/api/auth";
 
 const ACCESS_COOKIE = "access_token";
 const REFRESH_COOKIE = "refresh_token";
-const USER_COOKIE = "tivvo_user";
+const USER_COOKIE = "tivvu_user";
 // Renamed from the product's old name. Sessions stored before the rename
 // still have their user info under this key — read it once and migrate it
 // so people aren't silently logged out of just the name/avatar menu.

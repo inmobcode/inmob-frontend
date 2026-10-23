@@ -1,6 +1,6 @@
 {
   "marketplace": {
-    "metaTitle": "Tivvo · Alquileres temporarios y propiedades en venta",
+    "metaTitle": "Tivvu · Alquileres temporarios y propiedades en venta",
     "byDestination": "Por destino",
     "nav": {
       "rentals": "Alquileres",
@@ -59,7 +59,7 @@
       "zoneSoon": "Pronto puede haber.",
       "title": "No hay nada con todo eso junto.",
       "titleTail": "Probá aflojar algún filtro.",
-      "zoneBody": "Las inmobiliarias que publican en Tivvo todavía no tienen nada ahí. Mientras tanto, mirá los destinos donde sí hay.",
+      "zoneBody": "Las inmobiliarias que publican en Tivvu todavía no tienen nada ahí. Mientras tanto, mirá los destinos donde sí hay.",
       "body": "Sacá algún filtro o cambiá las fechas y vas a ver más opciones.",
       "everywhere": "Buscar en todos los destinos",
       "noDates": "Probar sin fechas",
@@ -107,7 +107,7 @@
       "pitch": {
         "title": "¿Tenés una inmobiliaria?",
         "body": "Publicá tus propiedades acá y manejá consultas, ofertas y reservas desde un solo lugar.",
-        "cta": "Conocé Tivvo para inmobiliarias"
+        "cta": "Conocé Tivvu para inmobiliarias"
       },
       "rent": {
         "title": "Alquilar",
@@ -120,11 +120,11 @@
       },
       "agencies": {
         "title": "Para inmobiliarias",
-        "about": "Conocé Tivvo",
+        "about": "Conocé Tivvu",
         "register": "Crear una cuenta",
         "login": "Ingresar"
       },
-      "tivvo": {
+      "tivvu": {
         "how": "Cómo funciona",
         "all": "Ver todas las propiedades"
       }

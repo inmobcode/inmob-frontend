@@ -34,10 +34,10 @@
       "remove": "Aus dem Team entfernen"
     },
     "invite": {
-      "linked": "Bereits ein Tivvo-Konto vorhanden: zu Ihrem Team hinzugefügt",
+      "linked": "Bereits ein Tivvu-Konto vorhanden: zu Ihrem Team hinzugefügt",
       "sent": "Zugang per E-Mail verschickt",
       "title": "Mitglied einladen",
-      "description": "Mit bestehendem Tivvo-Konto fügen wir die Person Ihrem Team hinzu; sonst senden wir ihr den Zugang per E-Mail.",
+      "description": "Mit bestehendem Tivvu-Konto fügen wir die Person Ihrem Team hinzu; sonst senden wir ihr den Zugang per E-Mail.",
       "name": "Name",
       "namePlaceholder": "z. B. Rodrigo Sosa",
       "emailPlaceholder": "name@email.com",

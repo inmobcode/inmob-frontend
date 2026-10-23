@@ -1,7 +1,7 @@
 {
   "meta": {
     "description": "Logiciel de gestion pour agences immobilières : biens, offres, réservations et le site de votre agence.",
-    "ogAlt": "Tivvo · Logiciel de gestion pour agences immobilières",
+    "ogAlt": "Tivvu · Logiciel de gestion pour agences immobilières",
     "ogTitle": "Un seul endroit pour vos biens, offres et réservations",
     "ogSubtitle": "Logiciel de gestion pour agences de vente et de location saisonnière."
   },
@@ -18,7 +18,7 @@
     "links": {
       "home": {
         "label": "Accueil",
-        "hint": "Ce qu’est Tivvo et comment ça marche"
+        "hint": "Ce qu’est Tivvu et comment ça marche"
       },
       "help": {
         "label": "Aide",

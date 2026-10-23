@@ -1,6 +1,6 @@
 {
   "marketplace": {
-    "metaTitle": "Tivvo · Locations saisonnières et biens à vendre",
+    "metaTitle": "Tivvu · Locations saisonnières et biens à vendre",
     "byDestination": "Par destination",
     "nav": {
       "rentals": "Locations",
@@ -59,7 +59,7 @@
       "zoneSoon": "Il pourrait bientôt y en avoir.",
       "title": "Rien ne correspond à tout ça.",
       "titleTail": "Essayez d’assouplir un filtre.",
-      "zoneBody": "Les agences présentes sur Tivvo n’ont encore rien là-bas. En attendant, découvrez les destinations où il y en a.",
+      "zoneBody": "Les agences présentes sur Tivvu n’ont encore rien là-bas. En attendant, découvrez les destinations où il y en a.",
       "body": "Retirez un filtre ou changez les dates pour voir plus d’options.",
       "everywhere": "Rechercher dans toutes les destinations",
       "noDates": "Essayer sans dates",
@@ -107,7 +107,7 @@
       "pitch": {
         "title": "Vous avez une agence ?",
         "body": "Publiez vos biens ici et gérez demandes, offres et réservations depuis un seul endroit.",
-        "cta": "Découvrez Tivvo pour les agences"
+        "cta": "Découvrez Tivvu pour les agences"
       },
       "rent": {
         "title": "Louer",
@@ -120,11 +120,11 @@
       },
       "agencies": {
         "title": "Pour les agences",
-        "about": "Découvrez Tivvo",
+        "about": "Découvrez Tivvu",
         "register": "Créer un compte",
         "login": "Se connecter"
       },
-      "tivvo": {
+      "tivvu": {
         "how": "Comment ça marche",
         "all": "Voir tous les biens"
       }

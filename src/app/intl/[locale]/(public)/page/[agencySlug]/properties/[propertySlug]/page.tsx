@@ -55,7 +55,7 @@ export async function generateMetadata({
   const path = propertyPath(agencySlug, propertySlug);
 
   return {
-    // Absolute: this is the agency's own public site, not a Tivvo surface.
+    // Absolute: this is the agency's own public site, not a Tivvu surface.
     title: { absolute: title },
     description,
     // The listing answers on both hosts; only the public one should be indexed.

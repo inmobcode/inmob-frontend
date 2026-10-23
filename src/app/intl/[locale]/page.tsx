@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const { locale, t } = await landingCopy(params);
   const title = t("meta.title");
   return {
-    // Absolute: the home page reads better without "· Tivvo" tacked on twice.
+    // Absolute: the home page reads better without "· Tivvu" tacked on twice.
     title: { absolute: title },
     description: t("meta.description"),
     alternates: localizedAlternates("/", locale),

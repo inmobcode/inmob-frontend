@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const { token } = await params;
   const portal = await loadPortal(token);
   return {
-    // Absolute: this is the agency's own branded link to its owner, not a Tivvo surface.
+    // Absolute: this is the agency's own branded link to its owner, not a Tivvu surface.
     title: { absolute: t("ownerTitle", { agency: portal.agencyName }) },
     // A private link: keep it out of search engines.
     robots: { index: false, follow: false },

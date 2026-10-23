@@ -10,5 +10,5 @@ export async function GET(_request: Request, { params }: { params: Promise<{ loc
   const t = await getTranslations({ locale, namespace: "meta" });
   const title = t("ogTitle");
   const subtitle = t("ogSubtitle");
-  return ogCard({ title, subtitle, fonts: await ogFonts(locale, `${title} ${subtitle} tivvo.app`) });
+  return ogCard({ title, subtitle, fonts: await ogFonts(locale, `${title} ${subtitle} tivvu.app`) });
 }

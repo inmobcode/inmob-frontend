@@ -9,7 +9,7 @@
           "f1": "Up to 5 properties",
           "f2": "1 user",
           "f3": "Clients, inquiries and offers",
-          "f4": "Website on a Tivvo subdomain, Cover template and your colour"
+          "f4": "Website on a Tivvu subdomain, Cover template and your colour"
         },
         "cta": "Start for free"
       },
@@ -51,7 +51,7 @@
       },
       "address": {
         "q": "What is my website's address?",
-        "a": "Your website lives on a Tivvo subdomain with your agency's name. We don't offer custom domains yet."
+        "a": "Your website lives on a Tivvu subdomain with your agency's name. We don't offer custom domains yet."
       },
       "privacy": {
         "q": "Is my data mixed with other agencies' data?",
@@ -76,33 +76,33 @@
     },
     "problem": {
       "claim": "When the business grows, it gets messy.",
-      "rest": "Tivvo puts it in order.",
+      "rest": "Tivvu puts it in order.",
       "problem": "Problem",
       "solution": "Solution",
       "items": {
         "inquiries": {
           "today": "Inquiries arrive from everywhere and nobody knows who answered them.",
-          "tivvo": "Every inquiry from your website lands in an inbox as a client, with an owner and its history."
+          "tivvu": "Every inquiry from your website lands in an inbox as a client, with an owner and its history."
         },
         "followUp": {
           "today": "A client was left unanswered and you find out when they've already bought elsewhere.",
-          "tivvo": "Follow-up tasks with a date and an assignee, and a bell that flags what needs your attention."
+          "tivvu": "Follow-up tasks with a date and an assignee, and a bell that flags what needs your attention."
         },
         "offers": {
           "today": "Offers travel over WhatsApp and you don't know if the client opened them.",
-          "tivvo": "You send a link and see when it was opened and when it expires."
+          "tivvu": "You send a link and see when it was opened and when it expires."
         },
         "calendar": {
           "today": "The rental calendar lives in a spreadsheet and bookings overlap.",
-          "tivvo": "90-day availability: booked dates block themselves and you block the rest by dragging."
+          "tivvu": "90-day availability: booked dates block themselves and you block the rest by dragging."
         },
         "payments": {
           "today": "Payments live in a spreadsheet only one person understands.",
-          "tivvo": "Deposit, balance and commission for every booking, visible to the right people."
+          "tivvu": "Deposit, balance and commission for every booking, visible to the right people."
         },
         "owners": {
           "today": "Owners call every week to ask how their property is doing.",
-          "tivvo": "A private link with their statement: what was collected, the payouts and the balance."
+          "tivvu": "A private link with their statement: what was collected, the payouts and the balance."
         }
       }
     },
@@ -232,7 +232,7 @@
         "teamSize": "Choose your team size"
       },
       "failed": "We couldn't send the request. Try again in a few minutes.",
-      "claim": "Let's see your agency in Tivvo.",
+      "claim": "Let's see your agency in Tivvu.",
       "rest": "With your properties and your team.",
       "sentTitle": "Request sent",
       "sentText": "We'll write to you in the next few days to arrange the demo.",
@@ -253,7 +253,7 @@
       "submit": "Request a demo"
     },
     "meta": {
-      "title": "Tivvo · Real estate agency management software",
+      "title": "Tivvu · Real estate agency management software",
       "description": "Add properties, build offers, track bookings and publish your agency's website from one place. For sales and holiday rental agencies.",
       "keywords": "real estate software, real estate crm, property management, holiday rentals, real estate agency website"
     },
@@ -263,7 +263,7 @@
       "lead": "Your agency's properties, clients, offers, bookings, availability and payments in one system. With your own website, follow-up tasks and a portal for every owner.",
       "demo": "Request a demo",
       "how": "See how it works",
-      "sceneLabel": "A booking in Tivvo, step by step",
+      "sceneLabel": "A booking in Tivvu, step by step",
       "scene": {
         "inquiry": "The inquiry arrives",
         "offer": "They open the offer",

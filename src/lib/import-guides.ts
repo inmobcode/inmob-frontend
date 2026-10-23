@@ -6,20 +6,20 @@ import type { ImportPlatform } from "@/lib/import-platforms";
 export const DEFAULT_SOURCE: Record<ImportFormat, string> = {
   table: "csv",
   kyero: "kyero",
-  tivvo_xml: "tivvo",
+  tivvu_xml: "tivvu",
 };
 
 /** The formats' names are in the "import.formats" messages. */
 
 /** Not a platform: the two ways in for anyone whose system isn't listed. Their words: "import.generic". */
 export interface GenericOrigin {
-  slug: "xml" | "tivvo";
+  slug: "xml" | "tivvu";
   format: ImportFormat;
 }
 
 export const GENERIC_ORIGINS: GenericOrigin[] = [
   { slug: "xml", format: "kyero" },
-  { slug: "tivvo", format: "tivvo_xml" },
+  { slug: "tivvu", format: "tivvu_xml" },
 ];
 
 export interface GuideLink {
@@ -108,9 +108,9 @@ export function supportSubject(platform: ImportPlatform, kind: RequestKind = "ex
   return "Request for an XML feed of my property portfolio";
 }
 
-// ---------------------------------------------------------------- asking Tivvo for help
+// ---------------------------------------------------------------- asking Tivvu for help
 
-/** The message prefilled in "Pedir ayuda": it goes to the Tivvo team, who help migrate from `originName`. */
+/** The message prefilled in "Pedir ayuda": it goes to the Tivvu team, who help migrate from `originName`. */
 export function helpMessage(t: GuideTranslator, originName: string, agencySlug?: string | null): string {
   return [
     t("help.greeting"),
@@ -250,9 +250,9 @@ export function platformGuide(t: GuideTranslator, platform: ImportPlatform): Gui
 }
 
 export function genericGuide(t: GuideTranslator, origin: GenericOrigin): Guide {
-  if (origin.format === "tivvo_xml") {
+  if (origin.format === "tivvu_xml") {
     return {
-      format: "tivvo_xml",
+      format: "tivvu_xml",
       source: origin.slug,
       title: t("titles.own"),
       steps: [t("ownSteps.s1"), t("ownSteps.s2"), t("ownSteps.s3"), t("shared.review")],
@@ -294,7 +294,7 @@ export function routeGuide(t: GuideTranslator, format: ImportFormat, source: str
   };
 }
 
-export const TIVVO_XML_EXAMPLE = `<tivvo version="1">
+export const TIVVU_XML_EXAMPLE = `<tivvu version="1">
   <listing>
     <external_id>ABC-123</external_id>
     <title>Villa con vista al mar</title>
@@ -315,7 +315,7 @@ export const TIVVO_XML_EXAMPLE = `<tivvo version="1">
     <photos><photo>https://tu-sitio.com/fotos/1.jpg</photo></photos>
     <owner><name>Nombre</name><email>mail@ejemplo.com</email></owner>
   </listing>
-</tivvo>`;
+</tivvu>`;
 
 export const CSV_TEMPLATE = [
   "ref,title,listing_type,category,price,currency,country,region,area,address,bedrooms,bathrooms,area_sqm,plot_area,description,features,photos",

@@ -3,16 +3,16 @@
     "formats": {
       "table": "CSV oder Excel",
       "kyero": "Kyero-Feed (XML)",
-      "tivvo_xml": "Tivvo-XML"
+      "tivvu_xml": "Tivvu-XML"
     },
     "generic": {
       "xml": {
         "name": "Kyero-XML",
         "description": "Der Feed im Kyero-Format (Version 3), den Casafari, Estatebud und die meisten CRMs exportieren, per URL oder Datei."
       },
-      "tivvo": {
-        "name": "Mein eigenes System (Tivvo-XML)",
-        "description": "Hat Ihr System eine eigene API, erzeugen Sie das Tivvo-XML und wir lesen diesen Feed per URL oder Datei."
+      "tivvu": {
+        "name": "Mein eigenes System (Tivvu-XML)",
+        "description": "Hat Ihr System eine eigene API, erzeugen Sie das Tivvu-XML und wir lesen diesen Feed per URL oder Datei."
       }
     },
     "guides": {
@@ -23,9 +23,9 @@
         "provideFeed": "Fügen Sie die Feed-URL in das Feld daneben ein oder laden Sie das XML hoch."
       },
       "help": {
-        "greeting": "Hallo Tivvo-Team,",
-        "body": "Ich möchte meine Objekte von {origin} zu Tivvo umziehen und weiß nicht, wie ich an die Daten komme oder wie ich sie importiere. Können Sie mir helfen?",
-        "agency": "Meine Agentur bei Tivvo: {slug}",
+        "greeting": "Hallo Tivvu-Team,",
+        "body": "Ich möchte meine Objekte von {origin} zu Tivvu umziehen und weiß nicht, wie ich an die Daten komme oder wie ich sie importiere. Können Sie mir helfen?",
+        "agency": "Meine Agentur bei Tivvu: {slug}",
         "thanks": "Danke."
       },
       "overrides": {
@@ -90,7 +90,7 @@
         }
       },
       "ownSteps": {
-        "s1": "Erzeugen Sie aus Ihrer API ein XML im Tivvo-Format (Beispiel unten): ein '<listing>' pro Objekt.",
+        "s1": "Erzeugen Sie aus Ihrer API ein XML im Tivvu-Format (Beispiel unten): ein '<listing>' pro Objekt.",
         "s2": "Verwenden Sie für dasselbe Objekt immer dieselbe '<external_id>', damit ein erneuter Import aktualisiert statt dupliziert.",
         "s3": "Veröffentlichen Sie das XML unter einer öffentlichen URL und fügen Sie sie in das Feld daneben ein, oder laden Sie die Datei hoch."
       },
@@ -196,14 +196,14 @@
       "continue": "Weiter"
     },
     "mapping": {
-      "fieldFor": "Tivvo-Feld für Spalte {header}",
+      "fieldFor": "Tivvu-Feld für Spalte {header}",
       "skip": "Nicht importieren",
       "title": "Was jede Spalte bedeutet",
       "lead": "Wir haben {rows} Zeilen gefunden und {detected} von {total} Spalten erkannt. Nicht erkannte stehen oben; nicht zugeordnete werden ignoriert. Eine leere Zelle löscht nie bereits Erfasstes.",
       "status": "{mapped} werden importiert · {unassigned} nicht zugeordnet",
       "column": "Spalte in Ihrer Datei",
       "examples": "Beispiele",
-      "field": "Feld in Tivvo",
+      "field": "Feld in Tivvu",
       "noReference": "Ohne Referenzspalte (ID) dupliziert ein erneuter Import die Objekte, statt sie zu aktualisieren.",
       "back": "Zurück",
       "preview": "Vorschau ansehen",

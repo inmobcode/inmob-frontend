@@ -17,7 +17,7 @@ export interface ImportPlatform {
    */
   markets: string[];
   type: PlatformType;
-  /** 1 = high priority for Tivvo's markets, 3 = low. */
+  /** 1 = high priority for Tivvu's markets, 3 = low. */
   priority: 1 | 2 | 3;
   format: ImportFormat;
   siteUrl: string;

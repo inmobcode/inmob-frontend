@@ -27,19 +27,19 @@ const SECTIONS: LegalSection[] = [
       <>
         <p>
           This Policy explains how {name}, tax ID (CUIT) {taxId}, with its
-          address at {address} (“Tivvo”, “we”, “us”), processes personal data
-          when you use tivvo.app, its subdomains and the agency websites
-          published with Tivvo. It applies in accordance with Argentine Law
+          address at {address} (“Tivvu”, “we”, “us”), processes personal data
+          when you use tivvu.app, its subdomains and the agency websites
+          published with Tivvu. It applies in accordance with Argentine Law
           25,326 on the Protection of Personal Data, its Regulatory Decree
           1558/2001 and the rules of the Agency for Access to Public Information
           (AAIP).
         </p>
-        <p>Tivvo has two different roles depending on whose data it is:</p>
+        <p>Tivvu has two different roles depending on whose data it is:</p>
         <ul>
           <li>
             <strong>We are the controller</strong> of the data of agencies and
             their users (account, billing, use of the system), of people who
-            request a demo or write to us, and of visitors to tivvo.app.
+            request a demo or write to us, and of visitors to tivvu.app.
           </li>
           <li>
             <strong>We process data on behalf of each agency</strong> when it
@@ -65,7 +65,7 @@ const SECTIONS: LegalSection[] = [
       "Account, sign-in, technical data and communications; and, on behalf of each agency, its clients' data. We don't ask for sensitive data.",
     content: (
       <>
-        <h3>If you use Tivvo at an agency</h3>
+        <h3>If you use Tivvu at an agency</h3>
         <ul>
           <li>
             <strong>Account:</strong> name, email, password (stored encrypted
@@ -91,7 +91,7 @@ const SECTIONS: LegalSection[] = [
             the demo form (name, email, agency, team size and your message).
           </li>
         </ul>
-        <h3>Data agencies enter or receive with Tivvo</h3>
+        <h3>Data agencies enter or receive with Tivvu</h3>
         <p>
           On behalf of each agency we process its end clients&apos; data: name,
           email, phone, inquiries and messages, notes and history, offers,
@@ -215,7 +215,7 @@ const SECTIONS: LegalSection[] = [
         </p>
         <p>
           We may disclose data if ordered by a judge or competent authority, or
-          if necessary to defend our rights. If Tivvo merges or is acquired, the
+          if necessary to defend our rights. If Tivvu merges or is acquired, the
           data will be transferred to the new entity, which must respect this
           Policy.
         </p>
@@ -323,7 +323,7 @@ const SECTIONS: LegalSection[] = [
     content: (
       <>
         <p>
-          Tivvo only uses cookies and local storage that are necessary for the
+          Tivvu only uses cookies and local storage that are necessary for the
           Service to work. We do not use advertising or third-party tracking
           cookies.
         </p>
@@ -333,7 +333,7 @@ const SECTIONS: LegalSection[] = [
             [
               <>
                 Session (<code>access_token</code>, <code>refresh_token</code>,{" "}
-                <code>tivvo_user</code>)
+                <code>tivvu_user</code>)
               </>,
               "They keep you signed in.",
               "Up to 180 days or until you sign out.",
@@ -355,7 +355,7 @@ const SECTIONS: LegalSection[] = [
         <p>
           You can delete or block cookies from your browser. If you block the
           session cookies, you will not be able to sign in. Agencies&apos; public
-          websites do not set Tivvo cookies.
+          websites do not set Tivvu cookies.
         </p>
       </>
     ),
@@ -421,10 +421,10 @@ const SECTIONS: LegalSection[] = [
   {
     id: "menores",
     title: "Minors",
-    brief: "Tivvo is a tool for people over 18.",
+    brief: "Tivvu is a tool for people over 18.",
     content: (
       <p>
-        Tivvo is a professional tool for people over 18 and is not aimed at
+        Tivvu is a professional tool for people over 18 and is not aimed at
         minors. If you know that a minor has given us their data without
         authorisation, write to us and we will delete it.
       </p>
@@ -467,7 +467,7 @@ const SECTIONS: LegalSection[] = [
 export const content: LegalContent = {
   metaTitle: "Privacy policy",
   metaDescription:
-    "What personal data Tivvo processes, why, who it shares it with and how to exercise your rights.",
+    "What personal data Tivvu processes, why, who it shares it with and how to exercise your rights.",
   title: "Privacy policy",
   intro: (
     <>

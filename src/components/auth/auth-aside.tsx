@@ -21,7 +21,7 @@ const POINTS = [
 const NEXT_STEPS = ["agency", "properties", "team"] as const;
 
 /**
- * The right-hand panel of the auth screens: the photo with what Tivvo does at
+ * The right-hand panel of the auth screens: the photo with what Tivvu does at
  * its foot. Someone signing up also sees what comes next, on the solid green
  * the photo fades into.
  */

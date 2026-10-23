@@ -1,7 +1,7 @@
 {
   "meta": {
     "description": "Software de gestão para imobiliárias: imóveis, ofertas, reservas e o site da sua agência.",
-    "ogAlt": "Tivvo · Sistema de gestão para imobiliárias",
+    "ogAlt": "Tivvu · Sistema de gestão para imobiliárias",
     "ogTitle": "Um só lugar para os seus imóveis, ofertas e reservas",
     "ogSubtitle": "Sistema de gestão para imobiliárias de venda e arrendamento de curta duração."
   },
@@ -18,7 +18,7 @@
     "links": {
       "home": {
         "label": "Início",
-        "hint": "O que é a Tivvo e como funciona"
+        "hint": "O que é a Tivvu e como funciona"
       },
       "help": {
         "label": "Ajuda",

@@ -3,16 +3,16 @@
     "formats": {
       "table": "CSV ou Excel",
       "kyero": "Feed Kyero (XML)",
-      "tivvo_xml": "XML da Tivvo"
+      "tivvu_xml": "XML da Tivvu"
     },
     "generic": {
       "xml": {
         "name": "XML da Kyero",
         "description": "O feed no formato Kyero (versão 3) exportado pela Casafari, Estatebud e a maioria dos CRM, por URL ou por ficheiro."
       },
-      "tivvo": {
-        "name": "O meu próprio sistema (XML da Tivvo)",
-        "description": "Se o seu sistema tem API própria, gere o XML da Tivvo e lemos esse feed por URL ou por ficheiro."
+      "tivvu": {
+        "name": "O meu próprio sistema (XML da Tivvu)",
+        "description": "Se o seu sistema tem API própria, gere o XML da Tivvu e lemos esse feed por URL ou por ficheiro."
       }
     },
     "guides": {
@@ -23,9 +23,9 @@
         "provideFeed": "Cole o URL do feed na caixa ao lado, ou carregue o XML."
       },
       "help": {
-        "greeting": "Olá, equipa da Tivvo:",
-        "body": "Quero migrar os meus imóveis de {origin} para a Tivvo e não sei como obter os dados nem como importá-los. Podem ajudar-me?",
-        "agency": "A minha agência na Tivvo: {slug}",
+        "greeting": "Olá, equipa da Tivvu:",
+        "body": "Quero migrar os meus imóveis de {origin} para a Tivvu e não sei como obter os dados nem como importá-los. Podem ajudar-me?",
+        "agency": "A minha agência na Tivvu: {slug}",
         "thanks": "Obrigado."
       },
       "overrides": {
@@ -90,7 +90,7 @@
         }
       },
       "ownSteps": {
-        "s1": "Gere a partir da sua API um XML com o formato da Tivvo (exemplo abaixo): um '<listing>' por imóvel.",
+        "s1": "Gere a partir da sua API um XML com o formato da Tivvu (exemplo abaixo): um '<listing>' por imóvel.",
         "s2": "Use sempre o mesmo '<external_id>' para o mesmo imóvel: assim, ao voltar a importar, atualiza em vez de duplicar.",
         "s3": "Publique o XML num URL público e cole-o na caixa ao lado, ou carregue o ficheiro."
       },
@@ -196,14 +196,14 @@
       "continue": "Continuar"
     },
     "mapping": {
-      "fieldFor": "Campo da Tivvo para a coluna {header}",
+      "fieldFor": "Campo da Tivvu para a coluna {header}",
       "skip": "Não importar",
       "title": "O que é cada coluna",
       "lead": "Detetámos {rows} linhas e reconhecemos {detected} de {total} colunas. As que não reconhecemos aparecem primeiro; as que ficarem sem atribuir são ignoradas. Uma célula vazia nunca apaga o que já está registado.",
       "status": "{mapped} importam-se · {unassigned} sem atribuir",
       "column": "Coluna do seu ficheiro",
       "examples": "Exemplos",
-      "field": "Campo na Tivvo",
+      "field": "Campo na Tivvu",
       "noReference": "Sem uma coluna de referência (ID), voltar a importar o ficheiro duplicará os imóveis em vez de os atualizar.",
       "back": "Voltar",
       "preview": "Ver pré-visualização",

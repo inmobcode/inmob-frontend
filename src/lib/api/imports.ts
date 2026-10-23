@@ -1,7 +1,7 @@
 import { apiFetch } from "./client";
 
-/** How the data arrives: a spreadsheet with mapped columns, a Kyero XML feed, or Tivvo's own XML. */
-export type ImportFormat = "table" | "kyero" | "tivvo_xml";
+/** How the data arrives: a spreadsheet with mapped columns, a Kyero XML feed, or Tivvu's own XML. */
+export type ImportFormat = "table" | "kyero" | "tivvu_xml";
 
 export type ImportAction = "create" | "update" | "unchanged" | "skip" | "error";
 

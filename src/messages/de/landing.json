@@ -9,7 +9,7 @@
           "f1": "Bis zu 5 Objekte",
           "f2": "1 Benutzer",
           "f3": "Kunden, Anfragen und Angebote",
-          "f4": "Website auf einer Tivvo-Subdomain, Vorlage Titelbild und Ihre Farbe"
+          "f4": "Website auf einer Tivvu-Subdomain, Vorlage Titelbild und Ihre Farbe"
         },
         "cta": "Kostenlos starten"
       },
@@ -51,7 +51,7 @@
       },
       "address": {
         "q": "Welche Adresse hat meine Website?",
-        "a": "Ihre Website liegt auf einer Tivvo-Subdomain mit dem Namen Ihrer Agentur. Eigene Domains bieten wir derzeit nicht an."
+        "a": "Ihre Website liegt auf einer Tivvu-Subdomain mit dem Namen Ihrer Agentur. Eigene Domains bieten wir derzeit nicht an."
       },
       "privacy": {
         "q": "Werden meine Daten mit denen anderer Agenturen vermischt?",
@@ -76,33 +76,33 @@
     },
     "problem": {
       "claim": "Wenn das Geschäft wächst, wird es unübersichtlich.",
-      "rest": "Tivvo bringt Ordnung hinein.",
+      "rest": "Tivvu bringt Ordnung hinein.",
       "problem": "Problem",
       "solution": "Lösung",
       "items": {
         "inquiries": {
           "today": "Anfragen kommen von überall, und niemand weiß, wer sie beantwortet hat.",
-          "tivvo": "Jede Anfrage von Ihrer Website landet als Kunde im Posteingang, mit Zuständigem und Verlauf."
+          "tivvu": "Jede Anfrage von Ihrer Website landet als Kunde im Posteingang, mit Zuständigem und Verlauf."
         },
         "followUp": {
           "today": "Ein Kunde blieb ohne Antwort, und Sie erfahren es erst, wenn er woanders gekauft hat.",
-          "tivvo": "Nachfass-Aufgaben mit Datum und Zuständigem und eine Glocke, die meldet, was Ihre Aufmerksamkeit braucht."
+          "tivvu": "Nachfass-Aufgaben mit Datum und Zuständigem und eine Glocke, die meldet, was Ihre Aufmerksamkeit braucht."
         },
         "offers": {
           "today": "Angebote gehen per WhatsApp raus, und Sie wissen nicht, ob der Kunde sie geöffnet hat.",
-          "tivvo": "Sie schicken einen Link und sehen, wann er geöffnet wurde und wann er abläuft."
+          "tivvu": "Sie schicken einen Link und sehen, wann er geöffnet wurde und wann er abläuft."
         },
         "calendar": {
           "today": "Der Vermietungskalender steckt in einer Tabelle, und Buchungen überschneiden sich.",
-          "tivvo": "90-Tage-Verfügbarkeit: Gebuchte Daten blockieren sich selbst, den Rest blockieren Sie per Ziehen."
+          "tivvu": "90-Tage-Verfügbarkeit: Gebuchte Daten blockieren sich selbst, den Rest blockieren Sie per Ziehen."
         },
         "payments": {
           "today": "Zahlungen stehen in einer Tabelle, die nur eine Person versteht.",
-          "tivvo": "Anzahlung, Restbetrag und Provision jeder Buchung, sichtbar für die richtigen Personen."
+          "tivvu": "Anzahlung, Restbetrag und Provision jeder Buchung, sichtbar für die richtigen Personen."
         },
         "owners": {
           "today": "Eigentümer rufen jede Woche an, um zu fragen, wie es läuft.",
-          "tivvo": "Ein privater Link mit ihrer Abrechnung: Eingänge, Auszahlungen und Saldo."
+          "tivvu": "Ein privater Link mit ihrer Abrechnung: Eingänge, Auszahlungen und Saldo."
         }
       }
     },
@@ -232,7 +232,7 @@
         "teamSize": "Wählen Sie die Größe Ihres Teams"
       },
       "failed": "Die Anfrage konnte nicht gesendet werden. Versuchen Sie es in ein paar Minuten erneut.",
-      "claim": "Sehen wir uns Ihre Agentur in Tivvo an.",
+      "claim": "Sehen wir uns Ihre Agentur in Tivvu an.",
       "rest": "Mit Ihren Objekten und Ihrem Team.",
       "sentTitle": "Anfrage gesendet",
       "sentText": "Wir melden uns in den nächsten Tagen, um die Demo zu vereinbaren.",
@@ -253,7 +253,7 @@
       "submit": "Demo anfragen"
     },
     "meta": {
-      "title": "Tivvo · Verwaltungssoftware für Immobilienagenturen",
+      "title": "Tivvu · Verwaltungssoftware für Immobilienagenturen",
       "description": "Objekte erfassen, Angebote erstellen, Buchungen verfolgen und die Website Ihrer Agentur veröffentlichen – alles an einem Ort. Für Verkaufs- und Ferienvermietungsagenturen.",
       "keywords": "Immobiliensoftware, Immobilien-CRM, Objektverwaltung, Ferienvermietung, Website für Immobilienagenturen"
     },
@@ -263,7 +263,7 @@
       "lead": "Objekte, Kunden, Angebote, Buchungen, Verfügbarkeit und Zahlungen Ihrer Agentur in einem System. Mit eigener Website, Nachfass-Aufgaben und einem Portal für jeden Eigentümer.",
       "demo": "Demo anfragen",
       "how": "So funktioniert es",
-      "sceneLabel": "Eine Buchung in Tivvo, Schritt für Schritt",
+      "sceneLabel": "Eine Buchung in Tivvu, Schritt für Schritt",
       "scene": {
         "inquiry": "Die Anfrage kommt",
         "offer": "Das Angebot wird geöffnet",

@@ -25,7 +25,7 @@ export async function generateMetadata({
   const url = absoluteUrl(localePath(locale, agencyPath(agencySlug)));
 
   return {
-    // Absolute: this is the agency's own public site, not a Tivvo surface.
+    // Absolute: this is the agency's own public site, not a Tivvu surface.
     title: { absolute: agency.name },
     description,
     // The site answers on the app host too; only this one should be indexed.

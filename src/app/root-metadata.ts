@@ -17,7 +17,7 @@ export async function rootMetadata(locale: Locale): Promise<Metadata> {
     // Every relative canonical and Open Graph image below resolves against this.
     metadataBase: new URL(SITE_URL),
     // Pages set their own short title ("Propiedades", "Ingresar", …) and get
-    // this suffix for free; only the root page (no override) shows "Tivvo" bare.
+    // this suffix for free; only the root page (no override) shows "Tivvu" bare.
     title: { default: SITE_NAME, template: `%s · ${SITE_NAME}` },
     description: t("description"),
     applicationName: SITE_NAME,

@@ -9,7 +9,7 @@
           "f1": "Até 5 imóveis",
           "f2": "1 utilizador",
           "f3": "Clientes, pedidos e ofertas",
-          "f4": "Site com subdomínio Tivvo, modelo Capa e a sua cor"
+          "f4": "Site com subdomínio Tivvu, modelo Capa e a sua cor"
         },
         "cta": "Começar grátis"
       },
@@ -51,7 +51,7 @@
       },
       "address": {
         "q": "Qual é o endereço do meu site?",
-        "a": "O seu site fica num subdomínio da Tivvo com o nome da sua agência. Por agora não oferecemos domínio próprio."
+        "a": "O seu site fica num subdomínio da Tivvu com o nome da sua agência. Por agora não oferecemos domínio próprio."
       },
       "privacy": {
         "q": "Os meus dados misturam-se com os de outras agências?",
@@ -76,33 +76,33 @@
     },
     "problem": {
       "claim": "Quando o negócio cresce, desarruma-se.",
-      "rest": "A Tivvo arruma-o.",
+      "rest": "A Tivvu arruma-o.",
       "problem": "Problema",
       "solution": "Solução",
       "items": {
         "inquiries": {
           "today": "Os pedidos chegam por todo o lado e ninguém sabe quem os atendeu.",
-          "tivvo": "Cada pedido do seu site entra numa caixa como cliente, com um responsável e o seu histórico."
+          "tivvu": "Cada pedido do seu site entra numa caixa como cliente, com um responsável e o seu histórico."
         },
         "followUp": {
           "today": "Um cliente ficou sem resposta e só sabe quando ele já comprou noutro lado.",
-          "tivvo": "Tarefas de seguimento com data e responsável, e um sino que avisa o que precisa da sua atenção."
+          "tivvu": "Tarefas de seguimento com data e responsável, e um sino que avisa o que precisa da sua atenção."
         },
         "offers": {
           "today": "As ofertas andam pelo WhatsApp e não sabe se o cliente as abriu.",
-          "tivvo": "Envia um link e vê quando foi aberto e quando expira."
+          "tivvu": "Envia um link e vê quando foi aberto e quando expira."
         },
         "calendar": {
           "today": "O calendário do arrendamento está numa folha de cálculo e as reservas sobrepõem-se.",
-          "tivvo": "Disponibilidade a 90 dias: as datas reservadas bloqueiam-se sozinhas e o resto bloqueia arrastando."
+          "tivvu": "Disponibilidade a 90 dias: as datas reservadas bloqueiam-se sozinhas e o resto bloqueia arrastando."
         },
         "payments": {
           "today": "Os pagamentos vivem numa folha que só uma pessoa entende.",
-          "tivvo": "Sinal, saldo e comissão de cada reserva, à vista de quem precisa."
+          "tivvu": "Sinal, saldo e comissão de cada reserva, à vista de quem precisa."
         },
         "owners": {
           "today": "Os proprietários ligam todas as semanas para saber como vai o que é seu.",
-          "tivvo": "Um link privado com o seu extrato: o cobrado, as liquidações e o saldo."
+          "tivvu": "Um link privado com o seu extrato: o cobrado, as liquidações e o saldo."
         }
       }
     },
@@ -232,7 +232,7 @@
         "teamSize": "Escolha o tamanho da sua equipa"
       },
       "failed": "Não foi possível enviar o pedido. Tente novamente dentro de alguns minutos.",
-      "claim": "Vamos ver a sua agência na Tivvo.",
+      "claim": "Vamos ver a sua agência na Tivvu.",
       "rest": "Com os seus imóveis e a sua equipa.",
       "sentTitle": "Pedido enviado",
       "sentText": "Escrevemos-lhe nos próximos dias para combinar a demo.",
@@ -253,7 +253,7 @@
       "submit": "Pedir uma demo"
     },
     "meta": {
-      "title": "Tivvo · Software de gestão para imobiliárias",
+      "title": "Tivvu · Software de gestão para imobiliárias",
       "description": "Carregue imóveis, crie ofertas, acompanhe reservas e publique o site da sua agência num só lugar. Para imobiliárias de venda e arrendamento de curta duração.",
       "keywords": "software imobiliário, crm imobiliário, gestão de imóveis, arrendamento de curta duração, site para imobiliárias"
     },
@@ -263,7 +263,7 @@
       "lead": "Imóveis, clientes, ofertas, reservas, disponibilidade e pagamentos da sua agência num só sistema. Com o seu próprio site, tarefas de seguimento e um portal para cada proprietário.",
       "demo": "Pedir uma demo",
       "how": "Ver como funciona",
-      "sceneLabel": "Uma reserva na Tivvo, passo a passo",
+      "sceneLabel": "Uma reserva na Tivvu, passo a passo",
       "scene": {
         "inquiry": "Chega o pedido",
         "offer": "Abre a oferta",

@@ -114,7 +114,7 @@ export function Heading({
   );
 }
 
-/* ── Hoy y con Tivvo ────────────────────────────────────── */
+/* ── Hoy y con Tivvu ────────────────────────────────────── */
 
 const PROBLEMS = ["inquiries", "followUp", "offers", "calendar", "payments", "owners"] as const;
 
@@ -162,7 +162,7 @@ export function Problem() {
                     >
                       <Check className="size-3" strokeWidth={3} />
                     </span>
-                    {t(`items.${item}.tivvo`)}
+                    {t(`items.${item}.tivvu`)}
                   </p>
                 </div>
               </li>
@@ -723,7 +723,7 @@ const makeDemoSchema = (t: (key: "name" | "agency" | "email" | "teamSize") => st
 
 type DemoValues = z.infer<ReturnType<typeof makeDemoSchema>>;
 
-// What reaches Tivvo's inbox stays in Spanish; each language shows its own label.
+// What reaches Tivvu's inbox stays in Spanish; each language shows its own label.
 const TEAM_SIZES = [
   { value: "Particular", key: "solo" },
   { value: "2 a 5", key: "small" },

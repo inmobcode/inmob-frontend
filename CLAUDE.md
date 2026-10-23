@@ -37,14 +37,14 @@ Frontend de una plataforma inmobiliaria (propiedades, ofertas, clientes, reserva
 - Archivos generados (`robots.txt`, `sitemap.xml`, `llms.txt`, `opengraph-image`) están excluidos del `matcher`; si se añade otro, excluirlo también o el proxy lo trata como ruta de app.
 
 **Sitio público de cada agencia**
-- Es de la agencia, no de Tivvo: base neutra (scope `.site` en `globals.css`, utilidades `bg-site-*`, `text-site-*`, `border-site-*`) y personalización por agencia guardada en `agency.site` (backend: `PATCH /api/agency/site`, `POST /api/agency/cover`).
+- Es de la agencia, no de Tivvu: base neutra (scope `.site` en `globals.css`, utilidades `bg-site-*`, `text-site-*`, `border-site-*`) y personalización por agencia guardada en `agency.site` (backend: `PATCH /api/agency/site`, `POST /api/agency/cover`).
 - `lib/site-theme.ts` define plantillas (`portada`, `editorial`, `compacto`), colores, tipografías y los valores por defecto (`resolveSite`); `siteThemeStyle` los pasa como variables CSS.
 - Bloques propios en `site.sections`: `location`, `promo`, `featured`, `destinations`, `text` y `cta`, cada uno con sus diseños (`layout`; ver `SECTION_TYPES` en `lib/site-theme.ts`). Se renderizan en `components/public/portal-sections.tsx` entre la portada y el listado; las imágenes se suben con `POST /api/agency/site-image`.
 - Las lecturas públicas del sitio (`getPublicAgency`, `listPublicProperties`, `getPublicProperty`) se cachean en Next 5 min con la etiqueta `site:<slug>` (`lib/site-cache.ts`). Toda mutación del dashboard la expira vía `POST /api/site-cache` (desde el `MutationCache` de `lib/query-provider.tsx`); los links por token (oferta, reserva, propietario) no se cachean.
 - El editor está en `/portal` (entrada propia en el sidebar), en el grupo `(editor)`: pantalla completa sin el sidebar del dashboard, código en `components/portal-editor/`; su vista previa renderiza `AgencyPortal` dentro de un iframe del mismo origen para que los breakpoints respondan al ancho simulado.
 
 **Autenticación**
-- `lib/auth/session.ts` guarda el par JWT y el usuario en cookies **no httpOnly** (`access_token`, `refresh_token`, `tivvo_user`), para que `src/proxy.ts` pueda leer `access_token` en el servidor. Si falta, redirige a `/login?next=...`.
+- `lib/auth/session.ts` guarda el par JWT y el usuario en cookies **no httpOnly** (`access_token`, `refresh_token`, `tivvu_user`), para que `src/proxy.ts` pueda leer `access_token` en el servidor. Si falta, redirige a `/login?next=...`.
 - Al añadir una nueva sección del dashboard hay que agregarla a `DASHBOARD_SECTIONS` en `src/proxy.ts` (y, si no cuelga de `[agencySlug]`, a `UNSCOPED_APP_PREFIXES`/`APP_ONLY_PREFIXES`).
 - El proxy solo comprueba que exista la cookie; no valida el token (la API sí). El refresh token se guarda pero no se usa: al vencer el access token, `SessionWatcher` cierra la sesión.
 

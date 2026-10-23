@@ -34,10 +34,10 @@
       "remove": "Retirer de l’équipe"
     },
     "invite": {
-      "linked": "Cette personne avait déjà un compte Tivvo : nous l’avons ajoutée à votre équipe",
+      "linked": "Cette personne avait déjà un compte Tivvu : nous l’avons ajoutée à votre équipe",
       "sent": "Nous lui avons envoyé l’accès par e-mail",
       "title": "Inviter un membre",
-      "description": "S’il a déjà un compte Tivvo, nous l’ajoutons à votre équipe ; sinon, nous lui envoyons l’accès par e-mail.",
+      "description": "S’il a déjà un compte Tivvu, nous l’ajoutons à votre équipe ; sinon, nous lui envoyons l’accès par e-mail.",
       "name": "Nom",
       "namePlaceholder": "Ex. : Rodrigo Sosa",
       "emailPlaceholder": "nom@email.com",

@@ -30,7 +30,7 @@ describe("links", () => {
     expect(whatsappLink("+54 9 11 1234-5678", "Hola mundo")).toBe("https://wa.me/5491112345678?text=Hola%20mundo");
   });
   it("accepts handles and full urls for instagram", () => {
-    expect(instagramLink("@tivvo")).toBe("https://instagram.com/tivvo");
+    expect(instagramLink("@tivvu")).toBe("https://instagram.com/tivvu");
     expect(instagramLink("https://instagram.com/x")).toBe("https://instagram.com/x");
   });
 });

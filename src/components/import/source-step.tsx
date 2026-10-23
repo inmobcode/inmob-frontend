@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { ImportFormat } from "@/lib/api/imports";
-import { TIVVO_XML_EXAMPLE, type Guide } from "@/lib/import-guides";
+import { TIVVU_XML_EXAMPLE, type Guide } from "@/lib/import-guides";
 import type { ImportPlatform } from "@/lib/import-platforms";
 import { cn } from "@/lib/utils";
 
@@ -155,11 +155,11 @@ export function SourceStep({
             )}
           </div>
 
-          {format === "tivvo_xml" && (
+          {format === "tivvu_xml" && (
             <details className="text-sm">
               <summary className="cursor-pointer text-primary">{t("source.xmlExample")}</summary>
               <pre className="mt-3 max-h-80 overflow-auto rounded-2xl bg-foreground/[0.07] p-4 text-xs leading-relaxed dark:bg-foreground/10">
-                {TIVVO_XML_EXAMPLE}
+                {TIVVU_XML_EXAMPLE}
               </pre>
             </details>
           )}

@@ -129,7 +129,7 @@ function SupportRequestBlock({ support }: { support: SupportRequest }) {
   );
 }
 
-function TivvoHelp({ originName }: { originName: string }) {
+function TivvuHelp({ originName }: { originName: string }) {
   const t = useTranslations("importer.help");
   const tGuides = useTranslations("importer.guides") as unknown as LooseTranslator;
   const user = useSessionUser();
@@ -244,7 +244,7 @@ export function ImportHelp({ originName, support }: { originName: string; suppor
       </summary>
       <div className="flex flex-col gap-6 pt-4">
         {support && <SupportRequestBlock support={support} />}
-        <TivvoHelp originName={originName} />
+        <TivvuHelp originName={originName} />
       </div>
     </details>
   );

@@ -9,7 +9,7 @@
           "f1": "Hasta 5 propiedades",
           "f2": "1 usuario",
           "f3": "Clientes, consultas y ofertas",
-          "f4": "Sitio con subdominio Tivvo, plantilla Portada y tu color"
+          "f4": "Sitio con subdominio Tivvu, plantilla Portada y tu color"
         },
         "cta": "Empezar gratis"
       },
@@ -51,7 +51,7 @@
       },
       "address": {
         "q": "¿Cómo es la dirección de mi sitio?",
-        "a": "Tu sitio vive en un subdominio de Tivvo con el nombre de tu agencia. Por ahora no ofrecemos dominio propio."
+        "a": "Tu sitio vive en un subdominio de Tivvu con el nombre de tu agencia. Por ahora no ofrecemos dominio propio."
       },
       "privacy": {
         "q": "¿Mis datos se mezclan con los de otras agencias?",
@@ -76,33 +76,33 @@
     },
     "problem": {
       "claim": "Cuando el negocio crece, se desordena.",
-      "rest": "Tivvo lo ordena.",
+      "rest": "Tivvu lo ordena.",
       "problem": "Problema",
       "solution": "Solución",
       "items": {
         "inquiries": {
           "today": "Las consultas llegan por todos lados y nadie sabe quién las atendió.",
-          "tivvo": "Cada consulta de tu sitio entra a una bandeja como cliente, con un responsable y su historial."
+          "tivvu": "Cada consulta de tu sitio entra a una bandeja como cliente, con un responsable y su historial."
         },
         "followUp": {
           "today": "Un cliente quedó sin respuesta y te enterás cuando ya compró en otra.",
-          "tivvo": "Tareas de seguimiento con fecha y responsable, y una campana que avisa lo que necesita tu atención."
+          "tivvu": "Tareas de seguimiento con fecha y responsable, y una campana que avisa lo que necesita tu atención."
         },
         "offers": {
           "today": "Las ofertas viajan por WhatsApp y no sabés si el cliente las abrió.",
-          "tivvo": "Mandás un link y ves cuándo la abrieron y cuándo vence."
+          "tivvu": "Mandás un link y ves cuándo la abrieron y cuándo vence."
         },
         "calendar": {
           "today": "El calendario de alquileres está en una planilla y se pisan las reservas.",
-          "tivvo": "Disponibilidad de 90 días: las fechas reservadas se bloquean solas y vos bloqueás el resto arrastrando."
+          "tivvu": "Disponibilidad de 90 días: las fechas reservadas se bloquean solas y vos bloqueás el resto arrastrando."
         },
         "payments": {
           "today": "Los cobros viven en una planilla que solo entiende una persona.",
-          "tivvo": "Anticipo, saldo y comisión de cada reserva, a la vista de quien corresponde."
+          "tivvu": "Anticipo, saldo y comisión de cada reserva, a la vista de quien corresponde."
         },
         "owners": {
           "today": "Los propietarios llaman cada semana para saber cómo viene lo suyo.",
-          "tivvo": "Un link privado con su estado de cuenta: lo cobrado, las liquidaciones y el saldo."
+          "tivvu": "Un link privado con su estado de cuenta: lo cobrado, las liquidaciones y el saldo."
         }
       }
     },
@@ -232,7 +232,7 @@
         "teamSize": "Elegí el tamaño de tu equipo"
       },
       "failed": "No se pudo enviar el pedido. Probá de nuevo en unos minutos.",
-      "claim": "Veamos tu agencia en Tivvo.",
+      "claim": "Veamos tu agencia en Tivvu.",
       "rest": "Con tus propiedades y tu equipo.",
       "sentTitle": "Pedido enviado",
       "sentText": "Te escribimos en los próximos días para coordinar la demo.",
@@ -253,7 +253,7 @@
       "submit": "Pedir una demo"
     },
     "meta": {
-      "title": "Tivvo · Sistema de gestión para inmobiliarias",
+      "title": "Tivvu · Sistema de gestión para inmobiliarias",
       "description": "Cargá propiedades, armá ofertas, seguí reservas y publicá el sitio de tu agencia desde un solo lugar. Para inmobiliarias de venta y alquiler temporario.",
       "keywords": "software inmobiliario, crm inmobiliario, gestión de propiedades, alquiler temporario, sitio web para inmobiliarias"
     },
@@ -263,7 +263,7 @@
       "lead": "Propiedades, clientes, ofertas, reservas, disponibilidad y cobros de tu agencia en un solo sistema. Con tu propio sitio web, tareas de seguimiento y un portal para cada propietario.",
       "demo": "Pedir una demo",
       "how": "Ver cómo funciona",
-      "sceneLabel": "Una reserva en Tivvo, paso a paso",
+      "sceneLabel": "Una reserva en Tivvu, paso a paso",
       "scene": {
         "inquiry": "Llega la consulta",
         "offer": "Abre la oferta",

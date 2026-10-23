@@ -3,16 +3,16 @@
     "formats": {
       "table": "CSV or Excel",
       "kyero": "Kyero feed (XML)",
-      "tivvo_xml": "Tivvo XML"
+      "tivvu_xml": "Tivvu XML"
     },
     "generic": {
       "xml": {
         "name": "Kyero XML",
         "description": "The Kyero-format feed (version 3) exported by Casafari, Estatebud and most CRMs, by URL or file."
       },
-      "tivvo": {
-        "name": "My own system (Tivvo XML)",
-        "description": "If your system has its own API, generate the Tivvo XML and we read that feed by URL or file."
+      "tivvu": {
+        "name": "My own system (Tivvu XML)",
+        "description": "If your system has its own API, generate the Tivvu XML and we read that feed by URL or file."
       }
     },
     "guides": {
@@ -23,9 +23,9 @@
         "provideFeed": "Paste the feed URL in the box alongside, or upload the XML."
       },
       "help": {
-        "greeting": "Hi Tivvo team,",
-        "body": "I want to move my properties from {origin} to Tivvo and I don't know how to get the data or how to import it. Can you help me?",
-        "agency": "My agency on Tivvo: {slug}",
+        "greeting": "Hi Tivvu team,",
+        "body": "I want to move my properties from {origin} to Tivvu and I don't know how to get the data or how to import it. Can you help me?",
+        "agency": "My agency on Tivvu: {slug}",
         "thanks": "Thanks."
       },
       "overrides": {
@@ -90,7 +90,7 @@
         }
       },
       "ownSteps": {
-        "s1": "Generate an XML in Tivvo format from your API (example below): one '<listing>' per property.",
+        "s1": "Generate an XML in Tivvu format from your API (example below): one '<listing>' per property.",
         "s2": "Always use the same '<external_id>' for the same property, so re-importing updates instead of duplicating.",
         "s3": "Publish the XML at a public URL and paste it in the box alongside, or upload the file."
       },
@@ -196,14 +196,14 @@
       "continue": "Continue"
     },
     "mapping": {
-      "fieldFor": "Tivvo field for column {header}",
+      "fieldFor": "Tivvu field for column {header}",
       "skip": "Don't import",
       "title": "What each column is",
       "lead": "We found {rows} rows and recognised {detected} of {total} columns. The ones we didn't recognise come first; unassigned ones are ignored. An empty cell never erases what's already there.",
       "status": "{mapped} imported · {unassigned} unassigned",
       "column": "Column in your file",
       "examples": "Examples",
-      "field": "Field in Tivvo",
+      "field": "Field in Tivvu",
       "noReference": "Without a reference column (ID), re-importing the file will duplicate the properties instead of updating them.",
       "back": "Back",
       "preview": "See preview",

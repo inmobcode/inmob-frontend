@@ -9,7 +9,7 @@
           "f1": "Fino a 5 immobili",
           "f2": "1 utente",
           "f3": "Clienti, richieste e offerte",
-          "f4": "Sito su sottodominio Tivvo, modello Copertina e il tuo colore"
+          "f4": "Sito su sottodominio Tivvu, modello Copertina e il tuo colore"
         },
         "cta": "Inizia gratis"
       },
@@ -51,7 +51,7 @@
       },
       "address": {
         "q": "Qual è l’indirizzo del mio sito?",
-        "a": "Il tuo sito si trova su un sottodominio di Tivvo con il nome della tua agenzia. Per ora non offriamo domini personalizzati."
+        "a": "Il tuo sito si trova su un sottodominio di Tivvu con il nome della tua agenzia. Per ora non offriamo domini personalizzati."
       },
       "privacy": {
         "q": "I miei dati si mescolano con quelli di altre agenzie?",
@@ -76,33 +76,33 @@
     },
     "problem": {
       "claim": "Quando l’attività cresce, si disordina.",
-      "rest": "Tivvo la rimette in ordine.",
+      "rest": "Tivvu la rimette in ordine.",
       "problem": "Problema",
       "solution": "Soluzione",
       "items": {
         "inquiries": {
           "today": "Le richieste arrivano da ogni parte e nessuno sa chi le ha gestite.",
-          "tivvo": "Ogni richiesta dal tuo sito entra in una casella come cliente, con un responsabile e la sua cronologia."
+          "tivvu": "Ogni richiesta dal tuo sito entra in una casella come cliente, con un responsabile e la sua cronologia."
         },
         "followUp": {
           "today": "Un cliente è rimasto senza risposta e lo scopri quando ha già comprato altrove.",
-          "tivvo": "Attività di follow-up con data e responsabile, e una campanella che segnala ciò che richiede attenzione."
+          "tivvu": "Attività di follow-up con data e responsabile, e una campanella che segnala ciò che richiede attenzione."
         },
         "offers": {
           "today": "Le offerte viaggiano su WhatsApp e non sai se il cliente le ha aperte.",
-          "tivvo": "Invii un link e vedi quando è stato aperto e quando scade."
+          "tivvu": "Invii un link e vedi quando è stato aperto e quando scade."
         },
         "calendar": {
           "today": "Il calendario degli affitti è in un foglio di calcolo e le prenotazioni si sovrappongono.",
-          "tivvo": "Disponibilità a 90 giorni: le date prenotate si bloccano da sole e il resto lo blocchi trascinando."
+          "tivvu": "Disponibilità a 90 giorni: le date prenotate si bloccano da sole e il resto lo blocchi trascinando."
         },
         "payments": {
           "today": "Gli incassi stanno in un foglio che capisce una sola persona.",
-          "tivvo": "Acconto, saldo e provvigione di ogni prenotazione, visibili a chi di dovere."
+          "tivvu": "Acconto, saldo e provvigione di ogni prenotazione, visibili a chi di dovere."
         },
         "owners": {
           "today": "I proprietari chiamano ogni settimana per sapere come va.",
-          "tivvo": "Un link privato con il loro rendiconto: incassi, liquidazioni e saldo."
+          "tivvu": "Un link privato con il loro rendiconto: incassi, liquidazioni e saldo."
         }
       }
     },
@@ -232,7 +232,7 @@
         "teamSize": "Scegli la dimensione del tuo team"
       },
       "failed": "Impossibile inviare la richiesta. Riprova tra qualche minuto.",
-      "claim": "Vediamo la tua agenzia in Tivvo.",
+      "claim": "Vediamo la tua agenzia in Tivvu.",
       "rest": "Con i tuoi immobili e il tuo team.",
       "sentTitle": "Richiesta inviata",
       "sentText": "Ti scriviamo nei prossimi giorni per organizzare la demo.",
@@ -253,7 +253,7 @@
       "submit": "Richiedi una demo"
     },
     "meta": {
-      "title": "Tivvo · Software gestionale per agenzie immobiliari",
+      "title": "Tivvu · Software gestionale per agenzie immobiliari",
       "description": "Carica immobili, prepara offerte, segui le prenotazioni e pubblica il sito della tua agenzia da un unico posto. Per agenzie di vendita e affitti brevi.",
       "keywords": "software immobiliare, crm immobiliare, gestione immobili, affitti brevi, sito per agenzie immobiliari"
     },
@@ -263,7 +263,7 @@
       "lead": "Immobili, clienti, offerte, prenotazioni, disponibilità e incassi della tua agenzia in un unico sistema. Con il tuo sito, attività di follow-up e un portale per ogni proprietario.",
       "demo": "Richiedi una demo",
       "how": "Scopri come funziona",
-      "sceneLabel": "Una prenotazione in Tivvo, passo dopo passo",
+      "sceneLabel": "Una prenotazione in Tivvu, passo dopo passo",
       "scene": {
         "inquiry": "Arriva la richiesta",
         "offer": "Apre l’offerta",

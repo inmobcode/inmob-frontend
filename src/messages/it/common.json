@@ -1,7 +1,7 @@
 {
   "meta": {
     "description": "Software gestionale per agenzie immobiliari: immobili, offerte, prenotazioni e il sito della tua agenzia.",
-    "ogAlt": "Tivvo · Gestionale per agenzie immobiliari",
+    "ogAlt": "Tivvu · Gestionale per agenzie immobiliari",
     "ogTitle": "Un unico posto per immobili, offerte e prenotazioni",
     "ogSubtitle": "Gestionale per agenzie di vendita e affitti brevi."
   },
@@ -18,7 +18,7 @@
     "links": {
       "home": {
         "label": "Home",
-        "hint": "Cos’è Tivvo e come funziona"
+        "hint": "Cos’è Tivvu e come funziona"
       },
       "help": {
         "label": "Assistenza",

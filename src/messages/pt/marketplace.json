@@ -1,6 +1,6 @@
 {
   "marketplace": {
-    "metaTitle": "Tivvo · Arrendamento de curta duração e imóveis à venda",
+    "metaTitle": "Tivvu · Arrendamento de curta duração e imóveis à venda",
     "byDestination": "Por destino",
     "nav": {
       "rentals": "Arrendamentos",
@@ -59,7 +59,7 @@
       "zoneSoon": "Em breve pode haver.",
       "title": "Não há nada com tudo isso junto.",
       "titleTail": "Experimente aliviar algum filtro.",
-      "zoneBody": "As imobiliárias que anunciam na Tivvo ainda não têm nada aí. Entretanto, veja os destinos onde há.",
+      "zoneBody": "As imobiliárias que anunciam na Tivvu ainda não têm nada aí. Entretanto, veja os destinos onde há.",
       "body": "Retire algum filtro ou mude as datas e verá mais opções.",
       "everywhere": "Pesquisar em todos os destinos",
       "noDates": "Experimentar sem datas",
@@ -107,7 +107,7 @@
       "pitch": {
         "title": "Tem uma imobiliária?",
         "body": "Anuncie aqui os seus imóveis e gira pedidos, ofertas e reservas num só lugar.",
-        "cta": "Conheça a Tivvo para imobiliárias"
+        "cta": "Conheça a Tivvu para imobiliárias"
       },
       "rent": {
         "title": "Arrendar",
@@ -120,11 +120,11 @@
       },
       "agencies": {
         "title": "Para imobiliárias",
-        "about": "Conheça a Tivvo",
+        "about": "Conheça a Tivvu",
         "register": "Criar uma conta",
         "login": "Entrar"
       },
-      "tivvo": {
+      "tivvu": {
         "how": "Como funciona",
         "all": "Ver todos os imóveis"
       }

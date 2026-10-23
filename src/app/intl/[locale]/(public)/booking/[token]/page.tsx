@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const { token } = await params;
   const booking = await loadBooking(token);
   return {
-    // Absolute: this is the agency's own branded link, not a Tivvo surface.
+    // Absolute: this is the agency's own branded link, not a Tivvu surface.
     title: { absolute: t("bookingTitle", { agency: booking.agency.name }) },
     // A private link: keep it out of search engines.
     robots: { index: false, follow: false },

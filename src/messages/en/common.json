@@ -1,7 +1,7 @@
 {
   "meta": {
     "description": "Management software for real estate agencies: properties, offers, bookings and your agency's website.",
-    "ogAlt": "Tivvo · Management software for estate agencies",
+    "ogAlt": "Tivvu · Management software for estate agencies",
     "ogTitle": "One place for your properties, offers and bookings",
     "ogSubtitle": "Management software for sales and holiday rental agencies."
   },
@@ -18,7 +18,7 @@
     "links": {
       "home": {
         "label": "Home",
-        "hint": "What Tivvo is and how it works"
+        "hint": "What Tivvu is and how it works"
       },
       "help": {
         "label": "Help",

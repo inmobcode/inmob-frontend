@@ -39,7 +39,7 @@ function Basics() {
       id="primeros-pasos"
       icon={Compass}
       title="Prvi koraci"
-      intro="Tivvo na jednom mjestu okuplja upite koje primate, vaše klijente, portfelj nekretnina, ponude koje šaljete, rezervacije i dostupnost. Sve što objavite pojavljuje se na web-stranici vaše agencije."
+      intro="Tivvu na jednom mjestu okuplja upite koje primate, vaše klijente, portfelj nekretnina, ponude koje šaljete, rezervacije i dostupnost. Sve što objavite pojavljuje se na web-stranici vaše agencije."
     >
       <DocFigure
         src="/docs-media/hr/panel.webp"
@@ -66,7 +66,7 @@ function Basics() {
       </DocP>
       <DocP>
         »Upiti« prikazuju broj kad imate nepročitanih upita; ažurira se sam svake minute. Izbornik možete sažeti gumbom na
-        vrhu ili s <Kbd>Ctrl/⌘</Kbd> <Kbd>B</Kbd> da dobijete prostor, a Tivvo pamti kako ste ga ostavili. Na mobitelu se
+        vrhu ili s <Kbd>Ctrl/⌘</Kbd> <Kbd>B</Kbd> da dobijete prostor, a Tivvu pamti kako ste ga ostavili. Na mobitelu se
         izbornik otvara ikonom na vrhu.
       </DocP>
 
@@ -111,7 +111,7 @@ function Basics() {
           { x: 75, y: 55.3, label: "Izgled: svijetli, tamni ili automatski (prati vaše računalo)." },
           { x: 50, y: 69.2, label: "Ova dokumentacija, u drugoj kartici." },
           { x: 50, y: 74.9, label: "Pretraga i, ispod nje, tipkovni prečaci." },
-          { x: 50, y: 86.4, label: "Pomoć i podrška: česta pitanja i kontakt s Tivvom." },
+          { x: 50, y: 86.4, label: "Pomoć i podrška: česta pitanja i kontakt s Tivvum." },
           { x: 50, y: 93.6, label: "Odjava." },
         ]}
       />
@@ -144,7 +144,7 @@ function Basics() {
           ],
           [
             "Prikazi",
-            "Popisi se mogu prikazati kao mreža, popis ili tablica (tipke 1, 2 i 3). Tivvo pamti odabrani prikaz u svakom pregledniku.",
+            "Popisi se mogu prikazati kao mreža, popis ili tablica (tipke 1, 2 i 3). Tivvu pamti odabrani prikaz u svakom pregledniku.",
           ],
           [
             "Pretraga i filtri",
@@ -272,7 +272,7 @@ function Clients() {
           <strong>Ručni unos:</strong> »Novi klijent« s imenom, e-poštom i telefonom.
         </li>
         <li>
-          <strong>Sa stranice ili iz ponude:</strong> kad vam netko piše, Tivvo izrađuje klijenta (ili ga prepoznaje po
+          <strong>Sa stranice ili iz ponude:</strong> kad vam netko piše, Tivvu izrađuje klijenta (ili ga prepoznaje po
           e-pošti) i ostavlja bilješku u njegovoj povijesti s nekretninom ili ponudom za koju je pitao.
         </li>
       </DocList>
@@ -745,7 +745,7 @@ function Importer() {
       <DocP>
         Ima gotovo 50 platformi (Idealista, Inmovilla, Kyero, CASAFARI, Resales Online, Witei, Apimo, Rightmove i mnoge
         druge), najkorištenije prve. Ako vaše nema, niže možete upotrijebiti <strong>CSV ili Excel</strong>,{" "}
-        <strong>Kyero XML</strong> (format koji izvozi većina CRM-ova) ili <strong>Tivvo XML</strong>, ako vaš sustav ima
+        <strong>Kyero XML</strong> (format koji izvozi većina CRM-ova) ili <strong>Tivvu XML</strong>, ako vaš sustav ima
         vlastiti API.
       </DocP>
 
@@ -783,7 +783,7 @@ function Importer() {
       </DocList>
 
       <DocH3>3. Što je koji stupac</DocH3>
-      <DocP>Samo za tablice (CSV ili Excel). Tivvo sam prepoznaje većinu stupaca; provjerite ostale.</DocP>
+      <DocP>Samo za tablice (CSV ili Excel). Tivvu sam prepoznaje većinu stupaca; provjerite ostale.</DocP>
       <DocFigure
         src="/docs-media/hr/importar-mapeo.webp"
         alt="Korak dodjele svakog stupca datoteke polju u Tivvu"
@@ -838,7 +838,7 @@ function Importer() {
           unijeli s iste platforme, a tražimo potvrdu. Mogu se vratiti tijekom 30 dana.
         </li>
         <li>
-          Klikom na <strong>Uvezi</strong> Tivvo sprema nekretnine i preuzima njihove fotografije. Ako ih je mnogo, može
+          Klikom na <strong>Uvezi</strong> Tivvu sprema nekretnine i preuzima njihove fotografije. Ako ih je mnogo, može
           potrajati nekoliko minuta: ne zatvarajte karticu. Ako pokušate izaći prije kraja, upozorit ćemo vas.
         </li>
       </DocList>
@@ -1381,7 +1381,7 @@ function ClientPages() {
       id="lo-que-ven-tus-clientes"
       icon={Eye}
       title="Što vide vaši klijenti"
-      intro="Javne stranice koje Tivvo izrađuje: vaša stranica, kartica svake nekretnine, ponude, rezervacije, stranica vlasnika i vaša dostupnost. Nijedna ne traži korisničko ime ni lozinku."
+      intro="Javne stranice koje Tivvu izrađuje: vaša stranica, kartica svake nekretnine, ponude, rezervacije, stranica vlasnika i vaša dostupnost. Nijedna ne traži korisničko ime ni lozinku."
     >
       <DocH3>Vaša stranica</DocH3>
       <DocFigure

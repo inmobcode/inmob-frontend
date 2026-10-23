@@ -5,7 +5,7 @@ import { useMemo } from "react";
 import { LOCALE_TAGS, type Locale } from "./config";
 import { DATE_LOCALES } from "./date-locales";
 
-/** Date shapes used across Tivvo; each language orders and spells them its own way. */
+/** Date shapes used across Tivvu; each language orders and spells them its own way. */
 const DATE_STYLES = {
   /** 5 de noviembre · 5 November */
   dayMonth: { day: "numeric", month: "long" },
@@ -63,7 +63,7 @@ export function formatTools(locale: Locale) {
     },
     /** A date in one of DATE_STYLES, e.g. date(d, "dayMonth") → "5 de noviembre". */
     date: (value: Date | number, style: DateStyle) => new Intl.DateTimeFormat(tag, DATE_STYLES[style]).format(value),
-    /** "EUR 650": the code first, as everywhere in Tivvo. */
+    /** "EUR 650": the code first, as everywhere in Tivvu. */
     money: (currency: string, value: number, options: Intl.NumberFormatOptions = { maximumFractionDigits: 0 }) =>
       `${currency} ${number(value, options)}`,
   };

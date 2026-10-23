@@ -9,8 +9,8 @@ export const LEGAL_ENTITY = {
   taxId: "[CUIT]",
   address: "[Domicilio legal]",
   jurisdiction: "[Ciudad Autónoma de Buenos Aires]",
-  contactEmail: "hola@tivvo.app",
-  privacyEmail: "privacidad@tivvo.app",
+  contactEmail: "hola@tivvu.app",
+  privacyEmail: "privacidad@tivvu.app",
 } as const;
 
 /** Fecha (ISO) desde la que rige la versión publicada de ambos documentos; cada idioma la escribe a su modo. */

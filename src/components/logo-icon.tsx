@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 
-/** Isotipo de Tivvo. Usa `currentColor`: el color se define con clases de texto. */
+/** Isotipo de Tivvu. Usa `currentColor`: el color se define con clases de texto. */
 export function LogoIcon({ className }: { className?: string }) {
   return (
     <svg

@@ -117,7 +117,7 @@ function Brand() {
       className="flex items-center gap-2 font-logo text-2xl font-semibold leading-none tracking-tight text-foreground"
     >
       <LogoIcon className="text-primary" />
-      Tivvo
+      Tivvu
     </Link>
   );
 }

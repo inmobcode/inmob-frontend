@@ -1,4 +1,4 @@
-# Tivvo — frontend
+# Tivvu — frontend
 
 Plataforma de gestión para agencias inmobiliarias (propiedades, ofertas, clientes, reservas, equipo) y sitio público de cada agencia. Next.js 16 (App Router, React 19), Tailwind v4, TanStack Query. Consume una API Flask separada. UI en español.
 

@@ -4,7 +4,7 @@ import { ImageResponse } from "next/og";
  * The share card for the landing, the legal pages and the app, in one
  * language (served by app/api/og/[locale]). Agency sites and listings set
  * `openGraph.images` to their own photos instead, so none of them end up
- * sharing a Tivvo-branded card.
+ * sharing a Tivvu-branded card.
  *
  * Drawn here rather than shipped as a PNG so the wording and the brand colours
  * stay in one place with the rest of the code.
@@ -41,7 +41,7 @@ async function loadInter(text: string, weight: 400 | 600): Promise<OgFont | null
 /** Fonts for scripts the default one doesn't cover; empty when it does. */
 export async function ogFonts(locale: string, text: string): Promise<OgFont[]> {
   if (locale !== "el") return [];
-  const fonts = await Promise.all([loadInter(`Tivvo ${text}`, 400), loadInter(`Tivvo ${text}`, 600)]);
+  const fonts = await Promise.all([loadInter(`Tivvu ${text}`, 400), loadInter(`Tivvu ${text}`, 600)]);
   return fonts.filter((font): font is OgFont => font !== null);
 }
 
@@ -63,7 +63,7 @@ export function ogCard({ title, subtitle, fonts = [] }: { title: string; subtitl
       >
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <div style={{ width: 28, height: 28, borderRadius: 8, background: LIME }} />
-          <div style={{ fontSize: 44, fontWeight: 600, letterSpacing: -1 }}>Tivvo</div>
+          <div style={{ fontSize: 44, fontWeight: 600, letterSpacing: -1 }}>Tivvu</div>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
@@ -74,7 +74,7 @@ export function ogCard({ title, subtitle, fonts = [] }: { title: string; subtitl
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 12, fontSize: 26, color: LIME }}>
-          tivvo.app
+          tivvu.app
         </div>
       </div>
     ),

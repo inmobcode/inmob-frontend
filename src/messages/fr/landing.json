@@ -9,7 +9,7 @@
           "f1": "Jusqu’à 5 biens",
           "f2": "1 utilisateur",
           "f3": "Clients, demandes et offres",
-          "f4": "Site sur un sous-domaine Tivvo, modèle Couverture et votre couleur"
+          "f4": "Site sur un sous-domaine Tivvu, modèle Couverture et votre couleur"
         },
         "cta": "Commencer gratuitement"
       },
@@ -51,7 +51,7 @@
       },
       "address": {
         "q": "Quelle est l’adresse de mon site ?",
-        "a": "Votre site est hébergé sur un sous-domaine de Tivvo au nom de votre agence. Nous ne proposons pas encore de domaine personnalisé."
+        "a": "Votre site est hébergé sur un sous-domaine de Tivvu au nom de votre agence. Nous ne proposons pas encore de domaine personnalisé."
       },
       "privacy": {
         "q": "Mes données sont-elles mélangées avec celles d’autres agences ?",
@@ -76,33 +76,33 @@
     },
     "problem": {
       "claim": "Quand l’activité grandit, elle se désorganise.",
-      "rest": "Tivvo la remet en ordre.",
+      "rest": "Tivvu la remet en ordre.",
       "problem": "Problème",
       "solution": "Solution",
       "items": {
         "inquiries": {
           "today": "Les demandes arrivent de partout et personne ne sait qui y a répondu.",
-          "tivvo": "Chaque demande de votre site arrive dans une boîte de réception comme client, avec un responsable et son historique."
+          "tivvu": "Chaque demande de votre site arrive dans une boîte de réception comme client, avec un responsable et son historique."
         },
         "followUp": {
           "today": "Un client est resté sans réponse et vous l’apprenez quand il a déjà acheté ailleurs.",
-          "tivvo": "Des tâches de suivi avec date et responsable, et une cloche qui signale ce qui demande votre attention."
+          "tivvu": "Des tâches de suivi avec date et responsable, et une cloche qui signale ce qui demande votre attention."
         },
         "offers": {
           "today": "Les offres circulent sur WhatsApp et vous ne savez pas si le client les a ouvertes.",
-          "tivvo": "Vous envoyez un lien et voyez quand il a été ouvert et quand il expire."
+          "tivvu": "Vous envoyez un lien et voyez quand il a été ouvert et quand il expire."
         },
         "calendar": {
           "today": "Le calendrier des locations est dans un tableur et les réservations se chevauchent.",
-          "tivvo": "Disponibilités sur 90 jours : les dates réservées se bloquent seules et vous bloquez le reste en faisant glisser."
+          "tivvu": "Disponibilités sur 90 jours : les dates réservées se bloquent seules et vous bloquez le reste en faisant glisser."
         },
         "payments": {
           "today": "Les encaissements sont dans un tableur que seule une personne comprend.",
-          "tivvo": "Acompte, solde et commission de chaque réservation, visibles par les bonnes personnes."
+          "tivvu": "Acompte, solde et commission de chaque réservation, visibles par les bonnes personnes."
         },
         "owners": {
           "today": "Les propriétaires appellent chaque semaine pour savoir où en est leur bien.",
-          "tivvo": "Un lien privé avec leur relevé : encaissements, reversements et solde."
+          "tivvu": "Un lien privé avec leur relevé : encaissements, reversements et solde."
         }
       }
     },
@@ -232,7 +232,7 @@
         "teamSize": "Choisissez la taille de votre équipe"
       },
       "failed": "Impossible d’envoyer la demande. Réessayez dans quelques minutes.",
-      "claim": "Voyons votre agence dans Tivvo.",
+      "claim": "Voyons votre agence dans Tivvu.",
       "rest": "Avec vos biens et votre équipe.",
       "sentTitle": "Demande envoyée",
       "sentText": "Nous vous écrivons dans les prochains jours pour organiser la démo.",
@@ -253,7 +253,7 @@
       "submit": "Demander une démo"
     },
     "meta": {
-      "title": "Tivvo · Logiciel de gestion pour agences immobilières",
+      "title": "Tivvu · Logiciel de gestion pour agences immobilières",
       "description": "Ajoutez vos biens, composez des offres, suivez les réservations et publiez le site de votre agence depuis un seul endroit. Pour les agences de vente et de location saisonnière.",
       "keywords": "logiciel immobilier, crm immobilier, gestion de biens, location saisonnière, site pour agence immobilière"
     },
@@ -263,7 +263,7 @@
       "lead": "Biens, clients, offres, réservations, disponibilités et encaissements de votre agence dans un seul système. Avec votre propre site, des tâches de suivi et un portail pour chaque propriétaire.",
       "demo": "Demander une démo",
       "how": "Voir comment ça marche",
-      "sceneLabel": "Une réservation dans Tivvo, étape par étape",
+      "sceneLabel": "Une réservation dans Tivvu, étape par étape",
       "scene": {
         "inquiry": "La demande arrive",
         "offer": "L’offre est ouverte",

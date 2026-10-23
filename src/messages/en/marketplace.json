@@ -1,6 +1,6 @@
 {
   "marketplace": {
-    "metaTitle": "Tivvo · Holiday rentals and properties for sale",
+    "metaTitle": "Tivvu · Holiday rentals and properties for sale",
     "byDestination": "By destination",
     "nav": {
       "rentals": "Rentals",
@@ -59,7 +59,7 @@
       "zoneSoon": "There may be soon.",
       "title": "Nothing matches all of that.",
       "titleTail": "Try loosening a filter.",
-      "zoneBody": "The agencies listing on Tivvo don't have anything there yet. In the meantime, look at the destinations that do.",
+      "zoneBody": "The agencies listing on Tivvu don't have anything there yet. In the meantime, look at the destinations that do.",
       "body": "Remove a filter or change the dates and you'll see more options.",
       "everywhere": "Search all destinations",
       "noDates": "Try without dates",
@@ -107,7 +107,7 @@
       "pitch": {
         "title": "Do you run an agency?",
         "body": "List your properties here and handle inquiries, offers and bookings from one place.",
-        "cta": "Discover Tivvo for agencies"
+        "cta": "Discover Tivvu for agencies"
       },
       "rent": {
         "title": "Rent",
@@ -120,11 +120,11 @@
       },
       "agencies": {
         "title": "For agencies",
-        "about": "Discover Tivvo",
+        "about": "Discover Tivvu",
         "register": "Create an account",
         "login": "Log in"
       },
-      "tivvo": {
+      "tivvu": {
         "how": "How it works",
         "all": "See all properties"
       }

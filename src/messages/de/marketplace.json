@@ -1,6 +1,6 @@
 {
   "marketplace": {
-    "metaTitle": "Tivvo · Ferienvermietung und Immobilien zum Kauf",
+    "metaTitle": "Tivvu · Ferienvermietung und Immobilien zum Kauf",
     "byDestination": "Nach Reiseziel",
     "nav": {
       "rentals": "Ferienwohnungen",
@@ -59,7 +59,7 @@
       "zoneSoon": "Bald vielleicht schon.",
       "title": "Nichts passt zu allem zusammen.",
       "titleTail": "Lockern Sie einen Filter.",
-      "zoneBody": "Die Agenturen auf Tivvo haben dort noch nichts. Sehen Sie sich in der Zwischenzeit die Reiseziele mit Angeboten an.",
+      "zoneBody": "Die Agenturen auf Tivvu haben dort noch nichts. Sehen Sie sich in der Zwischenzeit die Reiseziele mit Angeboten an.",
       "body": "Entfernen Sie einen Filter oder ändern Sie die Daten, und Sie sehen mehr Optionen.",
       "everywhere": "In allen Reisezielen suchen",
       "noDates": "Ohne Daten versuchen",
@@ -107,7 +107,7 @@
       "pitch": {
         "title": "Sie haben eine Agentur?",
         "body": "Stellen Sie Ihre Objekte hier ein und verwalten Sie Anfragen, Angebote und Buchungen an einem Ort.",
-        "cta": "Tivvo für Agenturen entdecken"
+        "cta": "Tivvu für Agenturen entdecken"
       },
       "rent": {
         "title": "Mieten",
@@ -120,11 +120,11 @@
       },
       "agencies": {
         "title": "Für Agenturen",
-        "about": "Tivvo entdecken",
+        "about": "Tivvu entdecken",
         "register": "Konto erstellen",
         "login": "Anmelden"
       },
-      "tivvo": {
+      "tivvu": {
         "how": "So funktioniert es",
         "all": "Alle Objekte ansehen"
       }

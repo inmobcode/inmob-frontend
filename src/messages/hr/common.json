@@ -1,7 +1,7 @@
 {
   "meta": {
     "description": "Softver za upravljanje agencijama za nekretnine: nekretnine, ponude, rezervacije i web-stranica vaše agencije.",
-    "ogAlt": "Tivvo · Sustav za upravljanje agencijama za nekretnine",
+    "ogAlt": "Tivvu · Sustav za upravljanje agencijama za nekretnine",
     "ogTitle": "Jedno mjesto za nekretnine, ponude i rezervacije",
     "ogSubtitle": "Sustav za upravljanje agencijama za prodaju i kratkoročni najam."
   },
@@ -18,7 +18,7 @@
     "links": {
       "home": {
         "label": "Početna",
-        "hint": "Što je Tivvo i kako radi"
+        "hint": "Što je Tivvu i kako radi"
       },
       "help": {
         "label": "Pomoć",

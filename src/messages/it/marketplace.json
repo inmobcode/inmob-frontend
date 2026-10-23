@@ -1,6 +1,6 @@
 {
   "marketplace": {
-    "metaTitle": "Tivvo · Affitti brevi e immobili in vendita",
+    "metaTitle": "Tivvu · Affitti brevi e immobili in vendita",
     "byDestination": "Per destinazione",
     "nav": {
       "rentals": "Affitti",
@@ -59,7 +59,7 @@
       "zoneSoon": "Presto potrebbero esserci.",
       "title": "Niente corrisponde a tutto questo insieme.",
       "titleTail": "Prova ad allentare un filtro.",
-      "zoneBody": "Le agenzie su Tivvo non hanno ancora nulla lì. Nel frattempo, guarda le destinazioni dove c’è qualcosa.",
+      "zoneBody": "Le agenzie su Tivvu non hanno ancora nulla lì. Nel frattempo, guarda le destinazioni dove c’è qualcosa.",
       "body": "Togli un filtro o cambia le date e vedrai più opzioni.",
       "everywhere": "Cerca in tutte le destinazioni",
       "noDates": "Prova senza date",
@@ -107,7 +107,7 @@
       "pitch": {
         "title": "Hai un’agenzia immobiliare?",
         "body": "Pubblica qui i tuoi immobili e gestisci richieste, offerte e prenotazioni da un unico posto.",
-        "cta": "Scopri Tivvo per le agenzie"
+        "cta": "Scopri Tivvu per le agenzie"
       },
       "rent": {
         "title": "Affittare",
@@ -120,11 +120,11 @@
       },
       "agencies": {
         "title": "Per le agenzie",
-        "about": "Scopri Tivvo",
+        "about": "Scopri Tivvu",
         "register": "Crea un account",
         "login": "Accedi"
       },
-      "tivvo": {
+      "tivvu": {
         "how": "Come funziona",
         "all": "Vedi tutti gli immobili"
       }

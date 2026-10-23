@@ -3,16 +3,16 @@
     "formats": {
       "table": "CSV ili Excel",
       "kyero": "Kyero feed (XML)",
-      "tivvo_xml": "Tivvo XML"
+      "tivvu_xml": "Tivvu XML"
     },
     "generic": {
       "xml": {
         "name": "Kyero XML",
         "description": "Feed u Kyero formatu (verzija 3) koji izvoze Casafari, Estatebud i većina CRM-ova, putem URL-a ili datoteke."
       },
-      "tivvo": {
-        "name": "Moj vlastiti sustav (Tivvo XML)",
-        "description": "Ako vaš sustav ima vlastiti API, generirajte Tivvo XML, a mi čitamo taj feed putem URL-a ili datoteke."
+      "tivvu": {
+        "name": "Moj vlastiti sustav (Tivvu XML)",
+        "description": "Ako vaš sustav ima vlastiti API, generirajte Tivvu XML, a mi čitamo taj feed putem URL-a ili datoteke."
       }
     },
     "guides": {
@@ -24,7 +24,7 @@
       },
       "help": {
         "greeting": "Pozdrav, tim Tivva,",
-        "body": "Želim prenijeti svoje nekretnine iz {origin} u Tivvo i ne znam kako doći do podataka ni kako ih uvesti. Možete li mi pomoći?",
+        "body": "Želim prenijeti svoje nekretnine iz {origin} u Tivvu i ne znam kako doći do podataka ni kako ih uvesti. Možete li mi pomoći?",
         "agency": "Moja agencija na Tivvu: {slug}",
         "thanks": "Hvala."
       },
@@ -90,7 +90,7 @@
         }
       },
       "ownSteps": {
-        "s1": "Iz svog API-ja generirajte XML u Tivvo formatu (primjer ispod): jedan '<listing>' po nekretnini.",
+        "s1": "Iz svog API-ja generirajte XML u Tivvu formatu (primjer ispod): jedan '<listing>' po nekretnini.",
         "s2": "Za istu nekretninu uvijek koristite isti '<external_id>': tako ponovni uvoz ažurira umjesto da duplicira.",
         "s3": "Objavite XML na javnom URL-u i zalijepite ga u okvir pokraj ili učitajte datoteku."
       },
@@ -196,7 +196,7 @@
       "continue": "Nastavi"
     },
     "mapping": {
-      "fieldFor": "Tivvo polje za stupac {header}",
+      "fieldFor": "Tivvu polje za stupac {header}",
       "skip": "Ne uvozi",
       "title": "Što je koji stupac",
       "lead": "Pronašli smo {rows} redaka i prepoznali {detected} od {total} stupaca. Neprepoznati su prvi; nedodijeljeni se zanemaruju. Prazna ćelija nikad ne briše ono što je već uneseno.",

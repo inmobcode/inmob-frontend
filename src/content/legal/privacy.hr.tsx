@@ -27,18 +27,18 @@ const SECTIONS: LegalSection[] = [
       <>
         <p>
           Ova Pravila objašnjavaju kako {name}, CUIT {taxId}, sa sjedištem na
-          adresi {address} (»Tivvo«, »mi«), obrađuje osobne podatke kad
-          koristite tivvo.app, njegove poddomene i stranice agencija objavljene
+          adresi {address} (»Tivvu«, »mi«), obrađuje osobne podatke kad
+          koristite tivvu.app, njegove poddomene i stranice agencija objavljene
           putem Tivva. Primjenjuju se u skladu s argentinskim Zakonom 25.326 o
           zaštiti osobnih podataka, njegovom provedbenom Uredbom 1558/2001 i
           pravilima Agencije za pristup javnim informacijama (AAIP).
         </p>
-        <p>Tivvo ima dvije različite uloge, ovisno o tome čiji su podaci:</p>
+        <p>Tivvu ima dvije različite uloge, ovisno o tome čiji su podaci:</p>
         <ul>
           <li>
             <strong>Mi smo voditelji obrade</strong> podataka agencija i njihovih
             korisnika (račun, naplata, korištenje sustava), osoba koje traže
-            demonstraciju ili nam pišu te posjetitelja tivvo.app.
+            demonstraciju ili nam pišu te posjetitelja tivvu.app.
           </li>
           <li>
             <strong>Podatke obrađujemo u ime svake agencije</strong> kad je riječ
@@ -63,7 +63,7 @@ const SECTIONS: LegalSection[] = [
       "Račun, prijava, tehnički podaci i komunikacija; a u ime svake agencije i podaci njezinih klijenata. Ne tražimo osjetljive podatke.",
     content: (
       <>
-        <h3>Ako Tivvo koristite u agenciji</h3>
+        <h3>Ako Tivvu koristite u agenciji</h3>
         <ul>
           <li>
             <strong>Račun:</strong> ime, e-pošta, lozinka (pohranjena šifrirano
@@ -212,7 +212,7 @@ const SECTIONS: LegalSection[] = [
         </p>
         <p>
           Podatke možemo otkriti ako to naloži sud ili nadležno tijelo, ili ako
-          je potrebno radi zaštite naših prava. Ako se Tivvo spoji ili bude
+          je potrebno radi zaštite naših prava. Ako se Tivvu spoji ili bude
           preuzet, podaci će se prenijeti novom subjektu, koji mora poštovati ova
           Pravila.
         </p>
@@ -323,7 +323,7 @@ const SECTIONS: LegalSection[] = [
     content: (
       <>
         <p>
-          Tivvo koristi samo kolačiće i lokalnu pohranu nužne za rad Usluge. Ne
+          Tivvu koristi samo kolačiće i lokalnu pohranu nužne za rad Usluge. Ne
           koristimo kolačiće za oglašavanje ni praćenje trećih strana.
         </p>
         <LegalTable
@@ -332,7 +332,7 @@ const SECTIONS: LegalSection[] = [
             [
               <>
                 Sesija (<code>access_token</code>, <code>refresh_token</code>,{" "}
-                <code>tivvo_user</code>)
+                <code>tivvu_user</code>)
               </>,
               "Održavaju vas prijavljenima.",
               "Do 180 dana ili dok se ne odjavite.",
@@ -354,7 +354,7 @@ const SECTIONS: LegalSection[] = [
         <p>
           Kolačiće možete izbrisati ili blokirati u svojem pregledniku. Ako
           blokirate kolačiće sesije, nećete se moći prijaviti u sustav. Javne
-          stranice agencija ne postavljaju Tivvo kolačiće.
+          stranice agencija ne postavljaju Tivvu kolačiće.
         </p>
       </>
     ),
@@ -418,10 +418,10 @@ const SECTIONS: LegalSection[] = [
   {
     id: "menores",
     title: "Maloljetnici",
-    brief: "Tivvo je alat za osobe starije od 18 godina.",
+    brief: "Tivvu je alat za osobe starije od 18 godina.",
     content: (
       <p>
-        Tivvo je profesionalni alat za osobe starije od 18 godina i nije
+        Tivvu je profesionalni alat za osobe starije od 18 godina i nije
         namijenjen maloljetnicima. Ako znate da nam je maloljetnik bez dopuštenja
         dao svoje podatke, pišite nam i izbrisat ćemo ih.
       </p>
@@ -464,7 +464,7 @@ const SECTIONS: LegalSection[] = [
 export const content: LegalContent = {
   metaTitle: "Pravila privatnosti",
   metaDescription:
-    "Koje osobne podatke Tivvo obrađuje, zašto, s kim ih dijeli i kako ostvariti svoja prava.",
+    "Koje osobne podatke Tivvu obrađuje, zašto, s kim ih dijeli i kako ostvariti svoja prava.",
   title: "Pravila privatnosti",
   intro: (
     <>

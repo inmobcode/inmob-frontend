@@ -23,7 +23,7 @@ export default function LegalLayout({
             className="flex items-center gap-2 rounded-sm font-logo text-xl leading-none font-semibold tracking-tight outline-none focus-visible:ring-2 focus-visible:ring-forest"
           >
             <LogoIcon className="h-[0.95em] text-forest" />
-            Tivvo
+            Tivvu
           </Link>
           <div className="flex items-center gap-1">
             <LanguageSwitcher compact className="text-quiet hover:bg-mist hover:text-ink" />

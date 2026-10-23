@@ -100,7 +100,7 @@ export function StatusScreen({
               className="flex items-center gap-2 rounded-sm font-logo text-xl leading-none font-semibold tracking-tight outline-none focus-visible:ring-2 focus-visible:ring-lime"
             >
               <LogoIcon className="h-[0.95em] text-lime" />
-              Tivvo
+              Tivvu
             </Link>
             <span className="text-sm text-paper/55">{t("code", { code })}</span>
           </div>

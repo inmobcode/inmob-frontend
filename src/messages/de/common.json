@@ -1,7 +1,7 @@
 {
   "meta": {
     "description": "Verwaltungssoftware für Immobilienagenturen: Objekte, Angebote, Buchungen und die Website Ihrer Agentur.",
-    "ogAlt": "Tivvo · Verwaltungssoftware für Immobilienagenturen",
+    "ogAlt": "Tivvu · Verwaltungssoftware für Immobilienagenturen",
     "ogTitle": "Ein Ort für Ihre Objekte, Angebote und Buchungen",
     "ogSubtitle": "Verwaltungssoftware für Verkaufs- und Ferienvermietungsagenturen."
   },
@@ -18,7 +18,7 @@
     "links": {
       "home": {
         "label": "Startseite",
-        "hint": "Was Tivvo ist und wie es funktioniert"
+        "hint": "Was Tivvu ist und wie es funktioniert"
       },
       "help": {
         "label": "Hilfe",

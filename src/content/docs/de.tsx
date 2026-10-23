@@ -39,11 +39,11 @@ function Basics() {
       id="primeros-pasos"
       icon={Compass}
       title="Erste Schritte"
-      intro="Tivvo bündelt an einem Ort die Anfragen, die Sie erhalten, Ihre Kunden, Ihren Objektbestand, die Angebote, die Sie verschicken, Buchungen und Verfügbarkeit. Alles, was Sie veröffentlichen, erscheint auf der Website Ihrer Agentur."
+      intro="Tivvu bündelt an einem Ort die Anfragen, die Sie erhalten, Ihre Kunden, Ihren Objektbestand, die Angebote, die Sie verschicken, Buchungen und Verfügbarkeit. Alles, was Sie veröffentlichen, erscheint auf der Website Ihrer Agentur."
     >
       <DocFigure
         src="/docs-media/de/panel.webp"
-        alt="Das Tivvo-Dashboard mit Seitenmenü, Objektliste und Profilkarte"
+        alt="Das Tivvu-Dashboard mit Seitenmenü, Objektliste und Profilkarte"
         width={1584}
         height={946}
         markers={[
@@ -68,7 +68,7 @@ function Basics() {
       <DocP>
         „Anfragen“ zeigt eine Zahl, wenn Sie ungelesene Anfragen haben; sie aktualisiert sich jede Minute von selbst. Sie
         können das Menü mit der Schaltfläche oben oder mit <Kbd>Ctrl/⌘</Kbd> <Kbd>B</Kbd> einklappen, um Platz zu gewinnen,
-        und Tivvo merkt sich Ihre Wahl. Auf dem Handy öffnet sich das Menü über das Symbol oben.
+        und Tivvu merkt sich Ihre Wahl. Auf dem Handy öffnet sich das Menü über das Symbol oben.
       </DocP>
 
       <DocH3>Benachrichtigungen</DocH3>
@@ -114,7 +114,7 @@ function Basics() {
           { x: 75, y: 55.3, label: "Erscheinungsbild: hell, dunkel oder automatisch (folgt Ihrem Computer)." },
           { x: 50, y: 69.2, label: "Diese Dokumentation, in einem neuen Tab." },
           { x: 50, y: 74.9, label: "Die Suche und darunter die Tastenkürzel." },
-          { x: 50, y: 86.4, label: "Hilfe und Support: häufige Fragen und Kontakt zu Tivvo." },
+          { x: 50, y: 86.4, label: "Hilfe und Support: häufige Fragen und Kontakt zu Tivvu." },
           { x: 50, y: 93.6, label: "Abmelden." },
         ]}
       />
@@ -147,7 +147,7 @@ function Basics() {
           ],
           [
             "Ansichten",
-            "Listen lassen sich als Raster, Liste oder Tabelle anzeigen (Tasten 1, 2 und 3). Tivvo merkt sich die gewählte Ansicht in jedem Browser.",
+            "Listen lassen sich als Raster, Liste oder Tabelle anzeigen (Tasten 1, 2 und 3). Tivvu merkt sich die gewählte Ansicht in jedem Browser.",
           ],
           [
             "Suche und Filter",
@@ -277,7 +277,7 @@ function Clients() {
           <strong>Manuell:</strong> „Neuer Kunde“ mit Name, E-Mail und Telefon.
         </li>
         <li>
-          <strong>Über die Website oder ein Angebot:</strong> Schreibt Ihnen jemand, legt Tivvo den Kunden an (oder erkennt
+          <strong>Über die Website oder ein Angebot:</strong> Schreibt Ihnen jemand, legt Tivvu den Kunden an (oder erkennt
           ihn an seiner E-Mail) und hinterlässt im Verlauf eine Notiz mit dem angefragten Objekt oder Angebot.
         </li>
       </DocList>
@@ -757,7 +757,7 @@ function Importer() {
       <DocP>
         Es gibt fast 50 Plattformen (Idealista, Inmovilla, Kyero, CASAFARI, Resales Online, Witei, Apimo, Rightmove und
         viele mehr), die meistgenutzten zuerst. Fehlt Ihre, können Sie unten eine <strong>CSV- oder Excel-Datei</strong>,
-        ein <strong>Kyero-XML</strong> (das Format, das die meisten CRMs exportieren) oder das <strong>Tivvo-XML</strong>{" "}
+        ein <strong>Kyero-XML</strong> (das Format, das die meisten CRMs exportieren) oder das <strong>Tivvu-XML</strong>{" "}
         nutzen, falls Ihr System eine eigene API hat.
       </DocP>
 
@@ -796,16 +796,16 @@ function Importer() {
       </DocList>
 
       <DocH3>3. Was jede Spalte bedeutet</DocH3>
-      <DocP>Nur bei Tabellen (CSV oder Excel). Tivvo erkennt die meisten Spalten selbst; prüfen Sie den Rest.</DocP>
+      <DocP>Nur bei Tabellen (CSV oder Excel). Tivvu erkennt die meisten Spalten selbst; prüfen Sie den Rest.</DocP>
       <DocFigure
         src="/docs-media/de/importar-mapeo.webp"
-        alt="Der Schritt, in dem jede Spalte der Datei einem Tivvo-Feld zugeordnet wird"
+        alt="Der Schritt, in dem jede Spalte der Datei einem Tivvu-Feld zugeordnet wird"
         width={1304}
         height={1110}
         markers={[
           { x: 49, y: 13.7, label: "Wie viele Zeilen und Spalten wir erkannt haben." },
           { x: 11.6, y: 25.8, label: "Nicht erkannte Spalten stehen oben, mit Beispielen aus Ihrer Datei." },
-          { x: 79.7, y: 25.8, label: "Wählen Sie das passende Tivvo-Feld oder „Nicht importieren“." },
+          { x: 79.7, y: 25.8, label: "Wählen Sie das passende Tivvu-Feld oder „Nicht importieren“." },
           { x: 14.7, y: 95.4, label: "Vor dem Speichern sehen, was mit jeder Zeile geschieht." },
         ]}
       />
@@ -834,9 +834,9 @@ function Importer() {
       />
       <DocTerms
         items={[
-          ["Neu", "War nicht in Tivvo: Es wird angelegt."],
+          ["Neu", "War nicht in Tivvu: Es wird angelegt."],
           ["Aktualisiert", "Schon einmal importiert (gleiche Referenz): Es ändert sich, was die Details nennen, zum Beispiel Preis oder Fotos."],
-          ["Unverändert", "Ist in Tivvo bereits identisch."],
+          ["Unverändert", "Ist in Tivvu bereits identisch."],
           ["Übersprungen", "Wird nicht importiert, zum Beispiel weil es in der Datei doppelt vorkommt."],
           ["Mit Fehler", "Es fehlt eine Pflichtangabe wie der Titel. Die Details nennen sie."],
         ]}
@@ -852,7 +852,7 @@ function Importer() {
           wiederherstellen.
         </li>
         <li>
-          Mit einem Klick auf <strong>Importieren</strong> speichert Tivvo die Objekte und lädt ihre Fotos herunter. Bei
+          Mit einem Klick auf <strong>Importieren</strong> speichert Tivvu die Objekte und lädt ihre Fotos herunter. Bei
           vielen Objekten kann das ein paar Minuten dauern: Schließen Sie den Tab nicht. Wollen Sie vorher gehen, warnen
           wir Sie.
         </li>
@@ -1404,7 +1404,7 @@ function ClientPages() {
       id="lo-que-ven-tus-clientes"
       icon={Eye}
       title="Was Ihre Kunden sehen"
-      intro="Die öffentlichen Seiten, die Tivvo erzeugt: Ihre Website, jede Objektseite, Angebote, Buchungen, die Eigentümerseite und Ihre Verfügbarkeit. Keine verlangt Benutzername oder Passwort."
+      intro="Die öffentlichen Seiten, die Tivvu erzeugt: Ihre Website, jede Objektseite, Angebote, Buchungen, die Eigentümerseite und Ihre Verfügbarkeit. Keine verlangt Benutzername oder Passwort."
     >
       <DocH3>Ihre Website</DocH3>
       <DocFigure
@@ -1460,7 +1460,7 @@ function Team() {
       icon={UsersRound}
       title="Team"
       adminOnly
-      intro="Die Personen, die in Ihrer Agentur mit Tivvo arbeiten, und was jede davon tun kann."
+      intro="Die Personen, die in Ihrer Agentur mit Tivvu arbeiten, und was jede davon tun kann."
     >
       <DocFigure
         src="/docs-media/de/equipo.webp"
@@ -1479,7 +1479,7 @@ function Team() {
           Administrator oder Makler.
         </DocStep>
         <DocStep>
-          Die Person erhält den Zugang per E-Mail. Hatte sie bereits ein Tivvo-Konto (etwa bei einer anderen Agentur),
+          Die Person erhält den Zugang per E-Mail. Hatte sie bereits ein Tivvu-Konto (etwa bei einer anderen Agentur),
           fügen wir sie Ihrem Team hinzu, und sie meldet sich mit ihrem gewohnten Passwort an.
         </DocStep>
       </DocSteps>
@@ -1634,11 +1634,11 @@ function Shortcuts() {
       <DocH3>Hilfe und Support</DocH3>
       <DocP>
         Im Profilmenü öffnet <strong>Hilfe und Support</strong> das Hilfecenter: häufige Fragen mit Suche und ein
-        Formular, um dem Tivvo-Team zu schreiben. Wir antworten per E-Mail.
+        Formular, um dem Tivvu-Team zu schreiben. Wir antworten per E-Mail.
       </DocP>
       <DocFigure
         src="/docs-media/de/ayuda.webp"
-        alt="Das Tivvo-Hilfecenter"
+        alt="Das Tivvu-Hilfecenter"
         width={1584}
         height={946}
         caption="Suchen Sie nach Ihrer Frage; finden Sie sie nicht, schreiben Sie uns über das Formular."

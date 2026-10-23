@@ -17,7 +17,7 @@ export const MAX_FILE_BYTES = 10 * 1024 * 1024;
 export const FORMAT_ICON: Record<ImportFormat, typeof FileSpreadsheet> = {
   table: FileSpreadsheet,
   kyero: FileCode2,
-  tivvo_xml: Workflow,
+  tivvu_xml: Workflow,
 };
 
 export const TYPE_FILTERS: (PlatformType | "all")[] = ["all", "crm", "portal", "aggregator"];
@@ -25,19 +25,19 @@ export const TYPE_FILTERS: (PlatformType | "all")[] = ["all", "crm", "portal", "
 export const URL_PLACEHOLDER: Record<ImportFormat, string> = {
   table: "https://tu-crm.com/export/propiedades.csv",
   kyero: "https://tu-crm.com/feeds/kyero.xml",
-  tivvo_xml: "https://tu-sistema.com/feeds/tivvo.xml",
+  tivvu_xml: "https://tu-sistema.com/feeds/tivvu.xml",
 };
 
 export const ACCEPT: Record<ImportFormat, string> = {
   table: ".csv,.xlsx,.xlsm,text/csv",
   kyero: ".xml,text/xml,application/xml",
-  tivvo_xml: ".xml,text/xml,application/xml",
+  tivvu_xml: ".xml,text/xml,application/xml",
 };
 
 const EXTENSIONS: Record<ImportFormat, string[]> = {
   table: [".csv", ".xlsx", ".xlsm"],
   kyero: [".xml"],
-  tivvo_xml: [".xml"],
+  tivvu_xml: [".xml"],
 };
 
 // The actions' names are in "importer.actions".
@@ -93,7 +93,7 @@ function download(content: string, filename: string) {
 }
 
 export function downloadCsvTemplate() {
-  download(CSV_TEMPLATE, "plantilla-propiedades-tivvo.csv");
+  download(CSV_TEMPLATE, "plantilla-propiedades-tivvu.csv");
 }
 
 const csvCell = (value: string | number | null | undefined) => `"${String(value ?? "").replace(/"/g, '""')}"`;

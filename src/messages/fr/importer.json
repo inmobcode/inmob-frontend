@@ -3,16 +3,16 @@
     "formats": {
       "table": "CSV ou Excel",
       "kyero": "Flux Kyero (XML)",
-      "tivvo_xml": "XML Tivvo"
+      "tivvu_xml": "XML Tivvu"
     },
     "generic": {
       "xml": {
         "name": "XML Kyero",
         "description": "Le flux au format Kyero (version 3) exporté par Casafari, Estatebud et la plupart des CRM, par URL ou par fichier."
       },
-      "tivvo": {
-        "name": "Mon propre système (XML Tivvo)",
-        "description": "Si votre système a sa propre API, générez le XML Tivvo et nous lisons ce flux par URL ou par fichier."
+      "tivvu": {
+        "name": "Mon propre système (XML Tivvu)",
+        "description": "Si votre système a sa propre API, générez le XML Tivvu et nous lisons ce flux par URL ou par fichier."
       }
     },
     "guides": {
@@ -23,9 +23,9 @@
         "provideFeed": "Collez l’URL du flux dans le champ à côté, ou téléversez le XML."
       },
       "help": {
-        "greeting": "Bonjour l’équipe Tivvo,",
-        "body": "Je veux migrer mes biens depuis {origin} vers Tivvo et je ne sais ni comment obtenir les données ni comment les importer. Pouvez-vous m’aider ?",
-        "agency": "Mon agence sur Tivvo : {slug}",
+        "greeting": "Bonjour l’équipe Tivvu,",
+        "body": "Je veux migrer mes biens depuis {origin} vers Tivvu et je ne sais ni comment obtenir les données ni comment les importer. Pouvez-vous m’aider ?",
+        "agency": "Mon agence sur Tivvu : {slug}",
         "thanks": "Merci."
       },
       "overrides": {
@@ -90,7 +90,7 @@
         }
       },
       "ownSteps": {
-        "s1": "Générez depuis votre API un XML au format Tivvo (exemple ci-dessous) : un '<listing>' par bien.",
+        "s1": "Générez depuis votre API un XML au format Tivvu (exemple ci-dessous) : un '<listing>' par bien.",
         "s2": "Utilisez toujours le même '<external_id>' pour le même bien : ainsi, une nouvelle importation met à jour au lieu de dupliquer.",
         "s3": "Publiez le XML à une URL publique et collez-la dans le champ à côté, ou téléversez le fichier."
       },
@@ -196,14 +196,14 @@
       "continue": "Continuer"
     },
     "mapping": {
-      "fieldFor": "Champ Tivvo pour la colonne {header}",
+      "fieldFor": "Champ Tivvu pour la colonne {header}",
       "skip": "Ne pas importer",
       "title": "À quoi correspond chaque colonne",
       "lead": "Nous avons détecté {rows} lignes et reconnu {detected} colonnes sur {total}. Celles non reconnues apparaissent en premier ; celles sans correspondance sont ignorées. Une cellule vide n’efface jamais ce qui est déjà saisi.",
       "status": "{mapped} importées · {unassigned} sans correspondance",
       "column": "Colonne de votre fichier",
       "examples": "Exemples",
-      "field": "Champ dans Tivvo",
+      "field": "Champ dans Tivvu",
       "noReference": "Sans colonne de référence (ID), une nouvelle importation du fichier dupliquera les biens au lieu de les mettre à jour.",
       "back": "Retour",
       "preview": "Voir l’aperçu",

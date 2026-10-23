@@ -39,11 +39,11 @@ function Basics() {
       id="primeros-pasos"
       icon={Compass}
       title="Premiers pas"
-      intro="Tivvo réunit en un seul endroit les demandes que vous recevez, vos clients, votre portefeuille de biens, les propositions que vous envoyez, les réservations et les disponibilités. Tout ce que vous publiez apparaît sur le site de votre agence."
+      intro="Tivvu réunit en un seul endroit les demandes que vous recevez, vos clients, votre portefeuille de biens, les propositions que vous envoyez, les réservations et les disponibilités. Tout ce que vous publiez apparaît sur le site de votre agence."
     >
       <DocFigure
         src="/docs-media/fr/panel.webp"
-        alt="Le tableau de bord Tivvo avec le menu latéral, la liste des biens et la carte de profil"
+        alt="Le tableau de bord Tivvu avec le menu latéral, la liste des biens et la carte de profil"
         width={1584}
         height={946}
         markers={[
@@ -68,7 +68,7 @@ function Basics() {
       <DocP>
         « Demandes » affiche un nombre quand vous avez des demandes non lues ; il se met à jour tout seul chaque minute.
         Vous pouvez replier le menu avec le bouton du haut ou avec <Kbd>Ctrl/⌘</Kbd> <Kbd>B</Kbd> pour gagner de la
-        place, et Tivvo se souvient de votre choix. Sur mobile, le menu s’ouvre depuis l’icône du haut.
+        place, et Tivvu se souvient de votre choix. Sur mobile, le menu s’ouvre depuis l’icône du haut.
       </DocP>
 
       <DocH3>Notifications</DocH3>
@@ -113,7 +113,7 @@ function Basics() {
           { x: 75, y: 55.3, label: "Apparence : claire, sombre ou automatique (suit votre ordinateur)." },
           { x: 50, y: 69.2, label: "Cette documentation, dans un autre onglet." },
           { x: 50, y: 74.9, label: "La recherche et, en dessous, les raccourcis clavier." },
-          { x: 50, y: 86.4, label: "Aide et support : questions fréquentes et contact avec Tivvo." },
+          { x: 50, y: 86.4, label: "Aide et support : questions fréquentes et contact avec Tivvu." },
           { x: 50, y: 93.6, label: "Se déconnecter." },
         ]}
       />
@@ -146,7 +146,7 @@ function Basics() {
           ],
           [
             "Vues",
-            "Les listes peuvent s’afficher en grille, liste ou tableau (touches 1, 2 et 3). Tivvo mémorise la vue choisie dans chaque navigateur.",
+            "Les listes peuvent s’afficher en grille, liste ou tableau (touches 1, 2 et 3). Tivvu mémorise la vue choisie dans chaque navigateur.",
           ],
           [
             "Recherche et filtres",
@@ -275,7 +275,7 @@ function Clients() {
           <strong>Saisie manuelle :</strong> « Nouveau client » avec nom, e-mail et téléphone.
         </li>
         <li>
-          <strong>Depuis le site ou une offre :</strong> quand quelqu’un vous écrit, Tivvo crée le client (ou le reconnaît
+          <strong>Depuis le site ou une offre :</strong> quand quelqu’un vous écrit, Tivvu crée le client (ou le reconnaît
           par son e-mail) et laisse une note dans son historique avec le bien ou l’offre concerné.
         </li>
       </DocList>
@@ -752,7 +752,7 @@ function Importer() {
         Il y a près de 50 plateformes (Idealista, Inmovilla, Kyero, CASAFARI, Resales Online, Witei, Apimo, Rightmove et
         bien d’autres), les plus utilisées en premier. Si la vôtre n’y est pas, vous pouvez utiliser plus bas un{" "}
         <strong>CSV ou Excel</strong>, un <strong>XML Kyero</strong> (le format exporté par la plupart des CRM) ou le{" "}
-        <strong>XML Tivvo</strong>, si votre système a sa propre API.
+        <strong>XML Tivvu</strong>, si votre système a sa propre API.
       </DocP>
 
       <DocH3>2. Apportez vos données</DocH3>
@@ -791,16 +791,16 @@ function Importer() {
       </DocList>
 
       <DocH3>3. À quoi correspond chaque colonne</DocH3>
-      <DocP>Tableurs uniquement (CSV ou Excel). Tivvo reconnaît seul la plupart des colonnes ; vérifiez les autres.</DocP>
+      <DocP>Tableurs uniquement (CSV ou Excel). Tivvu reconnaît seul la plupart des colonnes ; vérifiez les autres.</DocP>
       <DocFigure
         src="/docs-media/fr/importar-mapeo.webp"
-        alt="L’étape pour associer chaque colonne du fichier à un champ Tivvo"
+        alt="L’étape pour associer chaque colonne du fichier à un champ Tivvu"
         width={1304}
         height={1132}
         markers={[
           { x: 49, y: 14.4, label: "Combien de lignes et de colonnes nous avons reconnues." },
           { x: 13.3, y: 27.2, label: "Les colonnes non reconnues apparaissent en premier, avec des exemples de votre fichier." },
-          { x: 80.9, y: 27.2, label: "Choisissez le champ Tivvo correspondant, ou « Ne pas importer »." },
+          { x: 80.9, y: 27.2, label: "Choisissez le champ Tivvu correspondant, ou « Ne pas importer »." },
           { x: 13, y: 95.5, label: "Voir ce qui arrivera à chaque ligne, avant d’enregistrer." },
         ]}
       />
@@ -829,9 +829,9 @@ function Importer() {
       />
       <DocTerms
         items={[
-          ["Nouveau", "N’était pas dans Tivvo : il est créé."],
+          ["Nouveau", "N’était pas dans Tivvu : il est créé."],
           ["Mise à jour", "Vous l’aviez déjà importé (même référence) : ce qu’indique le détail change, par exemple prix ou photos."],
-          ["Inchangé", "Il est déjà identique dans Tivvo."],
+          ["Inchangé", "Il est déjà identique dans Tivvu."],
           ["Ignoré", "N’est pas importé, par exemple parce qu’il est en double dans le fichier."],
           ["En erreur", "Il manque quelque chose d’obligatoire, comme le titre. Le détail précise quoi."],
         ]}
@@ -847,7 +847,7 @@ function Importer() {
           jours.
         </li>
         <li>
-          En cliquant sur <strong>Importer</strong>, Tivvo enregistre les biens et télécharge leurs photos. S’ils sont
+          En cliquant sur <strong>Importer</strong>, Tivvu enregistre les biens et télécharge leurs photos. S’ils sont
           nombreux, cela peut prendre quelques minutes : ne fermez pas l’onglet. Si vous tentez de partir avant la fin,
           nous vous prévenons.
         </li>
@@ -1397,7 +1397,7 @@ function ClientPages() {
       id="lo-que-ven-tus-clientes"
       icon={Eye}
       title="Ce que voient vos clients"
-      intro="Les pages publiques que génère Tivvo : votre site, la fiche de chaque bien, les offres, les réservations, la page du propriétaire et vos disponibilités. Aucune ne demande d’identifiant ni de mot de passe."
+      intro="Les pages publiques que génère Tivvu : votre site, la fiche de chaque bien, les offres, les réservations, la page du propriétaire et vos disponibilités. Aucune ne demande d’identifiant ni de mot de passe."
     >
       <DocH3>Votre site</DocH3>
       <DocFigure
@@ -1453,7 +1453,7 @@ function Team() {
       icon={UsersRound}
       title="Équipe"
       adminOnly
-      intro="Les personnes qui travaillent dans votre agence sur Tivvo et ce que chacune peut faire."
+      intro="Les personnes qui travaillent dans votre agence sur Tivvu et ce que chacune peut faire."
     >
       <DocFigure
         src="/docs-media/fr/equipo.webp"
@@ -1472,7 +1472,7 @@ function Team() {
           administrateur ou agent.
         </DocStep>
         <DocStep>
-          Il reçoit l’accès par e-mail. S’il avait déjà un compte Tivvo (par exemple dans une autre agence), nous l’ajoutons
+          Il reçoit l’accès par e-mail. S’il avait déjà un compte Tivvu (par exemple dans une autre agence), nous l’ajoutons
           à votre équipe et il se connecte avec son mot de passe habituel.
         </DocStep>
       </DocSteps>
@@ -1627,11 +1627,11 @@ function Shortcuts() {
       <DocH3>Aide et support</DocH3>
       <DocP>
         Dans le menu de votre profil, <strong>Aide et support</strong> ouvre le centre d’aide : questions fréquentes avec
-        recherche et un formulaire pour écrire à l’équipe Tivvo. Nous répondons par e-mail.
+        recherche et un formulaire pour écrire à l’équipe Tivvu. Nous répondons par e-mail.
       </DocP>
       <DocFigure
         src="/docs-media/fr/ayuda.webp"
-        alt="Le centre d’aide Tivvo"
+        alt="Le centre d’aide Tivvu"
         width={1584}
         height={946}
         caption="Recherchez votre question ; si vous ne la trouvez pas, écrivez-nous via le formulaire."

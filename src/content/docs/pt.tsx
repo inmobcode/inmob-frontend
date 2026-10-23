@@ -39,11 +39,11 @@ function Basics() {
       id="primeros-pasos"
       icon={Compass}
       title="Primeiros passos"
-      intro="A Tivvo reúne num só lugar os pedidos que recebe, os seus clientes, a sua carteira de imóveis, as propostas que envia, as reservas e a disponibilidade. Tudo o que publica aparece no site da sua agência."
+      intro="A Tivvu reúne num só lugar os pedidos que recebe, os seus clientes, a sua carteira de imóveis, as propostas que envia, as reservas e a disponibilidade. Tudo o que publica aparece no site da sua agência."
     >
       <DocFigure
         src="/docs-media/pt/panel.webp"
-        alt="O painel da Tivvo com o menu lateral, a lista de imóveis e o cartão de perfil"
+        alt="O painel da Tivvu com o menu lateral, a lista de imóveis e o cartão de perfil"
         width={1584}
         height={946}
         markers={[
@@ -67,7 +67,7 @@ function Basics() {
       </DocP>
       <DocP>
         «Pedidos» mostra um número quando tem pedidos por ler; atualiza-se sozinho a cada minuto. Pode recolher o menu com
-        o botão de cima ou com <Kbd>Ctrl/⌘</Kbd> <Kbd>B</Kbd> para ganhar espaço, e a Tivvo lembra-se de como o deixou. No
+        o botão de cima ou com <Kbd>Ctrl/⌘</Kbd> <Kbd>B</Kbd> para ganhar espaço, e a Tivvu lembra-se de como o deixou. No
         telemóvel, o menu abre-se a partir do ícone de cima.
       </DocP>
 
@@ -112,7 +112,7 @@ function Basics() {
           { x: 75, y: 55.3, label: "Aparência: clara, escura ou automática (segue o seu computador)." },
           { x: 50, y: 69.2, label: "Esta documentação, noutro separador." },
           { x: 50, y: 74.9, label: "A pesquisa e, por baixo, os atalhos de teclado." },
-          { x: 50, y: 86.4, label: "Ajuda e suporte: perguntas frequentes e contacto com a Tivvo." },
+          { x: 50, y: 86.4, label: "Ajuda e suporte: perguntas frequentes e contacto com a Tivvu." },
           { x: 50, y: 93.6, label: "Terminar sessão." },
         ]}
       />
@@ -145,7 +145,7 @@ function Basics() {
           ],
           [
             "Vistas",
-            "As listas podem ver-se em grelha, lista ou tabela (teclas 1, 2 e 3). A Tivvo lembra-se da vista que escolheu em cada navegador.",
+            "As listas podem ver-se em grelha, lista ou tabela (teclas 1, 2 e 3). A Tivvu lembra-se da vista que escolheu em cada navegador.",
           ],
           [
             "Pesquisa e filtros",
@@ -274,7 +274,7 @@ function Clients() {
           <strong>Registo manual:</strong> «Novo cliente» com nome, email e telefone.
         </li>
         <li>
-          <strong>A partir do site ou de uma oferta:</strong> quando alguém lhe escreve, a Tivvo cria o cliente (ou
+          <strong>A partir do site ou de uma oferta:</strong> quando alguém lhe escreve, a Tivvu cria o cliente (ou
           reconhece-o pelo email) e deixa uma nota no seu histórico com o imóvel ou a oferta sobre que perguntou.
         </li>
       </DocList>
@@ -747,7 +747,7 @@ function Importer() {
       <DocP>
         Há quase 50 plataformas (Idealista, Inmovilla, Kyero, CASAFARI, Resales Online, Witei, Apimo, Rightmove e muitas
         mais), as mais usadas primeiro. Se a sua não estiver, em baixo pode usar um <strong>CSV ou Excel</strong>, um{" "}
-        <strong>XML da Kyero</strong> (o formato que a maioria dos CRM exporta) ou o <strong>XML da Tivvo</strong>, se o seu
+        <strong>XML da Kyero</strong> (o formato que a maioria dos CRM exporta) ou o <strong>XML da Tivvu</strong>, se o seu
         sistema tiver API própria.
       </DocP>
 
@@ -785,16 +785,16 @@ function Importer() {
       </DocList>
 
       <DocH3>3. O que é cada coluna</DocH3>
-      <DocP>Só em folhas de cálculo (CSV ou Excel). A Tivvo reconhece sozinha a maioria das colunas; reveja as restantes.</DocP>
+      <DocP>Só em folhas de cálculo (CSV ou Excel). A Tivvu reconhece sozinha a maioria das colunas; reveja as restantes.</DocP>
       <DocFigure
         src="/docs-media/pt/importar-mapeo.webp"
-        alt="O passo para atribuir cada coluna do ficheiro a um campo da Tivvo"
+        alt="O passo para atribuir cada coluna do ficheiro a um campo da Tivvu"
         width={1304}
         height={1132}
         markers={[
           { x: 49, y: 14.4, label: "Quantas linhas e colunas reconhecemos." },
           { x: 13.1, y: 27.2, label: "As colunas que não reconhecemos vêm primeiro, com exemplos do seu ficheiro." },
-          { x: 81.7, y: 27.2, label: "Escolha a que campo da Tivvo corresponde, ou «Não importar»." },
+          { x: 81.7, y: 27.2, label: "Escolha a que campo da Tivvu corresponde, ou «Não importar»." },
           { x: 14.8, y: 95.5, label: "Ver o que vai acontecer a cada linha, antes de guardar." },
         ]}
       />
@@ -823,9 +823,9 @@ function Importer() {
       />
       <DocTerms
         items={[
-          ["Novo", "Não estava na Tivvo: é criado."],
+          ["Novo", "Não estava na Tivvu: é criado."],
           ["Atualiza", "Já o tinha importado (mesma referência): muda o que diz o detalhe, por exemplo preço ou fotos."],
-          ["Sem alterações", "Já está igual na Tivvo."],
+          ["Sem alterações", "Já está igual na Tivvu."],
           ["Omitido", "Não se importa, por exemplo porque se repete no ficheiro."],
           ["Com erro", "Falta-lhe algo obrigatório, como o título. O detalhe diz o quê."],
         ]}
@@ -840,7 +840,7 @@ function Importer() {
           plataforma, e pedimos confirmação. Podem ser restaurados durante 30 dias.
         </li>
         <li>
-          Ao tocar em <strong>Importar</strong>, a Tivvo guarda os imóveis e descarrega as suas fotos. Se forem muitos pode
+          Ao tocar em <strong>Importar</strong>, a Tivvu guarda os imóveis e descarrega as suas fotos. Se forem muitos pode
           demorar alguns minutos: não feche o separador. Se tentar sair antes de terminar, avisamos.
         </li>
       </DocList>
@@ -1385,7 +1385,7 @@ function ClientPages() {
       id="lo-que-ven-tus-clientes"
       icon={Eye}
       title="O que veem os seus clientes"
-      intro="As páginas públicas que a Tivvo gera: o seu site, a ficha de cada imóvel, as ofertas, as reservas, a página do proprietário e a sua disponibilidade. Nenhuma pede utilizador nem palavra-passe."
+      intro="As páginas públicas que a Tivvu gera: o seu site, a ficha de cada imóvel, as ofertas, as reservas, a página do proprietário e a sua disponibilidade. Nenhuma pede utilizador nem palavra-passe."
     >
       <DocH3>O seu site</DocH3>
       <DocFigure
@@ -1441,7 +1441,7 @@ function Team() {
       icon={UsersRound}
       title="Equipa"
       adminOnly
-      intro="As pessoas que trabalham na sua agência dentro da Tivvo e o que cada uma pode fazer."
+      intro="As pessoas que trabalham na sua agência dentro da Tivvu e o que cada uma pode fazer."
     >
       <DocFigure
         src="/docs-media/pt/equipo.webp"
@@ -1459,7 +1459,7 @@ function Team() {
           Toque em <strong>Convidar membro</strong>, escreva o nome e o email e escolha a função: administrador ou agente.
         </DocStep>
         <DocStep>
-          Recebe o acesso por email. Se já tinha conta na Tivvo (por exemplo, noutra agência), juntamo-lo à sua equipa e
+          Recebe o acesso por email. Se já tinha conta na Tivvu (por exemplo, noutra agência), juntamo-lo à sua equipa e
           entra com a palavra-passe de sempre.
         </DocStep>
       </DocSteps>
@@ -1613,11 +1613,11 @@ function Shortcuts() {
       <DocH3>Ajuda e suporte</DocH3>
       <DocP>
         No menu do seu perfil, <strong>Ajuda e suporte</strong> abre o centro de ajuda: perguntas frequentes com pesquisa e
-        um formulário para escrever à equipa da Tivvo. Respondemos por email.
+        um formulário para escrever à equipa da Tivvu. Respondemos por email.
       </DocP>
       <DocFigure
         src="/docs-media/pt/ayuda.webp"
-        alt="O centro de ajuda da Tivvo"
+        alt="O centro de ajuda da Tivvu"
         width={1584}
         height={946}
         caption="Pesquise a sua dúvida; se não a encontrar, escreva-nos pelo formulário."

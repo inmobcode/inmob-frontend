@@ -9,9 +9,9 @@ import { LOCALES, localePath, type Locale } from "@/i18n/config";
  * absolute, so they are built from here instead of the request's host: an
  * agency site answers on both hosts, and only one of them should be indexed.
  */
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://tivvo.app").replace(/\/$/, "");
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://tivvu.app").replace(/\/$/, "");
 
-export const SITE_NAME = "Tivvo";
+export const SITE_NAME = "Tivvu";
 
 export function absoluteUrl(path: string) {
   return `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;

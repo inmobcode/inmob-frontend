@@ -19,13 +19,13 @@ export default function AuthLayout({
           className="flex w-fit items-center gap-2 rounded-sm font-logo text-xl leading-none font-semibold tracking-tight outline-none focus-visible:ring-2 focus-visible:ring-forest"
         >
           <LogoIcon className="h-[0.95em] text-forest" />
-          Tivvo
+          Tivvu
         </Link>
         <main className="flex flex-1 items-center justify-center py-12 [@media(max-height:820px)]:py-6">
           <div className="w-full max-w-sm">{children}</div>
         </main>
         <div className="flex items-center justify-between gap-4 text-sm text-quiet">
-          <p className="[@media(max-height:720px)]:hidden">© {new Date().getFullYear()} Tivvo</p>
+          <p className="[@media(max-height:720px)]:hidden">© {new Date().getFullYear()} Tivvu</p>
           <AppLanguageSwitcher align="end" className="-mr-2.5 ml-auto hover:bg-mist hover:text-ink" />
         </div>
       </div>

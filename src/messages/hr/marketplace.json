@@ -1,6 +1,6 @@
 {
   "marketplace": {
-    "metaTitle": "Tivvo · Kratkoročni najam i nekretnine na prodaju",
+    "metaTitle": "Tivvu · Kratkoročni najam i nekretnine na prodaju",
     "byDestination": "Po destinaciji",
     "nav": {
       "rentals": "Najam",
@@ -107,7 +107,7 @@
       "pitch": {
         "title": "Imate agenciju za nekretnine?",
         "body": "Objavite ovdje svoje nekretnine i upravljajte upitima, ponudama i rezervacijama na jednom mjestu.",
-        "cta": "Upoznajte Tivvo za agencije"
+        "cta": "Upoznajte Tivvu za agencije"
       },
       "rent": {
         "title": "Najam",
@@ -120,11 +120,11 @@
       },
       "agencies": {
         "title": "Za agencije",
-        "about": "Upoznajte Tivvo",
+        "about": "Upoznajte Tivvu",
         "register": "Izradi račun",
         "login": "Prijava"
       },
-      "tivvo": {
+      "tivvu": {
         "how": "Kako radi",
         "all": "Pogledaj sve nekretnine"
       }

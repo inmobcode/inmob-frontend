@@ -8,7 +8,7 @@ import type {
 } from "@/lib/api/agency";
 
 /**
- * The agency's public site is theirs, not Tivvo's: a neutral base the agency
+ * The agency's public site is theirs, not Tivvu's: a neutral base the agency
  * personalizes with a layout, an accent color, a type pairing, a cover photo
  * and its own texts. Everything here has a sensible default so a brand-new
  * agency already gets a site that looks finished.

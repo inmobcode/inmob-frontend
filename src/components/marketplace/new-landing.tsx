@@ -303,7 +303,7 @@ export function NewLanding({ facets }: { facets: MarketplaceFacets }) {
         <header className={cn(WRAP, "flex h-16 items-center justify-between gap-4")}>
           <Link href={PATH} className="inline-flex items-center gap-2 font-display text-xl tracking-tight">
             <LogoIcon className="text-lime" />
-            Tivvo
+            Tivvu
           </Link>
           <nav className="flex items-center gap-1 text-sm">
             <button

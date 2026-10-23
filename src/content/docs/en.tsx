@@ -39,11 +39,11 @@ function Basics() {
       id="primeros-pasos"
       icon={Compass}
       title="Getting started"
-      intro="Tivvo brings together in one place the inquiries you receive, your clients, your property portfolio, the proposals you send, bookings and availability. Everything you publish appears on your agency’s website."
+      intro="Tivvu brings together in one place the inquiries you receive, your clients, your property portfolio, the proposals you send, bookings and availability. Everything you publish appears on your agency’s website."
     >
       <DocFigure
         src="/docs-media/en/panel.webp"
-        alt="The Tivvo dashboard with the side menu, the property list and the profile card"
+        alt="The Tivvu dashboard with the side menu, the property list and the profile card"
         width={1584}
         height={946}
         markers={[
@@ -67,7 +67,7 @@ function Basics() {
       </DocP>
       <DocP>
         “Inquiries” shows a number when you have unread inquiries; it updates on its own every minute. You can collapse
-        the menu with the button at the top or with <Kbd>Ctrl/⌘</Kbd> <Kbd>B</Kbd> to gain space, and Tivvo remembers how
+        the menu with the button at the top or with <Kbd>Ctrl/⌘</Kbd> <Kbd>B</Kbd> to gain space, and Tivvu remembers how
         you left it. On a phone, the menu opens from the icon at the top.
       </DocP>
 
@@ -112,7 +112,7 @@ function Basics() {
           { x: 75, y: 55.3, label: "Appearance: light, dark or automatic (follows your computer)." },
           { x: 50, y: 69.2, label: "This documentation, in another tab." },
           { x: 50, y: 74.9, label: "Search and, below it, keyboard shortcuts." },
-          { x: 50, y: 86.4, label: "Help and support: FAQs and contact with Tivvo." },
+          { x: 50, y: 86.4, label: "Help and support: FAQs and contact with Tivvu." },
           { x: 50, y: 93.6, label: "Sign out." },
         ]}
       />
@@ -145,7 +145,7 @@ function Basics() {
           ],
           [
             "Views",
-            "Lists can be shown as a grid, list or table (keys 1, 2 and 3). Tivvo remembers the view you chose in each browser.",
+            "Lists can be shown as a grid, list or table (keys 1, 2 and 3). Tivvu remembers the view you chose in each browser.",
           ],
           [
             "Search and filters",
@@ -273,7 +273,7 @@ function Clients() {
           <strong>Manual entry:</strong> “New client” with name, email and phone.
         </li>
         <li>
-          <strong>From the site or an offer:</strong> when someone writes to you, Tivvo creates the client (or recognises
+          <strong>From the site or an offer:</strong> when someone writes to you, Tivvu creates the client (or recognises
           them by their email) and leaves a note in their history with the property or offer they asked about.
         </li>
       </DocList>
@@ -747,7 +747,7 @@ function Importer() {
       <DocP>
         There are almost 50 platforms (Idealista, Inmovilla, Kyero, CASAFARI, Resales Online, Witei, Apimo, Rightmove and
         many more), the most used first. If yours isn’t there, below you can use a <strong>CSV or Excel</strong> file, a{" "}
-        <strong>Kyero XML</strong> (the format most CRMs export) or the <strong>Tivvo XML</strong>, if your system has its
+        <strong>Kyero XML</strong> (the format most CRMs export) or the <strong>Tivvu XML</strong>, if your system has its
         own API.
       </DocP>
 
@@ -785,16 +785,16 @@ function Importer() {
       </DocList>
 
       <DocH3>3. What each column is</DocH3>
-      <DocP>Spreadsheets only (CSV or Excel). Tivvo recognises most columns on its own; check the rest.</DocP>
+      <DocP>Spreadsheets only (CSV or Excel). Tivvu recognises most columns on its own; check the rest.</DocP>
       <DocFigure
         src="/docs-media/en/importar-mapeo.webp"
-        alt="The step to assign each file column to a Tivvo field"
+        alt="The step to assign each file column to a Tivvu field"
         width={1304}
         height={1110}
         markers={[
           { x: 49, y: 13.7, label: "How many rows and columns we recognised." },
           { x: 11.9, y: 25.8, label: "Unrecognised columns come first, with examples from your file." },
-          { x: 81.7, y: 25.8, label: "Choose which Tivvo field it matches, or “Don’t import”." },
+          { x: 81.7, y: 25.8, label: "Choose which Tivvu field it matches, or “Don’t import”." },
           { x: 11.9, y: 95.4, label: "See what will happen to each row, before saving." },
         ]}
       />
@@ -823,9 +823,9 @@ function Importer() {
       />
       <DocTerms
         items={[
-          ["New", "Wasn’t in Tivvo: it’s created."],
+          ["New", "Wasn’t in Tivvu: it’s created."],
           ["Updates", "You’d already imported it (same reference): what the details say changes, for example price or photos."],
-          ["No changes", "It’s already the same in Tivvo."],
+          ["No changes", "It’s already the same in Tivvu."],
           ["Skipped", "Not imported, for example because it’s repeated in the file."],
           ["With error", "Something required is missing, such as the title. The details say what."],
         ]}
@@ -840,7 +840,7 @@ function Importer() {
           earlier from that same platform, and we ask you to confirm. They can be restored for 30 days.
         </li>
         <li>
-          When you click <strong>Import</strong>, Tivvo saves the properties and downloads their photos. If there are many
+          When you click <strong>Import</strong>, Tivvu saves the properties and downloads their photos. If there are many
           it can take a couple of minutes: don’t close the tab. If you try to leave before it finishes, we warn you.
         </li>
       </DocList>
@@ -1387,7 +1387,7 @@ function ClientPages() {
       id="lo-que-ven-tus-clientes"
       icon={Eye}
       title="What your clients see"
-      intro="The public pages Tivvo generates: your site, each property page, offers, bookings, the owner page and your availability. None of them asks for a username or password."
+      intro="The public pages Tivvu generates: your site, each property page, offers, bookings, the owner page and your availability. None of them asks for a username or password."
     >
       <DocH3>Your site</DocH3>
       <DocFigure
@@ -1443,7 +1443,7 @@ function Team() {
       icon={UsersRound}
       title="Team"
       adminOnly
-      intro="The people who work at your agency in Tivvo and what each of them can do."
+      intro="The people who work at your agency in Tivvu and what each of them can do."
     >
       <DocFigure
         src="/docs-media/en/equipo.webp"
@@ -1461,7 +1461,7 @@ function Team() {
           Click <strong>Invite member</strong>, enter their name and email and choose the role: administrator or agent.
         </DocStep>
         <DocStep>
-          They get their access by email. If they already had a Tivvo account (for example, at another agency), we add
+          They get their access by email. If they already had a Tivvu account (for example, at another agency), we add
           them to your team and they sign in with their usual password.
         </DocStep>
       </DocSteps>
@@ -1616,11 +1616,11 @@ function Shortcuts() {
       <DocH3>Help and support</DocH3>
       <DocP>
         In your profile menu, <strong>Help and support</strong> opens the help centre: FAQs with search and a form to
-        write to the Tivvo team. We reply by email.
+        write to the Tivvu team. We reply by email.
       </DocP>
       <DocFigure
         src="/docs-media/en/ayuda.webp"
-        alt="The Tivvo help centre"
+        alt="The Tivvu help centre"
         width={1584}
         height={946}
         caption="Search for your question; if you can’t find it, write to us from the form."

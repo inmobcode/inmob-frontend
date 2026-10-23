@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const images = listingImages(item.property);
 
   return {
-    // Absolute: this is the agency's own offer link, not a Tivvo surface.
+    // Absolute: this is the agency's own offer link, not a Tivvu surface.
     title: { absolute: title },
     description,
     robots: { index: false },
