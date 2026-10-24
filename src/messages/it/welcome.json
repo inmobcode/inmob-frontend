@@ -1,0 +1,51 @@
+{
+  "welcome": {
+    "meta": "Benvenuto",
+    "eyebrow": "Primi passi",
+    "title": "Benvenuto su Tivvu",
+    "titleNamed": "Benvenuto, {name}",
+    "lead": "La tua agenzia è pronta. Aggiungi il tuo primo immobile e in pochi minuti avrai un sito pubblico da condividere.",
+    "question": "Hai immobili in un foglio di calcolo o in un altro sistema?",
+    "import": {
+      "title": "Sì, voglio importarli",
+      "text": "Carica un Excel, un CSV o l’export di un altro portale e li carichiamo insieme, con una revisione prima di salvare.",
+      "cta": "Importa immobili"
+    },
+    "scratch": {
+      "title": "No, parto da zero",
+      "text": "Crea il tuo primo immobile in un minuto con i dati essenziali e completalo dopo.",
+      "cta": "Crea il mio primo immobile"
+    },
+    "reassure": "Puoi cambiare strada quando vuoi: entrambe le opzioni restano disponibili in Immobili.",
+    "later": "Lo faccio dopo",
+    "checklist": {
+      "title": "Primi passi",
+      "progress": "{done} di {total} completati",
+      "hide": "Nascondi guida",
+      "items": {
+        "account": {
+          "title": "Crea il tuo account",
+          "text": "La tua agenzia è pronta."
+        },
+        "property": {
+          "title": "Pubblica il tuo primo immobile",
+          "text": "Perché compaia sul tuo sito pubblico."
+        },
+        "site": {
+          "title": "Personalizza il tuo sito",
+          "text": "Copertina, colori e sezioni del tuo portale."
+        },
+        "team": {
+          "title": "Invita il tuo team",
+          "text": "Ognuno entra con il proprio accesso e ruolo."
+        },
+        "client": {
+          "title": "Aggiungi il tuo primo cliente",
+          "text": "Per seguire ogni richiesta in un unico posto."
+        }
+      },
+      "skip": "Salta",
+      "skipped": "Saltato"
+    }
+  }
+}

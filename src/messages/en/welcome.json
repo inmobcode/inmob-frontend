@@ -1,0 +1,51 @@
+{
+  "welcome": {
+    "meta": "Welcome",
+    "eyebrow": "First steps",
+    "title": "Welcome to Tivvu",
+    "titleNamed": "Welcome, {name}",
+    "lead": "Your agency is ready. Add your first property and in minutes you'll have a public site to share.",
+    "question": "Do you have properties in a spreadsheet or another system?",
+    "import": {
+      "title": "Yes, I want to import them",
+      "text": "Upload an Excel, CSV or an export from another portal and we'll load them together, with a review before saving.",
+      "cta": "Import properties"
+    },
+    "scratch": {
+      "title": "No, I'm starting from scratch",
+      "text": "Create your first property in a minute with the basics and finish it later.",
+      "cta": "Create my first property"
+    },
+    "reassure": "You can switch paths anytime: both options stay available under Properties.",
+    "later": "I'll do it later",
+    "checklist": {
+      "title": "Getting started",
+      "progress": "{done} of {total} done",
+      "hide": "Hide guide",
+      "items": {
+        "account": {
+          "title": "Create your account",
+          "text": "Your agency is ready."
+        },
+        "property": {
+          "title": "Publish your first property",
+          "text": "So it shows on your public site."
+        },
+        "site": {
+          "title": "Customize your site",
+          "text": "Cover, colors and sections of your portal."
+        },
+        "team": {
+          "title": "Invite your team",
+          "text": "Everyone gets their own access and role."
+        },
+        "client": {
+          "title": "Add your first client",
+          "text": "To follow every inquiry in one place."
+        }
+      },
+      "skip": "Skip",
+      "skipped": "Skipped"
+    }
+  }
+}

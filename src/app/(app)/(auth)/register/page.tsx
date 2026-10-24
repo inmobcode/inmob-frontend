@@ -67,7 +67,7 @@ export default function RegisterPage() {
     try {
       const auth = await registerAgency(values);
       setSession(auth);
-      router.push(`/${auth.user.agencySlug}/properties`);
+      router.push(`/${auth.user.agencySlug}/welcome`);
     } catch (err) {
       setServerError(tAuth(`errors.${authErrorKey(err, "register")}`));
     }

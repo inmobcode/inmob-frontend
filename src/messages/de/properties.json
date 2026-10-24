@@ -643,7 +643,21 @@
       "empty": {
         "title": "Legen Sie Ihr erstes Objekt an",
         "body": "Fügen Sie Fotos, Preis und Merkmale hinzu, damit es bereit ist, wenn Sie es veröffentlichen möchten.",
-        "help": "So legen Sie ein Objekt an und veröffentlichen es"
+        "help": "So legen Sie ein Objekt an und veröffentlichen es",
+        "steps": {
+          "basics": {
+            "title": "Grunddaten eintragen",
+            "text": "Typ, Titel und Lage."
+          },
+          "media": {
+            "title": "Fotos und Preis ergänzen",
+            "text": "Das erste Foto wird zum Titelbild."
+          },
+          "publish": {
+            "title": "Veröffentlichen",
+            "text": "Erscheint sofort auf deiner öffentlichen Website."
+          }
+        }
       },
       "noMatch": {
         "title": "Nichts passt zu diesen Filtern",

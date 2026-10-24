@@ -643,7 +643,21 @@
       "empty": {
         "title": "Add your first property",
         "body": "Add photos, price and features so it's ready whenever you want to publish it.",
-        "help": "How to add and publish a property"
+        "help": "How to add and publish a property",
+        "steps": {
+          "basics": {
+            "title": "Add the basics",
+            "text": "Type, title and location."
+          },
+          "media": {
+            "title": "Add photos and price",
+            "text": "The first photo becomes the cover."
+          },
+          "publish": {
+            "title": "Publish it",
+            "text": "It shows on your public site right away."
+          }
+        }
       },
       "noMatch": {
         "title": "Nothing matches those filters",

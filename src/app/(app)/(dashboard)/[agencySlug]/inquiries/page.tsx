@@ -154,16 +154,16 @@ export default function InquiriesPage() {
       <div
         className={cn(
           panel,
-          "flex max-w-3xl flex-col items-center gap-3 px-6 py-16 text-center",
+          "flex min-h-[60svh] max-w-5xl flex-col items-center justify-center gap-5 px-8 py-24 text-center",
         )}
       >
         <h1 className="sr-only">{t("title")}</h1>
-        <span className="flex size-12 items-center justify-center rounded-full bg-foreground/[0.06] text-muted-foreground">
-          <Inbox className="size-5" />
+        <span className="flex size-20 items-center justify-center rounded-full bg-foreground/[0.06] text-muted-foreground">
+          <Inbox className="size-9" />
         </span>
-        <p className="font-display text-2xl">{t("emptyTitle")}</p>
-        <p className="max-w-sm text-sm text-pretty text-muted-foreground">{t("emptyBody")}</p>
-        <Button variant="outline" className="mt-2 rounded-full" asChild>
+        <p className="font-display text-4xl">{t("emptyTitle")}</p>
+        <p className="max-w-lg text-base text-pretty text-muted-foreground">{t("emptyBody")}</p>
+        <Button variant="outline" size="lg" className="mt-2 rounded-full" asChild>
           <Link href={`/${agencySlug}/portal`}>{t("goToPortal")}</Link>
         </Button>
         <HelpHint section="consultas">{t("emptyHelp")}</HelpHint>

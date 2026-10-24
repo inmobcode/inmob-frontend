@@ -643,7 +643,21 @@
       "empty": {
         "title": "Dodajte svoju prvu nekretninu",
         "body": "Dodajte fotografije, cijenu i značajke da bude spremna kad je želite objaviti.",
-        "help": "Kako dodati i objaviti nekretninu"
+        "help": "Kako dodati i objaviti nekretninu",
+        "steps": {
+          "basics": {
+            "title": "Unesite osnovno",
+            "text": "Vrsta, naslov i lokacija."
+          },
+          "media": {
+            "title": "Dodajte fotografije i cijenu",
+            "text": "Prva fotografija postaje naslovnica."
+          },
+          "publish": {
+            "title": "Objavite",
+            "text": "Odmah se prikazuje na vašoj javnoj stranici."
+          }
+        }
       },
       "noMatch": {
         "title": "Ništa ne odgovara tim filtrima",

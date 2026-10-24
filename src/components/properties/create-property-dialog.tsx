@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useMutation } from "@tanstack/react-query";
 import { LoaderCircle } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
@@ -40,7 +40,8 @@ export function CreatePropertyDialog() {
   const common = useTranslations("common");
   const router = useRouter();
   const { agencySlug } = useParams<{ agencySlug: string }>();
-  const [open, setOpen] = useState(false);
+  // The welcome screen's "from scratch" path lands here with ?new=1 and opens the form right away.
+  const [open, setOpen] = useState(useSearchParams().get("new") === "1");
   const [serverError, setServerError] = useState<string | null>(null);
   const form = useForm<FormValues>({
     resolver: zodResolver(makeSchema(t("titleRequired"))),

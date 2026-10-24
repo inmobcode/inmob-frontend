@@ -136,6 +136,12 @@
         "restored": "Sie haben die Buchung wiederhergestellt",
         "back": "Buchungen",
         "untitled": "Buchung"
+      },
+      "services": {
+        "title": "Papierkorb: Leistungen",
+        "restored": "Sie haben die Leistung wiederhergestellt",
+        "back": "Leistungen",
+        "untitled": "Leistung"
       }
     }
   },

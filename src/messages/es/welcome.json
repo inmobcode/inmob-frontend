@@ -1,0 +1,51 @@
+{
+  "welcome": {
+    "meta": "Bienvenida",
+    "eyebrow": "Primeros pasos",
+    "title": "Bienvenido a Tivvu",
+    "titleNamed": "Te damos la bienvenida, {name}",
+    "lead": "Tu agencia ya está lista. Cargá tu primera propiedad y en minutos tendrás tu sitio público para compartir.",
+    "question": "¿Tenés propiedades en una planilla u otro sistema?",
+    "import": {
+      "title": "Sí, quiero importarlas",
+      "text": "Subí un Excel, CSV o un export de otro portal y las cargamos juntas, revisando antes de guardar.",
+      "cta": "Importar propiedades"
+    },
+    "scratch": {
+      "title": "No, empiezo desde cero",
+      "text": "Creá tu primera propiedad en un minuto con los datos básicos y completala después.",
+      "cta": "Crear mi primera propiedad"
+    },
+    "reassure": "Podés cambiar de camino cuando quieras: las dos opciones siguen disponibles en Propiedades.",
+    "later": "Lo hago después",
+    "checklist": {
+      "title": "Primeros pasos",
+      "progress": "{done} de {total} listos",
+      "hide": "Ocultar guía",
+      "items": {
+        "account": {
+          "title": "Crear tu cuenta",
+          "text": "Tu agencia ya está lista."
+        },
+        "property": {
+          "title": "Publicar tu primera propiedad",
+          "text": "Que se vea en tu sitio público."
+        },
+        "site": {
+          "title": "Personalizar tu sitio",
+          "text": "Portada, colores y secciones de tu portal."
+        },
+        "team": {
+          "title": "Invitar a tu equipo",
+          "text": "Cada persona entra con su acceso y su rol."
+        },
+        "client": {
+          "title": "Registrar tu primer cliente",
+          "text": "Para seguir cada consulta en un solo lugar."
+        }
+      },
+      "skip": "Saltar",
+      "skipped": "Omitido"
+    }
+  }
+}

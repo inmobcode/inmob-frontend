@@ -643,7 +643,21 @@
       "empty": {
         "title": "Cargá tu primera propiedad",
         "body": "Sumá fotos, precio y características para tenerla lista cuando quieras publicarla.",
-        "help": "Cómo cargar y publicar una propiedad"
+        "help": "Cómo cargar y publicar una propiedad",
+        "steps": {
+          "basics": {
+            "title": "Cargá lo básico",
+            "text": "Tipo, título y ubicación."
+          },
+          "media": {
+            "title": "Sumá fotos y precio",
+            "text": "La primera foto será la portada."
+          },
+          "publish": {
+            "title": "Publicala",
+            "text": "Aparece en tu sitio público al instante."
+          }
+        }
       },
       "noMatch": {
         "title": "Nada coincide con esos filtros",

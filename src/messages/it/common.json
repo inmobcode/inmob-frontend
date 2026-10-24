@@ -136,6 +136,12 @@
         "restored": "Hai ripristinato la prenotazione",
         "back": "Prenotazioni",
         "untitled": "Prenotazione"
+      },
+      "services": {
+        "title": "Cestino dei servizi",
+        "restored": "Hai ripristinato il servizio",
+        "back": "Servizi",
+        "untitled": "Servizio"
       }
     }
   },

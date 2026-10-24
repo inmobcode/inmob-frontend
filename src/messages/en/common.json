@@ -136,6 +136,12 @@
         "restored": "You restored the booking",
         "back": "Bookings",
         "untitled": "Booking"
+      },
+      "services": {
+        "title": "Service trash",
+        "restored": "You restored the service",
+        "back": "Services",
+        "untitled": "Service"
       }
     }
   },

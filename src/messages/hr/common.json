@@ -136,6 +136,12 @@
         "restored": "Vratili ste rezervaciju",
         "back": "Rezervacije",
         "untitled": "Rezervacija"
+      },
+      "services": {
+        "title": "Koš za smeće: usluge",
+        "restored": "Vratili ste uslugu",
+        "back": "Usluge",
+        "untitled": "Usluga"
       }
     }
   },

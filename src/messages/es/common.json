@@ -136,6 +136,12 @@
         "restored": "Restauraste la reserva",
         "back": "Reservas",
         "untitled": "Reserva"
+      },
+      "services": {
+        "title": "Papelera de servicios",
+        "restored": "Restauraste el servicio",
+        "back": "Servicios",
+        "untitled": "Servicio"
       }
     }
   },

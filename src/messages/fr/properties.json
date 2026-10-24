@@ -643,7 +643,21 @@
       "empty": {
         "title": "Ajoutez votre premier bien",
         "body": "Ajoutez photos, prix et caractéristiques pour qu’il soit prêt quand vous voudrez le publier.",
-        "help": "Comment ajouter et publier un bien"
+        "help": "Comment ajouter et publier un bien",
+        "steps": {
+          "basics": {
+            "title": "Renseignez l’essentiel",
+            "text": "Type, titre et emplacement."
+          },
+          "media": {
+            "title": "Ajoutez photos et prix",
+            "text": "La première photo devient la couverture."
+          },
+          "publish": {
+            "title": "Publiez-le",
+            "text": "Il apparaît aussitôt sur votre site public."
+          }
+        }
       },
       "noMatch": {
         "title": "Rien ne correspond à ces filtres",

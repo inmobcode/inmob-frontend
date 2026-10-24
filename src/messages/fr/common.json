@@ -136,6 +136,12 @@
         "restored": "Vous avez restauré la réservation",
         "back": "Réservations",
         "untitled": "Réservation"
+      },
+      "services": {
+        "title": "Corbeille des services",
+        "restored": "Vous avez restauré le service",
+        "back": "Services",
+        "untitled": "Service"
       }
     }
   },

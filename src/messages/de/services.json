@@ -11,7 +11,7 @@
       "updated": "Leistung aktualisiert",
       "created": "Leistung erstellt",
       "saveFailed": "Leistung konnte nicht gespeichert werden",
-      "deleted": "Leistung gelöscht",
+      "deleted": "Leistung in den Papierkorb verschoben",
       "deleteFailed": "Leistung konnte nicht gelöscht werden",
       "photoFailed": "Foto konnte nicht hochgeladen werden",
       "editTitle": "Leistung bearbeiten",
@@ -42,8 +42,7 @@
       "availableHint": "Ausgeschaltet kann sie neuen Angeboten nicht hinzugefügt werden.",
       "delete": "Löschen",
       "create": "Leistung erstellen",
-      "deleteTitle": "„{name}“ löschen?",
-      "deleteBody": "Sie wird aus Ihrer Bibliothek entfernt. Angebote, die sie bereits enthalten, behalten sie unverändert."
+      "restoreFailed": "Leistung konnte nicht wiederhergestellt werden"
     },
     "list": {
       "unavailable": "Nicht verfügbar",

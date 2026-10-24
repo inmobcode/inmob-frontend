@@ -20,7 +20,8 @@ import services from "./services.json";
 import settings from "./settings.json";
 import site from "./site.json";
 import team from "./team.json";
+import welcome from "./welcome.json";
 
-const messages = { ...auth, ...availability, ...bookings, ...clients, ...common, ...dashboard, ...docs, ...help, ...importer, ...inquiries, ...labels, ...landing, ...marketplace, ...offers, ...portalEditor, ...profile, ...properties, ...services, ...settings, ...site, ...team };
+const messages = { ...auth, ...availability, ...bookings, ...clients, ...common, ...dashboard, ...docs, ...help, ...importer, ...inquiries, ...labels, ...landing, ...marketplace, ...offers, ...portalEditor, ...profile, ...properties, ...services, ...settings, ...site, ...team, ...welcome };
 
 export default messages;

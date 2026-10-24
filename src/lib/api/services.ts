@@ -36,9 +36,11 @@ export interface Service {
   cancellationPolicy: string | null;
   createdAt: string;
   updatedAt: string;
+  /** Set while it's in the trash. */
+  deletedAt?: string | null;
 }
 
-export type SaveServicePayload = Omit<Service, "id" | "createdAt" | "updatedAt">;
+export type SaveServicePayload = Omit<Service, "id" | "createdAt" | "updatedAt" | "deletedAt">;
 
 export function listServices(token: string) {
   return apiFetch<Service[]>("/api/services/", { token });
@@ -52,8 +54,22 @@ export function updateService(token: string, id: string, payload: Partial<SaveSe
   return apiFetch<Service>(`/api/services/${id}`, { method: "PATCH", token, body: JSON.stringify(payload) });
 }
 
+/** Moves it to the trash (see listTrashedServices). */
 export function deleteService(token: string, id: string) {
   return apiFetch<void>(`/api/services/${id}`, { method: "DELETE", token });
+}
+
+/** What's in the trash, latest first. The backend deletes for good what's older than 30 days. */
+export function listTrashedServices(token: string) {
+  return apiFetch<Service[]>("/api/services/trash", { token });
+}
+
+export function restoreService(token: string, id: string) {
+  return apiFetch<Service>(`/api/services/${id}/restore`, { method: "POST", token });
+}
+
+export function deleteServiceForever(token: string, id: string) {
+  return apiFetch<void>(`/api/services/${id}/permanent`, { method: "DELETE", token });
 }
 
 export function uploadServiceImage(token: string, file: File) {

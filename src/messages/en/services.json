@@ -11,7 +11,7 @@
       "updated": "Service updated",
       "created": "Service created",
       "saveFailed": "Couldn't save the service",
-      "deleted": "Service deleted",
+      "deleted": "Service moved to the bin",
       "deleteFailed": "Couldn't delete the service",
       "photoFailed": "Couldn't upload the photo",
       "editTitle": "Edit service",
@@ -42,8 +42,7 @@
       "availableHint": "If you turn it off, it can't be added to new offers.",
       "delete": "Delete",
       "create": "Create service",
-      "deleteTitle": "Delete “{name}”?",
-      "deleteBody": "It leaves your library. Offers that already include it keep it as is."
+      "restoreFailed": "Couldn't restore the service"
     },
     "list": {
       "unavailable": "Unavailable",

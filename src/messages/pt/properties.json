@@ -643,7 +643,21 @@
       "empty": {
         "title": "Registe o seu primeiro imóvel",
         "body": "Junte fotos, preço e características para o ter pronto quando o quiser publicar.",
-        "help": "Como registar e publicar um imóvel"
+        "help": "Como registar e publicar um imóvel",
+        "steps": {
+          "basics": {
+            "title": "Cadastre o básico",
+            "text": "Tipo, título e localização."
+          },
+          "media": {
+            "title": "Adicione fotos e preço",
+            "text": "A primeira foto será a capa."
+          },
+          "publish": {
+            "title": "Publique",
+            "text": "Aparece no seu site público na hora."
+          }
+        }
       },
       "noMatch": {
         "title": "Nada corresponde a esses filtros",

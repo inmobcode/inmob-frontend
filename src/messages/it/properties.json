@@ -643,7 +643,21 @@
       "empty": {
         "title": "Inserisci il tuo primo immobile",
         "body": "Aggiungi foto, prezzo e caratteristiche per averlo pronto quando vorrai pubblicarlo.",
-        "help": "Come inserire e pubblicare un immobile"
+        "help": "Come inserire e pubblicare un immobile",
+        "steps": {
+          "basics": {
+            "title": "Inserisci le basi",
+            "text": "Tipo, titolo e posizione."
+          },
+          "media": {
+            "title": "Aggiungi foto e prezzo",
+            "text": "La prima foto diventa la copertina."
+          },
+          "publish": {
+            "title": "Pubblicalo",
+            "text": "Compare subito sul tuo sito pubblico."
+          }
+        }
       },
       "noMatch": {
         "title": "Niente corrisponde a quei filtri",

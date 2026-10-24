@@ -1,0 +1,51 @@
+{
+  "welcome": {
+    "meta": "Bienvenue",
+    "eyebrow": "Premiers pas",
+    "title": "Bienvenue sur Tivvu",
+    "titleNamed": "Bienvenue, {name}",
+    "lead": "Votre agence est prête. Ajoutez votre premier bien et, en quelques minutes, vous aurez un site public à partager.",
+    "question": "Avez-vous des biens dans un tableur ou un autre système ?",
+    "import": {
+      "title": "Oui, je veux les importer",
+      "text": "Envoyez un Excel, un CSV ou l’export d’un autre portail et nous les chargeons ensemble, avec une vérification avant l’enregistrement.",
+      "cta": "Importer des biens"
+    },
+    "scratch": {
+      "title": "Non, je pars de zéro",
+      "text": "Créez votre premier bien en une minute avec l’essentiel et complétez-le plus tard.",
+      "cta": "Créer mon premier bien"
+    },
+    "reassure": "Vous pouvez changer de voie à tout moment : les deux options restent disponibles dans Biens.",
+    "later": "Je le ferai plus tard",
+    "checklist": {
+      "title": "Premiers pas",
+      "progress": "{done} sur {total} terminés",
+      "hide": "Masquer le guide",
+      "items": {
+        "account": {
+          "title": "Créer votre compte",
+          "text": "Votre agence est prête."
+        },
+        "property": {
+          "title": "Publier votre premier bien",
+          "text": "Pour qu’il apparaisse sur votre site public."
+        },
+        "site": {
+          "title": "Personnaliser votre site",
+          "text": "Couverture, couleurs et sections de votre portail."
+        },
+        "team": {
+          "title": "Inviter votre équipe",
+          "text": "Chacun a son accès et son rôle."
+        },
+        "client": {
+          "title": "Ajouter votre premier client",
+          "text": "Pour suivre chaque demande au même endroit."
+        }
+      },
+      "skip": "Passer",
+      "skipped": "Ignoré"
+    }
+  }
+}
