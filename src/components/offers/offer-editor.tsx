@@ -2,7 +2,18 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { CircleQuestionMark, Copy, Hand, Home, Link2, Plus, Settings2, Sparkles, UserRound } from "lucide-react";
+import {
+  CircleQuestionMark,
+  Copy,
+  ExternalLink,
+  Hand,
+  Home,
+  Link2,
+  Plus,
+  Settings2,
+  Sparkles,
+  UserRound,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
@@ -12,7 +23,10 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 import { docsHref } from "@/components/docs/docs-sections";
+import { OfferBookings, OfferCopies, OfferOpens } from "@/components/offers/offer-activity";
+import { TemplatePill } from "@/components/offers/offer-card";
 import { OperationPicker } from "@/components/offers/offer-operation";
+import { HistoryButton } from "@/components/shared/history-button";
 import { OfferServicesSection, serviceLineTotal } from "@/components/offers/offer-services";
 import { OfferStatusPill } from "@/components/offers/offer-status-pill";
 import {
@@ -330,6 +344,7 @@ export function OfferEditor({ offerId }: { offerId: string }) {
     onError: (err) => toast.error(err instanceof ApiError ? err.message : t("sendFailed")),
   });
 
+  const isTemplate = !!offer?.isTemplate;
   const isDraft = offer?.status === "DRAFT";
   const canResend = offer?.status === "SENT" || offer?.status === "VIEWED";
 
@@ -358,13 +373,15 @@ export function OfferEditor({ offerId }: { offerId: string }) {
       // Once out, it can only be sent again to a client.
       publishLabel: isDraft ? (clientId ? t("send") : t("publishLink")) : t("resend"),
       onSave: form.handleSubmit((values) => saveMutation.mutate(values), showInvalid),
+      // A template is never sent: offers are made from it.
       onPublish:
-        isDraft || (canResend && clientId)
+        !isTemplate && (isDraft || (canResend && clientId))
           ? form.handleSubmit((values) => sendMutation.mutate(values), showInvalid)
           : null,
       onCancel: () => router.push(`/${agencySlug}/offers`),
       extra: (
         <div className="flex items-center gap-1 sm:mr-2">
+          <HistoryButton entity="offers" id={offerId} />
           <Button type="button" variant="ghost" className="gap-1.5" asChild>
             <a href={docsHref("ofertas")} target="_blank" rel="noreferrer" title={t("help")}>
               <CircleQuestionMark />
@@ -639,8 +656,8 @@ export function OfferEditor({ offerId }: { offerId: string }) {
       <aside className="order-first lg:order-none">
         <div className="sticky top-28 flex flex-col gap-5 rounded-3xl bg-secondary p-6">
           <div className="flex items-center justify-between gap-3">
-            <OfferStatusPill status={offer.status} />
-            {offer.clientId && (
+            {isTemplate ? <TemplatePill /> : <OfferStatusPill status={offer.status} />}
+            {offer.clientId && !isTemplate && (
               <Link
                 href={`/${agencySlug}/clients/${offer.clientId}`}
                 className="inline-flex items-center gap-1.5 text-sm font-medium text-primary underline-offset-4 hover:underline"
@@ -686,31 +703,54 @@ export function OfferEditor({ offerId }: { offerId: string }) {
             </div>
           )}
 
-          <div className="flex flex-col gap-2">
-            <p className="flex items-center gap-1.5 text-sm font-medium">
-              <Link2 className="size-4" />
-              {t("clientLink")}
-            </p>
-            {offer.status === "DRAFT" ? (
-              <p className="text-sm text-muted-foreground">
-                {clientId ? t("linkOnSend") : t("linkOnPublish")}
+          {isTemplate ? (
+            <p className="text-sm text-muted-foreground">{t("templateNote")}</p>
+          ) : (
+            <div className="flex flex-col gap-2">
+              <p className="flex items-center gap-1.5 text-sm font-medium">
+                <Link2 className="size-4" />
+                {t("clientLink")}
               </p>
-            ) : (
-              <>
-                <Input
-                  readOnly
-                  aria-label={t("publicLink")}
-                  value={publicUrl}
-                  onFocus={(event) => event.currentTarget.select()}
-                  className="bg-card text-sm"
-                />
-                <Button type="button" variant="outline" className="h-10 gap-2" onClick={copyLink}>
-                  <Copy />
-                  {copied ? t("copied") : t("copyLink")}
-                </Button>
-              </>
-            )}
-          </div>
+              {offer.status === "DRAFT" ? (
+                <p className="text-sm text-muted-foreground">
+                  {clientId ? t("linkOnSend") : t("linkOnPublish")}
+                </p>
+              ) : (
+                <>
+                  <Input
+                    readOnly
+                    aria-label={t("publicLink")}
+                    value={publicUrl}
+                    onFocus={(event) => event.currentTarget.select()}
+                    className="bg-card text-sm"
+                  />
+                  <Button type="button" variant="outline" className="h-10 gap-2" onClick={copyLink}>
+                    <Copy />
+                    {copied ? t("copied") : t("copyLink")}
+                  </Button>
+                  {/* ?preview: the team's own look doesn't count as an open. */}
+                  <a
+                    href={`${publicUrl}?preview=1`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 self-start text-sm font-medium text-primary underline-offset-4 hover:underline"
+                  >
+                    <ExternalLink className="size-3.5" />
+                    {t("preview")}
+                  </a>
+                </>
+              )}
+            </div>
+          )}
+
+          {!isTemplate && (
+            <>
+              <OfferOpens offer={offer} />
+              <OfferBookings offer={offer} />
+            </>
+          )}
+
+          <OfferCopies offer={offer} dirty={isDirty} />
         </div>
       </aside>
     </div>

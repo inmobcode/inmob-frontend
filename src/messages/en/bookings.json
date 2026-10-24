@@ -26,7 +26,8 @@
       "total": "Total",
       "collected": "Collected",
       "updated": "Updated",
-      "actions": "Actions"
+      "actions": "Actions",
+      "guests": "{count, plural, one {# guest} other {# guests}}"
     },
     "detail": {
       "clientPage": "Client page",
@@ -64,15 +65,39 @@
       "complete": "Mark as completed",
       "cancel": "Cancel booking",
       "cancelTitle": "Cancel this booking?",
-      "cancelBody": "The dates are released and the booking is marked as cancelled. Payments already recorded aren't deleted."
+      "cancelBody": "The dates are released and the booking is marked as cancelled. Payments already recorded aren't deleted.",
+      "details": "Details",
+      "detailsDescription": "How many people are coming and what your team needs to know. The client doesn’t see the notes.",
+      "guests": "Guests",
+      "guestsCount": "{count, plural, one {# guest} other {# guests}}",
+      "notes": "Internal notes",
+      "notesPlaceholder": "E.g. arriving late, need a cot",
+      "paymentPending": "Payment marked as pending",
+      "paymentDeleted": "Payment deleted",
+      "paymentDeleteFailed": "Couldn't delete the payment",
+      "paymentActions": "Payment actions",
+      "editPayment": "Edit",
+      "markPending": "Mark as pending",
+      "deletePayment": "Delete payment",
+      "deletePaymentTitle": "Delete the payment?",
+      "deletePaymentBody": "The {amount} payment is deleted for good, from the owner’s statement too.",
+      "receipt": "Receipt for the client"
     },
     "payment": {
       "add": "Add payment",
-      "description": "It stays pending until you mark it as collected.",
+      "description": "Record a payment you expect or one you’ve already collected.",
       "type": "Type",
       "typeLabel": "Payment type",
       "amount": "Amount",
-      "save": "Save payment"
+      "save": "Save payment",
+      "edit": "Edit payment",
+      "method": "Payment method",
+      "methodPlaceholder": "E.g. bank transfer, cash, card",
+      "collected": "Already collected",
+      "collectedOn": "Collected on",
+      "note": "Note",
+      "internal": "(team only)",
+      "notePlaceholder": "E.g. transfer no. 0042"
     },
     "create": {
       "new": "New booking",
@@ -84,7 +109,11 @@
       "rentalsOnly": "(rentals only)",
       "totalPrice": "Total price",
       "commission": "Commission",
-      "submit": "Create booking"
+      "submit": "Create booking",
+      "guests": "Guests",
+      "minStay": "{count, plural, one {These dates need at least # night.} other {These dates need at least # nights.}}",
+      "unavailable": "Some of these nights are already taken.",
+      "quoted": "Price worked out from the property’s rates and rules."
     },
     "list": {
       "statusPlural": {
@@ -111,10 +140,22 @@
       "emptyTitle": "No bookings yet",
       "emptyBody": "Add the first one to track dates, payments and commission in one place.",
       "emptyHelp": "How to add a booking and its payments",
-      "noMatchBody": "Try another name or clear the status filter.",
+      "noMatchBody": "Try another search or clear the filters.",
       "cancelTitle": "Cancel this booking?",
       "cancelBody": "The dates are released and the booking is marked as cancelled. Payments already recorded aren't deleted.",
-      "cancel": "Cancel booking"
+      "cancel": "Cancel booking",
+      "paymentState": {
+        "UNPAID": "Unpaid",
+        "PARTIAL": "Partly paid",
+        "PAID": "Paid in full"
+      },
+      "payment": "Payment",
+      "paymentStates": "payment states",
+      "property": "Property",
+      "properties": "properties",
+      "dates": "Dates",
+      "datesHintFirst": "Pick the first day",
+      "datesHintSecond": "Now the last day"
     }
   }
 }

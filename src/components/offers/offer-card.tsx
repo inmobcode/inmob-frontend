@@ -1,6 +1,20 @@
 "use client";
 
-import { CalendarClock, Clock, FileText, Link2, MoreHorizontal, Pencil, Send, Trash2, UserRound } from "lucide-react";
+import {
+  CalendarClock,
+  Clock,
+  Copy,
+  Eye,
+  FilePlus2,
+  FileText,
+  LayoutTemplate,
+  Link2,
+  MoreHorizontal,
+  Pencil,
+  Send,
+  Trash2,
+  UserRound,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
@@ -27,6 +41,42 @@ import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 export interface OfferActions {
   send: (id: string) => void;
   requestDelete: (id: string) => void;
+  /** A new draft with the same content. */
+  duplicate: (id: string) => void;
+  saveAsTemplate: (id: string) => void;
+  /** A new offer from a template. */
+  useTemplate: (id: string) => void;
+}
+
+/** "Plantilla", where an offer shows its status. */
+export function TemplatePill({ className }: { className?: string }) {
+  const t = useTranslations("offers.templates");
+  return (
+    <span
+      className={cn(
+        "inline-flex h-6 shrink-0 items-center gap-1 rounded-full bg-foreground/[0.07] px-2.5 text-xs font-medium text-foreground/70",
+        className,
+      )}
+    >
+      <LayoutTemplate className="size-3" />
+      {t("badge")}
+    </span>
+  );
+}
+
+/** How often the client opened it: "3" with an eye, and when last, on hover. */
+export function OpensBadge({ offer, className }: { offer: Offer; className?: string }) {
+  const t = useTranslations("offers.opens");
+  const { ago } = useFormat();
+  if (!offer.viewCount || !offer.lastViewedAt) return null;
+  const label = t("summary", { count: offer.viewCount, ago: ago(parseApiDate(offer.lastViewedAt)) });
+  return (
+    <span className={cn("inline-flex shrink-0 items-center gap-1 tabular-nums", className)} title={label}>
+      <Eye className="size-3" aria-hidden />
+      <span aria-hidden>{offer.viewCount}</span>
+      <span className="sr-only">{label}</span>
+    </span>
+  );
 }
 
 export function propertiesOf(offer: Offer) {
@@ -105,15 +155,32 @@ export function OfferMenu({ offer, actions, className }: { offer: Offer; actions
           <Pencil />
           {t("edit")}
         </DropdownMenuItem>
-        <DropdownMenuItem className="rounded-xl py-2" onSelect={copyLink}>
-          <Link2 />
-          {t("copyLink")}
-        </DropdownMenuItem>
-        {offer.status === "DRAFT" && (
-          <DropdownMenuItem className="rounded-xl py-2" onSelect={() => actions.send(offer.id)}>
-            <Send />
-            {t("markSent")}
+        {offer.isTemplate ? (
+          <DropdownMenuItem className="rounded-xl py-2" onSelect={() => actions.useTemplate(offer.id)}>
+            <FilePlus2 />
+            {t("useTemplate")}
           </DropdownMenuItem>
+        ) : (
+          <>
+            <DropdownMenuItem className="rounded-xl py-2" onSelect={copyLink}>
+              <Link2 />
+              {t("copyLink")}
+            </DropdownMenuItem>
+            {offer.status === "DRAFT" && (
+              <DropdownMenuItem className="rounded-xl py-2" onSelect={() => actions.send(offer.id)}>
+                <Send />
+                {t("markSent")}
+              </DropdownMenuItem>
+            )}
+            <DropdownMenuItem className="rounded-xl py-2" onSelect={() => actions.duplicate(offer.id)}>
+              <Copy />
+              {t("duplicate")}
+            </DropdownMenuItem>
+            <DropdownMenuItem className="rounded-xl py-2" onSelect={() => actions.saveAsTemplate(offer.id)}>
+              <LayoutTemplate />
+              {t("saveAsTemplate")}
+            </DropdownMenuItem>
+          </>
         )}
         <DropdownMenuSeparator />
         <DropdownMenuItem variant="destructive" className="rounded-xl py-2" onSelect={() => actions.requestDelete(offer.id)}>
@@ -193,7 +260,8 @@ export function OfferCard({ offer, actions }: { offer: Offer; actions: OfferActi
           )}
 
           <div className="mt-1 flex h-6 items-center gap-3 text-xs text-muted-foreground">
-            <OfferStatusPill status={offer.status} />
+            {offer.isTemplate ? <TemplatePill /> : <OfferStatusPill status={offer.status} />}
+            <OpensBadge offer={offer} />
             <span className="ml-auto inline-flex shrink-0 items-center gap-1" title={t("updated", { ago: updated })}>
               <Clock className="size-3" />
               {updated}

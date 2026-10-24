@@ -15,6 +15,8 @@ export type DocSectionId =
   | "reservas"
   | "disponibilidad"
   | "servicios"
+  | "reportes"
+  | "resenas"
   | "portal"
   | "lo-que-ven-tus-clientes"
   | "equipo"

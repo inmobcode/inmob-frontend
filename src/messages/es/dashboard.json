@@ -39,7 +39,9 @@
       "collapse": "Contraer",
       "openMenu": "Abrir menú",
       "menu": "Menú",
-      "mainNav": "Navegación principal"
+      "mainNav": "Navegación principal",
+      "reports": "Reportes",
+      "reviews": "Reseñas"
     },
     "assignee": {
       "label": "Responsable",
@@ -80,7 +82,8 @@
         "team": "Equipo",
         "portal": "Portal",
         "settings": "Configuración",
-        "profile": "Mi perfil"
+        "profile": "Mi perfil",
+        "reports": "Reportes"
       },
       "help": {
         "general": "General",
@@ -145,7 +148,9 @@
         "offerViewedAnon": "Tu cliente abrió la oferta",
         "payment": "Pago registrado: {amount}",
         "task": "Te asignaron una tarea",
-        "taskDue": "{title} · para el {date}"
+        "taskDue": "{title} · para el {date}",
+        "client": "Te asignaron un cliente",
+        "review": "{name} dejó una reseña de {rating} estrellas"
       }
     }
   }

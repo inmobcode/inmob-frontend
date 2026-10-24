@@ -117,6 +117,14 @@
           "color": "Color",
           "photo": "Con foto"
         }
+      },
+      "reviews": {
+        "label": "Reseñas",
+        "description": "Las reseñas que publicaste, con el promedio de tu agencia.",
+        "layouts": {
+          "cards": "Tarjetas",
+          "quote": "Una cita"
+        }
       }
     },
     "buttonTargets": {
@@ -200,6 +208,10 @@
       "cta": {
         "title": "¿Querés vender tu propiedad?",
         "text": "Te acompañamos desde la tasación hasta la escritura."
+      },
+      "reviews": {
+        "title": "Lo que dicen nuestros huéspedes",
+        "text": "Opiniones reales de quienes se alojaron con nosotros."
       }
     },
     "blocks": {
@@ -266,7 +278,8 @@
       "zonePicker": {
         "pick": "Elegí una ubicación",
         "none": "Sin ubicación"
-      }
+      },
+      "reviewsHint": "Muestra las reseñas que publicás en la sección Reseñas del panel. Sin reseñas publicadas, el bloque no aparece en el sitio."
     },
     "preview": {
       "title": "Vista previa del portal"

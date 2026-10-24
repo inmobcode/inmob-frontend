@@ -26,7 +26,8 @@
       "total": "Total",
       "collected": "Cobrado",
       "updated": "Atualizada",
-      "actions": "Ações"
+      "actions": "Ações",
+      "guests": "{count, plural, one {# hóspede} other {# hóspedes}}"
     },
     "detail": {
       "clientPage": "Página do cliente",
@@ -64,15 +65,39 @@
       "complete": "Marcar como concluída",
       "cancel": "Cancelar reserva",
       "cancelTitle": "Cancelar esta reserva?",
-      "cancelBody": "As datas são libertadas e a reserva fica como cancelada. Os pagamentos já registados não são apagados."
+      "cancelBody": "As datas são libertadas e a reserva fica como cancelada. Os pagamentos já registados não são apagados.",
+      "details": "Detalhes",
+      "detailsDescription": "Quantas pessoas vêm e o que a sua equipa precisa de saber. O cliente não vê as notas.",
+      "guests": "Hóspedes",
+      "guestsCount": "{count, plural, one {# hóspede} other {# hóspedes}}",
+      "notes": "Notas internas",
+      "notesPlaceholder": "Ex.: chegam tarde, pedem berço",
+      "paymentPending": "Pagamento marcado como pendente",
+      "paymentDeleted": "Pagamento eliminado",
+      "paymentDeleteFailed": "Não foi possível eliminar o pagamento",
+      "paymentActions": "Ações do pagamento",
+      "editPayment": "Editar",
+      "markPending": "Marcar como pendente",
+      "deletePayment": "Eliminar pagamento",
+      "deletePaymentTitle": "Eliminar o pagamento?",
+      "deletePaymentBody": "O pagamento de {amount} é apagado para sempre, também do extrato do proprietário.",
+      "receipt": "Comprovativo para o cliente"
     },
     "payment": {
       "add": "Adicionar pagamento",
-      "description": "Fica pendente até o marcar como cobrado.",
+      "description": "Registe um pagamento previsto ou um já recebido.",
       "type": "Tipo",
       "typeLabel": "Tipo de pagamento",
       "amount": "Montante",
-      "save": "Guardar pagamento"
+      "save": "Guardar pagamento",
+      "edit": "Editar pagamento",
+      "method": "Meio de pagamento",
+      "methodPlaceholder": "Ex.: transferência, numerário, cartão",
+      "collected": "Já foi recebido",
+      "collectedOn": "Dia do recebimento",
+      "note": "Nota",
+      "internal": "(só para a sua equipa)",
+      "notePlaceholder": "Ex.: transferência n.º 0042"
     },
     "create": {
       "new": "Nova reserva",
@@ -84,7 +109,11 @@
       "rentalsOnly": "(só arrendamentos)",
       "totalPrice": "Preço total",
       "commission": "Comissão",
-      "submit": "Criar reserva"
+      "submit": "Criar reserva",
+      "guests": "Hóspedes",
+      "minStay": "{count, plural, one {Estas datas pedem pelo menos # noite.} other {Estas datas pedem pelo menos # noites.}}",
+      "unavailable": "Algumas destas noites já estão ocupadas.",
+      "quoted": "Preço calculado com as tarifas e regras do imóvel."
     },
     "list": {
       "statusPlural": {
@@ -111,10 +140,22 @@
       "emptyTitle": "Ainda não há reservas",
       "emptyBody": "Registe a primeira para acompanhar datas, pagamentos e comissão num só lugar.",
       "emptyHelp": "Como registar uma reserva e os seus pagamentos",
-      "noMatchBody": "Tente outro nome ou retire o filtro de estado.",
+      "noMatchBody": "Tente outra pesquisa ou retire os filtros.",
       "cancelTitle": "Cancelar esta reserva?",
       "cancelBody": "As datas são libertadas e a reserva fica como cancelada. Os pagamentos já registados não são apagados.",
-      "cancel": "Cancelar reserva"
+      "cancel": "Cancelar reserva",
+      "paymentState": {
+        "UNPAID": "Por cobrar",
+        "PARTIAL": "Com saldo",
+        "PAID": "Pagas"
+      },
+      "payment": "Pagamento",
+      "paymentStates": "estados de pagamento",
+      "property": "Imóvel",
+      "properties": "imóveis",
+      "dates": "Datas",
+      "datesHintFirst": "Escolha o primeiro dia",
+      "datesHintSecond": "Agora o último dia"
     }
   }
 }

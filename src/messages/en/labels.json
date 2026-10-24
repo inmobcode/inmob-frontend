@@ -18,7 +18,8 @@
       "DRAFT": "Draft",
       "SENT": "Sent",
       "VIEWED": "Viewed",
-      "EXPIRED": "Expired"
+      "EXPIRED": "Expired",
+      "ACCEPTED": "Accepted"
     },
     "discountType": {
       "NONE": "No discount",

@@ -6,7 +6,8 @@
       "changeStage": "Changer d’étape",
       "email": "Envoyer un e-mail",
       "call": "Appeler",
-      "copyEmail": "Copier l’e-mail"
+      "copyEmail": "Copier l’e-mail",
+      "delete": "Mettre à la corbeille"
     },
     "views": {
       "noPhone": "Sans téléphone",
@@ -17,7 +18,8 @@
       "phone": "Téléphone",
       "source": "Origine",
       "lastMove": "Dernière activité",
-      "actions": "Actions"
+      "actions": "Actions",
+      "tags": "Étiquettes"
     },
     "detail": {
       "logFailed": "Impossible d’enregistrer",
@@ -26,7 +28,7 @@
       "list": "Clients",
       "clientSince": "client depuis le {date}",
       "notes": "Notes",
-      "notesDescription": "Ce qu’il faut retenir : ce qu’il cherche, budget, préférences.",
+      "notesDescription": "Ce qu’il faut retenir et qui n’entre pas dans « Ce qu’il cherche ».",
       "notesLabel": "Notes sur le client",
       "notesPlaceholder": "Aucune note pour l’instant.",
       "saveNotes": "Enregistrer les notes",
@@ -54,7 +56,14 @@
       "ownerGone": "Attribué à quelqu’un qui ne fait plus partie de l’équipe.",
       "contact": "Contact",
       "noPhone": "Sans téléphone",
-      "updated": "Mis à jour {ago}"
+      "updated": "Mis à jour {ago}",
+      "preferences": "Ce qu’il cherche",
+      "preferencesDescription": "Budget, nombre de personnes, où et quand. Pour choisir quoi lui proposer.",
+      "tags": "Étiquettes",
+      "delete": "Mettre à la corbeille",
+      "trashed": "Client déplacé dans la corbeille",
+      "restoreFailed": "Impossible de restaurer le client",
+      "deleteFailed": "Impossible de supprimer le client"
     },
     "create": {
       "new": "Nouveau client",
@@ -87,7 +96,52 @@
       "emptyTitle": "Vous n’avez pas encore de clients",
       "emptyBody": "Les demandes du site et des offres apparaissent ici automatiquement. Vous pouvez aussi en ajouter un à la main.",
       "emptyHelp": "Comment suivre un client par étapes",
-      "noMatchBody": "Essayez un autre nom ou retirez le filtre d’étape."
+      "noMatchBody": "Essayez un autre nom ou retirez les filtres.",
+      "tag": "Étiquette",
+      "tagsPlural": "étiquettes",
+      "trashed": "Client déplacé dans la corbeille",
+      "restoreFailed": "Impossible de restaurer le client",
+      "deleteFailed": "Impossible de supprimer le client"
+    },
+    "tags": {
+      "add": "Ajouter une étiquette",
+      "placeholder": "Ex. : VIP, investisseur, été",
+      "full": "Vous avez atteint le maximum de {max} étiquettes.",
+      "suggestions": "Étiquettes déjà utilisées"
+    },
+    "preferences": {
+      "budgetMin": "Budget à partir de",
+      "budgetMax": "Budget jusqu’à",
+      "budgetCrossed": "Le minimum ne peut pas dépasser le maximum.",
+      "guests": "Personnes",
+      "dates": "Dates",
+      "datesPlaceholder": "Quand",
+      "zones": "Secteurs",
+      "zonesPlaceholder": "Ex. : centre-ville, près de la plage",
+      "save": "Enregistrer",
+      "discard": "Annuler"
+    },
+    "export": {
+      "label": "Exporter en CSV",
+      "filename": "clients",
+      "done": "{count, plural, one {# client exporté} other {# clients exportés}}",
+      "columns": {
+        "name": "Nom",
+        "email": "E-mail",
+        "phone": "Téléphone",
+        "stage": "Étape",
+        "source": "Origine",
+        "tags": "Étiquettes",
+        "budgetMin": "Budget min.",
+        "budgetMax": "Budget max.",
+        "guests": "Personnes",
+        "zones": "Secteurs",
+        "desiredFrom": "Du",
+        "desiredTo": "Au",
+        "owner": "Responsable",
+        "notes": "Notes",
+        "createdAt": "Ajouté le"
+      }
     }
   },
   "tasks": {

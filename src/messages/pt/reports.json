@@ -1,0 +1,83 @@
+{
+  "reports": {
+    "title": "Relatórios",
+    "help": "Ajuda com relatórios",
+    "period": "Período",
+    "currency": "Moeda",
+    "loadFailed": "Não foi possível carregar os relatórios",
+    "managersOnly": "Os relatórios mostram o dinheiro da agência e os resultados de toda a equipa, por isso só titulares e administradores os veem.",
+    "emptyTitle": "Ainda não há movimentos neste período",
+    "emptyBody": "Quando confirmar reservas, registar pagamentos ou chegarem pedidos, os números aparecem aqui. Experimente um período mais longo.",
+    "periods": {
+      "3m": "3 meses",
+      "6m": "6 meses",
+      "12m": "12 meses",
+      "year": "Este ano",
+      "lastYear": "Ano passado"
+    },
+    "kpi": {
+      "booked": "Reservado",
+      "bookedHint": "{count, plural, one {# reserva confirmada} other {# reservas confirmadas}}",
+      "collected": "Recebido",
+      "collectedHint": "Pagamentos de clientes marcados como recebidos",
+      "commission": "Comissão",
+      "commissionHint": "Das reservas confirmadas",
+      "occupancy": "Ocupação",
+      "occupancyHint": "Noites ocupadas dos seus arrendamentos",
+      "conversion": "Conversão",
+      "conversionHint": "{booked} de {clients} pessoas que escreveram reservaram"
+    },
+    "money": {
+      "title": "Receitas por mês",
+      "description": "O reservado vai para o mês do check-in (uma venda, para o da criação); o recebido, para o mês do pagamento.",
+      "asTable": "Ver tabela",
+      "asChart": "Ver gráfico",
+      "month": "Mês",
+      "booked": "Reservado",
+      "collected": "Recebido",
+      "commission": "Comissão",
+      "bookings": "Reservas",
+      "chartLabel": "Reservado e recebido por mês, em {currency}",
+      "monthSummary": "{month}: reservado {booked}, recebido {collected}"
+    },
+    "occupancy": {
+      "title": "Ocupação por imóvel",
+      "description": "Noites ocupadas (por reservas ou iCal) sobre as disponíveis. As bloqueadas à mão não contam como disponíveis.",
+      "empty": "Não tem imóveis para arrendamento.",
+      "nights": "{taken} de {available} noites",
+      "external": "{count} por iCal",
+      "blocked": "{count} bloqueadas"
+    },
+    "conversion": {
+      "title": "Do pedido à reserva",
+      "description": "As pessoas que escreveram no período e o que aconteceu a seguir.",
+      "steps": {
+        "inquiries": "Pedidos",
+        "clients": "Pessoas",
+        "offered": "Receberam oferta",
+        "booked": "Reservaram"
+      },
+      "ofPeople": "{share} das pessoas",
+      "source": "Origem",
+      "rate": "Conversão",
+      "types": {
+        "PROPERTY": "Ficha de um imóvel",
+        "OFFER": "Uma oferta",
+        "GENERAL": "Contacto do site"
+      },
+      "replies": "{count, plural, one {# pedido respondido a partir do painel} other {# pedidos respondidos a partir do painel}}; metade em menos de {hours} h.",
+      "noReplies": "Ainda não há pedidos respondidos a partir do painel neste período."
+    },
+    "team": {
+      "title": "Resultados por pessoa",
+      "description": "Clientes atribuídos no período, ofertas enviadas e reservas confirmadas que cada um criou. Montantes em {currency}.",
+      "member": "Pessoa",
+      "clients": "Clientes novos",
+      "offers": "Ofertas enviadas",
+      "bookings": "Reservas",
+      "booked": "Reservado",
+      "commission": "Comissão",
+      "inactive": "sem acesso"
+    }
+  }
+}

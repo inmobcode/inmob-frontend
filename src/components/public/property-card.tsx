@@ -1,6 +1,8 @@
 import { Bath, BedDouble, Home, Ruler } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
+import { RatingSummary } from "@/components/public/review-parts";
+
 import { LOCALE_TAGS } from "@/i18n/config";
 import { Link } from "@/i18n/navigation";
 import type { Property } from "@/lib/api/properties";
@@ -185,6 +187,9 @@ export function PublicPropertyCard({
           </p>
         )}
         {!compact && <PropertySpecs property={property} className="mt-1" />}
+        {property.rating?.count ? (
+          <RatingSummary rating={property.rating} className="text-xs [&_[role=img]]:text-[0.85rem]" />
+        ) : null}
         {/* `mt-auto`: pins the price to the card's bottom edge no matter how
             many lines the title/summary above it take, so prices line up
             across cards in the same grid row (the grid stretches every card

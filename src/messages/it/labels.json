@@ -18,7 +18,8 @@
       "DRAFT": "Bozza",
       "SENT": "Inviata",
       "VIEWED": "Vista",
-      "EXPIRED": "Scaduta"
+      "EXPIRED": "Scaduta",
+      "ACCEPTED": "Accettata"
     },
     "discountType": {
       "NONE": "Nessuno sconto",

@@ -39,7 +39,9 @@
       "collapse": "Collapse",
       "openMenu": "Open menu",
       "menu": "Menu",
-      "mainNav": "Main navigation"
+      "mainNav": "Main navigation",
+      "reports": "Reports",
+      "reviews": "Reviews"
     },
     "assignee": {
       "label": "Assignee",
@@ -80,7 +82,8 @@
         "team": "Team",
         "portal": "Website",
         "settings": "Settings",
-        "profile": "My profile"
+        "profile": "My profile",
+        "reports": "Reports"
       },
       "help": {
         "general": "General",
@@ -145,7 +148,9 @@
         "offerViewedAnon": "Your client opened the offer",
         "payment": "Payment recorded: {amount}",
         "task": "A task was assigned to you",
-        "taskDue": "{title} · due {date}"
+        "taskDue": "{title} · due {date}",
+        "client": "A client was assigned to you",
+        "review": "{name} left a {rating}-star review"
       }
     }
   }

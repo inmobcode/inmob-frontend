@@ -117,6 +117,14 @@
           "color": "Colore",
           "photo": "Con foto"
         }
+      },
+      "reviews": {
+        "label": "Recensioni",
+        "description": "Le recensioni pubblicate, con la media della tua agenzia.",
+        "layouts": {
+          "cards": "Schede",
+          "quote": "Una citazione"
+        }
       }
     },
     "buttonTargets": {
@@ -200,6 +208,10 @@
       "cta": {
         "title": "Vuoi vendere il tuo immobile?",
         "text": "Ti accompagniamo dalla valutazione al rogito."
+      },
+      "reviews": {
+        "title": "Cosa dicono i nostri ospiti",
+        "text": "Opinioni reali di chi ha soggiornato da noi."
       }
     },
     "blocks": {
@@ -266,7 +278,8 @@
       "zonePicker": {
         "pick": "Scegli una località",
         "none": "Nessuna località"
-      }
+      },
+      "reviewsHint": "Mostra le recensioni pubblicate nella sezione Recensioni del pannello. Senza recensioni pubblicate, il blocco non compare."
     },
     "preview": {
       "title": "Anteprima del sito"

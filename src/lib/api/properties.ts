@@ -1,5 +1,6 @@
 import { siteCache } from "@/lib/site-cache";
 
+import type { PublicReview, ReviewSummary } from "./reviews";
 import { apiFetch } from "./client";
 
 export type ListingType = "SALE" | "RENT";
@@ -138,10 +139,49 @@ export interface Property {
   photos: PropertyPhoto[];
   classification?: Classification | null;
   content?: PropertyDescription | null;
+  /** Rentals' pricing rules (see getQuote): a year-round minimum stay and the discounts. */
+  minStay?: number | null;
+  weeklyDiscountPct?: number | null;
+  monthlyDiscountPct?: number | null;
+  lastMinuteDiscountPct?: number | null;
+  lastMinuteDays?: number | null;
+  earlyBirdDiscountPct?: number | null;
+  earlyBirdDays?: number | null;
+  /** On the public site only: the published reviews' average, and on a property's page, the reviews. */
+  rating?: ReviewSummary | null;
+  reviews?: PublicReview[];
   createdAt: string;
   updatedAt: string;
   /** Set while it's in the trash. */
   deletedAt?: string | null;
+}
+
+export type QuoteDiscountKind = "WEEKLY" | "MONTHLY" | "LAST_MINUTE" | "EARLY_BIRD";
+
+/** What a stay costs (app/services/pricing.py): consecutive nights at one price make one line. */
+export interface Quote {
+  start: string;
+  end: string;
+  nights: number;
+  currency: string;
+  lines: { label: string | null; price: number | null; nights: number; amount: number | null }[];
+  /** Null when some night has no price ("on request"). */
+  subtotal: number | null;
+  discounts: { kind: QuoteDiscountKind; pct: number; amount: number }[];
+  total: number | null;
+  minStay: number;
+  meetsMinStay: boolean;
+  /** False when a booking or block already takes one of the nights. */
+  available: boolean;
+}
+
+export function getQuote(token: string, propertyId: string, start: string, end: string) {
+  return apiFetch<Quote>(`/api/properties/${propertyId}/quote?start=${start}&end=${end}`, { token });
+}
+
+/** For the calculator on a published rental's page; never cached (it changes with the dates and the day). */
+export function getPublicQuote(agencySlug: string, propertySlug: string, start: string, end: string) {
+  return apiFetch<Quote>(`/api/public/${agencySlug}/properties/${propertySlug}/quote?start=${start}&end=${end}`);
 }
 
 export interface CreatePropertyPayload {

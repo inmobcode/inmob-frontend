@@ -1,0 +1,83 @@
+{
+  "reports": {
+    "title": "Berichte",
+    "help": "Hilfe zu Berichten",
+    "period": "Zeitraum",
+    "currency": "Währung",
+    "loadFailed": "Berichte konnten nicht geladen werden",
+    "managersOnly": "Berichte zeigen die Finanzen der Agentur und die Ergebnisse des ganzen Teams, daher sehen sie nur Inhaber und Administratoren.",
+    "emptyTitle": "In diesem Zeitraum gibt es noch nichts",
+    "emptyBody": "Sobald Sie Buchungen bestätigen, Zahlungen erfassen oder Anfragen erhalten, erscheinen hier die Zahlen. Versuchen Sie einen längeren Zeitraum.",
+    "periods": {
+      "3m": "3 Monate",
+      "6m": "6 Monate",
+      "12m": "12 Monate",
+      "year": "Dieses Jahr",
+      "lastYear": "Letztes Jahr"
+    },
+    "kpi": {
+      "booked": "Gebucht",
+      "bookedHint": "{count, plural, one {# bestätigte Buchung} other {# bestätigte Buchungen}}",
+      "collected": "Erhalten",
+      "collectedHint": "Als erhalten markierte Kundenzahlungen",
+      "commission": "Provision",
+      "commissionHint": "Aus bestätigten Buchungen",
+      "occupancy": "Auslastung",
+      "occupancyHint": "Belegte Nächte Ihrer Mietobjekte",
+      "conversion": "Konversion",
+      "conversionHint": "{booked} von {clients} Anfragenden haben gebucht"
+    },
+    "money": {
+      "title": "Einnahmen pro Monat",
+      "description": "Gebucht zählt im Anreisemonat (ein Verkauf im Erstellungsmonat); erhalten im Zahlungsmonat.",
+      "asTable": "Tabelle zeigen",
+      "asChart": "Diagramm zeigen",
+      "month": "Monat",
+      "booked": "Gebucht",
+      "collected": "Erhalten",
+      "commission": "Provision",
+      "bookings": "Buchungen",
+      "chartLabel": "Gebucht und erhalten pro Monat, in {currency}",
+      "monthSummary": "{month}: gebucht {booked}, erhalten {collected}"
+    },
+    "occupancy": {
+      "title": "Auslastung pro Objekt",
+      "description": "Belegte Nächte (Buchungen oder iCal) im Verhältnis zu verfügbaren. Manuell gesperrte Nächte gelten nicht als verfügbar.",
+      "empty": "Sie haben keine Mietobjekte.",
+      "nights": "{taken} von {available} Nächten",
+      "external": "{count} über iCal",
+      "blocked": "{count} gesperrt"
+    },
+    "conversion": {
+      "title": "Von der Anfrage zur Buchung",
+      "description": "Die Personen, die im Zeitraum geschrieben haben, und was danach geschah.",
+      "steps": {
+        "inquiries": "Anfragen",
+        "clients": "Personen",
+        "offered": "Angebot erhalten",
+        "booked": "Gebucht"
+      },
+      "ofPeople": "{share} der Personen",
+      "source": "Herkunft",
+      "rate": "Konversion",
+      "types": {
+        "PROPERTY": "Objektseite",
+        "OFFER": "Ein Angebot",
+        "GENERAL": "Kontaktformular"
+      },
+      "replies": "{count, plural, one {# Anfrage im Dashboard beantwortet} other {# Anfragen im Dashboard beantwortet}}; die Hälfte in weniger als {hours} h.",
+      "noReplies": "In diesem Zeitraum wurden noch keine Anfragen im Dashboard beantwortet."
+    },
+    "team": {
+      "title": "Ergebnisse pro Person",
+      "description": "Im Zeitraum zugewiesene Kunden, gesendete Angebote und bestätigte Buchungen pro Person. Beträge in {currency}.",
+      "member": "Person",
+      "clients": "Neue Kunden",
+      "offers": "Gesendete Angebote",
+      "bookings": "Buchungen",
+      "booked": "Gebucht",
+      "commission": "Provision",
+      "inactive": "ohne Zugang"
+    }
+  }
+}

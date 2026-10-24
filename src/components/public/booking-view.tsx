@@ -1,7 +1,8 @@
 import { differenceInCalendarDays, parseISO } from "date-fns";
-import { Check, Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Check, Clock, FileText, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { useTranslations } from "next-intl";
 
+import { GuestReview } from "@/components/public/guest-review";
 import {
   PhotoPlaceholder,
   coverPhoto,
@@ -35,7 +36,7 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
   return <h2 className="s-heading text-xl">{children}</h2>;
 }
 
-export function BookingView({ booking }: { booking: PublicBooking }) {
+export function BookingView({ booking, token }: { booking: PublicBooking; token: string }) {
   const t = useTranslations("site.booking");
   const labels = useLabels();
   const { date, money: formatMoney } = useFormat();
@@ -146,7 +147,11 @@ export function BookingView({ booking }: { booking: PublicBooking }) {
               {[
                 { label: t("checkIn"), value: date(start, "weekdayDayMonth"), sub: String(start.getFullYear()) },
                 { label: t("checkOut"), value: date(end, "weekdayDayMonth"), sub: String(end.getFullYear()) },
-                { label: t("duration"), value: t("nights", { count: nights }), sub: null },
+                {
+                  label: t("duration"),
+                  value: t("nights", { count: nights }),
+                  sub: booking.guests ? t("guests", { count: booking.guests }) : null,
+                },
               ].map((item) => (
                 <div
                   key={item.label}
@@ -215,9 +220,18 @@ export function BookingView({ booking }: { booking: PublicBooking }) {
                   ))}
                 </ul>
               )}
+              <Link
+                href={`/booking/${token}/receipt`}
+                className="inline-flex w-fit items-center gap-2 text-sm font-medium underline decoration-site-line underline-offset-4 outline-none hover:decoration-site-ink focus-visible:ring-2 focus-visible:ring-site-accent"
+              >
+                <FileText className="size-4" aria-hidden />
+                {t("receipt")}
+              </Link>
             </div>
           </section>
         )}
+
+        <GuestReview token={token} booking={booking} />
 
         {contacts.length > 0 && (
           <section className="flex flex-col gap-4">

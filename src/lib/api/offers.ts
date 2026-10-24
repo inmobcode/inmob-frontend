@@ -1,8 +1,11 @@
 import { apiFetch } from "./client";
+import type { BookingStatus } from "./bookings";
 import type { Property } from "./properties";
 import type { ServiceType, ServiceUnit } from "./services";
 
-export type OfferStatus = "DRAFT" | "SENT" | "VIEWED" | "EXPIRED";
+/** ACCEPTED: a booking was made from it. */
+export type OfferStatus = "DRAFT" | "SENT" | "VIEWED" | "EXPIRED" | "ACCEPTED";
+export type OfferViewDevice = "MOBILE" | "DESKTOP";
 /** Which properties the offer holds: only for sale, only for rent, or both. */
 export type OfferOperation = "SALE" | "RENT" | "BOTH";
 export type DiscountType = "NONE" | "PERCENT" | "FIXED";
@@ -64,6 +67,15 @@ export interface Offer {
   updatedAt: string;
   /** Set while it's in the trash. */
   deletedAt?: string | null;
+  /** A starting point for new offers: never sent, kept out of the offers list. Dashboard only. */
+  isTemplate?: boolean;
+  /** How often the client opened the link, and when. Dashboard only. */
+  viewCount?: number;
+  firstViewedAt?: string | null;
+  lastViewedAt?: string | null;
+  /** Only on a single offer: its latest opens, newest first, and the bookings made from it. */
+  views?: { at: string; device: OfferViewDevice | null }[];
+  bookings?: OfferBooking[];
 }
 
 export interface OfferServiceItem {
@@ -132,8 +144,37 @@ export interface SaveOfferPayload {
   services?: OfferServiceInput[];
 }
 
-export function listOffers(token: string) {
-  return apiFetch<Offer[]>("/api/offers/", { token });
+export interface OfferBooking {
+  id: string;
+  status: BookingStatus;
+  propertyTitle: string | null;
+  startDate: string | null;
+  endDate: string | null;
+}
+
+/** The offers, or with `templates` the templates instead. */
+export function listOffers(token: string, { templates = false }: { templates?: boolean } = {}) {
+  return apiFetch<Offer[]>(`/api/offers/${templates ? "?templates=1" : ""}`, { token });
+}
+
+/**
+ * A new draft with the same content, without client or expiry. `asTemplate`
+ * saves the copy as a template; duplicating a template starts an offer from it.
+ */
+export function duplicateOffer(token: string, id: string, payload: { asTemplate?: boolean; title?: string } = {}) {
+  return apiFetch<Offer>(`/api/offers/${id}/duplicate`, {
+    method: "POST",
+    token,
+    body: JSON.stringify(payload),
+  });
+}
+
+/** Sent by the public page once it has opened in a browser: one open of the link. */
+export function recordOfferView(offerToken: string, device: OfferViewDevice) {
+  return apiFetch<void>(`/api/public/offers/${offerToken}/views`, {
+    method: "POST",
+    body: JSON.stringify({ device }),
+  });
 }
 
 export function createOffer(token: string, payload: SaveOfferPayload) {

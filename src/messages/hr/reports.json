@@ -1,0 +1,83 @@
+{
+  "reports": {
+    "title": "Izvješća",
+    "help": "Pomoć za izvješća",
+    "period": "Razdoblje",
+    "currency": "Valuta",
+    "loadFailed": "Izvješća nije moguće učitati",
+    "managersOnly": "Izvješća prikazuju novac agencije i rezultate cijelog tima, pa ih vide samo vlasnici i administratori.",
+    "emptyTitle": "U ovom razdoblju još nema aktivnosti",
+    "emptyBody": "Kad potvrdite rezervacije, evidentirate plaćanja ili stignu upiti, brojke se pojavljuju ovdje. Pokušajte s duljim razdobljem.",
+    "periods": {
+      "3m": "3 mjeseca",
+      "6m": "6 mjeseci",
+      "12m": "12 mjeseci",
+      "year": "Ova godina",
+      "lastYear": "Prošla godina"
+    },
+    "kpi": {
+      "booked": "Rezervirano",
+      "bookedHint": "{count, plural, one {# potvrđena rezervacija} few {# potvrđene rezervacije} other {# potvrđenih rezervacija}}",
+      "collected": "Naplaćeno",
+      "collectedHint": "Plaćanja klijenata označena kao naplaćena",
+      "commission": "Provizija",
+      "commissionHint": "Iz potvrđenih rezervacija",
+      "occupancy": "Popunjenost",
+      "occupancyHint": "Zauzeta noćenja vaših najmova",
+      "conversion": "Konverzija",
+      "conversionHint": "{booked} od {clients} osoba koje su pisale rezerviralo je"
+    },
+    "money": {
+      "title": "Prihodi po mjesecima",
+      "description": "Rezervirano se računa u mjesecu dolaska (prodaja u mjesecu izrade); naplaćeno u mjesecu plaćanja.",
+      "asTable": "Prikaži tablicu",
+      "asChart": "Prikaži grafikon",
+      "month": "Mjesec",
+      "booked": "Rezervirano",
+      "collected": "Naplaćeno",
+      "commission": "Provizija",
+      "bookings": "Rezervacije",
+      "chartLabel": "Rezervirano i naplaćeno po mjesecima, u {currency}",
+      "monthSummary": "{month}: rezervirano {booked}, naplaćeno {collected}"
+    },
+    "occupancy": {
+      "title": "Popunjenost po nekretnini",
+      "description": "Zauzeta noćenja (rezervacije ili iCal) u odnosu na dostupna. Ručno blokirana ne računaju se kao dostupna.",
+      "empty": "Nemate nekretnina za najam.",
+      "nights": "{taken} od {available} noćenja",
+      "external": "{count} preko iCala",
+      "blocked": "{count} blokirano"
+    },
+    "conversion": {
+      "title": "Od upita do rezervacije",
+      "description": "Osobe koje su pisale u razdoblju i što se dogodilo poslije.",
+      "steps": {
+        "inquiries": "Upiti",
+        "clients": "Osobe",
+        "offered": "Dobili ponudu",
+        "booked": "Rezervirali"
+      },
+      "ofPeople": "{share} osoba",
+      "source": "Izvor",
+      "rate": "Konverzija",
+      "types": {
+        "PROPERTY": "Stranica nekretnine",
+        "OFFER": "Ponuda",
+        "GENERAL": "Kontakt na stranici"
+      },
+      "replies": "{count, plural, one {# upit odgovoren s nadzorne ploče} few {# upita odgovorena s nadzorne ploče} other {# upita odgovoreno s nadzorne ploče}}; polovica za manje od {hours} h.",
+      "noReplies": "U ovom razdoblju još nema upita odgovorenih s nadzorne ploče."
+    },
+    "team": {
+      "title": "Rezultati po osobi",
+      "description": "Klijenti dodijeljeni u razdoblju, poslane ponude i potvrđene rezervacije svake osobe. Iznosi u {currency}.",
+      "member": "Osoba",
+      "clients": "Novi klijenti",
+      "offers": "Poslane ponude",
+      "bookings": "Rezervacije",
+      "booked": "Rezervirano",
+      "commission": "Provizija",
+      "inactive": "bez pristupa"
+    }
+  }
+}

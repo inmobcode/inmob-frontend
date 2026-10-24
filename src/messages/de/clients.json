@@ -6,7 +6,8 @@
       "changeStage": "Phase ändern",
       "email": "E-Mail senden",
       "call": "Anrufen",
-      "copyEmail": "E-Mail kopieren"
+      "copyEmail": "E-Mail kopieren",
+      "delete": "In den Papierkorb"
     },
     "views": {
       "noPhone": "Kein Telefon",
@@ -17,7 +18,8 @@
       "phone": "Telefon",
       "source": "Herkunft",
       "lastMove": "Letzte Aktivität",
-      "actions": "Aktionen"
+      "actions": "Aktionen",
+      "tags": "Tags"
     },
     "detail": {
       "logFailed": "Konnte nicht erfasst werden",
@@ -26,7 +28,7 @@
       "list": "Kunden",
       "clientSince": "Kunde seit {date}",
       "notes": "Notizen",
-      "notesDescription": "Was man sich merken sollte: Wonach gesucht wird, Budget, Vorlieben.",
+      "notesDescription": "Was man sich merken sollte und nicht unter „Was gesucht wird“ passt.",
       "notesLabel": "Notizen zum Kunden",
       "notesPlaceholder": "Noch keine Notizen.",
       "saveNotes": "Notizen speichern",
@@ -54,7 +56,14 @@
       "ownerGone": "Jemandem zugewiesen, der nicht mehr im Team ist.",
       "contact": "Kontakt",
       "noPhone": "Kein Telefon",
-      "updated": "Aktualisiert {ago}"
+      "updated": "Aktualisiert {ago}",
+      "preferences": "Was gesucht wird",
+      "preferencesDescription": "Budget, wie viele Personen, wo und wann. Hilft bei der Auswahl, was Sie anbieten.",
+      "tags": "Tags",
+      "delete": "In den Papierkorb",
+      "trashed": "Kunde in den Papierkorb verschoben",
+      "restoreFailed": "Kunde konnte nicht wiederhergestellt werden",
+      "deleteFailed": "Kunde konnte nicht gelöscht werden"
     },
     "create": {
       "new": "Neuer Kunde",
@@ -87,7 +96,52 @@
       "emptyTitle": "Sie haben noch keine Kunden",
       "emptyBody": "Anfragen über Ihre Website und Angebote erscheinen hier automatisch. Sie können auch einen manuell anlegen.",
       "emptyHelp": "So begleiten Sie einen Kunden durch die Phasen",
-      "noMatchBody": "Versuchen Sie einen anderen Namen oder entfernen Sie den Phasenfilter."
+      "noMatchBody": "Versuchen Sie einen anderen Namen oder entfernen Sie die Filter.",
+      "tag": "Tag",
+      "tagsPlural": "Tags",
+      "trashed": "Kunde in den Papierkorb verschoben",
+      "restoreFailed": "Kunde konnte nicht wiederhergestellt werden",
+      "deleteFailed": "Kunde konnte nicht gelöscht werden"
+    },
+    "tags": {
+      "add": "Tag hinzufügen",
+      "placeholder": "Z. B. VIP, Investor, Sommer",
+      "full": "Sie haben das Maximum von {max} Tags erreicht.",
+      "suggestions": "Bereits verwendete Tags"
+    },
+    "preferences": {
+      "budgetMin": "Budget ab",
+      "budgetMax": "Budget bis",
+      "budgetCrossed": "Das Minimum darf nicht höher als das Maximum sein.",
+      "guests": "Personen",
+      "dates": "Zeitraum",
+      "datesPlaceholder": "Wann",
+      "zones": "Gegenden",
+      "zonesPlaceholder": "Z. B. Zentrum, in Strandnähe",
+      "save": "Speichern",
+      "discard": "Verwerfen"
+    },
+    "export": {
+      "label": "Als CSV exportieren",
+      "filename": "kunden",
+      "done": "{count, plural, one {# Kunde exportiert} other {# Kunden exportiert}}",
+      "columns": {
+        "name": "Name",
+        "email": "E-Mail",
+        "phone": "Telefon",
+        "stage": "Phase",
+        "source": "Herkunft",
+        "tags": "Tags",
+        "budgetMin": "Budget ab",
+        "budgetMax": "Budget bis",
+        "guests": "Personen",
+        "zones": "Gegenden",
+        "desiredFrom": "Von",
+        "desiredTo": "Bis",
+        "owner": "Zuständig",
+        "notes": "Notizen",
+        "createdAt": "Angelegt am"
+      }
     }
   },
   "tasks": {

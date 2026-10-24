@@ -39,7 +39,9 @@
       "collapse": "Einklappen",
       "openMenu": "Menü öffnen",
       "menu": "Menü",
-      "mainNav": "Hauptnavigation"
+      "mainNav": "Hauptnavigation",
+      "reports": "Berichte",
+      "reviews": "Bewertungen"
     },
     "assignee": {
       "label": "Zuständig",
@@ -80,7 +82,8 @@
         "team": "Team",
         "portal": "Website",
         "settings": "Einstellungen",
-        "profile": "Mein Profil"
+        "profile": "Mein Profil",
+        "reports": "Berichte"
       },
       "help": {
         "general": "Allgemein",
@@ -145,7 +148,9 @@
         "offerViewedAnon": "Ihr Kunde hat das Angebot geöffnet",
         "payment": "Zahlung erfasst: {amount}",
         "task": "Ihnen wurde eine Aufgabe zugewiesen",
-        "taskDue": "{title} · bis {date}"
+        "taskDue": "{title} · bis {date}",
+        "client": "Ihnen wurde ein Kunde zugewiesen",
+        "review": "{name} hat eine Bewertung mit {rating} Sternen abgegeben"
       }
     }
   }

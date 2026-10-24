@@ -2,11 +2,13 @@ import {
   Building2,
   CalendarCheck,
   CalendarDays,
+  ChartColumn,
   Compass,
   Eye,
   Globe,
   Inbox,
   Keyboard,
+  MessageSquareQuote,
   KeyRound,
   Settings,
   Sparkles,
@@ -155,7 +157,11 @@ function Basics() {
           ],
           [
             "Papierkorb",
-            "Was Sie in Objekte, Angebote und Buchungen löschen, landet im Papierkorb und verschwindet nicht. Dort bleibt es 30 Tage, falls Sie es sich anders überlegen; danach wird es endgültig gelöscht. Beim Löschen bietet der Hinweis unten „Rückgängig“.",
+            "Was Sie in Objekte, Angebote, Buchungen, Kunden und Anfragen löschen, landet im Papierkorb und verschwindet nicht. Dort bleibt es 30 Tage, falls Sie es sich anders überlegen; danach wird es endgültig gelöscht. Beim Löschen bietet der Hinweis unten „Rückgängig“.",
+          ],
+          [
+            "Verlauf",
+            "Bei Objekten, Angeboten und Buchungen zeigt die Schaltfläche „Verlauf“, wer was wann geändert hat: den Preis von 100 auf 120, den Status, die Fotos, die Zahlungen. Was der Kunde über einen Link tut (ein Angebot öffnen, schreiben), erscheint als „Der Kunde oder das System“.",
           ],
           [
             "„Auf der Website sichtbar“ / „Nur intern“",
@@ -170,7 +176,7 @@ function Basics() {
 
       <DocH3>Der Papierkorb</DocH3>
       <DocP>
-        Er öffnet sich über das Papierkorbsymbol in der Leiste von Objekte, Angebote und Buchungen. Eine Zahl auf dem
+        Er öffnet sich über das Papierkorbsymbol in der Leiste von Objekte, Angebote, Buchungen und Kunden; in Anfragen erscheint es nur, wenn etwas darin liegt. Eine Zahl auf dem
         Symbol zeigt, wie viele Einträge darin liegen.
       </DocP>
       <DocFigure
@@ -233,14 +239,37 @@ function Inquiries() {
         <li>Beim Öffnen wird eine Anfrage als gelesen markiert. Der Umschlag oben rechts markiert sie wieder als neu.</li>
         <li>Anfragen von bestehenden Kunden zeigen deren Phase (Lead, Kontaktiert…) neben dem Namen.</li>
         <li>
-          Antworten Sie mit einem Klick: <strong>Per E-Mail antworten</strong> (mit Betreff und Anrede bereits
-          ausgefüllt), <strong>WhatsApp</strong> (mit einer Nachricht, die das Angefragte nennt) oder{" "}
-          <strong>Anrufen</strong>. WhatsApp und Anrufen erscheinen, wenn eine Telefonnummer hinterlassen wurde. Das Symbol
-          neben der E-Mail kopiert sie.
+          <strong>Antworten</strong> öffnet die Nachricht direkt dort, mit Betreff und Anrede bereits ausgefüllt. Sie
+          geht per E-Mail unter dem Namen Ihrer Agentur hinaus, wird im Kundenverlauf gespeichert, und die Anfrage
+          zeigt, wer wann geantwortet hat. Antwortet der Kunde, geht das an die Kontakt-E-Mail aus den Einstellungen
+          (oder an Ihre).
+        </li>
+        <li>
+          <strong>WhatsApp</strong> (mit einer Nachricht, die das Angefragte nennt) und <strong>Anrufen</strong>{" "}
+          erscheinen, wenn eine Telefonnummer hinterlassen wurde. Das Symbol neben der E-Mail kopiert sie.
+        </li>
+        <li>
+          <strong>Zuständig:</strong> Inhaber und Administratoren wählen, wer sie betreut (das ist der Zuständige des
+          Kunden, der eine Benachrichtigung in der Glocke erhält). Ein Makler kann auf „Übernehmen“ klicken, wenn sie
+          niemand hat.
+        </li>
+        <li>
+          <strong>Archivieren</strong> (die Box oben rechts) nimmt sie aus dem Posteingang, ohne sie zu löschen: Sie
+          bleibt im Reiter „Archiviert“ und kann von dort zurück. Das Papierkorbsymbol verschiebt sie in den Papierkorb;
+          Kunde und Verlauf bleiben unberührt. Beide Aktionen bieten „Rückgängig“.
         </li>
         <li>Klicken Sie auf das Objekt oder Angebot, um es im Dashboard zu öffnen, oder auf „Kunde ansehen“ für sein Profil.</li>
         <li>Der Posteingang aktualisiert sich jede Minute von selbst.</li>
       </DocList>
+
+      <DocH3>Antwortvorlagen</DocH3>
+      <DocP>
+        Für die häufigsten Fragen speichern Sie eine Vorlage: Klicken Sie beim Antworten auf „Vorlagen“ und dann auf
+        „Neue Vorlage“, mit Name, optionalem Betreff und Text. Die Schaltflächen darunter fügen Felder ein, die sich
+        beim Verwenden selbst füllen: Vorname, vollständiger Name, Objekt oder Angebot, Ihre Agentur und Ihr Name.
+        Wählen Sie sie unter „Vorlage verwenden“ und passen Sie vor dem Senden an, was nötig ist. Das ganze Team nutzt
+        sie.
+      </DocP>
       <DocTip>
         Ist noch keine Anfrage eingegangen, teilen Sie den Link zu Ihrer Website: Das Kontaktformular und das jeder
         Objektseite landen hier.
@@ -294,7 +323,7 @@ function Clients() {
       />
       <DocP>
         Ändern Sie die Phase über das Menü <strong>⋯</strong> jedes Kunden („Phase ändern“) oder in seinem Profil. Im selben
-        Menü können Sie das Profil ansehen, eine E-Mail senden, anrufen oder die E-Mail kopieren.
+        Menü können Sie das Profil ansehen, eine E-Mail senden, anrufen, die E-Mail kopieren oder den Kunden in den Papierkorb verschieben.
       </DocP>
 
       <DocH3>Das Kundenprofil</DocH3>
@@ -315,7 +344,7 @@ function Clients() {
         items={[
           [
             "Notizen",
-            "Was man sich merken sollte: wonach gesucht wird, Budget, Vorlieben. Unterstützt Überschriften, Fettdruck, Listen und Links. Nach einer Änderung erscheint „Notizen speichern“.",
+            "Was man sich merken sollte und nicht unter „Was gesucht wird“ passt. Unterstützt Überschriften, Fettdruck, Listen und Links. Nach einer Änderung erscheint „Notizen speichern“.",
           ],
           [
             "Aufgaben",
@@ -331,12 +360,32 @@ function Clients() {
             "Der Makler, der den Kunden betreut. Inhaber und Administratoren wählen ihn aus der Teamliste; ein Makler kann bei einem nicht zugewiesenen Lead auf „Übernehmen“ klicken.",
           ],
           ["Kontakt", "E-Mail und Telefon, mit einem Klick zum Schreiben oder Anrufen."],
+          [
+            "Was gesucht wird",
+            "Budget (in der Währung Ihrer Agentur), wie viele Personen, Gegenden und Zeitraum. Nur Ihr Team sieht es. Nach einer Änderung erscheint „Speichern“.",
+          ],
+          [
+            "Tags",
+            "Ihre eigenen Markierungen, um Kunden zu gruppieren: „VIP“, „Investor“, „Sommer 2027“. Tippen Sie einen ein und drücken Sie Enter oder ein Komma; darunter schlagen wir die vor, die Sie schon verwenden. Sie werden sofort gespeichert und dienen zum Filtern der Liste.",
+          ],
+          [
+            "In den Papierkorb",
+            "Unten im rechten Bereich oder über das Menü ⋯ in der Liste. Angebote, Buchungen und Verlauf bleiben, wie sie sind. Schreibt der Kunde Ihnen erneut über das Portal, kommt er von selbst aus dem Papierkorb zurück. Solange er dort liegt, können Sie keinen anderen Kunden mit seiner E-Mail anlegen: Stellen Sie ihn wieder her. Ein Kunde mit Buchungen kann nicht endgültig gelöscht werden.",
+          ],
         ]}
       />
       <DocTip>
         Gelöschte Aufgaben landen nicht im Papierkorb: Sie verschwinden sofort. Ist eine nur erledigt, haken Sie sie lieber
         ab.
       </DocTip>
+
+      <DocH3>Als CSV exportieren</DocH3>
+      <DocP>
+        Die Schaltfläche mit dem Pfeil nach unten in der Listenleiste lädt die angezeigten Kunden (mit Suche und
+        Filtern) als CSV-Datei herunter, die sich in Excel, Google Sheets oder Numbers öffnen lässt: Kontaktdaten,
+        Phase, Herkunft, Tags, was gesucht wird, Notizen und Anlagedatum. Inhaber und Administratoren erhalten
+        zusätzlich die Spalte „Zuständig“.
+      </DocP>
     </DocSection>
   );
 }
@@ -607,6 +656,15 @@ function Properties() {
       <DocTip>
         Um alle Mietobjekte in einem Kalender zu sehen, nutzen Sie <strong>Verfügbarkeit</strong> im Menü.
       </DocTip>
+
+      <DocH3>Preisregeln</DocH3>
+      <DocP>
+        Im Bereich Rates, über den Saisons: ganzjähriger Mindestaufenthalt, Wochenrabatt (ab 7 Nächten) oder
+        Monatsrabatt (ab 28) und einer nach Buchungszeitpunkt: Last Minute (Anreise in wenigen Tagen) oder Frühbucher.
+        Sie werden mit „Speichern“ gesichert. „Preis testen“ berechnet einen Aufenthalt wie der Kunde ihn sieht;
+        dieselbe Berechnung füllt den Gesamtpreis in „Neue Buchung“ und erscheint auf der öffentlichen Seite als
+        „Aufenthalt berechnen“.
+      </DocP>
 
       <DocH3>Empfehlungen</DocH3>
       <DocFigure
@@ -1004,6 +1062,29 @@ function Offers() {
         Angebotsseite aus kann der Kunde Ihnen schreiben: Diese Anfrage landet in Anfragen.
       </DocP>
 
+      <DocH3>Aufrufe verfolgen</DocH3>
+      <DocP>
+        Jedes Mal, wenn der Kunde den Link öffnet, werden Zeitpunkt und Gerät (Handy oder Computer) gespeichert. Im
+        rechten Bereich des Editors sehen Sie, wie oft er es geöffnet hat, wann zuletzt und davor; in der Liste ein Auge
+        mit der Zahl. Öffnet er es nach einem Tag erneut, meldet sich die Glocke wieder. Linkvorschauen von WhatsApp
+        oder E-Mail zählen nicht, ebenso wenig Ihr eigenes „Als Kunde ansehen“.
+      </DocP>
+
+      <DocH3>Duplizieren und Vorlagen</DocH3>
+      <DocP>
+        Im Menü ⋯ des Angebots oder im Editorbereich erstellt „Duplizieren“ einen gleichen Entwurf ohne Kunde und
+        Ablaufdatum, um ihn jemand anderem zu senden. „Als Vorlage speichern“ legt es im Reiter „Vorlagen“ der Liste ab:
+        Eine Vorlage hat keinen Link und wird nicht versendet. Zum Verwenden klicken Sie auf „Angebot aus dieser Vorlage
+        erstellen“ oder wählen sie beim Anlegen eines „Neuen Angebots“.
+      </DocP>
+
+      <DocH3>Vom Angebot zur Buchung</DocH3>
+      <DocP>
+        Wenn der Kunde annimmt, klicken Sie im rechten Bereich des Editors auf „Buchung erstellen“. Kunde, Währung und
+        Preis stammen aus dem gespeicherten Angebot (bei Mieten der Preis pro Nacht mal Nächte, plus Leistungen); wählen
+        Sie Objekt und Daten. Das Angebot wird „Angenommen“ und die Buchung dort aufgeführt.
+      </DocP>
+
       <DocH3>Status</DocH3>
       <DocTerms
         items={[
@@ -1011,6 +1092,7 @@ function Offers() {
           [<DocPill key="s" tone="primary">Gesendet</DocPill>, "Der Link ist aktiv und wurde dem Kunden geschickt."],
           [<DocPill key="v">Angesehen</DocPill>, "Der Kunde hat das Angebot bereits geöffnet."],
           [<DocPill key="e">Abgelaufen</DocPill>, "Das Ablaufdatum ist überschritten; der Kunde sieht einen entsprechenden Hinweis."],
+          [<DocPill key="a" tone="primary">Angenommen</DocPill>, "Aus dem Angebot wurde eine Buchung erstellt."],
         ]}
       />
     </DocSection>
@@ -1113,12 +1195,40 @@ function Bookings() {
         Anteil.
       </DocP>
 
+      <DocH3>Suchen und filtern</DocH3>
+      <DocP>
+        Suchen Sie nach Objekt oder Kunde und kombinieren Sie Filter: Status, Zahlung (unbezahlt, teilweise bezahlt oder
+        bezahlt), Objekt, Lage und Zeitraum. Der Zeitraumfilter zeigt Aufenthalte, die diese Tage berühren; der
+        Abreisetag gilt bereits als frei.
+      </DocP>
+
+      <DocH3>Gäste und Notizen</DocH3>
+      <DocP>
+        Unter „Details“ in der Buchung tragen Sie ein, wie viele Personen kommen, und interne Notizen für Ihr Team
+        („späte Ankunft“, „Babybett“). Der Kunde sieht die Gästezahl, nie die Notizen. Bei einer stornierten oder
+        abgeschlossenen Buchung lassen sich nur die Notizen bearbeiten.
+      </DocP>
+
+      <DocH3>Zahlung bearbeiten oder löschen</DocH3>
+      <DocP>
+        Beim Erfassen einer Zahlung können Sie die Zahlungsart angeben (Überweisung, bar…), sie mit Datum als bereits
+        erhalten markieren und eine interne Notiz hinterlassen. Über das Menü ⋯ jeder Zahlung bearbeiten Sie sie, setzen
+        sie auf offen zurück oder löschen sie (mit Bestätigung: sie verschwindet auch aus der Eigentümerabrechnung).
+      </DocP>
+
       <DocH3>Die Kundenseite</DocH3>
       <DocP>
         Jede Buchung hat eine Seite für den Kunden mit Objekt, Aufenthalt, Status und Zahlungen (Anzahlungen und
         Restbetrag, nie die Provision). Hat die Buchung einen Kunden, erhält er sie per E-Mail, wenn sie angelegt,
         bestätigt oder storniert wird. Sonst kopieren Sie den Link auf der Buchungsseite oder im Menü ⋯ und schicken ihn
         selbst. Siehe „Was Ihre Kunden sehen“.
+      </DocP>
+
+      <DocH3>Der Beleg</DocH3>
+      <DocP>
+        „Beleg für den Kunden“ in der Buchung öffnet eine Seite zum Drucken oder Speichern als PDF: Ihre Agentur, die
+        Buchung, die Zahlungen mit Datum und Zahlungsart, die Summe und der offene Betrag. Der Kunde erreicht sie auch
+        über seine Seite. Provision und Notizen erscheinen nie, und sie weist darauf hin, dass sie keine Rechnung ist.
       </DocP>
     </DocSection>
   );
@@ -1620,7 +1730,7 @@ function Shortcuts() {
           [<Kbd key="q">?</Kbd>, "Alle Tastenkürzel anzeigen"],
           [
             <><Kbd>G</Kbd> und ein Buchstabe</>,
-            "Zu einem Bereich gehen: P Objekte, O Angebote, C Kunden, I Anfragen, R Buchungen, D Verfügbarkeit, E Team, W Website, S Einstellungen, M Mein Profil",
+            "Zu einem Bereich gehen: P Objekte, O Angebote, C Kunden, I Anfragen, R Buchungen, D Verfügbarkeit, T Berichte, E Team, W Website, S Einstellungen, M Mein Profil",
           ],
           [<Kbd key="n">N</Kbd>, "Neuen Eintrag in der geöffneten Liste anlegen"],
           [<Kbd key="s">/</Kbd>, "Zur Suche der Liste springen"],
@@ -1647,6 +1757,68 @@ function Shortcuts() {
   );
 }
 
+function Reports() {
+  return (
+    <DocSection
+      id="reportes"
+      icon={ChartColumn}
+      title="Berichte"
+      adminOnly
+      intro="Wie es der Agentur in einem Zeitraum geht: was gebucht und erhalten wurde, die Provision, die Auslastung jedes Mietobjekts, wie viele Anfragen zu Buchungen werden und die Ergebnisse jedes Teammitglieds. Nur Inhaber und Administratoren sehen das."
+    >
+      <DocP>
+        Wählen Sie oben den Zeitraum (3, 6 oder 12 Monate, dieses oder letztes Jahr). Arbeiten Sie mit mehreren Währungen, wählen Sie eine aus: Beträge werden nie über Währungen hinweg addiert.
+      </DocP>
+      <DocTerms
+        items={[
+          ["Gebucht", "Der Gesamtpreis bestätigter oder abgeschlossener Buchungen im Anreisemonat (ein Verkauf im Erstellungsmonat). Der grüne Balken im Diagramm."],
+          ["Erhalten", "Als erhalten markierte Anzahlungen und Restzahlungen im Zahlungsmonat. Ohne Provision. Der orange Balken."],
+          ["Provision", "Die bei diesen bestätigten Buchungen eingetragene Provision."],
+          ["Auslastung", "Durch Buchungen oder iCal belegte Nächte im Verhältnis zu den verfügbaren Nächten jedes Mietobjekts. Manuell gesperrte Nächte gelten nicht als verfügbar."],
+          ["Konversion", "Von den Personen, die im Zeitraum geschrieben haben: wie viele ein Angebot erhielten und wie viele danach gebucht haben. Außerdem, wie viele Anfragen im Dashboard beantwortet wurden und wie schnell."],
+          ["Pro Person", "Im Zeitraum zugewiesene Kunden, gesendete Angebote und bestätigte Buchungen pro Person, mit Buchungswert und Provision."],
+        ]}
+      />
+      <DocTip>
+        Fahren Sie mit der Maus über einen Monat im Diagramm (oder tippen Sie darauf), um seine Zahlen zu sehen, oder klicken Sie auf „Tabelle zeigen“.
+      </DocTip>
+    </DocSection>
+  );
+}
+
+function ReviewsDoc() {
+  return (
+    <DocSection
+      id="resenas"
+      icon={MessageSquareQuote}
+      title="Bewertungen"
+      adminOnly
+      intro="Was Ihre Gäste denken, auf Ihrer Website. E-Mails bitten darum, Sie moderieren. Nur für Inhaber und Administratoren."
+    >
+      <DocSteps>
+        <DocStep>
+          Wenn Sie eine Buchung als <strong>abgeschlossen</strong> markieren, erhält der Gast eine E-Mail, um auf seiner
+          Buchungsseite eine Bewertung abzugeben: Sterne und Kommentar.
+        </DocStep>
+        <DocStep>
+          Die Bewertung kommt als ausstehend in <strong>Bewertungen</strong> an, und die Glocke meldet sich.
+        </DocStep>
+        <DocStep>
+          Klicken Sie auf <strong>Veröffentlichen</strong>, um sie zu zeigen, oder auf <strong>Nicht
+          veröffentlichen</strong>. Den Text des Gastes können Sie nicht bearbeiten.
+        </DocStep>
+      </DocSteps>
+      <DocTerms
+        items={[
+          ["Auf der Website", "Veröffentlichte Bewertungen erscheinen auf der Objektseite mit dem Sterne-Durchschnitt und auf den Listenkarten. Fügen Sie im Website-Editor den Block „Bewertungen“ hinzu, um sie auf der Startseite zu zeigen."],
+          ["Bewertung hinzufügen", "Für Bewertungen aus anderen Kanälen (Airbnb, Google, eine E-Mail): Wertung, Name, Objekt und Text. Sie werden beim Speichern veröffentlicht und lassen sich bearbeiten."],
+          ["Ausblenden oder löschen", "Ausblenden nimmt sie von der Website, ohne sie zu löschen; Löschen entfernt sie endgültig."],
+        ]}
+      />
+    </DocSection>
+  );
+}
+
 export const DOC_SECTIONS: DocEntry[] = [
   { id: "primeros-pasos", label: "Erste Schritte", Content: Basics },
   { id: "consultas", label: "Anfragen", Content: Inquiries },
@@ -1658,6 +1830,8 @@ export const DOC_SECTIONS: DocEntry[] = [
   { id: "reservas", label: "Buchungen", Content: Bookings },
   { id: "disponibilidad", label: "Verfügbarkeit", Content: Availability },
   { id: "servicios", label: "Leistungen", Content: Services },
+  { id: "reportes", label: "Berichte", adminOnly: true, Content: Reports },
+  { id: "resenas", label: "Bewertungen", adminOnly: true, Content: ReviewsDoc },
   { id: "portal", label: "Website", adminOnly: true, Content: Portal },
   { id: "lo-que-ven-tus-clientes", label: "Was Ihre Kunden sehen", Content: ClientPages },
   { id: "equipo", label: "Team", adminOnly: true, Content: Team },

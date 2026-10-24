@@ -11,6 +11,7 @@ import {
   ClientStagePill,
   type ClientActions,
 } from "@/components/clients/client-parts";
+import { ClientTags } from "@/components/clients/client-tags";
 import { ControlsZone } from "@/components/properties/property-controls";
 import type { Client } from "@/lib/api/clients";
 import { useFormat } from "@/i18n/format";
@@ -66,6 +67,7 @@ export function ClientCard({ client, actions }: { client: Client; actions: Clien
             {client.name}
           </h3>
           <ClientStagePill stage={client.stage} className="self-start" />
+          <ClientTags tags={client.tags} className="mt-0.5" />
         </div>
         <ControlsZone className="opacity-0 transition-opacity duration-200 group-focus-within:opacity-100 group-hover:opacity-100 [@media(hover:none)]:opacity-100">
           <ClientMenu client={client} actions={actions} />
@@ -111,6 +113,7 @@ export function ClientRow({ client, actions }: { client: Client; actions: Client
             {client.name}
           </h3>
           <span className="text-xs text-muted-foreground">{labels.clientSource(client.source)}</span>
+          <ClientTags tags={client.tags} max={2} />
         </div>
       </div>
 
@@ -142,11 +145,12 @@ export function ClientsTable({ clients, actions }: { clients: Client[]; actions:
 
   return (
     <div className="overflow-x-auto rounded-2xl bg-card shadow-[0_1px_2px_oklch(0.3_0.05_160/0.04),0_12px_32px_-12px_oklch(0.3_0.05_160/0.14)] ring-1 ring-foreground/5">
-      <table className="w-full min-w-[820px] border-collapse text-sm">
+      <table className="w-full min-w-[960px] border-collapse text-sm">
         <thead>
           <tr>
             <th className={cn(HEAD, "pl-4")}>{t("client")}</th>
             <th className={HEAD}>{t("stage")}</th>
+            <th className={HEAD}>{t("tags")}</th>
             <th className={HEAD}>{t("phone")}</th>
             <th className={HEAD}>{t("source")}</th>
             <th className={HEAD}>{t("lastMove")}</th>
@@ -179,6 +183,9 @@ export function ClientsTable({ clients, actions }: { clients: Client[]; actions:
               </td>
               <td className="px-4 py-3">
                 <ClientStagePill stage={client.stage} />
+              </td>
+              <td className="px-4 py-3">
+                {client.tags.length > 0 ? <ClientTags tags={client.tags} max={2} className="flex-nowrap" /> : <span className="text-muted-foreground">—</span>}
               </td>
               <td className="px-4 py-3 whitespace-nowrap text-muted-foreground tabular-nums">{client.phone ?? "—"}</td>
               <td className="px-4 py-3 whitespace-nowrap text-muted-foreground">{labels.clientSource(client.source)}</td>

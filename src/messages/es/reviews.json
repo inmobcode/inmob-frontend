@@ -1,0 +1,59 @@
+{
+  "reviews": {
+    "title": "Reseñas",
+    "help": "Ayuda con reseñas",
+    "show": "Mostrar",
+    "add": "Agregar reseña",
+    "managersOnly": "Las reseñas se publican en el sitio de la agencia, así que las moderan propietarios y administradores.",
+    "loadFailed": "No pudimos cargar las reseñas",
+    "published": "Reseña publicada en tu sitio",
+    "hidden": "Reseña oculta",
+    "deleted": "Reseña eliminada",
+    "emptyBody": "Cuando completes una reserva, el huésped recibe un email para dejar su reseña. También podés cargar las que recibiste en otros canales.",
+    "empty": {
+      "PENDING": "No hay reseñas para revisar",
+      "PUBLISHED": "Todavía no publicaste reseñas",
+      "HIDDEN": "No hay reseñas ocultas",
+      "ALL": "Todavía no hay reseñas"
+    },
+    "filters": {
+      "PENDING": "Para revisar",
+      "PUBLISHED": "Publicadas",
+      "HIDDEN": "Ocultas",
+      "ALL": "Todas"
+    },
+    "status": {
+      "PENDING": "Pendiente",
+      "PUBLISHED": "Publicada",
+      "HIDDEN": "Oculta"
+    },
+    "source": {
+      "GUEST": "Del huésped",
+      "MANUAL": "Cargada por la agencia"
+    },
+    "outOf": "{rating} de 5 estrellas",
+    "noText": "Sin comentario, solo la puntuación.",
+    "noProperty": "Sin propiedad",
+    "stayed": "estadía de {date}",
+    "publish": "Publicar",
+    "hide": "Ocultar",
+    "dontPublish": "No publicar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "deleteTitle": "¿Eliminar la reseña?",
+    "deleteBody": "La reseña de {name} se borra para siempre. Si solo no querés mostrarla, ocultala.",
+    "dialog": {
+      "newTitle": "Agregar reseña",
+      "editTitle": "Editar reseña",
+      "description": "Una reseña que recibiste en otro canal (Airbnb, Google, un email). Se publica en tu sitio al guardarla.",
+      "rating": "Puntuación",
+      "stars": "{count, plural, one {# estrella} other {# estrellas}}",
+      "author": "Nombre",
+      "authorPlaceholder": "Ej: Lucía F.",
+      "property": "Propiedad",
+      "text": "Lo que escribió",
+      "stayedOn": "Cuándo fue la estadía",
+      "publish": "Publicar"
+    }
+  }
+}

@@ -418,7 +418,31 @@
       "perNight": "{price}/noche",
       "minNights": "{count, plural, one {mín. # noche} other {mín. # noches}}",
       "remove": "Quitar",
-      "empty": "Todavía no hay períodos de tarifa."
+      "empty": "Todavía no hay períodos de tarifa.",
+      "seasonsTitle": "Temporadas",
+      "seasonsDescription": "Precios por noche para fechas puntuales. Pueden pedir una estadía mínima mayor.",
+      "rules": {
+        "title": "Reglas de precio",
+        "description": "Se aplican todo el año sobre el precio por noche y se guardan con «Guardar». Las ves en la ficha pública y en el precio de cada reserva.",
+        "minStay": "Estadía mínima",
+        "nights": "noches",
+        "weekly": "Descuento por semana (7+ noches)",
+        "monthly": "Descuento por mes (28+ noches)",
+        "lastMinute": "Último momento",
+        "lastMinuteDays": "Días antes de la llegada",
+        "within": "si la llegada es dentro de",
+        "days": "días",
+        "earlyBird": "Reserva anticipada",
+        "earlyBirdDays": "Días de anticipación",
+        "from": "reservando con",
+        "daysAhead": "días o más de anticipación",
+        "hint": "Se aplica primero el descuento por duración (el mensual reemplaza al semanal) y después uno solo por fecha de reserva: el mayor de los dos si coinciden. Dejá vacío lo que no uses."
+      },
+      "try": {
+        "title": "Probar precio",
+        "description": "Elegí fechas y mirá cuánto sale con las tarifas y reglas guardadas, igual que lo ve el cliente.",
+        "pickDates": "Elegí las fechas"
+      }
     },
     "availability": {
       "blockFailed": "No se pudo bloquear la fecha",

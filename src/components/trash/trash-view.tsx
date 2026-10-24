@@ -2,7 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { differenceInCalendarDays } from "date-fns";
-import { Building2, RotateCcw, Trash2 } from "lucide-react";
+import { Building2, RotateCcw, Trash2, type LucideIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -58,6 +58,7 @@ export function TrashView<T>({
   restore,
   deleteForever,
   toItem,
+  icon: Icon = Building2,
 }: {
   title: string;
   /** The toast after restoring one: "Restauraste la oferta". */
@@ -70,6 +71,8 @@ export function TrashView<T>({
   restore: (token: string, id: string) => Promise<unknown>;
   deleteForever: (token: string, id: string) => Promise<unknown>;
   toItem: (item: T) => TrashItem;
+  /** Shown in place of a picture, for items without one. */
+  icon?: LucideIcon;
 }) {
   const t = useTranslations("trash");
   const common = useTranslations("common");
@@ -149,7 +152,7 @@ export function TrashView<T>({
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={sizedImage(item.imageUrl, IMAGE_WIDTH.thumb)} alt="" className="size-full object-cover" />
                   ) : (
-                    <Building2 className="size-5" strokeWidth={1.5} />
+                    <Icon className="size-5" strokeWidth={1.5} />
                   )}
                 </span>
                 <div className="flex min-w-0 flex-1 flex-col gap-0.5">

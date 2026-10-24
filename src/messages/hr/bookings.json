@@ -26,7 +26,8 @@
       "total": "Ukupno",
       "collected": "Naplaćeno",
       "updated": "Ažurirano",
-      "actions": "Radnje"
+      "actions": "Radnje",
+      "guests": "{count, plural, one {# gost} few {# gosta} other {# gostiju}}"
     },
     "detail": {
       "clientPage": "Stranica klijenta",
@@ -64,15 +65,39 @@
       "complete": "Označi kao završenu",
       "cancel": "Otkaži rezervaciju",
       "cancelTitle": "Otkazati ovu rezervaciju?",
-      "cancelBody": "Datumi se oslobađaju, a rezervacija se označava kao otkazana. Već evidentirane uplate ne brišu se."
+      "cancelBody": "Datumi se oslobađaju, a rezervacija se označava kao otkazana. Već evidentirane uplate ne brišu se.",
+      "details": "Pojedinosti",
+      "detailsDescription": "Koliko osoba dolazi i što vaš tim treba znati. Klijent ne vidi bilješke.",
+      "guests": "Gosti",
+      "guestsCount": "{count, plural, one {# gost} few {# gosta} other {# gostiju}}",
+      "notes": "Interne bilješke",
+      "notesPlaceholder": "Npr. kasni dolazak, trebaju krevetić",
+      "paymentPending": "Plaćanje je označeno kao na čekanju",
+      "paymentDeleted": "Plaćanje je izbrisano",
+      "paymentDeleteFailed": "Plaćanje nije moguće izbrisati",
+      "paymentActions": "Radnje plaćanja",
+      "editPayment": "Uredi",
+      "markPending": "Označi kao na čekanju",
+      "deletePayment": "Izbriši plaćanje",
+      "deletePaymentTitle": "Izbrisati plaćanje?",
+      "deletePaymentBody": "Plaćanje od {amount} trajno se briše, i iz izvoda vlasnika.",
+      "receipt": "Potvrda za klijenta"
     },
     "payment": {
       "add": "Dodaj uplatu",
-      "description": "Ostaje na čekanju dok je ne označite kao naplaćenu.",
+      "description": "Evidentirajte očekivano ili već naplaćeno plaćanje.",
       "type": "Vrsta",
       "typeLabel": "Vrsta uplate",
       "amount": "Iznos",
-      "save": "Spremi uplatu"
+      "save": "Spremi uplatu",
+      "edit": "Uredi plaćanje",
+      "method": "Način plaćanja",
+      "methodPlaceholder": "Npr. uplata, gotovina, kartica",
+      "collected": "Već naplaćeno",
+      "collectedOn": "Naplaćeno dana",
+      "note": "Bilješka",
+      "internal": "(samo za vaš tim)",
+      "notePlaceholder": "Npr. uplata br. 0042"
     },
     "create": {
       "new": "Nova rezervacija",
@@ -84,7 +109,11 @@
       "rentalsOnly": "(samo najam)",
       "totalPrice": "Ukupna cijena",
       "commission": "Provizija",
-      "submit": "Izradi rezervaciju"
+      "submit": "Izradi rezervaciju",
+      "guests": "Gosti",
+      "minStay": "{count, plural, one {Za ove datume potrebno je najmanje # noćenje.} few {Za ove datume potrebna su najmanje # noćenja.} other {Za ove datume potrebno je najmanje # noćenja.}}",
+      "unavailable": "Neka od ovih noćenja već su zauzeta.",
+      "quoted": "Cijena izračunata prema cijenama i pravilima nekretnine."
     },
     "list": {
       "statusPlural": {
@@ -111,10 +140,22 @@
       "emptyTitle": "Još nema rezervacija",
       "emptyBody": "Unesite prvu da na jednom mjestu pratite datume, uplate i proviziju.",
       "emptyHelp": "Kako unijeti rezervaciju i njezine uplate",
-      "noMatchBody": "Pokušajte s drugim imenom ili uklonite filtar statusa.",
+      "noMatchBody": "Pokušajte s drugom pretragom ili uklonite filtre.",
       "cancelTitle": "Otkazati ovu rezervaciju?",
       "cancelBody": "Datumi se oslobađaju, a rezervacija se označava kao otkazana. Već evidentirane uplate ne brišu se.",
-      "cancel": "Otkaži rezervaciju"
+      "cancel": "Otkaži rezervaciju",
+      "paymentState": {
+        "UNPAID": "Nenaplaćene",
+        "PARTIAL": "Djelomično plaćene",
+        "PAID": "Plaćene"
+      },
+      "payment": "Plaćanje",
+      "paymentStates": "stanja plaćanja",
+      "property": "Nekretnina",
+      "properties": "nekretnine",
+      "dates": "Datumi",
+      "datesHintFirst": "Odaberite prvi dan",
+      "datesHintSecond": "Sada zadnji dan"
     }
   }
 }

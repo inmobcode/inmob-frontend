@@ -6,7 +6,8 @@
       "changeStage": "Cambiar etapa",
       "email": "Enviar email",
       "call": "Llamar",
-      "copyEmail": "Copiar email"
+      "copyEmail": "Copiar email",
+      "delete": "Mover a la papelera"
     },
     "views": {
       "noPhone": "Sin teléfono",
@@ -17,7 +18,8 @@
       "phone": "Teléfono",
       "source": "Origen",
       "lastMove": "Último movimiento",
-      "actions": "Acciones"
+      "actions": "Acciones",
+      "tags": "Etiquetas"
     },
     "detail": {
       "logFailed": "No se pudo registrar",
@@ -26,7 +28,7 @@
       "list": "Clientes",
       "clientSince": "cliente desde el {date}",
       "notes": "Notas",
-      "notesDescription": "Lo que conviene recordar: qué busca, presupuesto, preferencias.",
+      "notesDescription": "Lo que conviene recordar y no entra en «Qué busca».",
       "notesLabel": "Notas del cliente",
       "notesPlaceholder": "Todavía no hay notas.",
       "saveNotes": "Guardar notas",
@@ -54,7 +56,14 @@
       "ownerGone": "Asignado a alguien que ya no está en el equipo.",
       "contact": "Contacto",
       "noPhone": "Sin teléfono",
-      "updated": "Actualizado {ago}"
+      "updated": "Actualizado {ago}",
+      "preferences": "Qué busca",
+      "preferencesDescription": "Presupuesto, cuántas personas, dónde y cuándo. Sirve para elegir qué ofrecerle.",
+      "tags": "Etiquetas",
+      "delete": "Mover a la papelera",
+      "trashed": "Cliente movido a la papelera",
+      "restoreFailed": "No se pudo restaurar el cliente",
+      "deleteFailed": "No se pudo eliminar el cliente"
     },
     "create": {
       "new": "Nuevo cliente",
@@ -87,7 +96,52 @@
       "emptyTitle": "Todavía no tenés clientes",
       "emptyBody": "Las consultas del portal y de las ofertas aparecen acá solas. También podés cargar uno a mano.",
       "emptyHelp": "Cómo seguir a un cliente por etapas",
-      "noMatchBody": "Probá con otro nombre o quitá el filtro de etapa."
+      "noMatchBody": "Probá con otro nombre o quitá los filtros.",
+      "tag": "Etiqueta",
+      "tagsPlural": "etiquetas",
+      "trashed": "Cliente movido a la papelera",
+      "restoreFailed": "No se pudo restaurar el cliente",
+      "deleteFailed": "No se pudo eliminar el cliente"
+    },
+    "tags": {
+      "add": "Agregar etiqueta",
+      "placeholder": "Ej: VIP, inversor, verano",
+      "full": "Llegaste al máximo de {max} etiquetas.",
+      "suggestions": "Etiquetas que ya usás"
+    },
+    "preferences": {
+      "budgetMin": "Presupuesto desde",
+      "budgetMax": "Presupuesto hasta",
+      "budgetCrossed": "El mínimo no puede ser mayor que el máximo.",
+      "guests": "Personas",
+      "dates": "Fechas",
+      "datesPlaceholder": "Cuándo",
+      "zones": "Zonas",
+      "zonesPlaceholder": "Ej: Centro, cerca de la playa",
+      "save": "Guardar",
+      "discard": "Descartar"
+    },
+    "export": {
+      "label": "Exportar a CSV",
+      "filename": "clientes",
+      "done": "{count, plural, one {Exportaste # cliente} other {Exportaste # clientes}}",
+      "columns": {
+        "name": "Nombre",
+        "email": "Email",
+        "phone": "Teléfono",
+        "stage": "Etapa",
+        "source": "Origen",
+        "tags": "Etiquetas",
+        "budgetMin": "Presupuesto desde",
+        "budgetMax": "Presupuesto hasta",
+        "guests": "Personas",
+        "zones": "Zonas",
+        "desiredFrom": "Desde",
+        "desiredTo": "Hasta",
+        "owner": "Responsable",
+        "notes": "Notas",
+        "createdAt": "Alta"
+      }
     }
   },
   "tasks": {

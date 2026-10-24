@@ -39,7 +39,9 @@
       "collapse": "Sažmi",
       "openMenu": "Otvori izbornik",
       "menu": "Izbornik",
-      "mainNav": "Glavna navigacija"
+      "mainNav": "Glavna navigacija",
+      "reports": "Izvješća",
+      "reviews": "Recenzije"
     },
     "assignee": {
       "label": "Odgovorna osoba",
@@ -80,7 +82,8 @@
         "team": "Tim",
         "portal": "Web-stranica",
         "settings": "Postavke",
-        "profile": "Moj profil"
+        "profile": "Moj profil",
+        "reports": "Izvješća"
       },
       "help": {
         "general": "Općenito",
@@ -145,7 +148,9 @@
         "offerViewedAnon": "Vaš klijent je otvorio ponudu",
         "payment": "Evidentirana uplata: {amount}",
         "task": "Dodijeljen vam je zadatak",
-        "taskDue": "{title} · do {date}"
+        "taskDue": "{title} · do {date}",
+        "client": "Dodijeljen vam je klijent",
+        "review": "{name} je ostavio/la recenziju s {rating} zvjezdica"
       }
     }
   }

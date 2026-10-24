@@ -9,7 +9,7 @@ import type { ServiceType, ServiceUnit } from "@/lib/api/services";
 export const LISTING_TYPES: ListingType[] = ["SALE", "RENT"];
 export const PROPERTY_STATUSES: PropertyStatus[] = ["DRAFT", "PUBLISHED", "ARCHIVED"];
 export const OFFER_OPERATIONS: OfferOperation[] = ["SALE", "RENT", "BOTH"];
-export const OFFER_STATUSES: OfferStatus[] = ["DRAFT", "SENT", "VIEWED", "EXPIRED"];
+export const OFFER_STATUSES: OfferStatus[] = ["DRAFT", "SENT", "VIEWED", "ACCEPTED", "EXPIRED"];
 export const DISCOUNT_TYPES: DiscountType[] = ["NONE", "PERCENT", "FIXED"];
 export const CLIENT_STAGES: ClientStage[] = ["LEAD", "CONTACTED", "NEGOTIATING", "CLIENT", "LOST"];
 export const BOOKING_STATUSES_ORDER: BookingStatus[] = ["PENDING", "CONFIRMED", "CANCELLED", "COMPLETED"];

@@ -6,6 +6,7 @@ import {
   Building2,
   CalendarCheck,
   CalendarDays,
+  ChartColumn,
   CornerDownLeft,
   FileText,
   Globe,
@@ -45,8 +46,8 @@ import { cn } from "@/lib/utils";
 
 // The docs and login live outside the agency-scoped dashboard tree.
 const BARE_PATHS = new Set(["/docs", "/login"]);
-// Equipo, Configuración and Portal are OWNER/ADMIN territory — see sidebar.tsx.
-const RESTRICTED_PATHS = new Set(["/team", "/settings", "/portal"]);
+// Reportes, Equipo, Configuración and Portal are OWNER/ADMIN territory — see sidebar.tsx.
+const RESTRICTED_PATHS = new Set(["/reports", "/team", "/settings", "/portal"]);
 
 export const OPEN_SHORTCUTS_EVENT = "open-shortcuts";
 export const OPEN_PALETTE_EVENT = "open-palette";
@@ -63,6 +64,7 @@ const GO_TO: Record<string, { path: string; label: string }> = {
   i: { path: "/inquiries", label: "inquiries" },
   r: { path: "/bookings", label: "bookings" },
   d: { path: "/availability", label: "availability" },
+  t: { path: "/reports", label: "reports" },
   e: { path: "/team", label: "team" },
   w: { path: "/portal", label: "portal" },
   s: { path: "/settings", label: "settings" },
@@ -249,6 +251,14 @@ function CommandPalette({
         run: go("/availability"),
       },
       {
+        id: "go-reports",
+        group: t("groups.go"),
+        label: t("go.reports"),
+        hint: "G T",
+        icon: ChartColumn,
+        run: go("/reports"),
+      },
+      {
         id: "go-team",
         group: t("groups.go"),
         label: t("go.team"),
@@ -382,6 +392,7 @@ function CommandPalette({
     ];
 
     const RESTRICTED_COMMANDS = new Set([
+      "go-reports",
       "go-team",
       "go-portal",
       "go-settings",

@@ -1,0 +1,83 @@
+{
+  "reports": {
+    "title": "Rapports",
+    "help": "Aide sur les rapports",
+    "period": "Période",
+    "currency": "Devise",
+    "loadFailed": "Impossible de charger les rapports",
+    "managersOnly": "Les rapports montrent l’argent de l’agence et les résultats de toute l’équipe : seuls les titulaires et administrateurs les voient.",
+    "emptyTitle": "Aucune activité sur cette période",
+    "emptyBody": "Dès que vous confirmez des réservations, enregistrez des paiements ou recevez des demandes, les chiffres apparaissent ici. Essayez une période plus longue.",
+    "periods": {
+      "3m": "3 mois",
+      "6m": "6 mois",
+      "12m": "12 mois",
+      "year": "Cette année",
+      "lastYear": "L’an dernier"
+    },
+    "kpi": {
+      "booked": "Réservé",
+      "bookedHint": "{count, plural, one {# réservation confirmée} other {# réservations confirmées}}",
+      "collected": "Encaissé",
+      "collectedHint": "Paiements clients marqués comme encaissés",
+      "commission": "Commission",
+      "commissionHint": "Sur les réservations confirmées",
+      "occupancy": "Occupation",
+      "occupancyHint": "Nuits occupées de vos locations",
+      "conversion": "Conversion",
+      "conversionHint": "{booked} sur {clients} personnes ayant écrit ont réservé"
+    },
+    "money": {
+      "title": "Revenus par mois",
+      "description": "Le réservé compte au mois d’arrivée (une vente, au mois de sa création) ; l’encaissé, au mois du paiement.",
+      "asTable": "Voir le tableau",
+      "asChart": "Voir le graphique",
+      "month": "Mois",
+      "booked": "Réservé",
+      "collected": "Encaissé",
+      "commission": "Commission",
+      "bookings": "Réservations",
+      "chartLabel": "Réservé et encaissé par mois, en {currency}",
+      "monthSummary": "{month} : réservé {booked}, encaissé {collected}"
+    },
+    "occupancy": {
+      "title": "Occupation par bien",
+      "description": "Nuits occupées (réservations ou iCal) sur les nuits disponibles. Les nuits bloquées à la main ne comptent pas comme disponibles.",
+      "empty": "Vous n’avez pas de biens en location.",
+      "nights": "{taken} nuits sur {available}",
+      "external": "{count} via iCal",
+      "blocked": "{count} bloquées"
+    },
+    "conversion": {
+      "title": "De la demande à la réservation",
+      "description": "Les personnes qui ont écrit sur la période et ce qui a suivi.",
+      "steps": {
+        "inquiries": "Demandes",
+        "clients": "Personnes",
+        "offered": "Ont reçu une offre",
+        "booked": "Ont réservé"
+      },
+      "ofPeople": "{share} des personnes",
+      "source": "Origine",
+      "rate": "Conversion",
+      "types": {
+        "PROPERTY": "Fiche d’un bien",
+        "OFFER": "Une offre",
+        "GENERAL": "Contact du site"
+      },
+      "replies": "{count, plural, one {# demande traitée depuis le tableau de bord} other {# demandes traitées depuis le tableau de bord}} ; la moitié en moins de {hours} h.",
+      "noReplies": "Aucune demande traitée depuis le tableau de bord sur cette période."
+    },
+    "team": {
+      "title": "Résultats par personne",
+      "description": "Clients attribués sur la période, offres envoyées et réservations confirmées créées par chacun. Montants en {currency}.",
+      "member": "Personne",
+      "clients": "Nouveaux clients",
+      "offers": "Offres envoyées",
+      "bookings": "Réservations",
+      "booked": "Réservé",
+      "commission": "Commission",
+      "inactive": "sans accès"
+    }
+  }
+}

@@ -40,6 +40,8 @@
   --color-chart-3: var(--chart-3);
   --color-chart-2: var(--chart-2);
   --color-chart-1: var(--chart-1);
+  --color-report-booked: var(--report-booked);
+  --color-report-collected: var(--report-collected);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -94,6 +96,10 @@
   --chart-3: oklch(0.72 0.14 135);
   --chart-4: oklch(0.8 0.1 95);
   --chart-5: oklch(0.6 0.08 60);
+  /* Reports: booked vs collected. Checked for color blindness against the card
+     (dataviz validate_palette.js); stepped separately for dark below. */
+  --report-booked: #00704a;
+  --report-collected: #d78a3f;
   --radius: 0.625rem;
   --sidebar: oklch(0.91 0.022 105);
   --sidebar-foreground: oklch(0.225 0.028 160);
@@ -131,6 +137,8 @@
   --chart-3: oklch(0.82 0.16 130);
   --chart-4: oklch(0.82 0.09 95);
   --chart-5: oklch(0.68 0.09 60);
+  --report-booked: #11805a;
+  --report-collected: #cc7b24;
   --sidebar: oklch(0.135 0.018 165);
   --sidebar-foreground: oklch(0.95 0.012 100);
   --sidebar-primary: oklch(0.38 0.07 162);

@@ -1,0 +1,59 @@
+{
+  "reviews": {
+    "title": "Recensioni",
+    "help": "Aiuto sulle recensioni",
+    "show": "Mostra",
+    "add": "Aggiungi recensione",
+    "managersOnly": "Le recensioni vanno sul sito dell’agenzia, quindi le moderano titolari e amministratori.",
+    "loadFailed": "Impossibile caricare le recensioni",
+    "published": "Recensione pubblicata sul tuo sito",
+    "hidden": "Recensione nascosta",
+    "deleted": "Recensione eliminata",
+    "emptyBody": "Quando completi una prenotazione, l’ospite riceve un’email per lasciare la recensione. Puoi anche aggiungere quelle ricevute su altri canali.",
+    "empty": {
+      "PENDING": "Nessuna recensione da controllare",
+      "PUBLISHED": "Ancora nessuna recensione pubblicata",
+      "HIDDEN": "Nessuna recensione nascosta",
+      "ALL": "Ancora nessuna recensione"
+    },
+    "filters": {
+      "PENDING": "Da controllare",
+      "PUBLISHED": "Pubblicate",
+      "HIDDEN": "Nascoste",
+      "ALL": "Tutte"
+    },
+    "status": {
+      "PENDING": "In attesa",
+      "PUBLISHED": "Pubblicata",
+      "HIDDEN": "Nascosta"
+    },
+    "source": {
+      "GUEST": "Dall’ospite",
+      "MANUAL": "Aggiunta dall’agenzia"
+    },
+    "outOf": "{rating} su 5 stelle",
+    "noText": "Nessun commento, solo il voto.",
+    "noProperty": "Senza immobile",
+    "stayed": "soggiorno di {date}",
+    "publish": "Pubblica",
+    "hide": "Nascondi",
+    "dontPublish": "Non pubblicare",
+    "edit": "Modifica",
+    "delete": "Elimina",
+    "deleteTitle": "Eliminare la recensione?",
+    "deleteBody": "La recensione di {name} viene eliminata per sempre. Se non vuoi solo mostrarla, nascondila.",
+    "dialog": {
+      "newTitle": "Aggiungi recensione",
+      "editTitle": "Modifica recensione",
+      "description": "Una recensione ricevuta su un altro canale (Airbnb, Google, un’email). Viene pubblicata sul tuo sito al salvataggio.",
+      "rating": "Voto",
+      "stars": "{count, plural, one {# stella} other {# stelle}}",
+      "author": "Nome",
+      "authorPlaceholder": "Es.: Lucía F.",
+      "property": "Immobile",
+      "text": "Cosa ha scritto",
+      "stayedOn": "Quando è stato il soggiorno",
+      "publish": "Pubblica"
+    }
+  }
+}

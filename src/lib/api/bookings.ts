@@ -15,6 +15,8 @@ export interface Payment {
   status: PaymentStatus;
   paidAt: string | null;
   method: string | null;
+  /** For the team only, e.g. "transfer 0042". */
+  note: string | null;
   createdAt: string;
 }
 
@@ -34,6 +36,9 @@ export interface Booking {
   totalPrice: number | null;
   currency: string;
   commissionAmount: number | null;
+  guests: number | null;
+  /** For the team only: never on the client's page or receipt. */
+  notes: string | null;
   payments?: Payment[];
   createdAt: string;
   updatedAt: string;
@@ -50,6 +55,8 @@ export interface CreateBookingPayload {
   totalPrice?: number;
   currency?: string;
   commissionAmount?: number;
+  guests?: number;
+  notes?: string;
 }
 
 export function listBookings(token: string) {
@@ -107,16 +114,29 @@ export function completeBooking(token: string, id: string) {
   });
 }
 
-export function addPayment(
+export function updateBooking(
   token: string,
-  bookingId: string,
-  payload: {
-    amount: number;
-    type: PaymentType;
-    currency?: string;
-    method?: string;
-  },
+  id: string,
+  payload: Partial<Pick<Booking, "guests" | "notes" | "clientId" | "totalPrice" | "commissionAmount">>,
 ) {
+  return apiFetch<Booking>(`/api/bookings/${id}`, {
+    method: "PATCH",
+    token,
+    body: JSON.stringify(payload),
+  });
+}
+
+/** What a payment form sends. `paidAt` only counts with status PAID (it defaults to now). */
+export interface PaymentPayload {
+  amount: number;
+  type: PaymentType;
+  status?: PaymentStatus;
+  paidAt?: string | null;
+  method?: string | null;
+  note?: string | null;
+}
+
+export function addPayment(token: string, bookingId: string, payload: PaymentPayload & { currency?: string }) {
   return apiFetch<Payment>(`/api/bookings/${bookingId}/payments`, {
     method: "POST",
     token,
@@ -138,8 +158,23 @@ export function markPaymentPaid(
   );
 }
 
-/** What the client sees at /booking/<token>: no commission, only their own payments. */
+export function updatePayment(token: string, bookingId: string, paymentId: string, payload: Partial<PaymentPayload>) {
+  return apiFetch<Payment>(`/api/bookings/${bookingId}/payments/${paymentId}`, {
+    method: "PATCH",
+    token,
+    body: JSON.stringify(payload),
+  });
+}
+
+export function deletePayment(token: string, bookingId: string, paymentId: string) {
+  return apiFetch<void>(`/api/bookings/${bookingId}/payments/${paymentId}`, { method: "DELETE", token });
+}
+
+/** What the client sees at /booking/<token>: no commission, no notes, only their own payments. */
 export interface PublicBooking {
+  /** Short code printed on the receipt. */
+  reference: string;
+  guests: number | null;
   status: BookingStatus;
   startDate: string | null;
   endDate: string | null;
@@ -147,9 +182,20 @@ export interface PublicBooking {
   currency: string;
   clientName: string | null;
   createdAt: string;
-  payments: Pick<Payment, "amount" | "currency" | "type" | "status" | "paidAt">[];
+  payments: Pick<Payment, "amount" | "currency" | "type" | "status" | "paidAt" | "method">[];
   property: Property & { published: boolean };
   agency: PublicAgency & { slug: string };
+  /** What the guest wrote, once they did; null before. */
+  review: { rating: number; text: string | null; status: "PENDING" | "PUBLISHED" | "HIDDEN" } | null;
+  /** The stay is over and there's no review yet. */
+  canReview: boolean;
+}
+
+export function submitGuestReview(token: string, payload: { rating: number; text?: string; authorName?: string }) {
+  return apiFetch<PublicBooking>(`/api/public/bookings/${token}/review`, {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
 }
 
 export function getPublicBooking(token: string) {

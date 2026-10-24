@@ -2,11 +2,13 @@ import {
   Building2,
   CalendarCheck,
   CalendarDays,
+  ChartColumn,
   Compass,
   Eye,
   Globe,
   Inbox,
   Keyboard,
+  MessageSquareQuote,
   KeyRound,
   Settings,
   Sparkles,
@@ -154,7 +156,11 @@ function Basics() {
           ],
           [
             "Cestino",
-            "Ciò che elimini da Immobili, Offerte e Prenotazioni va nel cestino, non sparisce. Resta lì 30 giorni nel caso ci ripensi; poi viene cancellato definitivamente. Quando elimini, l’avviso in basso offre «Annulla».",
+            "Ciò che elimini da Immobili, Offerte, Prenotazioni, Clienti e Richieste va nel cestino, non sparisce. Resta lì 30 giorni nel caso ci ripensi; poi viene cancellato definitivamente. Quando elimini, l’avviso in basso offre «Annulla».",
+          ],
+          [
+            "Cronologia",
+            "In immobili, offerte e prenotazioni, il pulsante «Cronologia» mostra chi ha cambiato cosa e quando: il prezzo da 100 a 120, lo stato, le foto, i pagamenti. Ciò che fa il cliente da un link (aprire un’offerta, scrivere) appare come «Il cliente o il sistema».",
           ],
           [
             "«Visibile sul sito» / «Solo interno»",
@@ -169,7 +175,7 @@ function Basics() {
 
       <DocH3>Il cestino</DocH3>
       <DocP>
-        Si apre dall’icona del cestino, nella barra di Immobili, Offerte e Prenotazioni. Un numero sull’icona indica
+        Si apre dall’icona del cestino, nella barra di Immobili, Offerte, Prenotazioni e Clienti; in Richieste compare solo quando c’è qualcosa dentro. Un numero sull’icona indica
         quanti elementi contiene.
       </DocP>
       <DocFigure
@@ -232,13 +238,34 @@ function Inquiries() {
         <li>Aprendo una richiesta, viene segnata come letta. La busta in alto a destra la segna di nuovo come nuova.</li>
         <li>Quelle di un cliente che hai già mostrano la sua fase (Lead, Contattato…) accanto al nome.</li>
         <li>
-          Rispondi con un clic: <strong>Rispondi via email</strong> (con oggetto e saluto già scritti),{" "}
-          <strong>WhatsApp</strong> (con un messaggio che nomina ciò che ha chiesto) o <strong>Chiama</strong>. WhatsApp e
-          Chiama compaiono se ha lasciato un telefono. L’icona accanto all’email la copia.
+          <strong>Rispondi</strong> apre il messaggio lì stesso, con oggetto e saluto già scritti. Parte via email con
+          il nome della tua agenzia, resta nella cronologia del cliente e la richiesta mostra chi ha risposto e quando.
+          Se il cliente risponde, arriva all’email di contatto delle Impostazioni (o alla tua).
+        </li>
+        <li>
+          <strong>WhatsApp</strong> (con un messaggio che nomina ciò che ha chiesto) e <strong>Chiama</strong> compaiono
+          se ha lasciato un telefono. L’icona accanto all’email la copia.
+        </li>
+        <li>
+          <strong>Responsabile:</strong> titolari e amministratori scelgono chi la segue (è il responsabile del cliente,
+          che riceve un avviso nella campanella). Un agente può fare clic su «Prendila tu» se nessuno ce l’ha.
+        </li>
+        <li>
+          <strong>Archivia</strong> (la scatola in alto a destra) la toglie dalla posta in arrivo senza eliminarla:
+          resta nella scheda «Archiviate», da cui può tornare. Il cestino ce la sposta; il cliente e la sua cronologia
+          restano intatti. Entrambe le azioni offrono «Annulla».
         </li>
         <li>Fai clic sull’immobile o sull’offerta per aprirli nel pannello, o su «Vedi cliente» per andare alla sua scheda.</li>
         <li>La casella si aggiorna da sola ogni minuto.</li>
       </DocList>
+
+      <DocH3>Modelli di risposta</DocH3>
+      <DocP>
+        Per le domande più frequenti, salva un modello: rispondendo, fai clic su «Modelli» e poi su «Nuovo modello», con
+        un nome, un oggetto facoltativo e il testo. I pulsanti sotto inseriscono dati che si compilano da soli: nome di
+        battesimo, nome completo, immobile o offerta, la tua agenzia e il tuo nome. Sceglilo in «Usa un modello» e
+        sistema quello che serve prima di inviare. Lo condivide tutto il team.
+      </DocP>
       <DocTip>
         Se non è ancora arrivata nessuna richiesta, condividi il link del tuo sito: il modulo di contatto e quello di ogni
         scheda arrivano qui.
@@ -292,7 +319,7 @@ function Clients() {
       />
       <DocP>
         Cambia la fase dal menu <strong>⋯</strong> di ogni cliente («Cambia fase») o dalla sua scheda. Nello stesso menu
-        puoi vedere la scheda, inviargli un’email, chiamarlo o copiarne l’email.
+        puoi vedere la scheda, inviargli un’email, chiamarlo, copiarne l’email o spostarlo nel cestino.
       </DocP>
 
       <DocH3>La scheda del cliente</DocH3>
@@ -313,7 +340,7 @@ function Clients() {
         items={[
           [
             "Note",
-            "Cosa conviene ricordare: cosa cerca, budget, preferenze. Supporta titoli, grassetto, elenchi e link. Quando modifichi qualcosa compare «Salva note».",
+            "Cosa conviene ricordare che non rientra in «Cosa cerca». Supporta titoli, grassetto, elenchi e link. Quando modifichi qualcosa compare «Salva note».",
           ],
           [
             "Attività",
@@ -329,12 +356,32 @@ function Clients() {
             "L’agente che segue il cliente. Titolari e amministratori lo scelgono dall’elenco del team; un agente può fare clic su «Prendilo tu» su un lead senza responsabile.",
           ],
           ["Contatto", "La sua email e il suo telefono, a un clic per scrivergli o chiamarlo."],
+          [
+            "Cosa cerca",
+            "Budget (nella valuta della tua agenzia), quante persone, zone e date. Lo vede solo il tuo team. Quando modifichi qualcosa compare «Salva».",
+          ],
+          [
+            "Etichette",
+            "I tuoi segni per raggruppare i clienti: «VIP», «investitore», «estate 2027». Scrivine una e premi Invio o una virgola; sotto ti suggeriamo quelle che usi già. Si salvano subito e servono a filtrare l’elenco.",
+          ],
+          [
+            "Sposta nel cestino",
+            "In fondo al pannello a destra, o dal menu ⋯ dell’elenco. Le sue offerte, prenotazioni e la cronologia restano come sono. Se ti riscrive dal portale, esce da solo dal cestino. Finché è lì non puoi creare un altro cliente con la sua email: ripristinalo. Un cliente con prenotazioni non si può eliminare definitivamente.",
+          ],
         ]}
       />
       <DocTip>
         Le attività eliminate non vanno nel cestino: spariscono subito. Se l’hai solo completata, meglio spuntarla come
         fatta.
       </DocTip>
+
+      <DocH3>Esporta in CSV</DocH3>
+      <DocP>
+        Il pulsante con la freccia in giù, nella barra dell’elenco, scarica i clienti che stai vedendo (con la ricerca e
+        i filtri applicati) in un file CSV che si apre con Excel, Google Sheets o Numbers: contatti, fase, origine,
+        etichette, cosa cerca, note e data di inserimento. Titolari e amministratori vedono anche la colonna del
+        responsabile.
+      </DocP>
     </DocSection>
   );
 }
@@ -601,6 +648,14 @@ function Properties() {
       <DocTip>
         Per vedere tutti i tuoi immobili in affitto in un unico calendario, usa <strong>Disponibilità</strong> nel menu.
       </DocTip>
+
+      <DocH3>Regole di prezzo</DocH3>
+      <DocP>
+        Nella sezione Rates, sopra le stagioni: soggiorno minimo per tutto l’anno, sconto settimanale (7+ notti) o
+        mensile (28+) e uno in base a quando si prenota: last minute (arrivo entro pochi giorni) o prenota prima. Si
+        salvano con «Salva». «Prova un prezzo» calcola un soggiorno come lo vede il cliente; lo stesso calcolo compila
+        il totale in «Nuova prenotazione» e compare nella scheda pubblica come «Calcola il soggiorno».
+      </DocP>
 
       <DocH3>Raccomandazioni</DocH3>
       <DocFigure
@@ -993,6 +1048,29 @@ function Offers() {
         scriverti: quella richiesta arriva in Richieste.
       </DocP>
 
+      <DocH3>Monitoraggio delle aperture</DocH3>
+      <DocP>
+        Ogni volta che il cliente apre il link si registra quando e se da cellulare o computer. Nel pannello a destra
+        dell’editor vedi quante volte l’ha aperta, l’ultima e le precedenti; nell’elenco, un occhio con il numero. Se la
+        riapre dopo un giorno, la campanella ti avvisa di nuovo. Non contano le anteprime create da WhatsApp o
+        dall’email, né il tuo «Vedi come il cliente».
+      </DocP>
+
+      <DocH3>Duplicare e modelli</DocH3>
+      <DocP>
+        Dal menu ⋯ dell’offerta o dal pannello dell’editor, «Duplica» crea una bozza uguale, senza cliente né scadenza,
+        da inviare a un’altra persona. «Salva come modello» la mette nella scheda «Modelli» dell’elenco: un modello non
+        ha link e non si invia. Per usarlo, fai clic su «Crea offerta da questo modello» o sceglilo creando una «Nuova
+        offerta».
+      </DocP>
+
+      <DocH3>Dall’offerta alla prenotazione</DocH3>
+      <DocP>
+        Quando il cliente accetta, fai clic su «Crea prenotazione» nel pannello a destra dell’editor. Cliente, valuta e
+        prezzo vengono dall’offerta salvata (per gli affitti, il prezzo a notte per le notti, più i servizi); scegli
+        l’immobile e le date. L’offerta diventa «Accettata» e la prenotazione vi resta elencata.
+      </DocP>
+
       <DocH3>Stati</DocH3>
       <DocTerms
         items={[
@@ -1000,6 +1078,7 @@ function Offers() {
           [<DocPill key="s" tone="primary">Inviata</DocPill>, "Il link è attivo ed è stato inviato al cliente."],
           [<DocPill key="v">Vista</DocPill>, "Il cliente ha già aperto l’offerta."],
           [<DocPill key="e">Scaduta</DocPill>, "È passata la data di scadenza; il cliente vede un avviso che è scaduta."],
+          [<DocPill key="a" tone="primary">Accettata</DocPill>, "È stata creata una prenotazione a partire da essa."],
         ]}
       />
     </DocSection>
@@ -1101,12 +1180,40 @@ function Bookings() {
         I pagamenti incassati alimentano l’estratto conto del proprietario: l’incassato meno la commissione è la sua quota.
       </DocP>
 
+      <DocH3>Cercare e filtrare</DocH3>
+      <DocP>
+        Cerca per immobile o cliente e combina i filtri: stato, pagamento (da incassare, con saldo o pagate), immobile,
+        posizione e date. Il filtro per date mostra i soggiorni che toccano quei giorni; il giorno di partenza conta già
+        come libero.
+      </DocP>
+
+      <DocH3>Ospiti e note</DocH3>
+      <DocP>
+        In «Dettagli» della scheda indichi quante persone vengono e note interne per il tuo team («arrivo tardi»,
+        «chiedono una culla»). Il cliente vede il numero di ospiti, mai le note. In una prenotazione annullata o
+        completata si possono modificare solo le note.
+      </DocP>
+
+      <DocH3>Modificare o eliminare un pagamento</DocH3>
+      <DocP>
+        Registrando un pagamento puoi indicare il metodo (bonifico, contanti…), segnarlo come già incassato con la data
+        e lasciare una nota interna. Il menu ⋯ di ogni pagamento permette di modificarlo, rimetterlo in attesa o
+        eliminarlo (con conferma: sparisce anche dall’estratto del proprietario).
+      </DocP>
+
       <DocH3>La pagina del cliente</DocH3>
       <DocP>
         Ogni prenotazione ha una pagina per il cliente con l’immobile, il soggiorno, lo stato e i pagamenti (acconti e
         saldo, mai la commissione). Se la prenotazione ha un cliente, la riceve via email quando viene creata, confermata o
         annullata. Altrimenti copia il link dalla scheda o dal menu ⋯ e mandaglielo tu. Vedi «Cosa vedono i tuoi
         clienti».
+      </DocP>
+
+      <DocH3>La ricevuta</DocH3>
+      <DocP>
+        «Ricevuta per il cliente», nella scheda, apre una pagina pronta da stampare o salvare come PDF: la tua agenzia,
+        la prenotazione, i pagamenti con data e metodo, il totale e quanto resta da pagare. Il cliente ci arriva anche
+        dalla sua pagina. Non mostra mai la commissione né le note, e precisa che non è una fattura.
       </DocP>
     </DocSection>
   );
@@ -1606,7 +1713,7 @@ function Shortcuts() {
           [<Kbd key="q">?</Kbd>, "Vedi tutte le scorciatoie"],
           [
             <><Kbd>G</Kbd> e una lettera</>,
-            "Vai a una sezione: P immobili, O offerte, C clienti, I richieste, R prenotazioni, D disponibilità, E team, W sito, S impostazioni, M il mio profilo",
+            "Vai a una sezione: P immobili, O offerte, C clienti, I richieste, R prenotazioni, D disponibilità, T report, E team, W sito, S impostazioni, M il mio profilo",
           ],
           [<Kbd key="n">N</Kbd>, "Crea nuovo nell’elenco aperto"],
           [<Kbd key="s">/</Kbd>, "Vai alla ricerca dell’elenco"],
@@ -1633,6 +1740,68 @@ function Shortcuts() {
   );
 }
 
+function Reports() {
+  return (
+    <DocSection
+      id="reportes"
+      icon={ChartColumn}
+      title="Report"
+      adminOnly
+      intro="Come va l’agenzia in un periodo: quanto ha prenotato e incassato, la commissione, l’occupazione di ogni affitto, quante richieste diventano prenotazioni e i risultati di ogni persona del team. Lo vedono solo titolari e amministratori."
+    >
+      <DocP>
+        Scegli il periodo in alto (3, 6 o 12 mesi, quest’anno o l’anno scorso). Se lavori con più valute, scegli quale vedere: gli importi non si sommano mai tra valute.
+      </DocP>
+      <DocTerms
+        items={[
+          ["Prenotato", "Il prezzo totale delle prenotazioni confermate o completate, nel mese del check-in (una vendita, nel mese in cui è stata creata). La barra verde del grafico."],
+          ["Incassato", "Acconti e saldi segnati come incassati, nel mese del pagamento. Senza la commissione. La barra arancione."],
+          ["Commissione", "La commissione indicata in quelle prenotazioni confermate."],
+          ["Occupazione", "Notti occupate da prenotazioni o da iCal, sulle notti disponibili di ogni affitto. Quelle bloccate a mano non contano come disponibili."],
+          ["Conversione", "Delle persone che hanno scritto nel periodo, quante hanno ricevuto un’offerta e quante hanno prenotato dopo. Mostra anche quante richieste sono state risposte dal pannello e in quanto tempo."],
+          ["Per persona", "Clienti assegnati nel periodo, offerte inviate e prenotazioni confermate create da ciascuno, con il prenotato e la commissione."],
+        ]}
+      />
+      <DocTip>
+        Passa il mouse (o tocca) su un mese del grafico per vederne i numeri, oppure fai clic su «Vedi tabella» per vederli tutti insieme.
+      </DocTip>
+    </DocSection>
+  );
+}
+
+function ReviewsDoc() {
+  return (
+    <DocSection
+      id="resenas"
+      icon={MessageSquareQuote}
+      title="Recensioni"
+      adminOnly
+      intro="Cosa pensano i tuoi ospiti, sul tuo sito. Le email le chiedono, tu le moderi. Lo vedono solo titolari e amministratori."
+    >
+      <DocSteps>
+        <DocStep>
+          Quando segni una prenotazione come <strong>completata</strong>, l’ospite riceve un’email per lasciare la
+          recensione dalla sua pagina di prenotazione: stelle e un commento.
+        </DocStep>
+        <DocStep>
+          La recensione arriva in <strong>Recensioni</strong> in attesa, e la campanella ti avvisa.
+        </DocStep>
+        <DocStep>
+          Fai clic su <strong>Pubblica</strong> per mostrarla, o su <strong>Non pubblicare</strong>. Il testo
+          dell’ospite non si modifica.
+        </DocStep>
+      </DocSteps>
+      <DocTerms
+        items={[
+          ["Sul sito", "Quelle pubblicate compaiono nella scheda dell’immobile con la media delle stelle e nelle schede dell’elenco. Aggiungi il blocco «Recensioni» nell’editor del sito per mostrarle nella home."],
+          ["Aggiungi recensione", "Per quelle ricevute altrove (Airbnb, Google, un’email): voto, nome, immobile e testo. Si pubblicano al salvataggio e si possono modificare."],
+          ["Nascondere o eliminare", "Nascondere la toglie dal sito senza cancellarla; eliminare la cancella per sempre."],
+        ]}
+      />
+    </DocSection>
+  );
+}
+
 export const DOC_SECTIONS: DocEntry[] = [
   { id: "primeros-pasos", label: "Primi passi", Content: Basics },
   { id: "consultas", label: "Richieste", Content: Inquiries },
@@ -1644,6 +1813,8 @@ export const DOC_SECTIONS: DocEntry[] = [
   { id: "reservas", label: "Prenotazioni", Content: Bookings },
   { id: "disponibilidad", label: "Disponibilità", Content: Availability },
   { id: "servicios", label: "Servizi", Content: Services },
+  { id: "reportes", label: "Report", adminOnly: true, Content: Reports },
+  { id: "resenas", label: "Recensioni", adminOnly: true, Content: ReviewsDoc },
   { id: "portal", label: "Sito web", adminOnly: true, Content: Portal },
   { id: "lo-que-ven-tus-clientes", label: "Cosa vedono i tuoi clienti", Content: ClientPages },
   { id: "equipo", label: "Team", adminOnly: true, Content: Team },

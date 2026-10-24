@@ -328,6 +328,8 @@ export function AgencyPortal({
           agencySlug={agencySlug}
           template={site.template}
           site={site}
+          reviews={agency.reviews}
+          rating={agency.rating}
           onShowZone={(zone) => {
             update({ ...EMPTY, zone, sort: filters.sort });
             showResults();

@@ -142,6 +142,18 @@
         "restored": "You restored the service",
         "back": "Services",
         "untitled": "Service"
+      },
+      "clients": {
+        "title": "Clients trash",
+        "restored": "You restored the client",
+        "back": "Clients",
+        "untitled": "Client"
+      },
+      "inquiries": {
+        "title": "Inquiries trash",
+        "restored": "You restored the inquiry",
+        "back": "Inquiries",
+        "untitled": "Inquiry"
       }
     }
   },
@@ -162,7 +174,9 @@
     "portal": "Website",
     "docs": "Documentation",
     "authCallback": "Signing in",
-    "resetPassword": "Reset password"
+    "resetPassword": "Reset password",
+    "reports": "Reports",
+    "guestReviews": "Reviews"
   },
   "legal": {
     "effective": "In force since",

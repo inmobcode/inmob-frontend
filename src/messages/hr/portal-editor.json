@@ -117,6 +117,14 @@
           "color": "Boja",
           "photo": "S fotografijom"
         }
+      },
+      "reviews": {
+        "label": "Recenzije",
+        "description": "Objavljene recenzije s prosjekom vaše agencije.",
+        "layouts": {
+          "cards": "Kartice",
+          "quote": "Jedan citat"
+        }
       }
     },
     "buttonTargets": {
@@ -200,6 +208,10 @@
       "cta": {
         "title": "Želite prodati svoju nekretninu?",
         "text": "Uz vas smo od procjene do potpisa ugovora."
+      },
+      "reviews": {
+        "title": "Što kažu naši gosti",
+        "text": "Prava mišljenja gostiju koji su boravili kod nas."
       }
     },
     "blocks": {
@@ -266,7 +278,8 @@
       "zonePicker": {
         "pick": "Odaberite lokaciju",
         "none": "Bez lokacije"
-      }
+      },
+      "reviewsHint": "Prikazuje recenzije objavljene u odjeljku Recenzije. Bez objavljenih recenzija blok se ne prikazuje."
     },
     "preview": {
       "title": "Pregled stranice"

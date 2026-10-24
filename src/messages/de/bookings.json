@@ -26,7 +26,8 @@
       "total": "Summe",
       "collected": "Eingenommen",
       "updated": "Aktualisiert",
-      "actions": "Aktionen"
+      "actions": "Aktionen",
+      "guests": "{count, plural, one {# Gast} other {# Gäste}}"
     },
     "detail": {
       "clientPage": "Kundenseite",
@@ -64,15 +65,39 @@
       "complete": "Als abgeschlossen markieren",
       "cancel": "Buchung stornieren",
       "cancelTitle": "Diese Buchung stornieren?",
-      "cancelBody": "Die Daten werden freigegeben und die Buchung als storniert markiert. Bereits erfasste Zahlungen werden nicht gelöscht."
+      "cancelBody": "Die Daten werden freigegeben und die Buchung als storniert markiert. Bereits erfasste Zahlungen werden nicht gelöscht.",
+      "details": "Details",
+      "detailsDescription": "Wie viele Personen kommen und was Ihr Team wissen muss. Der Kunde sieht die Notizen nicht.",
+      "guests": "Gäste",
+      "guestsCount": "{count, plural, one {# Gast} other {# Gäste}}",
+      "notes": "Interne Notizen",
+      "notesPlaceholder": "Z. B. späte Ankunft, Babybett",
+      "paymentPending": "Zahlung als offen markiert",
+      "paymentDeleted": "Zahlung gelöscht",
+      "paymentDeleteFailed": "Zahlung konnte nicht gelöscht werden",
+      "paymentActions": "Zahlungsaktionen",
+      "editPayment": "Bearbeiten",
+      "markPending": "Als offen markieren",
+      "deletePayment": "Zahlung löschen",
+      "deletePaymentTitle": "Zahlung löschen?",
+      "deletePaymentBody": "Die Zahlung über {amount} wird endgültig gelöscht, auch aus der Eigentümerabrechnung.",
+      "receipt": "Beleg für den Kunden"
     },
     "payment": {
       "add": "Zahlung hinzufügen",
-      "description": "Sie bleibt offen, bis Sie sie als eingenommen markieren.",
+      "description": "Erfassen Sie eine erwartete oder bereits erhaltene Zahlung.",
       "type": "Art",
       "typeLabel": "Zahlungsart",
       "amount": "Betrag",
-      "save": "Zahlung speichern"
+      "save": "Zahlung speichern",
+      "edit": "Zahlung bearbeiten",
+      "method": "Zahlungsart",
+      "methodPlaceholder": "Z. B. Überweisung, bar, Karte",
+      "collected": "Bereits erhalten",
+      "collectedOn": "Erhalten am",
+      "note": "Notiz",
+      "internal": "(nur für Ihr Team)",
+      "notePlaceholder": "Z. B. Überweisung Nr. 0042"
     },
     "create": {
       "new": "Neue Buchung",
@@ -84,7 +109,11 @@
       "rentalsOnly": "(nur Vermietungen)",
       "totalPrice": "Gesamtpreis",
       "commission": "Provision",
-      "submit": "Buchung erstellen"
+      "submit": "Buchung erstellen",
+      "guests": "Gäste",
+      "minStay": "{count, plural, one {Für diese Daten gilt mindestens # Nacht.} other {Für diese Daten gelten mindestens # Nächte.}}",
+      "unavailable": "Einige dieser Nächte sind schon belegt.",
+      "quoted": "Preis aus den Preisen und Regeln des Objekts berechnet."
     },
     "list": {
       "statusPlural": {
@@ -111,10 +140,22 @@
       "emptyTitle": "Noch keine Buchungen",
       "emptyBody": "Erfassen Sie die erste, um Daten, Zahlungen und Provision an einem Ort zu verfolgen.",
       "emptyHelp": "So erfassen Sie eine Buchung und ihre Zahlungen",
-      "noMatchBody": "Versuchen Sie einen anderen Namen oder entfernen Sie den Statusfilter.",
+      "noMatchBody": "Versuchen Sie eine andere Suche oder entfernen Sie die Filter.",
       "cancelTitle": "Diese Buchung stornieren?",
       "cancelBody": "Die Daten werden freigegeben und die Buchung als storniert markiert. Bereits erfasste Zahlungen werden nicht gelöscht.",
-      "cancel": "Buchung stornieren"
+      "cancel": "Buchung stornieren",
+      "paymentState": {
+        "UNPAID": "Unbezahlt",
+        "PARTIAL": "Teilweise bezahlt",
+        "PAID": "Bezahlt"
+      },
+      "payment": "Zahlung",
+      "paymentStates": "Zahlungsstände",
+      "property": "Objekt",
+      "properties": "Objekte",
+      "dates": "Zeitraum",
+      "datesHintFirst": "Ersten Tag wählen",
+      "datesHintSecond": "Jetzt den letzten Tag"
     }
   }
 }

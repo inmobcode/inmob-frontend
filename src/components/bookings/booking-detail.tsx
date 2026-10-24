@@ -1,7 +1,19 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, Check, CircleCheck, Copy, ExternalLink, X } from "lucide-react";
+import {
+  ArrowLeft,
+  Check,
+  CircleCheck,
+  Copy,
+  ExternalLink,
+  FileText,
+  MoreHorizontal,
+  Pencil,
+  RotateCcw,
+  Trash2,
+  X,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -9,7 +21,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { BackLink } from "@/components/shared/back-link";
-import { AddPaymentDialog } from "@/components/bookings/add-payment-dialog";
+import { AddPaymentDialog, PaymentDialog } from "@/components/bookings/add-payment-dialog";
 import {
   BookingStatusPill,
   DateTile,
@@ -21,6 +33,8 @@ import {
   useMoney,
 } from "@/components/bookings/booking-parts";
 import { FormSection } from "@/components/properties/form-section";
+import { HistoryButton } from "@/components/shared/history-button";
+import { Stepper } from "@/components/properties/form-controls";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -33,11 +47,24 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Textarea } from "@/components/ui/textarea";
+import {
   cancelBooking,
   completeBooking,
   confirmBooking,
+  deletePayment,
   getBooking,
   markPaymentPaid,
+  updateBooking,
+  updatePayment,
+  type Booking,
+  type Payment,
 } from "@/lib/api/bookings";
 import { useFormat } from "@/i18n/format";
 import { ApiError } from "@/lib/api/client";
@@ -76,6 +103,212 @@ function Stat({ label, value, strong }: { label: string; value: string; strong?:
   );
 }
 
+/** Guests and the team's notes; saved together when something changed. */
+function BookingDetails({ booking }: { booking: Booking }) {
+  const t = useTranslations("bookings.detail");
+  const common = useTranslations("common");
+  const queryClient = useQueryClient();
+  const saved = { guests: booking.guests == null ? "" : String(booking.guests), notes: booking.notes ?? "" };
+  const [draft, setDraft] = useState<typeof saved | null>(null);
+  const value = draft ?? saved;
+  const dirty = draft !== null && (draft.guests !== saved.guests || draft.notes !== saved.notes);
+  const closed = booking.status === "CANCELLED" || booking.status === "COMPLETED";
+
+  const mutation = useMutation({
+    meta: { affectsSite: false },
+    mutationFn: () => {
+      const guests = Number(value.guests);
+      return updateBooking(requireToken(), booking.id, {
+        // A closed booking only takes notes (the API says so too).
+        ...(closed ? {} : { guests: value.guests.trim() && guests >= 1 ? Math.round(guests) : null }),
+        notes: value.notes.trim() || null,
+      });
+    },
+    onSuccess: (updated) => {
+      queryClient.setQueryData<Booking>(["booking", booking.id], (prev) => (prev ? { ...prev, ...updated } : prev));
+      queryClient.invalidateQueries({ queryKey: ["bookings"] });
+      setDraft(null);
+      toast.success(common("changesSaved"));
+    },
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : common("saveFailed")),
+  });
+
+  return (
+    <div className="flex max-w-xl flex-col gap-5">
+      <div className="flex flex-col gap-2">
+        <span className="text-sm font-medium">{t("guests")}</span>
+        {closed ? (
+          <p className="text-sm text-muted-foreground">
+            {booking.guests ? t("guestsCount", { count: booking.guests }) : "—"}
+          </p>
+        ) : (
+          <div className="max-w-44">
+            <Stepper
+              label={t("guests")}
+              min={1}
+              value={value.guests}
+              onChange={(guests) => setDraft({ ...value, guests })}
+            />
+          </div>
+        )}
+      </div>
+      <div className="flex flex-col gap-2">
+        <label htmlFor="booking-notes" className="text-sm font-medium">
+          {t("notes")}
+        </label>
+        <Textarea
+          id="booking-notes"
+          rows={3}
+          maxLength={5000}
+          placeholder={t("notesPlaceholder")}
+          value={value.notes}
+          onChange={(event) => setDraft({ ...value, notes: event.target.value })}
+        />
+      </div>
+      {dirty && (
+        <div className="flex items-center gap-2">
+          <Button size="sm" className="rounded-full px-4" disabled={mutation.isPending} onClick={() => mutation.mutate()}>
+            {common("save")}
+          </Button>
+          <Button size="sm" variant="ghost" className="rounded-full px-4" disabled={mutation.isPending} onClick={() => setDraft(null)}>
+            {common("cancel")}
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/** One payment, with its menu: edit, mark paid or back to pending, delete. */
+function PaymentRow({ booking, payment }: { booking: Booking; payment: Payment }) {
+  const t = useTranslations("bookings.detail");
+  const common = useTranslations("common");
+  const labels = useLabels();
+  const money = useMoney();
+  const { date } = useFormat();
+  const queryClient = useQueryClient();
+  const [editing, setEditing] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
+  function invalidate() {
+    queryClient.invalidateQueries({ queryKey: ["booking", booking.id] });
+    queryClient.invalidateQueries({ queryKey: ["bookings"] });
+  }
+
+  const statusMutation = useMutation({
+    meta: { affectsSite: false },
+    mutationFn: (paid: boolean) =>
+      paid
+        ? markPaymentPaid(requireToken(), booking.id, payment.id)
+        : updatePayment(requireToken(), booking.id, payment.id, { status: "PENDING" }),
+    onSuccess: (_, paid) => {
+      toast.success(paid ? t("paymentMarked") : t("paymentPending"));
+      invalidate();
+    },
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : t("paymentMarkFailed")),
+  });
+
+  const deleteMutation = useMutation({
+    meta: { affectsSite: false },
+    mutationFn: () => deletePayment(requireToken(), booking.id, payment.id),
+    onSuccess: () => {
+      toast.success(t("paymentDeleted"));
+      invalidate();
+    },
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : t("paymentDeleteFailed")),
+  });
+
+  const paid = payment.status === "PAID";
+
+  return (
+    <li className="flex items-center gap-4 rounded-2xl bg-card p-4 ring-1 ring-foreground/5">
+      <div className="flex min-w-0 flex-1 flex-col">
+        <span className="font-medium tabular-nums">{money(payment.currency, payment.amount)}</span>
+        <span className="text-xs text-muted-foreground">
+          {labels.paymentType(payment.type)}
+          {paid && payment.paidAt && ` · ${date(parseApiDate(payment.paidAt), "dayMonthShort")}`}
+          {payment.method && ` · ${payment.method}`}
+        </span>
+        {payment.note && <span className="truncate text-xs text-muted-foreground/80">{payment.note}</span>}
+      </div>
+      {paid ? (
+        <span className="inline-flex h-6 items-center gap-1 rounded-full bg-primary/10 px-2.5 text-xs font-medium text-primary">
+          <Check className="size-3" />
+          {t("paid")}
+        </span>
+      ) : (
+        <Button
+          size="sm"
+          variant="outline"
+          className="rounded-full px-4"
+          disabled={statusMutation.isPending}
+          onClick={() => statusMutation.mutate(true)}
+        >
+          {t("markPaid")}
+        </Button>
+      )}
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <button
+            type="button"
+            aria-label={t("paymentActions")}
+            className="flex size-8 shrink-0 items-center justify-center rounded-full bg-foreground/[0.06] outline-none transition-colors hover:bg-foreground/10 focus-visible:ring-3 focus-visible:ring-ring/50 data-[state=open]:bg-foreground/10"
+          >
+            <MoreHorizontal className="size-4" />
+          </button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-52 rounded-2xl p-1.5">
+          <DropdownMenuItem className="rounded-xl py-2" onSelect={() => setEditing(true)}>
+            <Pencil />
+            {t("editPayment")}
+          </DropdownMenuItem>
+          {paid && (
+            <DropdownMenuItem className="rounded-xl py-2" onSelect={() => statusMutation.mutate(false)}>
+              <RotateCcw />
+              {t("markPending")}
+            </DropdownMenuItem>
+          )}
+          <DropdownMenuSeparator />
+          <DropdownMenuItem variant="destructive" className="rounded-xl py-2" onSelect={() => setDeleting(true)}>
+            <Trash2 />
+            {t("deletePayment")}
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <PaymentDialog
+        bookingId={booking.id}
+        currency={booking.currency}
+        payment={payment}
+        open={editing}
+        onOpenChange={setEditing}
+      />
+      <AlertDialog open={deleting} onOpenChange={setDeleting}>
+        <AlertDialogContent className="rounded-3xl">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="font-display text-2xl">{t("deletePaymentTitle")}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {t("deletePaymentBody", { amount: money(payment.currency, payment.amount) })}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{common("back")}</AlertDialogCancel>
+            <AlertDialogAction
+              variant="destructive"
+              onClick={() => {
+                deleteMutation.mutate();
+                setDeleting(false);
+              }}
+            >
+              {t("deletePayment")}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </li>
+  );
+}
+
 /** The client's read-only page for this booking, to copy and send or to preview. */
 function ClientLink({ token, hasClient }: { token: string; hasClient: boolean }) {
   const t = useTranslations("bookings.detail");
@@ -100,6 +333,12 @@ function ClientLink({ token, hasClient }: { token: string; hasClient: boolean })
           </a>
         </Button>
       </div>
+      <Button variant="ghost" size="sm" className="self-start rounded-full" asChild>
+        <a href={`${path}/receipt`} target="_blank" rel="noreferrer">
+          <FileText />
+          {t("receipt")}
+        </a>
+      </Button>
     </div>
   );
 }
@@ -107,7 +346,6 @@ function ClientLink({ token, hasClient }: { token: string; hasClient: boolean })
 export function BookingDetail({ bookingId }: { bookingId: string }) {
   const t = useTranslations("bookings.detail");
   const common = useTranslations("common");
-  const labels = useLabels();
   const money = useMoney();
   const { date } = useFormat();
   const { agencySlug } = useParams<{ agencySlug: string }>();
@@ -137,15 +375,6 @@ export function BookingDetail({ bookingId }: { bookingId: string }) {
   const confirmMutation = useMutation(transition(t("confirmed"), confirmBooking));
   const completeMutation = useMutation(transition(t("completed"), completeBooking));
   const cancelMutation = useMutation(transition(t("cancelled"), cancelBooking));
-
-  const markPaidMutation = useMutation({
-    mutationFn: (paymentId: string) => markPaymentPaid(requireToken(), bookingId, paymentId),
-    onSuccess: () => {
-      toast.success(t("paymentMarked"));
-      invalidate();
-    },
-    onError: (err) => toast.error(err instanceof ApiError ? err.message : t("paymentMarkFailed")),
-  });
 
   if (error) {
     return (
@@ -224,6 +453,10 @@ export function BookingDetail({ bookingId }: { bookingId: string }) {
             ) : null}
           </FormSection>
 
+          <FormSection title={t("details")} description={t("detailsDescription")} shown={false}>
+            <BookingDetails booking={booking} />
+          </FormSection>
+
           <FormSection
             title={t("payments")}
             description={t("paymentsDescription")}
@@ -238,40 +471,7 @@ export function BookingDetail({ bookingId }: { bookingId: string }) {
               {payments.length > 0 ? (
                 <ul className="flex flex-col gap-2">
                   {payments.map((payment) => (
-                    <li
-                      key={payment.id}
-                      className="flex items-center gap-4 rounded-2xl bg-card p-4 ring-1 ring-foreground/5"
-                    >
-                      <div className="flex min-w-0 flex-1 flex-col">
-                        <span className="font-medium tabular-nums">{money(payment.currency, payment.amount)}</span>
-                        <span className="text-xs text-muted-foreground">
-                          {labels.paymentType(payment.type)}
-                          {payment.status === "PAID" && payment.paidAt && (
-                            <>
-                              {" · "}
-                              {date(parseApiDate(payment.paidAt), "dayMonthShort")}
-                              {payment.method && ` · ${payment.method}`}
-                            </>
-                          )}
-                        </span>
-                      </div>
-                      {payment.status === "PAID" ? (
-                        <span className="inline-flex h-6 items-center gap-1 rounded-full bg-primary/10 px-2.5 text-xs font-medium text-primary">
-                          <Check className="size-3" />
-                          {t("paid")}
-                        </span>
-                      ) : (
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="rounded-full px-4"
-                          disabled={markPaidMutation.isPending}
-                          onClick={() => markPaidMutation.mutate(payment.id)}
-                        >
-                          {t("markPaid")}
-                        </Button>
-                      )}
-                    </li>
+                    <PaymentRow key={payment.id} booking={booking} payment={payment} />
                   ))}
                 </ul>
               ) : (
@@ -293,6 +493,8 @@ export function BookingDetail({ bookingId }: { bookingId: string }) {
           </div>
 
           <ClientLink token={booking.token} hasClient={Boolean(booking.clientId)} />
+
+          <HistoryButton entity="bookings" id={booking.id} className="-mx-2 self-start [&_span]:inline" />
 
           {open && (
             <div className="flex flex-col gap-2">

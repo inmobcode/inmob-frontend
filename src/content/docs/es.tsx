@@ -2,11 +2,13 @@ import {
   Building2,
   CalendarCheck,
   CalendarDays,
+  ChartColumn,
   Compass,
   Eye,
   Globe,
   Inbox,
   Keyboard,
+  MessageSquareQuote,
   KeyRound,
   Settings,
   Sparkles,
@@ -153,7 +155,11 @@ function Basics() {
           ],
           [
             "Papelera",
-            "Lo que borrás de Propiedades, Ofertas y Reservas va a la papelera, no desaparece. Ahí queda 30 días por si te arrepentís; después se borra definitivamente. Al borrar, el aviso de abajo tiene «Deshacer».",
+            "Lo que borrás de Propiedades, Ofertas, Reservas, Clientes y Consultas va a la papelera, no desaparece. Ahí queda 30 días por si te arrepentís; después se borra definitivamente. Al borrar, el aviso de abajo tiene «Deshacer».",
+          ],
+          [
+            "Historial",
+            "En propiedades, ofertas y reservas, el botón «Historial» muestra quién cambió qué y cuándo: el precio de 100 a 120, el estado, las fotos, los pagos. Lo que hace el cliente desde un link (abrir una oferta, escribir) figura como «El cliente o el sistema».",
           ],
           [
             "«Se muestra en el portal» / «Solo interno»",
@@ -168,7 +174,7 @@ function Basics() {
 
       <DocH3>La papelera</DocH3>
       <DocP>
-        Se abre desde el ícono del tacho, en la barra de Propiedades, Ofertas y Reservas. Un número sobre el ícono indica
+        Se abre desde el ícono del tacho, en la barra de Propiedades, Ofertas, Reservas y Clientes; en Consultas aparece solo cuando hay algo adentro. Un número sobre el ícono indica
         cuántas cosas hay adentro.
       </DocP>
       <DocFigure
@@ -233,13 +239,34 @@ function Inquiries() {
           Las de un cliente que ya tenés muestran su etapa (Lead, Contactado…) al lado del nombre.
         </li>
         <li>
-          Respondé con un clic: <strong>Responder por email</strong> (con el asunto y el saludo ya escritos),{" "}
-          <strong>WhatsApp</strong> (con un mensaje que nombra lo que consultó) o <strong>Llamar</strong>. WhatsApp y
-          Llamar aparecen si dejó teléfono. El ícono al lado del email lo copia.
+          <strong>Responder</strong> abre el mensaje ahí mismo, con el asunto y el saludo ya escritos. Sale por email
+          con el nombre de tu inmobiliaria, queda en el historial del cliente y la consulta muestra quién la respondió y
+          cuándo. Si el cliente contesta, le llega al email de contacto de Configuración (o al tuyo).
+        </li>
+        <li>
+          <strong>WhatsApp</strong> (con un mensaje que nombra lo que consultó) y <strong>Llamar</strong> aparecen si
+          dejó teléfono. El ícono al lado del email lo copia.
+        </li>
+        <li>
+          <strong>Responsable:</strong> propietarios y administradores eligen quién la lleva (es el responsable del
+          cliente, y le llega un aviso a la campana). Un agente puede tocar «Quedármela» si nadie la tiene.
+        </li>
+        <li>
+          <strong>Archivar</strong> (la caja, arriba a la derecha) la saca de la bandeja sin borrarla: queda en la
+          pestaña «Archivadas», desde donde vuelve a la bandeja. El tacho la manda a la papelera; el cliente y su
+          historial no se tocan. Las dos acciones tienen «Deshacer».
         </li>
         <li>Tocá la propiedad u oferta para abrirla en el panel, o «Ver cliente» para ir a su ficha.</li>
         <li>La bandeja se actualiza sola cada minuto.</li>
       </DocList>
+
+      <DocH3>Plantillas de respuesta</DocH3>
+      <DocP>
+        Para lo que más te preguntan, guardá una plantilla: al responder, tocá «Plantillas» y después «Nueva plantilla»,
+        con un nombre, un asunto opcional y el texto. Los botones de abajo insertan datos que se completan solos al
+        usarla: nombre de pila, nombre completo, propiedad u oferta, tu inmobiliaria y tu nombre. Elegila en «Usar una
+        plantilla» y ajustá lo que haga falta antes de enviar. Las comparte todo el equipo.
+      </DocP>
       <DocTip>
         Si todavía no llegó ninguna consulta, compartí el link de tu portal: el formulario de contacto y el de cada ficha
         llegan acá.
@@ -293,7 +320,7 @@ function Clients() {
       />
       <DocP>
         Cambiá la etapa desde el menú <strong>⋯</strong> de cada cliente («Cambiar etapa») o desde su ficha. En ese mismo
-        menú podés ver la ficha, mandarle un email, llamarlo o copiar su email.
+        menú podés ver la ficha, mandarle un email, llamarlo, copiar su email o mandarlo a la papelera.
       </DocP>
 
       <DocH3>La ficha del cliente</DocH3>
@@ -314,7 +341,7 @@ function Clients() {
         items={[
           [
             "Notas",
-            "Lo que conviene recordar: qué busca, presupuesto, preferencias. Admite títulos, negrita, listas y links. Cuando cambiás algo aparece «Guardar notas».",
+            "Lo que conviene recordar y no entra en «Qué busca». Admite títulos, negrita, listas y links. Cuando cambiás algo aparece «Guardar notas».",
           ],
           [
             "Tareas",
@@ -330,11 +357,31 @@ function Clients() {
             "El agente que lleva al cliente. Propietarios y administradores lo eligen de la lista del equipo; un agente puede tocar «Quedármelo» en un lead sin asignar.",
           ],
           ["Contacto", "Su email y teléfono, con un toque para escribirle o llamarlo."],
+          [
+            "Qué busca",
+            "Presupuesto (en la moneda de tu agencia), cuántas personas, zonas y fechas. Solo lo ve tu equipo. Al cambiar algo aparece «Guardar».",
+          ],
+          [
+            "Etiquetas",
+            "Tus propias marcas para agrupar clientes: «VIP», «inversor», «verano 2027». Escribí una y apretá Enter o coma; abajo te sugerimos las que ya usás. Se guardan al momento y sirven para filtrar la lista.",
+          ],
+          [
+            "Mover a la papelera",
+            "Al pie del panel derecho, o desde el menú ⋯ de la lista. Sus ofertas, reservas e historial no se tocan. Si te vuelve a escribir desde el portal, sale solo de la papelera. Mientras esté ahí no podés cargar otro cliente con su email: restauralo. Un cliente con reservas no se puede borrar definitivamente.",
+          ],
         ]}
       />
       <DocTip>
         Al eliminar una tarea no hay papelera: desaparece al momento. Si solo la terminaste, mejor marcala como hecha.
       </DocTip>
+
+      <DocH3>Exportar a CSV</DocH3>
+      <DocP>
+        El botón con la flecha hacia abajo, en la barra de la lista, descarga los clientes que estás viendo (con la
+        búsqueda y los filtros aplicados) en un archivo CSV que abren Excel, Google Sheets o Numbers: contacto, etapa,
+        origen, etiquetas, qué busca, notas y fecha de alta. Propietarios y administradores también ven la columna del
+        responsable.
+      </DocP>
     </DocSection>
   );
 }
@@ -602,6 +649,14 @@ function Properties() {
       <DocTip>
         Para ver todas tus propiedades en alquiler en un solo calendario, usá <strong>Disponibilidad</strong> en el menú.
       </DocTip>
+
+      <DocH3>Reglas de precio</DocH3>
+      <DocP>
+        En la sección Rates, arriba de las temporadas: estadía mínima para todo el año, descuento por semana (7 noches o
+        más) o por mes (28 o más), y uno por fecha de reserva: último momento (si la llegada es dentro de pocos días) o
+        reserva anticipada. Se guardan con «Guardar». «Probar precio» calcula una estadía como la ve el cliente; ese
+        mismo cálculo completa el total en «Nueva reserva» y aparece en la ficha pública como «Calculá tu estadía».
+      </DocP>
 
       <DocH3>Recomendaciones</DocH3>
       <DocFigure
@@ -995,6 +1050,29 @@ function Offers() {
         cliente puede escribirte: esa consulta llega a Consultas.
       </DocP>
 
+      <DocH3>Seguimiento de aperturas</DocH3>
+      <DocP>
+        Cada vez que el cliente abre el link queda registrado cuándo y si fue desde el celular o la computadora. En el
+        panel derecho del editor ves cuántas veces la abrió, la última vez y las anteriores; en la lista, un ojo con el
+        número. Si la vuelve a abrir después de un día, te avisa de nuevo la campana. No cuentan las vistas previas que
+        arman WhatsApp o el correo, ni tu «Ver como el cliente».
+      </DocP>
+
+      <DocH3>Duplicar y plantillas</DocH3>
+      <DocP>
+        Desde el menú ⋯ de la oferta o el panel del editor, «Duplicar» crea un borrador igual, sin cliente ni
+        vencimiento, para mandárselo a otra persona. «Guardar como plantilla» la guarda en la pestaña «Plantillas» de la
+        lista: una plantilla no tiene link ni se envía. Para usarla, tocá «Crear oferta desde esta plantilla» o elegila
+        al crear una «Nueva oferta».
+      </DocP>
+
+      <DocH3>De la oferta a la reserva</DocH3>
+      <DocP>
+        Cuando el cliente acepta, tocá «Crear reserva» en el panel derecho del editor. El cliente, la moneda y el precio
+        salen de la oferta guardada (en alquileres, el precio por noche por las noches, más los servicios); elegí la
+        propiedad y las fechas. La oferta pasa a «Aceptada» y la reserva queda listada en ella.
+      </DocP>
+
       <DocH3>Estados</DocH3>
       <DocTerms
         items={[
@@ -1002,6 +1080,7 @@ function Offers() {
           [<DocPill key="s" tone="primary">Enviada</DocPill>, "El link está activo y se le mandó al cliente."],
           [<DocPill key="v">Vista</DocPill>, "El cliente ya abrió la oferta."],
           [<DocPill key="e">Vencida</DocPill>, "Pasó su fecha de vencimiento; el cliente ve un aviso de que venció."],
+          [<DocPill key="a" tone="primary">Aceptada</DocPill>, "Se creó una reserva a partir de ella."],
         ]}
       />
     </DocSection>
@@ -1104,11 +1183,39 @@ function Bookings() {
         corresponde.
       </DocP>
 
+      <DocH3>Buscar y filtrar</DocH3>
+      <DocP>
+        Buscá por propiedad o cliente y combiná filtros: estado, pago (sin cobrar, con saldo o pagadas), propiedad,
+        ubicación y fechas. El filtro de fechas muestra las estadías que tocan esos días; el día de salida ya cuenta
+        como libre.
+      </DocP>
+
+      <DocH3>Huéspedes y notas</DocH3>
+      <DocP>
+        En «Detalles» de la ficha cargás cuántas personas vienen y notas internas para tu equipo («llegan tarde», «piden
+        cuna»). El cliente ve la cantidad de huéspedes, nunca las notas. En una reserva cancelada o completada solo se
+        pueden editar las notas.
+      </DocP>
+
+      <DocH3>Editar o borrar un pago</DocH3>
+      <DocP>
+        Al registrar un pago podés indicar el medio (transferencia, efectivo…), marcarlo como ya cobrado con su fecha y
+        dejar una nota interna. El menú ⋯ de cada pago permite editarlo, volverlo a pendiente o eliminarlo (te pedimos
+        confirmación: se borra también del estado de cuenta del propietario).
+      </DocP>
+
       <DocH3>La página del cliente</DocH3>
       <DocP>
         Cada reserva tiene una página para el cliente con la propiedad, su estadía, el estado y los pagos (anticipos y
         saldo, nunca la comisión). Si la reserva tiene cliente, le llega por email al crearla, confirmarla o cancelarla.
         Si no, copiá el link desde la ficha o desde el menú ⋯ y mandáselo vos. Ver «Lo que ven tus clientes».
+      </DocP>
+
+      <DocH3>El comprobante</DocH3>
+      <DocP>
+        «Comprobante para el cliente», en la ficha, abre una página lista para imprimir o guardar como PDF: tu agencia,
+        la reserva, los pagos con su fecha y medio, el total y lo que falta pagar. El cliente también llega desde su
+        página. Nunca muestra la comisión ni las notas, y aclara que no es una factura.
       </DocP>
     </DocSection>
   );
@@ -1613,7 +1720,7 @@ function Shortcuts() {
           [<Kbd key="q">?</Kbd>, "Ver todos los atajos"],
           [
             <><Kbd>G</Kbd> y una letra</>,
-            "Ir a una sección: P propiedades, O ofertas, C clientes, I consultas, R reservas, D disponibilidad, E equipo, W portal, S configuración, M mi perfil",
+            "Ir a una sección: P propiedades, O ofertas, C clientes, I consultas, R reservas, D disponibilidad, T reportes, E equipo, W portal, S configuración, M mi perfil",
           ],
           [<Kbd key="n">N</Kbd>, "Crear uno nuevo en la lista abierta"],
           [<Kbd key="s">/</Kbd>, "Ir al buscador de la lista"],
@@ -1640,6 +1747,68 @@ function Shortcuts() {
   );
 }
 
+function Reports() {
+  return (
+    <DocSection
+      id="reportes"
+      icon={ChartColumn}
+      title="Reportes"
+      adminOnly
+      intro="Cómo le va a la agencia en un período: lo que reservó y cobró, la comisión, la ocupación de cada alquiler, cuántas consultas terminan en reserva y los resultados de cada persona del equipo. Solo lo ven propietarios y administradores."
+    >
+      <DocP>
+        Elegí el período arriba (3, 6 o 12 meses, este año o el pasado). Si trabajás con más de una moneda, elegí cuál ver: los montos nunca se suman entre monedas.
+      </DocP>
+      <DocTerms
+        items={[
+          ["Reservado", "El precio total de las reservas confirmadas o completadas, en el mes del check-in (una venta, en el mes en que se cargó). La barra verde del gráfico."],
+          ["Cobrado", "Los anticipos y saldos marcados como cobrados, en el mes del cobro. No incluye la comisión. La barra naranja."],
+          ["Comisión", "La comisión cargada en esas reservas confirmadas."],
+          ["Ocupación", "Noches ocupadas por reservas o por iCal, sobre las noches disponibles de cada alquiler. Las que bloqueaste a mano no cuentan como disponibles."],
+          ["Conversión", "De las personas que escribieron en el período, cuántas recibieron una oferta y cuántas reservaron después. También muestra cuántas consultas se respondieron desde el panel y en cuánto tiempo."],
+          ["Por persona", "Clientes asignados en el período, ofertas enviadas y reservas confirmadas que cargó cada uno, con lo reservado y la comisión."],
+        ]}
+      />
+      <DocTip>
+        Pasá el mouse (o tocá) sobre un mes del gráfico para ver sus números, o tocá «Ver tabla» para verlos todos juntos.
+      </DocTip>
+    </DocSection>
+  );
+}
+
+function ReviewsDoc() {
+  return (
+    <DocSection
+      id="resenas"
+      icon={MessageSquareQuote}
+      title="Reseñas"
+      adminOnly
+      intro="Lo que opinan tus huéspedes, en tu sitio. Las piden los emails, las moderás vos. Solo lo ven propietarios y administradores."
+    >
+      <DocSteps>
+        <DocStep>
+          Cuando marcás una reserva como <strong>completada</strong>, el huésped recibe un email para dejar su reseña
+          desde su página de reserva: estrellas y un comentario.
+        </DocStep>
+        <DocStep>
+          La reseña llega a <strong>Reseñas</strong> como pendiente, y te avisa la campana.
+        </DocStep>
+        <DocStep>
+          Tocá <strong>Publicar</strong> para mostrarla, o <strong>No publicar</strong>. El texto del huésped no se
+          edita.
+        </DocStep>
+      </DocSteps>
+      <DocTerms
+        items={[
+          ["En el sitio", "Las publicadas aparecen en la ficha de su propiedad con el promedio de estrellas, y en las tarjetas del listado. Sumá el bloque «Reseñas» en el editor del portal para mostrarlas en tu página principal."],
+          ["Agregar reseña", "Para las que recibiste en otro canal (Airbnb, Google, un email): puntuación, nombre, propiedad y texto. Se publican al guardarlas y sí se pueden editar."],
+          ["Ocultar o eliminar", "Ocultar la saca del sitio sin borrarla; eliminar la borra para siempre."],
+        ]}
+      />
+    </DocSection>
+  );
+}
+
 export const DOC_SECTIONS: DocEntry[] = [
   { id: "primeros-pasos", label: "Primeros pasos", Content: Basics },
   { id: "consultas", label: "Consultas", Content: Inquiries },
@@ -1651,6 +1820,8 @@ export const DOC_SECTIONS: DocEntry[] = [
   { id: "reservas", label: "Reservas", Content: Bookings },
   { id: "disponibilidad", label: "Disponibilidad", Content: Availability },
   { id: "servicios", label: "Servicios", Content: Services },
+  { id: "reportes", label: "Reportes", adminOnly: true, Content: Reports },
+  { id: "resenas", label: "Reseñas", adminOnly: true, Content: ReviewsDoc },
   { id: "portal", label: "Portal web", adminOnly: true, Content: Portal },
   { id: "lo-que-ven-tus-clientes", label: "Lo que ven tus clientes", Content: ClientPages },
   { id: "equipo", label: "Equipo", adminOnly: true, Content: Team },

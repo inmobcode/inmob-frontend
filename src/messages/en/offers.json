@@ -20,7 +20,10 @@
       "edit": "Edit",
       "copyLink": "Copy link",
       "markSent": "Mark as sent",
-      "delete": "Delete"
+      "delete": "Delete",
+      "duplicate": "Duplicate",
+      "saveAsTemplate": "Save as template",
+      "useTemplate": "Create offer from this template"
     },
     "card": {
       "properties": "{count, plural, one {# property} other {# properties}}",
@@ -117,7 +120,9 @@
       "linkOnPublish": "Activated when you publish the link.",
       "publicLink": "Public offer link",
       "copied": "Copied",
-      "copyLink": "Copy link"
+      "copyLink": "Copy link",
+      "templateNote": "This is a template: it has no link and isn’t sent. Create offers from it.",
+      "preview": "View as the client"
     },
     "items": {
       "noPrice": "No price",
@@ -171,7 +176,8 @@
         "DRAFT": "Drafts",
         "SENT": "Sent",
         "VIEWED": "Viewed",
-        "EXPIRED": "Expired"
+        "EXPIRED": "Expired",
+        "ACCEPTED": "Accepted"
       },
       "markedSent": "Offer marked as sent",
       "sendFailed": "Couldn't send the offer",
@@ -191,6 +197,46 @@
       "emptyBody": "Pick properties, add discounts and share a link with your client.",
       "emptyHelp": "How to build and send an offer",
       "noMatchBody": "Try another name or clear the filters."
+    },
+    "templates": {
+      "badge": "Template",
+      "show": "Show",
+      "offersTab": "Offers",
+      "tab": "Templates",
+      "tabCount": "Templates · {count}",
+      "saved": "Saved as a template",
+      "seeTemplates": "See templates",
+      "saveFailed": "Couldn't save the template",
+      "copyFailed": "Couldn't create the copy",
+      "emptyTitle": "No templates yet",
+      "emptyBody": "From an offer’s ⋯ menu, choose “Save as template” to reuse it.",
+      "startFrom": "Or start from a template",
+      "startFromHint": "Copies its properties, services and welcome. If you typed a title above, the new offer uses it.",
+      "saveFirst": "Save your changes to include them in the copy.",
+      "useThis": "Create offer from this template",
+      "duplicate": "Duplicate",
+      "saveAsTemplate": "Save as template"
+    },
+    "opens": {
+      "title": "Opens",
+      "none": "Your client hasn’t opened it yet.",
+      "notSent": "Counted once you send it.",
+      "summary": "{count, plural, one {Opened # time} other {Opened # times}} · last {ago}",
+      "first": "First on {date}",
+      "seeAll": "See all {count}",
+      "device": {
+        "MOBILE": "Phone",
+        "DESKTOP": "Computer"
+      }
+    },
+    "booking": {
+      "title": "Bookings",
+      "none": "When your client accepts, create the booking from here with the offer’s details.",
+      "booking": "Booking",
+      "create": "Create booking",
+      "created": "Booking created; the offer is now accepted",
+      "hint": "Client, currency and price come from the saved offer. For rentals, the nightly price is multiplied by the nights.",
+      "hintWithServices": "Client, currency and price come from the saved offer, services included. For rentals, the nightly price is multiplied by the nights."
     }
   }
 }

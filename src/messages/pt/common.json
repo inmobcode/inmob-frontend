@@ -142,6 +142,18 @@
         "restored": "Restaurou o serviço",
         "back": "Serviços",
         "untitled": "Serviço"
+      },
+      "clients": {
+        "title": "Lixo de clientes",
+        "restored": "Restaurou o cliente",
+        "back": "Clientes",
+        "untitled": "Cliente"
+      },
+      "inquiries": {
+        "title": "Lixo de pedidos",
+        "restored": "Restaurou o pedido",
+        "back": "Pedidos",
+        "untitled": "Pedido"
       }
     }
   },
@@ -162,7 +174,9 @@
     "portal": "Site",
     "docs": "Documentação",
     "authCallback": "A iniciar sessão",
-    "resetPassword": "Redefinir palavra-passe"
+    "resetPassword": "Redefinir palavra-passe",
+    "reports": "Relatórios",
+    "guestReviews": "Avaliações"
   },
   "legal": {
     "effective": "Em vigor desde",

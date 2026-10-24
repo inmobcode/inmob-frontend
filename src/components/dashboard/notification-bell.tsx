@@ -9,6 +9,8 @@ import {
   Eye,
   Inbox,
   ListChecks,
+  Star,
+  UserRound,
   X,
   type LucideIcon,
 } from "lucide-react";
@@ -43,6 +45,8 @@ const ICONS: Record<NotificationType, LucideIcon> = {
   PAYMENT: CreditCard,
   TASK: ListChecks,
   BOOKING: CalendarCheck,
+  CLIENT: UserRound,
+  REVIEW: Star,
 };
 
 const FEED_KEY = ["notifications"];
@@ -71,6 +75,10 @@ function useNotificationText() {
             ? t("taskDue", { title: p.title ?? "", date: date(new Date(`${p.due}T12:00:00`), "dayMonthShort") })
             : (p.title ?? null),
         };
+      case "CLIENT":
+        return { title: t("client"), body: p.name ?? null };
+      case "REVIEW":
+        return { title: t("review", { name: p.name ?? "", rating: p.rating ?? 0 }), body: p.text ?? null };
       default:
         return { title: item.title, body: item.body };
     }

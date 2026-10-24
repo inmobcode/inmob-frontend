@@ -1,0 +1,83 @@
+{
+  "reports": {
+    "title": "Reports",
+    "help": "Help with reports",
+    "period": "Period",
+    "currency": "Currency",
+    "loadFailed": "We couldn't load the reports",
+    "managersOnly": "Reports show the agency’s money and the whole team’s results, so only owners and administrators see them.",
+    "emptyTitle": "Nothing happened in this period yet",
+    "emptyBody": "Once you confirm bookings, record payments or get inquiries, the numbers show up here. Try a longer period.",
+    "periods": {
+      "3m": "3 months",
+      "6m": "6 months",
+      "12m": "12 months",
+      "year": "This year",
+      "lastYear": "Last year"
+    },
+    "kpi": {
+      "booked": "Booked",
+      "bookedHint": "{count, plural, one {# confirmed booking} other {# confirmed bookings}}",
+      "collected": "Collected",
+      "collectedHint": "Client payments marked as collected",
+      "commission": "Commission",
+      "commissionHint": "On confirmed bookings",
+      "occupancy": "Occupancy",
+      "occupancyHint": "Booked nights across your rentals",
+      "conversion": "Conversion",
+      "conversionHint": "{booked} of {clients} people who wrote in booked"
+    },
+    "money": {
+      "title": "Income by month",
+      "description": "Booked goes to the check-in month (a sale, to when it was created); collected, to the month of payment.",
+      "asTable": "Show table",
+      "asChart": "Show chart",
+      "month": "Month",
+      "booked": "Booked",
+      "collected": "Collected",
+      "commission": "Commission",
+      "bookings": "Bookings",
+      "chartLabel": "Booked and collected by month, in {currency}",
+      "monthSummary": "{month}: booked {booked}, collected {collected}"
+    },
+    "occupancy": {
+      "title": "Occupancy by property",
+      "description": "Booked nights (by bookings or iCal) over available ones. Nights blocked by hand don’t count as available.",
+      "empty": "You have no rental properties.",
+      "nights": "{taken} of {available} nights",
+      "external": "{count} via iCal",
+      "blocked": "{count} blocked"
+    },
+    "conversion": {
+      "title": "From inquiry to booking",
+      "description": "The people who wrote in during the period and what happened next.",
+      "steps": {
+        "inquiries": "Inquiries",
+        "clients": "People",
+        "offered": "Got an offer",
+        "booked": "Booked"
+      },
+      "ofPeople": "{share} of people",
+      "source": "From",
+      "rate": "Conversion",
+      "types": {
+        "PROPERTY": "A property page",
+        "OFFER": "An offer",
+        "GENERAL": "Site contact form"
+      },
+      "replies": "{count, plural, one {# inquiry answered from the dashboard} other {# inquiries answered from the dashboard}}; half of them within {hours} h.",
+      "noReplies": "No inquiries answered from the dashboard in this period yet."
+    },
+    "team": {
+      "title": "Results by person",
+      "description": "Clients assigned in the period, offers sent and confirmed bookings each one made. Amounts in {currency}.",
+      "member": "Person",
+      "clients": "New clients",
+      "offers": "Offers sent",
+      "bookings": "Bookings",
+      "booked": "Booked",
+      "commission": "Commission",
+      "inactive": "no access"
+    }
+  }
+}

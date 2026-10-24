@@ -5,9 +5,11 @@ import {
   Building2,
   CalendarCheck,
   CalendarDays,
+  ChartColumn,
   Globe,
   Inbox,
   Menu,
+  MessageSquareQuote,
   PanelLeftClose,
   PanelLeftOpen,
   Settings,
@@ -54,7 +56,19 @@ import { cn } from "@/lib/utils";
 interface NavItem {
   href: string;
   /** Its name, a key of "dashboard.nav". */
-  label: "inquiries" | "clients" | "properties" | "offers" | "bookings" | "availability" | "services" | "portal" | "team" | "settings";
+  label:
+    | "inquiries"
+    | "clients"
+    | "properties"
+    | "offers"
+    | "bookings"
+    | "availability"
+    | "services"
+    | "reports"
+    | "reviews"
+    | "portal"
+    | "team"
+    | "settings";
   icon: LucideIcon;
   /** Leaves a little extra room above it: the start of the administration links. */
   startsGroup?: boolean;
@@ -97,6 +111,8 @@ function navItemsFor(agencySlug: string, role: string | undefined): NavItem[] {
   ];
   if (role && role !== "AGENT") {
     items.push(
+      { href: `/${agencySlug}/reports`, label: "reports", icon: ChartColumn },
+      { href: `/${agencySlug}/reviews`, label: "reviews", icon: MessageSquareQuote },
       { href: `/${agencySlug}/portal`, label: "portal", icon: Globe },
       { href: `/${agencySlug}/team`, label: "team", icon: UsersRound },
       {

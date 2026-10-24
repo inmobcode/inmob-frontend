@@ -418,7 +418,31 @@
       "perNight": "{price}/night",
       "minNights": "{count, plural, one {min. # night} other {min. # nights}}",
       "remove": "Remove",
-      "empty": "No rate periods yet."
+      "empty": "No rate periods yet.",
+      "seasonsTitle": "Seasons",
+      "seasonsDescription": "Nightly prices for specific dates. They can ask for a longer minimum stay.",
+      "rules": {
+        "title": "Pricing rules",
+        "description": "They apply all year on top of the nightly price and are saved with “Save”. They show on the public page and in each booking’s price.",
+        "minStay": "Minimum stay",
+        "nights": "nights",
+        "weekly": "Weekly discount (7+ nights)",
+        "monthly": "Monthly discount (28+ nights)",
+        "lastMinute": "Last minute",
+        "lastMinuteDays": "Days before arrival",
+        "within": "if arrival is within",
+        "days": "days",
+        "earlyBird": "Early booking",
+        "earlyBirdDays": "Days ahead",
+        "from": "booking",
+        "daysAhead": "or more days ahead",
+        "hint": "The length-of-stay discount applies first (monthly replaces weekly), then a single one for when they book: the larger if both apply. Leave empty what you don’t use."
+      },
+      "try": {
+        "title": "Try a price",
+        "description": "Pick dates and see the price with the saved rates and rules, as the client sees it.",
+        "pickDates": "Pick the dates"
+      }
     },
     "availability": {
       "blockFailed": "Couldn't block the date",

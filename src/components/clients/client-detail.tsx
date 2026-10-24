@@ -9,17 +9,20 @@ import {
   Phone,
   PhoneCall,
   Plus,
+  Trash2,
   Users,
   type LucideIcon,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
 import { BackLink } from "@/components/shared/back-link";
 import { ClientAvatar, STAGES } from "@/components/clients/client-parts";
+import { ClientPreferencesForm } from "@/components/clients/client-preferences";
+import { TagEditor, tagsInUse } from "@/components/clients/client-tags";
 import { AssigneeSelect, useMemberName } from "@/components/shared/assignee-select";
 import { TaskList } from "@/components/tasks/task-list";
 import { FormSection } from "@/components/properties/form-section";
@@ -29,10 +32,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { ApiError } from "@/lib/api/client";
 import {
   addInteraction,
+  deleteClient,
   getClient,
+  listClients,
+  restoreClient,
   updateClient,
   type Client,
-  type ClientStage,
   type InteractionType,
 } from "@/lib/api/clients";
 import { getAccessToken, useSessionUser } from "@/lib/auth/session";
@@ -76,6 +81,7 @@ export function ClientDetail({ clientId }: { clientId: string }) {
   const labels = useLabels();
   const { date, ago } = useFormat();
   const { agencySlug } = useParams<{ agencySlug: string }>();
+  const router = useRouter();
   const queryClient = useQueryClient();
   const [notes, setNotes] = useState<string | null>(null);
   const [type, setType] = useState<InteractionType>("NOTE");
@@ -87,8 +93,12 @@ export function ClientDetail({ clientId }: { clientId: string }) {
     queryFn: () => getClient(requireToken(), clientId),
   });
 
+  // The rest of the agency's tags, to suggest; the list is usually cached from the clients page.
+  const { data: allClients } = useQuery({ queryKey: ["clients"], queryFn: () => listClients(requireToken()) });
+
   const updateMutation = useMutation({
-    mutationFn: (payload: { stage?: ClientStage; notes?: string; assignedAgentId?: string | null }) => updateClient(requireToken(), clientId, payload),
+    meta: { affectsSite: false },
+    mutationFn: (payload: Parameters<typeof updateClient>[2]) => updateClient(requireToken(), clientId, payload),
     onSuccess: (updated, payload) => {
       queryClient.setQueryData<Client>(["client", clientId], (prev) => (prev ? { ...prev, ...updated } : prev));
       queryClient.invalidateQueries({ queryKey: ["clients"] });
@@ -98,7 +108,47 @@ export function ClientDetail({ clientId }: { clientId: string }) {
     onError: (err) => toast.error(err instanceof ApiError ? err.message : common("saveFailed")),
   });
 
+  // Each add or remove saves on its own, without a toast: the chips already show it.
+  const tagsMutation = useMutation({
+    meta: { affectsSite: false },
+    mutationFn: (tags: string[]) => updateClient(requireToken(), clientId, { tags }),
+    onMutate: (tags) => {
+      const previous = queryClient.getQueryData<Client>(["client", clientId]);
+      queryClient.setQueryData<Client>(["client", clientId], (prev) => (prev ? { ...prev, tags } : prev));
+      return { previous };
+    },
+    onError: (err, _tags, context) => {
+      if (context?.previous) queryClient.setQueryData(["client", clientId], context.previous);
+      toast.error(err instanceof ApiError ? err.message : common("saveFailed"));
+    },
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["clients"] }),
+  });
+
+  // Deleting moves them to the trash, so it needs no confirmation: the toast can undo it.
+  const deleteMutation = useMutation({
+    meta: { affectsSite: false },
+    mutationFn: () => deleteClient(requireToken(), clientId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["clients"] });
+      router.push(`/${agencySlug}/clients`);
+      toast.success(t("trashed"), {
+        action: {
+          label: common("undo"),
+          onClick: () =>
+            restoreClient(requireToken(), clientId)
+              .then(() => {
+                queryClient.invalidateQueries({ queryKey: ["clients"] });
+                router.push(`/${agencySlug}/clients/${clientId}`);
+              })
+              .catch(() => toast.error(t("restoreFailed"))),
+        },
+      });
+    },
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : t("deleteFailed")),
+  });
+
   const interactionMutation = useMutation({
+    meta: { affectsSite: false },
     mutationFn: () => addInteraction(requireToken(), clientId, { type, content: content.trim() }),
     onSuccess: () => {
       setContent("");
@@ -174,6 +224,18 @@ export function ClientDetail({ clientId }: { clientId: string }) {
                 </Button>
               )}
             </div>
+          </FormSection>
+
+          <FormSection
+            title={t("preferences")}
+            description={t("preferencesDescription")}
+            shown={false}
+          >
+            <ClientPreferencesForm
+              client={client}
+              saving={updateMutation.isPending}
+              onSave={(payload) => updateMutation.mutateAsync(payload)}
+            />
           </FormSection>
 
           <FormSection
@@ -289,6 +351,15 @@ export function ClientDetail({ clientId }: { clientId: string }) {
           </div>
 
           <div className="flex flex-col gap-3">
+            <h2 className="font-display text-xl leading-tight">{t("tags")}</h2>
+            <TagEditor
+              value={client.tags}
+              onChange={(tags) => tagsMutation.mutate(tags)}
+              suggestions={tagsInUse(allClients ?? [])}
+            />
+          </div>
+
+          <div className="flex flex-col gap-3">
             <h2 className="font-display text-xl leading-tight">{t("owner")}</h2>
             {user?.role === "AGENT" ? (
               client.assignedAgentId === user.id ? (
@@ -349,6 +420,16 @@ export function ClientDetail({ clientId }: { clientId: string }) {
               </li>
             </ul>
           </div>
+
+          <Button
+            variant="ghost"
+            className="-mx-2 self-start text-destructive hover:bg-destructive/10 hover:text-destructive"
+            disabled={deleteMutation.isPending}
+            onClick={() => deleteMutation.mutate()}
+          >
+            <Trash2 />
+            {t("delete")}
+          </Button>
         </aside>
       </div>
     </div>

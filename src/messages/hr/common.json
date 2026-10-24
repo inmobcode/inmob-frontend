@@ -142,6 +142,18 @@
         "restored": "Vratili ste uslugu",
         "back": "Usluge",
         "untitled": "Usluga"
+      },
+      "clients": {
+        "title": "Koš za smeće: klijenti",
+        "restored": "Vratili ste klijenta",
+        "back": "Klijenti",
+        "untitled": "Klijent"
+      },
+      "inquiries": {
+        "title": "Koš za smeće: upiti",
+        "restored": "Vratili ste upit",
+        "back": "Upiti",
+        "untitled": "Upit"
       }
     }
   },
@@ -162,7 +174,9 @@
     "portal": "Web-stranica",
     "docs": "Dokumentacija",
     "authCallback": "Prijava u tijeku",
-    "resetPassword": "Ponovno postavljanje lozinke"
+    "resetPassword": "Ponovno postavljanje lozinke",
+    "reports": "Izvješća",
+    "guestReviews": "Recenzije"
   },
   "legal": {
     "effective": "Na snazi od",

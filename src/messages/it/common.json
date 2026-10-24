@@ -142,6 +142,18 @@
         "restored": "Hai ripristinato il servizio",
         "back": "Servizi",
         "untitled": "Servizio"
+      },
+      "clients": {
+        "title": "Cestino dei clienti",
+        "restored": "Hai ripristinato il cliente",
+        "back": "Clienti",
+        "untitled": "Cliente"
+      },
+      "inquiries": {
+        "title": "Cestino delle richieste",
+        "restored": "Hai ripristinato la richiesta",
+        "back": "Richieste",
+        "untitled": "Richiesta"
       }
     }
   },
@@ -162,7 +174,9 @@
     "portal": "Sito",
     "docs": "Documentazione",
     "authCallback": "Accesso in corso",
-    "resetPassword": "Reimposta la password"
+    "resetPassword": "Reimposta la password",
+    "reports": "Report",
+    "guestReviews": "Recensioni"
   },
   "legal": {
     "effective": "In vigore dal",

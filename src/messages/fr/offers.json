@@ -20,7 +20,10 @@
       "edit": "Modifier",
       "copyLink": "Copier le lien",
       "markSent": "Marquer comme envoyée",
-      "delete": "Supprimer"
+      "delete": "Supprimer",
+      "duplicate": "Dupliquer",
+      "saveAsTemplate": "Enregistrer comme modèle",
+      "useTemplate": "Créer une offre à partir de ce modèle"
     },
     "card": {
       "properties": "{count, plural, one {# bien} other {# biens}}",
@@ -117,7 +120,9 @@
       "linkOnPublish": "Activé à la publication du lien.",
       "publicLink": "Lien public de l’offre",
       "copied": "Copié",
-      "copyLink": "Copier le lien"
+      "copyLink": "Copier le lien",
+      "templateNote": "C’est un modèle : il n’a pas de lien et ne s’envoie pas. Créez des offres à partir de lui.",
+      "preview": "Voir comme le client"
     },
     "items": {
       "noPrice": "Sans prix",
@@ -171,7 +176,8 @@
         "DRAFT": "Brouillons",
         "SENT": "Envoyées",
         "VIEWED": "Vues",
-        "EXPIRED": "Expirées"
+        "EXPIRED": "Expirées",
+        "ACCEPTED": "Acceptées"
       },
       "markedSent": "Offre marquée comme envoyée",
       "sendFailed": "Impossible d’envoyer l’offre",
@@ -191,6 +197,46 @@
       "emptyBody": "Choisissez des biens, ajoutez des remises et partagez un lien avec votre client.",
       "emptyHelp": "Comment créer et envoyer une offre",
       "noMatchBody": "Essayez un autre nom ou retirez les filtres."
+    },
+    "templates": {
+      "badge": "Modèle",
+      "show": "Afficher",
+      "offersTab": "Offres",
+      "tab": "Modèles",
+      "tabCount": "Modèles · {count}",
+      "saved": "Enregistrée comme modèle",
+      "seeTemplates": "Voir les modèles",
+      "saveFailed": "Impossible d’enregistrer le modèle",
+      "copyFailed": "Impossible de créer la copie",
+      "emptyTitle": "Pas encore de modèles",
+      "emptyBody": "Depuis le menu ⋯ d’une offre, choisissez « Enregistrer comme modèle » pour la réutiliser.",
+      "startFrom": "Ou partez d’un modèle",
+      "startFromHint": "Copie ses biens, services et mot d’accueil. Si vous avez saisi un titre ci-dessus, la nouvelle offre le reprend.",
+      "saveFirst": "Enregistrez vos modifications pour les inclure dans la copie.",
+      "useThis": "Créer une offre à partir de ce modèle",
+      "duplicate": "Dupliquer",
+      "saveAsTemplate": "Enregistrer comme modèle"
+    },
+    "opens": {
+      "title": "Ouvertures",
+      "none": "Votre client ne l’a pas encore ouverte.",
+      "notSent": "Comptées dès que vous l’envoyez.",
+      "summary": "{count, plural, one {Ouverte # fois} other {Ouverte # fois}} · dernière {ago}",
+      "first": "La première le {date}",
+      "seeAll": "Voir les {count}",
+      "device": {
+        "MOBILE": "Mobile",
+        "DESKTOP": "Ordinateur"
+      }
+    },
+    "booking": {
+      "title": "Réservations",
+      "none": "Quand votre client accepte, créez la réservation d’ici avec les données de l’offre.",
+      "booking": "Réservation",
+      "create": "Créer une réservation",
+      "created": "Réservation créée ; l’offre est acceptée",
+      "hint": "Client, devise et prix viennent de l’offre enregistrée. En location, le prix par nuit est multiplié par les nuits.",
+      "hintWithServices": "Client, devise et prix viennent de l’offre enregistrée, services compris. En location, le prix par nuit est multiplié par les nuits."
     }
   }
 }

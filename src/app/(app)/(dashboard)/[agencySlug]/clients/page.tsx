@@ -3,19 +3,31 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { RotateCcw, Search, SearchX, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { ClientCard, ClientCardSkeleton, ClientRow, ClientsTable } from "@/components/clients/client-views";
 import { STAGES, type ClientActions } from "@/components/clients/client-parts";
+import { tagsInUse } from "@/components/clients/client-tags";
 import { CreateClientDialog } from "@/components/clients/create-client-dialog";
+import { ExportClientsButton } from "@/components/clients/export-clients-button";
 import { HelpHint, HelpLink } from "@/components/docs/help-link";
 import { FilterMenu } from "@/components/filter-menu";
 import { ViewSwitch, type ViewMode } from "@/components/properties/view-switch";
+import { TrashLink } from "@/components/trash/trash-link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ApiError } from "@/lib/api/client";
-import { listClients, updateClient, type Client, type ClientStage } from "@/lib/api/clients";
+import {
+  deleteClient,
+  listClients,
+  listTrashedClients,
+  restoreClient,
+  updateClient,
+  type Client,
+  type ClientStage,
+} from "@/lib/api/clients";
 import { getAccessToken } from "@/lib/auth/session";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { useLabels } from "@/lib/labels";
@@ -35,8 +47,10 @@ export default function ClientsPage() {
   const labels = useLabels();
   const stageOptions = STAGES.map((value) => ({ value, label: t(`stagePlural.${value}`) }));
   const queryClient = useQueryClient();
+  const { agencySlug } = useParams<{ agencySlug: string }>();
   const gridRef = useRef<HTMLDivElement>(null);
   const [stage, setStage] = useState<ClientStage[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
   const [search, setSearch] = useState("");
   const [view, setView] = useState<ViewMode>("grid");
 
@@ -74,14 +88,23 @@ export default function ClientsPage() {
     return result;
   }, [sorted]);
 
+  const tagOptions = useMemo(() => tagsInUse(sorted).map((tag) => ({ value: tag, label: tag })), [sorted]);
+  const tagCounts = useMemo(() => {
+    const result: Record<string, number> = {};
+    for (const client of sorted) for (const tag of client.tags) result[tag] = (result[tag] ?? 0) + 1;
+    return result;
+  }, [sorted]);
+
   const filtered = useMemo(() => {
     const term = search.trim().toLowerCase();
     return sorted.filter((client) => {
       if (stage.length > 0 && !stage.includes(client.stage)) return false;
+      // Any of the picked tags will do.
+      if (tags.length > 0 && !client.tags.some((tag) => tags.includes(tag))) return false;
       if (!term) return true;
-      return [client.name, client.email, client.phone].filter(Boolean).join(" ").toLowerCase().includes(term);
+      return [client.name, client.email, client.phone, ...client.tags].filter(Boolean).join(" ").toLowerCase().includes(term);
     });
-  }, [sorted, stage, search]);
+  }, [sorted, stage, tags, search]);
 
   const stageMutation = useMutation({
     meta: { affectsSite: false },
@@ -101,13 +124,36 @@ export default function ClientsPage() {
     onSettled: () => queryClient.invalidateQueries({ queryKey: ["clients"] }),
   });
 
+  // Deleting moves them to the trash, so it needs no confirmation: the toast can undo it.
+  const deleteMutation = useMutation({
+    meta: { affectsSite: false },
+    mutationFn: (id: string) => deleteClient(requireToken(), id),
+    onSuccess: (_, id) =>
+      toast.success(t("trashed"), {
+        action: {
+          label: common("undo"),
+          onClick: () =>
+            restoreClient(requireToken(), id)
+              .then(() => queryClient.invalidateQueries({ queryKey: ["clients"] }))
+              .catch(() => toast.error(t("restoreFailed"))),
+        },
+      }),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : t("deleteFailed")),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["clients"] }),
+  });
+
   const actions: ClientActions = {
     changeStage: (id, next) => stageMutation.mutate({ id, next }),
+    requestDelete: (id) => deleteMutation.mutate(id),
   };
+
+  const trashLink = (
+    <TrashLink href={`/${agencySlug}/clients/trash`} queryKey={["clients", "trash"]} list={listTrashedClients} />
+  );
 
   const total = sorted.length;
   const visibleKey = filtered.map((client) => client.id).join(",");
-  const hasFilters = stage.length > 0 || search.trim() !== "";
+  const hasFilters = stage.length > 0 || tags.length > 0 || search.trim() !== "";
 
   // Cards settle in one after another whenever the visible set changes.
   useGSAP(
@@ -158,10 +204,22 @@ export default function ClientsPage() {
                   onChange={setStage}
                   counts={counts}
                 />
+                {tagOptions.length > 0 && (
+                  <FilterMenu
+                    name={t("tag")}
+                    plural={t("tagsPlural")}
+                    options={tagOptions}
+                    value={tags}
+                    onChange={setTags}
+                    counts={tagCounts}
+                  />
+                )}
                 <ViewSwitch value={view} onChange={changeView} views={CLIENT_VIEWS} />
+                <ExportClientsButton clients={filtered} />
               </>
             )}
             <HelpLink section="clientes" label={t("help")} />
+            {trashLink}
             <CreateClientDialog />
           </div>
         </div>
@@ -199,7 +257,10 @@ export default function ClientsPage() {
             <p className="font-display text-2xl">{t("emptyTitle")}</p>
             <p className="text-sm text-muted-foreground">{t("emptyBody")}</p>
           </div>
-          <CreateClientDialog />
+          <div className="flex flex-wrap justify-center gap-3">
+            <CreateClientDialog />
+            {trashLink}
+          </div>
           <HelpHint section="clientes">{t("emptyHelp")}</HelpHint>
         </div>
       )}
@@ -218,6 +279,7 @@ export default function ClientsPage() {
               variant="outline"
               onClick={() => {
                 setStage([]);
+                setTags([]);
                 setSearch("");
               }}
             >

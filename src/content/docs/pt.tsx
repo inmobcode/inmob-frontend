@@ -2,11 +2,13 @@ import {
   Building2,
   CalendarCheck,
   CalendarDays,
+  ChartColumn,
   Compass,
   Eye,
   Globe,
   Inbox,
   Keyboard,
+  MessageSquareQuote,
   KeyRound,
   Settings,
   Sparkles,
@@ -153,7 +155,11 @@ function Basics() {
           ],
           [
             "Lixo",
-            "O que apaga de Imóveis, Ofertas e Reservas vai para o lixo, não desaparece. Fica lá 30 dias caso se arrependa; depois é apagado definitivamente. Ao apagar, o aviso em baixo tem «Anular».",
+            "O que apaga de Imóveis, Ofertas, Reservas, Clientes e Pedidos vai para o lixo, não desaparece. Fica lá 30 dias caso se arrependa; depois é apagado definitivamente. Ao apagar, o aviso em baixo tem «Anular».",
+          ],
+          [
+            "Histórico",
+            "Em imóveis, ofertas e reservas, o botão «Histórico» mostra quem alterou o quê e quando: o preço de 100 para 120, o estado, as fotos, os pagamentos. O que o cliente faz a partir de um link (abrir uma oferta, escrever) aparece como «O cliente ou o sistema».",
           ],
           [
             "«Mostra-se no site» / «Só interno»",
@@ -168,7 +174,7 @@ function Basics() {
 
       <DocH3>O lixo</DocH3>
       <DocP>
-        Abre-se a partir do ícone do caixote, na barra de Imóveis, Ofertas e Reservas. Um número sobre o ícone indica
+        Abre-se a partir do ícone do caixote, na barra de Imóveis, Ofertas, Reservas e Clientes; em Pedidos só aparece quando há algo lá dentro. Um número sobre o ícone indica
         quantas coisas há lá dentro.
       </DocP>
       <DocFigure
@@ -231,13 +237,34 @@ function Inquiries() {
         <li>Ao abrir um pedido, fica marcado como lido. O envelope em cima à direita volta a marcá-lo como novo.</li>
         <li>Os de um cliente que já tem mostram a sua etapa (Lead, Contactado…) ao lado do nome.</li>
         <li>
-          Responda com um clique: <strong>Responder por email</strong> (com o assunto e a saudação já escritos),{" "}
-          <strong>WhatsApp</strong> (com uma mensagem que nomeia o que perguntou) ou <strong>Ligar</strong>. WhatsApp e
-          Ligar aparecem se deixou telefone. O ícone ao lado do email copia-o.
+          <strong>Responder</strong> abre a mensagem ali mesmo, com o assunto e a saudação já escritos. Sai por email
+          com o nome da sua agência, fica no histórico do cliente e o pedido mostra quem respondeu e quando. Se o
+          cliente responder, chega ao email de contacto das Definições (ou ao seu).
+        </li>
+        <li>
+          <strong>WhatsApp</strong> (com uma mensagem que nomeia o que perguntou) e <strong>Ligar</strong> aparecem se
+          deixou telefone. O ícone ao lado do email copia-o.
+        </li>
+        <li>
+          <strong>Responsável:</strong> titulares e administradores escolhem quem o acompanha (é o responsável do
+          cliente, que recebe um aviso no sino). Um agente pode tocar em «Ficar com ele» se ninguém o tiver.
+        </li>
+        <li>
+          <strong>Arquivar</strong> (a caixa, em cima à direita) tira-o da caixa de entrada sem o apagar: fica no
+          separador «Arquivados», de onde volta à caixa de entrada. O caixote manda-o para o lixo; o cliente e o seu
+          histórico não são tocados. As duas ações têm «Anular».
         </li>
         <li>Toque no imóvel ou na oferta para o abrir no painel, ou em «Ver cliente» para ir à sua ficha.</li>
         <li>A caixa atualiza-se sozinha a cada minuto.</li>
       </DocList>
+
+      <DocH3>Modelos de resposta</DocH3>
+      <DocP>
+        Para o que mais lhe perguntam, guarde um modelo: ao responder, toque em «Modelos» e depois em «Novo modelo», com
+        um nome, um assunto opcional e o texto. Os botões em baixo inserem dados que se preenchem sozinhos ao usá-lo:
+        nome próprio, nome completo, imóvel ou oferta, a sua agência e o seu nome. Escolha-o em «Usar um modelo» e
+        ajuste o necessário antes de enviar. São partilhados por toda a equipa.
+      </DocP>
       <DocTip>
         Se ainda não chegou nenhum pedido, partilhe o link do seu site: o formulário de contacto e o de cada ficha chegam
         aqui.
@@ -291,7 +318,7 @@ function Clients() {
       />
       <DocP>
         Mude a etapa a partir do menu <strong>⋯</strong> de cada cliente («Mudar etapa») ou a partir da sua ficha. Nesse
-        mesmo menu pode ver a ficha, enviar-lhe um email, ligar-lhe ou copiar o email.
+        mesmo menu pode ver a ficha, enviar-lhe um email, ligar-lhe, copiar o email ou movê-lo para o lixo.
       </DocP>
 
       <DocH3>A ficha do cliente</DocH3>
@@ -312,7 +339,7 @@ function Clients() {
         items={[
           [
             "Notas",
-            "O que convém lembrar: o que procura, orçamento, preferências. Admite títulos, negrito, listas e links. Quando altera algo aparece «Guardar notas».",
+            "O que convém lembrar e não cabe em «O que procura». Admite títulos, negrito, listas e links. Quando altera algo aparece «Guardar notas».",
           ],
           [
             "Tarefas",
@@ -328,11 +355,31 @@ function Clients() {
             "O agente que acompanha o cliente. Titulares e administradores escolhem-no da lista da equipa; um agente pode tocar em «Ficar com ele» num lead sem responsável.",
           ],
           ["Contacto", "O seu email e telefone, a um toque de lhe escrever ou ligar."],
+          [
+            "O que procura",
+            "Orçamento (na moeda da sua agência), quantas pessoas, zonas e datas. Só a sua equipa o vê. Quando altera algo aparece «Guardar».",
+          ],
+          [
+            "Etiquetas",
+            "As suas próprias marcas para agrupar clientes: «VIP», «investidor», «verão 2027». Escreva uma e prima Enter ou vírgula; em baixo sugerimos as que já usa. Guardam-se no momento e servem para filtrar a lista.",
+          ],
+          [
+            "Mover para o lixo",
+            "No fundo do painel da direita, ou a partir do menu ⋯ da lista. As suas ofertas, reservas e histórico ficam como estão. Se voltar a escrever-lhe a partir do portal, sai sozinho do lixo. Enquanto lá estiver não pode criar outro cliente com o mesmo email: restaure-o. Um cliente com reservas não pode ser apagado definitivamente.",
+          ],
         ]}
       />
       <DocTip>
         Ao eliminar uma tarefa não há lixo: desaparece no momento. Se apenas a terminou, é melhor marcá-la como feita.
       </DocTip>
+
+      <DocH3>Exportar para CSV</DocH3>
+      <DocP>
+        O botão com a seta para baixo, na barra da lista, descarrega os clientes que está a ver (com a pesquisa e os
+        filtros aplicados) num ficheiro CSV que abre no Excel, Google Sheets ou Numbers: contacto, etapa, origem,
+        etiquetas, o que procura, notas e data de criação. Titulares e administradores também veem a coluna do
+        responsável.
+      </DocP>
     </DocSection>
   );
 }
@@ -598,6 +645,14 @@ function Properties() {
       <DocTip>
         Para ver todos os seus imóveis para arrendamento num só calendário, use <strong>Disponibilidade</strong> no menu.
       </DocTip>
+
+      <DocH3>Regras de preço</DocH3>
+      <DocP>
+        Na secção Rates, acima das épocas: estadia mínima para todo o ano, desconto semanal (7+ noites) ou mensal (28+),
+        e um pela data da reserva: última hora (chegada dentro de poucos dias) ou reserva antecipada. Guardam-se com
+        «Guardar». «Testar preço» calcula uma estadia como o cliente a vê; esse cálculo preenche o total em «Nova
+        reserva» e aparece na ficha pública como «Calcule a sua estadia».
+      </DocP>
 
       <DocH3>Recomendações</DocH3>
       <DocFigure
@@ -988,6 +1043,29 @@ function Offers() {
         esse pedido chega a Pedidos.
       </DocP>
 
+      <DocH3>Seguimento das aberturas</DocH3>
+      <DocP>
+        Cada vez que o cliente abre o link fica registado quando e se foi no telemóvel ou no computador. No painel da
+        direita do editor vê quantas vezes a abriu, a última e as anteriores; na lista, um olho com o número. Se a
+        voltar a abrir depois de um dia, o sino avisa-o de novo. Não contam as pré-visualizações do WhatsApp ou do
+        email, nem o seu «Ver como o cliente».
+      </DocP>
+
+      <DocH3>Duplicar e modelos</DocH3>
+      <DocP>
+        No menu ⋯ da oferta ou no painel do editor, «Duplicar» cria um rascunho igual, sem cliente nem validade, para
+        enviar a outra pessoa. «Guardar como modelo» guarda-a no separador «Modelos» da lista: um modelo não tem link
+        nem se envia. Para o usar, toque em «Criar oferta a partir deste modelo» ou escolha-o ao criar uma «Nova
+        oferta».
+      </DocP>
+
+      <DocH3>Da oferta à reserva</DocH3>
+      <DocP>
+        Quando o cliente aceitar, toque em «Criar reserva» no painel da direita do editor. Cliente, moeda e preço vêm da
+        oferta guardada (em arrendamentos, o preço por noite vezes as noites, mais os serviços); escolha o imóvel e as
+        datas. A oferta passa a «Aceite» e a reserva fica listada nela.
+      </DocP>
+
       <DocH3>Estados</DocH3>
       <DocTerms
         items={[
@@ -995,6 +1073,7 @@ function Offers() {
           [<DocPill key="s" tone="primary">Enviada</DocPill>, "O link está ativo e foi enviado ao cliente."],
           [<DocPill key="v">Vista</DocPill>, "O cliente já abriu a oferta."],
           [<DocPill key="e">Expirada</DocPill>, "Passou a data de validade; o cliente vê um aviso de que expirou."],
+          [<DocPill key="a" tone="primary">Aceite</DocPill>, "Foi criada uma reserva a partir dela."],
         ]}
       />
     </DocSection>
@@ -1096,11 +1175,39 @@ function Bookings() {
         Os pagamentos cobrados alimentam o extrato de conta do proprietário: o cobrado menos a comissão é o que lhe cabe.
       </DocP>
 
+      <DocH3>Pesquisar e filtrar</DocH3>
+      <DocP>
+        Pesquise por imóvel ou cliente e combine filtros: estado, pagamento (por cobrar, com saldo ou pagas), imóvel,
+        localização e datas. O filtro de datas mostra as estadias que tocam esses dias; o dia de saída já conta como
+        livre.
+      </DocP>
+
+      <DocH3>Hóspedes e notas</DocH3>
+      <DocP>
+        Em «Detalhes» da ficha indica quantas pessoas vêm e notas internas para a sua equipa («chegam tarde», «pedem
+        berço»). O cliente vê o número de hóspedes, nunca as notas. Numa reserva cancelada ou concluída só se podem
+        editar as notas.
+      </DocP>
+
+      <DocH3>Editar ou apagar um pagamento</DocH3>
+      <DocP>
+        Ao registar um pagamento pode indicar o meio (transferência, numerário…), marcá-lo como já recebido com a data e
+        deixar uma nota interna. O menu ⋯ de cada pagamento permite editá-lo, voltar a pendente ou eliminá-lo (pedimos
+        confirmação: também é apagado do extrato do proprietário).
+      </DocP>
+
       <DocH3>A página do cliente</DocH3>
       <DocP>
         Cada reserva tem uma página para o cliente com o imóvel, a sua estadia, o estado e os pagamentos (sinais e saldo,
         nunca a comissão). Se a reserva tiver cliente, recebe-a por email ao criá-la, confirmá-la ou cancelá-la. Se não,
         copie o link a partir da ficha ou do menu ⋯ e envie-lho você. Ver «O que veem os seus clientes».
+      </DocP>
+
+      <DocH3>O comprovativo</DocH3>
+      <DocP>
+        «Comprovativo para o cliente», na ficha, abre uma página pronta a imprimir ou guardar como PDF: a sua agência, a
+        reserva, os pagamentos com data e meio, o total e o que falta pagar. O cliente também lá chega a partir da sua
+        página. Nunca mostra a comissão nem as notas, e esclarece que não é uma fatura.
       </DocP>
     </DocSection>
   );
@@ -1599,7 +1706,7 @@ function Shortcuts() {
           [<Kbd key="q">?</Kbd>, "Ver todos os atalhos"],
           [
             <><Kbd>G</Kbd> e uma letra</>,
-            "Ir a uma secção: P imóveis, O ofertas, C clientes, I pedidos, R reservas, D disponibilidade, E equipa, W site, S definições, M o meu perfil",
+            "Ir a uma secção: P imóveis, O ofertas, C clientes, I pedidos, R reservas, D disponibilidade, T relatórios, E equipa, W site, S definições, M o meu perfil",
           ],
           [<Kbd key="n">N</Kbd>, "Criar um novo na lista aberta"],
           [<Kbd key="s">/</Kbd>, "Ir para a pesquisa da lista"],
@@ -1626,6 +1733,68 @@ function Shortcuts() {
   );
 }
 
+function Reports() {
+  return (
+    <DocSection
+      id="reportes"
+      icon={ChartColumn}
+      title="Relatórios"
+      adminOnly
+      intro="Como vai a agência num período: o que reservou e recebeu, a comissão, a ocupação de cada arrendamento, quantos pedidos acabam em reserva e os resultados de cada pessoa da equipa. Só titulares e administradores o veem."
+    >
+      <DocP>
+        Escolha o período em cima (3, 6 ou 12 meses, este ano ou o passado). Se trabalha com mais de uma moeda, escolha qual ver: os montantes nunca se somam entre moedas.
+      </DocP>
+      <DocTerms
+        items={[
+          ["Reservado", "O preço total das reservas confirmadas ou concluídas, no mês do check-in (uma venda, no mês em que foi criada). A barra verde do gráfico."],
+          ["Recebido", "Os sinais e saldos marcados como recebidos, no mês do pagamento. Não inclui a comissão. A barra laranja."],
+          ["Comissão", "A comissão indicada nessas reservas confirmadas."],
+          ["Ocupação", "Noites ocupadas por reservas ou iCal, sobre as noites disponíveis de cada arrendamento. As que bloqueou à mão não contam como disponíveis."],
+          ["Conversão", "Das pessoas que escreveram no período, quantas receberam uma oferta e quantas reservaram depois. Mostra também quantos pedidos foram respondidos a partir do painel e em quanto tempo."],
+          ["Por pessoa", "Clientes atribuídos no período, ofertas enviadas e reservas confirmadas que cada um criou, com o reservado e a comissão."],
+        ]}
+      />
+      <DocTip>
+        Passe o rato (ou toque) sobre um mês do gráfico para ver os números, ou toque em «Ver tabela» para os ver todos juntos.
+      </DocTip>
+    </DocSection>
+  );
+}
+
+function ReviewsDoc() {
+  return (
+    <DocSection
+      id="resenas"
+      icon={MessageSquareQuote}
+      title="Avaliações"
+      adminOnly
+      intro="O que os seus hóspedes pensam, no seu site. Os emails pedem-nas; você modera-as. Só titulares e administradores o veem."
+    >
+      <DocSteps>
+        <DocStep>
+          Quando marca uma reserva como <strong>concluída</strong>, o hóspede recebe um email para deixar a avaliação a
+          partir da página da reserva: estrelas e um comentário.
+        </DocStep>
+        <DocStep>
+          A avaliação chega a <strong>Avaliações</strong> como pendente, e o sino avisa-o.
+        </DocStep>
+        <DocStep>
+          Toque em <strong>Publicar</strong> para a mostrar, ou em <strong>Não publicar</strong>. O texto do hóspede não
+          se edita.
+        </DocStep>
+      </DocSteps>
+      <DocTerms
+        items={[
+          ["No site", "As publicadas aparecem na ficha do imóvel com a média de estrelas e nos cartões da listagem. Adicione o bloco «Avaliações» no editor do portal para as mostrar na página inicial."],
+          ["Adicionar avaliação", "Para as que recebeu noutro canal (Airbnb, Google, um email): pontuação, nome, imóvel e texto. São publicadas ao guardar e podem ser editadas."],
+          ["Ocultar ou eliminar", "Ocultar tira-a do site sem a apagar; eliminar apaga-a para sempre."],
+        ]}
+      />
+    </DocSection>
+  );
+}
+
 export const DOC_SECTIONS: DocEntry[] = [
   { id: "primeros-pasos", label: "Primeiros passos", Content: Basics },
   { id: "consultas", label: "Pedidos", Content: Inquiries },
@@ -1637,6 +1806,8 @@ export const DOC_SECTIONS: DocEntry[] = [
   { id: "reservas", label: "Reservas", Content: Bookings },
   { id: "disponibilidad", label: "Disponibilidade", Content: Availability },
   { id: "servicios", label: "Serviços", Content: Services },
+  { id: "reportes", label: "Relatórios", adminOnly: true, Content: Reports },
+  { id: "resenas", label: "Avaliações", adminOnly: true, Content: ReviewsDoc },
   { id: "portal", label: "Site", adminOnly: true, Content: Portal },
   { id: "lo-que-ven-tus-clientes", label: "O que veem os seus clientes", Content: ClientPages },
   { id: "equipo", label: "Equipa", adminOnly: true, Content: Team },

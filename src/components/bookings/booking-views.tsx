@@ -50,6 +50,7 @@ function When({ booking }: { booking: Booking }) {
       <CalendarDays className="size-3.5 shrink-0" />
       <RangeLabel booking={booking} />
       {dates && <span>· {t("nights", { count: dates.nights })}</span>}
+      {booking.guests && <span>· {t("guests", { count: booking.guests })}</span>}
     </span>
   );
 }

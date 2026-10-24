@@ -20,7 +20,10 @@
       "edit": "Editar",
       "copyLink": "Copiar link",
       "markSent": "Marcar como enviada",
-      "delete": "Eliminar"
+      "delete": "Eliminar",
+      "duplicate": "Duplicar",
+      "saveAsTemplate": "Guardar como plantilla",
+      "useTemplate": "Crear oferta desde esta plantilla"
     },
     "card": {
       "properties": "{count, plural, one {# propiedad} other {# propiedades}}",
@@ -117,7 +120,9 @@
       "linkOnPublish": "Se activa cuando publiques el link.",
       "publicLink": "Link público de la oferta",
       "copied": "Copiado",
-      "copyLink": "Copiar link"
+      "copyLink": "Copiar link",
+      "templateNote": "Es una plantilla: no tiene link ni se envía. Creá ofertas a partir de ella.",
+      "preview": "Ver como el cliente"
     },
     "items": {
       "noPrice": "Sin precio",
@@ -171,7 +176,8 @@
         "DRAFT": "Borradores",
         "SENT": "Enviadas",
         "VIEWED": "Vistas",
-        "EXPIRED": "Vencidas"
+        "EXPIRED": "Vencidas",
+        "ACCEPTED": "Aceptadas"
       },
       "markedSent": "Oferta marcada como enviada",
       "sendFailed": "No se pudo enviar la oferta",
@@ -191,6 +197,46 @@
       "emptyBody": "Elegí propiedades, sumá descuentos y compartí un link con tu cliente.",
       "emptyHelp": "Cómo armar y enviar una oferta",
       "noMatchBody": "Probá con otro nombre o quitá los filtros."
+    },
+    "templates": {
+      "badge": "Plantilla",
+      "show": "Mostrar",
+      "offersTab": "Ofertas",
+      "tab": "Plantillas",
+      "tabCount": "Plantillas · {count}",
+      "saved": "Guardada como plantilla",
+      "seeTemplates": "Ver plantillas",
+      "saveFailed": "No se pudo guardar la plantilla",
+      "copyFailed": "No se pudo crear la copia",
+      "emptyTitle": "Todavía no hay plantillas",
+      "emptyBody": "Desde el menú ⋯ de una oferta, tocá «Guardar como plantilla» para reutilizarla.",
+      "startFrom": "O empezá desde una plantilla",
+      "startFromHint": "Copia sus propiedades, servicios y bienvenida. Si escribiste un título arriba, la nueva oferta lo usa.",
+      "saveFirst": "Guardá los cambios para incluirlos en la copia.",
+      "useThis": "Crear oferta desde esta plantilla",
+      "duplicate": "Duplicar",
+      "saveAsTemplate": "Guardar como plantilla"
+    },
+    "opens": {
+      "title": "Aperturas",
+      "none": "Tu cliente todavía no la abrió.",
+      "notSent": "Se cuentan cuando la envíes.",
+      "summary": "{count, plural, one {Abierta # vez} other {Abierta # veces}} · la última {ago}",
+      "first": "La primera, el {date}",
+      "seeAll": "Ver las {count}",
+      "device": {
+        "MOBILE": "Celular",
+        "DESKTOP": "Computadora"
+      }
+    },
+    "booking": {
+      "title": "Reservas",
+      "none": "Cuando tu cliente acepte, creá la reserva desde acá con los datos de la oferta.",
+      "booking": "Reserva",
+      "create": "Crear reserva",
+      "created": "Reserva creada; la oferta quedó como aceptada",
+      "hint": "Cliente, moneda y precio salen de la oferta guardada. En alquileres, el precio por noche se multiplica por las noches.",
+      "hintWithServices": "Cliente, moneda y precio salen de la oferta guardada, con sus servicios incluidos. En alquileres, el precio por noche se multiplica por las noches."
     }
   }
 }
