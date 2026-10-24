@@ -15,7 +15,7 @@
           },
           "q3": {
             "q": "Zaboravio/la sam lozinku. Što sad?",
-            "a": "Na zaslonu za prijavu upotrijebite opciju za oporavak lozinke. Poslat ćemo vam poveznicu e-poštom za izradu nove."
+            "a": "Na zaslonu za prijavu odaberite opciju za oporavak lozinke. Poslat ćemo vam e-poštom šesteroznamenkasti kod za postavljanje nove."
           },
           "q4": {
             "q": "Zašto sam odjavljen/a?",

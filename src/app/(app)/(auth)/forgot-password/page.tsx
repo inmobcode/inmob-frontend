@@ -1,9 +1,9 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { MailCheck } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -31,7 +31,7 @@ export default function ForgotPasswordPage() {
   const t = useTranslations("auth.forgot");
   const tAuth = useTranslations("auth");
   const schema = useMemo(() => makeSchema(tAuth("validation.emailInvalid")), [tAuth]);
-  const [sentTo, setSentTo] = useState<string | null>(null);
+  const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -43,27 +43,11 @@ export default function ForgotPasswordPage() {
     setServerError(null);
     try {
       await requestPasswordReset(values);
-      setSentTo(values.email);
+      // The next step asks for the emailed code and the new password.
+      router.push(`/reset-password?${new URLSearchParams({ email: values.email })}`);
     } catch (err) {
       setServerError(tAuth(`errors.${authErrorKey(err, "forgot")}`));
     }
-  }
-
-  if (sentTo) {
-    return (
-      <div className="flex flex-col items-start gap-6" role="status">
-        <span className="flex size-11 items-center justify-center rounded-lg bg-lime/25 text-forest">
-          <MailCheck className="size-5" />
-        </span>
-        <AuthHeading
-          title={t("sentTitle")}
-          text={t("sentText", { email: sentTo })}
-        />
-        <Link href="/login" className={BACK_LINK}>
-          {t("back")}
-        </Link>
-      </div>
-    );
   }
 
   return (

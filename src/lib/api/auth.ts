@@ -60,8 +60,8 @@ export function registerAgency(payload: RegisterAgencyPayload) {
   });
 }
 
-// Password recovery follows the contract the forgot/reset screens need; the
-// backend doesn't expose these endpoints yet.
+// Password recovery: the first call emails a 6-digit code (answers 204 whether
+// or not the email has an account), the second one uses it to set the password.
 export function requestPasswordReset(payload: { email: string }) {
   return apiFetch<void>("/api/auth/password/forgot", {
     method: "POST",
@@ -69,7 +69,7 @@ export function requestPasswordReset(payload: { email: string }) {
   });
 }
 
-export function resetPassword(payload: { token: string; password: string }) {
+export function resetPassword(payload: { email: string; code: string; password: string }) {
   return apiFetch<void>("/api/auth/password/reset", {
     method: "POST",
     body: JSON.stringify(payload),

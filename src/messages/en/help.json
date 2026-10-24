@@ -15,7 +15,7 @@
           },
           "q3": {
             "q": "I forgot my password. What do I do?",
-            "a": "On the login screen use the option to recover your password. We'll email you a link to create a new one."
+            "a": "On the sign-in screen, use the option to recover your password. We’ll email you a 6-digit code to create a new one."
           },
           "q4": {
             "q": "Why was I logged out?",

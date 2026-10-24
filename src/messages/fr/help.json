@@ -15,7 +15,7 @@
           },
           "q3": {
             "q": "J’ai oublié mon mot de passe, que faire ?",
-            "a": "Sur l’écran de connexion, utilisez l’option de récupération du mot de passe. Nous vous envoyons un lien par e-mail pour en créer un nouveau."
+            "a": "Sur l’écran de connexion, utilisez l’option pour récupérer votre mot de passe. Nous vous envoyons par e-mail un code à 6 chiffres pour en créer un nouveau."
           },
           "q4": {
             "q": "Pourquoi ma session s’est-elle fermée ?",
