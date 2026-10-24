@@ -1,7 +1,6 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import NextLink from "next/link";
 import { useEffect, useState } from "react";
 
 import { LanguageSwitcher } from "@/components/language-switcher";
@@ -93,8 +92,9 @@ export function LandingNav() {
           </li>
         </ul>
         <div className="ml-auto flex items-center gap-2">
-          {/* The panel lives on the app host: ?lang carries the language over. */}
-          <NextLink
+          {/* The panel lives on the app host: ?lang carries the language over.
+              A plain <a>, since a client-side RSC fetch across hosts fails its CORS preflight. */}
+          <a
             href={`/login?lang=${locale}`}
             className={cn(
               "hidden h-10 items-center rounded-lg px-4 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-lime sm:inline-flex",
@@ -102,7 +102,7 @@ export function LandingNav() {
             )}
           >
             {t("login")}
-          </NextLink>
+          </a>
           <a
             href="#demo"
             className="inline-flex h-10 items-center rounded-lg bg-lime px-4 text-sm font-semibold text-forest-deep outline-none transition-[filter] hover:brightness-95 focus-visible:ring-2 focus-visible:ring-paper focus-visible:ring-offset-2 focus-visible:ring-offset-forest"

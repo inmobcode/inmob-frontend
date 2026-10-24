@@ -1,5 +1,4 @@
 import { useLocale, useTranslations } from "next-intl";
-import NextLink from "next/link";
 
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { LogoIcon } from "@/components/logo-icon";
@@ -88,9 +87,10 @@ export function LandingFooter() {
                 {group.links.map((link) => (
                   <li key={link.key}>
                     {"app" in link ? (
-                      <NextLink href={`${link.href}?lang=${locale}`} className={FOOTER_LINK}>
+                      // App host: a plain <a>, a client-side RSC fetch across hosts fails its CORS preflight.
+                      <a href={`${link.href}?lang=${locale}`} className={FOOTER_LINK}>
                         {t(`groups.${group.key}.${link.key}` as never)}
-                      </NextLink>
+                      </a>
                     ) : (
                       <Link href={link.href} className={FOOTER_LINK}>
                         {t(`groups.${group.key}.${link.key}` as never)}
