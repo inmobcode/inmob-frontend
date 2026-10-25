@@ -93,7 +93,9 @@
       "featured": "Featured properties",
       "comingSoon": "Coming soon",
       "count": "{count, plural, one {# property} other {# properties}}",
-      "ctaTitle": "Want to sell your property?"
+      "ctaTitle": "Want to sell your property?",
+      "reviewsTitle": "What our guests say",
+      "reviewsPreview": "The reviews you publish in the dashboard’s Reviews section show here."
     },
     "gallery": {
       "singular": {
@@ -152,7 +154,9 @@
       "paidOn": "Paid on {date}",
       "pending": "Pending",
       "changeTitle": "Need to change something?",
-      "changeBody": "Write to {agency} and they'll help you with your booking."
+      "changeBody": "Write to {agency} and they'll help you with your booking.",
+      "guests": "{count, plural, one {# guest} other {# guests}}",
+      "receipt": "View or download the receipt"
     },
     "facts": {
       "bedrooms": "Bedrooms",
@@ -184,7 +188,8 @@
       "askTitle": "Ask about this property",
       "defaultMessage": "Hi, I'm interested in this property. Is it still available?",
       "others": "Other properties from {agency}",
-      "ask": "Ask"
+      "ask": "Ask",
+      "reviewsTitle": "What guests say"
     },
     "availability": {
       "metaTitle": "Availability — {agency}",
@@ -305,7 +310,81 @@
     },
     "meta": {
       "bookingTitle": "Your booking · {agency}",
-      "ownerTitle": "Your properties · {agency}"
+      "ownerTitle": "Your properties · {agency}",
+      "receiptTitle": "Receipt {reference} · {agency}"
+    },
+    "receipt": {
+      "back": "Back to the booking",
+      "print": "Print or save as PDF",
+      "title": "Booking receipt",
+      "reference": "Booking {reference}",
+      "issued": "Issued on {date}",
+      "client": "Client",
+      "property": "Property",
+      "checkIn": "Check-in",
+      "checkOut": "Check-out",
+      "duration": "Length of stay",
+      "nights": "{count, plural, one {# night} other {# nights}}",
+      "guests": "Guests",
+      "guestsCount": "{count, plural, one {# guest} other {# guests}}",
+      "status": "Status",
+      "payments": "Payments",
+      "date": "Date",
+      "concept": "Item",
+      "method": "Method",
+      "amount": "Amount",
+      "paid": "Paid",
+      "pending": "Pending",
+      "noPayments": "No payments recorded yet.",
+      "total": "Total",
+      "paidTotal": "Paid",
+      "due": "Balance due",
+      "notInvoice": "This receipt summarises the booking and the payments recorded by {agency}. It is not an invoice."
+    },
+    "reviews": {
+      "outOf": "{rating} out of 5 stars",
+      "count": "{count, plural, one {# review} other {# reviews}}"
+    },
+    "stay": {
+      "title": "Work out your stay",
+      "pickDates": "Pick your dates",
+      "loading": "Working it out…",
+      "failed": "We couldn't work out the price. Write to us and we’ll send one.",
+      "estimate": "An estimate from the published rates; the agency confirms it.",
+      "onRequest": "{count, plural, one {# night on request} other {# nights on request}}",
+      "line": "{count, plural, one {# night} other {# nights}} × {price}",
+      "total": "{count, plural, one {Total for # night} other {Total for # nights}}",
+      "totalOnRequest": "On request",
+      "minStayWarning": "{count, plural, one {These dates need at least # night.} other {These dates need at least # nights.}}",
+      "unavailable": "Some of these nights are already taken.",
+      "discounts": {
+        "WEEKLY": "Weekly discount ({pct})",
+        "MONTHLY": "Monthly discount ({pct})",
+        "LAST_MINUTE": "Last minute ({pct})",
+        "EARLY_BIRD": "Early booking ({pct})"
+      },
+      "rules": {
+        "minStay": "Minimum stay: {count} nights",
+        "weekly": "{pct} off stays of 7 nights or more",
+        "monthly": "{pct} off stays of 28 nights or more",
+        "lastMinute": "{pct} off if you arrive within {count} days",
+        "earlyBird": "{pct} off booking {count} days ahead"
+      }
+    },
+    "guestReview": {
+      "title": "How was your stay?",
+      "lead": "Your opinion helps {agency} and future guests.",
+      "ratingLabel": "Your rating",
+      "outOf": "{rating} out of 5 stars",
+      "textLabel": "Your comment",
+      "placeholder": "Tell us what you liked and what you’d improve (optional)",
+      "send": "Send review",
+      "sending": "Sending…",
+      "failed": "We couldn't send your review. Try again.",
+      "note": "It’s published with your first name and last initial, once the agency checks it.",
+      "thanksTitle": "Thanks for your review",
+      "published": "It’s published on the site.",
+      "pending": "The agency will check it before publishing."
     }
   }
 }

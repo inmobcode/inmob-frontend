@@ -418,7 +418,31 @@
       "perNight": "{price}/nuit",
       "minNights": "{count, plural, one {min. # nuit} other {min. # nuits}}",
       "remove": "Retirer",
-      "empty": "Aucune période tarifaire pour l’instant."
+      "empty": "Aucune période tarifaire pour l’instant.",
+      "seasonsTitle": "Saisons",
+      "seasonsDescription": "Prix par nuit pour des dates précises. Ils peuvent exiger un séjour minimum plus long.",
+      "rules": {
+        "title": "Règles de prix",
+        "description": "Elles s’appliquent toute l’année au prix par nuit et s’enregistrent avec « Enregistrer ». Elles apparaissent sur la fiche publique et dans le prix de chaque réservation.",
+        "minStay": "Séjour minimum",
+        "nights": "nuits",
+        "weekly": "Remise semaine (7+ nuits)",
+        "monthly": "Remise mois (28+ nuits)",
+        "lastMinute": "Dernière minute",
+        "lastMinuteDays": "Jours avant l’arrivée",
+        "within": "si l’arrivée a lieu sous",
+        "days": "jours",
+        "earlyBird": "Réservation anticipée",
+        "earlyBirdDays": "Jours d’avance",
+        "from": "en réservant",
+        "daysAhead": "jours ou plus à l’avance",
+        "hint": "La remise de durée s’applique d’abord (le mois remplace la semaine), puis une seule selon la date de réservation : la plus forte si les deux s’appliquent. Laissez vide ce que vous n’utilisez pas."
+      },
+      "try": {
+        "title": "Tester un prix",
+        "description": "Choisissez des dates et voyez le prix avec les tarifs et règles enregistrés, comme le client le voit.",
+        "pickDates": "Choisissez les dates"
+      }
     },
     "availability": {
       "blockFailed": "Impossible de bloquer la date",
@@ -643,7 +667,21 @@
       "empty": {
         "title": "Ajoutez votre premier bien",
         "body": "Ajoutez photos, prix et caractéristiques pour qu’il soit prêt quand vous voudrez le publier.",
-        "help": "Comment ajouter et publier un bien"
+        "help": "Comment ajouter et publier un bien",
+        "steps": {
+          "basics": {
+            "title": "Renseignez l’essentiel",
+            "text": "Type, titre et emplacement."
+          },
+          "media": {
+            "title": "Ajoutez photos et prix",
+            "text": "La première photo devient la couverture."
+          },
+          "publish": {
+            "title": "Publiez-le",
+            "text": "Il apparaît aussitôt sur votre site public."
+          }
+        }
       },
       "noMatch": {
         "title": "Rien ne correspond à ces filtres",

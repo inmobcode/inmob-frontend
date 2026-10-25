@@ -20,7 +20,10 @@
       "edit": "Bearbeiten",
       "copyLink": "Link kopieren",
       "markSent": "Als gesendet markieren",
-      "delete": "Löschen"
+      "delete": "Löschen",
+      "duplicate": "Duplizieren",
+      "saveAsTemplate": "Als Vorlage speichern",
+      "useTemplate": "Angebot aus dieser Vorlage erstellen"
     },
     "card": {
       "properties": "{count, plural, one {# Objekt} other {# Objekte}}",
@@ -117,7 +120,9 @@
       "linkOnPublish": "Wird beim Veröffentlichen des Links aktiviert.",
       "publicLink": "Öffentlicher Link zum Angebot",
       "copied": "Kopiert",
-      "copyLink": "Link kopieren"
+      "copyLink": "Link kopieren",
+      "templateNote": "Dies ist eine Vorlage: Sie hat keinen Link und wird nicht versendet. Erstellen Sie daraus Angebote.",
+      "preview": "Als Kunde ansehen"
     },
     "items": {
       "noPrice": "Kein Preis",
@@ -171,7 +176,8 @@
         "DRAFT": "Entwürfe",
         "SENT": "Gesendet",
         "VIEWED": "Angesehen",
-        "EXPIRED": "Abgelaufen"
+        "EXPIRED": "Abgelaufen",
+        "ACCEPTED": "Angenommen"
       },
       "markedSent": "Angebot als gesendet markiert",
       "sendFailed": "Angebot konnte nicht gesendet werden",
@@ -191,6 +197,46 @@
       "emptyBody": "Wählen Sie Objekte, fügen Sie Rabatte hinzu und teilen Sie einen Link mit Ihrem Kunden.",
       "emptyHelp": "So erstellen und senden Sie ein Angebot",
       "noMatchBody": "Versuchen Sie einen anderen Namen oder entfernen Sie die Filter."
+    },
+    "templates": {
+      "badge": "Vorlage",
+      "show": "Anzeigen",
+      "offersTab": "Angebote",
+      "tab": "Vorlagen",
+      "tabCount": "Vorlagen · {count}",
+      "saved": "Als Vorlage gespeichert",
+      "seeTemplates": "Vorlagen ansehen",
+      "saveFailed": "Vorlage konnte nicht gespeichert werden",
+      "copyFailed": "Kopie konnte nicht erstellt werden",
+      "emptyTitle": "Noch keine Vorlagen",
+      "emptyBody": "Wählen Sie im Menü ⋯ eines Angebots „Als Vorlage speichern“, um es wiederzuverwenden.",
+      "startFrom": "Oder mit einer Vorlage beginnen",
+      "startFromHint": "Übernimmt Objekte, Leistungen und Begrüßung. Haben Sie oben einen Titel eingegeben, verwendet das neue Angebot ihn.",
+      "saveFirst": "Speichern Sie Ihre Änderungen, damit die Kopie sie enthält.",
+      "useThis": "Angebot aus dieser Vorlage erstellen",
+      "duplicate": "Duplizieren",
+      "saveAsTemplate": "Als Vorlage speichern"
+    },
+    "opens": {
+      "title": "Aufrufe",
+      "none": "Ihr Kunde hat es noch nicht geöffnet.",
+      "notSent": "Werden gezählt, sobald Sie es senden.",
+      "summary": "{count, plural, one {# Mal geöffnet} other {# Mal geöffnet}} · zuletzt {ago}",
+      "first": "Zuerst am {date}",
+      "seeAll": "Alle {count} ansehen",
+      "device": {
+        "MOBILE": "Handy",
+        "DESKTOP": "Computer"
+      }
+    },
+    "booking": {
+      "title": "Buchungen",
+      "none": "Wenn Ihr Kunde annimmt, erstellen Sie die Buchung hier mit den Angebotsdaten.",
+      "booking": "Buchung",
+      "create": "Buchung erstellen",
+      "created": "Buchung erstellt; das Angebot ist angenommen",
+      "hint": "Kunde, Währung und Preis stammen aus dem gespeicherten Angebot. Bei Mieten wird der Preis pro Nacht mit den Nächten multipliziert.",
+      "hintWithServices": "Kunde, Währung und Preis stammen aus dem gespeicherten Angebot, inklusive Leistungen. Bei Mieten wird der Preis pro Nacht mit den Nächten multipliziert."
     }
   }
 }

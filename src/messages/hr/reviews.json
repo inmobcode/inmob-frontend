@@ -1,0 +1,59 @@
+{
+  "reviews": {
+    "title": "Recenzije",
+    "help": "Pomoć za recenzije",
+    "show": "Prikaži",
+    "add": "Dodaj recenziju",
+    "managersOnly": "Recenzije se objavljuju na stranici agencije, pa ih moderiraju vlasnici i administratori.",
+    "loadFailed": "Recenzije nije moguće učitati",
+    "published": "Recenzija je objavljena na vašoj stranici",
+    "hidden": "Recenzija je skrivena",
+    "deleted": "Recenzija je izbrisana",
+    "emptyBody": "Kad završite rezervaciju, gost dobiva e-poštu za recenziju. Možete dodati i one s drugih kanala.",
+    "empty": {
+      "PENDING": "Nema recenzija za pregled",
+      "PUBLISHED": "Još nema objavljenih recenzija",
+      "HIDDEN": "Nema skrivenih recenzija",
+      "ALL": "Još nema recenzija"
+    },
+    "filters": {
+      "PENDING": "Za pregled",
+      "PUBLISHED": "Objavljene",
+      "HIDDEN": "Skrivene",
+      "ALL": "Sve"
+    },
+    "status": {
+      "PENDING": "Na čekanju",
+      "PUBLISHED": "Objavljena",
+      "HIDDEN": "Skrivena"
+    },
+    "source": {
+      "GUEST": "Od gosta",
+      "MANUAL": "Dodala agencija"
+    },
+    "outOf": "{rating} od 5 zvjezdica",
+    "noText": "Bez komentara, samo ocjena.",
+    "noProperty": "Bez nekretnine",
+    "stayed": "boravak {date}",
+    "publish": "Objavi",
+    "hide": "Sakrij",
+    "dontPublish": "Ne objavljuj",
+    "edit": "Uredi",
+    "delete": "Izbriši",
+    "deleteTitle": "Izbrisati recenziju?",
+    "deleteBody": "Recenzija osobe {name} trajno se briše. Ako je samo ne želite prikazati, sakrijte je.",
+    "dialog": {
+      "newTitle": "Dodaj recenziju",
+      "editTitle": "Uredi recenziju",
+      "description": "Recenzija s drugog kanala (Airbnb, Google, e-pošta). Objavljuje se na vašoj stranici kad je spremite.",
+      "rating": "Ocjena",
+      "stars": "{count, plural, one {# zvjezdica} few {# zvjezdice} other {# zvjezdica}}",
+      "author": "Ime",
+      "authorPlaceholder": "Npr. Lucía F.",
+      "property": "Nekretnina",
+      "text": "Što je napisao/la",
+      "stayedOn": "Kada je bio boravak",
+      "publish": "Objavi"
+    }
+  }
+}

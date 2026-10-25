@@ -15,7 +15,7 @@
           },
           "q3": {
             "q": "Ho dimenticato la password, cosa faccio?",
-            "a": "Nella schermata di accesso usa l’opzione per recuperare la password. Ti inviamo un link via email per crearne una nuova."
+            "a": "Dalla schermata di accesso usa l’opzione per recuperare la password. Ti inviamo via email un codice di 6 cifre per crearne una nuova."
           },
           "q4": {
             "q": "Perché si è chiusa la mia sessione?",

@@ -15,7 +15,7 @@
           },
           "q3": {
             "q": "Esqueci-me da palavra-passe. O que faço?",
-            "a": "No ecrã de entrada use a opção para recuperar a palavra-passe. Enviamos-lhe um link por email para criar uma nova."
+            "a": "No ecrã de entrada, use a opção para recuperar a palavra-passe. Enviamos-lhe por email um código de 6 dígitos para criar uma nova."
           },
           "q4": {
             "q": "Porque terminou a minha sessão?",

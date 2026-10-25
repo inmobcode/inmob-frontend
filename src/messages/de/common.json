@@ -136,6 +136,24 @@
         "restored": "Sie haben die Buchung wiederhergestellt",
         "back": "Buchungen",
         "untitled": "Buchung"
+      },
+      "services": {
+        "title": "Papierkorb: Leistungen",
+        "restored": "Sie haben die Leistung wiederhergestellt",
+        "back": "Leistungen",
+        "untitled": "Leistung"
+      },
+      "clients": {
+        "title": "Papierkorb: Kunden",
+        "restored": "Sie haben den Kunden wiederhergestellt",
+        "back": "Kunden",
+        "untitled": "Kunde"
+      },
+      "inquiries": {
+        "title": "Papierkorb: Anfragen",
+        "restored": "Sie haben die Anfrage wiederhergestellt",
+        "back": "Anfragen",
+        "untitled": "Anfrage"
       }
     }
   },
@@ -156,7 +174,9 @@
     "portal": "Website",
     "docs": "Dokumentation",
     "authCallback": "Anmeldung läuft",
-    "resetPassword": "Passwort zurücksetzen"
+    "resetPassword": "Passwort zurücksetzen",
+    "reports": "Berichte",
+    "guestReviews": "Bewertungen"
   },
   "legal": {
     "effective": "Gültig seit",

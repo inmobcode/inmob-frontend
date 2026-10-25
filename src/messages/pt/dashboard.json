@@ -39,7 +39,9 @@
       "collapse": "Recolher",
       "openMenu": "Abrir menu",
       "menu": "Menu",
-      "mainNav": "Navegação principal"
+      "mainNav": "Navegação principal",
+      "reports": "Relatórios",
+      "reviews": "Avaliações"
     },
     "assignee": {
       "label": "Responsável",
@@ -80,7 +82,8 @@
         "team": "Equipa",
         "portal": "Site",
         "settings": "Definições",
-        "profile": "O meu perfil"
+        "profile": "O meu perfil",
+        "reports": "Relatórios"
       },
       "help": {
         "general": "Geral",
@@ -149,7 +152,9 @@
         "trialEnding": "O seu teste gratuito termina a {date}",
         "trialEndingBody": "Depois começa o plano Pro. Pode cancelar nas Definições.",
         "paymentFailed": "Não foi possível cobrar a sua subscrição",
-        "paymentFailedBody": "Atualize o cartão nas Definições para não perder o acesso."
+        "paymentFailedBody": "Atualize o cartão nas Definições para não perder o acesso.",
+        "client": "Foi-lhe atribuído um cliente",
+        "review": "{name} deixou uma avaliação de {rating} estrelas"
       }
     }
   }

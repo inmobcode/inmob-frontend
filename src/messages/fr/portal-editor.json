@@ -117,6 +117,14 @@
           "color": "Couleur",
           "photo": "Avec photo"
         }
+      },
+      "reviews": {
+        "label": "Avis",
+        "description": "Les avis publiés, avec la moyenne de votre agence.",
+        "layouts": {
+          "cards": "Cartes",
+          "quote": "Une citation"
+        }
       }
     },
     "buttonTargets": {
@@ -200,6 +208,10 @@
       "cta": {
         "title": "Vous voulez vendre votre bien ?",
         "text": "Nous vous accompagnons de l’estimation jusqu’à l’acte."
+      },
+      "reviews": {
+        "title": "Ce que disent nos voyageurs",
+        "text": "Des avis réels de nos voyageurs."
       }
     },
     "blocks": {
@@ -266,7 +278,8 @@
       "zonePicker": {
         "pick": "Choisissez un emplacement",
         "none": "Sans emplacement"
-      }
+      },
+      "reviewsHint": "Affiche les avis publiés dans la section Avis du tableau de bord. Sans avis publié, le bloc n’apparaît pas."
     },
     "preview": {
       "title": "Aperçu du site"

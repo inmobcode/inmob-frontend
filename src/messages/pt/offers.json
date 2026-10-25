@@ -20,7 +20,10 @@
       "edit": "Editar",
       "copyLink": "Copiar link",
       "markSent": "Marcar como enviada",
-      "delete": "Eliminar"
+      "delete": "Eliminar",
+      "duplicate": "Duplicar",
+      "saveAsTemplate": "Guardar como modelo",
+      "useTemplate": "Criar oferta a partir deste modelo"
     },
     "card": {
       "properties": "{count, plural, one {# imóvel} other {# imóveis}}",
@@ -117,7 +120,9 @@
       "linkOnPublish": "Ativa-se quando publicar o link.",
       "publicLink": "Link público da oferta",
       "copied": "Copiado",
-      "copyLink": "Copiar link"
+      "copyLink": "Copiar link",
+      "templateNote": "É um modelo: não tem link nem se envia. Crie ofertas a partir dele.",
+      "preview": "Ver como o cliente"
     },
     "items": {
       "noPrice": "Sem preço",
@@ -171,7 +176,8 @@
         "DRAFT": "Rascunhos",
         "SENT": "Enviadas",
         "VIEWED": "Vistas",
-        "EXPIRED": "Expiradas"
+        "EXPIRED": "Expiradas",
+        "ACCEPTED": "Aceites"
       },
       "markedSent": "Oferta marcada como enviada",
       "sendFailed": "Não foi possível enviar a oferta",
@@ -191,6 +197,46 @@
       "emptyBody": "Escolha imóveis, junte descontos e partilhe um link com o seu cliente.",
       "emptyHelp": "Como montar e enviar uma oferta",
       "noMatchBody": "Tente outro nome ou retire os filtros."
+    },
+    "templates": {
+      "badge": "Modelo",
+      "show": "Mostrar",
+      "offersTab": "Ofertas",
+      "tab": "Modelos",
+      "tabCount": "Modelos · {count}",
+      "saved": "Guardada como modelo",
+      "seeTemplates": "Ver modelos",
+      "saveFailed": "Não foi possível guardar o modelo",
+      "copyFailed": "Não foi possível criar a cópia",
+      "emptyTitle": "Ainda não há modelos",
+      "emptyBody": "No menu ⋯ de uma oferta, toque em «Guardar como modelo» para a reutilizar.",
+      "startFrom": "Ou comece a partir de um modelo",
+      "startFromHint": "Copia os imóveis, serviços e boas-vindas. Se escreveu um título acima, a nova oferta usa-o.",
+      "saveFirst": "Guarde as alterações para as incluir na cópia.",
+      "useThis": "Criar oferta a partir deste modelo",
+      "duplicate": "Duplicar",
+      "saveAsTemplate": "Guardar como modelo"
+    },
+    "opens": {
+      "title": "Aberturas",
+      "none": "O seu cliente ainda não a abriu.",
+      "notSent": "Contam-se quando a enviar.",
+      "summary": "{count, plural, one {Aberta # vez} other {Aberta # vezes}} · a última {ago}",
+      "first": "A primeira, a {date}",
+      "seeAll": "Ver as {count}",
+      "device": {
+        "MOBILE": "Telemóvel",
+        "DESKTOP": "Computador"
+      }
+    },
+    "booking": {
+      "title": "Reservas",
+      "none": "Quando o seu cliente aceitar, crie a reserva a partir daqui com os dados da oferta.",
+      "booking": "Reserva",
+      "create": "Criar reserva",
+      "created": "Reserva criada; a oferta ficou aceite",
+      "hint": "Cliente, moeda e preço vêm da oferta guardada. Em arrendamentos, o preço por noite multiplica-se pelas noites.",
+      "hintWithServices": "Cliente, moeda e preço vêm da oferta guardada, com os serviços incluídos. Em arrendamentos, o preço por noite multiplica-se pelas noites."
     }
   }
 }

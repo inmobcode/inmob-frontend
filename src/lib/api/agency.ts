@@ -1,5 +1,6 @@
 import { siteCache } from "@/lib/site-cache";
 
+import type { PublicReview, ReviewSummary } from "./reviews";
 import { apiFetch } from "./client";
 
 export type SiteTemplate = "portada" | "editorial" | "compacto" | "dividido" | "mosaico";
@@ -14,7 +15,7 @@ export type SiteFonts =
   | "arquitectonica";
 
 export type SiteSectionType =
-  "location" | "promo" | "featured" | "destinations" | "text" | "cta";
+  "location" | "promo" | "featured" | "destinations" | "text" | "cta" | "reviews";
 
 export type SectionLayout =
   | "split"
@@ -27,7 +28,9 @@ export type SectionLayout =
   | "image-right"
   | "centered"
   | "color"
-  | "photo";
+  | "photo"
+  | "cards"
+  | "quote";
 
 export type ButtonTarget = "contact" | "whatsapp" | "properties";
 
@@ -105,7 +108,11 @@ export interface Agency {
 export type PublicAgency = Pick<
   Agency,
   "name" | "logoUrl" | "contactEmail" | "site"
->;
+> & {
+  /** The latest published reviews and the agency's average, for the site's reviews block. */
+  reviews?: PublicReview[];
+  rating?: ReviewSummary;
+};
 
 export interface UpdateAgencyPayload {
   name?: string;

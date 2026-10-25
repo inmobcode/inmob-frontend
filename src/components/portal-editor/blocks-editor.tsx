@@ -14,6 +14,7 @@ import {
   LoaderCircle,
   MapPin,
   Megaphone,
+  MessageSquareQuote,
   Plus,
   Search,
   Star,
@@ -69,6 +70,7 @@ const ICONS: Record<SiteSection["type"], typeof MapPin> = {
   destinations: Compass,
   text: TextQuote,
   cta: Megaphone,
+  reviews: MessageSquareQuote,
 };
 
 const ICON_BUTTON =
@@ -682,6 +684,10 @@ function BlockFields({
 
       {(section.type === "text" || section.type === "cta") && (
         <ButtonFields section={section} onChange={onChange} />
+      )}
+
+      {section.type === "reviews" && (
+        <p className="text-sm text-muted-foreground">{t("blocks.reviewsHint")}</p>
       )}
 
       {section.type === "destinations" && (

@@ -15,7 +15,7 @@
           },
           "q3": {
             "q": "Ich habe mein Passwort vergessen. Was tun?",
-            "a": "Nutzen Sie auf der Anmeldeseite die Option zur Passwortwiederherstellung. Wir schicken Ihnen per E-Mail einen Link, um ein neues zu erstellen."
+            "a": "Nutze auf der Anmeldeseite die Option zum Wiederherstellen des Passworts. Wir schicken dir per E-Mail einen 6-stelligen Code, um ein neues festzulegen."
           },
           "q4": {
             "q": "Warum wurde ich abgemeldet?",

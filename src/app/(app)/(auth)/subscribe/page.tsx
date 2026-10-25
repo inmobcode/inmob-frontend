@@ -108,13 +108,14 @@ export default function SubscribePage() {
           router.replace("/subscribe");
           return;
         }
-        router.replace(`/${user.agencySlug}/properties`);
+        // A new account starts at the welcome screen; one coming back to pay goes to its properties.
+        router.replace(`/${user.agencySlug}/${params.has("welcome") ? "welcome" : "properties"}`);
       })
       .catch((err) => {
         setConfirming(false);
         setError(err instanceof ApiError && err.status !== 409 ? err.message : t("confirmFailed"));
       });
-  }, [transactionId, user, router, t]);
+  }, [transactionId, user, router, params, t]);
 
   // Paddle.js has to be on the page for its own links (?_ptxn=) to open a checkout.
   useEffect(() => {

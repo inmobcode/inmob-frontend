@@ -418,7 +418,31 @@
       "perNight": "{price}/noć",
       "minNights": "{count, plural, one {min. # noć} few {min. # noći} other {min. # noći}}",
       "remove": "Ukloni",
-      "empty": "Još nema cjenovnih razdoblja."
+      "empty": "Još nema cjenovnih razdoblja.",
+      "seasonsTitle": "Sezone",
+      "seasonsDescription": "Cijene po noćenju za određene datume. Mogu tražiti dulji minimalni boravak.",
+      "rules": {
+        "title": "Pravila cijena",
+        "description": "Vrijede cijelu godinu na cijenu po noćenju i spremaju se s »Spremi«. Vide se na javnoj stranici i u cijeni svake rezervacije.",
+        "minStay": "Minimalni boravak",
+        "nights": "noćenja",
+        "weekly": "Tjedni popust (7+ noćenja)",
+        "monthly": "Mjesečni popust (28+ noćenja)",
+        "lastMinute": "Zadnji čas",
+        "lastMinuteDays": "Dana prije dolaska",
+        "within": "ako je dolazak unutar",
+        "days": "dana",
+        "earlyBird": "Rana rezervacija",
+        "earlyBirdDays": "Dana unaprijed",
+        "from": "uz rezervaciju",
+        "daysAhead": "ili više dana unaprijed",
+        "hint": "Prvo se primjenjuje popust za trajanje (mjesečni zamjenjuje tjedni), zatim samo jedan prema vremenu rezervacije: veći ako vrijede oba. Ostavite prazno što ne koristite."
+      },
+      "try": {
+        "title": "Isprobaj cijenu",
+        "description": "Odaberite datume i pogledajte cijenu sa spremljenim cijenama i pravilima, kao što je vidi klijent.",
+        "pickDates": "Odaberite datume"
+      }
     },
     "availability": {
       "blockFailed": "Datum nije moguće blokirati",
@@ -643,7 +667,21 @@
       "empty": {
         "title": "Dodajte svoju prvu nekretninu",
         "body": "Dodajte fotografije, cijenu i značajke da bude spremna kad je želite objaviti.",
-        "help": "Kako dodati i objaviti nekretninu"
+        "help": "Kako dodati i objaviti nekretninu",
+        "steps": {
+          "basics": {
+            "title": "Unesite osnovno",
+            "text": "Vrsta, naslov i lokacija."
+          },
+          "media": {
+            "title": "Dodajte fotografije i cijenu",
+            "text": "Prva fotografija postaje naslovnica."
+          },
+          "publish": {
+            "title": "Objavite",
+            "text": "Odmah se prikazuje na vašoj javnoj stranici."
+          }
+        }
       },
       "noMatch": {
         "title": "Ništa ne odgovara tim filtrima",

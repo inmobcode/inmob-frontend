@@ -18,7 +18,8 @@
       "DRAFT": "Skica",
       "SENT": "Poslana",
       "VIEWED": "Pregledana",
-      "EXPIRED": "Istekla"
+      "EXPIRED": "Istekla",
+      "ACCEPTED": "Prihvaćena"
     },
     "discountType": {
       "NONE": "Bez popusta",

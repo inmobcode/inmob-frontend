@@ -7,6 +7,7 @@ const STYLES: Record<OfferStatus, string> = {
   SENT: "bg-primary/10 text-primary",
   VIEWED: "bg-highlight/40 text-highlight-foreground",
   EXPIRED: "bg-foreground/[0.07] text-muted-foreground",
+  ACCEPTED: "bg-primary text-primary-foreground",
 };
 
 export function OfferStatusPill({ status, className }: { status: OfferStatus; className?: string }) {

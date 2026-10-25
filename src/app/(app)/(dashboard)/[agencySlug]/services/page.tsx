@@ -3,6 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { MapPin, RotateCcw, Search, SearchX, Sparkles } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
 import { useMemo, useState } from "react";
 
 import { FilterMenu } from "@/components/filter-menu";
@@ -10,10 +11,11 @@ import { HelpHint, HelpLink } from "@/components/docs/help-link";
 import { NewItemButton } from "@/components/new-item-button";
 import { ServiceDialog } from "@/components/services/service-dialog";
 import { ServiceTypeIcon } from "@/components/services/service-type-icon";
+import { TrashLink } from "@/components/trash/trash-link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ApiError } from "@/lib/api/client";
-import { listServices, type Service, type ServiceType } from "@/lib/api/services";
+import { listServices, listTrashedServices, type Service, type ServiceType } from "@/lib/api/services";
 import { getAccessToken } from "@/lib/auth/session";
 import { useFormat } from "@/i18n/format";
 import { useLabels } from "@/lib/labels";
@@ -87,6 +89,7 @@ function ServiceCard({ service, onOpen }: { service: Service; onOpen: () => void
 export default function ServicesPage() {
   const t = useTranslations("services.list");
   const common = useTranslations("common");
+  const { agencySlug } = useParams<{ agencySlug: string }>();
   const labels = useLabels();
   const typeOptions = SERVICE_TYPES.map((type) => ({ value: type.value, label: labels.serviceType(type.value) }));
   const [types, setTypes] = useState<ServiceType[]>([]);
@@ -123,6 +126,14 @@ export default function ServicesPage() {
 
   const total = data?.length ?? 0;
   const newButton = <NewItemButton label={t("new")} onClick={() => open(null)} />;
+  const trashLink = (
+    <TrashLink
+      href={`/${agencySlug}/services/trash`}
+      queryKey={["services", "trash"]}
+      list={listTrashedServices}
+      hideWhenEmpty
+    />
+  );
 
   return (
     <div className="flex flex-col gap-8">
@@ -155,6 +166,7 @@ export default function ServicesPage() {
               />
             )}
             <HelpLink section="servicios" label={t("help")} />
+            {trashLink}
             {newButton}
           </div>
         </div>
@@ -195,6 +207,7 @@ export default function ServicesPage() {
             </p>
           </div>
           {newButton}
+          {trashLink}
           <HelpHint section="servicios">{t("emptyHelp")}</HelpHint>
         </div>
       )}

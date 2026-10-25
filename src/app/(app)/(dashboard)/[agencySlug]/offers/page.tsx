@@ -1,9 +1,9 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { FileText, RotateCcw, Search, SearchX } from "lucide-react";
+import { FileText, LayoutTemplate, RotateCcw, Search, SearchX } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -19,6 +19,7 @@ import { Input } from "@/components/ui/input";
 import { ApiError } from "@/lib/api/client";
 import {
   deleteOffer,
+  duplicateOffer,
   listOffers,
   listTrashedOffers,
   restoreOffer,
@@ -31,6 +32,9 @@ import { gsap, useGSAP } from "@/lib/gsap";
 import { distance, duration, ease, media, rowStagger } from "@/lib/motion";
 import { useLabels } from "@/lib/labels";
 import { OFFER_OPERATIONS, OFFER_STATUSES } from "@/lib/properties-labels";
+import { cn } from "@/lib/utils";
+
+type Mode = "offers" | "templates";
 
 function requireToken() {
   const token = getAccessToken();
@@ -50,9 +54,12 @@ export default function OffersPage() {
     value,
     label: labels.offerOperation(value),
   }));
+  const templatesT = useTranslations("offers.templates");
   const { agencySlug } = useParams<{ agencySlug: string }>();
+  const router = useRouter();
   const queryClient = useQueryClient();
   const gridRef = useRef<HTMLDivElement>(null);
+  const [mode, setMode] = useState<Mode>("offers");
   const [status, setStatus] = useState<OfferStatus[]>([]);
   const [operation, setOperation] = useState<OfferOperation[]>([]);
   const [view, setView] = useState<ViewMode>("grid");
@@ -76,10 +83,17 @@ export default function OffersPage() {
   }
   const [search, setSearch] = useState("");
 
-  const { data, isLoading, error, refetch, isFetching } = useQuery({
+  const offersQuery = useQuery({
     queryKey: ["offers"],
     queryFn: () => listOffers(requireToken()),
   });
+  // Always loaded: its count goes on the tab.
+  const templatesQuery = useQuery({
+    queryKey: ["offers", "templates"],
+    queryFn: () => listOffers(requireToken(), { templates: true }),
+  });
+  const templateCount = templatesQuery.data?.length ?? 0;
+  const { data, isLoading, error, refetch, isFetching } = mode === "templates" ? templatesQuery : offersQuery;
 
   const sorted = useMemo(
     () => [...(data ?? [])].sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()),
@@ -136,10 +150,61 @@ export default function OffersPage() {
     onSettled: () => queryClient.invalidateQueries({ queryKey: ["offers"] }),
   });
 
+  // A copy, or an offer started from a template: straight into its editor.
+  const duplicateMutation = useMutation({
+    mutationFn: (id: string) => duplicateOffer(requireToken(), id),
+    onSuccess: (offer) => {
+      queryClient.invalidateQueries({ queryKey: ["offers"] });
+      router.push(`/${agencySlug}/offers/${offer.id}`);
+    },
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : templatesT("copyFailed")),
+  });
+
+  const templateMutation = useMutation({
+    mutationFn: (id: string) => duplicateOffer(requireToken(), id, { asTemplate: true }),
+    onSuccess: () =>
+      toast.success(templatesT("saved"), {
+        action: { label: templatesT("seeTemplates"), onClick: () => setMode("templates") },
+      }),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : templatesT("saveFailed")),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["offers"] }),
+  });
+
   const actions: OfferActions = {
     send: (id) => sendMutation.mutate(id),
     requestDelete: (id) => deleteMutation.mutate(id),
+    duplicate: (id) => duplicateMutation.mutate(id),
+    saveAsTemplate: (id) => templateMutation.mutate(id),
+    useTemplate: (id) => duplicateMutation.mutate(id),
   };
+
+  const modeSwitch = (templateCount > 0 || mode === "templates") && (
+    <div role="radiogroup" aria-label={templatesT("show")} className="flex gap-1 rounded-full bg-foreground/[0.07] p-1 dark:bg-foreground/10">
+      {(
+        [
+          ["offers", templatesT("offersTab")],
+          ["templates", templateCount > 0 ? templatesT("tabCount", { count: templateCount }) : templatesT("tab")],
+        ] as const
+      ).map(([value, label]) => (
+        <button
+          key={value}
+          type="button"
+          role="radio"
+          aria-checked={mode === value}
+          onClick={() => {
+            setMode(value);
+            setStatus([]);
+          }}
+          className={cn(
+            "h-8 rounded-full px-4 text-sm font-medium tabular-nums outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/50",
+            mode === value ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground",
+          )}
+        >
+          {label}
+        </button>
+      ))}
+    </div>
+  );
 
   const trashLink = (
     <TrashLink href={`/${agencySlug}/offers/trash`} queryKey={["offers", "trash"]} list={listTrashedOffers} />
@@ -172,8 +237,9 @@ export default function OffersPage() {
     <div className="flex flex-col gap-8">
       <h1 className="sr-only">{t("title")}</h1>
 
-      {!(data && total === 0) && (
+      {(!(data && total === 0) || modeSwitch) && (
         <div className="flex flex-wrap items-center gap-x-3 gap-y-3">
+          {modeSwitch}
           {total > 0 && (
             <div className="relative w-full sm:max-w-xl sm:min-w-72 sm:flex-1">
               <Search className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -198,20 +264,27 @@ export default function OffersPage() {
                   onChange={setOperation}
                   counts={operationCounts}
                 />
-                <FilterMenu
-                  name={t("status")}
-                  plural={t("statuses")}
-                  options={statusOptions}
-                  value={status}
-                  onChange={setStatus}
-                  counts={counts}
-                />
+                {mode === "offers" && (
+                  <FilterMenu
+                    name={t("status")}
+                    plural={t("statuses")}
+                    options={statusOptions}
+                    value={status}
+                    onChange={setStatus}
+                    counts={counts}
+                  />
+                )}
                 <ViewSwitch value={view} onChange={changeView} />
               </>
             )}
-            <HelpLink section="ofertas" label={t("help")} />
-            {trashLink}
-            <CreateOfferDialog />
+            {/* With no offers yet, the empty state below has these. */}
+            {!(data && total === 0 && mode === "offers") && (
+              <>
+                <HelpLink section="ofertas" label={t("help")} />
+                {trashLink}
+                <CreateOfferDialog />
+              </>
+            )}
           </div>
         </div>
       )}
@@ -239,7 +312,19 @@ export default function OffersPage() {
         </div>
       )}
 
-      {data && total === 0 && (
+      {data && total === 0 && mode === "templates" && (
+        <div className="flex flex-col items-center gap-4 rounded-3xl bg-card px-6 py-16 text-center ring-1 ring-foreground/5">
+          <span className="flex size-14 items-center justify-center rounded-full bg-secondary text-primary">
+            <LayoutTemplate className="size-6" />
+          </span>
+          <div className="flex max-w-sm flex-col gap-1">
+            <p className="font-display text-2xl">{templatesT("emptyTitle")}</p>
+            <p className="text-sm text-muted-foreground">{templatesT("emptyBody")}</p>
+          </div>
+        </div>
+      )}
+
+      {data && total === 0 && mode === "offers" && (
         <div className="flex flex-col items-center gap-4 rounded-3xl bg-card px-6 py-16 text-center ring-1 ring-foreground/5">
           <span className="flex size-14 items-center justify-center rounded-full bg-secondary text-primary">
             <FileText className="size-6" />

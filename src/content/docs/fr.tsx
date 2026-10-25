@@ -2,11 +2,13 @@ import {
   Building2,
   CalendarCheck,
   CalendarDays,
+  ChartColumn,
   Compass,
   Eye,
   Globe,
   Inbox,
   Keyboard,
+  MessageSquareQuote,
   KeyRound,
   Settings,
   Sparkles,
@@ -154,7 +156,11 @@ function Basics() {
           ],
           [
             "Corbeille",
-            "Ce que vous supprimez dans Biens, Offres et Réservations va dans la corbeille, rien ne disparaît. Les éléments y restent 30 jours au cas où vous changeriez d’avis ; ils sont ensuite définitivement effacés. Lors d’une suppression, l’avis en bas propose « Annuler ».",
+            "Ce que vous supprimez dans Biens, Offres, Réservations, Clients et Demandes va dans la corbeille, rien ne disparaît. Les éléments y restent 30 jours au cas où vous changeriez d’avis ; ils sont ensuite définitivement effacés. Lors d’une suppression, l’avis en bas propose « Annuler ».",
+          ],
+          [
+            "Historique",
+            "Sur les biens, offres et réservations, le bouton « Historique » montre qui a modifié quoi et quand : le prix de 100 à 120, le statut, les photos, les paiements. Ce que fait le client depuis un lien (ouvrir une offre, écrire) apparaît comme « Le client ou le système ».",
           ],
           [
             "« Affiché sur le site » / « Interne uniquement »",
@@ -169,7 +175,7 @@ function Basics() {
 
       <DocH3>La corbeille</DocH3>
       <DocP>
-        Elle s’ouvre depuis l’icône de corbeille, dans la barre de Biens, Offres et Réservations. Un nombre sur l’icône
+        Elle s’ouvre depuis l’icône de corbeille, dans la barre de Biens, Offres, Réservations et Clients ; dans Demandes, elle n’apparaît que s’il y a quelque chose dedans. Un nombre sur l’icône
         indique combien d’éléments elle contient.
       </DocP>
       <DocFigure
@@ -232,13 +238,35 @@ function Inquiries() {
         <li>Ouvrir une demande la marque comme lue. L’enveloppe en haut à droite la remarque comme nouvelle.</li>
         <li>Celles d’un client que vous avez déjà affichent son étape (Prospect, Contacté…) à côté du nom.</li>
         <li>
-          Répondez en un clic : <strong>Répondre par e-mail</strong> (avec l’objet et la formule d’appel déjà écrits),{" "}
-          <strong>WhatsApp</strong> (avec un message qui mentionne l’objet de la demande) ou <strong>Appeler</strong>.
-          WhatsApp et Appeler apparaissent s’il a laissé un téléphone. L’icône à côté de l’e-mail le copie.
+          <strong>Répondre</strong> ouvre le message sur place, avec l’objet et la formule d’appel déjà écrits. Il part
+          par e-mail au nom de votre agence, reste dans l’historique du client, et la demande indique qui a répondu et
+          quand. Si le client répond, cela arrive à l’e-mail de contact des Paramètres (ou au vôtre).
+        </li>
+        <li>
+          <strong>WhatsApp</strong> (avec un message qui mentionne l’objet de la demande) et <strong>Appeler</strong>{" "}
+          apparaissent s’il a laissé un téléphone. L’icône à côté de l’e-mail le copie.
+        </li>
+        <li>
+          <strong>Responsable :</strong> titulaires et administrateurs choisissent qui la suit (c’est le responsable du
+          client, qui reçoit une notification dans la cloche). Un agent peut cliquer sur « La prendre » si personne ne
+          l’a.
+        </li>
+        <li>
+          <strong>Archiver</strong> (la boîte, en haut à droite) la retire de la boîte de réception sans la supprimer :
+          elle reste dans l’onglet « Archivées », d’où elle peut revenir. La corbeille l’y envoie ; le client et son
+          historique ne sont pas touchés. Les deux actions proposent « Annuler ».
         </li>
         <li>Cliquez sur le bien ou l’offre pour l’ouvrir dans le tableau de bord, ou sur « Voir le client » pour aller à sa fiche.</li>
         <li>La boîte se met à jour toute seule chaque minute.</li>
       </DocList>
+
+      <DocH3>Modèles de réponse</DocH3>
+      <DocP>
+        Pour les questions les plus fréquentes, enregistrez un modèle : en répondant, cliquez sur « Modèles » puis «
+        Nouveau modèle », avec un nom, un objet facultatif et le texte. Les boutons en dessous insèrent des champs qui
+        se remplissent tout seuls : prénom, nom complet, bien ou offre, votre agence et votre nom. Choisissez-le dans «
+        Utiliser un modèle » et ajustez ce qu’il faut avant d’envoyer. Toute l’équipe les partage.
+      </DocP>
       <DocTip>
         Si aucune demande n’est encore arrivée, partagez le lien de votre site : le formulaire de contact et celui de chaque
         fiche arrivent ici.
@@ -292,7 +320,7 @@ function Clients() {
       />
       <DocP>
         Changez l’étape depuis le menu <strong>⋯</strong> de chaque client (« Changer d’étape ») ou depuis sa fiche. Ce même
-        menu permet de voir la fiche, lui envoyer un e-mail, l’appeler ou copier son e-mail.
+        menu permet de voir la fiche, lui envoyer un e-mail, l’appeler, copier son e-mail ou le mettre à la corbeille.
       </DocP>
 
       <DocH3>La fiche du client</DocH3>
@@ -313,7 +341,7 @@ function Clients() {
         items={[
           [
             "Notes",
-            "Ce qu’il faut retenir : ce qu’il cherche, budget, préférences. Accepte titres, gras, listes et liens. Quand vous modifiez quelque chose, « Enregistrer les notes » apparaît.",
+            "Ce qu’il faut retenir et qui n’entre pas dans « Ce qu’il cherche ». Accepte titres, gras, listes et liens. Quand vous modifiez quelque chose, « Enregistrer les notes » apparaît.",
           ],
           [
             "Tâches",
@@ -329,12 +357,32 @@ function Clients() {
             "L’agent qui suit le client. Titulaires et administrateurs le choisissent dans la liste de l’équipe ; un agent peut cliquer sur « Le prendre » pour un prospect non attribué.",
           ],
           ["Contact", "Son e-mail et son téléphone, à un clic pour lui écrire ou l’appeler."],
+          [
+            "Ce qu’il cherche",
+            "Budget (dans la devise de votre agence), nombre de personnes, secteurs et dates. Seule votre équipe le voit. Quand vous modifiez quelque chose, « Enregistrer » apparaît.",
+          ],
+          [
+            "Étiquettes",
+            "Vos propres repères pour regrouper les clients : « VIP », « investisseur », « été 2027 ». Tapez-en une et appuyez sur Entrée ou une virgule ; en dessous, nous suggérons celles que vous utilisez déjà. Elles s’enregistrent immédiatement et servent à filtrer la liste.",
+          ],
+          [
+            "Mettre à la corbeille",
+            "En bas du panneau de droite, ou depuis le menu ⋯ de la liste. Ses offres, réservations et son historique restent tels quels. S’il vous écrit de nouveau depuis le portail, il sort tout seul de la corbeille. Tant qu’il y est, vous ne pouvez pas créer un autre client avec son e-mail : restaurez-le. Un client qui a des réservations ne peut pas être supprimé définitivement.",
+          ],
         ]}
       />
       <DocTip>
         Une tâche supprimée ne passe pas par la corbeille : elle disparaît aussitôt. Si vous l’avez simplement terminée,
         cochez-la plutôt comme faite.
       </DocTip>
+
+      <DocH3>Exporter en CSV</DocH3>
+      <DocP>
+        Le bouton avec la flèche vers le bas, dans la barre de la liste, télécharge les clients affichés (avec la
+        recherche et les filtres appliqués) dans un fichier CSV qui s’ouvre dans Excel, Google Sheets ou Numbers :
+        coordonnées, étape, origine, étiquettes, ce qu’il cherche, notes et date d’ajout. Titulaires et administrateurs
+        ont aussi la colonne du responsable.
+      </DocP>
     </DocSection>
   );
 }
@@ -601,6 +649,15 @@ function Properties() {
       <DocTip>
         Pour voir tous vos biens en location dans un seul calendrier, utilisez <strong>Disponibilités</strong> dans le menu.
       </DocTip>
+
+      <DocH3>Règles de prix</DocH3>
+      <DocP>
+        Dans la section Rates, au-dessus des saisons : séjour minimum toute l’année, remise à la semaine (7+ nuits) ou
+        au mois (28+), et une selon la date de réservation : dernière minute (arrivée sous peu) ou réservation
+        anticipée. Elles s’enregistrent avec « Enregistrer ». « Tester un prix » calcule un séjour comme le voit le
+        client ; ce calcul remplit le total dans « Nouvelle réservation » et apparaît sur la fiche publique sous «
+        Calculez votre séjour ».
+      </DocP>
 
       <DocH3>Recommandations</DocH3>
       <DocFigure
@@ -1002,6 +1059,29 @@ function Offers() {
         l’offre, le client peut vous écrire : cette demande arrive dans Demandes.
       </DocP>
 
+      <DocH3>Suivi des ouvertures</DocH3>
+      <DocP>
+        Chaque fois que le client ouvre le lien, la date est enregistrée, et s’il l’a fait depuis un mobile ou un
+        ordinateur. Le panneau de droite de l’éditeur indique combien de fois il l’a ouverte, la dernière fois et les
+        précédentes ; la liste affiche un œil avec le nombre. S’il la rouvre après un jour, la cloche vous prévient à
+        nouveau. Les aperçus générés par WhatsApp ou l’e-mail ne comptent pas, ni votre « Voir comme le client ».
+      </DocP>
+
+      <DocH3>Dupliquer et modèles</DocH3>
+      <DocP>
+        Depuis le menu ⋯ de l’offre ou le panneau de l’éditeur, « Dupliquer » crée un brouillon identique, sans client
+        ni échéance, à envoyer à quelqu’un d’autre. « Enregistrer comme modèle » la range dans l’onglet « Modèles » de
+        la liste : un modèle n’a pas de lien et ne s’envoie pas. Pour l’utiliser, cliquez sur « Créer une offre à partir
+        de ce modèle » ou choisissez-le en créant une « Nouvelle offre ».
+      </DocP>
+
+      <DocH3>De l’offre à la réservation</DocH3>
+      <DocP>
+        Quand le client accepte, cliquez sur « Créer une réservation » dans le panneau de droite de l’éditeur. Client,
+        devise et prix viennent de l’offre enregistrée (en location, le prix par nuit multiplié par les nuits, plus les
+        services) ; choisissez le bien et les dates. L’offre passe à « Acceptée » et la réservation y est listée.
+      </DocP>
+
       <DocH3>Statuts</DocH3>
       <DocTerms
         items={[
@@ -1009,6 +1089,7 @@ function Offers() {
           [<DocPill key="s" tone="primary">Envoyée</DocPill>, "Le lien est actif et a été envoyé au client."],
           [<DocPill key="v">Vue</DocPill>, "Le client a déjà ouvert l’offre."],
           [<DocPill key="e">Expirée</DocPill>, "Sa date d’expiration est passée ; le client voit un avis indiquant qu’elle a expiré."],
+          [<DocPill key="a" tone="primary">Acceptée</DocPill>, "Une réservation a été créée à partir d’elle."],
         ]}
       />
     </DocSection>
@@ -1111,12 +1192,40 @@ function Bookings() {
         à ce qui lui revient.
       </DocP>
 
+      <DocH3>Rechercher et filtrer</DocH3>
+      <DocP>
+        Cherchez par bien ou client et combinez les filtres : statut, paiement (non payées, partiellement payées ou
+        payées), bien, emplacement et dates. Le filtre de dates affiche les séjours qui touchent ces jours ; le jour du
+        départ compte déjà comme libre.
+      </DocP>
+
+      <DocH3>Voyageurs et notes</DocH3>
+      <DocP>
+        Dans « Détails » de la fiche, indiquez combien de personnes viennent et des notes internes pour votre équipe («
+        arrivée tardive », « lit bébé »). Le client voit le nombre de voyageurs, jamais les notes. Sur une réservation
+        annulée ou terminée, seules les notes sont modifiables.
+      </DocP>
+
+      <DocH3>Modifier ou supprimer un paiement</DocH3>
+      <DocP>
+        En enregistrant un paiement, vous pouvez indiquer le moyen (virement, espèces…), le marquer comme déjà encaissé
+        avec sa date et laisser une note interne. Le menu ⋯ de chaque paiement permet de le modifier, de le remettre en
+        attente ou de le supprimer (avec confirmation : il disparaît aussi du relevé du propriétaire).
+      </DocP>
+
       <DocH3>La page du client</DocH3>
       <DocP>
         Chaque réservation a une page pour le client avec le bien, son séjour, le statut et les paiements (acomptes et
         solde, jamais la commission). Si la réservation a un client, il la reçoit par e-mail à la création, la confirmation
         ou l’annulation. Sinon, copiez le lien depuis la fiche ou le menu ⋯ et envoyez-le vous-même. Voir « Ce que voient
         vos clients ».
+      </DocP>
+
+      <DocH3>Le reçu</DocH3>
+      <DocP>
+        « Reçu pour le client », sur la fiche, ouvre une page prête à imprimer ou à enregistrer en PDF : votre agence,
+        la réservation, les paiements avec leur date et leur moyen, le total et le reste à payer. Le client y accède
+        aussi depuis sa page. Elle n’affiche jamais la commission ni les notes, et précise que ce n’est pas une facture.
       </DocP>
     </DocSection>
   );
@@ -1618,7 +1727,7 @@ function Shortcuts() {
           [<Kbd key="q">?</Kbd>, "Voir tous les raccourcis"],
           [
             <><Kbd>G</Kbd> puis une lettre</>,
-            "Aller à une section : P biens, O offres, C clients, I demandes, R réservations, D disponibilités, E équipe, W site, S paramètres, M mon profil",
+            "Aller à une section : P biens, O offres, C clients, I demandes, R réservations, D disponibilités, T rapports, E équipe, W site, S paramètres, M mon profil",
           ],
           [<Kbd key="n">N</Kbd>, "Créer un nouvel élément dans la liste ouverte"],
           [<Kbd key="s">/</Kbd>, "Aller à la recherche de la liste"],
@@ -1645,6 +1754,68 @@ function Shortcuts() {
   );
 }
 
+function Reports() {
+  return (
+    <DocSection
+      id="reportes"
+      icon={ChartColumn}
+      title="Rapports"
+      adminOnly
+      intro="Comment se porte l’agence sur une période : ce qu’elle a réservé et encaissé, la commission, l’occupation de chaque location, combien de demandes deviennent des réservations et les résultats de chaque membre de l’équipe. Seuls les titulaires et administrateurs le voient."
+    >
+      <DocP>
+        Choisissez la période en haut (3, 6 ou 12 mois, cette année ou l’an dernier). Si vous travaillez avec plusieurs devises, choisissez laquelle afficher : les montants ne s’additionnent jamais entre devises.
+      </DocP>
+      <DocTerms
+        items={[
+          ["Réservé", "Le prix total des réservations confirmées ou terminées, au mois d’arrivée (une vente, au mois de sa création). La barre verte du graphique."],
+          ["Encaissé", "Les acomptes et soldes marqués comme encaissés, au mois du paiement. Sans la commission. La barre orange."],
+          ["Commission", "La commission saisie sur ces réservations confirmées."],
+          ["Occupation", "Nuits prises par des réservations ou par iCal, rapportées aux nuits disponibles de chaque location. Les nuits bloquées à la main ne comptent pas comme disponibles."],
+          ["Conversion", "Parmi les personnes ayant écrit sur la période, combien ont reçu une offre et combien ont réservé ensuite. Indique aussi combien de demandes ont été traitées depuis le tableau de bord, et en combien de temps."],
+          ["Par personne", "Clients attribués sur la période, offres envoyées et réservations confirmées créées par chacun, avec le réservé et la commission."],
+        ]}
+      />
+      <DocTip>
+        Survolez (ou touchez) un mois du graphique pour voir ses chiffres, ou cliquez sur « Voir le tableau » pour tout voir ensemble.
+      </DocTip>
+    </DocSection>
+  );
+}
+
+function ReviewsDoc() {
+  return (
+    <DocSection
+      id="resenas"
+      icon={MessageSquareQuote}
+      title="Avis"
+      adminOnly
+      intro="Ce que pensent vos voyageurs, sur votre site. Les e-mails les demandent, vous les modérez. Réservé aux titulaires et administrateurs."
+    >
+      <DocSteps>
+        <DocStep>
+          Quand vous marquez une réservation comme <strong>terminée</strong>, le voyageur reçoit un e-mail pour laisser
+          son avis depuis sa page de réservation : étoiles et commentaire.
+        </DocStep>
+        <DocStep>
+          L’avis arrive dans <strong>Avis</strong> en attente, et la cloche vous prévient.
+        </DocStep>
+        <DocStep>
+          Cliquez sur <strong>Publier</strong> pour l’afficher, ou <strong>Ne pas publier</strong>. Le texte du voyageur
+          ne se modifie pas.
+        </DocStep>
+      </DocSteps>
+      <DocTerms
+        items={[
+          ["Sur le site", "Les avis publiés apparaissent sur la fiche du bien avec la moyenne d’étoiles, et sur les cartes de la liste. Ajoutez le bloc « Avis » dans l’éditeur du site pour les montrer sur votre page d’accueil."],
+          ["Ajouter un avis", "Pour ceux reçus ailleurs (Airbnb, Google, un e-mail) : note, nom, bien et texte. Ils sont publiés à l’enregistrement et peuvent être modifiés."],
+          ["Masquer ou supprimer", "Masquer le retire du site sans le supprimer ; supprimer l’efface définitivement."],
+        ]}
+      />
+    </DocSection>
+  );
+}
+
 export const DOC_SECTIONS: DocEntry[] = [
   { id: "primeros-pasos", label: "Premiers pas", Content: Basics },
   { id: "consultas", label: "Demandes", Content: Inquiries },
@@ -1656,6 +1827,8 @@ export const DOC_SECTIONS: DocEntry[] = [
   { id: "reservas", label: "Réservations", Content: Bookings },
   { id: "disponibilidad", label: "Disponibilités", Content: Availability },
   { id: "servicios", label: "Services", Content: Services },
+  { id: "reportes", label: "Rapports", adminOnly: true, Content: Reports },
+  { id: "resenas", label: "Avis", adminOnly: true, Content: ReviewsDoc },
   { id: "portal", label: "Site web", adminOnly: true, Content: Portal },
   { id: "lo-que-ven-tus-clientes", label: "Ce que voient vos clients", Content: ClientPages },
   { id: "equipo", label: "Équipe", adminOnly: true, Content: Team },

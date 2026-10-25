@@ -11,7 +11,7 @@
       "updated": "Serviço atualizado",
       "created": "Serviço criado",
       "saveFailed": "Não foi possível guardar o serviço",
-      "deleted": "Serviço eliminado",
+      "deleted": "Serviço movido para o lixo",
       "deleteFailed": "Não foi possível eliminar o serviço",
       "photoFailed": "Não foi possível carregar a foto",
       "editTitle": "Editar serviço",
@@ -42,8 +42,7 @@
       "availableHint": "Se o desligar, não pode ser juntado a novas ofertas.",
       "delete": "Eliminar",
       "create": "Criar serviço",
-      "deleteTitle": "Eliminar «{name}»?",
-      "deleteBody": "Sai da sua biblioteca. As ofertas que já o incluem mantêm-no tal como está."
+      "restoreFailed": "Não foi possível restaurar o serviço"
     },
     "list": {
       "unavailable": "Indisponível",

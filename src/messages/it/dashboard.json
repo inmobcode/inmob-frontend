@@ -39,7 +39,9 @@
       "collapse": "Comprimi",
       "openMenu": "Apri menu",
       "menu": "Menu",
-      "mainNav": "Navigazione principale"
+      "mainNav": "Navigazione principale",
+      "reports": "Report",
+      "reviews": "Recensioni"
     },
     "assignee": {
       "label": "Responsabile",
@@ -80,7 +82,8 @@
         "team": "Team",
         "portal": "Sito",
         "settings": "Impostazioni",
-        "profile": "Il mio profilo"
+        "profile": "Il mio profilo",
+        "reports": "Report"
       },
       "help": {
         "general": "Generale",
@@ -149,7 +152,9 @@
         "trialEnding": "La tua prova gratuita termina il {date}",
         "trialEndingBody": "Poi parte il piano Pro. Puoi disdire dalle Impostazioni.",
         "paymentFailed": "Non siamo riusciti ad addebitare il tuo abbonamento",
-        "paymentFailedBody": "Aggiorna la carta nelle Impostazioni per non perdere l’accesso."
+        "paymentFailedBody": "Aggiorna la carta nelle Impostazioni per non perdere l’accesso.",
+        "client": "Ti è stato assegnato un cliente",
+        "review": "{name} ha lasciato una recensione da {rating} stelle"
       }
     }
   }

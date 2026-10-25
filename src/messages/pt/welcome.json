@@ -1,0 +1,51 @@
+{
+  "welcome": {
+    "meta": "Boas-vindas",
+    "eyebrow": "Primeiros passos",
+    "title": "Boas-vindas ao Tivvu",
+    "titleNamed": "Boas-vindas, {name}",
+    "lead": "Sua agência está pronta. Cadastre seu primeiro imóvel e em minutos terá um site público para compartilhar.",
+    "question": "Você tem imóveis em uma planilha ou em outro sistema?",
+    "import": {
+      "title": "Sim, quero importá-los",
+      "text": "Envie um Excel, CSV ou a exportação de outro portal e carregamos tudo junto, com revisão antes de salvar.",
+      "cta": "Importar imóveis"
+    },
+    "scratch": {
+      "title": "Não, começo do zero",
+      "text": "Crie seu primeiro imóvel em um minuto com os dados básicos e complete depois.",
+      "cta": "Criar meu primeiro imóvel"
+    },
+    "reassure": "Você pode mudar de caminho quando quiser: as duas opções continuam em Imóveis.",
+    "later": "Faço depois",
+    "checklist": {
+      "title": "Primeiros passos",
+      "progress": "{done} de {total} concluídos",
+      "hide": "Ocultar guia",
+      "items": {
+        "account": {
+          "title": "Criar sua conta",
+          "text": "Sua agência está pronta."
+        },
+        "property": {
+          "title": "Publicar seu primeiro imóvel",
+          "text": "Para aparecer no seu site público."
+        },
+        "site": {
+          "title": "Personalizar seu site",
+          "text": "Capa, cores e seções do seu portal."
+        },
+        "team": {
+          "title": "Convidar sua equipe",
+          "text": "Cada pessoa entra com seu acesso e função."
+        },
+        "client": {
+          "title": "Cadastrar seu primeiro cliente",
+          "text": "Para acompanhar cada consulta em um só lugar."
+        }
+      },
+      "skip": "Pular",
+      "skipped": "Ignorado"
+    }
+  }
+}

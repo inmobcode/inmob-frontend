@@ -89,11 +89,11 @@ export default function RegisterPage() {
     try {
       const { checkout } = await startCheckout(auth.accessToken, plan);
       if (!checkout) {
-        router.push(`/${auth.user.agencySlug}/properties`);
+        router.push(`/${auth.user.agencySlug}/welcome`);
         return;
       }
       await openCheckout(checkout, {
-        successUrl: `${window.location.origin}/subscribe?transaction=${checkout.transactionId}`,
+        successUrl: `${window.location.origin}/subscribe?transaction=${checkout.transactionId}&welcome=1`,
         locale,
         closed: () => router.push("/subscribe"),
       });

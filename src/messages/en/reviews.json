@@ -1,0 +1,59 @@
+{
+  "reviews": {
+    "title": "Reviews",
+    "help": "Help with reviews",
+    "show": "Show",
+    "add": "Add review",
+    "managersOnly": "Reviews go on the agency’s site, so owners and administrators moderate them.",
+    "loadFailed": "We couldn't load the reviews",
+    "published": "Review published on your site",
+    "hidden": "Review hidden",
+    "deleted": "Review deleted",
+    "emptyBody": "When you complete a booking, the guest gets an email to leave a review. You can also add the ones you got on other channels.",
+    "empty": {
+      "PENDING": "No reviews to check",
+      "PUBLISHED": "No published reviews yet",
+      "HIDDEN": "No hidden reviews",
+      "ALL": "No reviews yet"
+    },
+    "filters": {
+      "PENDING": "To check",
+      "PUBLISHED": "Published",
+      "HIDDEN": "Hidden",
+      "ALL": "All"
+    },
+    "status": {
+      "PENDING": "Pending",
+      "PUBLISHED": "Published",
+      "HIDDEN": "Hidden"
+    },
+    "source": {
+      "GUEST": "From the guest",
+      "MANUAL": "Added by the agency"
+    },
+    "outOf": "{rating} out of 5 stars",
+    "noText": "No comment, just the rating.",
+    "noProperty": "No property",
+    "stayed": "stayed in {date}",
+    "publish": "Publish",
+    "hide": "Hide",
+    "dontPublish": "Don’t publish",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteTitle": "Delete the review?",
+    "deleteBody": "{name}’s review is deleted for good. If you just don’t want to show it, hide it.",
+    "dialog": {
+      "newTitle": "Add review",
+      "editTitle": "Edit review",
+      "description": "A review you got on another channel (Airbnb, Google, an email). It goes on your site when you save it.",
+      "rating": "Rating",
+      "stars": "{count, plural, one {# star} other {# stars}}",
+      "author": "Name",
+      "authorPlaceholder": "E.g. Lucía F.",
+      "property": "Property",
+      "text": "What they wrote",
+      "stayedOn": "When they stayed",
+      "publish": "Publish"
+    }
+  }
+}

@@ -1,13 +1,35 @@
 "use client";
 
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { differenceInCalendarDays, isToday, isYesterday } from "date-fns";
-import { Building2, ChevronLeft, Copy, Globe, Mail, MailOpen, MessageCircle, Phone, Tag, UserRound } from "lucide-react";
+import {
+  Archive,
+  ArchiveRestore,
+  Building2,
+  ChevronLeft,
+  Copy,
+  CornerUpLeft,
+  Globe,
+  Mail,
+  MailOpen,
+  MessageCircle,
+  Phone,
+  Tag,
+  Trash2,
+  UserRound,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 
+import { ReplyComposer } from "@/components/inquiries/reply-composer";
+import { AssigneeSelect, useMemberName } from "@/components/shared/assignee-select";
 import { Button } from "@/components/ui/button";
+import { ApiError } from "@/lib/api/client";
+import { updateClient } from "@/lib/api/clients";
+import { getAccessToken, useSessionUser } from "@/lib/auth/session";
 
 import type { ClientStage } from "@/lib/api/clients";
 import type { Inquiry } from "@/lib/api/inquiries";
@@ -135,26 +157,87 @@ export function InquiryRow({
   );
 }
 
+const ICON_BUTTON =
+  "flex size-9 shrink-0 items-center justify-center rounded-full text-muted-foreground outline-none hover:bg-foreground/[0.06] hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50";
+
+/**
+ * Who handles it: the owner of the client it created. Owners and admins pick
+ * anyone; an agent can only take an unassigned one.
+ */
+function InquiryOwner({ inquiry }: { inquiry: Inquiry }) {
+  const t = useTranslations("inquiries");
+  const common = useTranslations("common");
+  const user = useSessionUser();
+  const queryClient = useQueryClient();
+  const client = inquiry.client;
+  const ownerName = useMemberName(client?.assignedAgentId);
+
+  const assignMutation = useMutation({
+    meta: { affectsSite: false },
+    mutationFn: (assignedAgentId: string | null) => {
+      const token = getAccessToken();
+      if (!token || !client) throw new ApiError("No autenticado", 401);
+      return updateClient(token, client.id, { assignedAgentId });
+    },
+    onSuccess: () => toast.success(t("assigned")),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : common("saveFailed")),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["inquiries"] });
+      queryClient.invalidateQueries({ queryKey: ["clients"] });
+      if (client) queryClient.invalidateQueries({ queryKey: ["client", client.id] });
+    },
+  });
+
+  if (!client || !user) return null;
+  if (user.role !== "AGENT") {
+    return (
+      <AssigneeSelect
+        value={client.assignedAgentId}
+        disabled={assignMutation.isPending}
+        onChange={(id) => assignMutation.mutate(id)}
+        ariaLabel={t("owner")}
+        className="h-9 max-w-64"
+      />
+    );
+  }
+  if (client.assignedAgentId === user.id) return <span>{t("yours")}</span>;
+  if (client.assignedAgentId) return <span className="text-muted-foreground">{ownerName ?? t("someoneElse")}</span>;
+  return (
+    <Button
+      variant="outline"
+      size="sm"
+      className="rounded-full"
+      disabled={assignMutation.isPending}
+      onClick={() => assignMutation.mutate(user.id)}
+    >
+      {t("takeIt")}
+    </Button>
+  );
+}
+
 export function InquiryDetail({
   inquiry,
   onBack,
   onMark,
+  onArchive,
+  onDelete,
 }: {
   inquiry: Inquiry;
   onBack: () => void;
   onMark: (read: boolean) => void;
+  onArchive: (archived: boolean) => void;
+  onDelete: () => void;
 }) {
   const t = useTranslations("inquiries");
   const common = useTranslations("common");
   const labels = useLabels();
   const { date, ago } = useFormat();
   const { agencySlug } = useParams<{ agencySlug: string }>();
+  const [replying, setReplying] = useState(false);
   const created = parseApiDate(inquiry.createdAt);
   const stage = inquiry.client?.stage as ClientStage | undefined;
   const subject = about(inquiry, t("general"));
-  const replySubject = encodeURIComponent(`Re: ${subject}`);
   const firstName = inquiry.name.split(" ")[0];
-  const replyBody = encodeURIComponent(`${t("replyGreeting", { name: firstName })}\n\n`);
 
   async function copyEmail() {
     try {
@@ -194,19 +277,45 @@ export function InquiryDetail({
             <time dateTime={inquiry.createdAt}>{date(created, "dayMonthTime")}</time> · {ago(created)}
           </p>
         </div>
-        <button
-          type="button"
-          onClick={() => onMark(!inquiry.readAt)}
-          title={inquiry.readAt ? t("markNew") : t("markRead")}
-          aria-label={inquiry.readAt ? t("markNew") : t("markRead")}
-          className="flex size-9 shrink-0 items-center justify-center rounded-full text-muted-foreground outline-none hover:bg-foreground/[0.06] hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
-        >
-          {inquiry.readAt ? (
-            <Mail className="size-4" />
-          ) : (
-            <MailOpen className="size-4" />
+        <div className="flex shrink-0 items-center">
+          {!inquiry.archivedAt && (
+            <button
+              type="button"
+              onClick={() => onMark(!inquiry.readAt)}
+              title={inquiry.readAt ? t("markNew") : t("markRead")}
+              aria-label={inquiry.readAt ? t("markNew") : t("markRead")}
+              className={ICON_BUTTON}
+            >
+              {inquiry.readAt ? (
+                <Mail className="size-4" />
+              ) : (
+                <MailOpen className="size-4" />
+              )}
+            </button>
           )}
-        </button>
+          <button
+            type="button"
+            onClick={() => onArchive(!inquiry.archivedAt)}
+            title={inquiry.archivedAt ? t("unarchive") : t("archive")}
+            aria-label={inquiry.archivedAt ? t("unarchive") : t("archive")}
+            className={ICON_BUTTON}
+          >
+            {inquiry.archivedAt ? (
+              <ArchiveRestore className="size-4" />
+            ) : (
+              <Archive className="size-4" />
+            )}
+          </button>
+          <button
+            type="button"
+            onClick={onDelete}
+            title={t("delete")}
+            aria-label={t("delete")}
+            className={cn(ICON_BUTTON, "hover:bg-destructive/10 hover:text-destructive")}
+          >
+            <Trash2 className="size-4" />
+          </button>
+        </div>
       </header>
 
       <div className="flex flex-1 flex-col gap-6 p-5 sm:p-6">
@@ -288,17 +397,41 @@ export function InquiryDetail({
               <dd className="tabular-nums">{inquiry.phone}</dd>
             </>
           )}
+          {inquiry.client && (
+            <>
+              <dt className="self-center text-muted-foreground">{t("owner")}</dt>
+              <dd className="flex min-w-0 items-center">
+                <InquiryOwner inquiry={inquiry} />
+              </dd>
+            </>
+          )}
         </dl>
 
+        {inquiry.repliedAt && (
+          <p className="flex max-w-prose items-center gap-2 text-sm text-muted-foreground">
+            <CornerUpLeft className="size-4 shrink-0" />
+            {inquiry.repliedBy
+              ? t("repliedBy", { name: inquiry.repliedBy, ago: ago(parseApiDate(inquiry.repliedAt)) })
+              : t("replied", { ago: ago(parseApiDate(inquiry.repliedAt)) })}
+          </p>
+        )}
+
+        {replying && (
+          <ReplyComposer
+            inquiry={inquiry}
+            subject={subject}
+            onCancel={() => setReplying(false)}
+            onSent={() => setReplying(false)}
+          />
+        )}
+
         <div className="mt-auto flex flex-wrap gap-2 border-t border-border pt-5">
-          <Button asChild className="h-10 gap-2 rounded-full px-5">
-            <a
-              href={`mailto:${inquiry.email}?subject=${replySubject}&body=${replyBody}`}
-            >
-              <Mail />
-              {t("replyEmail")}
-            </a>
-          </Button>
+          {!replying && (
+            <Button className="h-10 gap-2 rounded-full px-5" onClick={() => setReplying(true)}>
+              <CornerUpLeft />
+              {t("replyAction")}
+            </Button>
+          )}
           {inquiry.phone && (
             <>
               <a

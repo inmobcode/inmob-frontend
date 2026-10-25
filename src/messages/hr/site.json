@@ -93,7 +93,9 @@
       "featured": "Istaknute nekretnine",
       "comingSoon": "Uskoro",
       "count": "{count, plural, one {# nekretnina} few {# nekretnine} other {# nekretnina}}",
-      "ctaTitle": "Želite prodati svoju nekretninu?"
+      "ctaTitle": "Želite prodati svoju nekretninu?",
+      "reviewsTitle": "Što kažu naši gosti",
+      "reviewsPreview": "Ovdje se prikazuju recenzije koje objavite u odjeljku Recenzije."
     },
     "gallery": {
       "singular": {
@@ -152,7 +154,9 @@
       "paidOn": "Plaćeno {date}",
       "pending": "Na čekanju",
       "changeTitle": "Trebate nešto promijeniti?",
-      "changeBody": "Pišite agenciji {agency} i pomoći će vam s rezervacijom."
+      "changeBody": "Pišite agenciji {agency} i pomoći će vam s rezervacijom.",
+      "guests": "{count, plural, one {# gost} few {# gosta} other {# gostiju}}",
+      "receipt": "Pogledaj ili preuzmi potvrdu"
     },
     "facts": {
       "bedrooms": "Spavaće sobe",
@@ -184,7 +188,8 @@
       "askTitle": "Pošaljite upit za ovu nekretninu",
       "defaultMessage": "Pozdrav, zanima me ova nekretnina. Je li još dostupna?",
       "others": "Ostale nekretnine agencije {agency}",
-      "ask": "Pošalji upit"
+      "ask": "Pošalji upit",
+      "reviewsTitle": "Što kažu gosti"
     },
     "availability": {
       "metaTitle": "Dostupnost — {agency}",
@@ -305,7 +310,81 @@
     },
     "meta": {
       "bookingTitle": "Vaša rezervacija · {agency}",
-      "ownerTitle": "Vaše nekretnine · {agency}"
+      "ownerTitle": "Vaše nekretnine · {agency}",
+      "receiptTitle": "Potvrda {reference} · {agency}"
+    },
+    "receipt": {
+      "back": "Natrag na rezervaciju",
+      "print": "Ispiši ili spremi kao PDF",
+      "title": "Potvrda rezervacije",
+      "reference": "Rezervacija {reference}",
+      "issued": "Izdano {date}",
+      "client": "Klijent",
+      "property": "Nekretnina",
+      "checkIn": "Dolazak",
+      "checkOut": "Odlazak",
+      "duration": "Trajanje",
+      "nights": "{count, plural, one {# noć} few {# noći} other {# noći}}",
+      "guests": "Gosti",
+      "guestsCount": "{count, plural, one {# gost} few {# gosta} other {# gostiju}}",
+      "status": "Status",
+      "payments": "Plaćanja",
+      "date": "Datum",
+      "concept": "Stavka",
+      "method": "Način",
+      "amount": "Iznos",
+      "paid": "Plaćeno",
+      "pending": "Na čekanju",
+      "noPayments": "Još nema evidentiranih plaćanja.",
+      "total": "Ukupno",
+      "paidTotal": "Plaćeno",
+      "due": "Preostalo za platiti",
+      "notInvoice": "Ova potvrda sažima rezervaciju i plaćanja koja je evidentirala agencija {agency}. Nije račun."
+    },
+    "reviews": {
+      "outOf": "{rating} od 5 zvjezdica",
+      "count": "{count, plural, one {# recenzija} few {# recenzije} other {# recenzija}}"
+    },
+    "stay": {
+      "title": "Izračunajte boravak",
+      "pickDates": "Odaberite datume",
+      "loading": "Izračunavanje…",
+      "failed": "Cijenu nije moguće izračunati. Pišite nam.",
+      "estimate": "Procjena prema objavljenim cijenama; agencija je potvrđuje.",
+      "onRequest": "{count, plural, one {# noćenje na upit} few {# noćenja na upit} other {# noćenja na upit}}",
+      "line": "{count, plural, one {# noćenje} few {# noćenja} other {# noćenja}} × {price}",
+      "total": "{count, plural, one {Ukupno za # noćenje} few {Ukupno za # noćenja} other {Ukupno za # noćenja}}",
+      "totalOnRequest": "Na upit",
+      "minStayWarning": "{count, plural, one {Za ove datume potrebno je najmanje # noćenje.} few {Za ove datume potrebna su najmanje # noćenja.} other {Za ove datume potrebno je najmanje # noćenja.}}",
+      "unavailable": "Neka od ovih noćenja već su zauzeta.",
+      "discounts": {
+        "WEEKLY": "Tjedni popust ({pct})",
+        "MONTHLY": "Mjesečni popust ({pct})",
+        "LAST_MINUTE": "Zadnji čas ({pct})",
+        "EARLY_BIRD": "Rana rezervacija ({pct})"
+      },
+      "rules": {
+        "minStay": "Minimalni boravak: {count} noćenja",
+        "weekly": "{pct} manje za 7 ili više noćenja",
+        "monthly": "{pct} manje za 28 ili više noćenja",
+        "lastMinute": "{pct} manje ako stižete unutar {count} dana",
+        "earlyBird": "{pct} manje uz rezervaciju {count} dana unaprijed"
+      }
+    },
+    "guestReview": {
+      "title": "Kako vam je bilo?",
+      "lead": "Vaše mišljenje pomaže agenciji {agency} i budućim gostima.",
+      "ratingLabel": "Vaša ocjena",
+      "outOf": "{rating} od 5 zvjezdica",
+      "textLabel": "Vaš komentar",
+      "placeholder": "Recite nam što vam se svidjelo i što biste poboljšali (neobavezno)",
+      "send": "Pošalji recenziju",
+      "sending": "Slanje…",
+      "failed": "Recenziju nije moguće poslati. Pokušajte ponovno.",
+      "note": "Objavljuje se s vašim imenom i inicijalom prezimena nakon što je agencija pregleda.",
+      "thanksTitle": "Hvala na recenziji",
+      "published": "Objavljena je na stranici.",
+      "pending": "Agencija će je pregledati prije objave."
     }
   }
 }

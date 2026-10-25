@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 
 import { InquiryForm } from "@/components/public/inquiry-form";
+import { RatingSummary, ReviewCard } from "@/components/public/review-parts";
+import { StayCalculator } from "@/components/public/stay-calculator";
 import { PropertyGallery } from "@/components/public/property-gallery";
 import {
   PublicPropertyCard,
@@ -154,6 +156,7 @@ export default async function PublicPropertyPage({
                   {location}
                 </p>
               )}
+              <RatingSummary rating={property.rating} />
             </header>
 
             {keyFacts.length > 0 && (
@@ -215,6 +218,19 @@ export default async function PublicPropertyPage({
               </section>
             ))}
 
+            {property.reviews && property.reviews.length > 0 && (
+              <section aria-labelledby="resenas" className="flex flex-col gap-4">
+                <h2 id="resenas" className="s-heading text-xl">
+                  {t("reviewsTitle")}
+                </h2>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {property.reviews.map((review) => (
+                    <ReviewCard key={review.id} review={review} />
+                  ))}
+                </div>
+              </section>
+            )}
+
             {property.googleMapUrl && (
               <a
                 href={property.googleMapUrl}
@@ -246,6 +262,9 @@ export default async function PublicPropertyPage({
                   )}
                 </p>
               </div>
+              {property.listingType === "RENT" && (
+                <StayCalculator agencySlug={agencySlug} property={property} />
+              )}
               {site.whatsapp && (
                 <a
                   href={whatsappLink(site.whatsapp, whatsappMessage)}

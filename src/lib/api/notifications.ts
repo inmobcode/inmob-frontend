@@ -1,6 +1,16 @@
 import { apiFetch } from "./client";
 
-export type NotificationType = "INQUIRY" | "OFFER_VIEWED" | "OFFER_REPLY" | "PAYMENT" | "TASK" | "BOOKING" | "TRIAL_ENDING" | "PAYMENT_FAILED";
+export type NotificationType =
+  | "INQUIRY"
+  | "OFFER_VIEWED"
+  | "OFFER_REPLY"
+  | "PAYMENT"
+  | "TASK"
+  | "BOOKING"
+  | "CLIENT"
+  | "REVIEW"
+  | "TRIAL_ENDING"
+  | "PAYMENT_FAILED";
 
 export interface AppNotification {
   id: string;
@@ -25,6 +35,9 @@ export interface NotificationParams {
   title?: string;
   /** ISO date (YYYY-MM-DD). */
   due?: string | null;
+  /** A review's stars (1–5) and its text. */
+  rating?: number;
+  text?: string | null;
   /** ISO date (YYYY-MM-DD) the free trial ends. */
   date?: string;
 }

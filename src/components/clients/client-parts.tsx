@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Copy, Mail, MoreHorizontal, Pencil, Phone, Repeat2 } from "lucide-react";
+import { Check, Copy, Mail, MoreHorizontal, Pencil, Phone, Repeat2, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -24,6 +24,8 @@ export const STAGES = CLIENT_STAGES;
 
 export interface ClientActions {
   changeStage: (id: string, stage: ClientStage) => void;
+  /** Moves the client to the trash. */
+  requestDelete: (id: string) => void;
 }
 
 const STAGE_STYLES: Record<ClientStage, string> = {
@@ -158,6 +160,11 @@ export function ClientMenu({
         <DropdownMenuItem className="rounded-xl py-2" onSelect={copyEmail}>
           <Copy />
           {t("copyEmail")}
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem variant="destructive" className="rounded-xl py-2" onSelect={() => actions.requestDelete(client.id)}>
+          <Trash2 />
+          {t("delete")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

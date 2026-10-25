@@ -23,10 +23,27 @@ export interface Client {
   source: ClientSource;
   stage: ClientStage;
   notes: string | null;
+  /** The agency's own labels, to filter and export by. */
+  tags: string[];
+  /** What they're looking for; the budget is in the agency's currency. Dates are "yyyy-MM-dd". */
+  budgetMin: number | null;
+  budgetMax: number | null;
+  guests: number | null;
+  zones: string | null;
+  desiredFrom: string | null;
+  desiredTo: string | null;
   createdAt: string;
   updatedAt: string;
+  /** Set while it's in the trash. */
+  deletedAt?: string | null;
   interactions?: Interaction[];
 }
+
+/** The fields the client's page edits besides contact and stage. */
+export type ClientPreferences = Pick<
+  Client,
+  "tags" | "budgetMin" | "budgetMax" | "guests" | "zones" | "desiredFrom" | "desiredTo"
+>;
 
 export function listClients(token: string) {
   return apiFetch<Client[]>("/api/clients/", { token });
@@ -51,7 +68,7 @@ export function updateClient(
   token: string,
   id: string,
   payload: Partial<
-    Pick<Client, "name" | "phone" | "stage" | "notes" | "assignedAgentId">
+    Pick<Client, "name" | "phone" | "stage" | "notes" | "assignedAgentId"> & ClientPreferences
   >,
 ) {
   return apiFetch<Client>(`/api/clients/${id}`, {
@@ -59,6 +76,25 @@ export function updateClient(
     token,
     body: JSON.stringify(payload),
   });
+}
+
+/** Moves it to the trash (see listTrashedClients). */
+export function deleteClient(token: string, id: string) {
+  return apiFetch<void>(`/api/clients/${id}`, { method: "DELETE", token });
+}
+
+/** What's in the trash, latest first. The backend deletes for good what's older than 30 days. */
+export function listTrashedClients(token: string) {
+  return apiFetch<Client[]>("/api/clients/trash", { token });
+}
+
+export function restoreClient(token: string, id: string) {
+  return apiFetch<Client>(`/api/clients/${id}/restore`, { method: "POST", token });
+}
+
+/** Refused (409) while the client has bookings: they stay in the trash. */
+export function deleteClientForever(token: string, id: string) {
+  return apiFetch<void>(`/api/clients/${id}/permanent`, { method: "DELETE", token });
 }
 
 export function addInteraction(

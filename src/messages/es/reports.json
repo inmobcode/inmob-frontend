@@ -1,0 +1,83 @@
+{
+  "reports": {
+    "title": "Reportes",
+    "help": "Ayuda con reportes",
+    "period": "Período",
+    "currency": "Moneda",
+    "loadFailed": "No pudimos cargar los reportes",
+    "managersOnly": "Los reportes muestran el dinero de la agencia y los resultados de todo el equipo, así que solo los ven propietarios y administradores.",
+    "emptyTitle": "Todavía no hay movimientos en este período",
+    "emptyBody": "Cuando confirmes reservas, registres pagos o lleguen consultas, los números aparecen acá. Probá con un período más largo.",
+    "periods": {
+      "3m": "3 meses",
+      "6m": "6 meses",
+      "12m": "12 meses",
+      "year": "Este año",
+      "lastYear": "Año pasado"
+    },
+    "kpi": {
+      "booked": "Reservado",
+      "bookedHint": "{count, plural, one {# reserva confirmada} other {# reservas confirmadas}}",
+      "collected": "Cobrado",
+      "collectedHint": "Pagos de clientes marcados como cobrados",
+      "commission": "Comisión",
+      "commissionHint": "De las reservas confirmadas",
+      "occupancy": "Ocupación",
+      "occupancyHint": "Noches ocupadas de tus alquileres",
+      "conversion": "Conversión",
+      "conversionHint": "{booked} de {clients} personas que escribieron reservaron"
+    },
+    "money": {
+      "title": "Ingresos por mes",
+      "description": "Lo reservado va al mes del check-in (una venta, al de su alta); lo cobrado, al mes del pago.",
+      "asTable": "Ver tabla",
+      "asChart": "Ver gráfico",
+      "month": "Mes",
+      "booked": "Reservado",
+      "collected": "Cobrado",
+      "commission": "Comisión",
+      "bookings": "Reservas",
+      "chartLabel": "Reservado y cobrado por mes, en {currency}",
+      "monthSummary": "{month}: reservado {booked}, cobrado {collected}"
+    },
+    "occupancy": {
+      "title": "Ocupación por propiedad",
+      "description": "Noches ocupadas (por reservas o por iCal) sobre las disponibles. Las bloqueadas a mano no cuentan como disponibles.",
+      "empty": "No tenés propiedades en alquiler.",
+      "nights": "{taken} de {available} noches",
+      "external": "{count} por iCal",
+      "blocked": "{count} bloqueadas"
+    },
+    "conversion": {
+      "title": "De la consulta a la reserva",
+      "description": "Las personas que escribieron en el período y qué pasó después.",
+      "steps": {
+        "inquiries": "Consultas",
+        "clients": "Personas",
+        "offered": "Recibieron oferta",
+        "booked": "Reservaron"
+      },
+      "ofPeople": "{share} de las personas",
+      "source": "Desde",
+      "rate": "Conversión",
+      "types": {
+        "PROPERTY": "Ficha de una propiedad",
+        "OFFER": "Una oferta",
+        "GENERAL": "Contacto del portal"
+      },
+      "replies": "{count, plural, one {# consulta respondida desde el panel} other {# consultas respondidas desde el panel}}; la mitad, en menos de {hours} h.",
+      "noReplies": "Todavía no hay consultas respondidas desde el panel en este período."
+    },
+    "team": {
+      "title": "Resultados por persona",
+      "description": "Clientes que se asignaron en el período, ofertas enviadas y reservas confirmadas que cargó cada uno. Montos en {currency}.",
+      "member": "Persona",
+      "clients": "Clientes nuevos",
+      "offers": "Ofertas enviadas",
+      "bookings": "Reservas",
+      "booked": "Reservado",
+      "commission": "Comisión",
+      "inactive": "sin acceso"
+    }
+  }
+}

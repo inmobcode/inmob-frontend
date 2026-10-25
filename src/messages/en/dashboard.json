@@ -39,7 +39,9 @@
       "collapse": "Collapse",
       "openMenu": "Open menu",
       "menu": "Menu",
-      "mainNav": "Main navigation"
+      "mainNav": "Main navigation",
+      "reports": "Reports",
+      "reviews": "Reviews"
     },
     "assignee": {
       "label": "Assignee",
@@ -80,7 +82,8 @@
         "team": "Team",
         "portal": "Website",
         "settings": "Settings",
-        "profile": "My profile"
+        "profile": "My profile",
+        "reports": "Reports"
       },
       "help": {
         "general": "General",
@@ -149,7 +152,9 @@
         "trialEnding": "Your free trial ends on {date}",
         "trialEndingBody": "Then the Pro plan starts. You can cancel from Settings.",
         "paymentFailed": "We couldn’t charge your subscription",
-        "paymentFailedBody": "Update your card in Settings so you don’t lose access."
+        "paymentFailedBody": "Update your card in Settings so you don’t lose access.",
+        "client": "A client was assigned to you",
+        "review": "{name} left a {rating}-star review"
       }
     }
   }

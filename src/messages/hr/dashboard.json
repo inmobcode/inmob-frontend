@@ -39,7 +39,9 @@
       "collapse": "Sažmi",
       "openMenu": "Otvori izbornik",
       "menu": "Izbornik",
-      "mainNav": "Glavna navigacija"
+      "mainNav": "Glavna navigacija",
+      "reports": "Izvješća",
+      "reviews": "Recenzije"
     },
     "assignee": {
       "label": "Odgovorna osoba",
@@ -80,7 +82,8 @@
         "team": "Tim",
         "portal": "Web-stranica",
         "settings": "Postavke",
-        "profile": "Moj profil"
+        "profile": "Moj profil",
+        "reports": "Izvješća"
       },
       "help": {
         "general": "Općenito",
@@ -149,7 +152,9 @@
         "trialEnding": "Vaše besplatno probno razdoblje završava {date}",
         "trialEndingBody": "Zatim počinje paket Pro. Možete otkazati u Postavkama.",
         "paymentFailed": "Nismo mogli naplatiti vašu pretplatu",
-        "paymentFailedBody": "Ažurirajte karticu u Postavkama kako ne biste izgubili pristup."
+        "paymentFailedBody": "Ažurirajte karticu u Postavkama kako ne biste izgubili pristup.",
+        "client": "Dodijeljen vam je klijent",
+        "review": "{name} je ostavio/la recenziju s {rating} zvjezdica"
       }
     }
   }

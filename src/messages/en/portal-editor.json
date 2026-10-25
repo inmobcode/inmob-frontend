@@ -117,6 +117,14 @@
           "color": "Colour",
           "photo": "With photo"
         }
+      },
+      "reviews": {
+        "label": "Reviews",
+        "description": "The reviews you published, with your agency’s average.",
+        "layouts": {
+          "cards": "Cards",
+          "quote": "One quote"
+        }
       }
     },
     "buttonTargets": {
@@ -200,6 +208,10 @@
       "cta": {
         "title": "Want to sell your property?",
         "text": "We're with you from the valuation to completion."
+      },
+      "reviews": {
+        "title": "What our guests say",
+        "text": "Real opinions from people who stayed with us."
       }
     },
     "blocks": {
@@ -266,7 +278,8 @@
       "zonePicker": {
         "pick": "Pick a location",
         "none": "No location"
-      }
+      },
+      "reviewsHint": "Shows the reviews you publish in the dashboard’s Reviews section. With none published, the block stays off the site."
     },
     "preview": {
       "title": "Site preview"

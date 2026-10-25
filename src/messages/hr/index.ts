@@ -8,6 +8,7 @@ import common from "./common.json";
 import dashboard from "./dashboard.json";
 import docs from "./docs.json";
 import help from "./help.json";
+import history from "./history.json";
 import importer from "./importer.json";
 import inquiries from "./inquiries.json";
 import labels from "./labels.json";
@@ -17,11 +18,14 @@ import offers from "./offers.json";
 import portalEditor from "./portal-editor.json";
 import profile from "./profile.json";
 import properties from "./properties.json";
+import reports from "./reports.json";
+import reviews from "./reviews.json";
 import services from "./services.json";
 import settings from "./settings.json";
 import site from "./site.json";
 import team from "./team.json";
+import welcome from "./welcome.json";
 
-const messages = { ...auth, ...availability, ...billing, ...bookings, ...clients, ...common, ...dashboard, ...docs, ...help, ...importer, ...inquiries, ...labels, ...landing, ...marketplace, ...offers, ...portalEditor, ...profile, ...properties, ...services, ...settings, ...site, ...team };
+const messages = { ...auth, ...availability, ...billing, ...bookings, ...clients, ...common, ...dashboard, ...docs, ...help, ...history, ...importer, ...inquiries, ...labels, ...landing, ...marketplace, ...offers, ...portalEditor, ...profile, ...properties, ...reports, ...reviews, ...services, ...settings, ...site, ...team, ...welcome };
 
 export default messages;

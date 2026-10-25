@@ -10,15 +10,20 @@ import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { HelpHint, HelpLink } from "@/components/docs/help-link";
+import { TrashLink } from "@/components/trash/trash-link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ApiError } from "@/lib/api/client";
 
 import {
+  archiveInquiry,
+  deleteInquiry,
   type Inquiry,
   listInquiries,
+  listTrashedInquiries,
   markAllInquiriesRead,
   markInquiry,
+  restoreInquiry,
 } from "@/lib/api/inquiries";
 import { getAccessToken } from "@/lib/auth/session";
 
@@ -30,7 +35,7 @@ function requireToken() {
   return token;
 }
 
-type Filter = "all" | "new";
+type Filter = "all" | "new" | "archived";
 
 import { InquiryDetail, InquiryRow, groupOf } from "@/components/inquiries/inquiry-views";
 
@@ -48,14 +53,22 @@ export default function InquiriesPage() {
     queryFn: () => listInquiries(requireToken()),
     refetchInterval: 60_000,
   });
+  // Fetched only while that tab is open.
+  const archivedQuery = useQuery({
+    queryKey: ["inquiries", "archived"],
+    queryFn: () => listInquiries(requireToken(), "archived"),
+    enabled: filter === "archived",
+  });
 
   const all = useMemo(() => data ?? [], [data]);
+  const archived = useMemo(() => archivedQuery.data ?? [], [archivedQuery.data]);
+  const source = filter === "archived" ? archived : all;
   const unreadCount = all.filter((inquiry) => !inquiry.readAt).length;
-  const selected = all.find((inquiry) => inquiry.id === selectedId) ?? null;
+  const selected = source.find((inquiry) => inquiry.id === selectedId) ?? null;
 
   const shown = useMemo(() => {
     const query = search.trim().toLowerCase();
-    return all.filter((inquiry) => {
+    return source.filter((inquiry) => {
       // The open one stays in "Nuevas" after it's marked read, so it doesn't vanish under the cursor.
       if (filter === "new" && inquiry.readAt && inquiry.id !== selectedId)
         return false;
@@ -72,7 +85,7 @@ export default function InquiriesPage() {
         .toLowerCase()
         .includes(query);
     });
-  }, [all, filter, search, selectedId]);
+  }, [source, filter, search, selectedId]);
 
   const groups = useMemo(() => {
     const result: { label: ReturnType<typeof groupOf>; items: Inquiry[] }[] = [];
@@ -122,6 +135,37 @@ export default function InquiriesPage() {
     onError: () => toast.error(t("markFailed")),
   });
 
+  /** Archive and trash take it out of the list, so the toast offers to put it back. */
+  function leaveWithUndo(id: string, done: string, undo: () => Promise<unknown>) {
+    setSelectedId((current) => (current === id ? null : current));
+    toast.success(done, {
+      action: {
+        label: common("undo"),
+        onClick: () =>
+          undo()
+            .then(refresh)
+            .catch(() => toast.error(t("updateFailed"))),
+      },
+    });
+  }
+
+  const archiveMutation = useMutation({
+    meta: { affectsSite: false },
+    mutationFn: ({ id, value }: { id: string; value: boolean }) => archiveInquiry(requireToken(), id, value),
+    onSuccess: (_, { id, value }) =>
+      leaveWithUndo(id, value ? t("archived") : t("unarchived"), () => archiveInquiry(requireToken(), id, !value)),
+    onError: () => toast.error(t("updateFailed")),
+    onSettled: refresh,
+  });
+
+  const deleteMutation = useMutation({
+    meta: { affectsSite: false },
+    mutationFn: (id: string) => deleteInquiry(requireToken(), id),
+    onSuccess: (_, id) => leaveWithUndo(id, t("trashed"), () => restoreInquiry(requireToken(), id)),
+    onError: (err) => toast.error(err instanceof ApiError ? err.message : t("deleteFailed")),
+    onSettled: refresh,
+  });
+
   function select(inquiry: Inquiry) {
     setSelectedId(inquiry.id);
     if (!inquiry.readAt) markMutation.mutate({ id: inquiry.id, read: true });
@@ -149,24 +193,39 @@ export default function InquiriesPage() {
     );
   }
 
-  if (!isLoading && all.length === 0) {
+  const trashLink = (
+    <TrashLink
+      href={`/${agencySlug}/inquiries/trash`}
+      queryKey={["inquiries", "trash"]}
+      list={listTrashedInquiries}
+      hideWhenEmpty
+    />
+  );
+
+  if (!isLoading && all.length === 0 && filter !== "archived") {
     return (
       <div
         className={cn(
           panel,
-          "flex max-w-3xl flex-col items-center gap-3 px-6 py-16 text-center",
+          "flex min-h-[60svh] max-w-5xl flex-col items-center justify-center gap-5 px-8 py-24 text-center",
         )}
       >
         <h1 className="sr-only">{t("title")}</h1>
-        <span className="flex size-12 items-center justify-center rounded-full bg-foreground/[0.06] text-muted-foreground">
-          <Inbox className="size-5" />
+        <span className="flex size-20 items-center justify-center rounded-full bg-foreground/[0.06] text-muted-foreground">
+          <Inbox className="size-9" />
         </span>
-        <p className="font-display text-2xl">{t("emptyTitle")}</p>
-        <p className="max-w-sm text-sm text-pretty text-muted-foreground">{t("emptyBody")}</p>
-        <Button variant="outline" className="mt-2 rounded-full" asChild>
+        <p className="font-display text-4xl">{t("emptyTitle")}</p>
+        <p className="max-w-lg text-base text-pretty text-muted-foreground">{t("emptyBody")}</p>
+        <Button variant="outline" size="lg" className="mt-2 rounded-full" asChild>
           <Link href={`/${agencySlug}/portal`}>{t("goToPortal")}</Link>
         </Button>
         <HelpHint section="consultas">{t("emptyHelp")}</HelpHint>
+        <div className="flex flex-wrap justify-center gap-2">
+          <Button variant="ghost" size="sm" className="rounded-full" onClick={() => setFilter("archived")}>
+            {t("seeArchived")}
+          </Button>
+          {trashLink}
+        </div>
       </div>
     );
   }
@@ -195,6 +254,7 @@ export default function InquiriesPage() {
                   [
                     ["all", t("all")],
                     ["new", unreadCount > 0 ? t("newCount", { count: unreadCount }) : t("newPlural")],
+                    ["archived", t("archivedTab")],
                   ] as const
                 ).map(([value, label]) => (
                   <button
@@ -226,6 +286,7 @@ export default function InquiriesPage() {
                   <CheckCheck className="size-4" />
                 </button>
               )}
+              {trashLink}
               {/* Ghost, like the button beside it: this panel has no filled toolbar. */}
               <HelpLink
                 section="consultas"
@@ -248,7 +309,7 @@ export default function InquiriesPage() {
           </div>
 
           <div className="min-h-0 flex-1 overflow-y-auto">
-            {isLoading ? (
+            {isLoading || (filter === "archived" && archivedQuery.isLoading) ? (
               <ul className="flex animate-pulse flex-col gap-1 p-3" aria-hidden>
                 {[0, 1, 2, 3].map((index) => (
                   <li key={index} className="h-16 rounded-xl bg-muted" />
@@ -257,7 +318,7 @@ export default function InquiriesPage() {
             ) : groups.length === 0 ? (
               <div className="flex flex-col items-center gap-2 px-6 py-12 text-center">
                 <p className="font-medium">
-                  {search ? t("noMatch") : t("noNew")}
+                  {search ? t("noMatch") : filter === "archived" ? t("noArchived") : t("noNew")}
                 </p>
                 <button
                   type="button"
@@ -306,6 +367,8 @@ export default function InquiriesPage() {
               inquiry={selected}
               onBack={() => setSelectedId(null)}
               onMark={(read) => markMutation.mutate({ id: selected.id, read })}
+              onArchive={(value) => archiveMutation.mutate({ id: selected.id, value })}
+              onDelete={() => deleteMutation.mutate(selected.id)}
             />
           ) : (
             <div className="flex h-full min-h-80 flex-col items-center justify-center gap-3 p-8 text-center text-muted-foreground">

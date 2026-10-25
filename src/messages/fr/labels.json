@@ -18,7 +18,8 @@
       "DRAFT": "Brouillon",
       "SENT": "Envoyée",
       "VIEWED": "Consultée",
-      "EXPIRED": "Expirée"
+      "EXPIRED": "Expirée",
+      "ACCEPTED": "Acceptée"
     },
     "discountType": {
       "NONE": "Sans remise",

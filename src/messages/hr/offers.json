@@ -20,7 +20,10 @@
       "edit": "Uredi",
       "copyLink": "Kopiraj poveznicu",
       "markSent": "Označi kao poslano",
-      "delete": "Izbriši"
+      "delete": "Izbriši",
+      "duplicate": "Dupliciraj",
+      "saveAsTemplate": "Spremi kao predložak",
+      "useTemplate": "Napravi ponudu iz ovog predloška"
     },
     "card": {
       "properties": "{count, plural, one {# nekretnina} few {# nekretnine} other {# nekretnina}}",
@@ -117,7 +120,9 @@
       "linkOnPublish": "Aktivira se kad objavite poveznicu.",
       "publicLink": "Javna poveznica ponude",
       "copied": "Kopirano",
-      "copyLink": "Kopiraj poveznicu"
+      "copyLink": "Kopiraj poveznicu",
+      "templateNote": "Ovo je predložak: nema poveznicu i ne šalje se. Iz njega pravite ponude.",
+      "preview": "Pogledaj kao klijent"
     },
     "items": {
       "noPrice": "Bez cijene",
@@ -171,7 +176,8 @@
         "DRAFT": "Skice",
         "SENT": "Poslane",
         "VIEWED": "Pregledane",
-        "EXPIRED": "Istekle"
+        "EXPIRED": "Istekle",
+        "ACCEPTED": "Prihvaćene"
       },
       "markedSent": "Ponuda je označena kao poslana",
       "sendFailed": "Ponudu nije moguće poslati",
@@ -191,6 +197,46 @@
       "emptyBody": "Odaberite nekretnine, dodajte popuste i podijelite poveznicu s klijentom.",
       "emptyHelp": "Kako izraditi i poslati ponudu",
       "noMatchBody": "Pokušajte s drugim imenom ili uklonite filtre."
+    },
+    "templates": {
+      "badge": "Predložak",
+      "show": "Prikaži",
+      "offersTab": "Ponude",
+      "tab": "Predlošci",
+      "tabCount": "Predlošci · {count}",
+      "saved": "Spremljeno kao predložak",
+      "seeTemplates": "Prikaži predloške",
+      "saveFailed": "Predložak nije moguće spremiti",
+      "copyFailed": "Kopiju nije moguće napraviti",
+      "emptyTitle": "Još nema predložaka",
+      "emptyBody": "U izborniku ⋯ ponude odaberite »Spremi kao predložak« da biste je ponovno koristili.",
+      "startFrom": "Ili krenite od predloška",
+      "startFromHint": "Kopira nekretnine, usluge i dobrodošlicu. Ako ste gore upisali naslov, nova ponuda ga koristi.",
+      "saveFirst": "Spremite promjene da budu u kopiji.",
+      "useThis": "Napravi ponudu iz ovog predloška",
+      "duplicate": "Dupliciraj",
+      "saveAsTemplate": "Spremi kao predložak"
+    },
+    "opens": {
+      "title": "Otvaranja",
+      "none": "Klijent je još nije otvorio.",
+      "notSent": "Broje se kad je pošaljete.",
+      "summary": "{count, plural, one {Otvorena # put} few {Otvorena # puta} other {Otvorena # puta}} · zadnji put {ago}",
+      "first": "Prvi put {date}",
+      "seeAll": "Prikaži svih {count}",
+      "device": {
+        "MOBILE": "Mobitel",
+        "DESKTOP": "Računalo"
+      }
+    },
+    "booking": {
+      "title": "Rezervacije",
+      "none": "Kad klijent prihvati, napravite rezervaciju odavde s podacima iz ponude.",
+      "booking": "Rezervacija",
+      "create": "Napravi rezervaciju",
+      "created": "Rezervacija je napravljena; ponuda je prihvaćena",
+      "hint": "Klijent, valuta i cijena dolaze iz spremljene ponude. Za najam se cijena po noćenju množi s brojem noćenja.",
+      "hintWithServices": "Klijent, valuta i cijena dolaze iz spremljene ponude, s uključenim uslugama. Za najam se cijena po noćenju množi s brojem noćenja."
     }
   }
 }

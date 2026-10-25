@@ -11,7 +11,7 @@
       "updated": "Usluga je ažurirana",
       "created": "Usluga je izrađena",
       "saveFailed": "Uslugu nije moguće spremiti",
-      "deleted": "Usluga je izbrisana",
+      "deleted": "Usluga je premještena u koš",
       "deleteFailed": "Uslugu nije moguće izbrisati",
       "photoFailed": "Fotografiju nije moguće učitati",
       "editTitle": "Uredi uslugu",
@@ -42,8 +42,7 @@
       "availableHint": "Ako je isključite, ne može se dodati u nove ponude.",
       "delete": "Izbriši",
       "create": "Izradi uslugu",
-      "deleteTitle": "Izbrisati «{name}»?",
-      "deleteBody": "Uklanja se iz vaše knjižnice. Ponude koje je već uključuju zadržavaju je kakva jest."
+      "restoreFailed": "Uslugu nije moguće vratiti"
     },
     "list": {
       "unavailable": "Nedostupna",

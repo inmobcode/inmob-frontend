@@ -1,0 +1,83 @@
+{
+  "reports": {
+    "title": "Report",
+    "help": "Aiuto sui report",
+    "period": "Periodo",
+    "currency": "Valuta",
+    "loadFailed": "Impossibile caricare i report",
+    "managersOnly": "I report mostrano i soldi dell’agenzia e i risultati di tutto il team, quindi li vedono solo titolari e amministratori.",
+    "emptyTitle": "Ancora nessun movimento in questo periodo",
+    "emptyBody": "Quando confermi prenotazioni, registri pagamenti o arrivano richieste, i numeri compaiono qui. Prova un periodo più lungo.",
+    "periods": {
+      "3m": "3 mesi",
+      "6m": "6 mesi",
+      "12m": "12 mesi",
+      "year": "Quest’anno",
+      "lastYear": "Anno scorso"
+    },
+    "kpi": {
+      "booked": "Prenotato",
+      "bookedHint": "{count, plural, one {# prenotazione confermata} other {# prenotazioni confermate}}",
+      "collected": "Incassato",
+      "collectedHint": "Pagamenti dei clienti segnati come incassati",
+      "commission": "Commissione",
+      "commissionHint": "Sulle prenotazioni confermate",
+      "occupancy": "Occupazione",
+      "occupancyHint": "Notti occupate dei tuoi affitti",
+      "conversion": "Conversione",
+      "conversionHint": "{booked} su {clients} persone che hanno scritto hanno prenotato"
+    },
+    "money": {
+      "title": "Entrate per mese",
+      "description": "Il prenotato va al mese del check-in (una vendita, a quello di creazione); l’incassato, al mese del pagamento.",
+      "asTable": "Vedi tabella",
+      "asChart": "Vedi grafico",
+      "month": "Mese",
+      "booked": "Prenotato",
+      "collected": "Incassato",
+      "commission": "Commissione",
+      "bookings": "Prenotazioni",
+      "chartLabel": "Prenotato e incassato per mese, in {currency}",
+      "monthSummary": "{month}: prenotato {booked}, incassato {collected}"
+    },
+    "occupancy": {
+      "title": "Occupazione per immobile",
+      "description": "Notti occupate (prenotazioni o iCal) sulle disponibili. Quelle bloccate a mano non contano come disponibili.",
+      "empty": "Non hai immobili in affitto.",
+      "nights": "{taken} di {available} notti",
+      "external": "{count} da iCal",
+      "blocked": "{count} bloccate"
+    },
+    "conversion": {
+      "title": "Dalla richiesta alla prenotazione",
+      "description": "Le persone che hanno scritto nel periodo e cosa è successo dopo.",
+      "steps": {
+        "inquiries": "Richieste",
+        "clients": "Persone",
+        "offered": "Hanno ricevuto un’offerta",
+        "booked": "Hanno prenotato"
+      },
+      "ofPeople": "{share} delle persone",
+      "source": "Da",
+      "rate": "Conversione",
+      "types": {
+        "PROPERTY": "Scheda di un immobile",
+        "OFFER": "Un’offerta",
+        "GENERAL": "Contatto del sito"
+      },
+      "replies": "{count, plural, one {# richiesta risposta dal pannello} other {# richieste risposte dal pannello}}; la metà in meno di {hours} h.",
+      "noReplies": "Ancora nessuna richiesta risposta dal pannello in questo periodo."
+    },
+    "team": {
+      "title": "Risultati per persona",
+      "description": "Clienti assegnati nel periodo, offerte inviate e prenotazioni confermate create da ciascuno. Importi in {currency}.",
+      "member": "Persona",
+      "clients": "Nuovi clienti",
+      "offers": "Offerte inviate",
+      "bookings": "Prenotazioni",
+      "booked": "Prenotato",
+      "commission": "Commissione",
+      "inactive": "senza accesso"
+    }
+  }
+}

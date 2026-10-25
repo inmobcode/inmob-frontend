@@ -11,6 +11,8 @@ import {
   ListChecks,
   TriangleAlert,
   Hourglass,
+  Star,
+  UserRound,
   X,
   type LucideIcon,
 } from "lucide-react";
@@ -47,6 +49,8 @@ const ICONS: Record<NotificationType, LucideIcon> = {
   BOOKING: CalendarCheck,
   TRIAL_ENDING: Hourglass,
   PAYMENT_FAILED: TriangleAlert,
+  CLIENT: UserRound,
+  REVIEW: Star,
 };
 
 const FEED_KEY = ["notifications"];
@@ -82,6 +86,10 @@ function useNotificationText() {
         };
       case "PAYMENT_FAILED":
         return { title: t("paymentFailed"), body: t("paymentFailedBody") };
+      case "CLIENT":
+        return { title: t("client"), body: p.name ?? null };
+      case "REVIEW":
+        return { title: t("review", { name: p.name ?? "", rating: p.rating ?? 0 }), body: p.text ?? null };
       default:
         return { title: item.title, body: item.body };
     }

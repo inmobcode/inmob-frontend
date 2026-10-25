@@ -11,7 +11,7 @@
       "updated": "Servizio aggiornato",
       "created": "Servizio creato",
       "saveFailed": "Impossibile salvare il servizio",
-      "deleted": "Servizio eliminato",
+      "deleted": "Servizio spostato nel cestino",
       "deleteFailed": "Impossibile eliminare il servizio",
       "photoFailed": "Impossibile caricare la foto",
       "editTitle": "Modifica servizio",
@@ -42,8 +42,7 @@
       "availableHint": "Se lo disattivi, non può essere aggiunto a nuove offerte.",
       "delete": "Elimina",
       "create": "Crea servizio",
-      "deleteTitle": "Eliminare «{name}»?",
-      "deleteBody": "Esce dalla tua libreria. Le offerte che lo includono già lo mantengono così com’è."
+      "restoreFailed": "Impossibile ripristinare il servizio"
     },
     "list": {
       "unavailable": "Non disponibile",

@@ -17,6 +17,9 @@ const DASHBOARD_SECTIONS = [
   "settings",
   "profile",
   "portal",
+  "welcome",
+  "reports",
+  "reviews",
 ];
 
 // Logged-in pages outside the agency-scoped tree (no slug segment): the dashboard docs and the plan screen.

@@ -2,6 +2,7 @@ import { FileCode2, FileSpreadsheet, Workflow } from "lucide-react";
 
 import type { LooseTranslator } from "@/i18n/loose";
 import type { ImportAction, ImportFormat } from "@/lib/api/imports";
+import { csvCell, downloadCsv } from "@/lib/csv";
 import { CSV_TEMPLATE } from "@/lib/import-guides";
 import type { GenericOrigin } from "@/lib/import-guides";
 import type { ImportPlatform, PlatformType } from "@/lib/import-platforms";
@@ -83,20 +84,9 @@ export function urlProblem(value: string) {
   }
 }
 
-function download(content: string, filename: string) {
-  const url = URL.createObjectURL(new Blob([content], { type: "text/csv;charset=utf-8" }));
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = filename;
-  link.click();
-  URL.revokeObjectURL(url);
-}
-
 export function downloadCsvTemplate() {
-  download(CSV_TEMPLATE, "plantilla-propiedades-tivvu.csv");
+  downloadCsv(CSV_TEMPLATE, "plantilla-propiedades-tivvu.csv");
 }
-
-const csvCell = (value: string | number | null | undefined) => `"${String(value ?? "").replace(/"/g, '""')}"`;
 
 export function downloadFailures(
   failures: { row: number; externalId?: string | null; error: string }[],
@@ -104,5 +94,5 @@ export function downloadFailures(
 ) {
   const lines = [[headers.row, headers.reference, headers.error].map(csvCell).join(",")];
   for (const item of failures) lines.push([item.row, item.externalId, item.error].map(csvCell).join(","));
-  download(lines.join("\n"), headers.filename);
+  downloadCsv(lines.join("\n"), headers.filename);
 }

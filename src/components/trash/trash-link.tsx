@@ -14,10 +14,13 @@ export function TrashLink({
   href,
   queryKey,
   list,
+  hideWhenEmpty = false,
 }: {
   href: string;
   queryKey: readonly unknown[];
   list: (token: string) => Promise<unknown[]>;
+  /** Show the link only while something waits in the trash. */
+  hideWhenEmpty?: boolean;
 }) {
   const t = useTranslations("trash");
   const { data } = useQuery({
@@ -29,6 +32,7 @@ export function TrashLink({
     },
   });
   const count = data?.length ?? 0;
+  if (hideWhenEmpty && count === 0) return null;
 
   return (
     <Tooltip>

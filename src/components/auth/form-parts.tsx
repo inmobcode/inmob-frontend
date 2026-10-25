@@ -127,8 +127,7 @@ export type AuthErrorKey =
   | "offline"
   | "wrongCredentials"
   | "emailTaken"
-  | "linkExpired"
-  | "recoveryUnavailable"
+  | "codeInvalid"
   | "badRequest"
   | "server"
   | "generic";
@@ -142,10 +141,7 @@ export function authErrorKey(err: unknown, action: AuthAction): AuthErrorKey {
   if (!(err instanceof ApiError)) return "offline";
   if (action === "login" && err.status === 401) return "wrongCredentials";
   if (action === "register" && err.status === 409) return "emailTaken";
-  if (action === "reset" && (err.status === 400 || err.status === 410)) return "linkExpired";
-  if ((action === "forgot" || action === "reset") && (err.status === 404 || err.status === 405)) {
-    return "recoveryUnavailable";
-  }
+  if (action === "reset" && err.status === 400) return "codeInvalid";
   if (err.status === 400) return "badRequest";
   if (err.status >= 500) return "server";
   return "generic";

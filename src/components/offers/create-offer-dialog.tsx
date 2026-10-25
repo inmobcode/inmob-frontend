@@ -1,8 +1,8 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { LoaderCircle } from "lucide-react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { LayoutTemplate, LoaderCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useParams, useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
@@ -22,7 +22,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ApiError } from "@/lib/api/client";
-import { createOffer } from "@/lib/api/offers";
+import { createOffer, duplicateOffer, listOffers } from "@/lib/api/offers";
 import { getAccessToken } from "@/lib/auth/session";
 
 function makeSchema(t: (key: "titleRequired" | "referenceTooLong" | "operationRequired") => string) {
@@ -51,6 +51,31 @@ export function CreateOfferDialog() {
   const titleError = form.formState.errors.title?.message;
   const referenceCodeError = form.formState.errors.referenceCode?.message;
   const operationError = form.formState.errors.operation?.message;
+  const templatesT = useTranslations("offers.templates");
+  const { data: templates } = useQuery({
+    queryKey: ["offers", "templates"],
+    queryFn: () => {
+      const token = getAccessToken();
+      if (!token) throw new ApiError("No autenticado", 401);
+      return listOffers(token, { templates: true });
+    },
+    enabled: open,
+  });
+
+  // Starts from a template: its content, with the title typed here if there is one.
+  const templateMutation = useMutation({
+    mutationFn: (templateId: string) => {
+      const token = getAccessToken();
+      if (!token) throw new ApiError("No autenticado", 401);
+      const title = form.getValues("title").trim();
+      return duplicateOffer(token, templateId, title.length >= 2 ? { title } : {});
+    },
+    onSuccess: (offer) => {
+      setOpen(false);
+      router.push(`/${agencySlug}/offers/${offer.id}`);
+    },
+    onError: (err) => setServerError(err instanceof ApiError ? err.message : common("unexpectedError")),
+  });
 
   const mutation = useMutation({
     mutationFn: (values: FormValues) => {
@@ -134,6 +159,27 @@ export function CreateOfferDialog() {
             {operationError && <p className="text-sm text-destructive">{operationError}</p>}
             {serverError && <p className="text-sm text-destructive">{serverError}</p>}
           </div>
+
+          {templates && templates.length > 0 && (
+            <div className="flex flex-col gap-2.5 px-7 pt-5 pb-2">
+              <p className="text-sm leading-none font-medium">{templatesT("startFrom")}</p>
+              <p className="text-xs text-muted-foreground">{templatesT("startFromHint")}</p>
+              <div className="flex flex-wrap gap-2">
+                {templates.map((template) => (
+                  <button
+                    key={template.id}
+                    type="button"
+                    disabled={templateMutation.isPending}
+                    onClick={() => templateMutation.mutate(template.id)}
+                    className="inline-flex h-9 max-w-full items-center gap-1.5 rounded-full bg-foreground/[0.06] px-3.5 text-sm font-medium outline-none transition-colors hover:bg-foreground/10 focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-50"
+                  >
+                    <LayoutTemplate className="size-3.5 shrink-0 text-muted-foreground" />
+                    <span className="truncate">{template.title}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className="flex items-center justify-end gap-2 px-7 pt-5 pb-7">
             <Button type="button" variant="ghost" className="h-10 px-5" onClick={() => handleOpenChange(false)}>

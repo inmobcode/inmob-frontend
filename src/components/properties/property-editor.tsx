@@ -38,6 +38,7 @@ import { EssentialsTab } from "@/components/properties/essentials-tab";
 import { OwnerTab } from "@/components/properties/owner-tab";
 import { PhotosTab } from "@/components/properties/photos-tab";
 import { RatesTab } from "@/components/properties/rates-tab";
+import { HistoryButton } from "@/components/shared/history-button";
 import { RecommendationsTab } from "@/components/properties/recommendations-tab";
 import { RoomsTab } from "@/components/properties/rooms-tab";
 import { ApiError } from "@/lib/api/client";
@@ -72,6 +73,14 @@ const makeSchema = (t: EditorTranslator) => z.object({
   visibleLocation: z.string(),
   guests: z.string(),
   stars: z.string(),
+  // Rentals' pricing rules (Tarifas tab); empty means no rule.
+  minStay: z.string(),
+  weeklyDiscountPct: z.string(),
+  monthlyDiscountPct: z.string(),
+  lastMinuteDiscountPct: z.string(),
+  lastMinuteDays: z.string(),
+  earlyBirdDiscountPct: z.string(),
+  earlyBirdDays: z.string(),
   plotArea: z.string(),
   staffRoom: z.string(),
   floorNumbersText: z.string(),
@@ -238,6 +247,13 @@ function toFormValues(property: Property): FormValues {
     visibleLocation: property.visibleLocation ?? "",
     guests: property.guests ?? "",
     stars: property.stars?.toString() ?? "",
+    minStay: property.minStay?.toString() ?? "",
+    weeklyDiscountPct: property.weeklyDiscountPct?.toString() ?? "",
+    monthlyDiscountPct: property.monthlyDiscountPct?.toString() ?? "",
+    lastMinuteDiscountPct: property.lastMinuteDiscountPct?.toString() ?? "",
+    lastMinuteDays: property.lastMinuteDays?.toString() ?? "",
+    earlyBirdDiscountPct: property.earlyBirdDiscountPct?.toString() ?? "",
+    earlyBirdDays: property.earlyBirdDays?.toString() ?? "",
     plotArea: property.plotArea?.toString() ?? "",
     staffRoom: c?.staffRoom?.toString() ?? "",
     floorNumbersText: (c?.floorNumbers ?? []).join(", "),
@@ -343,6 +359,14 @@ function toPayload(values: FormValues, originalOwnerId?: string | null): UpdateP
     visibleLocation: values.visibleLocation || undefined,
     guests: values.guests || undefined,
     stars: toNumber(values.stars),
+    // Null, not undefined, so clearing a rule removes it.
+    minStay: toNumber(values.minStay) ?? null,
+    weeklyDiscountPct: toNumber(values.weeklyDiscountPct) ?? null,
+    monthlyDiscountPct: toNumber(values.monthlyDiscountPct) ?? null,
+    lastMinuteDiscountPct: toNumber(values.lastMinuteDiscountPct) ?? null,
+    lastMinuteDays: toNumber(values.lastMinuteDays) ?? null,
+    earlyBirdDiscountPct: toNumber(values.earlyBirdDiscountPct) ?? null,
+    earlyBirdDays: toNumber(values.earlyBirdDays) ?? null,
     plotArea: toNumber(values.plotArea),
     constructionYear: toNumber(values.constructionYear),
     renovationYear: toNumber(values.renovationYear),
@@ -526,6 +550,7 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
       onCancel: () => router.push(`/${agencySlug}/properties`),
       extra: (
         <div className="flex items-center gap-1 sm:mr-2">
+          <HistoryButton entity="properties" id={propertyId} />
           <Button type="button" variant="ghost" className="gap-1.5" asChild>
             <a href={docsHref("propiedades")} target="_blank" rel="noreferrer" title={t("help")}>
               <CircleQuestionMark />
@@ -629,7 +654,7 @@ export function PropertyEditor({ propertyId }: { propertyId: string }) {
 
           {isRent && (
             <TabsContent value="rates" className="mt-0 max-w-2xl">
-              <RatesTab propertyId={property.id} />
+              <RatesTab property={property} editorForm={form} />
             </TabsContent>
           )}
 

@@ -172,7 +172,8 @@ function EditorFragment() {
             ))}
           </div>
         </div>
-        {/* A fixed-height viewport: the site scrolls inside it, like a real screen. */}
+        {/* A fixed-height viewport: the site scrolls inside it, like a real screen.
+            Scrolling chains to the page at either end, so it never traps the wheel. */}
         <div
           className={cn(
             "mx-auto w-full overflow-hidden border border-line bg-white shadow-sm transition-[max-width,height,border-radius] duration-500 ease-out motion-reduce:transition-none",
@@ -185,7 +186,7 @@ function EditorFragment() {
             tabIndex={0}
             role="region"
             aria-label={t("previewLabel")}
-            className="h-full overflow-y-auto overscroll-contain outline-none focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-inset [scrollbar-width:thin]"
+            className="h-full overflow-y-auto outline-none focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-inset [scrollbar-width:thin]"
           >
             <SitePreview
               state={{

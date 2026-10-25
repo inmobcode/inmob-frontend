@@ -1,0 +1,51 @@
+{
+  "welcome": {
+    "meta": "Dobrodošlica",
+    "eyebrow": "Prvi koraci",
+    "title": "Dobro došli u Tivvu",
+    "titleNamed": "Dobro došli, {name}",
+    "lead": "Vaša agencija je spremna. Dodajte prvu nekretninu i za nekoliko minuta imat ćete javnu stranicu za dijeljenje.",
+    "question": "Imate li nekretnine u tablici ili drugom sustavu?",
+    "import": {
+      "title": "Da, želim ih uvesti",
+      "text": "Učitajte Excel, CSV ili izvoz s drugog portala i unijet ćemo ih zajedno, uz provjeru prije spremanja.",
+      "cta": "Uvezi nekretnine"
+    },
+    "scratch": {
+      "title": "Ne, počinjem ispočetka",
+      "text": "Stvorite prvu nekretninu u minuti s osnovnim podacima i dovršite je poslije.",
+      "cta": "Stvori prvu nekretninu"
+    },
+    "reassure": "Put možete promijeniti kad god želite: obje opcije ostaju dostupne u Nekretninama.",
+    "later": "Učinit ću to poslije",
+    "checklist": {
+      "title": "Prvi koraci",
+      "progress": "{done} od {total} gotovo",
+      "hide": "Sakrij vodič",
+      "items": {
+        "account": {
+          "title": "Izradite račun",
+          "text": "Vaša agencija je spremna."
+        },
+        "property": {
+          "title": "Objavite prvu nekretninu",
+          "text": "Da se prikaže na vašoj javnoj stranici."
+        },
+        "site": {
+          "title": "Prilagodite stranicu",
+          "text": "Naslovnica, boje i odjeljci vašeg portala."
+        },
+        "team": {
+          "title": "Pozovite tim",
+          "text": "Svatko dobiva svoj pristup i ulogu."
+        },
+        "client": {
+          "title": "Dodajte prvog klijenta",
+          "text": "Za praćenje svakog upita na jednom mjestu."
+        }
+      },
+      "skip": "Preskoči",
+      "skipped": "Preskočeno"
+    }
+  }
+}

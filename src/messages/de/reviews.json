@@ -1,0 +1,59 @@
+{
+  "reviews": {
+    "title": "Bewertungen",
+    "help": "Hilfe zu Bewertungen",
+    "show": "Anzeigen",
+    "add": "Bewertung hinzufügen",
+    "managersOnly": "Bewertungen erscheinen auf der Website der Agentur, daher moderieren sie Inhaber und Administratoren.",
+    "loadFailed": "Bewertungen konnten nicht geladen werden",
+    "published": "Bewertung auf Ihrer Website veröffentlicht",
+    "hidden": "Bewertung ausgeblendet",
+    "deleted": "Bewertung gelöscht",
+    "emptyBody": "Wenn Sie eine Buchung abschließen, erhält der Gast eine E-Mail zur Bewertung. Sie können auch Bewertungen aus anderen Kanälen hinzufügen.",
+    "empty": {
+      "PENDING": "Keine Bewertungen zu prüfen",
+      "PUBLISHED": "Noch keine veröffentlichten Bewertungen",
+      "HIDDEN": "Keine ausgeblendeten Bewertungen",
+      "ALL": "Noch keine Bewertungen"
+    },
+    "filters": {
+      "PENDING": "Zu prüfen",
+      "PUBLISHED": "Veröffentlicht",
+      "HIDDEN": "Ausgeblendet",
+      "ALL": "Alle"
+    },
+    "status": {
+      "PENDING": "Ausstehend",
+      "PUBLISHED": "Veröffentlicht",
+      "HIDDEN": "Ausgeblendet"
+    },
+    "source": {
+      "GUEST": "Vom Gast",
+      "MANUAL": "Von der Agentur erfasst"
+    },
+    "outOf": "{rating} von 5 Sternen",
+    "noText": "Kein Kommentar, nur die Wertung.",
+    "noProperty": "Ohne Objekt",
+    "stayed": "Aufenthalt {date}",
+    "publish": "Veröffentlichen",
+    "hide": "Ausblenden",
+    "dontPublish": "Nicht veröffentlichen",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "deleteTitle": "Bewertung löschen?",
+    "deleteBody": "Die Bewertung von {name} wird endgültig gelöscht. Wenn Sie sie nur nicht zeigen möchten, blenden Sie sie aus.",
+    "dialog": {
+      "newTitle": "Bewertung hinzufügen",
+      "editTitle": "Bewertung bearbeiten",
+      "description": "Eine Bewertung aus einem anderen Kanal (Airbnb, Google, eine E-Mail). Sie wird beim Speichern auf Ihrer Website veröffentlicht.",
+      "rating": "Wertung",
+      "stars": "{count, plural, one {# Stern} other {# Sterne}}",
+      "author": "Name",
+      "authorPlaceholder": "Z. B. Lucía F.",
+      "property": "Objekt",
+      "text": "Was geschrieben wurde",
+      "stayedOn": "Wann der Aufenthalt war",
+      "publish": "Veröffentlichen"
+    }
+  }
+}

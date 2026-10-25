@@ -15,7 +15,7 @@
           },
           "q3": {
             "q": "Olvidé mi contraseña, ¿qué hago?",
-            "a": "Desde la pantalla de ingreso usá la opción para recuperar la contraseña. Te enviamos un link por email para crear una nueva."
+            "a": "Desde la pantalla de ingreso usá la opción para recuperar la contraseña. Te enviamos un código de 6 dígitos por email para crear una nueva."
           },
           "q4": {
             "q": "¿Por qué se cerró mi sesión?",

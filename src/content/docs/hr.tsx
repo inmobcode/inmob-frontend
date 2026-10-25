@@ -2,11 +2,13 @@ import {
   Building2,
   CalendarCheck,
   CalendarDays,
+  ChartColumn,
   Compass,
   Eye,
   Globe,
   Inbox,
   Keyboard,
+  MessageSquareQuote,
   KeyRound,
   Settings,
   Sparkles,
@@ -152,7 +154,11 @@ function Basics() {
           ],
           [
             "Koš",
-            "Ono što izbrišete iz Nekretnina, Ponuda i Rezervacija ide u koš, ne nestaje. Ondje ostaje 30 dana za slučaj da se predomislite; nakon toga se trajno briše. Pri brisanju obavijest na dnu nudi »Poništi«.",
+            "Ono što izbrišete iz Nekretnina, Ponuda, Rezervacija, Klijenata i Upita ide u koš, ne nestaje. Ondje ostaje 30 dana za slučaj da se predomislite; nakon toga se trajno briše. Pri brisanju obavijest na dnu nudi »Poništi«.",
+          ],
+          [
+            "Povijest",
+            "Na nekretninama, ponudama i rezervacijama gumb »Povijest« pokazuje tko je što promijenio i kada: cijenu sa 100 na 120, status, fotografije, plaćanja. Ono što klijent radi preko poveznice (otvori ponudu, napiše poruku) prikazuje se kao »Klijent ili sustav«.",
           ],
           [
             "»Prikazuje se na stranici« / »Samo interno«",
@@ -167,7 +173,7 @@ function Basics() {
 
       <DocH3>Koš</DocH3>
       <DocP>
-        Otvara se ikonom koša na traci Nekretnina, Ponuda i Rezervacija. Broj na ikoni pokazuje koliko je stavki unutra.
+        Otvara se ikonom koša na traci Nekretnina, Ponuda, Rezervacija i Klijenata; u Upitima se pojavljuje samo kad u njemu nešto ima. Broj na ikoni pokazuje koliko je stavki unutra.
       </DocP>
       <DocFigure
         src="/docs-media/hr/papelera.webp"
@@ -229,13 +235,34 @@ function Inquiries() {
         <li>Otvaranjem se upit označava kao pročitan. Omotnica gore desno ponovno ga označava kao novi.</li>
         <li>Upiti klijenta kojeg već imate prikazuju njegovu fazu (Potencijalni, Kontaktiran…) pokraj imena.</li>
         <li>
-          Odgovorite jednim klikom: <strong>Odgovori e-poštom</strong> (s već upisanim predmetom i pozdravom),{" "}
-          <strong>WhatsApp</strong> (s porukom koja navodi predmet upita) ili <strong>Nazovi</strong>. WhatsApp i Nazovi
-          pojavljuju se ako je ostavio telefon. Ikona pokraj e-pošte kopira je.
+          <strong>Odgovori</strong> otvara poruku na licu mjesta, s već upisanim predmetom i pozdravom. Šalje se
+          e-poštom pod imenom vaše agencije, ostaje u povijesti klijenta, a upit pokazuje tko je i kada odgovorio. Ako
+          klijent odgovori, stiže na kontaktnu e-poštu iz Postavki (ili vašu).
+        </li>
+        <li>
+          <strong>WhatsApp</strong> (s porukom koja navodi predmet upita) i <strong>Nazovi</strong> pojavljuju se ako je
+          ostavio telefon. Ikona pokraj e-pošte kopira je.
+        </li>
+        <li>
+          <strong>Odgovorna osoba:</strong> vlasnici računa i administratori biraju tko ga vodi (to je odgovorna osoba
+          klijenta, koja dobiva obavijest u zvonu). Agent može kliknuti »Preuzmi« ako ga nitko nema.
+        </li>
+        <li>
+          <strong>Arhiviraj</strong> (kutija gore desno) uklanja ga iz pristigle pošte bez brisanja: ostaje na kartici
+          »Arhivirani«, odakle se može vratiti. Ikona koša premješta ga u koš; klijent i njegova povijest ostaju
+          netaknuti. Obje radnje nude »Poništi«.
         </li>
         <li>Kliknite nekretninu ili ponudu da je otvorite na nadzornoj ploči, ili »Pogledaj klijenta« za njegovu karticu.</li>
         <li>Pretinac se sam ažurira svake minute.</li>
       </DocList>
+
+      <DocH3>Predlošci odgovora</DocH3>
+      <DocP>
+        Za najčešća pitanja spremite predložak: pri odgovaranju kliknite »Predlošci«, pa »Novi predložak«, s nazivom,
+        neobaveznim predmetom i tekstom. Gumbi ispod umeću podatke koji se sami popunjavaju: ime, puno ime, nekretnina
+        ili ponuda, vaša agencija i vaše ime. Odaberite ga u »Upotrijebi predložak« i prilagodite što treba prije
+        slanja. Dijeli ih cijeli tim.
+      </DocP>
       <DocTip>
         Ako još nije stigao nijedan upit, podijelite poveznicu na svoju stranicu: obrazac za kontakt i obrazac svake
         kartice stižu ovamo.
@@ -289,7 +316,7 @@ function Clients() {
       />
       <DocP>
         Fazu promijenite u izborniku <strong>⋯</strong> svakog klijenta (»Promijeni fazu«) ili na njegovoj kartici. U istom
-        izborniku možete pogledati karticu, poslati mu e-poštu, nazvati ga ili kopirati e-poštu.
+        izborniku možete pogledati karticu, poslati mu e-poštu, nazvati ga, kopirati e-poštu ili ga premjestiti u koš.
       </DocP>
 
       <DocH3>Kartica klijenta</DocH3>
@@ -310,7 +337,7 @@ function Clients() {
         items={[
           [
             "Bilješke",
-            "Ono što vrijedi zapamtiti: što traži, budžet, preferencije. Podržava naslove, podebljano, popise i poveznice. Kad nešto promijenite, pojavljuje se »Spremi bilješke«.",
+            "Ono što vrijedi zapamtiti, a ne spada pod »Što traži«. Podržava naslove, podebljano, popise i poveznice. Kad nešto promijenite, pojavljuje se »Spremi bilješke«.",
           ],
           [
             "Zadaci",
@@ -326,11 +353,30 @@ function Clients() {
             "Agent koji vodi klijenta. Vlasnici računa i administratori biraju ga s popisa tima; agent može kliknuti »Preuzmi« na nedodijeljenom potencijalnom klijentu.",
           ],
           ["Kontakt", "Njegova e-pošta i telefon, jednim klikom do poruke ili poziva."],
+          [
+            "Što traži",
+            "Budžet (u valuti vaše agencije), koliko osoba, područja i datumi. Vidi ga samo vaš tim. Kad nešto promijenite, pojavljuje se »Spremi«.",
+          ],
+          [
+            "Oznake",
+            "Vaše vlastite oznake za grupiranje klijenata: »VIP«, »investitor«, »ljeto 2027«. Upišite jednu i pritisnite Enter ili zarez; ispod predlažemo one koje već koristite. Spremaju se odmah i služe za filtriranje popisa.",
+          ],
+          [
+            "Premjesti u koš",
+            "Na dnu desnog panela ili u izborniku ⋯ na popisu. Njegove ponude, rezervacije i povijest ostaju kakvi jesu. Ako vam ponovno piše s portala, sam izlazi iz koša. Dok je ondje, ne možete dodati drugog klijenta s njegovom e-poštom: vratite ga. Klijent s rezervacijama ne može se trajno izbrisati.",
+          ],
         ]}
       />
       <DocTip>
         Izbrisani zadaci ne idu u koš: nestaju odmah. Ako ste ga samo obavili, radije ga označite kao gotov.
       </DocTip>
+
+      <DocH3>Izvoz u CSV</DocH3>
+      <DocP>
+        Gumb sa strelicom prema dolje na traci popisa preuzima klijente koje gledate (s primijenjenim pretraživanjem i
+        filtrima) kao CSV datoteku koja se otvara u Excelu, Google Sheetsu ili Numbersu: kontakt, faza, izvor, oznake,
+        što traži, bilješke i datum dodavanja. Vlasnici računa i administratori dobivaju i stupac odgovorne osobe.
+      </DocP>
     </DocSection>
   );
 }
@@ -596,6 +642,14 @@ function Properties() {
       <DocTip>
         Da vidite sve nekretnine za najam u jednom kalendaru, upotrijebite <strong>Dostupnost</strong> u izborniku.
       </DocTip>
+
+      <DocH3>Pravila cijena</DocH3>
+      <DocP>
+        U odjeljku Rates, iznad sezona: minimalni boravak za cijelu godinu, tjedni (7+ noćenja) ili mjesečni (28+)
+        popust i jedan prema vremenu rezervacije: zadnji čas (dolazak za nekoliko dana) ili rana rezervacija. Spremaju
+        se s »Spremi«. »Isprobaj cijenu« izračunava boravak kako ga vidi klijent; isti izračun popunjava ukupan iznos u
+        »Nova rezervacija« i prikazuje se na javnoj stranici kao »Izračunajte boravak«.
+      </DocP>
 
       <DocH3>Preporuke</DocH3>
       <DocFigure
@@ -989,6 +1043,28 @@ function Offers() {
         stiže u Upite.
       </DocP>
 
+      <DocH3>Praćenje otvaranja</DocH3>
+      <DocP>
+        Svaki put kad klijent otvori poveznicu bilježi se kada i je li to bilo s mobitela ili računala. U desnom panelu
+        uređivača vidite koliko ju je puta otvorio, zadnji put i prethodne; na popisu oko s brojem. Ako je ponovno
+        otvori nakon dana, zvono vas opet obavijesti. Ne broje se pregledi koje stvaraju WhatsApp ili e-pošta, ni vaše
+        »Pogledaj kao klijent«.
+      </DocP>
+
+      <DocH3>Dupliciranje i predlošci</DocH3>
+      <DocP>
+        U izborniku ⋯ ponude ili panelu uređivača »Dupliciraj« stvara isti nacrt, bez klijenta i roka, da ga pošaljete
+        nekom drugom. »Spremi kao predložak« sprema je na karticu »Predlošci« na popisu: predložak nema poveznicu i ne
+        šalje se. Za korištenje kliknite »Napravi ponudu iz ovog predloška« ili ga odaberite pri izradi »Nove ponude«.
+      </DocP>
+
+      <DocH3>Od ponude do rezervacije</DocH3>
+      <DocP>
+        Kad klijent prihvati, kliknite »Napravi rezervaciju« u desnom panelu uređivača. Klijent, valuta i cijena dolaze
+        iz spremljene ponude (za najam cijena po noćenju puta broj noćenja, plus usluge); odaberite nekretninu i datume.
+        Ponuda postaje »Prihvaćena«, a rezervacija se prikazuje u njoj.
+      </DocP>
+
       <DocH3>Statusi</DocH3>
       <DocTerms
         items={[
@@ -996,6 +1072,7 @@ function Offers() {
           [<DocPill key="s" tone="primary">Poslana</DocPill>, "Poveznica je aktivna i poslana klijentu."],
           [<DocPill key="v">Pregledana</DocPill>, "Klijent je već otvorio ponudu."],
           [<DocPill key="e">Istekla</DocPill>, "Prošao je datum isteka; klijent vidi obavijest da je istekla."],
+          [<DocPill key="a" tone="primary">Prihvaćena</DocPill>, "Iz nje je napravljena rezervacija."],
         ]}
       />
     </DocSection>
@@ -1097,11 +1174,39 @@ function Bookings() {
         Naplaćene uplate pune izvadak računa vlasnika: naplaćeno umanjeno za proviziju jest ono što mu pripada.
       </DocP>
 
+      <DocH3>Pretraživanje i filtri</DocH3>
+      <DocP>
+        Tražite po nekretnini ili klijentu i kombinirajte filtre: status, plaćanje (nenaplaćene, djelomično plaćene ili
+        plaćene), nekretnina, lokacija i datumi. Filtar datuma prikazuje boravke koji dodiruju te dane; dan odlaska već
+        se računa kao slobodan.
+      </DocP>
+
+      <DocH3>Gosti i bilješke</DocH3>
+      <DocP>
+        Pod »Pojedinosti« na kartici upišite koliko osoba dolazi i interne bilješke za tim (»kasni dolazak«, »trebaju
+        krevetić«). Klijent vidi broj gostiju, nikad bilješke. Na otkazanoj ili završenoj rezervaciji mogu se uređivati
+        samo bilješke.
+      </DocP>
+
+      <DocH3>Uređivanje ili brisanje plaćanja</DocH3>
+      <DocP>
+        Pri evidentiranju plaćanja možete navesti način (uplata, gotovina…), označiti ga kao već naplaćeno s datumom i
+        ostaviti internu bilješku. Izbornik ⋯ svakog plaćanja omogućuje uređivanje, vraćanje na čekanje ili brisanje (uz
+        potvrdu: briše se i iz izvoda vlasnika).
+      </DocP>
+
       <DocH3>Stranica klijenta</DocH3>
       <DocP>
         Svaka rezervacija ima stranicu za klijenta s nekretninom, boravkom, statusom i uplatama (predujmovi i ostatak, nikad
         provizija). Ako rezervacija ima klijenta, prima je e-poštom kad se izradi, potvrdi ili otkaže. Ako nema, kopirajte
         poveznicu s kartice ili iz izbornika ⋯ i pošaljite je sami. Vidi »Što vide vaši klijenti«.
+      </DocP>
+
+      <DocH3>Potvrda</DocH3>
+      <DocP>
+        »Potvrda za klijenta« na kartici otvara stranicu spremnu za ispis ili spremanje kao PDF: vaša agencija,
+        rezervacija, plaćanja s datumom i načinom, ukupan iznos i preostalo za platiti. Klijent do nje dolazi i sa svoje
+        stranice. Nikad ne prikazuje proviziju ni bilješke i navodi da nije račun.
       </DocP>
     </DocSection>
   );
@@ -1601,7 +1706,7 @@ function Shortcuts() {
           [<Kbd key="q">?</Kbd>, "Prikaži sve prečace"],
           [
             <><Kbd>G</Kbd> i slovo</>,
-            "Idi na odjeljak: P nekretnine, O ponude, C klijenti, I upiti, R rezervacije, D dostupnost, E tim, W stranica, S postavke, M moj profil",
+            "Idi na odjeljak: P nekretnine, O ponude, C klijenti, I upiti, R rezervacije, D dostupnost, T izvješća, E tim, W stranica, S postavke, M moj profil",
           ],
           [<Kbd key="n">N</Kbd>, "Izradi novo na otvorenom popisu"],
           [<Kbd key="s">/</Kbd>, "Idi na pretragu popisa"],
@@ -1628,6 +1733,68 @@ function Shortcuts() {
   );
 }
 
+function Reports() {
+  return (
+    <DocSection
+      id="reportes"
+      icon={ChartColumn}
+      title="Izvješća"
+      adminOnly
+      intro="Kako agencija posluje u razdoblju: što je rezervirala i naplatila, provizija, popunjenost svakog najma, koliko upita postaje rezervacija i rezultati svake osobe u timu. Vide ih samo vlasnici i administratori."
+    >
+      <DocP>
+        Odaberite razdoblje gore (3, 6 ili 12 mjeseci, ova ili prošla godina). Ako radite s više valuta, odaberite koju gledate: iznosi se nikad ne zbrajaju između valuta.
+      </DocP>
+      <DocTerms
+        items={[
+          ["Rezervirano", "Ukupna cijena potvrđenih ili završenih rezervacija u mjesecu dolaska (prodaja u mjesecu izrade). Zelena traka na grafikonu."],
+          ["Naplaćeno", "Predujmovi i ostaci označeni kao naplaćeni, u mjesecu plaćanja. Bez provizije. Narančasta traka."],
+          ["Provizija", "Provizija upisana u te potvrđene rezervacije."],
+          ["Popunjenost", "Noćenja zauzeta rezervacijama ili iCalom u odnosu na dostupna noćenja svakog najma. Ručno blokirana ne računaju se kao dostupna."],
+          ["Konverzija", "Od osoba koje su pisale u razdoblju, koliko ih je dobilo ponudu, a koliko je poslije rezerviralo. Pokazuje i koliko je upita odgovoreno s nadzorne ploče i koliko brzo."],
+          ["Po osobi", "Klijenti dodijeljeni u razdoblju, poslane ponude i potvrđene rezervacije svake osobe, s rezerviranim iznosom i provizijom."],
+        ]}
+      />
+      <DocTip>
+        Prijeđite mišem (ili dodirnite) mjesec na grafikonu da vidite njegove brojke ili kliknite »Prikaži tablicu« da ih vidite sve zajedno.
+      </DocTip>
+    </DocSection>
+  );
+}
+
+function ReviewsDoc() {
+  return (
+    <DocSection
+      id="resenas"
+      icon={MessageSquareQuote}
+      title="Recenzije"
+      adminOnly
+      intro="Što misle vaši gosti, na vašoj stranici. E-pošta ih traži, vi ih moderirate. Samo za vlasnike i administratore."
+    >
+      <DocSteps>
+        <DocStep>
+          Kad rezervaciju označite kao <strong>završenu</strong>, gost dobiva e-poštu da ostavi recenziju sa svoje
+          stranice rezervacije: zvjezdice i komentar.
+        </DocStep>
+        <DocStep>
+          Recenzija stiže u <strong>Recenzije</strong> na čekanju, a zvono vas obavijesti.
+        </DocStep>
+        <DocStep>
+          Kliknite <strong>Objavi</strong> da je prikažete ili <strong>Ne objavljuj</strong>. Tekst gosta ne može se
+          uređivati.
+        </DocStep>
+      </DocSteps>
+      <DocTerms
+        items={[
+          ["Na stranici", "Objavljene se prikazuju na stranici nekretnine s prosjekom zvjezdica i na karticama popisa. Dodajte blok »Recenzije« u uređivaču stranice da se prikažu na naslovnici."],
+          ["Dodaj recenziju", "Za one s drugih kanala (Airbnb, Google, e-pošta): ocjena, ime, nekretnina i tekst. Objavljuju se pri spremanju i mogu se uređivati."],
+          ["Sakrij ili izbriši", "Skrivanje je uklanja sa stranice bez brisanja; brisanje je trajno uklanja."],
+        ]}
+      />
+    </DocSection>
+  );
+}
+
 export const DOC_SECTIONS: DocEntry[] = [
   { id: "primeros-pasos", label: "Prvi koraci", Content: Basics },
   { id: "consultas", label: "Upiti", Content: Inquiries },
@@ -1639,6 +1806,8 @@ export const DOC_SECTIONS: DocEntry[] = [
   { id: "reservas", label: "Rezervacije", Content: Bookings },
   { id: "disponibilidad", label: "Dostupnost", Content: Availability },
   { id: "servicios", label: "Usluge", Content: Services },
+  { id: "reportes", label: "Izvješća", adminOnly: true, Content: Reports },
+  { id: "resenas", label: "Recenzije", adminOnly: true, Content: ReviewsDoc },
   { id: "portal", label: "Web-stranica", adminOnly: true, Content: Portal },
   { id: "lo-que-ven-tus-clientes", label: "Što vide vaši klijenti", Content: ClientPages },
   { id: "equipo", label: "Tim", adminOnly: true, Content: Team },

@@ -18,7 +18,8 @@
       "DRAFT": "Πρόχειρη",
       "SENT": "Απεσταλμένη",
       "VIEWED": "Προβλήθηκε",
-      "EXPIRED": "Έληξε"
+      "EXPIRED": "Έληξε",
+      "ACCEPTED": "Αποδεκτή"
     },
     "discountType": {
       "NONE": "Χωρίς έκπτωση",

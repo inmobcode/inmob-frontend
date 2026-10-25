@@ -93,7 +93,9 @@
       "featured": "Propiedades destacadas",
       "comingSoon": "Próximamente",
       "count": "{count, plural, one {# propiedad} other {# propiedades}}",
-      "ctaTitle": "¿Querés vender tu propiedad?"
+      "ctaTitle": "¿Querés vender tu propiedad?",
+      "reviewsTitle": "Lo que dicen nuestros huéspedes",
+      "reviewsPreview": "Acá aparecen las reseñas que publiques en la sección Reseñas del panel."
     },
     "gallery": {
       "singular": {
@@ -152,7 +154,9 @@
       "paidOn": "Pagado el {date}",
       "pending": "Pendiente",
       "changeTitle": "¿Necesitás cambiar algo?",
-      "changeBody": "Escribile a {agency} y te ayudan con tu reserva."
+      "changeBody": "Escribile a {agency} y te ayudan con tu reserva.",
+      "guests": "{count, plural, one {# huésped} other {# huéspedes}}",
+      "receipt": "Ver o descargar el comprobante"
     },
     "facts": {
       "bedrooms": "Dormitorios",
@@ -184,7 +188,8 @@
       "askTitle": "Consultá por esta propiedad",
       "defaultMessage": "Hola, me interesa esta propiedad. ¿Sigue disponible?",
       "others": "Otras propiedades de {agency}",
-      "ask": "Consultar"
+      "ask": "Consultar",
+      "reviewsTitle": "Lo que dicen los huéspedes"
     },
     "availability": {
       "metaTitle": "Disponibilidad — {agency}",
@@ -305,7 +310,81 @@
     },
     "meta": {
       "bookingTitle": "Tu reserva · {agency}",
-      "ownerTitle": "Tus propiedades · {agency}"
+      "ownerTitle": "Tus propiedades · {agency}",
+      "receiptTitle": "Comprobante {reference} · {agency}"
+    },
+    "receipt": {
+      "back": "Volver a la reserva",
+      "print": "Imprimir o guardar como PDF",
+      "title": "Comprobante de reserva",
+      "reference": "Reserva {reference}",
+      "issued": "Emitido el {date}",
+      "client": "Cliente",
+      "property": "Propiedad",
+      "checkIn": "Check-in",
+      "checkOut": "Check-out",
+      "duration": "Duración",
+      "nights": "{count, plural, one {# noche} other {# noches}}",
+      "guests": "Huéspedes",
+      "guestsCount": "{count, plural, one {# huésped} other {# huéspedes}}",
+      "status": "Estado",
+      "payments": "Pagos",
+      "date": "Fecha",
+      "concept": "Concepto",
+      "method": "Medio",
+      "amount": "Monto",
+      "paid": "Pagado",
+      "pending": "Pendiente",
+      "noPayments": "Todavía no hay pagos registrados.",
+      "total": "Total",
+      "paidTotal": "Pagado",
+      "due": "Falta pagar",
+      "notInvoice": "Este comprobante resume la reserva y los pagos registrados por {agency}. No es una factura."
+    },
+    "reviews": {
+      "outOf": "{rating} de 5 estrellas",
+      "count": "{count, plural, one {# reseña} other {# reseñas}}"
+    },
+    "stay": {
+      "title": "Calculá tu estadía",
+      "pickDates": "Elegí las fechas",
+      "loading": "Calculando…",
+      "failed": "No pudimos calcular el precio. Escribinos y te pasamos uno.",
+      "estimate": "Es una estimación con las tarifas publicadas; la agencia la confirma.",
+      "onRequest": "{count, plural, one {# noche a consultar} other {# noches a consultar}}",
+      "line": "{count, plural, one {# noche} other {# noches}} × {price}",
+      "total": "{count, plural, one {Total por # noche} other {Total por # noches}}",
+      "totalOnRequest": "A consultar",
+      "minStayWarning": "{count, plural, one {Estas fechas piden al menos # noche.} other {Estas fechas piden al menos # noches.}}",
+      "unavailable": "Algunas de estas noches ya están ocupadas.",
+      "discounts": {
+        "WEEKLY": "Descuento semanal ({pct})",
+        "MONTHLY": "Descuento mensual ({pct})",
+        "LAST_MINUTE": "Último momento ({pct})",
+        "EARLY_BIRD": "Reserva anticipada ({pct})"
+      },
+      "rules": {
+        "minStay": "Estadía mínima: {count} noches",
+        "weekly": "{pct} menos en estadías de 7 noches o más",
+        "monthly": "{pct} menos en estadías de 28 noches o más",
+        "lastMinute": "{pct} menos si llegás dentro de {count} días",
+        "earlyBird": "{pct} menos reservando con {count} días de anticipación"
+      }
+    },
+    "guestReview": {
+      "title": "¿Cómo estuvo tu estadía?",
+      "lead": "Tu opinión ayuda a {agency} y a los próximos huéspedes.",
+      "ratingLabel": "Tu puntuación",
+      "outOf": "{rating} de 5 estrellas",
+      "textLabel": "Tu comentario",
+      "placeholder": "Contanos qué te gustó y qué mejorarías (opcional)",
+      "send": "Enviar reseña",
+      "sending": "Enviando…",
+      "failed": "No pudimos enviar tu reseña. Probá de nuevo.",
+      "note": "Se publica con tu nombre y la inicial de tu apellido, una vez que la agencia la revise.",
+      "thanksTitle": "Gracias por tu reseña",
+      "published": "Ya está publicada en el sitio.",
+      "pending": "La agencia la va a revisar antes de publicarla."
     }
   }
 }

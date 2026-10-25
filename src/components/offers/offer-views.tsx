@@ -5,7 +5,15 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 
-import { Collage, coversOf, OfferMenu, propertiesOf, type OfferActions } from "@/components/offers/offer-card";
+import {
+  Collage,
+  coversOf,
+  OfferMenu,
+  OpensBadge,
+  propertiesOf,
+  TemplatePill,
+  type OfferActions,
+} from "@/components/offers/offer-card";
 import { OfferStatusPill } from "@/components/offers/offer-status-pill";
 import { ControlsZone } from "@/components/properties/property-controls";
 import { useFormat } from "@/i18n/format";
@@ -85,7 +93,8 @@ export function OfferRow({ offer, actions }: { offer: Offer; actions: OfferActio
 
       <div className="flex items-center justify-between gap-3 sm:w-48 sm:flex-col sm:items-end sm:py-1 sm:text-right">
         <ControlsZone className="flex items-center gap-2">
-          <OfferStatusPill status={offer.status} />
+          <OpensBadge offer={offer} className="text-xs text-muted-foreground" />
+          {offer.isTemplate ? <TemplatePill /> : <OfferStatusPill status={offer.status} />}
           <OfferMenu offer={offer} actions={actions} className="bg-foreground/[0.06] hover:bg-foreground/10" />
         </ControlsZone>
         <div className="flex flex-col gap-1 sm:items-end">
@@ -158,7 +167,10 @@ export function OffersTable({ offers, actions }: { offers: Offer[]; actions: Off
                   {offer.referenceCode || "—"}
                 </td>
                 <td className="px-4 py-3">
-                  <OfferStatusPill status={offer.status} />
+                  <span className="flex items-center gap-2">
+                    {offer.isTemplate ? <TemplatePill /> : <OfferStatusPill status={offer.status} />}
+                    <OpensBadge offer={offer} className="text-xs text-muted-foreground" />
+                  </span>
                 </td>
                 <td className="px-4 py-3 text-right tabular-nums">{propertiesOf(offer).length}</td>
                 <td className="px-4 py-3 text-right">

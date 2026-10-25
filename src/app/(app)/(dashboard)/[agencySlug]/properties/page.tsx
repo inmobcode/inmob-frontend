@@ -1,15 +1,17 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Building2, RotateCcw, Search, SearchX } from "lucide-react";
+import { RotateCcw, Search, SearchX } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { ImportLink } from "@/components/import/import-link";
+import { OnboardingChecklist } from "@/components/welcome/onboarding-checklist";
+import { PropertiesEmpty } from "@/components/properties/properties-empty";
 import { CreatePropertyDialog } from "@/components/properties/create-property-dialog";
-import { HelpHint, HelpLink } from "@/components/docs/help-link";
+import { HelpLink } from "@/components/docs/help-link";
 import { TrashLink } from "@/components/trash/trash-link";
 import { ActiveFilters } from "@/components/properties/active-filters";
 import { FiltersSheet } from "@/components/properties/filters-sheet";
@@ -219,7 +221,7 @@ export default function PropertiesPage() {
   });
 
   const trashLink = (
-    <TrashLink href={`/${agencySlug}/properties/trash`} queryKey={["properties", "trash"]} list={listTrashedProperties} />
+    <TrashLink href={`/${agencySlug}/properties/trash`} queryKey={["properties", "trash"]} list={listTrashedProperties} hideWhenEmpty />
   );
 
   const actions: PropertyActions = {
@@ -334,6 +336,8 @@ export default function PropertiesPage() {
     <div className="flex flex-col gap-8">
       <h1 className="sr-only">{t("title")}</h1>
 
+      <OnboardingChecklist />
+
       {/* Compact bar: zero height, so it never moves the page, and hidden until the toolbar is gone. */}
       {hasToolbar && (
         <div className="pointer-events-none sticky top-[5.5rem] z-30 -mb-8 h-0 md:top-8">
@@ -431,21 +435,15 @@ export default function PropertiesPage() {
       )}
 
       {data && total === 0 && (
-        <div className="flex flex-col items-center gap-4 rounded-3xl bg-card px-6 py-16 text-center ring-1 ring-foreground/5">
-          <span className="flex size-14 items-center justify-center rounded-full bg-secondary text-primary">
-            <Building2 className="size-6" />
-          </span>
-          <div className="flex max-w-sm flex-col gap-1">
-            <p className="font-display text-2xl">{t("empty.title")}</p>
-            <p className="text-sm text-muted-foreground">{t("empty.body")}</p>
-          </div>
-          <div className="flex flex-wrap justify-center gap-3">
-            <CreatePropertyDialog />
-            <ImportLink />
-            {trashLink}
-          </div>
-          <HelpHint section="propiedades">{t("empty.help")}</HelpHint>
-        </div>
+        <PropertiesEmpty
+          actions={
+            <>
+              <CreatePropertyDialog />
+              <ImportLink />
+              {trashLink}
+            </>
+          }
+        />
       )}
 
       {data && total > 0 && filtered.length === 0 && (

@@ -157,7 +157,9 @@ export function Plan404() {
                 key={link.key}
                 className="border-b border-line last:border-b-0 sm:border-b-0"
               >
-                <Link
+                {/* A plain <a>: /login lives on the app host, and a client-side
+                    RSC fetch across hosts fails its CORS preflight. */}
+                <a
                   href={link.localized ? localePath(locale, link.href) : `${link.href}?lang=${locale}`}
                   className="group flex items-center justify-between gap-4 px-5 py-5 outline-none transition-colors hover:bg-mist focus-visible:bg-mist sm:px-8"
                 >
@@ -169,7 +171,7 @@ export function Plan404() {
                     aria-hidden
                     className="size-5 shrink-0 text-quiet transition-transform group-hover:translate-x-1"
                   />
-                </Link>
+                </a>
               </li>
             ))}
           </ul>

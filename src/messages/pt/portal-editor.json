@@ -117,6 +117,14 @@
           "color": "Cor",
           "photo": "Com foto"
         }
+      },
+      "reviews": {
+        "label": "Avaliações",
+        "description": "As avaliações que publicou, com a média da agência.",
+        "layouts": {
+          "cards": "Cartões",
+          "quote": "Uma citação"
+        }
       }
     },
     "buttonTargets": {
@@ -200,6 +208,10 @@
       "cta": {
         "title": "Quer vender o seu imóvel?",
         "text": "Acompanhamo-lo da avaliação à escritura."
+      },
+      "reviews": {
+        "title": "O que dizem os nossos hóspedes",
+        "text": "Opiniões reais de quem ficou connosco."
       }
     },
     "blocks": {
@@ -266,7 +278,8 @@
       "zonePicker": {
         "pick": "Escolha uma localização",
         "none": "Sem localização"
-      }
+      },
+      "reviewsHint": "Mostra as avaliações que publica na secção Avaliações do painel. Sem avaliações publicadas, o bloco não aparece no site."
     },
     "preview": {
       "title": "Pré-visualização do site"

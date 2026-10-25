@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { Button } from "@/components/ui/button";
@@ -9,12 +9,32 @@ import { OfferInquiryForm } from "@/components/offers/offer-inquiry-form";
 import { OfferPropertyCard } from "@/components/offers/offer-property-card";
 import { ServiceTypeIcon } from "@/components/services/service-type-icon";
 import { useFormat } from "@/i18n/format";
-import type { Offer } from "@/lib/api/offers";
+import { recordOfferView, type Offer } from "@/lib/api/offers";
 import { useLabels } from "@/lib/labels";
 import { richTextHtml } from "@/lib/rich-text";
 import { IMAGE_WIDTH, sizedImage } from "@/lib/image-url";
 
+/**
+ * Tells the agency the link was opened: once per browser tab session, and only
+ * from a real browser (link previews in WhatsApp or mail don't run this). The
+ * agency's own preview carries ?preview and is never counted, nor is coming
+ * back to the page from one of its properties afterwards.
+ */
+function useCountOpen(token: string) {
+  useEffect(() => {
+    const key = `offer-open:${token}`;
+    try {
+      if (window.sessionStorage.getItem(key)) return;
+      window.sessionStorage.setItem(key, "1");
+    } catch {}
+    if (new URLSearchParams(window.location.search).has("preview")) return;
+    const device = window.matchMedia("(pointer: coarse)").matches ? "MOBILE" : "DESKTOP";
+    recordOfferView(token, device).catch(() => {});
+  }, [token]);
+}
+
 export function SharedOfferView({ initialOffer: offer }: { initialOffer: Offer }) {
+  useCountOpen(offer.token);
   const t = useTranslations("site.offer");
   const labels = useLabels();
   const { money: formatMoney, date } = useFormat();

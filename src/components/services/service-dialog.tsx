@@ -7,16 +7,6 @@ import { useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { Segmented } from "@/components/properties/segmented";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
@@ -30,6 +20,7 @@ import { cn } from "@/lib/utils";
 import {
   createService,
   deleteService,
+  restoreService,
   updateService,
   uploadServiceImage,
   type SaveServicePayload,
@@ -221,7 +212,6 @@ export function ServiceDialog({
   const [draft, setDraft] = useState<SaveServicePayload>(() => toDraft(service));
   const [priceText, setPriceText] = useState(service?.price != null ? String(service.price) : "");
   const [uploading, setUploading] = useState(false);
-  const [confirmDelete, setConfirmDelete] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const set = <K extends keyof SaveServicePayload>(key: K, value: SaveServicePayload[K]) =>
@@ -248,11 +238,21 @@ export function ServiceDialog({
     onError: (err) => toast.error(err instanceof ApiError ? err.message : t("saveFailed")),
   });
 
+  // Deleting moves it to the trash, so it needs no confirmation: the toast can undo it.
   const deleteMutation = useMutation({
     mutationFn: () => deleteService(requireToken(), service!.id),
     onSuccess: () => {
+      const id = service!.id;
       queryClient.invalidateQueries({ queryKey: ["services"] });
-      toast.success(t("deleted"));
+      toast.success(t("deleted"), {
+        action: {
+          label: common("undo"),
+          onClick: () =>
+            restoreService(requireToken(), id)
+              .then(() => queryClient.invalidateQueries({ queryKey: ["services"] }))
+              .catch(() => toast.error(t("restoreFailed"))),
+        },
+      });
       onOpenChange(false);
     },
     onError: (err) => toast.error(err instanceof ApiError ? err.message : t("deleteFailed")),
@@ -449,7 +449,8 @@ export function ServiceDialog({
                   type="button"
                   variant="ghost"
                   className="gap-1.5 text-destructive hover:bg-destructive/10 hover:text-destructive"
-                  onClick={() => setConfirmDelete(true)}
+                  onClick={() => deleteMutation.mutate()}
+                  disabled={deleteMutation.isPending}
                 >
                   <Trash2 />
                   {t("delete")}
@@ -470,21 +471,6 @@ export function ServiceDialog({
           </form>
         </DialogContent>
       </Dialog>
-
-      <AlertDialog open={confirmDelete} onOpenChange={setConfirmDelete}>
-        <AlertDialogContent className="rounded-3xl">
-          <AlertDialogHeader>
-            <AlertDialogTitle className="font-display text-2xl">{t("deleteTitle", { name: service?.name ?? "" })}</AlertDialogTitle>
-            <AlertDialogDescription>{t("deleteBody")}</AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>{common("cancel")}</AlertDialogCancel>
-            <AlertDialogAction variant="destructive" onClick={() => deleteMutation.mutate()}>
-              {t("delete")}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </>
   );
 }

@@ -6,7 +6,8 @@
       "changeStage": "Mudar etapa",
       "email": "Enviar email",
       "call": "Ligar",
-      "copyEmail": "Copiar email"
+      "copyEmail": "Copiar email",
+      "delete": "Mover para o lixo"
     },
     "views": {
       "noPhone": "Sem telefone",
@@ -17,7 +18,8 @@
       "phone": "Telefone",
       "source": "Origem",
       "lastMove": "Último movimento",
-      "actions": "Ações"
+      "actions": "Ações",
+      "tags": "Etiquetas"
     },
     "detail": {
       "logFailed": "Não foi possível registar",
@@ -26,7 +28,7 @@
       "list": "Clientes",
       "clientSince": "cliente desde {date}",
       "notes": "Notas",
-      "notesDescription": "O que convém lembrar: o que procura, orçamento, preferências.",
+      "notesDescription": "O que convém lembrar e não cabe em «O que procura».",
       "notesLabel": "Notas do cliente",
       "notesPlaceholder": "Ainda não há notas.",
       "saveNotes": "Guardar notas",
@@ -54,7 +56,14 @@
       "ownerGone": "Atribuído a alguém que já não está na equipa.",
       "contact": "Contacto",
       "noPhone": "Sem telefone",
-      "updated": "Atualizado {ago}"
+      "updated": "Atualizado {ago}",
+      "preferences": "O que procura",
+      "preferencesDescription": "Orçamento, quantas pessoas, onde e quando. Ajuda a escolher o que lhe oferecer.",
+      "tags": "Etiquetas",
+      "delete": "Mover para o lixo",
+      "trashed": "Cliente movido para o lixo",
+      "restoreFailed": "Não foi possível restaurar o cliente",
+      "deleteFailed": "Não foi possível eliminar o cliente"
     },
     "create": {
       "new": "Novo cliente",
@@ -87,7 +96,52 @@
       "emptyTitle": "Ainda não tem clientes",
       "emptyBody": "Os pedidos do site e das ofertas aparecem aqui sozinhos. Também pode registar um manualmente.",
       "emptyHelp": "Como acompanhar um cliente por etapas",
-      "noMatchBody": "Tente outro nome ou retire o filtro de etapa."
+      "noMatchBody": "Tente outro nome ou retire os filtros.",
+      "tag": "Etiqueta",
+      "tagsPlural": "etiquetas",
+      "trashed": "Cliente movido para o lixo",
+      "restoreFailed": "Não foi possível restaurar o cliente",
+      "deleteFailed": "Não foi possível eliminar o cliente"
+    },
+    "tags": {
+      "add": "Adicionar etiqueta",
+      "placeholder": "Ex.: VIP, investidor, verão",
+      "full": "Atingiu o máximo de {max} etiquetas.",
+      "suggestions": "Etiquetas que já usa"
+    },
+    "preferences": {
+      "budgetMin": "Orçamento desde",
+      "budgetMax": "Orçamento até",
+      "budgetCrossed": "O mínimo não pode ser superior ao máximo.",
+      "guests": "Pessoas",
+      "dates": "Datas",
+      "datesPlaceholder": "Quando",
+      "zones": "Zonas",
+      "zonesPlaceholder": "Ex.: Centro, perto da praia",
+      "save": "Guardar",
+      "discard": "Descartar"
+    },
+    "export": {
+      "label": "Exportar para CSV",
+      "filename": "clientes",
+      "done": "{count, plural, one {Exportou # cliente} other {Exportou # clientes}}",
+      "columns": {
+        "name": "Nome",
+        "email": "Email",
+        "phone": "Telefone",
+        "stage": "Etapa",
+        "source": "Origem",
+        "tags": "Etiquetas",
+        "budgetMin": "Orçamento desde",
+        "budgetMax": "Orçamento até",
+        "guests": "Pessoas",
+        "zones": "Zonas",
+        "desiredFrom": "Desde",
+        "desiredTo": "Até",
+        "owner": "Responsável",
+        "notes": "Notas",
+        "createdAt": "Criado em"
+      }
     }
   },
   "tasks": {

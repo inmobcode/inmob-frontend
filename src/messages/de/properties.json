@@ -418,7 +418,31 @@
       "perNight": "{price}/Nacht",
       "minNights": "{count, plural, one {mind. # Nacht} other {mind. # Nächte}}",
       "remove": "Entfernen",
-      "empty": "Noch keine Tarifzeiträume."
+      "empty": "Noch keine Tarifzeiträume.",
+      "seasonsTitle": "Saisons",
+      "seasonsDescription": "Preise pro Nacht für bestimmte Daten. Sie können einen längeren Mindestaufenthalt verlangen.",
+      "rules": {
+        "title": "Preisregeln",
+        "description": "Sie gelten ganzjährig auf den Preis pro Nacht und werden mit „Speichern“ gesichert. Sie erscheinen auf der öffentlichen Seite und im Preis jeder Buchung.",
+        "minStay": "Mindestaufenthalt",
+        "nights": "Nächte",
+        "weekly": "Wochenrabatt (ab 7 Nächten)",
+        "monthly": "Monatsrabatt (ab 28 Nächten)",
+        "lastMinute": "Last Minute",
+        "lastMinuteDays": "Tage vor Anreise",
+        "within": "bei Anreise innerhalb von",
+        "days": "Tagen",
+        "earlyBird": "Frühbucher",
+        "earlyBirdDays": "Tage im Voraus",
+        "from": "bei Buchung",
+        "daysAhead": "oder mehr Tage im Voraus",
+        "hint": "Zuerst gilt der Aufenthaltsrabatt (Monat ersetzt Woche), dann ein einziger nach Buchungszeitpunkt: der höhere, falls beide zutreffen. Leer lassen, was Sie nicht nutzen."
+      },
+      "try": {
+        "title": "Preis testen",
+        "description": "Wählen Sie Daten und sehen Sie den Preis mit den gespeicherten Preisen und Regeln, wie der Kunde ihn sieht.",
+        "pickDates": "Daten wählen"
+      }
     },
     "availability": {
       "blockFailed": "Datum konnte nicht blockiert werden",
@@ -643,7 +667,21 @@
       "empty": {
         "title": "Legen Sie Ihr erstes Objekt an",
         "body": "Fügen Sie Fotos, Preis und Merkmale hinzu, damit es bereit ist, wenn Sie es veröffentlichen möchten.",
-        "help": "So legen Sie ein Objekt an und veröffentlichen es"
+        "help": "So legen Sie ein Objekt an und veröffentlichen es",
+        "steps": {
+          "basics": {
+            "title": "Grunddaten eintragen",
+            "text": "Typ, Titel und Lage."
+          },
+          "media": {
+            "title": "Fotos und Preis ergänzen",
+            "text": "Das erste Foto wird zum Titelbild."
+          },
+          "publish": {
+            "title": "Veröffentlichen",
+            "text": "Erscheint sofort auf deiner öffentlichen Website."
+          }
+        }
       },
       "noMatch": {
         "title": "Nichts passt zu diesen Filtern",

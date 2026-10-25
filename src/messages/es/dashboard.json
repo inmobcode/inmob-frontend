@@ -39,7 +39,9 @@
       "collapse": "Contraer",
       "openMenu": "Abrir menú",
       "menu": "Menú",
-      "mainNav": "Navegación principal"
+      "mainNav": "Navegación principal",
+      "reports": "Reportes",
+      "reviews": "Reseñas"
     },
     "assignee": {
       "label": "Responsable",
@@ -80,7 +82,8 @@
         "team": "Equipo",
         "portal": "Portal",
         "settings": "Configuración",
-        "profile": "Mi perfil"
+        "profile": "Mi perfil",
+        "reports": "Reportes"
       },
       "help": {
         "general": "General",
@@ -149,7 +152,9 @@
         "trialEnding": "Tu prueba gratis termina el {date}",
         "trialEndingBody": "Después empieza el plan Pro. Podés cancelar desde Ajustes.",
         "paymentFailed": "No pudimos cobrar tu suscripción",
-        "paymentFailedBody": "Actualizá la tarjeta desde Ajustes para no perder el acceso."
+        "paymentFailedBody": "Actualizá la tarjeta desde Ajustes para no perder el acceso.",
+        "client": "Te asignaron un cliente",
+        "review": "{name} dejó una reseña de {rating} estrellas"
       }
     }
   }

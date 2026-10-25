@@ -33,5 +33,5 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 export default async function BookingPage({ params }: { params: Params }) {
   const { token } = await params;
   const booking = await loadBooking(token);
-  return <BookingView booking={booking} />;
+  return <BookingView booking={booking} token={token} />;
 }

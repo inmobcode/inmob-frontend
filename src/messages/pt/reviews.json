@@ -1,0 +1,59 @@
+{
+  "reviews": {
+    "title": "Avaliações",
+    "help": "Ajuda com avaliações",
+    "show": "Mostrar",
+    "add": "Adicionar avaliação",
+    "managersOnly": "As avaliações são publicadas no site da agência, por isso são moderadas por titulares e administradores.",
+    "loadFailed": "Não foi possível carregar as avaliações",
+    "published": "Avaliação publicada no seu site",
+    "hidden": "Avaliação oculta",
+    "deleted": "Avaliação eliminada",
+    "emptyBody": "Quando concluir uma reserva, o hóspede recebe um email para deixar a avaliação. Também pode adicionar as que recebeu noutros canais.",
+    "empty": {
+      "PENDING": "Não há avaliações para rever",
+      "PUBLISHED": "Ainda não publicou avaliações",
+      "HIDDEN": "Não há avaliações ocultas",
+      "ALL": "Ainda não há avaliações"
+    },
+    "filters": {
+      "PENDING": "Para rever",
+      "PUBLISHED": "Publicadas",
+      "HIDDEN": "Ocultas",
+      "ALL": "Todas"
+    },
+    "status": {
+      "PENDING": "Pendente",
+      "PUBLISHED": "Publicada",
+      "HIDDEN": "Oculta"
+    },
+    "source": {
+      "GUEST": "Do hóspede",
+      "MANUAL": "Adicionada pela agência"
+    },
+    "outOf": "{rating} de 5 estrelas",
+    "noText": "Sem comentário, só a pontuação.",
+    "noProperty": "Sem imóvel",
+    "stayed": "estadia de {date}",
+    "publish": "Publicar",
+    "hide": "Ocultar",
+    "dontPublish": "Não publicar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "deleteTitle": "Eliminar a avaliação?",
+    "deleteBody": "A avaliação de {name} é apagada para sempre. Se só não a quer mostrar, oculte-a.",
+    "dialog": {
+      "newTitle": "Adicionar avaliação",
+      "editTitle": "Editar avaliação",
+      "description": "Uma avaliação que recebeu noutro canal (Airbnb, Google, um email). É publicada no seu site ao guardá-la.",
+      "rating": "Pontuação",
+      "stars": "{count, plural, one {# estrela} other {# estrelas}}",
+      "author": "Nome",
+      "authorPlaceholder": "Ex.: Lucía F.",
+      "property": "Imóvel",
+      "text": "O que escreveu",
+      "stayedOn": "Quando foi a estadia",
+      "publish": "Publicar"
+    }
+  }
+}

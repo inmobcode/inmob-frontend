@@ -203,6 +203,7 @@ export const SECTION_TYPES: { value: SiteSection["type"]; layouts: SectionLayout
   { value: "destinations", layouts: ["tiles", "carousel"] },
   { value: "text", layouts: ["image-left", "image-right", "centered"] },
   { value: "cta", layouts: ["color", "photo"] },
+  { value: "reviews", layouts: ["cards", "quote"] },
 ];
 
 export const BUTTON_TARGETS: ButtonTarget[] = ["contact", "whatsapp", "properties"];

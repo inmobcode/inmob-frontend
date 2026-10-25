@@ -29,6 +29,10 @@ const DATE_STYLES = {
   time: { hour: "2-digit", minute: "2-digit" },
   /** noviembre de 2026 · November 2026 */
   monthYear: { month: "long", year: "numeric" },
+  /** nov · Nov */
+  monthShort: { month: "short" },
+  /** nov 26 · Nov 26 */
+  monthShortYear: { month: "short", year: "2-digit" },
   /** jue · Thu */
   weekdayShort: { weekday: "short" },
 } satisfies Record<string, Intl.DateTimeFormatOptions>;

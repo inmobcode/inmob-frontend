@@ -2,11 +2,13 @@ import {
   Building2,
   CalendarCheck,
   CalendarDays,
+  ChartColumn,
   Compass,
   Eye,
   Globe,
   Inbox,
   Keyboard,
+  MessageSquareQuote,
   KeyRound,
   Settings,
   Sparkles,
@@ -153,7 +155,11 @@ function Basics() {
           ],
           [
             "Bin",
-            "What you delete from Properties, Offers and Bookings goes to the bin; it doesn’t disappear. It stays there for 30 days in case you change your mind; after that it is permanently deleted. When you delete something, the notice at the bottom has “Undo”.",
+            "What you delete from Properties, Offers, Bookings, Clients and Inquiries goes to the bin; it doesn’t disappear. It stays there for 30 days in case you change your mind; after that it is permanently deleted. When you delete something, the notice at the bottom has “Undo”.",
+          ],
+          [
+            "History",
+            "On properties, offers and bookings, the “History” button shows who changed what and when: the price from 100 to 120, the status, the photos, the payments. What the client does from a link (opening an offer, writing in) shows as “The client or the system”.",
           ],
           [
             "“Shown on the site” / “Internal only”",
@@ -168,7 +174,7 @@ function Basics() {
 
       <DocH3>The bin</DocH3>
       <DocP>
-        It opens from the bin icon in the Properties, Offers and Bookings bar. A number on the icon shows how many items
+        It opens from the bin icon in the Properties, Offers, Bookings and Clients bar; in Inquiries it only appears when something is inside. A number on the icon shows how many items
         are inside.
       </DocP>
       <DocFigure
@@ -231,13 +237,34 @@ function Inquiries() {
         <li>Opening an inquiry marks it as read. The envelope at the top right marks it as new again.</li>
         <li>Those from a client you already have show their stage (Lead, Contacted…) next to the name.</li>
         <li>
-          Reply in one click: <strong>Reply by email</strong> (with the subject and greeting already written),{" "}
-          <strong>WhatsApp</strong> (with a message naming what they asked about) or <strong>Call</strong>. WhatsApp and
-          Call appear if they left a phone number. The icon next to the email copies it.
+          <strong>Reply</strong> opens the message right there, with the subject and greeting already written. It goes
+          out by email under your agency’s name, is saved in the client’s history, and the inquiry shows who answered
+          and when. If the client writes back, it reaches the contact email in Settings (or yours).
+        </li>
+        <li>
+          <strong>WhatsApp</strong> (with a message naming what they asked about) and <strong>Call</strong> appear if
+          they left a phone number. The icon next to the email copies it.
+        </li>
+        <li>
+          <strong>Owner:</strong> owners and administrators choose who handles it (it’s the client’s owner, who gets a
+          notice in the bell). An agent can click “Take it” if nobody has it.
+        </li>
+        <li>
+          <strong>Archive</strong> (the box at the top right) takes it out of the inbox without deleting it: it stays in
+          the “Archived” tab, from where it can go back to the inbox. The bin icon moves it to the bin; the client and
+          their history are left untouched. Both actions offer “Undo”.
         </li>
         <li>Click the property or offer to open it in the dashboard, or “View client” to go to their profile.</li>
         <li>The inbox updates on its own every minute.</li>
       </DocList>
+
+      <DocH3>Reply templates</DocH3>
+      <DocP>
+        For what you’re asked most, save a template: when replying, click “Templates” and then “New template”, with a
+        name, an optional subject and the text. The buttons underneath insert fields that fill themselves in when you
+        use it: first name, full name, property or offer, your agency and your name. Pick it in “Use a template” and
+        adjust what you need before sending. The whole team shares them.
+      </DocP>
       <DocTip>
         If no inquiry has arrived yet, share your site link: the contact form and the one on each property page land here.
       </DocTip>
@@ -290,7 +317,7 @@ function Clients() {
       />
       <DocP>
         Change the stage from each client’s <strong>⋯</strong> menu (“Change stage”) or from their profile. The same menu
-        lets you view the profile, send them an email, call them or copy their email.
+        lets you view the profile, send them an email, call them, copy their email or move them to the bin.
       </DocP>
 
       <DocH3>The client profile</DocH3>
@@ -311,7 +338,7 @@ function Clients() {
         items={[
           [
             "Notes",
-            "What’s worth remembering: what they’re looking for, budget, preferences. Supports headings, bold, lists and links. When you change something, “Save notes” appears.",
+            "What’s worth remembering that doesn’t fit under “What they’re looking for”. Supports headings, bold, lists and links. When you change something, “Save notes” appears.",
           ],
           [
             "Tasks",
@@ -327,11 +354,30 @@ function Clients() {
             "The agent who handles the client. Owners and administrators pick them from the team list; an agent can click “Take it” on an unassigned lead.",
           ],
           ["Contact", "Their email and phone, one click away from writing or calling."],
+          [
+            "What they’re looking for",
+            "Budget (in your agency’s currency), how many people, areas and dates. Only your team sees it. When you change something, “Save” appears.",
+          ],
+          [
+            "Tags",
+            "Your own labels to group clients: “VIP”, “investor”, “summer 2027”. Type one and press Enter or a comma; underneath we suggest the ones you already use. They’re saved instantly and let you filter the list.",
+          ],
+          [
+            "Move to bin",
+            "At the bottom of the right-hand panel, or from the ⋯ menu in the list. Their offers, bookings and history are left as they are. If they write to you again from the portal, they come out of the bin on their own. While they’re there you can’t add another client with their email: restore them instead. A client with bookings can’t be deleted permanently.",
+          ],
         ]}
       />
       <DocTip>
         Deleted tasks don’t go to a bin: they disappear immediately. If you just finished it, tick it as done instead.
       </DocTip>
+
+      <DocH3>Export to CSV</DocH3>
+      <DocP>
+        The button with the down arrow, in the list bar, downloads the clients you’re looking at (with the search and
+        filters applied) as a CSV file that opens in Excel, Google Sheets or Numbers: contact details, stage, source,
+        tags, what they’re looking for, notes and date added. Owners and administrators also get the owner column.
+      </DocP>
     </DocSection>
   );
 }
@@ -598,6 +644,14 @@ function Properties() {
       <DocTip>
         To see all your rental properties in one calendar, use <strong>Availability</strong> in the menu.
       </DocTip>
+
+      <DocH3>Pricing rules</DocH3>
+      <DocP>
+        In the Rates section, above the seasons: a year-round minimum stay, a weekly (7+ nights) or monthly (28+)
+        discount, and one for when they book: last minute (arrival within a few days) or early booking. They’re saved
+        with “Save”. “Try a price” works out a stay as the client sees it; the same calculation fills in the total in
+        “New booking” and shows on the public page as “Work out your stay”.
+      </DocP>
 
       <DocH3>Recommendations</DocH3>
       <DocFigure
@@ -994,6 +1048,28 @@ function Offers() {
         that inquiry lands in Inquiries.
       </DocP>
 
+      <DocH3>Tracking opens</DocH3>
+      <DocP>
+        Every time the client opens the link, the date is recorded along with whether it was on a phone or a computer.
+        The editor’s right-hand panel shows how many times they opened it, the last time and the ones before; the list
+        shows an eye with the number. If they open it again after a day, the bell lets you know again. Link previews
+        made by WhatsApp or email don’t count, and neither does your own “View as the client”.
+      </DocP>
+
+      <DocH3>Duplicates and templates</DocH3>
+      <DocP>
+        From the offer’s ⋯ menu or the editor’s panel, “Duplicate” creates an identical draft, without client or expiry,
+        to send to someone else. “Save as template” keeps it in the list’s “Templates” tab: a template has no link and
+        isn’t sent. To use one, click “Create offer from this template” or pick it when creating a “New offer”.
+      </DocP>
+
+      <DocH3>From offer to booking</DocH3>
+      <DocP>
+        When the client accepts, click “Create booking” in the editor’s right-hand panel. Client, currency and price
+        come from the saved offer (for rentals, the nightly price times the nights, plus services); choose the property
+        and dates. The offer becomes “Accepted” and the booking is listed in it.
+      </DocP>
+
       <DocH3>Statuses</DocH3>
       <DocTerms
         items={[
@@ -1001,6 +1077,7 @@ function Offers() {
           [<DocPill key="s" tone="primary">Sent</DocPill>, "The link is active and was sent to the client."],
           [<DocPill key="v">Viewed</DocPill>, "The client has already opened the offer."],
           [<DocPill key="e">Expired</DocPill>, "Its expiry date has passed; the client sees a notice that it expired."],
+          [<DocPill key="a" tone="primary">Accepted</DocPill>, "A booking was made from it."],
         ]}
       />
     </DocSection>
@@ -1102,12 +1179,40 @@ function Bookings() {
         Collected payments feed the owner’s account statement: collected minus commission is what they’re owed.
       </DocP>
 
+      <DocH3>Search and filter</DocH3>
+      <DocP>
+        Search by property or client and combine filters: status, payment (unpaid, partly paid or paid in full),
+        property, location and dates. The date filter shows stays that touch those days; check-out day already counts as
+        free.
+      </DocP>
+
+      <DocH3>Guests and notes</DocH3>
+      <DocP>
+        Under “Details” on the booking page, enter how many people are coming and internal notes for your team
+        (“arriving late”, “need a cot”). The client sees the number of guests, never the notes. On a cancelled or
+        completed booking only the notes can be edited.
+      </DocP>
+
+      <DocH3>Editing or deleting a payment</DocH3>
+      <DocP>
+        When you record a payment you can add the method (bank transfer, cash…), mark it as already collected with its
+        date and leave an internal note. Each payment’s ⋯ menu lets you edit it, move it back to pending or delete it
+        (we ask you to confirm: it’s also removed from the owner’s statement).
+      </DocP>
+
       <DocH3>The client page</DocH3>
       <DocP>
         Each booking has a page for the client with the property, their stay, the status and the payments (deposits and
         balance, never the commission). If the booking has a client, they get it by email when it’s created, confirmed or
         cancelled. If not, copy the link from the booking page or the ⋯ menu and send it yourself. See “What your clients
         see”.
+      </DocP>
+
+      <DocH3>The receipt</DocH3>
+      <DocP>
+        “Receipt for the client”, on the booking page, opens a page ready to print or save as PDF: your agency, the
+        booking, the payments with their date and method, the total and the balance due. The client can reach it from
+        their page too. It never shows the commission or the notes, and it says it isn’t an invoice.
       </DocP>
     </DocSection>
   );
@@ -1607,7 +1712,7 @@ function Shortcuts() {
           [<Kbd key="q">?</Kbd>, "See all shortcuts"],
           [
             <><Kbd>G</Kbd> and a letter</>,
-            "Go to a section: P properties, O offers, C clients, I inquiries, R bookings, D availability, E team, W site, S settings, M my profile",
+            "Go to a section: P properties, O offers, C clients, I inquiries, R bookings, D availability, T reports, E team, W site, S settings, M my profile",
           ],
           [<Kbd key="n">N</Kbd>, "Create a new one in the open list"],
           [<Kbd key="s">/</Kbd>, "Go to the list’s search"],
@@ -1634,6 +1739,68 @@ function Shortcuts() {
   );
 }
 
+function Reports() {
+  return (
+    <DocSection
+      id="reportes"
+      icon={ChartColumn}
+      title="Reports"
+      adminOnly
+      intro="How the agency is doing over a period: what it booked and collected, the commission, each rental’s occupancy, how many inquiries turn into bookings and each team member’s results. Only owners and administrators see it."
+    >
+      <DocP>
+        Choose the period at the top (3, 6 or 12 months, this year or last year). If you work in more than one currency, choose which one to see: amounts are never added across currencies.
+      </DocP>
+      <DocTerms
+        items={[
+          ["Booked", "The total price of confirmed or completed bookings, in the check-in month (a sale, in the month it was created). The green bar in the chart."],
+          ["Collected", "Deposits and balances marked as collected, in the month they were paid. Commission isn’t included. The orange bar."],
+          ["Commission", "The commission entered on those confirmed bookings."],
+          ["Occupancy", "Nights taken by bookings or iCal, over each rental’s available nights. Nights you blocked by hand don’t count as available."],
+          ["Conversion", "Of the people who wrote in during the period, how many got an offer and how many booked afterwards. It also shows how many inquiries were answered from the dashboard and how fast."],
+          ["By person", "Clients assigned in the period, offers sent and confirmed bookings each one made, with the booked amount and commission."],
+        ]}
+      />
+      <DocTip>
+        Hover over (or tap) a month in the chart to see its numbers, or click “Show table” to see them all together.
+      </DocTip>
+    </DocSection>
+  );
+}
+
+function ReviewsDoc() {
+  return (
+    <DocSection
+      id="resenas"
+      icon={MessageSquareQuote}
+      title="Reviews"
+      adminOnly
+      intro="What your guests think, on your site. Emails ask for them; you moderate them. Only owners and administrators see this."
+    >
+      <DocSteps>
+        <DocStep>
+          When you mark a booking as <strong>completed</strong>, the guest gets an email to leave a review from their
+          booking page: stars and a comment.
+        </DocStep>
+        <DocStep>
+          The review reaches <strong>Reviews</strong> as pending, and the bell lets you know.
+        </DocStep>
+        <DocStep>
+          Click <strong>Publish</strong> to show it, or <strong>Don’t publish</strong>. The guest’s text can’t be
+          edited.
+        </DocStep>
+      </DocSteps>
+      <DocTerms
+        items={[
+          ["On the site", "Published reviews show on their property’s page with the star average, and on the listing cards. Add the “Reviews” block in the site editor to show them on your home page."],
+          ["Add review", "For the ones you got elsewhere (Airbnb, Google, an email): rating, name, property and text. They’re published when saved and can be edited."],
+          ["Hide or delete", "Hiding takes it off the site without deleting it; deleting removes it for good."],
+        ]}
+      />
+    </DocSection>
+  );
+}
+
 export const DOC_SECTIONS: DocEntry[] = [
   { id: "primeros-pasos", label: "Getting started", Content: Basics },
   { id: "consultas", label: "Inquiries", Content: Inquiries },
@@ -1645,6 +1812,8 @@ export const DOC_SECTIONS: DocEntry[] = [
   { id: "reservas", label: "Bookings", Content: Bookings },
   { id: "disponibilidad", label: "Availability", Content: Availability },
   { id: "servicios", label: "Services", Content: Services },
+  { id: "reportes", label: "Reports", adminOnly: true, Content: Reports },
+  { id: "resenas", label: "Reviews", adminOnly: true, Content: ReviewsDoc },
   { id: "portal", label: "Website", adminOnly: true, Content: Portal },
   { id: "lo-que-ven-tus-clientes", label: "What your clients see", Content: ClientPages },
   { id: "equipo", label: "Team", adminOnly: true, Content: Team },

@@ -6,7 +6,8 @@
       "changeStage": "Promijeni fazu",
       "email": "Pošalji e-poštu",
       "call": "Nazovi",
-      "copyEmail": "Kopiraj e-poštu"
+      "copyEmail": "Kopiraj e-poštu",
+      "delete": "Premjesti u koš"
     },
     "views": {
       "noPhone": "Bez telefona",
@@ -17,7 +18,8 @@
       "phone": "Telefon",
       "source": "Izvor",
       "lastMove": "Zadnja aktivnost",
-      "actions": "Radnje"
+      "actions": "Radnje",
+      "tags": "Oznake"
     },
     "detail": {
       "logFailed": "Nije moguće evidentirati",
@@ -26,7 +28,7 @@
       "list": "Klijenti",
       "clientSince": "klijent od {date}",
       "notes": "Bilješke",
-      "notesDescription": "Što vrijedi zapamtiti: što traži, budžet, preferencije.",
+      "notesDescription": "Što vrijedi zapamtiti, a ne spada pod „Što traži”.",
       "notesLabel": "Bilješke o klijentu",
       "notesPlaceholder": "Još nema bilježaka.",
       "saveNotes": "Spremi bilješke",
@@ -54,7 +56,14 @@
       "ownerGone": "Dodijeljen nekome tko više nije u timu.",
       "contact": "Kontakt",
       "noPhone": "Bez telefona",
-      "updated": "Ažurirano {ago}"
+      "updated": "Ažurirano {ago}",
+      "preferences": "Što traži",
+      "preferencesDescription": "Budžet, koliko osoba, gdje i kada. Pomaže odabrati što mu ponuditi.",
+      "tags": "Oznake",
+      "delete": "Premjesti u koš",
+      "trashed": "Klijent je premješten u koš",
+      "restoreFailed": "Klijenta nije moguće vratiti",
+      "deleteFailed": "Klijenta nije moguće izbrisati"
     },
     "create": {
       "new": "Novi klijent",
@@ -87,7 +96,52 @@
       "emptyTitle": "Još nemate klijenata",
       "emptyBody": "Upiti sa stranice i iz ponuda pojavljuju se ovdje sami. Možete ga dodati i ručno.",
       "emptyHelp": "Kako pratiti klijenta kroz faze",
-      "noMatchBody": "Pokušajte s drugim imenom ili uklonite filtar faze."
+      "noMatchBody": "Pokušajte s drugim imenom ili uklonite filtre.",
+      "tag": "Oznaka",
+      "tagsPlural": "oznake",
+      "trashed": "Klijent je premješten u koš",
+      "restoreFailed": "Klijenta nije moguće vratiti",
+      "deleteFailed": "Klijenta nije moguće izbrisati"
+    },
+    "tags": {
+      "add": "Dodaj oznaku",
+      "placeholder": "Npr. VIP, investitor, ljeto",
+      "full": "Dosegnuli ste najviše {max} oznaka.",
+      "suggestions": "Oznake koje već koristite"
+    },
+    "preferences": {
+      "budgetMin": "Budžet od",
+      "budgetMax": "Budžet do",
+      "budgetCrossed": "Minimum ne može biti veći od maksimuma.",
+      "guests": "Osobe",
+      "dates": "Datumi",
+      "datesPlaceholder": "Kada",
+      "zones": "Područja",
+      "zonesPlaceholder": "Npr. centar, blizu plaže",
+      "save": "Spremi",
+      "discard": "Odbaci"
+    },
+    "export": {
+      "label": "Izvezi u CSV",
+      "filename": "klijenti",
+      "done": "{count, plural, one {Izvezen je # klijent} few {Izvezena su # klijenta} other {Izvezeno je # klijenata}}",
+      "columns": {
+        "name": "Ime",
+        "email": "E-pošta",
+        "phone": "Telefon",
+        "stage": "Faza",
+        "source": "Izvor",
+        "tags": "Oznake",
+        "budgetMin": "Budžet od",
+        "budgetMax": "Budžet do",
+        "guests": "Osobe",
+        "zones": "Područja",
+        "desiredFrom": "Od",
+        "desiredTo": "Do",
+        "owner": "Odgovorna osoba",
+        "notes": "Bilješke",
+        "createdAt": "Dodano"
+      }
     }
   },
   "tasks": {

@@ -8,7 +8,6 @@ import {
   Check,
   Copy,
   ExternalLink,
-  Globe,
   Keyboard,
   LifeBuoy,
   LogOut,
@@ -30,7 +29,7 @@ import {
   OPEN_PALETTE_EVENT,
   OPEN_SHORTCUTS_EVENT,
 } from "@/components/dashboard/shortcuts";
-import { rememberLocale } from "@/components/language-switcher";
+import { LanguageSubmenu } from "@/components/language-switcher";
 import { RolePill } from "@/components/team/team-parts";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -47,7 +46,7 @@ import {
 import { getAgency } from "@/lib/api/agency";
 import { listMyAgencies, switchAgency } from "@/lib/api/auth";
 import { clearSession, getAccessToken, setSession, useSessionUser } from "@/lib/auth/session";
-import { LOCALE_NAMES, LOCALES, localePath, type Locale } from "@/i18n/config";
+import { localePath } from "@/i18n/config";
 import { siteLocaleOf } from "@/lib/agency-site";
 import { getPublicOrigin } from "@/lib/public-origin";
 import { cn } from "@/lib/utils";
@@ -105,39 +104,6 @@ function ThemeSwitch() {
 }
 
 /** Only rendered once there's more than one agency to switch to. */
-/** The dashboard's language: kept in a cookie on this browser and applied on the spot. */
-function LanguageItems() {
-  const t = useTranslations("dashboard.userMenu");
-  const locale = useLocale();
-  const router = useRouter();
-
-  function choose(next: Locale) {
-    if (next === locale) return;
-    rememberLocale(next);
-    router.refresh();
-  }
-
-  return (
-    <DropdownMenuSub>
-      <DropdownMenuSubTrigger className="rounded-xl py-2">
-        <Globe />
-        {t("language")}
-        <span className="ml-auto text-xs text-muted-foreground">{LOCALE_NAMES[locale]}</span>
-      </DropdownMenuSubTrigger>
-      <DropdownMenuPortal>
-        <DropdownMenuSubContent className="w-48 rounded-2xl p-1.5">
-          {LOCALES.map((option) => (
-            <DropdownMenuItem key={option} lang={option} className="gap-2 rounded-xl py-2" onSelect={() => choose(option)}>
-              {option === locale ? <Check /> : <span className="size-4" />}
-              {LOCALE_NAMES[option]}
-            </DropdownMenuItem>
-          ))}
-        </DropdownMenuSubContent>
-      </DropdownMenuPortal>
-    </DropdownMenuSub>
-  );
-}
-
 function AgencySwitcherItems({ currentAgencyId }: { currentAgencyId: string }) {
   const t = useTranslations("dashboard.userMenu");
   const router = useRouter();
@@ -359,7 +325,7 @@ export function UserMenu({ collapsed }: { collapsed: boolean }) {
             <span>{t("appearance")}</span>
             <ThemeSwitch />
           </div>
-          <LanguageItems />
+          <LanguageSubmenu label={t("language")} />
 
           <DropdownMenuSeparator />
           <DropdownMenuItem className="group rounded-xl py-2" asChild>

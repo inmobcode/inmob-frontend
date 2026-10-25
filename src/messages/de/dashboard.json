@@ -39,7 +39,9 @@
       "collapse": "Einklappen",
       "openMenu": "Menü öffnen",
       "menu": "Menü",
-      "mainNav": "Hauptnavigation"
+      "mainNav": "Hauptnavigation",
+      "reports": "Berichte",
+      "reviews": "Bewertungen"
     },
     "assignee": {
       "label": "Zuständig",
@@ -80,7 +82,8 @@
         "team": "Team",
         "portal": "Website",
         "settings": "Einstellungen",
-        "profile": "Mein Profil"
+        "profile": "Mein Profil",
+        "reports": "Berichte"
       },
       "help": {
         "general": "Allgemein",
@@ -149,7 +152,9 @@
         "trialEnding": "Ihre kostenlose Testphase endet am {date}",
         "trialEndingBody": "Danach startet der Pro-Tarif. Sie können in den Einstellungen kündigen.",
         "paymentFailed": "Wir konnten Ihr Abonnement nicht abbuchen",
-        "paymentFailedBody": "Aktualisieren Sie Ihre Karte in den Einstellungen, um den Zugriff nicht zu verlieren."
+        "paymentFailedBody": "Aktualisieren Sie Ihre Karte in den Einstellungen, um den Zugriff nicht zu verlieren.",
+        "client": "Ihnen wurde ein Kunde zugewiesen",
+        "review": "{name} hat eine Bewertung mit {rating} Sternen abgegeben"
       }
     }
   }

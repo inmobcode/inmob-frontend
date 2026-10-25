@@ -136,6 +136,24 @@
         "restored": "Restauraste la reserva",
         "back": "Reservas",
         "untitled": "Reserva"
+      },
+      "services": {
+        "title": "Papelera de servicios",
+        "restored": "Restauraste el servicio",
+        "back": "Servicios",
+        "untitled": "Servicio"
+      },
+      "clients": {
+        "title": "Papelera de clientes",
+        "restored": "Restauraste el cliente",
+        "back": "Clientes",
+        "untitled": "Cliente"
+      },
+      "inquiries": {
+        "title": "Papelera de consultas",
+        "restored": "Restauraste la consulta",
+        "back": "Consultas",
+        "untitled": "Consulta"
       }
     }
   },
@@ -156,7 +174,9 @@
     "portal": "Portal",
     "docs": "Documentación",
     "authCallback": "Iniciando sesión",
-    "resetPassword": "Restablecer contraseña"
+    "resetPassword": "Restablecer contraseña",
+    "reports": "Reportes",
+    "guestReviews": "Reseñas"
   },
   "legal": {
     "effective": "Vigente desde",

@@ -418,7 +418,31 @@
       "perNight": "{price}/noite",
       "minNights": "{count, plural, one {mín. # noite} other {mín. # noites}}",
       "remove": "Retirar",
-      "empty": "Ainda não há períodos de tarifa."
+      "empty": "Ainda não há períodos de tarifa.",
+      "seasonsTitle": "Épocas",
+      "seasonsDescription": "Preços por noite para datas concretas. Podem pedir uma estadia mínima maior.",
+      "rules": {
+        "title": "Regras de preço",
+        "description": "Aplicam-se todo o ano sobre o preço por noite e guardam-se com «Guardar». Aparecem na ficha pública e no preço de cada reserva.",
+        "minStay": "Estadia mínima",
+        "nights": "noites",
+        "weekly": "Desconto semanal (7+ noites)",
+        "monthly": "Desconto mensal (28+ noites)",
+        "lastMinute": "Última hora",
+        "lastMinuteDays": "Dias antes da chegada",
+        "within": "se a chegada for dentro de",
+        "days": "dias",
+        "earlyBird": "Reserva antecipada",
+        "earlyBirdDays": "Dias de antecedência",
+        "from": "reservando com",
+        "daysAhead": "ou mais dias de antecedência",
+        "hint": "Aplica-se primeiro o desconto por duração (o mensal substitui o semanal) e depois um só pela data da reserva: o maior se coincidirem. Deixe vazio o que não usar."
+      },
+      "try": {
+        "title": "Testar preço",
+        "description": "Escolha datas e veja o preço com as tarifas e regras guardadas, tal como o cliente o vê.",
+        "pickDates": "Escolha as datas"
+      }
     },
     "availability": {
       "blockFailed": "Não foi possível bloquear a data",
@@ -643,7 +667,21 @@
       "empty": {
         "title": "Registe o seu primeiro imóvel",
         "body": "Junte fotos, preço e características para o ter pronto quando o quiser publicar.",
-        "help": "Como registar e publicar um imóvel"
+        "help": "Como registar e publicar um imóvel",
+        "steps": {
+          "basics": {
+            "title": "Cadastre o básico",
+            "text": "Tipo, título e localização."
+          },
+          "media": {
+            "title": "Adicione fotos e preço",
+            "text": "A primeira foto será a capa."
+          },
+          "publish": {
+            "title": "Publique",
+            "text": "Aparece no seu site público na hora."
+          }
+        }
       },
       "noMatch": {
         "title": "Nada corresponde a esses filtros",

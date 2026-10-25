@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { AuthAside } from "@/components/auth/auth-aside";
 import { AuthShell } from "@/components/auth/auth-shell";
-import { AppLanguageSwitcher } from "@/components/language-switcher";
+import { LanguageSwitcher } from "@/components/language-switcher";
 import { LogoIcon } from "@/components/logo-icon";
 
 export default function AuthLayout({
@@ -26,7 +26,7 @@ export default function AuthLayout({
         </main>
         <div className="flex items-center justify-between gap-4 text-sm text-quiet">
           <p className="[@media(max-height:720px)]:hidden">© {new Date().getFullYear()} Tivvu</p>
-          <AppLanguageSwitcher align="end" className="-mr-2.5 ml-auto hover:bg-mist hover:text-ink" />
+          <LanguageSwitcher scope="app" align="end" className="-mr-2.5 ml-auto hover:bg-mist hover:text-ink" />
         </div>
       </div>
       <AuthAside />

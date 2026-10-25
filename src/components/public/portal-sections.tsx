@@ -8,6 +8,7 @@ import {
   PhotoPlaceholder,
   PublicPropertyCard,
 } from "@/components/public/property-card";
+import { RatingSummary, ReviewCard } from "@/components/public/review-parts";
 import { SITE_WRAP } from "@/components/public/site-chrome";
 import { useFormat } from "@/i18n/format";
 import type {
@@ -17,6 +18,7 @@ import type {
   SiteTemplate,
 } from "@/lib/api/agency";
 import type { Property } from "@/lib/api/properties";
+import type { PublicReview, ReviewSummary } from "@/lib/api/reviews";
 import {
   type ResolvedSite,
   formatEndDate,
@@ -241,6 +243,9 @@ interface BlockProps {
   template: SiteTemplate;
   site: ResolvedSite;
   onShowZone: (zone: string) => void;
+  /** The agency's published reviews; undefined in the editor's preview, which doesn't load them. */
+  reviews?: PublicReview[];
+  rating?: ReviewSummary;
 }
 
 function LocationBlock({
@@ -747,6 +752,63 @@ function CtaBlock({ section, site }: BlockProps) {
   );
 }
 
+/**
+ * What guests said: up to six cards, or one big quote (the best rated, then
+ * the latest). With no published reviews the block stays off the site; in the
+ * editor's preview it says where they'll show.
+ */
+function ReviewsBlock({ section, reviews, rating }: BlockProps) {
+  const t = useTranslations("site.blocks");
+  const title = section.title?.trim() || t("reviewsTitle");
+  const id = `bloque-${section.id}`;
+  if (reviews === undefined) {
+    return (
+      <section aria-labelledby={id} className={cn(SITE_WRAP, BLOCK)}>
+        <h2 id={id} className={HEADING}>
+          {title}
+        </h2>
+        <p className="rounded-xl border border-dashed border-site-line p-8 text-center text-site-quiet">
+          {t("reviewsPreview")}
+        </p>
+      </section>
+    );
+  }
+  if (reviews.length === 0) return null;
+
+  const header = (
+    <div className="flex flex-col gap-3">
+      <h2 id={id} className={HEADING}>
+        {title}
+      </h2>
+      {section.text && <p className="max-w-prose text-lg text-pretty text-site-quiet">{section.text}</p>}
+      <RatingSummary rating={rating} />
+    </div>
+  );
+
+  if (sectionLayout(section) === "quote") {
+    const best = [...reviews].filter((review) => review.text).sort((a, b) => b.rating - a.rating)[0] ?? reviews[0];
+    return (
+      <section aria-labelledby={id} className={cn(SITE_WRAP, BLOCK)}>
+        <div className="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
+          {header}
+          <ReviewCard review={best} showProperty className="items-center border-0 p-0 text-xl [&_blockquote]:s-heading [&_blockquote]:text-[clamp(1.5rem,2.6vw,2.25rem)]" />
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section aria-labelledby={id} className={cn(SITE_WRAP, BLOCK, "flex flex-col gap-8")}>
+      {header}
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {reviews.slice(0, 6).map((review) => (
+          <ReviewCard key={review.id} review={review} showProperty />
+        ))}
+      </div>
+    </section>
+  );
+}
+
 const BLOCKS: Record<
   SiteSection["type"],
   (props: BlockProps) => React.ReactNode
@@ -757,6 +819,7 @@ const BLOCKS: Record<
   destinations: DestinationsBlock,
   text: TextBlock,
   cta: CtaBlock,
+  reviews: ReviewsBlock,
 };
 
 /** The agency's own blocks, in the order they set, between the hero and the full listing. */

@@ -6,7 +6,8 @@
       "changeStage": "Change stage",
       "email": "Send email",
       "call": "Call",
-      "copyEmail": "Copy email"
+      "copyEmail": "Copy email",
+      "delete": "Move to bin"
     },
     "views": {
       "noPhone": "No phone",
@@ -17,7 +18,8 @@
       "phone": "Phone",
       "source": "Source",
       "lastMove": "Last activity",
-      "actions": "Actions"
+      "actions": "Actions",
+      "tags": "Tags"
     },
     "detail": {
       "logFailed": "Couldn't log it",
@@ -26,7 +28,7 @@
       "list": "Clients",
       "clientSince": "client since {date}",
       "notes": "Notes",
-      "notesDescription": "What's worth remembering: what they're looking for, budget, preferences.",
+      "notesDescription": "What's worth remembering that doesn't fit under “What they're looking for”.",
       "notesLabel": "Client notes",
       "notesPlaceholder": "No notes yet.",
       "saveNotes": "Save notes",
@@ -54,7 +56,14 @@
       "ownerGone": "Assigned to someone no longer on the team.",
       "contact": "Contact",
       "noPhone": "No phone",
-      "updated": "Updated {ago}"
+      "updated": "Updated {ago}",
+      "preferences": "What they're looking for",
+      "preferencesDescription": "Budget, how many people, where and when. Helps you choose what to offer them.",
+      "tags": "Tags",
+      "delete": "Move to bin",
+      "trashed": "Client moved to the bin",
+      "restoreFailed": "Couldn't restore the client",
+      "deleteFailed": "Couldn't delete the client"
     },
     "create": {
       "new": "New client",
@@ -87,7 +96,52 @@
       "emptyTitle": "You don't have any clients yet",
       "emptyBody": "Inquiries from your site and offers show up here on their own. You can also add one by hand.",
       "emptyHelp": "How to follow a client through stages",
-      "noMatchBody": "Try another name or clear the stage filter."
+      "noMatchBody": "Try another name or clear the filters.",
+      "tag": "Tag",
+      "tagsPlural": "tags",
+      "trashed": "Client moved to the bin",
+      "restoreFailed": "Couldn't restore the client",
+      "deleteFailed": "Couldn't delete the client"
+    },
+    "tags": {
+      "add": "Add tag",
+      "placeholder": "E.g. VIP, investor, summer",
+      "full": "You've reached the limit of {max} tags.",
+      "suggestions": "Tags you already use"
+    },
+    "preferences": {
+      "budgetMin": "Budget from",
+      "budgetMax": "Budget up to",
+      "budgetCrossed": "The minimum can't be higher than the maximum.",
+      "guests": "Guests",
+      "dates": "Dates",
+      "datesPlaceholder": "When",
+      "zones": "Areas",
+      "zonesPlaceholder": "E.g. City centre, near the beach",
+      "save": "Save",
+      "discard": "Discard"
+    },
+    "export": {
+      "label": "Export to CSV",
+      "filename": "clients",
+      "done": "{count, plural, one {Exported # client} other {Exported # clients}}",
+      "columns": {
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone",
+        "stage": "Stage",
+        "source": "Source",
+        "tags": "Tags",
+        "budgetMin": "Budget from",
+        "budgetMax": "Budget up to",
+        "guests": "Guests",
+        "zones": "Areas",
+        "desiredFrom": "From",
+        "desiredTo": "To",
+        "owner": "Owner",
+        "notes": "Notes",
+        "createdAt": "Added"
+      }
     }
   },
   "tasks": {

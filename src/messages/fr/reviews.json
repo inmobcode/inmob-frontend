@@ -1,0 +1,59 @@
+{
+  "reviews": {
+    "title": "Avis",
+    "help": "Aide sur les avis",
+    "show": "Afficher",
+    "add": "Ajouter un avis",
+    "managersOnly": "Les avis paraissent sur le site de l’agence : les titulaires et administrateurs les modèrent.",
+    "loadFailed": "Impossible de charger les avis",
+    "published": "Avis publié sur votre site",
+    "hidden": "Avis masqué",
+    "deleted": "Avis supprimé",
+    "emptyBody": "Quand vous terminez une réservation, le voyageur reçoit un e-mail pour laisser son avis. Vous pouvez aussi ajouter ceux reçus sur d’autres canaux.",
+    "empty": {
+      "PENDING": "Aucun avis à vérifier",
+      "PUBLISHED": "Aucun avis publié pour l’instant",
+      "HIDDEN": "Aucun avis masqué",
+      "ALL": "Pas encore d’avis"
+    },
+    "filters": {
+      "PENDING": "À vérifier",
+      "PUBLISHED": "Publiés",
+      "HIDDEN": "Masqués",
+      "ALL": "Tous"
+    },
+    "status": {
+      "PENDING": "En attente",
+      "PUBLISHED": "Publié",
+      "HIDDEN": "Masqué"
+    },
+    "source": {
+      "GUEST": "Du voyageur",
+      "MANUAL": "Ajouté par l’agence"
+    },
+    "outOf": "{rating} sur 5 étoiles",
+    "noText": "Pas de commentaire, juste la note.",
+    "noProperty": "Sans bien",
+    "stayed": "séjour de {date}",
+    "publish": "Publier",
+    "hide": "Masquer",
+    "dontPublish": "Ne pas publier",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "deleteTitle": "Supprimer l’avis ?",
+    "deleteBody": "L’avis de {name} est supprimé définitivement. Si vous ne voulez simplement pas l’afficher, masquez-le.",
+    "dialog": {
+      "newTitle": "Ajouter un avis",
+      "editTitle": "Modifier l’avis",
+      "description": "Un avis reçu sur un autre canal (Airbnb, Google, un e-mail). Il est publié sur votre site à l’enregistrement.",
+      "rating": "Note",
+      "stars": "{count, plural, one {# étoile} other {# étoiles}}",
+      "author": "Nom",
+      "authorPlaceholder": "Ex. : Lucía F.",
+      "property": "Bien",
+      "text": "Ce qu’il a écrit",
+      "stayedOn": "Date du séjour",
+      "publish": "Publier"
+    }
+  }
+}

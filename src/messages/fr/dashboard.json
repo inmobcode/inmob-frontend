@@ -39,7 +39,9 @@
       "collapse": "Replier",
       "openMenu": "Ouvrir le menu",
       "menu": "Menu",
-      "mainNav": "Navigation principale"
+      "mainNav": "Navigation principale",
+      "reports": "Rapports",
+      "reviews": "Avis"
     },
     "assignee": {
       "label": "Responsable",
@@ -80,7 +82,8 @@
         "team": "Équipe",
         "portal": "Site",
         "settings": "Paramètres",
-        "profile": "Mon profil"
+        "profile": "Mon profil",
+        "reports": "Rapports"
       },
       "help": {
         "general": "Général",
@@ -149,7 +152,9 @@
         "trialEnding": "Votre essai gratuit se termine le {date}",
         "trialEndingBody": "Ensuite, l’offre Pro commence. Vous pouvez résilier depuis les Paramètres.",
         "paymentFailed": "Nous n’avons pas pu prélever votre abonnement",
-        "paymentFailedBody": "Mettez à jour votre carte dans les Paramètres pour ne pas perdre l’accès."
+        "paymentFailedBody": "Mettez à jour votre carte dans les Paramètres pour ne pas perdre l’accès.",
+        "client": "Un client vous a été attribué",
+        "review": "{name} a laissé un avis {rating} étoiles"
       }
     }
   }

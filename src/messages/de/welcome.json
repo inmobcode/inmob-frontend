@@ -1,0 +1,51 @@
+{
+  "welcome": {
+    "meta": "Willkommen",
+    "eyebrow": "Erste Schritte",
+    "title": "Willkommen bei Tivvu",
+    "titleNamed": "Willkommen, {name}",
+    "lead": "Deine Agentur ist bereit. Lege deine erste Immobilie an und in wenigen Minuten hast du eine öffentliche Website zum Teilen.",
+    "question": "Hast du Immobilien in einer Tabelle oder einem anderen System?",
+    "import": {
+      "title": "Ja, ich möchte sie importieren",
+      "text": "Lade eine Excel- oder CSV-Datei oder einen Export aus einem anderen Portal hoch. Wir laden alles gemeinsam, mit Prüfung vor dem Speichern.",
+      "cta": "Immobilien importieren"
+    },
+    "scratch": {
+      "title": "Nein, ich fange bei null an",
+      "text": "Lege deine erste Immobilie in einer Minute mit den Grunddaten an und ergänze sie später.",
+      "cta": "Erste Immobilie anlegen"
+    },
+    "reassure": "Du kannst den Weg jederzeit wechseln: Beide Optionen bleiben unter Immobilien verfügbar.",
+    "later": "Später erledigen",
+    "checklist": {
+      "title": "Erste Schritte",
+      "progress": "{done} von {total} erledigt",
+      "hide": "Anleitung ausblenden",
+      "items": {
+        "account": {
+          "title": "Konto erstellen",
+          "text": "Deine Agentur ist bereit."
+        },
+        "property": {
+          "title": "Erste Immobilie veröffentlichen",
+          "text": "Damit sie auf deiner Website erscheint."
+        },
+        "site": {
+          "title": "Website anpassen",
+          "text": "Titelbild, Farben und Bereiche deines Portals."
+        },
+        "team": {
+          "title": "Team einladen",
+          "text": "Jede Person bekommt eigenen Zugang und Rolle."
+        },
+        "client": {
+          "title": "Ersten Kunden anlegen",
+          "text": "Um jede Anfrage an einem Ort zu verfolgen."
+        }
+      },
+      "skip": "Überspringen",
+      "skipped": "Übersprungen"
+    }
+  }
+}

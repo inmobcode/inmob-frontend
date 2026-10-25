@@ -117,6 +117,14 @@
           "color": "Farbe",
           "photo": "Mit Foto"
         }
+      },
+      "reviews": {
+        "label": "Bewertungen",
+        "description": "Die veröffentlichten Bewertungen mit dem Durchschnitt Ihrer Agentur.",
+        "layouts": {
+          "cards": "Karten",
+          "quote": "Ein Zitat"
+        }
       }
     },
     "buttonTargets": {
@@ -200,6 +208,10 @@
       "cta": {
         "title": "Möchten Sie Ihre Immobilie verkaufen?",
         "text": "Wir begleiten Sie von der Bewertung bis zum Notartermin."
+      },
+      "reviews": {
+        "title": "Was unsere Gäste sagen",
+        "text": "Echte Meinungen unserer Gäste."
       }
     },
     "blocks": {
@@ -266,7 +278,8 @@
       "zonePicker": {
         "pick": "Lage wählen",
         "none": "Ohne Lage"
-      }
+      },
+      "reviewsHint": "Zeigt die im Bereich Bewertungen veröffentlichten Bewertungen. Ohne veröffentlichte Bewertungen erscheint der Block nicht."
     },
     "preview": {
       "title": "Vorschau der Website"

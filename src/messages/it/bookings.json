@@ -26,7 +26,8 @@
       "total": "Totale",
       "collected": "Incassato",
       "updated": "Aggiornata",
-      "actions": "Azioni"
+      "actions": "Azioni",
+      "guests": "{count, plural, one {# ospite} other {# ospiti}}"
     },
     "detail": {
       "clientPage": "Pagina del cliente",
@@ -64,15 +65,39 @@
       "complete": "Segna come completata",
       "cancel": "Annulla prenotazione",
       "cancelTitle": "Annullare questa prenotazione?",
-      "cancelBody": "Le date vengono liberate e la prenotazione risulta annullata. I pagamenti già registrati non vengono eliminati."
+      "cancelBody": "Le date vengono liberate e la prenotazione risulta annullata. I pagamenti già registrati non vengono eliminati.",
+      "details": "Dettagli",
+      "detailsDescription": "Quante persone vengono e cosa deve sapere il tuo team. Il cliente non vede le note.",
+      "guests": "Ospiti",
+      "guestsCount": "{count, plural, one {# ospite} other {# ospiti}}",
+      "notes": "Note interne",
+      "notesPlaceholder": "Es.: arrivo tardi, chiedono una culla",
+      "paymentPending": "Pagamento segnato come in attesa",
+      "paymentDeleted": "Pagamento eliminato",
+      "paymentDeleteFailed": "Impossibile eliminare il pagamento",
+      "paymentActions": "Azioni del pagamento",
+      "editPayment": "Modifica",
+      "markPending": "Segna come in attesa",
+      "deletePayment": "Elimina pagamento",
+      "deletePaymentTitle": "Eliminare il pagamento?",
+      "deletePaymentBody": "Il pagamento di {amount} viene eliminato per sempre, anche dall’estratto del proprietario.",
+      "receipt": "Ricevuta per il cliente"
     },
     "payment": {
       "add": "Aggiungi pagamento",
-      "description": "Resta in sospeso finché non lo segni come incassato.",
+      "description": "Registra un pagamento previsto o già incassato.",
       "type": "Tipo",
       "typeLabel": "Tipo di pagamento",
       "amount": "Importo",
-      "save": "Salva pagamento"
+      "save": "Salva pagamento",
+      "edit": "Modifica pagamento",
+      "method": "Metodo di pagamento",
+      "methodPlaceholder": "Es.: bonifico, contanti, carta",
+      "collected": "Già incassato",
+      "collectedOn": "Incassato il",
+      "note": "Nota",
+      "internal": "(solo per il tuo team)",
+      "notePlaceholder": "Es.: bonifico n. 0042"
     },
     "create": {
       "new": "Nuova prenotazione",
@@ -84,7 +109,11 @@
       "rentalsOnly": "(solo affitti)",
       "totalPrice": "Prezzo totale",
       "commission": "Commissione",
-      "submit": "Crea prenotazione"
+      "submit": "Crea prenotazione",
+      "guests": "Ospiti",
+      "minStay": "{count, plural, one {Queste date richiedono almeno # notte.} other {Queste date richiedono almeno # notti.}}",
+      "unavailable": "Alcune di queste notti sono già occupate.",
+      "quoted": "Prezzo calcolato con tariffe e regole dell’immobile."
     },
     "list": {
       "statusPlural": {
@@ -111,10 +140,22 @@
       "emptyTitle": "Ancora nessuna prenotazione",
       "emptyBody": "Inserisci la prima per seguire date, pagamenti e commissione in un solo posto.",
       "emptyHelp": "Come inserire una prenotazione e i suoi pagamenti",
-      "noMatchBody": "Prova un altro nome o togli il filtro di stato.",
+      "noMatchBody": "Prova un’altra ricerca o togli i filtri.",
       "cancelTitle": "Annullare questa prenotazione?",
       "cancelBody": "Le date vengono liberate e la prenotazione risulta annullata. I pagamenti già registrati non vengono eliminati.",
-      "cancel": "Annulla prenotazione"
+      "cancel": "Annulla prenotazione",
+      "paymentState": {
+        "UNPAID": "Da incassare",
+        "PARTIAL": "Con saldo",
+        "PAID": "Pagate"
+      },
+      "payment": "Pagamento",
+      "paymentStates": "stati di pagamento",
+      "property": "Immobile",
+      "properties": "immobili",
+      "dates": "Date",
+      "datesHintFirst": "Scegli il primo giorno",
+      "datesHintSecond": "Ora l’ultimo giorno"
     }
   }
 }
