@@ -1104,7 +1104,7 @@ function Bookings() {
         width={1304}
         height={946}
         markers={[
-          { x: 23.4, y: 6, label: "Cerca per immobile o cliente." },
+          { x: 23.4, y: 6, label: "Cerca per immobile, cliente o posizione." },
           { x: 48.6, y: 6, label: "Filtra per stato o per località dell’immobile." },
           { x: 87.6, y: 6, label: "Nuova prenotazione." },
           { x: 6.6, y: 40.5, label: "Lo stato di ogni prenotazione." },
@@ -1187,9 +1187,11 @@ function Bookings() {
 
       <DocH3>Cercare e filtrare</DocH3>
       <DocP>
-        Cerca per immobile o cliente e combina i filtri: stato, pagamento (da incassare, con saldo o pagate), immobile,
-        posizione e date. Il filtro per date mostra i soggiorni che toccano quei giorni; il giorno di partenza conta già
-        come libero.
+        Cerca per immobile, cliente o posizione. Il pulsante dei filtri apre una finestra con stato, pagamento (da incassare, con
+        saldo o pagate), immobile, posizione e date; «Mostra» dice quante prenotazioni restano. Nella posizione scrivi
+        qualsiasi zona, regione o paese (ti suggeriamo quelle che hai già). I filtri attivi restano come etichette sotto
+        la barra, da togliere uno per uno. Il filtro per date mostra i soggiorni che toccano quei giorni; il giorno di
+        partenza conta già come libero.
       </DocP>
 
       <DocH3>Ospiti e note</DocH3>

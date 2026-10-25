@@ -500,6 +500,15 @@
         "opened": "Ouverte il y a 5 minutes",
         "expires": "Expire le {date}"
       },
+      "offerRent": {
+        "title": "Trois options sur la côte",
+        "items": {
+          "laBarra": "Maison à La Barra",
+          "palermo": "Appartement à Palermo",
+          "coast": "Cabane sur la côte"
+        },
+        "nights": "{count, plural, one {# nuit} other {# nuits}}"
+      },
       "saleBooking": {
         "fromOffer": "créée depuis l’offre",
         "price": "Prix",

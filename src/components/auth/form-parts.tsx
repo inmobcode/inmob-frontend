@@ -128,6 +128,7 @@ export type AuthErrorKey =
   | "wrongCredentials"
   | "emailTaken"
   | "codeInvalid"
+  | "samePassword"
   | "badRequest"
   | "server"
   | "generic";
@@ -142,6 +143,7 @@ export function authErrorKey(err: unknown, action: AuthAction): AuthErrorKey {
   if (action === "login" && err.status === 401) return "wrongCredentials";
   if (action === "register" && err.status === 409) return "emailTaken";
   if (action === "reset" && err.status === 400) return "codeInvalid";
+  if (action === "reset" && err.status === 409) return "samePassword";
   if (err.status === 400) return "badRequest";
   if (err.status >= 500) return "server";
   return "generic";

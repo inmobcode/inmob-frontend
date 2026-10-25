@@ -500,6 +500,15 @@
         "opened": "Opened 5 minutes ago",
         "expires": "Expires on {date}"
       },
+      "offerRent": {
+        "title": "Three options on the coast",
+        "items": {
+          "laBarra": "House in La Barra",
+          "palermo": "Apartment in Palermo",
+          "coast": "Cabin on the coast"
+        },
+        "nights": "{count, plural, one {# night} other {# nights}}"
+      },
       "saleBooking": {
         "fromOffer": "created from the offer",
         "price": "Price",

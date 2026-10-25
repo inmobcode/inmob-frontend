@@ -1099,7 +1099,7 @@ function Bookings() {
         width={1304}
         height={946}
         markers={[
-          { x: 23.9, y: 6, label: "Pesquise por imóvel ou cliente." },
+          { x: 23.9, y: 6, label: "Pesquise por imóvel, cliente ou localização." },
           { x: 49.9, y: 6, label: "Filtre por estado ou pela localização do imóvel." },
           { x: 89.6, y: 6, label: "Nova reserva." },
           { x: 6.8, y: 40.5, label: "O estado de cada reserva." },
@@ -1182,9 +1182,10 @@ function Bookings() {
 
       <DocH3>Pesquisar e filtrar</DocH3>
       <DocP>
-        Pesquise por imóvel ou cliente e combine filtros: estado, pagamento (por cobrar, com saldo ou pagas), imóvel,
-        localização e datas. O filtro de datas mostra as estadias que tocam esses dias; o dia de saída já conta como
-        livre.
+        Pesquise por imóvel, cliente ou localização. O botão de filtros abre uma janela com estado, pagamento (por cobrar, com saldo
+        ou pagas), imóvel, localização e datas; «Mostrar» diz quantas reservas ficam. Na localização escreva qualquer
+        zona, região ou país (sugerimos as que já tem). Os filtros ativos ficam como etiquetas sob a barra, para os
+        retirar um a um. O filtro de datas mostra as estadias que tocam esses dias; o dia de saída já conta como livre.
       </DocP>
 
       <DocH3>Hóspedes e notas</DocH3>

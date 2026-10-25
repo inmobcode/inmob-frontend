@@ -205,6 +205,6 @@ export const config = {
   // this the catch-all below reads them as agency-scoped and sends them to
   // `app.`, where a crawler asking the apex domain for them would never follow.
   matcher: [
-    "/((?!_next|api|docs-media|robots.txt|sitemap.xml|llms.txt|opengraph-image|favicon.ico|icon.svg|apple-icon.png).*)",
+    "/((?!_next|api|docs-media|robots.txt|sitemap.xml|llms.txt|opengraph-image|favicon.ico|icon.svg|apple-icon.png|email).*)",
   ],
 };

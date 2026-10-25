@@ -129,7 +129,7 @@
       "restoreFailed": "Buchung konnte nicht wiederhergestellt werden",
       "deleteFailed": "Buchung konnte nicht gelöscht werden",
       "title": "Buchungen",
-      "searchPlaceholder": "Nach Objekt oder Kunde suchen",
+      "searchPlaceholder": "Nach Objekt, Kunde oder Lage suchen",
       "search": "Buchungen durchsuchen",
       "status": "Status",
       "statuses": "Status",
@@ -156,6 +156,23 @@
       "dates": "Zeitraum",
       "datesHintFirst": "Ersten Tag wählen",
       "datesHintSecond": "Jetzt den letzten Tag"
+    },
+    "filters": {
+      "title": "Filter",
+      "titleCount": "Filter, {count} aktiv",
+      "description": "Kombinieren Sie Status, Zahlung, Objekt, Lage und Zeitraum.",
+      "allProperties": "Alle Objekte",
+      "searchProperty": "Objekt suchen",
+      "noProperty": "Kein Objekt passt",
+      "locationPlaceholder": "Gegend, Region oder Land eingeben",
+      "clearLocation": "Lage löschen",
+      "datesPlaceholder": "Beliebiges Datum",
+      "datesHint": "Zeigt Aufenthalte, die diese Tage berühren; der Abreisetag gilt als frei.",
+      "clear": "Zurücksetzen",
+      "show": "{count, plural, one {# Buchung anzeigen} other {# Buchungen anzeigen}}",
+      "none": "Keine Buchung passt",
+      "remove": "Filter „{name}“ entfernen",
+      "clearAll": "Filter entfernen"
     }
   }
 }

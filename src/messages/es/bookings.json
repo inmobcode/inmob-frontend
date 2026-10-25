@@ -129,7 +129,7 @@
       "restoreFailed": "No se pudo restaurar la reserva",
       "deleteFailed": "No se pudo eliminar la reserva",
       "title": "Reservas",
-      "searchPlaceholder": "Buscar por propiedad o cliente",
+      "searchPlaceholder": "Buscar por propiedad, cliente o ubicación",
       "search": "Buscar reservas",
       "status": "Estado",
       "statuses": "estados",
@@ -156,6 +156,23 @@
       "dates": "Fechas",
       "datesHintFirst": "Elegí desde qué día",
       "datesHintSecond": "Ahora hasta qué día"
+    },
+    "filters": {
+      "title": "Filtros",
+      "titleCount": "Filtros, {count} en uso",
+      "description": "Combiná estado, pago, propiedad, ubicación y fechas.",
+      "allProperties": "Todas las propiedades",
+      "searchProperty": "Buscar propiedad",
+      "noProperty": "Ninguna propiedad coincide",
+      "locationPlaceholder": "Escribí una zona, región o país",
+      "clearLocation": "Borrar ubicación",
+      "datesPlaceholder": "Cualquier fecha",
+      "datesHint": "Muestra las estadías que tocan esos días; el día de salida cuenta como libre.",
+      "clear": "Limpiar",
+      "show": "{count, plural, one {Mostrar # reserva} other {Mostrar # reservas}}",
+      "none": "Ninguna reserva coincide",
+      "remove": "Quitar filtro «{name}»",
+      "clearAll": "Quitar filtros"
     }
   }
 }

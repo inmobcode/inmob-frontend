@@ -500,6 +500,15 @@
         "opened": "Την άνοιξε πριν από 5 λεπτά",
         "expires": "Λήγει στις {date}"
       },
+      "offerRent": {
+        "title": "Τρεις επιλογές στην ακτή",
+        "items": {
+          "laBarra": "Σπίτι στη La Barra",
+          "palermo": "Διαμέρισμα στο Palermo",
+          "coast": "Καλύβα στην ακτή"
+        },
+        "nights": "{count, plural, one {# διανυκτέρευση} other {# διανυκτερεύσεις}}"
+      },
       "saleBooking": {
         "fromOffer": "δημιουργήθηκε από την προσφορά",
         "price": "Τιμή",

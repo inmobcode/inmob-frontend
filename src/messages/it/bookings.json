@@ -129,7 +129,7 @@
       "restoreFailed": "Impossibile ripristinare la prenotazione",
       "deleteFailed": "Impossibile eliminare la prenotazione",
       "title": "Prenotazioni",
-      "searchPlaceholder": "Cerca per immobile o cliente",
+      "searchPlaceholder": "Cerca per immobile, cliente o posizione",
       "search": "Cerca prenotazioni",
       "status": "Stato",
       "statuses": "stati",
@@ -156,6 +156,23 @@
       "dates": "Date",
       "datesHintFirst": "Scegli il primo giorno",
       "datesHintSecond": "Ora l’ultimo giorno"
+    },
+    "filters": {
+      "title": "Filtri",
+      "titleCount": "Filtri, {count} attivi",
+      "description": "Combina stato, pagamento, immobile, posizione e date.",
+      "allProperties": "Tutti gli immobili",
+      "searchProperty": "Cerca immobile",
+      "noProperty": "Nessun immobile corrisponde",
+      "locationPlaceholder": "Scrivi una zona, regione o paese",
+      "clearLocation": "Cancella posizione",
+      "datesPlaceholder": "Qualsiasi data",
+      "datesHint": "Mostra i soggiorni che toccano quei giorni; il giorno di partenza conta come libero.",
+      "clear": "Pulisci",
+      "show": "{count, plural, one {Mostra # prenotazione} other {Mostra # prenotazioni}}",
+      "none": "Nessuna prenotazione corrisponde",
+      "remove": "Rimuovi filtro «{name}»",
+      "clearAll": "Togli filtri"
     }
   }
 }

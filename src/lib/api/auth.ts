@@ -62,9 +62,16 @@ export function registerAgency(payload: RegisterAgencyPayload) {
 }
 
 // Password recovery: the first call emails a 6-digit code (answers 204 whether
-// or not the email has an account), the second one uses it to set the password.
+// or not the email has an account), the second checks it, the third uses it to set the password.
 export function requestPasswordReset(payload: { email: string }) {
   return apiFetch<void>("/api/auth/password/forgot", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function verifyResetCode(payload: { email: string; code: string }) {
+  return apiFetch<void>("/api/auth/password/verify", {
     method: "POST",
     body: JSON.stringify(payload),
   });

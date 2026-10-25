@@ -311,18 +311,36 @@ export function TimelineFragment() {
 
 const OFFER_PHOTOS: PhotoName[] = ["olivos", "vicenteLopez", "belgrano"];
 
-export function OfferFragment() {
+/** The same offer for a temporary rental: three stays of seven nights, priced per stay. */
+const RENT_OFFER = {
+  photos: ["laBarra", "palermo", "coast"] as PhotoName[],
+  items: [
+    ["laBarra", 3990, "−5 %"],
+    ["palermo", 2310, ""],
+    ["coast", 3395, "−3 %"],
+  ] as const,
+  total: 9695,
+  nights: 7,
+};
+
+export function OfferFragment({ variant = "sale" }: { variant?: "sale" | "rent" }) {
   const { t, usd, day } = useSample();
-  const items = [
-    ["olivos", 285000, "−3 %"],
-    ["vicenteLopez", 310000, "−5 %"],
-    ["belgrano", 198000, ""],
-  ] as const;
+  const rent = variant === "rent";
+  const ns = rent ? "offerRent" : "offer";
+  const items = rent
+    ? RENT_OFFER.items
+    : ([
+        ["olivos", 285000, "−3 %"],
+        ["vicenteLopez", 310000, "−5 %"],
+        ["belgrano", 198000, ""],
+      ] as const);
+  const photos = rent ? RENT_OFFER.photos : OFFER_PHOTOS;
+  const total = rent ? RENT_OFFER.total : 765100;
   return (
     <div className={cn(FRAGMENT, "grid sm:grid-cols-[1fr_14rem]")}>
       <div className="flex flex-col gap-1 p-5">
         <p className="mb-2 font-logo text-lg font-semibold leading-tight">
-          {t("offer.title")}
+          {t(`${ns}.title` as never)}
         </p>
         {items.map(([title, price, discount], index) => (
           <div
@@ -330,12 +348,15 @@ export function OfferFragment() {
             className="flex items-center gap-3 border-t border-line py-2.5"
           >
             <PropertyPhoto
-              photo={OFFER_PHOTOS[index]}
+              photo={photos[index]}
               className="size-11 shrink-0 rounded-md"
             />
             <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-medium">{t(`offer.items.${title}`)}</p>
-              <p className="text-xs text-quiet tabular-nums">{usd(price)}</p>
+              <p className="truncate text-sm font-medium">{t(`${ns}.items.${title}` as never)}</p>
+              <p className="text-xs text-quiet tabular-nums">
+                {usd(price)}
+                {rent && ` · ${t("offerRent.nights", { count: RENT_OFFER.nights })}`}
+              </p>
             </div>
             {discount && <Tag tone="lime">{discount}</Tag>}
           </div>
@@ -344,7 +365,7 @@ export function OfferFragment() {
       <div className="flex flex-col gap-3 border-t border-line bg-mist/50 p-5 text-xs sm:border-t-0 sm:border-l">
         <p className="text-quiet">{t("offer.total")}</p>
         <p className="font-logo text-2xl leading-none font-semibold tabular-nums">
-          {usd(765100)}
+          {usd(total)}
         </p>
         <p className="mt-2 flex items-center gap-1.5">
           <Eye className="size-3.5 text-forest" /> {t("offer.opened")}

@@ -1093,7 +1093,7 @@ function Bookings() {
         width={1304}
         height={946}
         markers={[
-          { x: 24, y: 6, label: "Pretražite po nekretnini ili klijentu." },
+          { x: 24, y: 6, label: "Pretražite po nekretnini, klijentu ili lokaciji." },
           { x: 50.1, y: 6, label: "Filtrirajte po statusu ili lokaciji nekretnine." },
           { x: 88.6, y: 6, label: "Nova rezervacija." },
           { x: 7.2, y: 40.5, label: "Status svake rezervacije." },
@@ -1176,9 +1176,11 @@ function Bookings() {
 
       <DocH3>Pretraživanje i filtri</DocH3>
       <DocP>
-        Tražite po nekretnini ili klijentu i kombinirajte filtre: status, plaćanje (nenaplaćene, djelomično plaćene ili
-        plaćene), nekretnina, lokacija i datumi. Filtar datuma prikazuje boravke koji dodiruju te dane; dan odlaska već
-        se računa kao slobodan.
+        Tražite po nekretnini, klijentu ili lokaciji. Gumb filtara otvara prozor sa statusom, plaćanjem (nenaplaćene, djelomično
+        plaćene ili plaćene), nekretninom, lokacijom i datumima; »Prikaži« kaže koliko rezervacija ostaje. Za lokaciju
+        upišite bilo koje područje, regiju ili državu (predlažemo one koje već imate). Aktivni filtri ostaju kao oznake
+        ispod trake, da ih uklanjate jedan po jedan. Filtar datuma prikazuje boravke koji dodiruju te dane; dan odlaska
+        već se računa kao slobodan.
       </DocP>
 
       <DocH3>Gosti i bilješke</DocH3>

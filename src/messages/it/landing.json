@@ -500,6 +500,15 @@
         "opened": "Aperta 5 minuti fa",
         "expires": "Scade il {date}"
       },
+      "offerRent": {
+        "title": "Tre opzioni sulla costa",
+        "items": {
+          "laBarra": "Casa a La Barra",
+          "palermo": "Appartamento a Palermo",
+          "coast": "Baita sulla costa"
+        },
+        "nights": "{count, plural, one {# notte} other {# notti}}"
+      },
       "saleBooking": {
         "fromOffer": "creata dall’offerta",
         "price": "Prezzo",

@@ -129,7 +129,7 @@
       "restoreFailed": "Rezervaciju nije moguće vratiti",
       "deleteFailed": "Rezervaciju nije moguće izbrisati",
       "title": "Rezervacije",
-      "searchPlaceholder": "Pretraži po nekretnini ili klijentu",
+      "searchPlaceholder": "Pretraži po nekretnini, klijentu ili lokaciji",
       "search": "Pretraži rezervacije",
       "status": "Status",
       "statuses": "statusi",
@@ -156,6 +156,23 @@
       "dates": "Datumi",
       "datesHintFirst": "Odaberite prvi dan",
       "datesHintSecond": "Sada zadnji dan"
+    },
+    "filters": {
+      "title": "Filtri",
+      "titleCount": "Filtri, {count} aktivno",
+      "description": "Kombinirajte status, plaćanje, nekretninu, lokaciju i datume.",
+      "allProperties": "Sve nekretnine",
+      "searchProperty": "Traži nekretninu",
+      "noProperty": "Nijedna nekretnina ne odgovara",
+      "locationPlaceholder": "Upišite područje, regiju ili državu",
+      "clearLocation": "Obriši lokaciju",
+      "datesPlaceholder": "Bilo koji datum",
+      "datesHint": "Prikazuje boravke koji dodiruju te dane; dan odlaska računa se kao slobodan.",
+      "clear": "Očisti",
+      "show": "{count, plural, one {Prikaži # rezervaciju} few {Prikaži # rezervacije} other {Prikaži # rezervacija}}",
+      "none": "Nijedna rezervacija ne odgovara",
+      "remove": "Ukloni filtar »{name}«",
+      "clearAll": "Ukloni filtre"
     }
   }
 }

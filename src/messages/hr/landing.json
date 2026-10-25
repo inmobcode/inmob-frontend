@@ -500,6 +500,15 @@
         "opened": "Otvorila ju je prije 5 minuta",
         "expires": "Istječe {date}"
       },
+      "offerRent": {
+        "title": "Tri opcije na obali",
+        "items": {
+          "laBarra": "Kuća u La Barri",
+          "palermo": "Stan u Palermu",
+          "coast": "Kućica na obali"
+        },
+        "nights": "{count, plural, one {# noć} few {# noći} other {# noći}}"
+      },
       "saleBooking": {
         "fromOffer": "izrađena iz ponude",
         "price": "Cijena",

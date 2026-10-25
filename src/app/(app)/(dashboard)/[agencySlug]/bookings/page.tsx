@@ -7,11 +7,11 @@ import { useParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
-import { BOOKING_STATUSES, type BookingActions } from "@/components/bookings/booking-parts";
+import { ActiveBookingFilters, BookingFiltersDialog } from "@/components/bookings/booking-filters-dialog";
+import { type BookingActions } from "@/components/bookings/booking-parts";
 import { BookingCard, BookingCardSkeleton, BookingRow, BookingsTable } from "@/components/bookings/booking-views";
 import { CreateBookingDialog } from "@/components/bookings/create-booking-dialog";
 import { HelpHint, HelpLink } from "@/components/docs/help-link";
-import { FilterMenu } from "@/components/filter-menu";
 import { TrashLink } from "@/components/trash/trash-link";
 import { ViewSwitch, type ViewMode } from "@/components/properties/view-switch";
 import {
@@ -25,7 +25,6 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { DateRangePicker } from "@/components/ui/date-picker";
 import { Input } from "@/components/ui/input";
 import {
   cancelBooking,
@@ -35,15 +34,19 @@ import {
   listBookings,
   listTrashedBookings,
   restoreBooking,
-  type BookingStatus,
 } from "@/lib/api/bookings";
 import { ApiError } from "@/lib/api/client";
 import { listProperties } from "@/lib/api/properties";
 import { getAccessToken } from "@/lib/auth/session";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { distance, duration, ease, media, rowStagger } from "@/lib/motion";
-import { PAYMENT_STATES, paymentStateOf, staysWithin, type PaymentState } from "@/lib/booking-filters";
-import { placeMatches, uniquePlaces } from "@/lib/places";
+import {
+  applyBookingFilters,
+  countBookingFilters,
+  NO_BOOKING_FILTERS,
+  type BookingFilters,
+} from "@/lib/booking-filters";
+import { placeKey } from "@/lib/places";
 
 
 function requireToken() {
@@ -55,17 +58,10 @@ function requireToken() {
 export default function BookingsPage() {
   const t = useTranslations("bookings.list");
   const common = useTranslations("common");
-  const statusOptions = BOOKING_STATUSES.map((value) => ({ value, label: t(`statusPlural.${value}`) }));
   const { agencySlug } = useParams<{ agencySlug: string }>();
   const queryClient = useQueryClient();
   const gridRef = useRef<HTMLDivElement>(null);
-  const [status, setStatus] = useState<BookingStatus[]>([]);
-  const [locations, setLocations] = useState<string[]>([]);
-  const [propertyIds, setPropertyIds] = useState<string[]>([]);
-  const [paymentStates, setPaymentStates] = useState<PaymentState[]>([]);
-  // A stay that touches these days, both included ("" while not filtering).
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
+  const [filters, setFilters] = useState<BookingFilters>(NO_BOOKING_FILTERS);
   const [search, setSearch] = useState("");
   const [view, setView] = useState<ViewMode>("grid");
   const [cancelling, setCancelling] = useState<string | null>(null);
@@ -106,71 +102,26 @@ export default function BookingsPage() {
     [data],
   );
 
-  const counts = useMemo(() => {
-    const result: Record<string, number> = { ALL: sorted.length };
-    for (const booking of sorted) result[booking.status] = (result[booking.status] ?? 0) + 1;
-    return result;
-  }, [sorted]);
-
-  // The places of the properties that have bookings, each spelled once.
-  const places = useMemo(() => {
-    const found = sorted.flatMap((booking) => {
-      const property = propertyById.get(booking.propertyId);
-      return property ? [property.area, property.region, property.country] : [];
-    });
-    return uniquePlaces(found).map((place) => ({ value: place, label: place }));
-  }, [sorted, propertyById]);
-
-  const placeCounts = useMemo(() => {
-    const result: Record<string, number> = { ALL: sorted.length };
-    for (const { value } of places) {
-      result[value] = sorted.filter((booking) => {
-        const property = propertyById.get(booking.propertyId);
-        return !!property && placeMatches(property, value);
-      }).length;
-    }
-    return result;
-  }, [sorted, places, propertyById]);
-
-  // The properties that have bookings, by name.
-  const propertyOptions = useMemo(() => {
-    const seen = new Map<string, string>();
-    for (const booking of sorted) if (!seen.has(booking.propertyId)) seen.set(booking.propertyId, booking.propertyTitle ?? "—");
-    return [...seen.entries()]
-      .map(([value, label]) => ({ value, label }))
-      .sort((a, b) => a.label.localeCompare(b.label));
-  }, [sorted]);
-  const propertyCounts = useMemo(() => {
-    const result: Record<string, number> = { ALL: sorted.length };
-    for (const booking of sorted) result[booking.propertyId] = (result[booking.propertyId] ?? 0) + 1;
-    return result;
-  }, [sorted]);
-
-  const paymentOptions = PAYMENT_STATES.map((value) => ({ value, label: t(`paymentState.${value}`) }));
-  const paymentCounts = useMemo(() => {
-    const result: Record<string, number> = { ALL: sorted.length };
-    for (const booking of sorted) {
-      const state = paymentStateOf(booking);
-      result[state] = (result[state] ?? 0) + 1;
-    }
-    return result;
-  }, [sorted]);
-
   const filtered = useMemo(() => {
-    const term = search.trim().toLowerCase();
-    return sorted.filter((booking) => {
-      if (status.length > 0 && !status.includes(booking.status)) return false;
-      if (propertyIds.length > 0 && !propertyIds.includes(booking.propertyId)) return false;
-      if (paymentStates.length > 0 && !paymentStates.includes(paymentStateOf(booking))) return false;
-      if (from && to && !staysWithin(booking, from, to)) return false;
-      if (locations.length > 0) {
-        const property = propertyById.get(booking.propertyId);
-        if (!property || !locations.some((place) => placeMatches(property, place))) return false;
-      }
+    // Ignoring case and accents, like the location filter: "ibiza" finds "Ibiza", "espana" finds "España".
+    const term = placeKey(search);
+    return applyBookingFilters(sorted, filters, (id) => propertyById.get(id)).filter((booking) => {
       if (!term) return true;
-      return [booking.propertyTitle, booking.clientName].filter(Boolean).join(" ").toLowerCase().includes(term);
+      const property = propertyById.get(booking.propertyId);
+      return placeKey(
+        [
+          booking.propertyTitle,
+          booking.clientName,
+          property?.area,
+          property?.region,
+          property?.country,
+          property?.address,
+        ]
+          .filter(Boolean)
+          .join(" "),
+      ).includes(term);
     });
-  }, [sorted, status, locations, propertyIds, paymentStates, from, to, propertyById, search]);
+  }, [sorted, filters, propertyById, search]);
 
   function action(done: string, fn: (token: string, id: string) => Promise<unknown>) {
     return {
@@ -213,13 +164,7 @@ export default function BookingsPage() {
 
   const total = sorted.length;
   const visibleKey = filtered.map((booking) => booking.id).join(",");
-  const hasFilters =
-    status.length > 0 ||
-    locations.length > 0 ||
-    propertyIds.length > 0 ||
-    paymentStates.length > 0 ||
-    !!from ||
-    search.trim() !== "";
+  const hasFilters = countBookingFilters(filters) > 0 || search.trim() !== "";
 
   // Cards settle in one after another whenever the visible set changes.
   useGSAP(
@@ -262,54 +207,11 @@ export default function BookingsPage() {
           <div className="flex flex-wrap items-center gap-3 sm:ml-auto">
             {total > 0 && (
               <>
-                <FilterMenu
-                  name={t("status")}
-                  plural={t("statuses")}
-                  options={statusOptions}
-                  value={status}
-                  onChange={setStatus}
-                  counts={counts}
-                />
-                <FilterMenu
-                  name={t("payment")}
-                  plural={t("paymentStates")}
-                  options={paymentOptions}
-                  value={paymentStates}
-                  onChange={setPaymentStates}
-                  counts={paymentCounts}
-                />
-                {propertyOptions.length > 1 && (
-                  <FilterMenu
-                    name={t("property")}
-                    plural={t("properties")}
-                    options={propertyOptions}
-                    value={propertyIds}
-                    onChange={setPropertyIds}
-                    counts={propertyCounts}
-                  />
-                )}
-                {places.length > 0 && (
-                  <FilterMenu
-                    name={t("location")}
-                    plural={t("locations")}
-                    options={places}
-                    value={locations}
-                    onChange={setLocations}
-                    counts={placeCounts}
-                  />
-                )}
-                <DateRangePicker
-                  size="sm"
-                  countAs="days"
-                  placeholder={t("dates")}
-                  hints={{ first: t("datesHintFirst"), second: t("datesHintSecond") }}
-                  start={from}
-                  end={to}
-                  onChange={(start, end) => {
-                    setFrom(start);
-                    setTo(end);
-                  }}
-                  className="w-auto min-w-36 rounded-full"
+                <BookingFiltersDialog
+                  bookings={sorted}
+                  propertyById={propertyById}
+                  value={filters}
+                  onApply={setFilters}
                 />
                 <ViewSwitch value={view} onChange={changeView} />
               </>
@@ -320,6 +222,8 @@ export default function BookingsPage() {
           </div>
         </div>
       )}
+
+      <ActiveBookingFilters filters={filters} bookings={sorted} onChange={setFilters} />
 
       {error && (
         <div className="flex flex-col items-start gap-4 rounded-2xl bg-card p-6 ring-1 ring-foreground/5">
@@ -374,12 +278,7 @@ export default function BookingsPage() {
             <Button
               variant="outline"
               onClick={() => {
-                setStatus([]);
-                setLocations([]);
-                setPropertyIds([]);
-                setPaymentStates([]);
-                setFrom("");
-                setTo("");
+                setFilters(NO_BOOKING_FILTERS);
                 setSearch("");
               }}
             >

@@ -191,7 +191,7 @@ const FLOWS: Record<Mode, { key: string; shot: React.ReactNode }[]> = {
   rent: [
     { key: "inquiry", shot: <ClientsFragment /> },
     { key: "availability", shot: <CalendarFragment /> },
-    { key: "offer", shot: <OfferFragment /> },
+    { key: "offer", shot: <OfferFragment variant="rent" /> },
     { key: "tasks", shot: <TasksFragment /> },
     { key: "booking", shot: <BookingFragment className="mx-auto max-w-md" /> },
     { key: "payments", shot: <PaymentsFragment variant="rent" /> },

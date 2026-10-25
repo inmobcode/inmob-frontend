@@ -129,7 +129,7 @@
       "restoreFailed": "Não foi possível restaurar a reserva",
       "deleteFailed": "Não foi possível eliminar a reserva",
       "title": "Reservas",
-      "searchPlaceholder": "Pesquisar por imóvel ou cliente",
+      "searchPlaceholder": "Pesquisar por imóvel, cliente ou localização",
       "search": "Pesquisar reservas",
       "status": "Estado",
       "statuses": "estados",
@@ -156,6 +156,23 @@
       "dates": "Datas",
       "datesHintFirst": "Escolha o primeiro dia",
       "datesHintSecond": "Agora o último dia"
+    },
+    "filters": {
+      "title": "Filtros",
+      "titleCount": "Filtros, {count} ativos",
+      "description": "Combine estado, pagamento, imóvel, localização e datas.",
+      "allProperties": "Todos os imóveis",
+      "searchProperty": "Pesquisar imóvel",
+      "noProperty": "Nenhum imóvel coincide",
+      "locationPlaceholder": "Escreva uma zona, região ou país",
+      "clearLocation": "Limpar localização",
+      "datesPlaceholder": "Qualquer data",
+      "datesHint": "Mostra as estadias que tocam esses dias; o dia de saída conta como livre.",
+      "clear": "Limpar",
+      "show": "{count, plural, one {Mostrar # reserva} other {Mostrar # reservas}}",
+      "none": "Nenhuma reserva coincide",
+      "remove": "Retirar filtro «{name}»",
+      "clearAll": "Retirar filtros"
     }
   }
 }

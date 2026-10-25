@@ -1,8 +1,16 @@
 import { describe, expect, it } from "vitest";
 
-import type { Payment } from "@/lib/api/bookings";
+import type { Booking, Payment } from "@/lib/api/bookings";
 
-import { paymentStateOf, staysWithin } from "./booking-filters";
+import {
+  applyBookingFilters,
+  countBookingFilters,
+  NO_BOOKING_FILTERS,
+  paymentStateOf,
+  placeContains,
+  staysWithin,
+  type BookingFilters,
+} from "./booking-filters";
 
 const pay = (amount: number, status: Payment["status"], type: Payment["type"] = "DEPOSIT") =>
   ({ amount, status, type }) as Payment;
@@ -40,5 +48,47 @@ describe("staysWithin", () => {
 
   it("never matches a booking without dates", () => {
     expect(staysWithin({ startDate: null, endDate: null }, "2026-12-01", "2026-12-31")).toBe(false);
+  });
+});
+
+describe("placeContains", () => {
+  const place = { area: "Palma de Mallorca", region: "Islas Baleares", country: "España", address: "Calle Sol 4" };
+
+  it("finds any part of the place, ignoring case and accents", () => {
+    expect(placeContains(place, "balear")).toBe(true);
+    expect(placeContains(place, "ESPANA")).toBe(true);
+    expect(placeContains(place, "calle sol")).toBe(true);
+    expect(placeContains(place, "ibiza")).toBe(false);
+  });
+
+  it("lets everything through with nothing typed, and nothing without a place", () => {
+    expect(placeContains(place, "  ")).toBe(true);
+    expect(placeContains(undefined, "palma")).toBe(false);
+  });
+});
+
+describe("applyBookingFilters", () => {
+  const booking = (over: Partial<Booking>) =>
+    ({ status: "CONFIRMED", propertyId: "p1", totalPrice: 100, payments: [], startDate: null, endDate: null, ...over }) as Booking;
+  const places: Record<string, { area: string }> = { p1: { area: "Palma" }, p2: { area: "Ibiza" } };
+  const bookings = [
+    booking({ propertyId: "p1", startDate: "2026-12-10", endDate: "2026-12-15" }),
+    booking({ propertyId: "p2", status: "PENDING" }),
+  ];
+  const run = (filters: Partial<BookingFilters>) =>
+    applyBookingFilters(bookings, { ...NO_BOOKING_FILTERS, ...filters }, (id) => places[id] as never);
+
+  it("combines every filter", () => {
+    expect(run({})).toHaveLength(2);
+    expect(run({ status: ["PENDING"] })).toEqual([bookings[1]]);
+    expect(run({ location: "palm" })).toEqual([bookings[0]]);
+    expect(run({ propertyId: "p2", location: "palm" })).toEqual([]);
+    expect(run({ from: "2026-12-12", to: "2026-12-20" })).toEqual([bookings[0]]);
+    expect(run({ payment: ["UNPAID"] })).toHaveLength(2);
+  });
+
+  it("counts what's in use", () => {
+    expect(countBookingFilters(NO_BOOKING_FILTERS)).toBe(0);
+    expect(countBookingFilters({ ...NO_BOOKING_FILTERS, status: ["PENDING", "CONFIRMED"], location: "x", from: "a", to: "b" })).toBe(4);
   });
 });

@@ -1110,7 +1110,7 @@ function Bookings() {
         width={1304}
         height={946}
         markers={[
-          { x: 21.4, y: 6, label: "Recherchez par bien ou client." },
+          { x: 21.4, y: 6, label: "Recherchez par bien, client ou lieu." },
           { x: 44.8, y: 6, label: "Filtrez par statut ou par emplacement du bien." },
           { x: 87.5, y: 6, label: "Nouvelle réservation." },
           { x: 7, y: 40.5, label: "Le statut de chaque réservation." },
@@ -1194,9 +1194,11 @@ function Bookings() {
 
       <DocH3>Rechercher et filtrer</DocH3>
       <DocP>
-        Cherchez par bien ou client et combinez les filtres : statut, paiement (non payées, partiellement payées ou
-        payées), bien, emplacement et dates. Le filtre de dates affiche les séjours qui touchent ces jours ; le jour du
-        départ compte déjà comme libre.
+        Cherchez par bien, client ou lieu. Le bouton des filtres ouvre une fenêtre avec statut, paiement (non payées,
+        partiellement payées ou payées), bien, lieu et dates ; « Afficher » indique combien de réservations restent.
+        Pour le lieu, saisissez n’importe quel secteur, région ou pays (nous suggérons ceux que vous avez déjà). Les
+        filtres actifs restent en étiquettes sous la barre, à retirer un par un. Le filtre de dates affiche les séjours
+        qui touchent ces jours ; le jour du départ compte déjà comme libre.
       </DocP>
 
       <DocH3>Voyageurs et notes</DocH3>

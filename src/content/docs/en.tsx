@@ -1098,7 +1098,7 @@ function Bookings() {
         width={1304}
         height={946}
         markers={[
-          { x: 24.8, y: 6, label: "Search by property or client." },
+          { x: 24.8, y: 6, label: "Search by property, client or location." },
           { x: 51.8, y: 6, label: "Filter by status or by the property’s location." },
           { x: 89.6, y: 6, label: "New booking." },
           { x: 6.5, y: 40.5, label: "Each booking’s status." },
@@ -1181,8 +1181,10 @@ function Bookings() {
 
       <DocH3>Search and filter</DocH3>
       <DocP>
-        Search by property or client and combine filters: status, payment (unpaid, partly paid or paid in full),
-        property, location and dates. The date filter shows stays that touch those days; check-out day already counts as
+        Search by property, client or location. The filters button opens a window with status, payment (unpaid, partly paid or
+        paid in full), property, location and dates; “Show” says how many bookings are left. For location, type any
+        area, region or country (we suggest the ones you already have). The filters in use stay as tags under the bar,
+        to remove one at a time. The date filter shows stays that touch those days; check-out day already counts as
         free.
       </DocP>
 

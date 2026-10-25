@@ -1,10 +1,9 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Check } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -18,47 +17,39 @@ import {
   authErrorKey,
   fieldA11y,
 } from "@/components/auth/form-parts";
-import { PasswordInput } from "@/components/auth/password-input";
 import { Input } from "@/components/ui/input";
-import { requestPasswordReset, resetPassword } from "@/lib/api/auth";
+import { requestPasswordReset, verifyResetCode } from "@/lib/api/auth";
+import { clearResetCode, saveResetCode } from "@/lib/auth/reset-flow";
 
 /** The API won't send another code sooner than this (RESET_CODE_RESEND_SECONDS). */
 const RESEND_SECONDS = 60;
 
-const makeSchema = (
-  t: (key: "codeFormat" | "passwordLength" | "confirmRequired" | "mismatch") => string,
-) =>
-  z
-    .object({
-      code: z.string().regex(/^\d{6}$/, t("codeFormat")),
-      password: z.string().min(8, t("passwordLength")),
-      confirm: z.string().min(1, t("confirmRequired")),
-    })
-    .refine((values) => values.password === values.confirm, {
-      path: ["confirm"],
-      message: t("mismatch"),
-    });
+const makeSchema = (t: (key: "codeFormat") => string) =>
+  z.object({ code: z.string().regex(/^\d{6}$/, t("codeFormat")) });
 
 type FormValues = z.infer<ReturnType<typeof makeSchema>>;
 
 const LINK =
   "rounded-sm text-sm font-medium text-ink underline-offset-4 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-forest";
 
-/** Second step of the recovery: `?email=` comes from /forgot-password or the email's button. */
-function ResetPasswordForm() {
+/** First step of the recovery: `?email=` comes from /forgot-password or the email's button. */
+function ResetCodeForm() {
   const t = useTranslations("auth.reset");
   const tAuth = useTranslations("auth");
   const schema = useMemo(() => makeSchema((key) => tAuth(`validation.${key}`)), [tAuth]);
-  const passwordHint = tAuth("passwordHint");
-  const email = useSearchParams().get("email");
-  const [done, setDone] = useState(false);
-  const [serverError, setServerError] = useState<string | null>(null);
+  const router = useRouter();
+  const params = useSearchParams();
+  const email = params.get("email");
+  // Step 2 sends the user back here with ?invalid=1 when the API refused the code.
+  const [serverError, setServerError] = useState<string | null>(
+    params.get("invalid") ? tAuth("errors.codeInvalid") : null,
+  );
   // A code was just sent to get here, so resending starts on hold.
   const [resendIn, setResendIn] = useState(RESEND_SECONDS);
   const [resent, setResent] = useState(false);
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { code: "", password: "", confirm: "" },
+    defaultValues: { code: "" },
   });
   const errors = form.formState.errors;
 
@@ -72,8 +63,9 @@ function ResetPasswordForm() {
     if (!email) return;
     setServerError(null);
     try {
-      await resetPassword({ email, code: values.code, password: values.password });
-      setDone(true);
+      await verifyResetCode({ email, code: values.code });
+      saveResetCode(email, values.code);
+      router.push(`/reset-password/new?${new URLSearchParams({ email })}`);
     } catch (err) {
       setServerError(tAuth(`errors.${authErrorKey(err, "reset")}`));
     }
@@ -85,6 +77,7 @@ function ResetPasswordForm() {
     setResent(false);
     try {
       await requestPasswordReset({ email });
+      clearResetCode();
       setResent(true);
       setResendIn(RESEND_SECONDS);
     } catch (err) {
@@ -103,23 +96,9 @@ function ResetPasswordForm() {
     );
   }
 
-  if (done) {
-    return (
-      <div className="flex flex-col items-start gap-6" role="status">
-        <span className="flex size-11 items-center justify-center rounded-lg bg-lime/25 text-forest">
-          <Check className="size-5" />
-        </span>
-        <AuthHeading title={t("doneTitle")} text={t("doneText")} />
-        <Link href="/login" className={LINK}>
-          {t("login")}
-        </Link>
-      </div>
-    );
-  }
-
   return (
     <div className="flex flex-col gap-8">
-      <AuthHeading title={t("title")} text={t("lead", { email })} />
+      <AuthHeading title={t("codeTitle")} text={t("lead", { email })} />
       <form
         className="flex flex-col gap-5"
         onSubmit={form.handleSubmit(onSubmit)}
@@ -140,39 +119,11 @@ function ResetPasswordForm() {
             })}
           />
         </AuthField>
-        <AuthField
-          id="password"
-          label={t("password")}
-          hint={passwordHint}
-          error={errors.password?.message}
-        >
-          <PasswordInput
-            id="password"
-            autoComplete="new-password"
-            {...fieldA11y("password", {
-              hint: passwordHint,
-              error: errors.password?.message,
-            })}
-            {...form.register("password")}
-          />
-        </AuthField>
-        <AuthField
-          id="confirm"
-          label={t("confirm")}
-          error={errors.confirm?.message}
-        >
-          <PasswordInput
-            id="confirm"
-            autoComplete="new-password"
-            {...fieldA11y("confirm", { error: errors.confirm?.message })}
-            {...form.register("confirm")}
-          />
-        </AuthField>
         <AuthFormError message={serverError} />
         <AuthSubmit
           pending={form.formState.isSubmitting}
-          label={t("submit")}
-          pendingLabel={t("submitting")}
+          label={t("next")}
+          pendingLabel={t("verifying")}
         />
       </form>
       <div className="flex flex-col items-center gap-2 text-center text-sm text-quiet">
@@ -197,7 +148,7 @@ function ResetPasswordForm() {
 export default function ResetPasswordPage() {
   return (
     <Suspense>
-      <ResetPasswordForm />
+      <ResetCodeForm />
     </Suspense>
   );
 }

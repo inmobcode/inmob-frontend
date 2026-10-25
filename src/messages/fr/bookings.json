@@ -129,7 +129,7 @@
       "restoreFailed": "Impossible de restaurer la réservation",
       "deleteFailed": "Impossible de supprimer la réservation",
       "title": "Réservations",
-      "searchPlaceholder": "Rechercher par bien ou client",
+      "searchPlaceholder": "Rechercher par bien, client ou lieu",
       "search": "Rechercher des réservations",
       "status": "Statut",
       "statuses": "statuts",
@@ -156,6 +156,23 @@
       "dates": "Dates",
       "datesHintFirst": "Choisissez le premier jour",
       "datesHintSecond": "Puis le dernier jour"
+    },
+    "filters": {
+      "title": "Filtres",
+      "titleCount": "Filtres, {count} actifs",
+      "description": "Combinez statut, paiement, bien, lieu et dates.",
+      "allProperties": "Tous les biens",
+      "searchProperty": "Chercher un bien",
+      "noProperty": "Aucun bien ne correspond",
+      "locationPlaceholder": "Saisissez un secteur, une région ou un pays",
+      "clearLocation": "Effacer le lieu",
+      "datesPlaceholder": "N’importe quelle date",
+      "datesHint": "Affiche les séjours qui touchent ces jours ; le jour du départ compte comme libre.",
+      "clear": "Effacer",
+      "show": "{count, plural, one {Afficher # réservation} other {Afficher # réservations}}",
+      "none": "Aucune réservation ne correspond",
+      "remove": "Retirer le filtre « {name} »",
+      "clearAll": "Retirer les filtres"
     }
   }
 }

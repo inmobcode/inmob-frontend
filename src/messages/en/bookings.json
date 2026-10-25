@@ -129,7 +129,7 @@
       "restoreFailed": "Couldn't restore the booking",
       "deleteFailed": "Couldn't delete the booking",
       "title": "Bookings",
-      "searchPlaceholder": "Search by property or client",
+      "searchPlaceholder": "Search by property, client or location",
       "search": "Search bookings",
       "status": "Status",
       "statuses": "statuses",
@@ -156,6 +156,23 @@
       "dates": "Dates",
       "datesHintFirst": "Pick the first day",
       "datesHintSecond": "Now the last day"
+    },
+    "filters": {
+      "title": "Filters",
+      "titleCount": "Filters, {count} in use",
+      "description": "Combine status, payment, property, location and dates.",
+      "allProperties": "All properties",
+      "searchProperty": "Search property",
+      "noProperty": "No property matches",
+      "locationPlaceholder": "Type an area, region or country",
+      "clearLocation": "Clear location",
+      "datesPlaceholder": "Any date",
+      "datesHint": "Shows stays that touch those days; check-out day counts as free.",
+      "clear": "Clear",
+      "show": "{count, plural, one {Show # booking} other {Show # bookings}}",
+      "none": "No bookings match",
+      "remove": "Remove filter “{name}”",
+      "clearAll": "Clear filters"
     }
   }
 }

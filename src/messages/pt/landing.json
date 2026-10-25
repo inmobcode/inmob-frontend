@@ -500,6 +500,15 @@
         "opened": "Abriu-a há 5 minutos",
         "expires": "Expira a {date}"
       },
+      "offerRent": {
+        "title": "Três opções na costa",
+        "items": {
+          "laBarra": "Moradia em La Barra",
+          "palermo": "Apartamento em Palermo",
+          "coast": "Cabana na costa"
+        },
+        "nights": "{count, plural, one {# noite} other {# noites}}"
+      },
       "saleBooking": {
         "fromOffer": "criada a partir da oferta",
         "price": "Preço",

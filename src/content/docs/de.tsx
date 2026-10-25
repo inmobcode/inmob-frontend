@@ -1118,7 +1118,7 @@ function Bookings() {
         width={1304}
         height={946}
         markers={[
-          { x: 25.5, y: 6, label: "Suchen Sie nach Objekt oder Kunde." },
+          { x: 25.5, y: 6, label: "Suchen Sie nach Objekt, Kunde oder Lage." },
           { x: 53, y: 6, label: "Nach Status oder Lage des Objekts filtern." },
           { x: 89.1, y: 6, label: "Neue Buchung." },
           { x: 7.4, y: 40.5, label: "Der Status jeder Buchung." },
@@ -1202,9 +1202,11 @@ function Bookings() {
 
       <DocH3>Suchen und filtern</DocH3>
       <DocP>
-        Suchen Sie nach Objekt oder Kunde und kombinieren Sie Filter: Status, Zahlung (unbezahlt, teilweise bezahlt oder
-        bezahlt), Objekt, Lage und Zeitraum. Der Zeitraumfilter zeigt Aufenthalte, die diese Tage berühren; der
-        Abreisetag gilt bereits als frei.
+        Suchen Sie nach Objekt, Kunde oder Lage. Die Filter-Schaltfläche öffnet ein Fenster mit Status, Zahlung (unbezahlt,
+        teilweise bezahlt oder bezahlt), Objekt, Lage und Zeitraum; „Anzeigen“ sagt, wie viele Buchungen übrig bleiben.
+        Bei der Lage können Sie jede Gegend, Region oder jedes Land eingeben (wir schlagen die vorhandenen vor). Aktive
+        Filter bleiben als Schlagwörter unter der Leiste, um sie einzeln zu entfernen. Der Zeitraumfilter zeigt
+        Aufenthalte, die diese Tage berühren; der Abreisetag gilt bereits als frei.
       </DocP>
 
       <DocH3>Gäste und Notizen</DocH3>
