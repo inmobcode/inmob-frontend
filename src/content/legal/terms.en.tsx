@@ -274,26 +274,43 @@ const SECTIONS: LegalSection[] = [
     id: "planes-y-pagos",
     title: "Plans, prices and payments",
     brief:
-      "Billed in advance and renewed automatically. We give 30 days' notice before changing prices; if a payment fails, you have 15 days to settle it.",
+      "The free trial lasts 14 days and then the Pro plan starts automatically. We bill in advance, give 30 days’ notice before changing prices, and if a payment fails you have 15 days to settle it.",
     content: (
       <>
         <p>
-          Tivvu offers a free plan with limits (for example, on the number of
-          properties and Users) and paid plans. The current prices, limits and
-          features of each plan are published at{" "}
+          Tivvu offers a free trial, the Pro plan and custom Enterprise plans.
+          There is no permanent free plan. The current prices, limits and
+          features are published at{" "}
           <LegalLink href="/#planes">tivvu.app</LegalLink> or agreed in writing
           for custom plans.
         </p>
         <ul>
           <li>
-            Paid plans are billed in advance on a monthly basis (or for the
-            period agreed) and renew automatically until the Agency cancels
-            them.
+            Free trial. It lasts 14 days and gives full access to the Service,
+            except the data migration tool (property import), which is not
+            included. A card must be added to start it; nothing is charged
+            during the trial. When the 14 days end, the Pro plan starts
+            automatically and its first period is charged, unless the Agency
+            cancels before the trial ends. The free trial is offered once per
+            Agency and per card; if a card has already been used for another
+            trial, we may cancel the new one without charge.
           </li>
           <li>
-            Prices published in US dollars may be paid in Argentine pesos at the
-            exchange rate stated at the time of payment. Applicable taxes are
-            added to the price unless stated otherwise.
+            Pro plan. It is billed in advance on a monthly basis, at the price
+            published at tivvu.app, and renews automatically until the Agency
+            cancels it. It includes the data migration tool.
+          </li>
+          <li>
+            Enterprise plan. It is contracted on a custom basis: its terms,
+            price and billing are agreed in writing with Tivvu.
+          </li>
+          <li>
+            Payments are processed by Paddle, which acts as merchant of record
+            and reseller of the Service: Paddle charges you, issues the invoice,
+            and calculates and collects the applicable taxes, and its buyer
+            terms govern that transaction. Tivvu does not store your full card
+            number. Prices are stated in US dollars; your bank may apply
+            currency conversion or its own charges.
           </li>
           <li>
             If we change the price of your plan, we will notify you by email at
@@ -303,9 +320,8 @@ const SECTIONS: LegalSection[] = [
           </li>
           <li>
             If a payment does not go through, we will let you know and you have
-            15 calendar days to settle it. After that, we may move the account
-            to the free plan or suspend it. Your data is not deleted because of
-            the suspension.
+            15 calendar days to settle it. After that, we may suspend the
+            account. Your data is not deleted because of the suspension.
           </li>
         </ul>
       </>
@@ -315,7 +331,7 @@ const SECTIONS: LegalSection[] = [
     id: "baja",
     title: "Cancellation and right of withdrawal",
     brief:
-      "You can cancel whenever you like. It takes effect at the end of the paid period and there are no pro-rata refunds, unless the law says otherwise.",
+      "You can cancel at any time and it takes effect at the end of the paid period. You can request a refund within 14 days of any charge.",
     content: (
       <>
         <p>
@@ -328,8 +344,9 @@ const SECTIONS: LegalSection[] = [
         </p>
         <p>
           Cancellation takes effect at the end of the period already paid: until
-          then you keep access to the plan. We do not give pro-rata refunds for
-          periods that have already started, unless the law provides otherwise.
+          then you keep access to the plan. Refunds are governed by the{" "}
+          <LegalLink href="/refunds">Refund Policy</LegalLink>: you can ask for
+          a refund of any charge within 14 calendar days of it being made.
         </p>
         <p>
           If you sign up as a consumer under Argentine Law 24,240, you can
@@ -339,6 +356,13 @@ const SECTIONS: LegalSection[] = [
           This right does not apply when the Service is contracted to be part of
           a commercial or professional activity, which is how an agency
           normally uses it.
+        </p>
+        <p>
+          During the free trial, the Agency can cancel from the account settings
+          (plan and billing section), which opens the Paddle portal, or by
+          writing to{" "}
+          <LegalLink href={`mailto:${contactEmail}`}>{contactEmail}</LegalLink>.
+          If it cancels before the 14 days end, the Pro plan is not charged.
         </p>
       </>
     ),

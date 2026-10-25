@@ -727,6 +727,11 @@ function Importer() {
       adminOnly
       intro="Traga a sua carteira de outro sistema de uma só vez: um CRM, um portal ou uma folha de cálculo. Nada é guardado até rever o que vai acontecer a cada imóvel."
     >
+      <DocTip>
+        A importação não está incluída no teste gratuito: aparece quando começa
+        o plano Pro.
+      </DocTip>
+
       <DocP>
         Abre-se a partir de <strong>Importar</strong>, na barra de Imóveis. O processo tem quatro passos: escolher de onde
         vem, trazer o ficheiro, dizer o que é cada coluna (só em folhas de cálculo) e rever.

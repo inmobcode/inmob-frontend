@@ -180,7 +180,8 @@
       "name": "Il tuo nome",
       "message": "Come possiamo aiutarti",
       "sending": "Invio…",
-      "submit": "Invia messaggio"
+      "submit": "Invia messaggio",
+      "enterpriseMessage": "Ciao, mi interessa il piano Enterprise di Tivvu. Siamo una rete di agenzie o un team numeroso e vorremmo essere contattati per parlarne.\n\nFiliali e persone nel team: "
     },
     "page": {
       "metaTitle": "Assistenza e contatti",

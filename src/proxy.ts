@@ -19,19 +19,19 @@ const DASHBOARD_SECTIONS = [
   "portal",
 ];
 
-// Logged-in pages outside the agency-scoped tree (no slug segment): the dashboard docs.
-const UNSCOPED_APP_PREFIXES = ["/docs"];
+// Logged-in pages outside the agency-scoped tree (no slug segment): the dashboard docs and the plan screen.
+const UNSCOPED_APP_PREFIXES = ["/docs", "/subscribe"];
 
 // Route groups that must only be reached through the app subdomain: the auth
 // flow, the dashboard itself (agency-scoped routes under "/[agencySlug]",
 // which now includes the site editor at "/[agencySlug]/portal") and the docs.
 // Everything else — the marketing landing page and the (public) group (agency
 // sites, shared offer/booking/owner links) — stays on the apex domain.
-const APP_ONLY_PREFIXES = ["/login", "/register", "/forgot-password", "/reset-password", "/auth", "/docs", "/inquiries"];
+const APP_ONLY_PREFIXES = ["/login", "/register", "/forgot-password", "/reset-password", "/auth", "/docs", "/subscribe", "/inquiries"];
 
 // The (public) and (legal) groups: reachable from either host, but these are
 // the only paths allowed to stay on the apex domain unredirected.
-const PUBLIC_ONLY_PREFIXES = ["/landing-test", "/page", "/offer", "/booking", "/owner", "/terms", "/privacy", "/help"];
+const PUBLIC_ONLY_PREFIXES = ["/landing-test", "/page", "/offer", "/booking", "/owner", "/terms", "/privacy", "/refunds", "/help"];
 
 function isPublicPath(pathname: string): boolean {
   return pathname === "/" || PUBLIC_ONLY_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));

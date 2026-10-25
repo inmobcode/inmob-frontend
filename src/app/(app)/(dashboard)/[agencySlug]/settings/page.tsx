@@ -19,6 +19,7 @@ import { getPublicOrigin } from "@/lib/public-origin";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import { BillingSection } from "@/components/billing/billing-section";
 import { docsHref } from "@/components/docs/docs-sections";
 import { FormSection } from "@/components/properties/form-section";
 import { Switch } from "@/components/ui/switch";
@@ -371,6 +372,8 @@ export default function SettingsPage() {
           </div>
         </div>
       </FormSection>
+
+      <BillingSection />
 
       <FormSection
         title={t("portal.title")}

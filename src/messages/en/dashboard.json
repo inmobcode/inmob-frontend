@@ -145,7 +145,11 @@
         "offerViewedAnon": "Your client opened the offer",
         "payment": "Payment recorded: {amount}",
         "task": "A task was assigned to you",
-        "taskDue": "{title} · due {date}"
+        "taskDue": "{title} · due {date}",
+        "trialEnding": "Your free trial ends on {date}",
+        "trialEndingBody": "Then the Pro plan starts. You can cancel from Settings.",
+        "paymentFailed": "We couldn’t charge your subscription",
+        "paymentFailedBody": "Update your card in Settings so you don’t lose access."
       }
     }
   }

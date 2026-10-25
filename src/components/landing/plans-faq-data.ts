@@ -1,3 +1,4 @@
+import { localePath, type Locale } from "@/i18n/config";
 import type { LooseTranslator } from "@/i18n/loose";
 
 /**
@@ -22,16 +23,24 @@ export interface Plan {
   amount?: { value: number; currency: string };
 }
 
+// Where each plan's button leads: sign-up with the plan already chosen (the app
+// remembers the language from ?lang=), and for Enterprise the contact form with
+// the message half-written.
 const PLAN_SHAPES = [
-  { id: "free", features: 4, href: "/register", amount: { value: 0, currency: "USD" } },
-  { id: "pro", features: 5, href: "#demo", highlight: true, amount: { value: 29.99, currency: "USD" }, period: true },
-  { id: "enterprise", features: 4, href: "#demo" },
+  { id: "trial", features: 4, amount: { value: 0, currency: "USD" } },
+  { id: "pro", features: 5, highlight: true, amount: { value: 29.99, currency: "USD" }, period: true },
+  { id: "enterprise", features: 4 },
 ] as const;
+
+function planHref(id: (typeof PLAN_SHAPES)[number]["id"], locale: Locale): string {
+  if (id === "enterprise") return `${localePath(locale, "/help")}?plan=enterprise#contacto`;
+  return `/register?lang=${locale}&plan=${id}`;
+}
 
 const FAQ_IDS = ["both", "migration", "address", "privacy", "users", "site", "team", "owner"] as const;
 
 /** The plans in a language; `t` is scoped to "landing". */
-export function plansIn(t: LooseTranslator): Plan[] {
+export function plansIn(t: LooseTranslator, locale: Locale): Plan[] {
   return PLAN_SHAPES.map((shape) => ({
     id: shape.id,
     name: t(`plans.${shape.id}.name`),
@@ -40,7 +49,7 @@ export function plansIn(t: LooseTranslator): Plan[] {
     tagline: t(`plans.${shape.id}.tagline`),
     features: Array.from({ length: shape.features }, (_, index) => t(`plans.${shape.id}.features.f${index + 1}`)),
     cta: t(`plans.${shape.id}.cta`),
-    href: shape.href,
+    href: planHref(shape.id, locale),
     highlight: "highlight" in shape ? shape.highlight : undefined,
     amount: "amount" in shape ? shape.amount : undefined,
   }));

@@ -11,7 +11,7 @@ const { name, taxId, address, privacyEmail } = LEGAL_ENTITY;
 const SUMMARY = [
   "Wir nutzen Ihre Daten, um den Dienst zu erbringen, abzurechnen, sicher zu halten und Sie über Wichtiges zu informieren. Wir verkaufen keine Daten und zeigen keine Werbung.",
   "Die Daten über Kunden und Eigentümer, die eine Agentur erfasst, gehören dieser Agentur: Sie entscheidet über die Nutzung, und wir verarbeiten sie in ihrem Auftrag.",
-  "Wir arbeiten mit Infrastruktur- und E-Mail-Anbietern, die außerhalb Argentiniens sitzen können, unter Verträgen, die Ihre Daten schützen.",
+  "Wir arbeiten mit Infrastruktur-, E-Mail- und Zahlungsanbietern, die außerhalb Argentiniens sitzen können, unter Verträgen, die Ihre Daten schützen.",
   "Sie können Auskunft, Berichtigung oder Löschung Ihrer Daten verlangen, indem Sie an " +
     privacyEmail +
     " schreiben. Die Auskunft ist kostenlos.",
@@ -82,6 +82,19 @@ const SECTIONS: LegalSection[] = [
             <strong>Agentur:</strong> Name, Kontaktdaten, Logo,
             Website-Einstellungen und bei kostenpflichtigen Tarifen die für die
             Abrechnung nötigen Daten.
+          </li>
+          <li>
+            <strong>Zahlung und Abonnement:</strong> Ihr Tarif, der Status des
+            Abonnements (Testphase, aktiv oder gekündigt) und das Ende der
+            Testphase. Zahlungen verarbeitet Paddle als Merchant of Record:
+            Paddle erhält Ihre Karte und Ihre Rechnungsdaten direkt, und wir
+            erhalten eine Kunden- und Abonnementkennung, nicht die vollständige
+            Kartennummer. An Paddle übermitteln wir Ihre E-Mail-Adresse und den
+            Namen der Agentur. Außerdem speichern wir einen Fingerabdruck der
+            für die kostenlose Testphase verwendeten Karte (ein nicht
+            umkehrbarer Code, den wir aus Kartentyp, letzten 4 Ziffern,
+            Ablaufdatum und Karteninhaber berechnen), nur um eine Testphase pro
+            Karte anzubieten.
           </li>
           <li>
             <strong>Nutzung und technische Daten:</strong> Anmeldezeiten,
@@ -208,6 +221,10 @@ const SECTIONS: LegalSection[] = [
             [
               "Resend",
               "Versand der System-E-Mails: Benachrichtigungen, Bestätigungen und Passwortwiederherstellung.",
+            ],
+            [
+              "Paddle",
+              "Zahlungsabwicklung für die kostenlose Testphase und die kostenpflichtigen Tarife, Rechnungsstellung und Steuern sowie Portal zur Verwaltung des Abonnements. Tritt als Merchant of Record auf und erhält die Zahlungs- und Rechnungsdaten direkt.",
             ],
             [
               "Hosting-Anbieter der Webanwendung",

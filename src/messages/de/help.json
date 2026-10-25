@@ -180,7 +180,8 @@
       "name": "Ihr Name",
       "message": "Wobei können wir helfen?",
       "sending": "Wird gesendet…",
-      "submit": "Nachricht senden"
+      "submit": "Nachricht senden",
+      "enterpriseMessage": "Guten Tag, ich interessiere mich für den Enterprise-Tarif von Tivvu. Wir sind ein Agenturnetzwerk bzw. ein großes Team und möchten, dass Sie uns kontaktieren, um darüber zu sprechen.\n\nFilialen und Personen im Team: "
     },
     "page": {
       "metaTitle": "Hilfe und Kontakt",

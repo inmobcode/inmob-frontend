@@ -11,7 +11,7 @@ const { name, taxId, address, privacyEmail } = LEGAL_ENTITY;
 const SUMMARY = [
   "Nous utilisons vos données pour vous fournir le service, le facturer, le sécuriser et vous informer de l’essentiel. Nous ne vendons pas de données et n’affichons pas de publicité.",
   "Les données des clients et propriétaires saisies par une agence appartiennent à cette agence : elle décide de leur usage et nous les traitons pour son compte.",
-  "Nous travaillons avec des prestataires d’infrastructure et d’e-mail qui peuvent se trouver hors d’Argentine, sous des contrats qui protègent vos données.",
+  "Nous travaillons avec des prestataires d’infrastructure, d’e-mail et de paiement qui peuvent se trouver hors d’Argentine, sous des contrats qui protègent vos données.",
   "Vous pouvez demander l’accès, la rectification ou la suppression de vos données en écrivant à " +
     privacyEmail +
     ". L’accès est gratuit.",
@@ -83,6 +83,19 @@ const SECTIONS: LegalSection[] = [
             <strong>Agence :</strong> nom, coordonnées, logo, paramètres du site
             et, pour les offres payantes, les données nécessaires à la
             facturation.
+          </li>
+          <li>
+            <strong>Paiement et abonnement :</strong> votre offre, l’état de
+            l’abonnement (en essai, actif ou résilié) et la date de fin de
+            l’essai. Les paiements sont traités par Paddle en tant que vendeur
+            officiel : il reçoit directement votre carte et vos données de
+            facturation, et nous recevons un identifiant de client et
+            d’abonnement, pas le numéro complet de la carte. Nous transmettons à
+            Paddle votre e-mail et le nom de l’agence. Nous conservons aussi une
+            empreinte de la carte utilisée pour l’essai gratuit (un code
+            irréversible calculé à partir du type de carte, des 4 derniers
+            chiffres, de la date d’expiration et du titulaire), uniquement pour
+            proposer un essai par carte.
           </li>
           <li>
             <strong>Utilisation et données techniques :</strong> dates de
@@ -210,6 +223,10 @@ const SECTIONS: LegalSection[] = [
             [
               "Resend",
               "Envoi des e-mails du système : alertes, confirmations et récupération du mot de passe.",
+            ],
+            [
+              "Paddle",
+              "Encaissement de l’essai gratuit et des offres payantes, facturation et taxes, et portail de gestion de l’abonnement. Il agit en tant que vendeur officiel et reçoit directement les données de paiement et de facturation.",
             ],
             [
               "Hébergeurs de l’application web",

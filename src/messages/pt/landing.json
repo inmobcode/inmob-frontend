@@ -1,17 +1,17 @@
 {
   "landing": {
     "plans": {
-      "free": {
-        "name": "Free",
-        "price": "Grátis",
-        "tagline": "Para começar e experimentar o sistema com poucos imóveis.",
+      "trial": {
+        "name": "Free trial",
+        "price": "14 dias grátis",
+        "tagline": "Experimente todo o Tivvu durante duas semanas.",
         "features": {
-          "f1": "Até 5 imóveis",
-          "f2": "1 utilizador",
-          "f3": "Clientes, pedidos e ofertas",
-          "f4": "Site com subdomínio Tivvu, modelo Capa e a sua cor"
+          "f1": "14 dias de acesso completo ao Tivvu",
+          "f2": "Imóveis, equipa, reservas, pagamentos e editor do site sem limites",
+          "f3": "Sem a ferramenta de migração de dados",
+          "f4": "Depois começa o plano Pro (USD 29,99/mês); cancele quando quiser"
         },
-        "cta": "Começar grátis"
+        "cta": "Começar teste gratuito"
       },
       "pro": {
         "name": "Pro",
@@ -25,7 +25,7 @@
           "f4": "Editor completo do site: 5 modelos, 8 tipografias e 6 tipos de bloco",
           "f5": "Tarefas, notificações e funções por equipa"
         },
-        "cta": "Pedir uma demo"
+        "cta": "Escolher Pro"
       },
       "enterprise": {
         "name": "Enterprise",
@@ -59,7 +59,7 @@
       },
       "users": {
         "q": "Quantos utilizadores posso ter?",
-        "a": "No plano Free, um. No Pro e no Enterprise não há limite: junte toda a sua equipa."
+        "a": "Não há limite: no teste gratuito, no Pro e no Enterprise pode juntar toda a sua equipa."
       },
       "site": {
         "q": "Posso personalizar o site da minha agência?",
@@ -221,7 +221,7 @@
     "plansSection": {
       "label": "Planos e perguntas frequentes",
       "claim": "Um plano para cada fase da sua agência.",
-      "rest": "Comece grátis e mude de plano quando precisar.",
+      "rest": "Experimente 14 dias grátis e continue com o Pro quando quiser.",
       "faq": "Perguntas frequentes"
     },
     "demo": {
@@ -364,7 +364,8 @@
       "legal": {
         "help": "Ajuda",
         "terms": "Termos e condições",
-        "privacy": "Privacidade"
+        "privacy": "Privacidade",
+        "refunds": "Política de reembolsos"
       },
       "groups": {
         "product": {

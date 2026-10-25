@@ -1,0 +1,65 @@
+{
+  "billing": {
+    "plans": {
+      "trial": {
+        "name": "Free trial",
+        "price": "14 dias grátis",
+        "description": "Acesso completo ao Tivvu durante duas semanas, sem a ferramenta de migração de dados.",
+        "then": "Depois começa o plano Pro (USD 29,99/mês).",
+        "unavailable": "Já utilizou o teste gratuito."
+      },
+      "pro": {
+        "name": "Pro",
+        "price": "USD 29,99/mês",
+        "description": "Todo o Tivvu, com a ferramenta de migração de dados. A cobrança começa hoje."
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "price": "Vamos conversar",
+        "description": "Para redes de agências ou equipas grandes. Entramos em contacto para montar o plano."
+      },
+      "cardNote": "O pagamento é feito por cartão no Paddle. No teste gratuito não se cobra nada durante 14 dias."
+    },
+    "register": {
+      "pickTitle": "Escolha o seu plano",
+      "pickLead": "Depois cria a sua conta e regista o cartão no Paddle.",
+      "chosen": "Plano escolhido:",
+      "change": "Alterar",
+      "submit": "Continuar para o pagamento"
+    },
+    "subscribe": {
+      "metaTitle": "Escolha o seu plano",
+      "title": "Escolha o seu plano",
+      "lead": "Para usar o Tivvu precisa de um plano ativo. O pagamento é feito no Paddle.",
+      "canceled": "O pagamento não foi concluído. Escolha um plano para tentar novamente.",
+      "failed": "Não foi possível abrir o pagamento. Tente novamente dentro de alguns minutos.",
+      "confirming": "A confirmar o seu pagamento…",
+      "confirmFailed": "Ainda não foi possível confirmar o pagamento. Se já pagou, aguarde um minuto e recarregue a página.",
+      "cardUsed": "Esse cartão já foi usado num teste gratuito, por isso cancelámos este sem lhe cobrar nada. Escolha o plano Pro para continuar.",
+      "notOwner": {
+        "title": "O plano desta agência não está ativo",
+        "text": "A subscrição pertence a cada agência e só o proprietário a pode ativar. Peça-lhe que escolha um plano para voltar a entrar.",
+        "switch": "Entrar noutra das suas agências",
+        "logout": "Terminar sessão"
+      }
+    },
+    "settings": {
+      "title": "Plano e faturação",
+      "description": "O seu plano atual. No Paddle pode mudar o cartão, ver as faturas ou cancelar.",
+      "plan": {
+        "trial": "Free trial",
+        "pro": "Pro"
+      },
+      "status": {
+        "INCOMPLETE": "Pagamento pendente",
+        "TRIALING": "Em teste",
+        "ACTIVE": "Ativo",
+        "PAST_DUE": "Pagamento em atraso",
+        "CANCELED": "Cancelado"
+      },
+      "trialEnds": "O teste gratuito termina a {date} e nessa altura começa o plano Pro.",
+      "manage": "Gerir subscrição",
+      "failed": "Não foi possível abrir o portal de faturação."
+    }
+  }
+}

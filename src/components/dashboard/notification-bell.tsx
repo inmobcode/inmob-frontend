@@ -9,6 +9,8 @@ import {
   Eye,
   Inbox,
   ListChecks,
+  TriangleAlert,
+  Hourglass,
   X,
   type LucideIcon,
 } from "lucide-react";
@@ -43,6 +45,8 @@ const ICONS: Record<NotificationType, LucideIcon> = {
   PAYMENT: CreditCard,
   TASK: ListChecks,
   BOOKING: CalendarCheck,
+  TRIAL_ENDING: Hourglass,
+  PAYMENT_FAILED: TriangleAlert,
 };
 
 const FEED_KEY = ["notifications"];
@@ -71,6 +75,13 @@ function useNotificationText() {
             ? t("taskDue", { title: p.title ?? "", date: date(new Date(`${p.due}T12:00:00`), "dayMonthShort") })
             : (p.title ?? null),
         };
+      case "TRIAL_ENDING":
+        return {
+          title: t("trialEnding", { date: p.date ? date(new Date(`${p.date}T12:00:00`), "long") : "" }),
+          body: t("trialEndingBody"),
+        };
+      case "PAYMENT_FAILED":
+        return { title: t("paymentFailed"), body: t("paymentFailedBody") };
       default:
         return { title: item.title, body: item.body };
     }

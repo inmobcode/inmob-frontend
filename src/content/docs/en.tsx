@@ -727,6 +727,11 @@ function Importer() {
       adminOnly
       intro="Bring your portfolio from another system in one go: a CRM, a portal or a spreadsheet. Nothing is saved until you’ve reviewed what will happen to each property."
     >
+      <DocTip>
+        Import isn’t included in the free trial: it appears when the Pro plan
+        starts.
+      </DocTip>
+
       <DocP>
         It opens from <strong>Import</strong>, in the Properties bar. The process has four steps: choose where you’re
         coming from, bring the file, say what each column is (spreadsheets only) and review.

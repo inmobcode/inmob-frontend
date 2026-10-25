@@ -11,7 +11,7 @@ const { name, taxId, address, privacyEmail } = LEGAL_ENTITY;
 const SUMMARY = [
   "We use your data to provide the service, bill for it, keep it secure and tell you what matters. We don't sell data or show ads.",
   "The data about clients and owners that an agency enters belongs to that agency: it decides how to use it and we process it on its behalf.",
-  "We work with infrastructure and email providers that may be outside Argentina, under contracts that protect your data.",
+  "We work with infrastructure, email and payment providers that may be outside Argentina, under contracts that protect your data.",
   "You can ask us for access to, correction or deletion of your data by writing to " +
     privacyEmail +
     ". Access is free of charge.",
@@ -80,6 +80,17 @@ const SECTIONS: LegalSection[] = [
           <li>
             <strong>Agency:</strong> name, contact details, logo, website
             settings and, on paid plans, the details needed for billing.
+          </li>
+          <li>
+            <strong>Payment and subscription:</strong> your plan, the status of
+            the subscription (trial, active or canceled) and the date the trial
+            ends. Payments are processed by Paddle as merchant of record: it
+            receives your card and billing details directly, and we receive a
+            customer and subscription identifier, not the full card number. We
+            send Paddle your email and the agency name. We also keep a
+            fingerprint of the card used for the free trial (an irreversible
+            code we calculate from the card type, last 4 digits, expiry and
+            holder), only to offer one trial per card.
           </li>
           <li>
             <strong>Usage and technical data:</strong> sign-in dates, relevant
@@ -199,6 +210,10 @@ const SECTIONS: LegalSection[] = [
             [
               "Resend",
               "Sending system emails: notifications, confirmations and password recovery.",
+            ],
+            [
+              "Paddle",
+              "Charging the free trial and paid plans, invoicing and taxes, and the portal to manage the subscription. It acts as merchant of record and receives payment and billing details directly.",
             ],
             [
               "Web application hosting providers",

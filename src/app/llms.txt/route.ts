@@ -27,7 +27,8 @@ const PRODUCT = `## Producto
 const LEGAL = `## Legal
 
 - [Términos y condiciones](${absoluteUrl("/terms")}): condiciones de uso del servicio.
-- [Política de privacidad](${absoluteUrl("/privacy")}): qué datos se tratan, para qué y cómo ejercer derechos.`;
+- [Política de privacidad](${absoluteUrl("/privacy")}): qué datos se tratan, para qué y cómo ejercer derechos.
+- [Política de reembolsos](${absoluteUrl("/refunds")}): cuándo y cómo pedir el reembolso de un pago.`;
 
 const NOTES = `## Notas
 

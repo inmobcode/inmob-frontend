@@ -4,10 +4,16 @@ export const API_URL =
   process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:5000";
 
 let onSessionExpired: (() => void) | null = null;
+let onSubscriptionRequired: (() => void) | null = null;
 
 /** Registered once from the app shell; see `SessionWatcher`. */
 export function setSessionExpiredHandler(handler: (() => void) | null) {
   onSessionExpired = handler;
+}
+
+/** Registered once from the app shell; see `SessionWatcher`. */
+export function setSubscriptionRequiredHandler(handler: (() => void) | null) {
+  onSubscriptionRequired = handler;
 }
 
 export class ApiError extends Error {
@@ -54,6 +60,8 @@ export async function apiFetch<T>(
     // Only an authenticated call expiring counts as a session timeout — a
     // bad-credentials 401 on /login itself never carries a token.
     if (res.status === 401 && token) onSessionExpired?.();
+    // No subscription (no card yet, or it ended): the only place to go is the plan screen.
+    if (res.status === 402 && token) onSubscriptionRequired?.();
     throw new ApiError(body?.message ?? res.statusText, res.status);
   }
 

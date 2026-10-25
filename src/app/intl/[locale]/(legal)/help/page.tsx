@@ -33,12 +33,13 @@ export default async function HelpPage({
   searchParams,
 }: {
   params: Params;
-  searchParams: Promise<{ q?: string | string[] }>;
+  searchParams: Promise<{ q?: string | string[]; plan?: string | string[] }>;
 }) {
   const locale = await localeOf(params);
   const t = await getTranslations({ locale, namespace: "help.page" });
   const tTopics = await getTranslations({ locale, namespace: "help.topics" });
-  const { q } = await searchParams;
+  const tContact = await getTranslations({ locale, namespace: "help.contact" });
+  const { q, plan } = await searchParams;
   const initialQuery = (Array.isArray(q) ? q[0] : q)?.slice(0, 80) ?? "";
   return (
     <main className="flex-1">
@@ -100,7 +101,7 @@ export default async function HelpPage({
           </div>
 
           <div className="lg:col-span-6 lg:col-start-7">
-            <ContactForm />
+            <ContactForm defaultMessage={(Array.isArray(plan) ? plan[0] : plan) === "enterprise" ? tContact("enterpriseMessage") : undefined} />
           </div>
         </div>
       </section>

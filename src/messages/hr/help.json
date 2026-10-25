@@ -180,7 +180,8 @@
       "name": "Vaše ime",
       "message": "Kako vam možemo pomoći",
       "sending": "Slanje…",
-      "submit": "Pošalji poruku"
+      "submit": "Pošalji poruku",
+      "enterpriseMessage": "Pozdrav, zanima me paket Enterprise u Tivvuu. Mi smo mreža agencija ili veliki tim i voljeli bismo da nas kontaktirate kako bismo razgovarali.\n\nBroj poslovnica i osoba u timu: "
     },
     "page": {
       "metaTitle": "Pomoć i kontakt",

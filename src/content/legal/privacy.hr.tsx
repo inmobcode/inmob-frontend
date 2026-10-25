@@ -11,7 +11,7 @@ const { name, taxId, address, privacyEmail } = LEGAL_ENTITY;
 const SUMMARY = [
   "Vaše podatke koristimo da bismo vam pružili uslugu, naplatili je, održali je sigurnom i obavijestili vas o važnome. Ne prodajemo podatke i ne prikazujemo oglase.",
   "Podaci o klijentima i vlasnicima koje unese agencija pripadaju toj agenciji: ona odlučuje kako ih koristi, a mi ih obrađujemo u njezino ime.",
-  "Surađujemo s pružateljima infrastrukture i e-pošte koji mogu biti izvan Argentine, uz ugovore koji štite vaše podatke.",
+  "Surađujemo s pružateljima infrastrukture, e-pošte i plaćanja koji mogu biti izvan Argentine, uz ugovore koji štite vaše podatke.",
   "Pristup, ispravak ili brisanje svojih podataka možete zatražiti pisanjem na " +
     privacyEmail +
     ". Pristup je besplatan.",
@@ -78,6 +78,17 @@ const SECTIONS: LegalSection[] = [
           <li>
             <strong>Agencija:</strong> naziv, kontakt podaci, logotip, postavke
             stranice i, kod plaćenih paketa, podaci potrebni za naplatu.
+          </li>
+          <li>
+            <strong>Plaćanje i pretplata:</strong> vaš paket, status pretplate
+            (probno razdoblje, aktivna ili otkazana) i datum završetka probnog
+            razdoblja. Plaćanja obrađuje Paddle kao merchant of record: karticu
+            i podatke za naplatu prima izravno, a mi primamo identifikator kupca
+            i pretplate, ne puni broj kartice. Paddleu šaljemo vašu e-poštu i
+            naziv agencije. Također čuvamo otisak kartice korištene u besplatnom
+            probnom razdoblju (nepovratan kod koji izračunavamo iz vrste
+            kartice, posljednja 4 znamenke, valjanosti i vlasnika), samo kako
+            bismo ponudili jedno probno razdoblje po kartici.
           </li>
           <li>
             <strong>Korištenje i tehnički podaci:</strong> datumi prijave,
@@ -196,6 +207,10 @@ const SECTIONS: LegalSection[] = [
             [
               "Resend",
               "Slanje sistemskih e-poruka: obavijesti, potvrde i oporavak lozinke.",
+            ],
+            [
+              "Paddle",
+              "Naplata besplatnog probnog razdoblja i plaćenih paketa, izdavanje računa i porezi te portal za upravljanje pretplatom. Djeluje kao merchant of record i izravno prima podatke o plaćanju i naplati.",
             ],
             [
               "Pružatelji hostinga web-aplikacije",

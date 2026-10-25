@@ -145,7 +145,11 @@
         "offerViewedAnon": "Vaš klijent je otvorio ponudu",
         "payment": "Evidentirana uplata: {amount}",
         "task": "Dodijeljen vam je zadatak",
-        "taskDue": "{title} · do {date}"
+        "taskDue": "{title} · do {date}",
+        "trialEnding": "Vaše besplatno probno razdoblje završava {date}",
+        "trialEndingBody": "Zatim počinje paket Pro. Možete otkazati u Postavkama.",
+        "paymentFailed": "Nismo mogli naplatiti vašu pretplatu",
+        "paymentFailedBody": "Ažurirajte karticu u Postavkama kako ne biste izgubili pristup."
       }
     }
   }

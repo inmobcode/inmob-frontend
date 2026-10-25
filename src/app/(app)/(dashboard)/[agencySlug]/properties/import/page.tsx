@@ -1,5 +1,10 @@
+import { ImportGate } from "@/components/import/import-gate";
 import { ImportWizard } from "@/components/import/import-wizard";
 
 export default function ImportPropertiesPage() {
-  return <ImportWizard />;
+  return (
+    <ImportGate>
+      <ImportWizard />
+    </ImportGate>
+  );
 }

@@ -1,17 +1,17 @@
 {
   "landing": {
     "plans": {
-      "free": {
-        "name": "Free",
-        "price": "Free",
-        "tagline": "To get started and try the system with a few properties.",
+      "trial": {
+        "name": "Free trial",
+        "price": "14 days free",
+        "tagline": "Try all of Tivvu for two weeks.",
         "features": {
-          "f1": "Up to 5 properties",
-          "f2": "1 user",
-          "f3": "Clients, inquiries and offers",
-          "f4": "Website on a Tivvu subdomain, Cover template and your colour"
+          "f1": "14 days of full access to Tivvu",
+          "f2": "Unlimited properties, team, bookings, payments and site editor",
+          "f3": "Without the data migration tool",
+          "f4": "Then the Pro plan starts (USD 29.99/month); cancel any time"
         },
-        "cta": "Start for free"
+        "cta": "Start free trial"
       },
       "pro": {
         "name": "Pro",
@@ -25,7 +25,7 @@
           "f4": "Full website editor: 5 templates, 8 typefaces and 6 block types",
           "f5": "Tasks, notifications and team roles"
         },
-        "cta": "Request a demo"
+        "cta": "Choose Pro"
       },
       "enterprise": {
         "name": "Enterprise",
@@ -59,7 +59,7 @@
       },
       "users": {
         "q": "How many users can I have?",
-        "a": "One on the Free plan. Pro and Enterprise have no limit: bring your whole team."
+        "a": "There is no limit: on the free trial, Pro and Enterprise you can bring your whole team."
       },
       "site": {
         "q": "Can I customise my agency's website?",
@@ -221,7 +221,7 @@
     "plansSection": {
       "label": "Plans and frequently asked questions",
       "claim": "A plan for every stage of your agency.",
-      "rest": "Start for free and upgrade when you need it.",
+      "rest": "Try it free for 14 days, then carry on with Pro whenever you like.",
       "faq": "Frequently asked questions"
     },
     "demo": {
@@ -364,7 +364,8 @@
       "legal": {
         "help": "Help",
         "terms": "Terms and conditions",
-        "privacy": "Privacy"
+        "privacy": "Privacy",
+        "refunds": "Refund Policy"
       },
       "groups": {
         "product": {

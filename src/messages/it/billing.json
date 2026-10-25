@@ -1,0 +1,65 @@
+{
+  "billing": {
+    "plans": {
+      "trial": {
+        "name": "Free trial",
+        "price": "14 giorni gratis",
+        "description": "Accesso completo a Tivvu per due settimane, senza lo strumento di migrazione dei dati.",
+        "then": "Poi parte il piano Pro (29,99 USD/mese).",
+        "unavailable": "Hai già usato la prova gratuita."
+      },
+      "pro": {
+        "name": "Pro",
+        "price": "29,99 USD/mese",
+        "description": "Tutto Tivvu, con lo strumento di migrazione dei dati. L’addebito parte da oggi."
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "price": "Parliamone",
+        "description": "Per reti di agenzie o team numerosi. Ti scriviamo per costruire il piano."
+      },
+      "cardNote": "Il pagamento avviene con carta su Paddle. Nella prova gratuita non si addebita nulla per 14 giorni."
+    },
+    "register": {
+      "pickTitle": "Scegli il tuo piano",
+      "pickLead": "Poi crei il tuo account e inserisci la carta su Paddle.",
+      "chosen": "Piano scelto:",
+      "change": "Cambia",
+      "submit": "Continua al pagamento"
+    },
+    "subscribe": {
+      "metaTitle": "Scegli il tuo piano",
+      "title": "Scegli il tuo piano",
+      "lead": "Per usare Tivvu serve un piano attivo. Il pagamento avviene su Paddle.",
+      "canceled": "Il pagamento non è stato completato. Scegli un piano per riprovare.",
+      "failed": "Non siamo riusciti ad aprire il pagamento. Riprova tra qualche minuto.",
+      "confirming": "Conferma del pagamento in corso…",
+      "confirmFailed": "Non siamo ancora riusciti a confermare il pagamento. Se hai già pagato, attendi un minuto e ricarica la pagina.",
+      "cardUsed": "Quella carta è già stata usata per una prova gratuita, quindi abbiamo annullato questa senza addebitarti nulla. Scegli il piano Pro per continuare.",
+      "notOwner": {
+        "title": "Il piano di questa agenzia non è attivo",
+        "text": "L’abbonamento appartiene a ciascuna agenzia e solo il titolare può attivarlo. Chiedi al titolare di scegliere un piano per poter rientrare.",
+        "switch": "Entra in un’altra delle tue agenzie",
+        "logout": "Esci"
+      }
+    },
+    "settings": {
+      "title": "Piano e fatturazione",
+      "description": "Il tuo piano attuale. Da Paddle cambi la carta, vedi le fatture o disdici.",
+      "plan": {
+        "trial": "Free trial",
+        "pro": "Pro"
+      },
+      "status": {
+        "INCOMPLETE": "Pagamento in sospeso",
+        "TRIALING": "In prova",
+        "ACTIVE": "Attivo",
+        "PAST_DUE": "Pagamento scaduto",
+        "CANCELED": "Annullato"
+      },
+      "trialEnds": "La prova gratuita termina il {date} e da lì parte il piano Pro.",
+      "manage": "Gestisci abbonamento",
+      "failed": "Non siamo riusciti ad aprire il portale di fatturazione."
+    }
+  }
+}

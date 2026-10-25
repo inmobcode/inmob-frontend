@@ -91,7 +91,7 @@ export default async function Home({ params }: { params: Params }) {
               description: DESCRIPTION,
               publisher: { "@id": `${SITE_URL}/#organization` },
               // Only the plans with a number; "Hablemos" is not a price.
-              offers: plansIn(loose).filter((plan) => plan.amount).map((plan) =>
+              offers: plansIn(loose, locale).filter((plan) => plan.amount).map((plan) =>
                 compact({
                   "@type": "Offer",
                   name: plan.name,

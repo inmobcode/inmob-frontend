@@ -1,0 +1,65 @@
+{
+  "billing": {
+    "plans": {
+      "trial": {
+        "name": "Free trial",
+        "price": "14 Tage kostenlos",
+        "description": "Zwei Wochen voller Zugriff auf Tivvu, ohne das Tool zur Datenmigration.",
+        "then": "Danach startet der Pro-Tarif (29,99 USD/Monat).",
+        "unavailable": "Sie haben die kostenlose Testphase bereits genutzt."
+      },
+      "pro": {
+        "name": "Pro",
+        "price": "29,99 USD/Monat",
+        "description": "Ganz Tivvu, mit dem Tool zur Datenmigration. Die Abrechnung beginnt heute."
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "price": "Sprechen wir",
+        "description": "Für Agenturnetzwerke oder große Teams. Wir melden uns, um den Tarif zu gestalten."
+      },
+      "cardNote": "Die Zahlung erfolgt per Karte über Paddle. In der kostenlosen Testphase wird 14 Tage lang nichts abgebucht."
+    },
+    "register": {
+      "pickTitle": "Wählen Sie Ihren Tarif",
+      "pickLead": "Danach legen Sie Ihr Konto an und hinterlegen Ihre Karte bei Paddle.",
+      "chosen": "Gewählter Tarif:",
+      "change": "Ändern",
+      "submit": "Weiter zur Zahlung"
+    },
+    "subscribe": {
+      "metaTitle": "Wählen Sie Ihren Tarif",
+      "title": "Wählen Sie Ihren Tarif",
+      "lead": "Um Tivvu zu nutzen, brauchen Sie einen aktiven Tarif. Die Zahlung läuft über Paddle.",
+      "canceled": "Die Zahlung wurde nicht abgeschlossen. Wählen Sie einen Tarif, um es erneut zu versuchen.",
+      "failed": "Die Zahlung konnte nicht geöffnet werden. Versuchen Sie es in ein paar Minuten erneut.",
+      "confirming": "Ihre Zahlung wird bestätigt …",
+      "confirmFailed": "Die Zahlung konnte noch nicht bestätigt werden. Wenn Sie bereits bezahlt haben, warten Sie eine Minute und laden Sie die Seite neu.",
+      "cardUsed": "Diese Karte wurde bereits für eine kostenlose Testphase verwendet, deshalb haben wir diese ohne Kosten beendet. Wählen Sie den Pro-Tarif, um fortzufahren.",
+      "notOwner": {
+        "title": "Der Tarif dieser Agentur ist nicht aktiv",
+        "text": "Das Abonnement gehört zur jeweiligen Agentur und nur deren Inhaberin oder Inhaber kann es aktivieren. Bitten Sie sie oder ihn, einen Tarif zu wählen, damit Sie wieder hineinkommen.",
+        "switch": "Zu einer anderen Ihrer Agenturen wechseln",
+        "logout": "Abmelden"
+      }
+    },
+    "settings": {
+      "title": "Tarif und Abrechnung",
+      "description": "Ihr aktueller Tarif. Bei Paddle ändern Sie die Karte, sehen Rechnungen oder kündigen.",
+      "plan": {
+        "trial": "Free trial",
+        "pro": "Pro"
+      },
+      "status": {
+        "INCOMPLETE": "Zahlung ausstehend",
+        "TRIALING": "In der Testphase",
+        "ACTIVE": "Aktiv",
+        "PAST_DUE": "Zahlung überfällig",
+        "CANCELED": "Gekündigt"
+      },
+      "trialEnds": "Die kostenlose Testphase endet am {date}, dann startet der Pro-Tarif.",
+      "manage": "Abonnement verwalten",
+      "failed": "Das Abrechnungsportal konnte nicht geöffnet werden."
+    }
+  }
+}

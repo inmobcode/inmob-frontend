@@ -9,6 +9,14 @@ import { content as privacyFr } from "./privacy.fr";
 import { content as privacyHr } from "./privacy.hr";
 import { content as privacyIt } from "./privacy.it";
 import { content as privacyPt } from "./privacy.pt";
+import { content as refundsDe } from "./refunds.de";
+import { content as refundsEl } from "./refunds.el";
+import { content as refundsEn } from "./refunds.en";
+import { content as refundsEs } from "./refunds.es";
+import { content as refundsFr } from "./refunds.fr";
+import { content as refundsHr } from "./refunds.hr";
+import { content as refundsIt } from "./refunds.it";
+import { content as refundsPt } from "./refunds.pt";
 import { content as termsDe } from "./terms.de";
 import { content as termsEl } from "./terms.el";
 import { content as termsEn } from "./terms.en";
@@ -24,11 +32,12 @@ import { content as termsPt } from "./terms.pt";
  * message keys. Every language has its own version; the Spanish one rules, and
  * each translation says so in its intro.
  */
-const DOCUMENTS: Record<"terms" | "privacy", Record<Locale, LegalContent>> = {
+const DOCUMENTS: Record<"terms" | "privacy" | "refunds", Record<Locale, LegalContent>> = {
   terms: { es: termsEs, en: termsEn, pt: termsPt, fr: termsFr, de: termsDe, it: termsIt, el: termsEl, hr: termsHr },
+  refunds: { es: refundsEs, en: refundsEn, pt: refundsPt, fr: refundsFr, de: refundsDe, it: refundsIt, el: refundsEl, hr: refundsHr },
   privacy: { es: privacyEs, en: privacyEn, pt: privacyPt, fr: privacyFr, de: privacyDe, it: privacyIt, el: privacyEl, hr: privacyHr },
 };
 
-export function legalContent(document: "terms" | "privacy", locale: Locale): LegalContent {
+export function legalContent(document: "terms" | "privacy" | "refunds", locale: Locale): LegalContent {
   return DOCUMENTS[document][locale];
 }

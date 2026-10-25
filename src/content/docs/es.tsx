@@ -731,6 +731,11 @@ function Importer() {
       adminOnly
       intro="Traé tu cartera desde otro sistema de una sola vez: un CRM, un portal o una planilla. Nada se guarda hasta que revisás qué va a pasar con cada propiedad."
     >
+      <DocTip>
+        La importación no está incluida en la prueba gratis: aparece cuando
+        empieza el plan Pro.
+      </DocTip>
+
       <DocP>
         Se abre desde <strong>Importar</strong>, en la barra de Propiedades. El proceso tiene cuatro pasos: elegir de dónde
         venís, traer el archivo, decir qué es cada columna (solo en planillas) y revisar.

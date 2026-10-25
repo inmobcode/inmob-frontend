@@ -145,7 +145,11 @@
         "offerViewedAnon": "Tu cliente abrió la oferta",
         "payment": "Pago registrado: {amount}",
         "task": "Te asignaron una tarea",
-        "taskDue": "{title} · para el {date}"
+        "taskDue": "{title} · para el {date}",
+        "trialEnding": "Tu prueba gratis termina el {date}",
+        "trialEndingBody": "Después empieza el plan Pro. Podés cancelar desde Ajustes.",
+        "paymentFailed": "No pudimos cobrar tu suscripción",
+        "paymentFailedBody": "Actualizá la tarjeta desde Ajustes para no perder el acceso."
       }
     }
   }

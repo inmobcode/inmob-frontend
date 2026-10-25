@@ -1,17 +1,17 @@
 {
   "landing": {
     "plans": {
-      "free": {
-        "name": "Free",
-        "price": "Kostenlos",
-        "tagline": "Zum Einstieg und um das System mit wenigen Objekten zu testen.",
+      "trial": {
+        "name": "Free trial",
+        "price": "14 Tage kostenlos",
+        "tagline": "Testen Sie ganz Tivvu zwei Wochen lang.",
         "features": {
-          "f1": "Bis zu 5 Objekte",
-          "f2": "1 Benutzer",
-          "f3": "Kunden, Anfragen und Angebote",
-          "f4": "Website auf einer Tivvu-Subdomain, Vorlage Titelbild und Ihre Farbe"
+          "f1": "14 Tage voller Zugriff auf Tivvu",
+          "f2": "Unbegrenzt Objekte, Team, Buchungen, Zahlungen und Website-Editor",
+          "f3": "Ohne das Tool zur Datenmigration",
+          "f4": "Danach startet der Pro-Tarif (29,99 USD/Monat); jederzeit kündbar"
         },
-        "cta": "Kostenlos starten"
+        "cta": "Kostenlos testen"
       },
       "pro": {
         "name": "Pro",
@@ -25,7 +25,7 @@
           "f4": "Vollständiger Website-Editor: 5 Vorlagen, 8 Schriften und 6 Blocktypen",
           "f5": "Aufgaben, Benachrichtigungen und Teamrollen"
         },
-        "cta": "Demo anfragen"
+        "cta": "Pro wählen"
       },
       "enterprise": {
         "name": "Enterprise",
@@ -59,7 +59,7 @@
       },
       "users": {
         "q": "Wie viele Benutzer kann ich haben?",
-        "a": "Im Free-Tarif einen. In Pro und Enterprise gibt es keine Begrenzung: Holen Sie Ihr ganzes Team dazu."
+        "a": "Es gibt keine Begrenzung: In der kostenlosen Testphase, in Pro und in Enterprise holen Sie Ihr ganzes Team dazu."
       },
       "site": {
         "q": "Kann ich die Website meiner Agentur anpassen?",
@@ -221,7 +221,7 @@
     "plansSection": {
       "label": "Tarife und häufige Fragen",
       "claim": "Ein Tarif für jede Phase Ihrer Agentur.",
-      "rest": "Starten Sie kostenlos und wechseln Sie, wenn Sie mehr brauchen.",
+      "rest": "Testen Sie 14 Tage kostenlos und machen Sie mit Pro weiter, wann Sie möchten.",
       "faq": "Häufige Fragen"
     },
     "demo": {
@@ -364,7 +364,8 @@
       "legal": {
         "help": "Hilfe",
         "terms": "AGB",
-        "privacy": "Datenschutz"
+        "privacy": "Datenschutz",
+        "refunds": "Erstattungsrichtlinie"
       },
       "groups": {
         "product": {

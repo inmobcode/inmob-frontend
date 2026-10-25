@@ -1,0 +1,65 @@
+{
+  "billing": {
+    "plans": {
+      "trial": {
+        "name": "Free trial",
+        "price": "14 dana besplatno",
+        "description": "Puni pristup Tivvuu dva tjedna, bez alata za migraciju podataka.",
+        "then": "Zatim počinje paket Pro (29,99 USD/mjesečno).",
+        "unavailable": "Već ste iskoristili besplatno probno razdoblje."
+      },
+      "pro": {
+        "name": "Pro",
+        "price": "29,99 USD/mjesečno",
+        "description": "Cijeli Tivvu, s alatom za migraciju podataka. Naplata počinje danas."
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "price": "Razgovarajmo",
+        "description": "Za mreže agencija ili velike timove. Javit ćemo vam se kako bismo složili paket."
+      },
+      "cardNote": "Plaćanje se obavlja karticom putem Paddlea. U besplatnom probnom razdoblju 14 dana ništa se ne naplaćuje."
+    },
+    "register": {
+      "pickTitle": "Odaberite svoj paket",
+      "pickLead": "Zatim izradite račun i unesite karticu na Paddleu.",
+      "chosen": "Odabrani paket:",
+      "change": "Promijeni",
+      "submit": "Nastavi na plaćanje"
+    },
+    "subscribe": {
+      "metaTitle": "Odaberite svoj paket",
+      "title": "Odaberite svoj paket",
+      "lead": "Za korištenje Tivvua potreban vam je aktivan paket. Plaćanje se obavlja na Paddleu.",
+      "canceled": "Plaćanje nije dovršeno. Odaberite paket da pokušate ponovno.",
+      "failed": "Nismo mogli otvoriti plaćanje. Pokušajte ponovno za nekoliko minuta.",
+      "confirming": "Potvrđujemo vaše plaćanje…",
+      "confirmFailed": "Još nismo mogli potvrditi plaćanje. Ako ste već platili, pričekajte minutu i ponovno učitajte stranicu.",
+      "cardUsed": "Ta kartica već je korištena za besplatno probno razdoblje pa smo ovo otkazali bez naplate. Odaberite paket Pro za nastavak.",
+      "notOwner": {
+        "title": "Paket ove agencije nije aktivan",
+        "text": "Pretplata pripada svakoj agenciji i samo je vlasnik može aktivirati. Zamolite vlasnika da odabere paket kako biste se mogli vratiti.",
+        "switch": "Idi u drugu od svojih agencija",
+        "logout": "Odjava"
+      }
+    },
+    "settings": {
+      "title": "Paket i naplata",
+      "description": "Vaš trenutni paket. Na Paddleu mijenjate karticu, pregledavate račune ili otkazujete.",
+      "plan": {
+        "trial": "Free trial",
+        "pro": "Pro"
+      },
+      "status": {
+        "INCOMPLETE": "Čeka se plaćanje",
+        "TRIALING": "U probnom razdoblju",
+        "ACTIVE": "Aktivan",
+        "PAST_DUE": "Plaćanje kasni",
+        "CANCELED": "Otkazan"
+      },
+      "trialEnds": "Besplatno probno razdoblje završava {date}, a tada počinje paket Pro.",
+      "manage": "Upravljaj pretplatom",
+      "failed": "Nismo mogli otvoriti portal za naplatu."
+    }
+  }
+}

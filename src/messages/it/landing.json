@@ -1,17 +1,17 @@
 {
   "landing": {
     "plans": {
-      "free": {
-        "name": "Free",
-        "price": "Gratis",
-        "tagline": "Per iniziare e provare il sistema con pochi immobili.",
+      "trial": {
+        "name": "Free trial",
+        "price": "14 giorni gratis",
+        "tagline": "Prova tutto Tivvu per due settimane.",
         "features": {
-          "f1": "Fino a 5 immobili",
-          "f2": "1 utente",
-          "f3": "Clienti, richieste e offerte",
-          "f4": "Sito su sottodominio Tivvu, modello Copertina e il tuo colore"
+          "f1": "14 giorni di accesso completo a Tivvu",
+          "f2": "Immobili, team, prenotazioni, incassi ed editor del sito senza limiti",
+          "f3": "Senza lo strumento di migrazione dei dati",
+          "f4": "Poi parte il piano Pro (29,99 USD/mese); disdici quando vuoi"
         },
-        "cta": "Inizia gratis"
+        "cta": "Inizia la prova gratuita"
       },
       "pro": {
         "name": "Pro",
@@ -25,7 +25,7 @@
           "f4": "Editor completo del sito: 5 modelli, 8 font e 6 tipi di blocco",
           "f5": "Attività, notifiche e ruoli del team"
         },
-        "cta": "Richiedi una demo"
+        "cta": "Scegli Pro"
       },
       "enterprise": {
         "name": "Enterprise",
@@ -59,7 +59,7 @@
       },
       "users": {
         "q": "Quanti utenti posso avere?",
-        "a": "Nel piano Free, uno. In Pro ed Enterprise non ci sono limiti: aggiungi tutto il tuo team."
+        "a": "Non ci sono limiti: nella prova gratuita, in Pro e in Enterprise aggiungi tutto il tuo team."
       },
       "site": {
         "q": "Posso personalizzare il sito della mia agenzia?",
@@ -221,7 +221,7 @@
     "plansSection": {
       "label": "Piani e domande frequenti",
       "claim": "Un piano per ogni fase della tua agenzia.",
-      "rest": "Inizia gratis e cambia piano quando ti serve.",
+      "rest": "Prova 14 giorni gratis e continua con Pro quando vuoi.",
       "faq": "Domande frequenti"
     },
     "demo": {
@@ -364,7 +364,8 @@
       "legal": {
         "help": "Assistenza",
         "terms": "Termini e condizioni",
-        "privacy": "Privacy"
+        "privacy": "Privacy",
+        "refunds": "Politica di rimborso"
       },
       "groups": {
         "product": {

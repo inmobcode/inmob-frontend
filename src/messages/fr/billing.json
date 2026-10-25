@@ -1,0 +1,65 @@
+{
+  "billing": {
+    "plans": {
+      "trial": {
+        "name": "Free trial",
+        "price": "14 jours gratuits",
+        "description": "Accès complet à Tivvu pendant deux semaines, sans l’outil de migration des données.",
+        "then": "Ensuite, l’offre Pro commence (29,99 USD/mois).",
+        "unavailable": "Vous avez déjà utilisé l’essai gratuit."
+      },
+      "pro": {
+        "name": "Pro",
+        "price": "29,99 USD/mois",
+        "description": "Tout Tivvu, avec l’outil de migration des données. Le paiement commence aujourd’hui."
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "price": "Parlons-en",
+        "description": "Pour les réseaux d’agences ou les grandes équipes. Nous vous écrivons pour définir l’offre."
+      },
+      "cardNote": "Le paiement se fait par carte sur Paddle. L’essai gratuit ne coûte rien pendant 14 jours."
+    },
+    "register": {
+      "pickTitle": "Choisissez votre offre",
+      "pickLead": "Vous créez ensuite votre compte et ajoutez votre carte sur Paddle.",
+      "chosen": "Offre choisie :",
+      "change": "Modifier",
+      "submit": "Continuer vers le paiement"
+    },
+    "subscribe": {
+      "metaTitle": "Choisissez votre offre",
+      "title": "Choisissez votre offre",
+      "lead": "Pour utiliser Tivvu, il vous faut une offre active. Le paiement se fait sur Paddle.",
+      "canceled": "Le paiement n’a pas abouti. Choisissez une offre pour réessayer.",
+      "failed": "Impossible d’ouvrir le paiement. Réessayez dans quelques minutes.",
+      "confirming": "Confirmation de votre paiement…",
+      "confirmFailed": "Nous n’avons pas encore pu confirmer le paiement. Si vous avez déjà payé, patientez une minute et rechargez la page.",
+      "cardUsed": "Cette carte a déjà servi pour un essai gratuit : nous avons annulé celui-ci sans rien vous facturer. Choisissez l’offre Pro pour continuer.",
+      "notOwner": {
+        "title": "L’offre de cette agence n’est pas active",
+        "text": "L’abonnement appartient à chaque agence et seul son propriétaire peut l’activer. Demandez-lui de choisir une offre pour pouvoir revenir.",
+        "switch": "Accéder à une autre de vos agences",
+        "logout": "Se déconnecter"
+      }
+    },
+    "settings": {
+      "title": "Offre et facturation",
+      "description": "Votre offre actuelle. Sur Paddle, vous changez de carte, consultez les factures ou résiliez.",
+      "plan": {
+        "trial": "Free trial",
+        "pro": "Pro"
+      },
+      "status": {
+        "INCOMPLETE": "Paiement en attente",
+        "TRIALING": "En essai",
+        "ACTIVE": "Actif",
+        "PAST_DUE": "Paiement en retard",
+        "CANCELED": "Résilié"
+      },
+      "trialEnds": "L’essai gratuit se termine le {date} et l’offre Pro commence alors.",
+      "manage": "Gérer l’abonnement",
+      "failed": "Impossible d’ouvrir le portail de facturation."
+    }
+  }
+}

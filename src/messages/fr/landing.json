@@ -1,17 +1,17 @@
 {
   "landing": {
     "plans": {
-      "free": {
-        "name": "Free",
-        "price": "Gratuit",
-        "tagline": "Pour démarrer et tester le système avec quelques biens.",
+      "trial": {
+        "name": "Free trial",
+        "price": "14 jours gratuits",
+        "tagline": "Essayez tout Tivvu pendant deux semaines.",
         "features": {
-          "f1": "Jusqu’à 5 biens",
-          "f2": "1 utilisateur",
-          "f3": "Clients, demandes et offres",
-          "f4": "Site sur un sous-domaine Tivvu, modèle Couverture et votre couleur"
+          "f1": "14 jours d’accès complet à Tivvu",
+          "f2": "Biens, équipe, réservations, encaissements et éditeur du site sans limite",
+          "f3": "Sans l’outil de migration des données",
+          "f4": "Ensuite, l’offre Pro commence (29,99 USD/mois) ; annulable à tout moment"
         },
-        "cta": "Commencer gratuitement"
+        "cta": "Commencer l’essai gratuit"
       },
       "pro": {
         "name": "Pro",
@@ -25,7 +25,7 @@
           "f4": "Éditeur de site complet : 5 modèles, 8 typographies et 6 types de blocs",
           "f5": "Tâches, notifications et rôles d’équipe"
         },
-        "cta": "Demander une démo"
+        "cta": "Choisir Pro"
       },
       "enterprise": {
         "name": "Enterprise",
@@ -59,7 +59,7 @@
       },
       "users": {
         "q": "Combien d’utilisateurs puis-je avoir ?",
-        "a": "Un avec l’offre Free. Pro et Enterprise sont illimités : ajoutez toute votre équipe."
+        "a": "Il n’y a pas de limite : avec l’essai gratuit, Pro et Enterprise, ajoutez toute votre équipe."
       },
       "site": {
         "q": "Puis-je personnaliser le site de mon agence ?",
@@ -221,7 +221,7 @@
     "plansSection": {
       "label": "Offres et questions fréquentes",
       "claim": "Une offre pour chaque étape de votre agence.",
-      "rest": "Commencez gratuitement et passez à l’offre supérieure quand vous en avez besoin.",
+      "rest": "Essayez 14 jours gratuitement, puis poursuivez avec Pro quand vous le souhaitez.",
       "faq": "Questions fréquentes"
     },
     "demo": {
@@ -364,7 +364,8 @@
       "legal": {
         "help": "Aide",
         "terms": "Conditions générales",
-        "privacy": "Confidentialité"
+        "privacy": "Confidentialité",
+        "refunds": "Politique de remboursement"
       },
       "groups": {
         "product": {

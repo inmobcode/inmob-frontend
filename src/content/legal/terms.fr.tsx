@@ -275,26 +275,45 @@ const SECTIONS: LegalSection[] = [
     id: "planes-y-pagos",
     title: "Offres, prix et paiements",
     brief:
-      "Facturé d’avance et renouvelé automatiquement. Nous prévenons 30 jours avant de changer les prix ; si un paiement échoue, vous avez 15 jours pour régulariser.",
+      "L’essai gratuit dure 14 jours, puis l’offre Pro commence automatiquement. La facturation se fait d’avance ; nous prévenons 30 jours avant de changer les prix et, si un paiement échoue, vous avez 15 jours pour régulariser.",
     content: (
       <>
         <p>
-          Tivvu propose une offre gratuite avec des limites (par exemple, nombre
-          de biens et d’Utilisateurs) et des offres payantes. Les prix, limites
-          et fonctionnalités en vigueur de chaque offre sont publiés sur{" "}
+          Tivvu propose un essai gratuit, l’offre Pro et des offres Enterprise
+          sur mesure. Il n’existe pas d’offre gratuite permanente. Les prix,
+          limites et fonctionnalités en vigueur sont publiés sur{" "}
           <LegalLink href="/#planes">tivvu.app</LegalLink> ou convenus par écrit
           pour les offres sur mesure.
         </p>
         <ul>
           <li>
-            Les offres payantes sont facturées d’avance chaque mois (ou pour la
-            période convenue) et se renouvellent automatiquement jusqu’à ce que
-            l’Agence les résilie.
+            Essai gratuit. Il dure 14 jours et donne un accès complet au Service,
+            à l’exception de l’outil de migration des données (import de biens),
+            qui n’est pas inclus. Il faut enregistrer une carte pour le
+            commencer ; rien n’est débité pendant l’essai. À la fin des 14 jours,
+            l’offre Pro commence automatiquement et sa première période est
+            facturée, sauf si l’Agence résilie avant la fin de l’essai. L’essai
+            gratuit n’est proposé qu’une fois par Agence et par carte ; si une
+            carte a déjà servi pour un autre essai, nous pouvons annuler le
+            nouveau sans facturation.
           </li>
           <li>
-            Les prix publiés en dollars américains peuvent être réglés en pesos
-            argentins au taux de change indiqué au moment du paiement. Les taxes
-            applicables s’ajoutent au prix sauf indication contraire.
+            Offre Pro. Elle est facturée d’avance chaque mois, au prix publié
+            sur tivvu.app, et se renouvelle automatiquement jusqu’à ce que
+            l’Agence la résilie. Elle inclut l’outil de migration des données.
+          </li>
+          <li>
+            Offre Enterprise. Elle se contracte sur mesure : ses conditions, son
+            prix et sa facturation sont convenus par écrit avec Tivvu.
+          </li>
+          <li>
+            Les paiements sont traités par Paddle, qui agit en tant que vendeur
+            officiel (merchant of record) et revendeur du Service : Paddle
+            encaisse, émet la facture, calcule et perçoit les taxes applicables,
+            et ses conditions d’achat régissent cette transaction. Tivvu ne
+            conserve pas le numéro complet de votre carte. Les prix sont
+            exprimés en dollars américains ; votre banque peut appliquer une
+            conversion de devise ou ses propres frais.
           </li>
           <li>
             Si nous modifions le prix de votre offre, nous vous prévenons par
@@ -303,10 +322,10 @@ const SECTIONS: LegalSection[] = [
             vous pouvez résilier l’offre avant son entrée en vigueur.
           </li>
           <li>
-            Si un paiement n’aboutit pas, nous vous prévenons et vous disposez de
-            15 jours calendaires pour régulariser. Passé ce délai, nous pouvons
-            basculer le compte sur l’offre gratuite ou le suspendre. Vos données
-            ne sont pas supprimées du fait de la suspension.
+            Si un paiement n’aboutit pas, nous vous prévenons et vous disposez
+            de 15 jours calendaires pour régulariser. Passé ce délai, nous
+            pouvons suspendre le compte. Vos données ne sont pas supprimées du
+            fait de la suspension.
           </li>
         </ul>
       </>
@@ -316,7 +335,7 @@ const SECTIONS: LegalSection[] = [
     id: "baja",
     title: "Résiliation et droit de rétractation",
     brief:
-      "Vous pouvez résilier quand vous voulez. Cela prend effet à la fin de la période payée, sans remboursement au prorata, sauf disposition légale contraire.",
+      "Vous pouvez résilier à tout moment, avec effet à la fin de la période payée. Vous pouvez demander un remboursement dans les 14 jours suivant chaque prélèvement.",
     content: (
       <>
         <p>
@@ -328,9 +347,11 @@ const SECTIONS: LegalSection[] = [
           identifiant votre demande de résiliation.
         </p>
         <p>
-          La résiliation prend effet à la fin de la période déjà payée : jusque-là
-          vous conservez l’accès à l’offre. Nous ne remboursons pas au prorata
-          les périodes déjà commencées, sauf disposition légale contraire.
+          La résiliation prend effet à la fin de la période déjà payée :
+          jusque-là, vous gardez l’accès à l’offre. Les remboursements sont
+          régis par la <LegalLink href="/refunds">Politique de
+          remboursement</LegalLink> : vous pouvez demander celui de tout
+          prélèvement dans les 14 jours calendaires suivant son exécution.
         </p>
         <p>
           Si vous souscrivez en tant que consommateur au sens de la loi
@@ -341,6 +362,14 @@ const SECTIONS: LegalSection[] = [
           droit ne s’applique pas lorsque le Service est souscrit pour être
           intégré à une activité commerciale ou professionnelle, ce qui est
           l’usage habituel d’une agence.
+        </p>
+        <p>
+          Pendant l’essai gratuit, l’Agence peut résilier depuis les paramètres
+          du compte (section offre et facturation), qui ouvre le portail Paddle,
+          ou en écrivant à{" "}
+          <LegalLink href={`mailto:${contactEmail}`}>{contactEmail}</LegalLink>.
+          Si elle résilie avant la fin des 14 jours, l’offre Pro n’est pas
+          facturée.
         </p>
       </>
     ),

@@ -725,6 +725,11 @@ function Importer() {
       adminOnly
       intro="Prenesite svoj portfelj iz drugog sustava odjednom: iz CRM-a, portala ili tablice. Ništa se ne sprema dok ne provjerite što će se dogoditi sa svakom nekretninom."
     >
+      <DocTip>
+        Uvoz nije uključen u besplatno probno razdoblje: pojavljuje se kada
+        počne paket Pro.
+      </DocTip>
+
       <DocP>
         Otvara se putem <strong>Uvoz</strong> na traci Nekretnina. Postupak ima četiri koraka: odabir izvora, donošenje
         datoteke, određivanje što je koji stupac (samo za tablice) i provjera.

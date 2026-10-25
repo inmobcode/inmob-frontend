@@ -23,6 +23,7 @@ const STATIC: { path: string; changeFrequency: "monthly" | "yearly"; priority: n
   { path: "/help", changeFrequency: "monthly", priority: 0.5 },
   { path: "/terms", changeFrequency: "yearly", priority: 0.3 },
   { path: "/privacy", changeFrequency: "yearly", priority: 0.3 },
+  { path: "/refunds", changeFrequency: "yearly", priority: 0.3 },
 ];
 
 const STATIC_PAGES: MetadataRoute.Sitemap = STATIC.flatMap(({ path, changeFrequency, priority }) =>

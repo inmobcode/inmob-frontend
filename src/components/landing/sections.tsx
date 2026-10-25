@@ -1,7 +1,7 @@
 "use client";
 
 import { Check, LoaderCircle, Plus } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,6 +21,7 @@ import {
 } from "@/components/landing/fragments";
 import { SECTION, WRAP } from "@/components/landing/layout";
 import { faqIn, plansIn, type Plan } from "@/components/landing/plans-faq-data";
+import type { Locale } from "@/i18n/config";
 import type { LooseTranslator } from "@/i18n/loose";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -670,7 +671,8 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
 
 export function PlansAndFaq() {
   const t = useTranslations("landing");
-  const plans = useMemo(() => plansIn(t as unknown as LooseTranslator), [t]);
+  const locale = useLocale() as Locale;
+  const plans = useMemo(() => plansIn(t as unknown as LooseTranslator, locale), [t, locale]);
   const faq = useMemo(() => faqIn(t as unknown as LooseTranslator), [t]);
   return (
     <section

@@ -731,6 +731,11 @@ function Importer() {
       adminOnly
       intro="Récupérez votre portefeuille depuis un autre système en une seule fois : un CRM, un portail ou un tableur. Rien n’est enregistré tant que vous n’avez pas vérifié ce qui arrivera à chaque bien."
     >
+      <DocTip>
+        L’import n’est pas inclus dans l’essai gratuit : il apparaît quand
+        l’offre Pro commence.
+      </DocTip>
+
       <DocP>
         Il s’ouvre depuis <strong>Importer</strong>, dans la barre de Biens. Le processus a quatre étapes : choisir d’où
         vous venez, apporter le fichier, indiquer à quoi correspond chaque colonne (tableurs uniquement) et vérifier.

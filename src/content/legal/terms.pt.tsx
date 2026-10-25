@@ -270,38 +270,55 @@ const SECTIONS: LegalSection[] = [
     id: "planes-y-pagos",
     title: "Planos, preços e pagamentos",
     brief:
-      "Fatura-se antecipadamente e renova-se automaticamente. Avisamos com 30 dias de antecedência antes de mudar preços; se um pagamento falhar, tem 15 dias para o regularizar.",
+      "O teste gratuito dura 14 dias e depois o plano Pro começa automaticamente. Fatura-se antecipadamente; avisamos com 30 dias de antecedência antes de mudar preços e, se um pagamento falhar, tem 15 dias para o regularizar.",
     content: (
       <>
         <p>
-          A Tivvu oferece um plano gratuito com limites (por exemplo, número de
-          imóveis e de Utilizadores) e planos pagos. Os preços, limites e
-          funcionalidades em vigor de cada plano são publicados em{" "}
+          A Tivvu oferece um teste gratuito, o plano Pro e planos Enterprise à
+          medida. Não existe um plano gratuito permanente. Os preços, limites e
+          funcionalidades em vigor são publicados em{" "}
           <LegalLink href="/#planes">tivvu.app</LegalLink> ou acordados por
           escrito no caso de planos à medida.
         </p>
         <ul>
           <li>
-            Os planos pagos são faturados antecipadamente, mensalmente (ou no
-            período acordado), e renovam-se automaticamente até a Agência os
-            cancelar.
+            Teste gratuito. Dura 14 dias e dá acesso completo ao Serviço, exceto
+            a ferramenta de migração de dados (importação de imóveis), que não
+            está incluída. Para o iniciar é preciso registar um cartão; não é
+            cobrado nada durante o teste. Quando os 14 dias terminam, o plano Pro
+            começa automaticamente e o seu primeiro período é cobrado, a menos
+            que a Agência cancele antes de o teste terminar. O teste gratuito é
+            oferecido uma única vez por Agência e por cartão; se um cartão já
+            tiver sido usado noutro teste, podemos cancelar o novo sem cobrança.
           </li>
           <li>
-            Os preços publicados em dólares americanos podem ser pagos em pesos
-            argentinos à taxa de câmbio indicada no momento do pagamento. Os
-            impostos aplicáveis acrescem ao preço, salvo indicação em contrário.
+            Plano Pro. É faturado antecipadamente, todos os meses, ao preço
+            publicado em tivvu.app, e renova-se automaticamente até a Agência o
+            cancelar. Inclui a ferramenta de migração de dados.
           </li>
           <li>
-            Se alterarmos o preço do seu plano, avisamos por email com pelo menos
-            30 dias de antecedência. O novo preço aplica-se a partir do período
-            seguinte ao aviso; se não concordar, pode cancelar o plano antes de
-            entrar em vigor.
+            Plano Enterprise. Contrata-se à medida: as suas condições, o preço e
+            a faturação são acordados por escrito com a Tivvu.
+          </li>
+          <li>
+            Os pagamentos são processados pela Paddle, que atua como comerciante
+            de registo (merchant of record) e revendedora do Serviço: a Paddle
+            cobra, emite a fatura e calcula e cobra os impostos aplicáveis, e as
+            suas condições de compra regem essa transação. A Tivvu não guarda o
+            número completo do seu cartão. Os preços são expressos em dólares
+            americanos; o seu banco pode aplicar conversão de moeda ou encargos
+            próprios.
+          </li>
+          <li>
+            Se alterarmos o preço do seu plano, avisamos por email com pelo
+            menos 30 dias de antecedência. O novo preço aplica-se a partir do
+            período seguinte ao aviso; se não concordar, pode cancelar o plano
+            antes de entrar em vigor.
           </li>
           <li>
             Se um pagamento não for creditado, avisamos e tem 15 dias seguidos
-            para o regularizar. Passado esse prazo, podemos passar a conta para
-            o plano gratuito ou suspendê-la. Os seus dados não são apagados pela
-            suspensão.
+            para o regularizar. Passado esse prazo, podemos suspender a conta.
+            Os seus dados não são apagados pela suspensão.
           </li>
         </ul>
       </>
@@ -311,7 +328,7 @@ const SECTIONS: LegalSection[] = [
     id: "baja",
     title: "Cancelamento e direito de livre resolução",
     brief:
-      "Pode cancelar quando quiser. Produz efeito no fim do período pago e não há reembolso proporcional, salvo se a lei dispuser outra coisa.",
+      "Pode cancelar quando quiser e produz efeitos no fim do período pago. Pode pedir um reembolso nos 14 dias seguintes a cada cobrança.",
     content: (
       <>
         <p>
@@ -323,9 +340,11 @@ const SECTIONS: LegalSection[] = [
           identifica o seu pedido de cancelamento.
         </p>
         <p>
-          O cancelamento produz efeito no fim do período já pago: até lá
-          continua a ter acesso ao plano. Não fazemos reembolsos proporcionais de
-          períodos já iniciados, salvo se a lei dispuser o contrário.
+          O cancelamento produz efeitos no fim do período já pago: até lá
+          continua a ter acesso ao plano. Os reembolsos regem-se pela{" "}
+          <LegalLink href="/refunds">Política de reembolsos</LegalLink>: pode
+          pedir o de qualquer cobrança nos 14 dias seguidos após a sua
+          realização.
         </p>
         <p>
           Se contratar como consumidor nos termos da Lei argentina 24.240, pode
@@ -335,6 +354,13 @@ const SECTIONS: LegalSection[] = [
           tiver pago. Este direito não se aplica quando o Serviço é contratado
           para ser integrado numa atividade comercial ou profissional, que é a
           utilização habitual de uma agência.
+        </p>
+        <p>
+          Durante o teste gratuito, a Agência pode cancelar nas definições da
+          conta (secção de plano e faturação), que abre o portal do Paddle, ou
+          escrevendo para{" "}
+          <LegalLink href={`mailto:${contactEmail}`}>{contactEmail}</LegalLink>.
+          Se cancelar antes de os 14 dias terminarem, o plano Pro não é cobrado.
         </p>
       </>
     ),

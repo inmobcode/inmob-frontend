@@ -14,4 +14,4 @@ export const LEGAL_ENTITY = {
 } as const;
 
 /** Fecha (ISO) desde la que rige la versión publicada de ambos documentos; cada idioma la escribe a su modo. */
-export const LEGAL_UPDATED_AT = "2026-10-14";
+export const LEGAL_UPDATED_AT = "2026-10-25";

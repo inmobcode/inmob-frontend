@@ -145,7 +145,11 @@
         "offerViewedAnon": "Il tuo cliente ha aperto l’offerta",
         "payment": "Pagamento registrato: {amount}",
         "task": "Ti è stata assegnata un’attività",
-        "taskDue": "{title} · entro il {date}"
+        "taskDue": "{title} · entro il {date}",
+        "trialEnding": "La tua prova gratuita termina il {date}",
+        "trialEndingBody": "Poi parte il piano Pro. Puoi disdire dalle Impostazioni.",
+        "paymentFailed": "Non siamo riusciti ad addebitare il tuo abbonamento",
+        "paymentFailedBody": "Aggiorna la carta nelle Impostazioni per non perdere l’accesso."
       }
     }
   }

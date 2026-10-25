@@ -1,17 +1,17 @@
 {
   "landing": {
     "plans": {
-      "free": {
-        "name": "Free",
-        "price": "Besplatno",
-        "tagline": "Za početak i isprobavanje sustava s nekoliko nekretnina.",
+      "trial": {
+        "name": "Free trial",
+        "price": "14 dana besplatno",
+        "tagline": "Isprobajte cijeli Tivvu dva tjedna.",
         "features": {
-          "f1": "Do 5 nekretnina",
-          "f2": "1 korisnik",
-          "f3": "Klijenti, upiti i ponude",
-          "f4": "Web-stranica na Tivvu poddomeni, predložak Naslovnica i vaša boja"
+          "f1": "14 dana punog pristupa Tivvuu",
+          "f2": "Neograničeno nekretnina, tim, rezervacija, naplata i uređivač web-stranice",
+          "f3": "Bez alata za migraciju podataka",
+          "f4": "Zatim počinje paket Pro (29,99 USD/mjesečno); otkažite kad god želite"
         },
-        "cta": "Započnite besplatno"
+        "cta": "Započnite besplatno probno razdoblje"
       },
       "pro": {
         "name": "Pro",
@@ -25,7 +25,7 @@
           "f4": "Potpuni uređivač stranice: 5 predložaka, 8 fontova i 6 vrsta blokova",
           "f5": "Zadaci, obavijesti i uloge u timu"
         },
-        "cta": "Zatražite demo"
+        "cta": "Odaberite Pro"
       },
       "enterprise": {
         "name": "Enterprise",
@@ -59,7 +59,7 @@
       },
       "users": {
         "q": "Koliko korisnika mogu imati?",
-        "a": "U paketu Free jednog. U paketima Pro i Enterprise nema ograničenja: dovedite cijeli tim."
+        "a": "Nema ograničenja: u besplatnom probnom razdoblju, u paketu Pro i u paketu Enterprise dovedite cijeli tim."
       },
       "site": {
         "q": "Mogu li prilagoditi web-stranicu svoje agencije?",
@@ -221,7 +221,7 @@
     "plansSection": {
       "label": "Paketi i česta pitanja",
       "claim": "Paket za svaku fazu vaše agencije.",
-      "rest": "Počnite besplatno i prijeđite na veći paket kad vam zatreba.",
+      "rest": "Isprobajte 14 dana besplatno i nastavite s paketom Pro kad poželite.",
       "faq": "Česta pitanja"
     },
     "demo": {
@@ -364,7 +364,8 @@
       "legal": {
         "help": "Pomoć",
         "terms": "Uvjeti korištenja",
-        "privacy": "Privatnost"
+        "privacy": "Privatnost",
+        "refunds": "Politika povrata"
       },
       "groups": {
         "product": {

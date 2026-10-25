@@ -1,0 +1,65 @@
+{
+  "billing": {
+    "plans": {
+      "trial": {
+        "name": "Free trial",
+        "price": "14 days free",
+        "description": "Full access to Tivvu for two weeks, without the data migration tool.",
+        "then": "Then the Pro plan starts (USD 29.99/month).",
+        "unavailable": "You’ve already used the free trial."
+      },
+      "pro": {
+        "name": "Pro",
+        "price": "USD 29.99/month",
+        "description": "All of Tivvu, including the data migration tool. You are charged from today."
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "price": "Let’s talk",
+        "description": "For networks of agencies or large teams. We’ll get in touch to shape the plan."
+      },
+      "cardNote": "You pay by card on Paddle. The free trial charges nothing for 14 days."
+    },
+    "register": {
+      "pickTitle": "Choose your plan",
+      "pickLead": "Then you create your account and add your card on Paddle.",
+      "chosen": "Chosen plan:",
+      "change": "Change",
+      "submit": "Continue to payment"
+    },
+    "subscribe": {
+      "metaTitle": "Choose your plan",
+      "title": "Choose your plan",
+      "lead": "You need an active plan to use Tivvu. Payment is handled by Paddle.",
+      "canceled": "The payment wasn’t completed. Choose a plan to try again.",
+      "failed": "We couldn’t open the payment page. Please try again in a few minutes.",
+      "confirming": "Confirming your payment…",
+      "confirmFailed": "We couldn’t confirm the payment yet. If you’ve already paid, wait a minute and reload the page.",
+      "cardUsed": "That card was already used for a free trial, so we canceled this one without charging you. Choose the Pro plan to continue.",
+      "notOwner": {
+        "title": "This agency’s plan isn’t active",
+        "text": "The subscription belongs to each agency and only its owner can activate it. Ask them to choose a plan so you can get back in.",
+        "switch": "Go to another of your agencies",
+        "logout": "Sign out"
+      }
+    },
+    "settings": {
+      "title": "Plan and billing",
+      "description": "Your current plan. On Paddle you can change your card, see invoices or cancel.",
+      "plan": {
+        "trial": "Free trial",
+        "pro": "Pro"
+      },
+      "status": {
+        "INCOMPLETE": "Awaiting payment",
+        "TRIALING": "On trial",
+        "ACTIVE": "Active",
+        "PAST_DUE": "Payment overdue",
+        "CANCELED": "Canceled"
+      },
+      "trialEnds": "The free trial ends on {date} and the Pro plan starts then.",
+      "manage": "Manage subscription",
+      "failed": "We couldn’t open the billing portal."
+    }
+  }
+}

@@ -278,26 +278,45 @@ const SECTIONS: LegalSection[] = [
     id: "planes-y-pagos",
     title: "Tarife, Preise und Zahlungen",
     brief:
-      "Abrechnung im Voraus mit automatischer Verlängerung. Preisänderungen kündigen wir 30 Tage vorher an; schlägt eine Zahlung fehl, haben Sie 15 Tage Zeit, sie nachzuholen.",
+      "Die kostenlose Testphase dauert 14 Tage, danach startet der Pro-Tarif automatisch. Die Abrechnung erfolgt im Voraus; Preisänderungen kündigen wir 30 Tage vorher an, und schlägt eine Zahlung fehl, haben Sie 15 Tage Zeit, sie nachzuholen.",
     content: (
       <>
         <p>
-          Tivvu bietet einen kostenlosen Tarif mit Grenzen (zum Beispiel bei der
-          Anzahl der Objekte und Nutzer) und kostenpflichtige Tarife. Die
-          geltenden Preise, Grenzen und Funktionen jedes Tarifs werden auf{" "}
+          Tivvu bietet eine kostenlose Testphase, den Pro-Tarif und individuelle
+          Enterprise-Tarife. Einen dauerhaft kostenlosen Tarif gibt es nicht.
+          Die geltenden Preise, Grenzen und Funktionen werden auf{" "}
           <LegalLink href="/#planes">tivvu.app</LegalLink> veröffentlicht oder
           bei individuellen Tarifen schriftlich vereinbart.
         </p>
         <ul>
           <li>
-            Kostenpflichtige Tarife werden monatlich (oder für den vereinbarten
-            Zeitraum) im Voraus abgerechnet und verlängern sich automatisch, bis
-            die Agentur sie kündigt.
+            Kostenlose Testphase. Sie dauert 14 Tage und bietet vollen Zugriff
+            auf den Dienst, mit Ausnahme des Tools zur Datenmigration (Import
+            von Objekten), das nicht enthalten ist. Zum Start muss eine Karte
+            hinterlegt werden; während der Testphase wird nichts abgebucht. Nach
+            Ablauf der 14 Tage startet der Pro-Tarif automatisch und der erste
+            Zeitraum wird abgerechnet, es sei denn, die Agentur kündigt vor Ende
+            der Testphase. Die kostenlose Testphase wird nur einmal pro Agentur
+            und pro Karte angeboten; wurde eine Karte bereits für eine andere
+            Testphase verwendet, können wir die neue ohne Berechnung beenden.
           </li>
           <li>
-            In US-Dollar veröffentlichte Preise können in argentinischen Pesos
-            zum bei Zahlung angegebenen Wechselkurs beglichen werden. Anfallende
-            Steuern kommen zum Preis hinzu, sofern nicht anders angegeben.
+            Pro-Tarif. Er wird monatlich im Voraus zu dem auf tivvu.app
+            veröffentlichten Preis abgerechnet und verlängert sich automatisch,
+            bis die Agentur ihn kündigt. Er enthält das Tool zur Datenmigration.
+          </li>
+          <li>
+            Enterprise-Tarif. Er wird individuell vereinbart: Bedingungen, Preis
+            und Abrechnung werden schriftlich mit Tivvu festgelegt.
+          </li>
+          <li>
+            Zahlungen werden über Paddle abgewickelt, das als Merchant of Record
+            und Wiederverkäufer des Dienstes auftritt: Paddle zieht den Betrag
+            ein, stellt die Rechnung aus und berechnet und erhebt die
+            anfallenden Steuern; für diese Transaktion gelten seine
+            Kaufbedingungen. Tivvu speichert Ihre vollständige Kartennummer
+            nicht. Die Preise sind in US-Dollar angegeben; Ihre Bank kann eine
+            Währungsumrechnung oder eigene Gebühren berechnen.
           </li>
           <li>
             Ändern wir den Preis Ihres Tarifs, informieren wir Sie mindestens 30
@@ -307,9 +326,8 @@ const SECTIONS: LegalSection[] = [
           </li>
           <li>
             Geht eine Zahlung nicht ein, informieren wir Sie, und Sie haben 15
-            Kalendertage Zeit, sie nachzuholen. Danach können wir das Konto auf
-            den kostenlosen Tarif umstellen oder sperren. Ihre Daten werden durch
-            die Sperre nicht gelöscht.
+            Kalendertage Zeit, sie nachzuholen. Danach können wir das Konto
+            sperren. Ihre Daten werden durch die Sperre nicht gelöscht.
           </li>
         </ul>
       </>
@@ -319,7 +337,7 @@ const SECTIONS: LegalSection[] = [
     id: "baja",
     title: "Kündigung und Widerrufsrecht",
     brief:
-      "Sie können jederzeit kündigen. Die Kündigung wirkt zum Ende des bezahlten Zeitraums, ohne anteilige Erstattung, sofern das Gesetz nichts anderes bestimmt.",
+      "Sie können jederzeit kündigen; die Kündigung wirkt zum Ende des bezahlten Zeitraums. Eine Erstattung können Sie innerhalb von 14 Tagen nach jeder Abbuchung beantragen.",
     content: (
       <>
         <p>
@@ -331,9 +349,12 @@ const SECTIONS: LegalSection[] = [
           der Ihre Kündigung identifiziert.
         </p>
         <p>
-          Die Kündigung wirkt zum Ende des bereits bezahlten Zeitraums: Bis dahin
-          behalten Sie Zugang zum Tarif. Bereits begonnene Zeiträume erstatten
-          wir nicht anteilig, sofern das Gesetz nichts anderes bestimmt.
+          Die Kündigung wird zum Ende des bereits bezahlten Zeitraums wirksam:
+          Bis dahin behalten Sie den Zugriff auf den Tarif. Erstattungen richten
+          sich nach der{" "}
+          <LegalLink href="/refunds">Erstattungsrichtlinie</LegalLink>: Sie
+          können sie für jede Abbuchung innerhalb von 14 Kalendertagen nach der
+          Abbuchung beantragen.
         </p>
         <p>
           Schließen Sie den Vertrag als Verbraucher im Sinne des argentinischen
@@ -343,6 +364,14 @@ const SECTIONS: LegalSection[] = [
           erstatten Ihnen das Gezahlte. Dieses Recht gilt nicht, wenn der Dienst
           für eine gewerbliche oder berufliche Tätigkeit abgeschlossen wird, was
           bei einer Agentur der übliche Fall ist.
+        </p>
+        <p>
+          Während der kostenlosen Testphase kann die Agentur in den
+          Kontoeinstellungen (Bereich Tarif und Abrechnung), der das
+          Paddle-Portal öffnet, oder per E-Mail an{" "}
+          <LegalLink href={`mailto:${contactEmail}`}>{contactEmail}</LegalLink>
+          kündigen. Kündigt sie vor Ablauf der 14 Tage, wird der Pro-Tarif nicht
+          berechnet.
         </p>
       </>
     ),

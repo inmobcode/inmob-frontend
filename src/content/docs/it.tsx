@@ -730,6 +730,11 @@ function Importer() {
       adminOnly
       intro="Porta il tuo portafoglio da un altro sistema in una sola volta: un CRM, un portale o un foglio di calcolo. Non si salva nulla finché non controlli cosa succederà a ogni immobile."
     >
+      <DocTip>
+        L’importazione non è inclusa nella prova gratuita: compare quando parte
+        il piano Pro.
+      </DocTip>
+
       <DocP>
         Si apre da <strong>Importa</strong>, nella barra di Immobili. Il processo ha quattro passaggi: scegliere da dove
         arrivi, caricare il file, indicare cos’è ogni colonna (solo nei fogli di calcolo) e controllare.

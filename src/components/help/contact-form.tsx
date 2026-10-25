@@ -30,13 +30,13 @@ type ContactValues = z.infer<ReturnType<typeof makeContactSchema>>;
 
 /** The help/contact page's form. A separate path from "Pedir una demo": this
  * one is for existing agencies and anyone with a question, not prospects. */
-export function ContactForm() {
+export function ContactForm({ defaultMessage = "" }: { defaultMessage?: string }) {
   const t = useTranslations("help.contact");
   const contactSchema = useMemo(() => makeContactSchema((key) => t(`errors.${key}`)), [t]);
   const [sent, setSent] = useState(false);
   const form = useForm<ContactValues>({
     resolver: zodResolver(contactSchema),
-    defaultValues: { name: "", email: "", message: "" },
+    defaultValues: { name: "", email: "", message: defaultMessage },
   });
   const errors = form.formState.errors;
 

@@ -145,7 +145,11 @@
         "offerViewedAnon": "O seu cliente abriu a oferta",
         "payment": "Pagamento registado: {amount}",
         "task": "Foi-lhe atribuída uma tarefa",
-        "taskDue": "{title} · até {date}"
+        "taskDue": "{title} · até {date}",
+        "trialEnding": "O seu teste gratuito termina a {date}",
+        "trialEndingBody": "Depois começa o plano Pro. Pode cancelar nas Definições.",
+        "paymentFailed": "Não foi possível cobrar a sua subscrição",
+        "paymentFailedBody": "Atualize o cartão nas Definições para não perder o acesso."
       }
     }
   }

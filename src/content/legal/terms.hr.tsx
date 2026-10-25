@@ -265,38 +265,55 @@ const SECTIONS: LegalSection[] = [
     id: "planes-y-pagos",
     title: "Paketi, cijene i plaćanja",
     brief:
-      "Naplaćuje se unaprijed i automatski obnavlja. Promjenu cijena najavljujemo 30 dana unaprijed; ako plaćanje ne uspije, imate 15 dana da ga podmirite.",
+      "Besplatno probno razdoblje traje 14 dana, a zatim paket Pro počinje automatski. Naplaćuje se unaprijed; promjenu cijena najavljujemo 30 dana unaprijed, a ako plaćanje ne uspije, imate 15 dana da ga podmirite.",
     content: (
       <>
         <p>
-          Tivvu nudi besplatni paket s ograničenjima (primjerice broja nekretnina
-          i Korisnika) i plaćene pakete. Važeće cijene, ograničenja i funkcije
-          svakog paketa objavljene su na{" "}
+          Tivvu nudi besplatno probno razdoblje, paket Pro i Enterprise pakete
+          po mjeri. Trajnog besplatnog paketa nema. Važeće cijene, ograničenja i
+          funkcije objavljene su na{" "}
           <LegalLink href="/#planes">tivvu.app</LegalLink> ili se za pakete po
           mjeri dogovaraju pisanim putem.
         </p>
         <ul>
           <li>
-            Plaćeni paketi naplaćuju se unaprijed na mjesečnoj osnovi (ili za
-            dogovoreno razdoblje) i automatski se obnavljaju dok ih Agencija ne
-            otkaže.
+            Besplatno probno razdoblje. Traje 14 dana i omogućuje puni pristup
+            Usluzi, osim alata za migraciju podataka (uvoz nekretnina), koji
+            nije uključen. Za početak je potrebno unijeti karticu; tijekom
+            probnog razdoblja ništa se ne naplaćuje. Kada istekne 14 dana, paket
+            Pro počinje automatski i naplaćuje se njegovo prvo razdoblje, osim
+            ako Agencija otkaže prije kraja probnog razdoblja. Besplatno probno
+            razdoblje nudi se jednom po Agenciji i po kartici; ako je kartica
+            već korištena za drugo probno razdoblje, novo možemo otkazati bez
+            naplate.
           </li>
           <li>
-            Cijene objavljene u američkim dolarima mogu se platiti u argentinskim
-            pesosima po tečaju navedenom u trenutku plaćanja. Primjenjivi porezi
-            dodaju se cijeni, osim ako je drukčije navedeno.
+            Paket Pro. Naplaćuje se unaprijed na mjesečnoj osnovi, po cijeni
+            objavljenoj na tivvu.app, i automatski se obnavlja dok ga Agencija
+            ne otkaže. Uključuje alat za migraciju podataka.
+          </li>
+          <li>
+            Paket Enterprise. Ugovara se po mjeri: njegovi uvjeti, cijena i
+            naplata dogovaraju se pisanim putem s Tivvuom.
+          </li>
+          <li>
+            Plaćanja obrađuje Paddle, koji djeluje kao merchant of record i
+            preprodavač Usluge: Paddle naplaćuje, izdaje račun te obračunava i
+            naplaćuje primjenjive poreze, a za tu transakciju vrijede njegovi
+            uvjeti kupnje. Tivvu ne pohranjuje puni broj vaše kartice. Cijene su
+            izražene u američkim dolarima; vaša banka može primijeniti
+            konverziju valute ili vlastite naknade.
           </li>
           <li>
             Ako promijenimo cijenu vašeg paketa, obavijestit ćemo vas e-poštom
             najmanje 30 dana unaprijed. Nova cijena primjenjuje se od razdoblja
-            nakon obavijesti; ako se ne slažete, paket možete otkazati prije nego
-            što stupi na snagu.
+            nakon obavijesti; ako se ne slažete, paket možete otkazati prije
+            nego što stupi na snagu.
           </li>
           <li>
             Ako uplata ne bude knjižena, obavijestit ćemo vas i imate 15
-            kalendarskih dana da je podmirite. Nakon toga račun možemo prebaciti
-            na besplatni paket ili ga suspendirati. Suspenzijom se vaši podaci ne
-            brišu.
+            kalendarskih dana da je podmirite. Nakon toga račun možemo
+            suspendirati. Suspenzijom se vaši podaci ne brišu.
           </li>
         </ul>
       </>
@@ -306,7 +323,7 @@ const SECTIONS: LegalSection[] = [
     id: "baja",
     title: "Otkaz i pravo na jednostrani raskid",
     brief:
-      "Možete otkazati kad god želite. Otkaz vrijedi na kraju plaćenog razdoblja i nema razmjernog povrata, osim ako zakon određuje drukčije.",
+      "Možete otkazati kad god želite, s učinkom na kraju plaćenog razdoblja. Povrat možete zatražiti u roku od 14 dana od svake naplate.",
     content: (
       <>
         <p>
@@ -318,9 +335,11 @@ const SECTIONS: LegalSection[] = [
           za otkaz.
         </p>
         <p>
-          Otkaz vrijedi na kraju već plaćenog razdoblja: do tada zadržavate
-          pristup paketu. Ne vraćamo razmjerni iznos za već započeta razdoblja,
-          osim ako zakon određuje drukčije.
+          Otkazivanje stupa na snagu na kraju već plaćenog razdoblja: do tada
+          zadržavate pristup paketu. Povrati se uređuju{" "}
+          <LegalLink href="/refunds">Politikom povrata</LegalLink>: možete ga
+          zatražiti za bilo koju naplatu u roku od 14 kalendarskih dana od
+          njezina izvršenja.
         </p>
         <p>
           Ako ugovarate kao potrošač u smislu argentinskog Zakona 24.240, možete
@@ -330,6 +349,13 @@ const SECTIONS: LegalSection[] = [
           vratiti uplaćeno. To pravo ne vrijedi kad se Usluga ugovara radi
           uključivanja u komercijalnu ili profesionalnu djelatnost, što je
           uobičajena uporaba za agenciju.
+        </p>
+        <p>
+          Tijekom besplatnog probnog razdoblja Agencija može otkazati u
+          postavkama računa (odjeljak paketa i naplate), koji otvara Paddleov
+          portal, ili pisanjem na{" "}
+          <LegalLink href={`mailto:${contactEmail}`}>{contactEmail}</LegalLink>.
+          Ako otkaže prije isteka 14 dana, paket Pro se ne naplaćuje.
         </p>
       </>
     ),

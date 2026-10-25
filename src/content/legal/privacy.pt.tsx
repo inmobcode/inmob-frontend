@@ -11,7 +11,7 @@ const { name, taxId, address, privacyEmail } = LEGAL_ENTITY;
 const SUMMARY = [
   "Usamos os seus dados para lhe prestar o serviço, cobrá-lo, mantê-lo seguro e avisá-lo do que é importante. Não vendemos dados nem mostramos publicidade.",
   "Os dados dos clientes e proprietários que uma agência regista são dessa agência: ela decide como os usa e nós tratamo-los por sua conta.",
-  "Trabalhamos com fornecedores de infraestrutura e de email que podem estar fora da Argentina, com contratos que protegem os seus dados.",
+  "Trabalhamos com fornecedores de infraestrutura, de email e de pagamentos que podem estar fora da Argentina, com contratos que protegem os seus dados.",
   "Pode pedir-nos acesso, retificação ou eliminação dos seus dados escrevendo para " +
     privacyEmail +
     ". O acesso é gratuito.",
@@ -80,6 +80,18 @@ const SECTIONS: LegalSection[] = [
             <strong>Agência:</strong> nome, dados de contacto, logótipo,
             configuração do site e, nos planos pagos, os dados necessários para
             faturar.
+          </li>
+          <li>
+            <strong>Pagamento e subscrição:</strong> o seu plano, o estado da
+            subscrição (em teste, ativa ou cancelada) e a data em que termina o
+            teste. Os pagamentos são processados pela Paddle como comerciante de
+            registo: recebe diretamente o seu cartão e os dados de faturação e
+            nós recebemos um identificador de cliente e de subscrição, não o
+            número completo do cartão. Enviamos à Paddle o seu email e o nome da
+            agência. Guardamos também uma impressão digital do cartão usado no
+            teste gratuito (um código irreversível que calculamos a partir do
+            tipo de cartão, dos últimos 4 dígitos, da validade e do titular),
+            apenas para oferecer um teste por cartão.
           </li>
           <li>
             <strong>Uso e dados técnicos:</strong> datas de acesso, ações
@@ -204,6 +216,10 @@ const SECTIONS: LegalSection[] = [
             [
               "Resend",
               "Envio dos emails do sistema: avisos, confirmações e recuperação de palavra-passe.",
+            ],
+            [
+              "Paddle",
+              "Cobrança do teste gratuito e dos planos pagos, faturação e impostos, e portal para gerir a subscrição. Atua como comerciante de registo e recebe diretamente os dados de pagamento e de faturação.",
             ],
             [
               "Fornecedores de alojamento da aplicação web",

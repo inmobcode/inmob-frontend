@@ -271,27 +271,46 @@ const SECTIONS: LegalSection[] = [
     id: "planes-y-pagos",
     title: "Piani, prezzi e pagamenti",
     brief:
-      "Si fattura in anticipo e si rinnova automaticamente. Avvisiamo 30 giorni prima di cambiare i prezzi; se un pagamento non va a buon fine, hai 15 giorni per regolarizzarlo.",
+      "La prova gratuita dura 14 giorni e poi il piano Pro parte automaticamente. Si fattura in anticipo; avvisiamo 30 giorni prima di cambiare i prezzi e, se un pagamento non va a buon fine, hai 15 giorni per regolarizzarlo.",
     content: (
       <>
         <p>
-          Tivvu offre un piano gratuito con limiti (per esempio, numero di
-          immobili e di Utenti) e piani a pagamento. I prezzi, i limiti e le
-          funzioni vigenti di ciascun piano sono pubblicati su{" "}
+          Tivvu offre una prova gratuita, il piano Pro e piani Enterprise su
+          misura. Non esiste un piano gratuito permanente. I prezzi, i limiti e
+          le funzioni vigenti sono pubblicati su{" "}
           <LegalLink href="/#planes">tivvu.app</LegalLink> o concordati per
           iscritto nel caso di piani su misura.
         </p>
         <ul>
           <li>
-            I piani a pagamento si fatturano in anticipo su base mensile (o per
-            il periodo concordato) e si rinnovano automaticamente finché
-            l’Agenzia non li disdice.
+            Prova gratuita. Dura 14 giorni e dà accesso completo al Servizio,
+            tranne lo strumento di migrazione dei dati (importazione di
+            immobili), che non è incluso. Per iniziarla occorre inserire una
+            carta; durante la prova non viene addebitato nulla. Allo scadere dei
+            14 giorni il piano Pro parte automaticamente e ne viene addebitato il
+            primo periodo, salvo che l’Agenzia disdica prima della fine della
+            prova. La prova gratuita è offerta una sola volta per Agenzia e per
+            carta; se una carta è già stata usata per un’altra prova, possiamo
+            annullare la nuova senza addebito.
           </li>
           <li>
-            I prezzi pubblicati in dollari statunitensi possono essere pagati in
-            pesos argentini al tasso di cambio indicato al momento del pagamento.
-            Le imposte applicabili si aggiungono al prezzo salvo diversa
-            indicazione.
+            Piano Pro. Si fattura in anticipo su base mensile, al prezzo
+            pubblicato su tivvu.app, e si rinnova automaticamente finché
+            l’Agenzia non lo disdice. Include lo strumento di migrazione dei
+            dati.
+          </li>
+          <li>
+            Piano Enterprise. Si contrae su misura: condizioni, prezzo e
+            fatturazione sono concordati per iscritto con Tivvu.
+          </li>
+          <li>
+            I pagamenti sono elaborati da Paddle, che agisce come merchant of
+            record e rivenditore del Servizio: Paddle incassa, emette la
+            fattura, calcola e riscuote le imposte applicabili, e le sue
+            condizioni di acquisto regolano tale transazione. Tivvu non conserva
+            il numero completo della tua carta. I prezzi sono espressi in
+            dollari statunitensi; la tua banca può applicare la conversione di
+            valuta o commissioni proprie.
           </li>
           <li>
             Se cambiamo il prezzo del tuo piano, ti avvisiamo via email con
@@ -302,8 +321,8 @@ const SECTIONS: LegalSection[] = [
           <li>
             Se un pagamento non viene accreditato, ti avvisiamo e hai 15 giorni
             di calendario per regolarizzarlo. Trascorso tale termine, possiamo
-            passare l’account al piano gratuito o sospenderlo. La sospensione non
-            comporta la cancellazione dei tuoi dati.
+            sospendere l’account. La sospensione non comporta la cancellazione
+            dei tuoi dati.
           </li>
         </ul>
       </>
@@ -313,7 +332,7 @@ const SECTIONS: LegalSection[] = [
     id: "baja",
     title: "Disdetta e diritto di recesso",
     brief:
-      "Puoi disdire quando vuoi. Ha effetto alla fine del periodo pagato e non ci sono rimborsi proporzionali, salvo diversa disposizione di legge.",
+      "Puoi disdire quando vuoi, con effetto alla fine del periodo pagato. Puoi chiedere un rimborso entro 14 giorni da ogni addebito.",
     content: (
       <>
         <p>
@@ -326,9 +345,10 @@ const SECTIONS: LegalSection[] = [
         </p>
         <p>
           La disdetta ha effetto alla fine del periodo già pagato: fino ad
-          allora mantieni l’accesso al piano. Non effettuiamo rimborsi
-          proporzionali di periodi già iniziati, salvo diversa disposizione di
-          legge.
+          allora mantieni l’accesso al piano. I rimborsi sono regolati dalla{" "}
+          <LegalLink href="/refunds">Politica di rimborso</LegalLink>: puoi
+          chiederlo per qualsiasi addebito entro 14 giorni di calendario dalla
+          sua esecuzione.
         </p>
         <p>
           Se sottoscrivi come consumatore ai sensi della Legge argentina 24.240,
@@ -338,6 +358,14 @@ const SECTIONS: LegalSection[] = [
           pagato. Questo diritto non si applica quando il Servizio è sottoscritto
           per essere integrato in un’attività commerciale o professionale, che è
           l’uso abituale di un’agenzia.
+        </p>
+        <p>
+          Durante la prova gratuita, l’Agenzia può disdire dalle impostazioni
+          dell’account (sezione piano e fatturazione), che apre il portale di
+          Paddle, oppure scrivendo a{" "}
+          <LegalLink href={`mailto:${contactEmail}`}>{contactEmail}</LegalLink>.
+          Se disdice prima che trascorrano i 14 giorni, il piano Pro non viene
+          addebitato.
         </p>
       </>
     ),

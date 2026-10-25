@@ -737,6 +737,11 @@ function Importer() {
       adminOnly
       intro="Holen Sie Ihren Bestand in einem Rutsch aus einem anderen System: einem CRM, einem Portal oder einer Tabelle. Nichts wird gespeichert, bevor Sie geprüft haben, was mit jedem Objekt geschieht."
     >
+      <DocTip>
+        Der Import ist in der kostenlosen Testphase nicht enthalten: Er
+        erscheint, sobald der Pro-Tarif startet.
+      </DocTip>
+
       <DocP>
         Er öffnet sich über <strong>Importieren</strong> in der Leiste von Objekte. Der Ablauf hat vier Schritte: Herkunft
         wählen, Datei bereitstellen, die Spalten zuordnen (nur bei Tabellen) und prüfen.

@@ -48,6 +48,7 @@ const LEGAL_LINKS = [
   { key: "help", href: "/help" },
   { key: "terms", href: "/terms" },
   { key: "privacy", href: "/privacy" },
+  { key: "refunds", href: "/refunds" },
 ] as const;
 
 const FOOTER_LINK =

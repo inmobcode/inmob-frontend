@@ -277,27 +277,44 @@ const SECTIONS: LegalSection[] = [
     id: "planes-y-pagos",
     title: "Planes, precios y pagos",
     brief:
-      "Se factura por adelantado y se renueva solo. Avisamos 30 días antes de cambiar precios; si un pago falla, tenés 15 días para regularizarlo.",
+      "La prueba gratis dura 14 días y después empieza el plan Pro automáticamente. Se factura por adelantado; avisamos 30 días antes de cambiar precios y, si un pago falla, tenés 15 días para regularizarlo.",
     content: (
       <>
         <p>
-          Tivvu ofrece un plan gratuito con límites (por ejemplo, cantidad de
-          propiedades y de Usuarios) y planes pagos. Los precios, límites y
-          funciones vigentes de cada plan se publican en{" "}
+          Tivvu ofrece una prueba gratis, el plan Pro y planes Enterprise a
+          medida. No hay un plan gratuito permanente. Los precios, límites y
+          funciones vigentes se publican en{" "}
           <LegalLink href="/#planes">tivvu.app</LegalLink> o se acuerdan por
           escrito en el caso de planes a medida.
         </p>
         <ul>
           <li>
-            Los planes pagos se facturan por adelantado en forma mensual (o en
-            el período que se acuerde) y se renuevan automáticamente hasta que
-            la Agencia los dé de baja.
+            Prueba gratis. Dura 14 días y da acceso completo al Servicio, salvo
+            la herramienta de migración de datos (importación de propiedades),
+            que no está incluida. Para empezarla hay que cargar una tarjeta; no
+            se cobra nada durante la prueba. Al terminar los 14 días empieza
+            automáticamente el plan Pro y se cobra su primer período, salvo que
+            la Agencia cancele antes de que la prueba termine. La prueba gratis
+            se ofrece una sola vez por Agencia y por tarjeta; si una tarjeta ya
+            se usó en otra prueba, podemos cancelarla sin cobro.
           </li>
           <li>
-            Los precios publicados en dólares estadounidenses pueden abonarse en
-            pesos al tipo de cambio que se informe al momento del pago. Los
-            impuestos aplicables se suman al precio salvo que se indique lo
-            contrario.
+            Plan Pro. Se factura por adelantado en forma mensual, al precio
+            publicado en tivvu.app, y se renueva automáticamente hasta que la
+            Agencia lo dé de baja. Incluye la herramienta de migración de datos.
+          </li>
+          <li>
+            Plan Enterprise. Se contrata a medida: sus condiciones, precio y
+            facturación se acuerdan por escrito con Tivvu.
+          </li>
+          <li>
+            Los pagos se procesan a través de Paddle, que actúa como comerciante
+            de registro (merchant of record) y revendedor del Servicio: Paddle
+            cobra, emite la factura y calcula y cobra los impuestos aplicables,
+            y sus condiciones de compra rigen esa transacción. Tivvu no almacena
+            el número completo de tu tarjeta. Los precios se expresan en dólares
+            estadounidenses; tu banco puede aplicar conversión de moneda o
+            cargos propios.
           </li>
           <li>
             Si cambiamos el precio de tu plan, te avisamos por email con al
@@ -307,8 +324,8 @@ const SECTIONS: LegalSection[] = [
           </li>
           <li>
             Si un pago no se acredita, te avisamos y tenés 15 días corridos para
-            regularizarlo. Pasado ese plazo, podemos pasar la cuenta al plan
-            gratuito o suspenderla. Tus datos no se borran por la suspensión.
+            regularizarlo. Pasado ese plazo, podemos suspender la cuenta. Tus
+            datos no se borran por la suspensión.
           </li>
         </ul>
       </>
@@ -318,7 +335,7 @@ const SECTIONS: LegalSection[] = [
     id: "baja",
     title: "Baja y derecho de revocación",
     brief:
-      "Podés darte de baja cuando quieras. Rige al final del período pagado y no hay reintegro proporcional, salvo que la ley disponga otra cosa.",
+      "Podés darte de baja cuando quieras y rige al final del período pagado. Podés pedir un reembolso dentro de los 14 días de cada cobro.",
     content: (
       <>
         <p>
@@ -331,8 +348,10 @@ const SECTIONS: LegalSection[] = [
         </p>
         <p>
           La baja tiene efecto al final del período ya pagado: hasta entonces
-          seguís teniendo acceso al plan. No hacemos reintegros proporcionales
-          de períodos ya comenzados, salvo que la ley disponga lo contrario.
+          seguís teniendo acceso al plan. Los reembolsos se rigen por la{" "}
+          <LegalLink href="/refunds">Política de reembolsos</LegalLink>: podés
+          pedir el de cualquier cobro dentro de los 14 días corridos desde que
+          se hizo.
         </p>
         <p>
           Si contratás como consumidor en los términos de la Ley 24.240, podés
@@ -342,6 +361,14 @@ const SECTIONS: LegalSection[] = [
           hayas pagado. Este derecho no aplica cuando el Servicio se contrata
           para integrarlo a una actividad comercial o profesional, que es el uso
           habitual de una agencia.
+        </p>
+        <p>
+          Durante la prueba gratis, la Agencia puede cancelar desde los ajustes
+          de la cuenta (sección de plan y facturación), que abre el portal de
+          Paddle, o escribiendo a{" "}
+          <LegalLink href={`mailto:${contactEmail}`}>{contactEmail}</LegalLink>.
+          Si cancela antes de que terminen los 14 días, no se le cobra el plan
+          Pro.
         </p>
       </>
     ),

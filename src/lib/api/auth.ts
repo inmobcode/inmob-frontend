@@ -10,6 +10,7 @@ export interface RegisterAgencyPayload {
   name: string;
   email: string;
   password: string;
+  plan: "trial" | "pro";
 }
 
 export interface AuthResponse {

@@ -145,7 +145,11 @@
         "offerViewedAnon": "Ihr Kunde hat das Angebot geöffnet",
         "payment": "Zahlung erfasst: {amount}",
         "task": "Ihnen wurde eine Aufgabe zugewiesen",
-        "taskDue": "{title} · bis {date}"
+        "taskDue": "{title} · bis {date}",
+        "trialEnding": "Ihre kostenlose Testphase endet am {date}",
+        "trialEndingBody": "Danach startet der Pro-Tarif. Sie können in den Einstellungen kündigen.",
+        "paymentFailed": "Wir konnten Ihr Abonnement nicht abbuchen",
+        "paymentFailedBody": "Aktualisieren Sie Ihre Karte in den Einstellungen, um den Zugriff nicht zu verlieren."
       }
     }
   }
