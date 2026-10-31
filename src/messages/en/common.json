@@ -159,6 +159,7 @@
   },
   "pageTitles": {
     "forgotPassword": "Recover your password",
+    "verifyEmail": "Verify your email",
     "register": "Create your account",
     "login": "Log in",
     "clients": "Clients",

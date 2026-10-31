@@ -142,6 +142,52 @@
         "notes": "Bilješke",
         "createdAt": "Dodano"
       }
+    },
+    "import": {
+      "label": "Uvezi iz CSV-a",
+      "title": "Uvoz klijenata",
+      "description": "Učitajte CSV datoteku sa svojim klijentima. Ako ste je izvezli iz drugog alata, vrijedi takva kakva jest; inače preuzmite predložak.",
+      "drop": "Odaberite CSV datoteku ili je povucite ovamo",
+      "dropHint": "Do {max} klijenata i 2 MB.",
+      "template": "Preuzmi predložak",
+      "templateFilename": "predlozak-klijenata",
+      "errors": {
+        "type": "Datoteka mora biti CSV.",
+        "size": "Datoteka je veća od 2 MB.",
+        "empty": "Nismo pronašli klijente: datoteci treba redak s naslovima i barem jedan klijent.",
+        "tooMany": "Datoteka ima više od {max} klijenata. Podijelite je na dijelove i uvezite ih jedan po jedan.",
+        "unreadable": "Nismo mogli pročitati datoteku."
+      },
+      "rows": "{count, plural, one {# redak} few {# retka} other {# redaka}}",
+      "changeFile": "Odaberi drugu datoteku",
+      "columnsHelp": "Odredite koji stupac datoteke odgovara kojem podatku.",
+      "required": "obavezno",
+      "notInFile": "Ne uvozi",
+      "untitledColumn": "Stupac {number}",
+      "missingRequired": "Odaberite stupce za ime i e-poštu da biste nastavili.",
+      "summary": {
+        "ready": "{count, plural, one {# klijent spreman za uvoz} few {# klijenta spremna za uvoz} other {# klijenata spremno za uvoz}}",
+        "duplicates": "{count, plural, one {# već postoji ili se ponavlja: preskače se} few {# već postoje ili se ponavljaju: preskaču se} other {# već postoji ili se ponavlja: preskače se}}",
+        "invalid": "{count, plural, one {# redak s neispravnim podacima: preskače se} few {# retka s neispravnim podacima: preskaču se} other {# redaka s neispravnim podacima: preskaču se}}"
+      },
+      "problem": {
+        "name": "Ime je prazno ili prekratko",
+        "email": "Neispravna e-pošta",
+        "phone": "Telefon je predug"
+      },
+      "line": "Redak {line}",
+      "moreProblems": "i još {count}",
+      "start": "{count, plural, one {Uvezi # klijenta} few {Uvezi # klijenta} other {Uvezi # klijenata}}",
+      "importing": "Uvoz… {done} od {total}",
+      "cancel": "Odustani",
+      "close": "Gotovo",
+      "doneTitle": "Uvoz je završen",
+      "doneDescription": "Evo što se dogodilo s datotekom.",
+      "result": {
+        "created": "{count, plural, one {Uvezen je # klijent} few {Uvezena su # klijenta} other {Uvezeno je # klijenata}}",
+        "skipped": "{count, plural, one {# već postoji i preskočen je} few {# već postoje i preskočena su} other {# već postoji i preskočeno je}}",
+        "failed": "{count, plural, one {# nije bilo moguće uvesti} few {# nije bilo moguće uvesti} other {# nije bilo moguće uvesti}}"
+      }
     }
   },
   "tasks": {

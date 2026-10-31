@@ -24,9 +24,7 @@ import { enterpriseContactHref, PlanPicker } from "@/components/billing/plan-pic
 import { Input } from "@/components/ui/input";
 import { localePath, type Locale } from "@/i18n/config";
 import { registerAgency } from "@/lib/api/auth";
-import { startCheckout, type PlanChoice } from "@/lib/api/billing";
-import { openCheckout } from "@/lib/paddle";
-import { setSession } from "@/lib/auth/session";
+import type { PlanChoice } from "@/lib/api/billing";
 
 const LEGAL_LINK =
   "rounded-sm text-ink underline underline-offset-4 outline-none focus-visible:ring-2 focus-visible:ring-forest";
@@ -77,29 +75,14 @@ export default function RegisterPage() {
   async function onSubmit(values: FormValues) {
     if (!plan) return;
     setServerError(null);
-    let auth;
     try {
-      auth = await registerAgency({ ...values, plan });
-      setSession(auth);
+      await registerAgency({ ...values, plan });
     } catch (err) {
       setServerError(tAuth(`errors.${authErrorKey(err, "register")}`));
       return;
     }
-    // The account exists now. If the payment can't open or is closed unpaid, /subscribe is where to try again.
-    try {
-      const { checkout } = await startCheckout(auth.accessToken, plan);
-      if (!checkout) {
-        router.push(`/${auth.user.agencySlug}/welcome`);
-        return;
-      }
-      await openCheckout(checkout, {
-        successUrl: `${window.location.origin}/subscribe?transaction=${checkout.transactionId}&welcome=1`,
-        locale,
-        closed: () => router.push("/subscribe"),
-      });
-    } catch {
-      router.push("/subscribe");
-    }
+    // No session until the email is verified; the plan's payment opens after that.
+    router.push(`/verify-email?${new URLSearchParams({ email: values.email, plan })}`);
   }
 
   if (!plan) {

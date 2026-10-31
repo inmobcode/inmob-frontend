@@ -12,6 +12,7 @@ import { STAGES, type ClientActions } from "@/components/clients/client-parts";
 import { tagsInUse } from "@/components/clients/client-tags";
 import { CreateClientDialog } from "@/components/clients/create-client-dialog";
 import { ExportClientsButton } from "@/components/clients/export-clients-button";
+import { ImportClientsDialog } from "@/components/clients/import-clients-dialog";
 import { HelpHint, HelpLink } from "@/components/docs/help-link";
 import { FilterMenu } from "@/components/filter-menu";
 import { ViewSwitch, type ViewMode } from "@/components/properties/view-switch";
@@ -218,6 +219,7 @@ export default function ClientsPage() {
                 <ExportClientsButton clients={filtered} />
               </>
             )}
+            <ImportClientsDialog />
             <HelpLink section="clientes" label={t("help")} />
             {trashLink}
             <CreateClientDialog />
@@ -259,6 +261,7 @@ export default function ClientsPage() {
           </div>
           <div className="flex flex-wrap justify-center gap-3">
             <CreateClientDialog />
+            <ImportClientsDialog variant="button" />
             {trashLink}
           </div>
           <HelpHint section="clientes">{t("emptyHelp")}</HelpHint>

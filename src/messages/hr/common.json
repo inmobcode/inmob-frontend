@@ -159,6 +159,7 @@
   },
   "pageTitles": {
     "forgotPassword": "Oporavak lozinke",
+    "verifyEmail": "Potvrdite svoju e-poštu",
     "register": "Izradite račun",
     "login": "Prijava",
     "clients": "Klijenti",

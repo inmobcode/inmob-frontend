@@ -21,7 +21,8 @@ import {
 import { PasswordInput } from "@/components/auth/password-input";
 import { SocialButtons } from "@/components/auth/social-buttons";
 import { Input } from "@/components/ui/input";
-import { login } from "@/lib/api/auth";
+import { login, resendEmailCode } from "@/lib/api/auth";
+import { ApiError } from "@/lib/api/client";
 import { getAgencySlug, setSession } from "@/lib/auth/session";
 import { readNext } from "@/lib/auth/oauth";
 
@@ -71,6 +72,12 @@ export default function LoginPage() {
       setSession(auth);
       router.push(readNext(auth.user.agencySlug));
     } catch (err) {
+      // Right password, email never verified: send a fresh code and finish there.
+      if (err instanceof ApiError && err.status === 403) {
+        await resendEmailCode({ email: values.email }).catch(() => {});
+        router.push(`/verify-email?${new URLSearchParams({ email: values.email })}`);
+        return;
+      }
       setServerError(tAuth(`errors.${authErrorKey(err, "login")}`));
     }
   }

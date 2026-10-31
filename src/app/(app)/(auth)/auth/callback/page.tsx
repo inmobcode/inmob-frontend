@@ -11,7 +11,7 @@ import type { AuthResponse } from "@/lib/api/auth";
 import { consumeNext } from "@/lib/auth/oauth";
 import { setSession } from "@/lib/auth/session";
 
-// The API sends the person back here after Google or Apple, with the session in
+// The API sends the person back here after Google, with the session in
 // the URL fragment (`#accessToken=…&refreshToken=…&user=<base64 JSON>`) or a
 // failure in the query (`?error=…`). The fragment never reaches any server.
 function readAuth(): { auth: AuthResponse } | { error: string } | { errorKey: "missing" | "unreadable" } {

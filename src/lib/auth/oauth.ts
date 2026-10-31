@@ -1,6 +1,6 @@
 import { API_URL } from "@/lib/api/client";
 
-export type OAuthProvider = "google" | "apple";
+export type OAuthProvider = "google";
 
 const NEXT_KEY = "auth-next";
 
@@ -21,7 +21,7 @@ export function readNext(fallbackSlug: string) {
 }
 
 /**
- * Social sign-in is a full redirect: the API talks to Google or Apple and sends
+ * Social sign-in is a full redirect: the API talks to Google and sends
  * the person back to `/auth/callback`, with the session in the URL fragment.
  * (The endpoints `/api/auth/oauth/{provider}` are pending on the backend.)
  */

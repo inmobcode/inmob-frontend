@@ -142,6 +142,52 @@
         "notes": "Notes",
         "createdAt": "Added"
       }
+    },
+    "import": {
+      "label": "Import from CSV",
+      "title": "Import clients",
+      "description": "Upload a CSV file with your clients. If you exported it from another tool it works as is; otherwise, download the template.",
+      "drop": "Choose a CSV file or drag it here",
+      "dropHint": "Up to {max} clients and 2 MB.",
+      "template": "Download template",
+      "templateFilename": "clients-template",
+      "errors": {
+        "type": "The file must be a CSV.",
+        "size": "The file is larger than 2 MB.",
+        "empty": "We found no clients: the file needs a header row and at least one client.",
+        "tooMany": "The file has more than {max} clients. Split it into parts and import them one at a time.",
+        "unreadable": "We couldn’t read the file."
+      },
+      "rows": "{count, plural, one {# row} other {# rows}}",
+      "changeFile": "Choose another file",
+      "columnsHelp": "Tell us which column in the file matches each field.",
+      "required": "required",
+      "notInFile": "Don’t import",
+      "untitledColumn": "Column {number}",
+      "missingRequired": "Pick the name and email columns to continue.",
+      "summary": {
+        "ready": "{count, plural, one {# client ready to import} other {# clients ready to import}}",
+        "duplicates": "{count, plural, one {# already exists or is repeated: skipped} other {# already exist or are repeated: skipped}}",
+        "invalid": "{count, plural, one {# row with invalid data: skipped} other {# rows with invalid data: skipped}}"
+      },
+      "problem": {
+        "name": "Name empty or too short",
+        "email": "Invalid email",
+        "phone": "Phone number too long"
+      },
+      "line": "Row {line}",
+      "moreProblems": "and {count} more",
+      "start": "{count, plural, one {Import # client} other {Import # clients}}",
+      "importing": "Importing… {done} of {total}",
+      "cancel": "Cancel",
+      "close": "Done",
+      "doneTitle": "Import finished",
+      "doneDescription": "Here is what happened with the file.",
+      "result": {
+        "created": "{count, plural, one {You imported # client} other {You imported # clients}}",
+        "skipped": "{count, plural, one {# already existed and was skipped} other {# already existed and were skipped}}",
+        "failed": "{count, plural, one {# could not be imported} other {# could not be imported}}"
+      }
     }
   },
   "tasks": {

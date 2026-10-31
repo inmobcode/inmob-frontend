@@ -159,6 +159,7 @@
   },
   "pageTitles": {
     "forgotPassword": "Récupérez votre mot de passe",
+    "verifyEmail": "Vérifiez votre e-mail",
     "register": "Créez votre compte",
     "login": "Se connecter",
     "clients": "Clients",

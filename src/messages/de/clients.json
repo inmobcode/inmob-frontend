@@ -142,6 +142,52 @@
         "notes": "Notizen",
         "createdAt": "Angelegt am"
       }
+    },
+    "import": {
+      "label": "Aus CSV importieren",
+      "title": "Kunden importieren",
+      "description": "Laden Sie eine CSV-Datei mit Ihren Kunden hoch. Wenn sie aus einem anderen Tool stammt, passt sie so; sonst laden Sie die Vorlage herunter.",
+      "drop": "CSV-Datei auswählen oder hierher ziehen",
+      "dropHint": "Bis zu {max} Kunden und 2 MB.",
+      "template": "Vorlage herunterladen",
+      "templateFilename": "kunden-vorlage",
+      "errors": {
+        "type": "Die Datei muss eine CSV sein.",
+        "size": "Die Datei ist größer als 2 MB.",
+        "empty": "Keine Kunden gefunden: Die Datei braucht eine Kopfzeile und mindestens einen Kunden.",
+        "tooMany": "Die Datei enthält mehr als {max} Kunden. Teilen Sie sie auf und importieren Sie die Teile nacheinander.",
+        "unreadable": "Die Datei konnte nicht gelesen werden."
+      },
+      "rows": "{count, plural, one {# Zeile} other {# Zeilen}}",
+      "changeFile": "Andere Datei wählen",
+      "columnsHelp": "Geben Sie an, welche Spalte der Datei zu welcher Angabe gehört.",
+      "required": "Pflicht",
+      "notInFile": "Nicht importieren",
+      "untitledColumn": "Spalte {number}",
+      "missingRequired": "Wählen Sie die Spalten für Name und E-Mail, um fortzufahren.",
+      "summary": {
+        "ready": "{count, plural, one {# Kunde bereit zum Import} other {# Kunden bereit zum Import}}",
+        "duplicates": "{count, plural, one {# existiert bereits oder ist doppelt: wird übersprungen} other {# existieren bereits oder sind doppelt: werden übersprungen}}",
+        "invalid": "{count, plural, one {# Zeile mit ungültigen Daten: wird übersprungen} other {# Zeilen mit ungültigen Daten: werden übersprungen}}"
+      },
+      "problem": {
+        "name": "Name leer oder zu kurz",
+        "email": "Ungültige E-Mail",
+        "phone": "Telefonnummer zu lang"
+      },
+      "line": "Zeile {line}",
+      "moreProblems": "und {count} weitere",
+      "start": "{count, plural, one {# Kunde importieren} other {# Kunden importieren}}",
+      "importing": "Wird importiert… {done} von {total}",
+      "cancel": "Abbrechen",
+      "close": "Fertig",
+      "doneTitle": "Import abgeschlossen",
+      "doneDescription": "So ist es mit der Datei gelaufen.",
+      "result": {
+        "created": "{count, plural, one {# Kunde importiert} other {# Kunden importiert}}",
+        "skipped": "{count, plural, one {# existierte bereits und wurde übersprungen} other {# existierten bereits und wurden übersprungen}}",
+        "failed": "{count, plural, one {# konnte nicht importiert werden} other {# konnten nicht importiert werden}}"
+      }
     }
   },
   "tasks": {

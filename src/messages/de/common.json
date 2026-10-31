@@ -159,6 +159,7 @@
   },
   "pageTitles": {
     "forgotPassword": "Passwort wiederherstellen",
+    "verifyEmail": "E-Mail bestätigen",
     "register": "Konto erstellen",
     "login": "Anmelden",
     "clients": "Kunden",

@@ -54,8 +54,28 @@ export function login(payload: LoginPayload) {
   });
 }
 
+/**
+ * The account starts unverified: no session yet. The API emails a 6-digit code
+ * to `email` and the person finishes in /verify-email.
+ */
 export function registerAgency(payload: RegisterAgencyPayload) {
-  return apiFetch<AuthResponse>("/api/auth/register", {
+  return apiFetch<{ email: string }>("/api/auth/register", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+/** Checks the emailed code; the answer is the session, so this is what opens the dashboard. */
+export function verifyEmail(payload: { email: string; code: string }) {
+  return apiFetch<AuthResponse>("/api/auth/email/verify", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+/** Sends a new code (204). The API won't send another sooner than VERIFY_CODE_RESEND_SECONDS. */
+export function resendEmailCode(payload: { email: string }) {
+  return apiFetch<void>("/api/auth/email/resend", {
     method: "POST",
     body: JSON.stringify(payload),
   });

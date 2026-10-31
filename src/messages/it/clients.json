@@ -142,6 +142,52 @@
         "notes": "Note",
         "createdAt": "Aggiunto il"
       }
+    },
+    "import": {
+      "label": "Importa da CSV",
+      "title": "Importa clienti",
+      "description": "Carica un file CSV con i tuoi clienti. Se l’hai esportato da un altro strumento va bene così; altrimenti scarica il modello.",
+      "drop": "Scegli un file CSV o trascinalo qui",
+      "dropHint": "Fino a {max} clienti e 2 MB.",
+      "template": "Scarica il modello",
+      "templateFilename": "modello-clienti",
+      "errors": {
+        "type": "Il file deve essere un CSV.",
+        "size": "Il file supera i 2 MB.",
+        "empty": "Non abbiamo trovato clienti: il file ha bisogno di una riga di intestazione e di almeno un cliente.",
+        "tooMany": "Il file contiene più di {max} clienti. Dividilo in parti e importale una alla volta.",
+        "unreadable": "Non siamo riusciti a leggere il file."
+      },
+      "rows": "{count, plural, one {# riga} other {# righe}}",
+      "changeFile": "Scegli un altro file",
+      "columnsHelp": "Indica quale colonna del file corrisponde a ciascun dato.",
+      "required": "obbligatorio",
+      "notInFile": "Non importare",
+      "untitledColumn": "Colonna {number}",
+      "missingRequired": "Scegli le colonne di nome ed email per continuare.",
+      "summary": {
+        "ready": "{count, plural, one {# cliente pronto da importare} other {# clienti pronti da importare}}",
+        "duplicates": "{count, plural, one {# esiste già o è ripetuto: viene saltato} other {# esistono già o sono ripetuti: vengono saltati}}",
+        "invalid": "{count, plural, one {# riga con dati non validi: viene saltata} other {# righe con dati non validi: vengono saltate}}"
+      },
+      "problem": {
+        "name": "Nome vuoto o troppo corto",
+        "email": "Email non valida",
+        "phone": "Telefono troppo lungo"
+      },
+      "line": "Riga {line}",
+      "moreProblems": "e altre {count}",
+      "start": "{count, plural, one {Importa # cliente} other {Importa # clienti}}",
+      "importing": "Importazione… {done} di {total}",
+      "cancel": "Annulla",
+      "close": "Fatto",
+      "doneTitle": "Importazione completata",
+      "doneDescription": "Ecco cosa è successo con il file.",
+      "result": {
+        "created": "{count, plural, one {Hai importato # cliente} other {Hai importato # clienti}}",
+        "skipped": "{count, plural, one {# esisteva già ed è stato saltato} other {# esistevano già e sono stati saltati}}",
+        "failed": "{count, plural, one {# non è stato possibile importarlo} other {# non è stato possibile importarli}}"
+      }
     }
   },
   "tasks": {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { csvCell, csvSeparator, toCsv } from "./csv";
+import { csvCell, csvSeparator, parseCsv, toCsv } from "./csv";
 
 describe("csvCell", () => {
   it("quotes and doubles inner quotes", () => {
@@ -32,5 +32,32 @@ describe("toCsv", () => {
     expect(csvSeparator("en")).toBe(",");
     expect(csvSeparator("es")).toBe(";");
     expect(csvSeparator("de")).toBe(";");
+  });
+});
+
+describe("parseCsv", () => {
+  it("reads quoted cells, doubled quotes and line breaks inside a cell", () => {
+    expect(parseCsv('a,b\r\n"x, y","say ""hi"""\n"two\nlines",z')).toEqual([
+      ["a", "b"],
+      ["x, y", 'say "hi"'],
+      ["two\nlines", "z"],
+    ]);
+  });
+
+  it("guesses a semicolon or tab from the first line and ignores a BOM", () => {
+    expect(parseCsv("\uFEFFNombre;Email\nLucía;lucia@demo.com")).toEqual([
+      ["Nombre", "Email"],
+      ["Lucía", "lucia@demo.com"],
+    ]);
+    expect(parseCsv("a\tb\n1\t2")).toEqual([["a", "b"], ["1", "2"]]);
+  });
+
+  it("drops empty rows and keeps a last row with no line break", () => {
+    expect(parseCsv("a,b\n\n,\n1,2")).toEqual([["a", "b"], ["1", "2"]]);
+  });
+
+  it("reads what toCsv writes", () => {
+    const rows = [["Nombre", "Notas"], ['Ana "A"', "=cmd"], ["Bo; b", "uno\ndos"]];
+    expect(parseCsv(toCsv(rows, ";"))).toEqual([["Nombre", "Notas"], ['Ana "A"', "'=cmd"], ["Bo; b", "uno\ndos"]]);
   });
 });

@@ -30,7 +30,7 @@ const UNSCOPED_APP_PREFIXES = ["/docs", "/subscribe"];
 // which now includes the site editor at "/[agencySlug]/portal") and the docs.
 // Everything else — the marketing landing page and the (public) group (agency
 // sites, shared offer/booking/owner links) — stays on the apex domain.
-const APP_ONLY_PREFIXES = ["/login", "/register", "/forgot-password", "/reset-password", "/auth", "/docs", "/subscribe", "/inquiries"];
+const APP_ONLY_PREFIXES = ["/login", "/register", "/verify-email", "/forgot-password", "/reset-password", "/auth", "/docs", "/subscribe", "/inquiries"];
 
 // The (public) and (legal) groups: reachable from either host, but these are
 // the only paths allowed to stay on the apex domain unredirected.

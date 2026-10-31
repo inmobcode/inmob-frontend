@@ -159,6 +159,7 @@
   },
   "pageTitles": {
     "forgotPassword": "Ανάκτηση κωδικού",
+    "verifyEmail": "Επαληθεύστε το email σας",
     "register": "Δημιουργία λογαριασμού",
     "login": "Σύνδεση",
     "clients": "Πελάτες",

@@ -142,6 +142,52 @@
         "notes": "Notes",
         "createdAt": "Ajouté le"
       }
+    },
+    "import": {
+      "label": "Importer depuis un CSV",
+      "title": "Importer des clients",
+      "description": "Importez un fichier CSV avec vos clients. S’il vient d’un autre outil, il fonctionne tel quel ; sinon, téléchargez le modèle.",
+      "drop": "Choisissez un fichier CSV ou glissez-le ici",
+      "dropHint": "Jusqu’à {max} clients et 2 Mo.",
+      "template": "Télécharger le modèle",
+      "templateFilename": "modele-clients",
+      "errors": {
+        "type": "Le fichier doit être un CSV.",
+        "size": "Le fichier pèse plus de 2 Mo.",
+        "empty": "Aucun client trouvé : le fichier doit contenir une ligne de titres et au moins un client.",
+        "tooMany": "Le fichier contient plus de {max} clients. Découpez-le en parties et importez-les une à une.",
+        "unreadable": "Nous n’avons pas pu lire le fichier."
+      },
+      "rows": "{count, plural, one {# ligne} other {# lignes}}",
+      "changeFile": "Choisir un autre fichier",
+      "columnsHelp": "Indiquez quelle colonne du fichier correspond à chaque donnée.",
+      "required": "obligatoire",
+      "notInFile": "Ne pas importer",
+      "untitledColumn": "Colonne {number}",
+      "missingRequired": "Choisissez les colonnes du nom et de l’e-mail pour continuer.",
+      "summary": {
+        "ready": "{count, plural, one {# client prêt à importer} other {# clients prêts à importer}}",
+        "duplicates": "{count, plural, one {# existe déjà ou est en double : ignoré} other {# existent déjà ou sont en double : ignorés}}",
+        "invalid": "{count, plural, one {# ligne aux données invalides : ignorée} other {# lignes aux données invalides : ignorées}}"
+      },
+      "problem": {
+        "name": "Nom vide ou trop court",
+        "email": "E-mail invalide",
+        "phone": "Numéro de téléphone trop long"
+      },
+      "line": "Ligne {line}",
+      "moreProblems": "et {count} de plus",
+      "start": "{count, plural, one {Importer # client} other {Importer # clients}}",
+      "importing": "Importation… {done} sur {total}",
+      "cancel": "Annuler",
+      "close": "Terminé",
+      "doneTitle": "Importation terminée",
+      "doneDescription": "Voici ce qui s’est passé avec le fichier.",
+      "result": {
+        "created": "{count, plural, one {Vous avez importé # client} other {Vous avez importé # clients}}",
+        "skipped": "{count, plural, one {# existait déjà et a été ignoré} other {# existaient déjà et ont été ignorés}}",
+        "failed": "{count, plural, one {# n’a pas pu être importé} other {# n’ont pas pu être importés}}"
+      }
     }
   },
   "tasks": {
